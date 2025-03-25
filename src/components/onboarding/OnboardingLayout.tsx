@@ -55,12 +55,20 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
-              className="text-[#C3BCFF] mb-12 pl-7"
+              className="text-[#C3BCFF] mb-4"
             >
               AI-Powered Product Development
             </motion.div>
             
-            {/* Step indicators moved to right side */}
+            {/* Step indicators moved below the subtext */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+              className="mb-8"
+            >
+              <StepIndicator currentStep={currentStep} totalSteps={totalSteps} />
+            </motion.div>
           </div>
           
           <motion.div 
@@ -126,10 +134,7 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
           transition={{ duration: 0.5 }}
         />
         
-        {/* Step indicators on the right side - desktop only */}
-        <div className="hidden md:block absolute right-8 top-12 z-20">
-          <StepIndicator currentStep={currentStep} totalSteps={totalSteps} />
-        </div>
+        {/* Removed step indicators from right side since they're now below the subtext in the sidebar */}
         
         <div className="max-w-2xl mx-auto w-full z-10">
           <AnimatePresence mode="wait">
