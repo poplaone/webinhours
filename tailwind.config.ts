@@ -73,6 +73,9 @@ export default {
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
 			},
+			skew: {
+				'20': '20deg'  // Add custom 20 degree skew
+			},
 			keyframes: {
 				'accordion-down': {
 					from: { height: '0' },

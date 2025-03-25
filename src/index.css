@@ -81,8 +81,9 @@
   }
 
   .btn-shine::after {
-    @apply absolute top-0 -right-[100%] w-[200%] h-full bg-white/10 transform -skew-x-20;
+    @apply absolute top-0 -right-[100%] w-[200%] h-full bg-white/10 transform;
     content: "";
+    transform: skewX(-20deg);
     transition: all 0.5s ease-out;
   }
 
