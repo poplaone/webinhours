@@ -60,9 +60,7 @@ const StepIndicator: React.FC<StepIndicatorProps> = ({
             )}>
               {i === 0 && "Welcome"}
               {i === 1 && "Brand Info"}
-              {i === 2 && "Product Focus"}
-              {i === 3 && "AI Preferences"}
-              {i === 4 && "Complete"}
+              {i === 2 && "Complete"}
             </div>
           )}
           

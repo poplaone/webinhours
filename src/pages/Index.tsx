@@ -3,14 +3,12 @@ import React, { useState } from 'react';
 import OnboardingLayout from '../components/onboarding/OnboardingLayout';
 import WelcomeStep from '../components/onboarding/WelcomeStep';
 import BrandInfoStep from '../components/onboarding/BrandInfoStep';
-import ProductFocusStep from '../components/onboarding/ProductFocusStep';
-import AIPreferencesStep from '../components/onboarding/AIPreferencesStep';
 import CompleteStep from '../components/onboarding/CompleteStep';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const Index = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  const totalSteps = 5;
+  const totalSteps = 3; // Reduced from 5 to 3 steps
 
   const handleNext = () => {
     if (currentStep < totalSteps - 1) {
@@ -43,9 +41,7 @@ const Index = () => {
         >
           {currentStep === 0 && <WelcomeStep />}
           {currentStep === 1 && <BrandInfoStep />}
-          {currentStep === 2 && <ProductFocusStep />}
-          {currentStep === 3 && <AIPreferencesStep />}
-          {currentStep === 4 && <CompleteStep />}
+          {currentStep === 2 && <CompleteStep />}
         </OnboardingLayout>
       </motion.div>
     </AnimatePresence>
