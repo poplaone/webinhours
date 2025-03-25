@@ -128,7 +128,7 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
         
         {/* Step indicators on the right side - desktop only */}
         <div className="hidden md:block absolute right-8 top-12 z-20">
-          <StepIndicator currentStep={currentStep} totalSteps={totalSteps} vertical />
+          <StepIndicator currentStep={currentStep} totalSteps={totalSteps} />
         </div>
         
         <div className="max-w-2xl mx-auto w-full z-10">
