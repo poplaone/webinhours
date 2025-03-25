@@ -2,7 +2,6 @@
 import React, { ReactNode, useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import StepIndicator from './StepIndicator';
 import { Sparkles, RocketIcon, LightbulbIcon } from 'lucide-react';
 
 interface OnboardingLayoutProps {
@@ -60,15 +59,7 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
               AI-Powered Product Development
             </motion.div>
             
-            {/* Step indicators moved below the subtext */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-              className="mb-8"
-            >
-              <StepIndicator currentStep={currentStep} totalSteps={totalSteps} />
-            </motion.div>
+            {/* Step indicators removed from here as they're now in WelcomeStep */}
           </div>
           
           <motion.div 
@@ -119,7 +110,6 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
           <Sparkles className="mr-2 h-4 w-4" /> NPD Platform
         </div>
         <div className="text-sm text-muted-foreground mb-4">AI-Powered Product Development</div>
-        <StepIndicator currentStep={currentStep} totalSteps={totalSteps} />
       </div>
 
       {/* Main content area */}
@@ -134,7 +124,7 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
           transition={{ duration: 0.5 }}
         />
         
-        {/* Removed step indicators from right side since they're now below the subtext in the sidebar */}
+        {/* Removed step indicators from here too */}
         
         <div className="max-w-2xl mx-auto w-full z-10">
           <AnimatePresence mode="wait">

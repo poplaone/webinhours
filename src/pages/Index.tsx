@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import OnboardingLayout from '../components/onboarding/OnboardingLayout';
-import WelcomeStep from '../components/onboarding/WelcomeStep';
+import CustomWelcomeStep from '../components/onboarding/CustomWelcomeStep';
 import BrandInfoStep from '../components/onboarding/BrandInfoStep';
 import CompleteStep from '../components/onboarding/CompleteStep';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -39,7 +39,7 @@ const Index = () => {
           onPrevious={handlePrevious}
           isLastStep={currentStep === totalSteps - 1}
         >
-          {currentStep === 0 && <WelcomeStep />}
+          {currentStep === 0 && <CustomWelcomeStep currentStep={currentStep} totalSteps={totalSteps} />}
           {currentStep === 1 && <BrandInfoStep />}
           {currentStep === 2 && <CompleteStep />}
         </OnboardingLayout>

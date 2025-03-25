@@ -7,15 +7,17 @@ interface StepIndicatorProps {
   currentStep: number;
   totalSteps: number;
   vertical?: boolean;
+  className?: string;
 }
 
 const StepIndicator: React.FC<StepIndicatorProps> = ({
   currentStep,
   totalSteps,
-  vertical = false
+  vertical = false,
+  className
 }) => {
   return (
-    <div className="flex flex-row justify-between space-x-2 items-center">
+    <div className={cn("flex flex-row justify-between space-x-2 items-center", className)}>
       {Array.from({ length: totalSteps }, (_, i) => (
         <div 
           key={i} 
