@@ -30,9 +30,9 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
   if (!mounted) return null;
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-background to-background/80">
       {/* Left sidebar - only visible on larger screens */}
-      <div className="hidden md:flex md:w-1/3 lg:w-1/4 bg-gradient-to-b from-blue-500 to-blue-600 text-white">
+      <div className="hidden md:flex md:w-1/3 lg:w-1/4 bg-gradient-to-b from-blue-600 to-blue-700 text-white">
         <div className="p-8 flex flex-col justify-between w-full">
           <div>
             <motion.div 
@@ -91,9 +91,9 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
       </div>
 
       {/* Mobile step indicator - only visible on small screens */}
-      <div className="flex flex-col p-4 md:hidden">
+      <div className="flex flex-col p-4 md:hidden bg-card">
         <div className="font-display text-xl font-semibold mb-1">NPD Platform</div>
-        <div className="text-sm text-gray-600 mb-4">AI-Powered Product Development</div>
+        <div className="text-sm text-muted-foreground mb-4">AI-Powered Product Development</div>
         <StepIndicator currentStep={currentStep} totalSteps={totalSteps} />
       </div>
 
@@ -103,7 +103,7 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
         "relative overflow-hidden transition-all duration-500"
       )}>
         <motion.div
-          className="absolute inset-0 bg-blue-500/5 rounded-none md:rounded-tl-[3rem] md:rounded-bl-[3rem]"
+          className="absolute inset-0 bg-blue-500/10 rounded-none md:rounded-tl-[3rem] md:rounded-bl-[3rem]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -121,12 +121,12 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
             >
               {children}
 
-              <div className="flex justify-between mt-8 pt-6 border-t border-gray-100">
+              <div className="flex justify-between mt-8 pt-6 border-t border-border/30">
                 <button
                   onClick={onPrevious}
                   className={cn(
-                    "px-5 py-2 rounded-lg text-gray-600 transition-all",
-                    "hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200",
+                    "px-5 py-2 rounded-lg text-muted-foreground transition-all",
+                    "hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-primary/30",
                     currentStep === 0 ? "opacity-0 pointer-events-none" : ""
                   )}
                 >
@@ -137,8 +137,8 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
                   whileTap={{ scale: 0.98 }}
                   onClick={onNext}
                   className={cn(
-                    "btn-shine px-5 py-2 rounded-lg bg-blue-500 text-white shadow-sm",
-                    "hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300",
+                    "btn-shine px-5 py-2 rounded-lg bg-blue-600 text-white shadow-sm",
+                    "hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400/50",
                     "transition-all duration-300 ease-in-out"
                   )}
                 >
@@ -148,8 +148,8 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
             </motion.div>
           </AnimatePresence>
 
-          <div className="text-center text-sm text-gray-500 mt-6">
-            Already have an account? <a href="#" className="text-blue-600 hover:underline">Sign in</a>
+          <div className="text-center text-sm text-muted-foreground mt-6">
+            Already have an account? <a href="#" className="text-blue-400 hover:text-blue-300 hover:underline">Sign in</a>
           </div>
         </div>
       </div>

@@ -126,8 +126,8 @@ export default {
 				'pulse-slow': 'pulse-slow 3s infinite ease-in-out',
 			},
 			boxShadow: {
-				'neo': '0 10px 30px -10px rgba(0, 0, 0, 0.05), 0 5px 15px -5px rgba(0, 0, 0, 0.05)',
-				'glass': '0 4px 20px rgba(0, 0, 0, 0.03), 0 2px 6px rgba(0, 0, 0, 0.02)'
+				'neo': '0 10px 30px -10px rgba(0, 0, 0, 0.3), 0 5px 15px -5px rgba(0, 0, 0, 0.2)',
+				'glass': '0 4px 20px rgba(0, 0, 0, 0.2), 0 2px 6px rgba(0, 0, 0, 0.15)'
 			},
 		}
 	},
