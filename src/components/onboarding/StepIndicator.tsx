@@ -38,7 +38,7 @@ const StepIndicator: React.FC<StepIndicatorProps> = ({
               className={cn(
                 "rounded-full flex items-center justify-center transition-all",
                 i <= currentStep
-                  ? "bg-blue-500 text-white border-2 border-blue-500"
+                  ? "bg-[#6353E6] text-white border-2 border-[#6353E6]"
                   : "bg-white text-gray-400 border-2 border-gray-200",
                 vertical ? "w-8 h-8" : "w-6 h-6 md:w-8 md:h-8"
               )}
@@ -56,7 +56,7 @@ const StepIndicator: React.FC<StepIndicatorProps> = ({
           {vertical && (
             <div className={cn(
               "text-sm transition-all",
-              i === currentStep ? "text-white font-medium" : "text-blue-100 font-normal"
+              i === currentStep ? "text-white font-medium" : "text-[#C3BCFF] font-normal"
             )}>
               {i === 0 && "Welcome"}
               {i === 1 && "Brand Info"}
@@ -70,7 +70,7 @@ const StepIndicator: React.FC<StepIndicatorProps> = ({
             <div 
               className={cn(
                 "absolute top-1/2 left-full transform -translate-y-1/2 h-[2px] transition-all duration-300",
-                i < currentStep ? "bg-blue-500" : "bg-gray-200",
+                i < currentStep ? "bg-[#6353E6]" : "bg-gray-200",
                 "w-[calc(100%-1.5rem)]"
               )} 
             />
@@ -80,7 +80,7 @@ const StepIndicator: React.FC<StepIndicatorProps> = ({
             <div 
               className={cn(
                 "absolute top-full left-1/2 transform -translate-x-1/2 w-[2px] h-8 transition-all duration-300",
-                i < currentStep ? "bg-blue-500" : "bg-blue-400/30"
+                i < currentStep ? "bg-[#6353E6]" : "bg-[#6353E6]/30"
               )} 
             />
           )}
