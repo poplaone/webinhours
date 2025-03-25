@@ -59,8 +59,8 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
             >
               AI-Powered Product Development
             </motion.div>
-
-            <StepIndicator currentStep={currentStep} totalSteps={totalSteps} vertical />
+            
+            {/* Step indicators moved to right side */}
           </div>
           
           <motion.div 
@@ -116,7 +116,7 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
 
       {/* Main content area */}
       <div className={cn(
-        "flex-1 px-6 py-8 md:p-12 flex flex-col justify-center bg-grid",
+        "flex-1 px-6 py-8 md:p-12 bg-grid",
         "relative overflow-hidden transition-all duration-500"
       )}>
         <motion.div
@@ -125,6 +125,11 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         />
+        
+        {/* Step indicators on the right side - desktop only */}
+        <div className="hidden md:block absolute right-8 top-12 z-20">
+          <StepIndicator currentStep={currentStep} totalSteps={totalSteps} vertical />
+        </div>
         
         <div className="max-w-2xl mx-auto w-full z-10">
           <AnimatePresence mode="wait">
