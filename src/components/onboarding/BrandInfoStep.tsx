@@ -60,7 +60,7 @@ const BrandInfoStep: React.FC = () => {
             id="brandName"
             value={brandName}
             onChange={(e) => setBrandName(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] transition-all"
             placeholder="Enter your brand name"
           />
         </div>
@@ -73,7 +73,7 @@ const BrandInfoStep: React.FC = () => {
             id="industry"
             value={industry}
             onChange={(e) => setIndustry(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] transition-all"
           >
             <option value="" disabled>Select your industry</option>
             {industries.map((ind) => (
@@ -90,7 +90,7 @@ const BrandInfoStep: React.FC = () => {
             id="companySize"
             value={companySize}
             onChange={(e) => setCompanySize(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] transition-all"
           >
             <option value="" disabled>Select company size</option>
             {companySizes.map((size) => (
@@ -112,7 +112,7 @@ const BrandInfoStep: React.FC = () => {
               >
                 {color === '#FFFFFF' && (
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg className="w-5 h-5 text-[#8B5CF6]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
@@ -130,17 +130,17 @@ const BrandInfoStep: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4, duration: 0.5 }}
-        className="bg-blue-50 p-4 rounded-xl border border-blue-100"
+        className="bg-[#8B5CF6]/10 p-4 rounded-xl border border-[#8B5CF6]/20"
       >
         <div className="flex items-start">
           <div className="flex-shrink-0 mt-1">
-            <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg className="w-5 h-5 text-[#8B5CF6]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
           <div className="ml-3">
-            <h3 className="text-sm font-medium text-blue-800">Why we ask this</h3>
-            <p className="text-xs text-blue-700 mt-1">
+            <h3 className="text-sm font-medium text-[#8B5CF6]">Why we ask this</h3>
+            <p className="text-xs text-[#8B5CF6]/80 mt-1">
               Your industry and company details help us tailor our AI to generate more relevant product ideas and concepts.
             </p>
           </div>

@@ -33,12 +33,12 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-background to-background/80">
       {/* Left sidebar - only visible on larger screens */}
-      <div className="hidden md:flex md:w-1/3 lg:w-1/4 bg-gradient-to-b from-[#6353E6] to-[#5447D3] text-white relative overflow-hidden">
+      <div className="hidden md:flex md:w-1/3 lg:w-1/4 bg-gradient-to-b from-[#8B5CF6] to-[#7C3AED] text-white relative overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-0 left-0 w-full h-full opacity-10">
           <div className="absolute top-[10%] left-[15%] w-32 h-32 rounded-full bg-white/30 blur-xl"></div>
           <div className="absolute bottom-[30%] right-[10%] w-40 h-40 rounded-full bg-white/20 blur-xl"></div>
-          <div className="absolute top-[40%] right-[20%] w-24 h-24 rounded-full bg-[#8575FF]/40 blur-xl"></div>
+          <div className="absolute top-[40%] right-[20%] w-24 h-24 rounded-full bg-[#C4B5FD]/40 blur-xl"></div>
         </div>
         
         <div className="p-8 flex flex-col justify-between w-full z-10 relative">
@@ -55,7 +55,7 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
-              className="text-[#C3BCFF] mb-12 pl-7"
+              className="text-[#EDE9FE] mb-12 pl-7"
             >
               AI-Powered Product Development
             </motion.div>
@@ -67,7 +67,7 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
-            className="text-sm text-[#C3BCFF] mt-8 bg-white/5 rounded-2xl p-5 backdrop-blur-sm border border-white/10"
+            className="text-sm text-[#EDE9FE] mt-8 bg-white/5 rounded-2xl p-5 backdrop-blur-sm border border-white/10"
           >
             <p className="mb-4 text-white/90 font-medium">Streamline your product development process from ideation to market with our AI-powered platform.</p>
             <div className="space-y-3">
@@ -95,9 +95,9 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
             
             <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
               <div className="flex -space-x-2">
-                <div className="w-8 h-8 rounded-full bg-[#8575FF] border-2 border-[#6353E6] flex items-center justify-center text-xs font-bold">JS</div>
-                <div className="w-8 h-8 rounded-full bg-[#8575FF] border-2 border-[#6353E6] flex items-center justify-center text-xs font-bold">KL</div>
-                <div className="w-8 h-8 rounded-full bg-[#8575FF] border-2 border-[#6353E6] flex items-center justify-center text-xs font-bold">+5</div>
+                <div className="w-8 h-8 rounded-full bg-[#A78BFA] border-2 border-[#8B5CF6] flex items-center justify-center text-xs font-bold">JS</div>
+                <div className="w-8 h-8 rounded-full bg-[#A78BFA] border-2 border-[#8B5CF6] flex items-center justify-center text-xs font-bold">KL</div>
+                <div className="w-8 h-8 rounded-full bg-[#A78BFA] border-2 border-[#8B5CF6] flex items-center justify-center text-xs font-bold">+5</div>
               </div>
               <span className="text-xs text-white/60">Trusted by teams worldwide</span>
             </div>
@@ -120,7 +120,7 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
         "relative overflow-hidden transition-all duration-500"
       )}>
         <motion.div
-          className="absolute inset-0 bg-[#6353E6]/10 rounded-none md:rounded-tl-[3rem] md:rounded-bl-[3rem]"
+          className="absolute inset-0 bg-[#8B5CF6]/10 rounded-none md:rounded-tl-[3rem] md:rounded-bl-[3rem]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -159,8 +159,8 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
                   whileTap={{ scale: 0.98 }}
                   onClick={onNext}
                   className={cn(
-                    "btn-shine px-5 py-2 rounded-lg bg-[#6353E6] text-white shadow-sm",
-                    "hover:bg-[#5447D3] focus:outline-none focus:ring-2 focus:ring-[#6353E6]/50",
+                    "btn-shine px-5 py-2 rounded-lg bg-[#8B5CF6] text-white shadow-sm",
+                    "hover:bg-[#7C3AED] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]/50",
                     "transition-all duration-300 ease-in-out"
                   )}
                 >
@@ -171,7 +171,7 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
           </AnimatePresence>
 
           <div className="text-center text-sm text-muted-foreground mt-6">
-            Already have an account? <a href="#" className="text-[#6353E6] hover:text-[#8575FF] hover:underline">Sign in</a>
+            Already have an account? <a href="#" className="text-[#8B5CF6] hover:text-[#A78BFA] hover:underline">Sign in</a>
           </div>
         </div>
       </div>
