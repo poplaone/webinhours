@@ -60,7 +60,7 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
               AI-Powered Product Development
             </motion.div>
             
-            {/* Visual illustration */}
+            {/* Visual illustration with animation */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -69,20 +69,112 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
             >
               <div className="w-full h-44 bg-white/10 rounded-xl backdrop-blur-sm flex items-center justify-center overflow-hidden border border-white/20">
                 <svg className="w-full h-full p-6" viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  {/* Product Development Illustration */}
-                  <rect x="40" y="40" width="220" height="120" rx="10" fill="#C4B5FD" fillOpacity="0.3" />
-                  <rect x="60" y="60" width="80" height="80" rx="5" fill="#EDE9FE" />
-                  <rect x="160" y="60" width="80" height="35" rx="5" fill="#EDE9FE" />
-                  <rect x="160" y="105" width="80" height="35" rx="5" fill="#EDE9FE" />
-                  <circle cx="100" cy="80" r="10" fill="#8B5CF6" />
-                  <path d="M95 80L100 85L105 75" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <circle cx="200" cy="77" r="8" fill="#8B5CF6" />
-                  <circle cx="200" cy="123" r="8" fill="#8B5CF6" />
-                  <path d="M80 110H120" stroke="#8B5CF6" strokeWidth="2" strokeLinecap="round" />
-                  <path d="M80 120H110" stroke="#8B5CF6" strokeWidth="2" strokeLinecap="round" />
-                  <path d="M197 77L203 77" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                  <path d="M200 74L200 80" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                  <path d="M195 123L205 123" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  {/* Base layer */}
+                  <motion.rect 
+                    x="40" y="40" width="220" height="120" rx="10" 
+                    fill="#C4B5FD" fillOpacity="0.3"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.3 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                  />
+
+                  {/* Left panel */}
+                  <motion.rect 
+                    x="60" y="60" width="80" height="80" rx="5" 
+                    fill="#EDE9FE"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.5 }}
+                  />
+
+                  {/* Right top panel */}
+                  <motion.rect 
+                    x="160" y="60" width="80" height="35" rx="5" 
+                    fill="#EDE9FE"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.7 }}
+                  />
+
+                  {/* Right bottom panel */}
+                  <motion.rect 
+                    x="160" y="105" width="80" height="35" rx="5" 
+                    fill="#EDE9FE"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.9 }}
+                  />
+
+                  {/* Left panel check circle with animated check */}
+                  <motion.circle 
+                    cx="100" cy="80" r="10" 
+                    fill="#8B5CF6"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.3, delay: 1.1 }}
+                  />
+                  <motion.path 
+                    d="M95 80L100 85L105 75" 
+                    stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 0.5, delay: 1.4 }}
+                  />
+
+                  {/* Right top button with animated plus */}
+                  <motion.circle 
+                    cx="200" cy="77" r="8" 
+                    fill="#8B5CF6"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.3, delay: 1.2 }}
+                  />
+                  <motion.path 
+                    d="M197 77L203 77" 
+                    stroke="white" strokeWidth="2" strokeLinecap="round"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 0.3, delay: 1.5 }}
+                  />
+                  <motion.path 
+                    d="M200 74L200 80" 
+                    stroke="white" strokeWidth="2" strokeLinecap="round"
+                    initial={{ scaleY: 0 }}
+                    animate={{ scaleY: 1 }}
+                    transition={{ duration: 0.3, delay: 1.5 }}
+                  />
+
+                  {/* Right bottom button with animated minus */}
+                  <motion.circle 
+                    cx="200" cy="123" r="8" 
+                    fill="#8B5CF6"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.3, delay: 1.3 }}
+                  />
+                  <motion.path 
+                    d="M195 123L205 123" 
+                    stroke="white" strokeWidth="2" strokeLinecap="round"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 0.3, delay: 1.6 }}
+                  />
+
+                  {/* Animated lines in the left panel */}
+                  <motion.path 
+                    d="M80 110H120" 
+                    stroke="#8B5CF6" strokeWidth="2" strokeLinecap="round"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{ duration: 0.4, delay: 1.7 }}
+                  />
+                  <motion.path 
+                    d="M80 120H110" 
+                    stroke="#8B5CF6" strokeWidth="2" strokeLinecap="round"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{ duration: 0.4, delay: 1.8 }}
+                  />
                 </svg>
               </div>
             </motion.div>
