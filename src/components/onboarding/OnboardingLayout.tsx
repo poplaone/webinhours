@@ -55,12 +55,37 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
-              className="text-[#EDE9FE] mb-12 pl-7"
+              className="text-[#EDE9FE] mb-4 pl-7"
             >
               AI-Powered Product Development
             </motion.div>
             
-            {/* Step indicators moved to right side */}
+            {/* Visual illustration */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+              className="p-4 mb-8"
+            >
+              <div className="w-full h-44 bg-white/10 rounded-xl backdrop-blur-sm flex items-center justify-center overflow-hidden border border-white/20">
+                <svg className="w-full h-full p-6" viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  {/* Product Development Illustration */}
+                  <rect x="40" y="40" width="220" height="120" rx="10" fill="#C4B5FD" fillOpacity="0.3" />
+                  <rect x="60" y="60" width="80" height="80" rx="5" fill="#EDE9FE" />
+                  <rect x="160" y="60" width="80" height="35" rx="5" fill="#EDE9FE" />
+                  <rect x="160" y="105" width="80" height="35" rx="5" fill="#EDE9FE" />
+                  <circle cx="100" cy="80" r="10" fill="#8B5CF6" />
+                  <path d="M95 80L100 85L105 75" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <circle cx="200" cy="77" r="8" fill="#8B5CF6" />
+                  <circle cx="200" cy="123" r="8" fill="#8B5CF6" />
+                  <path d="M80 110H120" stroke="#8B5CF6" strokeWidth="2" strokeLinecap="round" />
+                  <path d="M80 120H110" stroke="#8B5CF6" strokeWidth="2" strokeLinecap="round" />
+                  <path d="M197 77L203 77" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  <path d="M200 74L200 80" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  <path d="M195 123L205 123" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+              </div>
+            </motion.div>
           </div>
           
           <motion.div 
