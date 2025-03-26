@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import StepIndicator from './StepIndicator';
 import { Sparkles, RocketIcon, LightbulbIcon } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface OnboardingLayoutProps {
   children: ReactNode;
@@ -23,10 +24,20 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
   isLastStep = false,
 }) => {
   const [mounted, setMounted] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const handleNext = () => {
+    if (isLastStep) {
+      // Navigate to dashboard when "Get Started" is clicked
+      navigate('/dashboard');
+    } else if (onNext) {
+      onNext();
+    }
+  };
 
   if (!mounted) return null;
 
@@ -274,7 +285,7 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
                 
                 <motion.button
                   whileTap={{ scale: 0.98 }}
-                  onClick={onNext}
+                  onClick={handleNext}
                   className={cn(
                     "btn-shine px-5 py-2 rounded-lg bg-[#8B5CF6] text-white shadow-sm",
                     "hover:bg-[#7C3AED] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]/50",

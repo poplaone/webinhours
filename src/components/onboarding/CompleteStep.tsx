@@ -1,8 +1,15 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const CompleteStep: React.FC = () => {
+  const navigate = useNavigate();
+  
+  const handleGetStarted = () => {
+    navigate('/dashboard');
+  };
+
   return (
     <div className="space-y-6 text-center">
       <motion.div
