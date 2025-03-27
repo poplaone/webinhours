@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Search, Bell, User, Sparkles, TrendingUp, Lightbulb, Users, Radio } from 'lucide-react';
+import { Search, Bell, User, Sparkles, TrendingUp, Lightbulb, Users, Radio, BookOpen, BarChart3, Brain } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -100,76 +100,139 @@ const Dashboard = () => {
             </Button>
           </div>
 
-          {/* Ideas Grid - Now spans full width */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {ideaCards.map((idea) => (
-              <Card key={idea.id} className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg transition-shadow">
-                {/* Image at the top */}
-                <div className="h-40 overflow-hidden">
-                  <img 
-                    src={idea.image} 
-                    alt={idea.title} 
-                    className="w-full h-full object-cover transition-transform hover:scale-105 duration-300"
-                  />
+          {/* Main content grid with AI Insights panel */}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* Ideas Grid - Now spans 3 columns on large screens */}
+            <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {ideaCards.map((idea) => (
+                <Card key={idea.id} className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg transition-shadow">
+                  {/* Image at the top */}
+                  <div className="h-40 overflow-hidden">
+                    <img 
+                      src={idea.image} 
+                      alt={idea.title} 
+                      className="w-full h-full object-cover transition-transform hover:scale-105 duration-300"
+                    />
+                  </div>
+                  
+                  <div className="p-5 flex-grow">
+                    <div className="flex justify-between items-start">
+                      <h3 className="font-semibold text-lg">{idea.title}</h3>
+                      <span className="text-xs text-muted-foreground">{idea.timestamp}</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{idea.description}</p>
+                    
+                    {/* Metrics section with improved visuals */}
+                    <div className="mt-4 grid grid-cols-3 gap-3 text-xs border-t border-border/40 pt-3">
+                      <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
+                        <div className="flex items-center gap-1 text-muted-foreground mb-1">
+                          <TrendingUp className="h-3 w-3 text-[#8B5CF6]" />
+                          <span>Trend</span>
+                        </div>
+                        <div className={cn(
+                          "font-medium text-sm",
+                          idea.trendAnalysis.trend === "up" ? "text-emerald-500" : 
+                          idea.trendAnalysis.trend === "down" ? "text-red-500" : "text-amber-500"
+                        )}>
+                          {idea.trendAnalysis.score}%
+                          {idea.trendAnalysis.trend === "up" && " ↑"}
+                          {idea.trendAnalysis.trend === "down" && " ↓"}
+                          {idea.trendAnalysis.trend === "stable" && " →"}
+                        </div>
+                      </div>
+                      
+                      <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
+                        <div className="flex items-center gap-1 text-muted-foreground mb-1">
+                          <Users className="h-3 w-3 text-[#8B5CF6]" />
+                          <span>Demand</span>
+                        </div>
+                        <div className="font-medium text-sm">
+                          {idea.consumerDemandScore}%
+                        </div>
+                      </div>
+                      
+                      <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
+                        <div className="flex items-center gap-1 text-muted-foreground mb-1">
+                          <Radio className="h-3 w-3 text-[#8B5CF6]" />
+                          <span>Relevance</span>
+                        </div>
+                        <div className="font-medium text-sm">
+                          {idea.industryRelevance}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex gap-2 mt-3">
+                      {idea.tags.map((tag, index) => (
+                        <span key={index} className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-2 py-1 rounded-full">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+            
+            {/* AI Insights Panel - 1 column */}
+            <div className="lg:col-span-1">
+              <Card className="border border-border/40 bg-card/50 backdrop-blur h-full">
+                <div className="p-5 border-b border-border/40 flex items-center gap-2">
+                  <Brain className="h-5 w-5 text-[#8B5CF6]" />
+                  <h3 className="font-semibold">AI Insights</h3>
                 </div>
                 
-                <div className="p-5 flex-grow">
-                  <div className="flex justify-between items-start">
-                    <h3 className="font-semibold text-lg">{idea.title}</h3>
-                    <span className="text-xs text-muted-foreground">{idea.timestamp}</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{idea.description}</p>
-                  
-                  {/* Metrics section with improved visuals */}
-                  <div className="mt-4 grid grid-cols-3 gap-3 text-xs border-t border-border/40 pt-3">
-                    <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
-                      <div className="flex items-center gap-1 text-muted-foreground mb-1">
-                        <TrendingUp className="h-3 w-3 text-[#8B5CF6]" />
-                        <span>Trend</span>
-                      </div>
-                      <div className={cn(
-                        "font-medium text-sm",
-                        idea.trendAnalysis.trend === "up" ? "text-emerald-500" : 
-                        idea.trendAnalysis.trend === "down" ? "text-red-500" : "text-amber-500"
-                      )}>
-                        {idea.trendAnalysis.score}%
-                        {idea.trendAnalysis.trend === "up" && " ↑"}
-                        {idea.trendAnalysis.trend === "down" && " ↓"}
-                        {idea.trendAnalysis.trend === "stable" && " →"}
-                      </div>
+                <div className="p-5">
+                  <div className="space-y-4">
+                    {/* Trend Insights */}
+                    <div>
+                      <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
+                        <TrendingUp className="h-4 w-4 text-[#8B5CF6]" />
+                        Market Trends
+                      </h4>
+                      <p className="text-xs text-muted-foreground">Wearable health tech showing 18% growth in consumer adoption over the last quarter, suggesting strong market potential.</p>
                     </div>
                     
-                    <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
-                      <div className="flex items-center gap-1 text-muted-foreground mb-1">
-                        <Users className="h-3 w-3 text-[#8B5CF6]" />
-                        <span>Demand</span>
-                      </div>
-                      <div className="font-medium text-sm">
-                        {idea.consumerDemandScore}%
-                      </div>
+                    {/* Competitive Analysis */}
+                    <div>
+                      <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
+                        <BarChart3 className="h-4 w-4 text-[#8B5CF6]" />
+                        Competitive Analysis
+                      </h4>
+                      <p className="text-xs text-muted-foreground">Smart home ecosystem fragmentation presents opportunity for unified platform with better interoperability.</p>
                     </div>
                     
-                    <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
-                      <div className="flex items-center gap-1 text-muted-foreground mb-1">
-                        <Radio className="h-3 w-3 text-[#8B5CF6]" />
-                        <span>Relevance</span>
-                      </div>
-                      <div className="font-medium text-sm">
-                        {idea.industryRelevance}
-                      </div>
+                    {/* Research Insights */}
+                    <div>
+                      <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
+                        <BookOpen className="h-4 w-4 text-[#8B5CF6]" />
+                        Research Insights
+                      </h4>
+                      <p className="text-xs text-muted-foreground">Recent studies show 76% of consumers willing to pay premium for sustainable packaging if clearly communicated.</p>
                     </div>
-                  </div>
-                  
-                  <div className="flex gap-2 mt-3">
-                    {idea.tags.map((tag, index) => (
-                      <span key={index} className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-2 py-1 rounded-full">
-                        {tag}
-                      </span>
-                    ))}
+                    
+                    {/* Suggested Actions */}
+                    <div className="pt-2 border-t border-border/40">
+                      <h4 className="text-sm font-medium mb-2">Recommended Actions</h4>
+                      <ul className="space-y-2">
+                        <li className="flex gap-2 items-center text-xs">
+                          <span className="bg-[#8B5CF6]/10 text-[#8B5CF6] p-1 rounded-full">
+                            <Lightbulb className="h-3 w-3" />
+                          </span>
+                          <span>Explore integration partnerships for Smart Home Assistant</span>
+                        </li>
+                        <li className="flex gap-2 items-center text-xs">
+                          <span className="bg-[#8B5CF6]/10 text-[#8B5CF6] p-1 rounded-full">
+                            <Lightbulb className="h-3 w-3" />
+                          </span>
+                          <span>Develop consumer education strategy for sustainable packaging</span>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </Card>
-            ))}
+            </div>
           </div>
 
           {/* Additional Content */}
