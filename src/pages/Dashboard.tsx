@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import ChatSidebar from '@/components/ai/ChatSidebar';
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 
 // Sample data for idea cards (filtered for FMCG brands)
 const industryIdeaCards = [
@@ -116,9 +117,7 @@ const allCategories = [
 const Dashboard = () => {
   const navigate = useNavigate();
   const [myIdeas, setMyIdeas] = useState(myIdeasInitial);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(allCategories);
   const [activeTab, setActiveTab] = useState("recommended");
-  const [sidebarVisible, setSidebarVisible] = useState(true);
 
   // Check for newly created idea in sessionStorage
   useEffect(() => {
@@ -160,35 +159,8 @@ const Dashboard = () => {
     }
   }, []);
 
-  // Filter ideas based on selected categories
-  const filteredIndustryIdeas = industryIdeaCards.filter(idea => 
-    selectedCategories.includes(idea.category)
-  );
-  
-  const filteredMyIdeas = myIdeas.filter(idea => 
-    selectedCategories.includes(idea.category)
-  );
-
   const viewIdeaDetail = (ideaId: number) => {
     navigate(`/idea/${ideaId}`);
-  };
-
-  // Handle category selection
-  const handleCategoryClick = (category: string) => {
-    if (selectedCategories.includes(category)) {
-      // Remove category if already selected
-      if (selectedCategories.length > 1) { // Prevent removing all categories
-        setSelectedCategories(prev => prev.filter(cat => cat !== category));
-      }
-    } else {
-      // Add category if not selected
-      setSelectedCategories(prev => [...prev, category]);
-    }
-  };
-
-  // Toggle AI insights sidebar
-  const toggleSidebar = () => {
-    setSidebarVisible(!sidebarVisible);
   };
 
   // Render an idea card
@@ -276,170 +248,133 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex">
-      {/* AI Chat Sidebar - only shown when sidebarVisible is true */}
-      {sidebarVisible && (
-        <div className="w-72 shrink-0">
-          <ChatSidebar />
-        </div>
-      )}
-      
-      <div className="flex-1 flex flex-col">
-        {/* Top Bar */}
-        <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="container flex h-16 items-center justify-between">
-            {/* Logo */}
-            <div className="flex items-center gap-2">
-              <div className="flex items-center">
-                <Sparkles className="h-5 w-5 text-[#8B5CF6]" />
-                <span className="ml-2 text-xl font-semibold">Pulse Vision.AI</span>
-              </div>
-            </div>
-            
-            {/* Search Bar */}
-            <div className="hidden md:flex flex-1 items-center justify-center px-4">
-              <div className="w-full max-w-sm relative">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="search"
-                  placeholder="Search ideas, projects..."
-                  className="w-full bg-background pl-8 rounded-full border-muted-foreground/20"
-                />
-              </div>
-            </div>
-            
-            {/* Actions */}
-            <div className="flex items-center gap-4">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="text-muted-foreground hover:text-foreground"
-                onClick={toggleSidebar}
-              >
-                <Sparkles className="h-5 w-5" />
-              </Button>
-              <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
-                <Bell className="h-5 w-5" />
-              </Button>
-              <Button variant="ghost" size="icon" className="rounded-full overflow-hidden">
-                <User className="h-5 w-5" />
-              </Button>
-            </div>
-          </div>
-        </header>
-
-        {/* Main Content */}
-        <main className="container py-6 flex-1">
-          {/* Tabs Structure */}
-          <div className="mb-4">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold">Product Ideas</h2>
-              <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]" onClick={() => navigate('/idea/new')}>
-                <Lightbulb className="mr-2 h-4 w-4" />
-                New Idea
-              </Button>
-            </div>
-            
-            {/* Tabs */}
-            <Tabs 
-              defaultValue="recommended" 
-              value={activeTab}
-              onValueChange={setActiveTab}
-              className="w-full"
-            >
-              <TabsList className="grid w-full max-w-md grid-cols-2 mb-4">
-                {myIdeas.length > 0 && (
-                  <TabsTrigger value="my-ideas">My Ideas</TabsTrigger>
-                )}
-                <TabsTrigger value="recommended" className={myIdeas.length === 0 ? "col-span-2" : ""}>
-                  Recommended Ideas
-                </TabsTrigger>
-              </TabsList>
-              
-              {/* Category filter chips - moved below tabs */}
-              <div className="flex items-center gap-3 mb-6 overflow-x-auto pb-2">
-                <div className="flex items-center text-muted-foreground text-sm">
-                  <Filter className="h-4 w-4 mr-1" />
-                  Filter:
+    <div className="min-h-screen bg-gradient-to-br from-background to-background/80">
+      <ResizablePanelGroup direction="horizontal" className="min-h-screen">
+        {/* Main Content Panel */}
+        <ResizablePanel defaultSize={75} minSize={30}>
+          <div className="flex-1 flex flex-col">
+            {/* Top Bar */}
+            <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+              <div className="container flex h-16 items-center justify-between">
+                {/* Logo */}
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center">
+                    <Sparkles className="h-5 w-5 text-[#8B5CF6]" />
+                    <span className="ml-2 text-xl font-semibold">Pulse Vision.AI</span>
+                  </div>
                 </div>
                 
-                {allCategories.map(category => (
-                  <button
-                    key={category}
-                    onClick={() => handleCategoryClick(category)}
-                    className={cn(
-                      "px-3 py-1 rounded-full text-sm whitespace-nowrap transition-colors",
-                      selectedCategories.includes(category) 
-                        ? "bg-[#8B5CF6] text-white" 
-                        : "bg-[#8B5CF6]/10 text-[#8B5CF6] hover:bg-[#8B5CF6]/20"
+                {/* Search Bar */}
+                <div className="hidden md:flex flex-1 items-center justify-center px-4">
+                  <div className="w-full max-w-sm relative">
+                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      type="search"
+                      placeholder="Search ideas, projects..."
+                      className="w-full bg-background pl-8 rounded-full border-muted-foreground/20"
+                    />
+                  </div>
+                </div>
+                
+                {/* Actions */}
+                <div className="flex items-center gap-4">
+                  <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
+                    <Bell className="h-5 w-5" />
+                  </Button>
+                  <Button variant="ghost" size="icon" className="rounded-full overflow-hidden">
+                    <User className="h-5 w-5" />
+                  </Button>
+                </div>
+              </div>
+            </header>
+
+            {/* Main Content */}
+            <main className="container py-6 flex-1">
+              {/* Tabs Structure */}
+              <div className="mb-4">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-2xl font-bold">Product Ideas</h2>
+                  <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]" onClick={() => navigate('/idea/new')}>
+                    <Lightbulb className="mr-2 h-4 w-4" />
+                    New Idea
+                  </Button>
+                </div>
+                
+                {/* Tabs */}
+                <Tabs 
+                  defaultValue="recommended" 
+                  value={activeTab}
+                  onValueChange={setActiveTab}
+                  className="w-full"
+                >
+                  <TabsList className="grid w-full max-w-md grid-cols-2 mb-4">
+                    {myIdeas.length > 0 && (
+                      <TabsTrigger value="my-ideas">My Ideas</TabsTrigger>
                     )}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
-              
-              {/* My Ideas Tab Content */}
-              {myIdeas.length > 0 && (
-                <TabsContent value="my-ideas" className="mt-0">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {filteredMyIdeas.map(idea => renderIdeaCard(idea))}
-                  </div>
+                    <TabsTrigger value="recommended" className={myIdeas.length === 0 ? "col-span-2" : ""}>
+                      Recommended Ideas
+                    </TabsTrigger>
+                  </TabsList>
                   
-                  {filteredMyIdeas.length === 0 && (
-                    <div className="text-center py-10">
-                      <p className="text-muted-foreground">No ideas found with the selected categories.</p>
-                    </div>
+                  {/* My Ideas Tab Content */}
+                  {myIdeas.length > 0 && (
+                    <TabsContent value="my-ideas" className="mt-0">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        {myIdeas.map(idea => renderIdeaCard(idea))}
+                      </div>
+                    </TabsContent>
                   )}
-                </TabsContent>
-              )}
-              
-              {/* Recommended Ideas Tab Content */}
-              <TabsContent value="recommended" className="mt-0">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {filteredIndustryIdeas.map(idea => renderIdeaCard(idea))}
-                </div>
-                
-                {filteredIndustryIdeas.length === 0 && (
-                  <div className="text-center py-10">
-                    <p className="text-muted-foreground">No recommended ideas found with the selected categories.</p>
-                  </div>
-                )}
-              </TabsContent>
-            </Tabs>
-          </div>
-
-          {/* Innovation Pipeline Section */}
-          <div className="mt-8">
-            <Card className="p-6 border border-border/40 bg-card/50 backdrop-blur">
-              <h2 className="text-xl font-semibold mb-4">FMCG Innovation Pipeline</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="p-4 bg-background rounded-lg border border-border/60">
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="font-medium">Research Phase</h3>
-                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-[#8B5CF6] text-white">2 Projects</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">Consumer research and concept development</p>
-                </div>
-                <div className="p-4 bg-background rounded-lg border border-border/60">
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="font-medium">Product Development</h3>
-                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-emerald-500 text-white">1 Project</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">Creating and testing prototypes with focus groups</p>
-                </div>
-                <div className="p-4 bg-background rounded-lg border border-border/60">
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="font-medium">Market Introduction</h3>
-                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-amber-500 text-white">0 Projects</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">Final preparations for retail channel distribution</p>
-                </div>
+                  
+                  {/* Recommended Ideas Tab Content */}
+                  <TabsContent value="recommended" className="mt-0">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                      {industryIdeaCards.map(idea => renderIdeaCard(idea))}
+                    </div>
+                  </TabsContent>
+                </Tabs>
               </div>
-            </Card>
+
+              {/* Innovation Pipeline Section */}
+              <div className="mt-8">
+                <Card className="p-6 border border-border/40 bg-card/50 backdrop-blur">
+                  <h2 className="text-xl font-semibold mb-4">FMCG Innovation Pipeline</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="p-4 bg-background rounded-lg border border-border/60">
+                      <div className="flex justify-between items-center mb-2">
+                        <h3 className="font-medium">Research Phase</h3>
+                        <span className="text-xs font-medium px-2 py-1 rounded-full bg-[#8B5CF6] text-white">2 Projects</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">Consumer research and concept development</p>
+                    </div>
+                    <div className="p-4 bg-background rounded-lg border border-border/60">
+                      <div className="flex justify-between items-center mb-2">
+                        <h3 className="font-medium">Product Development</h3>
+                        <span className="text-xs font-medium px-2 py-1 rounded-full bg-emerald-500 text-white">1 Project</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">Creating and testing prototypes with focus groups</p>
+                    </div>
+                    <div className="p-4 bg-background rounded-lg border border-border/60">
+                      <div className="flex justify-between items-center mb-2">
+                        <h3 className="font-medium">Market Introduction</h3>
+                        <span className="text-xs font-medium px-2 py-1 rounded-full bg-amber-500 text-white">0 Projects</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">Final preparations for retail channel distribution</p>
+                    </div>
+                  </div>
+                </Card>
+              </div>
+            </main>
           </div>
-        </main>
-      </div>
+        </ResizablePanel>
+        
+        {/* Resize Handle */}
+        <ResizableHandle withHandle />
+        
+        {/* AI Insights Panel */}
+        <ResizablePanel defaultSize={25} minSize={20} maxSize={30}>
+          <ChatSidebar />
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </div>
   );
 };
