@@ -178,12 +178,13 @@ const IdeaDetail = () => {
                     </div>
                     <div className={cn(
                       "font-medium text-sm",
-                      idea.trendAnalysis.trend === "up" as const ? "text-emerald-500" : 
-                      idea.trendAnalysis.trend === "stable" as const ? "text-amber-500" : "text-red-500"
+                      idea.trendAnalysis.trend === "up" ? "text-emerald-500" : 
+                      idea.trendAnalysis.trend === "down" ? "text-red-500" : "text-amber-500"
                     )}>
                       {idea.trendAnalysis.score}%
-                      {idea.trendAnalysis.trend === "up" as const && " ↑"}
-                      {idea.trendAnalysis.trend === "stable" as const && " →"}
+                      {idea.trendAnalysis.trend === "up" && " ↑"}
+                      {idea.trendAnalysis.trend === "down" && " ↓"}
+                      {idea.trendAnalysis.trend === "stable" && " →"}
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">
                       {idea.trendAnalysis.trend === "up" 
