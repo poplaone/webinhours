@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Search, Bell, User, Sparkles, Settings, PlusCircle, Zap, TrendingUp, Lightbulb, BarChart3, Users, Radio } from 'lucide-react';
+import { Search, Bell, User, Sparkles, TrendingUp, Lightbulb, Users, Radio } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -17,7 +17,8 @@ const ideaCards = [
     timestamp: "2d ago",
     trendAnalysis: { score: 87, trend: "up" },
     consumerDemandScore: 76,
-    industryRelevance: "High"
+    industryRelevance: "High",
+    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=300&h=170&q=80"
   },
   {
     id: 2,
@@ -27,7 +28,8 @@ const ideaCards = [
     timestamp: "3d ago", 
     trendAnalysis: { score: 92, trend: "up" },
     consumerDemandScore: 85,
-    industryRelevance: "Very High"
+    industryRelevance: "Very High",
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=300&h=170&q=80"
   },
   {
     id: 3,
@@ -37,7 +39,8 @@ const ideaCards = [
     timestamp: "1w ago",
     trendAnalysis: { score: 72, trend: "stable" },
     consumerDemandScore: 63,
-    industryRelevance: "Medium"
+    industryRelevance: "Medium",
+    image: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?auto=format&fit=crop&w=300&h=170&q=80"
   }
 ];
 
@@ -92,120 +95,81 @@ const Dashboard = () => {
               <p className="text-muted-foreground mt-1">Generate and refine product ideas with AI assistance</p>
             </div>
             <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]">
-              <PlusCircle className="mr-2 h-4 w-4" />
-              New Project
+              <Lightbulb className="mr-2 h-4 w-4" />
+              New Idea
             </Button>
           </div>
 
-          {/* Dashboard Grid */}
+          {/* Ideas Grid - Now spans full width */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Quick Actions Card */}
-            <Card className="p-6 border border-border/40 bg-card/50 backdrop-blur">
-              <h2 className="text-xl font-semibold mb-4 flex items-center">
-                <Zap className="mr-2 h-5 w-5 text-[#8B5CF6]" />
-                Quick Actions
-              </h2>
-              <div className="space-y-2">
-                <Button variant="outline" className="w-full justify-start text-left">
-                  <Lightbulb className="mr-2 h-4 w-4 text-[#8B5CF6]" />
-                  Generate new idea
-                </Button>
-                <Button variant="outline" className="w-full justify-start text-left">
-                  <TrendingUp className="mr-2 h-4 w-4 text-[#8B5CF6]" />
-                  Analyze market trends
-                </Button>
-                <Button variant="outline" className="w-full justify-start text-left">
-                  <Settings className="mr-2 h-4 w-4 text-[#8B5CF6]" />
-                  Configure AI preferences
-                </Button>
-              </div>
-            </Card>
-
-            {/* Recent Ideas Card */}
-            <Card className="p-6 border border-border/40 bg-card/50 backdrop-blur">
-              <h2 className="text-xl font-semibold mb-4">Recent Ideas</h2>
-              <div className="space-y-4">
-                {ideaCards.map((idea) => (
-                  <div key={idea.id} className={cn(
-                    "p-3 rounded-lg border border-border/60",
-                    "hover:border-[#8B5CF6]/40 hover:bg-[#8B5CF6]/5 transition-colors cursor-pointer"
-                  )}>
-                    <div className="flex justify-between items-start">
-                      <h3 className="font-medium">{idea.title}</h3>
-                      <span className="text-xs text-muted-foreground">{idea.timestamp}</span>
-                    </div>
-                    <p className="text-sm text-muted-foreground mt-1">{idea.description}</p>
-                    
-                    {/* New metrics section */}
-                    <div className="mt-3 grid grid-cols-3 gap-2 text-xs border-t border-border/40 pt-2">
-                      <div className="flex flex-col">
-                        <div className="flex items-center gap-1 text-muted-foreground">
-                          <TrendingUp className="h-3 w-3 text-[#8B5CF6]" />
-                          <span>Trend</span>
-                        </div>
-                        <div className={cn(
-                          "font-medium",
-                          idea.trendAnalysis.trend === "up" ? "text-emerald-500" : 
-                          idea.trendAnalysis.trend === "down" ? "text-red-500" : "text-amber-500"
-                        )}>
-                          {idea.trendAnalysis.score}%
-                          {idea.trendAnalysis.trend === "up" && " ↑"}
-                          {idea.trendAnalysis.trend === "down" && " ↓"}
-                          {idea.trendAnalysis.trend === "stable" && " →"}
-                        </div>
+            {ideaCards.map((idea) => (
+              <Card key={idea.id} className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg transition-shadow">
+                {/* Image at the top */}
+                <div className="h-40 overflow-hidden">
+                  <img 
+                    src={idea.image} 
+                    alt={idea.title} 
+                    className="w-full h-full object-cover transition-transform hover:scale-105 duration-300"
+                  />
+                </div>
+                
+                <div className="p-5 flex-grow">
+                  <div className="flex justify-between items-start">
+                    <h3 className="font-semibold text-lg">{idea.title}</h3>
+                    <span className="text-xs text-muted-foreground">{idea.timestamp}</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{idea.description}</p>
+                  
+                  {/* Metrics section with improved visuals */}
+                  <div className="mt-4 grid grid-cols-3 gap-3 text-xs border-t border-border/40 pt-3">
+                    <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
+                      <div className="flex items-center gap-1 text-muted-foreground mb-1">
+                        <TrendingUp className="h-3 w-3 text-[#8B5CF6]" />
+                        <span>Trend</span>
                       </div>
-                      
-                      <div className="flex flex-col">
-                        <div className="flex items-center gap-1 text-muted-foreground">
-                          <Users className="h-3 w-3 text-[#8B5CF6]" />
-                          <span>Demand</span>
-                        </div>
-                        <div className="font-medium">
-                          {idea.consumerDemandScore}%
-                        </div>
-                      </div>
-                      
-                      <div className="flex flex-col">
-                        <div className="flex items-center gap-1 text-muted-foreground">
-                          <Radio className="h-3 w-3 text-[#8B5CF6]" />
-                          <span>Relevance</span>
-                        </div>
-                        <div className="font-medium">
-                          {idea.industryRelevance}
-                        </div>
+                      <div className={cn(
+                        "font-medium text-sm",
+                        idea.trendAnalysis.trend === "up" ? "text-emerald-500" : 
+                        idea.trendAnalysis.trend === "down" ? "text-red-500" : "text-amber-500"
+                      )}>
+                        {idea.trendAnalysis.score}%
+                        {idea.trendAnalysis.trend === "up" && " ↑"}
+                        {idea.trendAnalysis.trend === "down" && " ↓"}
+                        {idea.trendAnalysis.trend === "stable" && " →"}
                       </div>
                     </div>
                     
-                    <div className="flex gap-2 mt-2">
-                      {idea.tags.map((tag, index) => (
-                        <span key={index} className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-2 py-1 rounded-full">
-                          {tag}
-                        </span>
-                      ))}
+                    <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
+                      <div className="flex items-center gap-1 text-muted-foreground mb-1">
+                        <Users className="h-3 w-3 text-[#8B5CF6]" />
+                        <span>Demand</span>
+                      </div>
+                      <div className="font-medium text-sm">
+                        {idea.consumerDemandScore}%
+                      </div>
+                    </div>
+                    
+                    <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
+                      <div className="flex items-center gap-1 text-muted-foreground mb-1">
+                        <Radio className="h-3 w-3 text-[#8B5CF6]" />
+                        <span>Relevance</span>
+                      </div>
+                      <div className="font-medium text-sm">
+                        {idea.industryRelevance}
+                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
-            </Card>
-
-            {/* AI Insights Card */}
-            <Card className="p-6 border border-border/40 bg-card/50 backdrop-blur">
-              <h2 className="text-xl font-semibold mb-4">AI Insights</h2>
-              <div className="space-y-4">
-                <div className="p-3 bg-[#8B5CF6]/5 rounded-lg border border-[#8B5CF6]/20">
-                  <h3 className="font-medium text-[#8B5CF6]">Trending: Sustainable Tech</h3>
-                  <p className="text-sm mt-1">Products focusing on sustainability are gaining 43% more traction in the current market.</p>
+                  
+                  <div className="flex gap-2 mt-3">
+                    {idea.tags.map((tag, index) => (
+                      <span key={index} className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-2 py-1 rounded-full">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                <div className="p-3 bg-background rounded-lg border border-border/60">
-                  <h3 className="font-medium">Market Gap Identified</h3>
-                  <p className="text-sm text-muted-foreground mt-1">Analysis shows opportunity in accessible smart home devices for elderly users.</p>
-                </div>
-                <div className="p-3 bg-background rounded-lg border border-border/60">
-                  <h3 className="font-medium">Competitive Analysis</h3>
-                  <p className="text-sm text-muted-foreground mt-1">Your recent ideas have 28% uniqueness score compared to market offerings.</p>
-                </div>
-              </div>
-            </Card>
+              </Card>
+            ))}
           </div>
 
           {/* Additional Content */}
