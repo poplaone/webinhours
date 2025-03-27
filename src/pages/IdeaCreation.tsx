@@ -75,8 +75,17 @@ const IdeaCreation = () => {
   };
 
   const onSubmit = (values: IdeaFormValues) => {
+    // Save the created idea to sessionStorage
+    const newIdea = {
+      ...values,
+      imageUrl: imagePreview
+    };
+    
+    sessionStorage.setItem('newIdea', JSON.stringify(newIdea));
+    
     toast.success("Idea created successfully!");
     console.log(values);
+    
     // Navigate to dashboard after successful submission
     setTimeout(() => {
       navigate('/dashboard');
