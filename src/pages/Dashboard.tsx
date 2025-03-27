@@ -42,6 +42,39 @@ const ideaCards: Idea[] = [
     consumerDemandScore: 82,
     industryRelevance: "High",
     image: "https://images.unsplash.com/photo-1607083206968-13611e3d76db?auto=format&fit=crop&w=300&h=170&q=80"
+  },
+  {
+    id: 11,
+    title: "Sustainable Packaging Solution",
+    description: "Biodegradable packaging materials made from agricultural waste, perfect for FMCG products with high environmental concerns.",
+    tags: ["Green", "FMCG", "Packaging"],
+    timestamp: "1w ago",
+    trendAnalysis: { score: 92, trend: "up" as const },
+    consumerDemandScore: 88,
+    industryRelevance: "Very High",
+    image: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?auto=format&fit=crop&w=300&h=170&q=80"
+  },
+  {
+    id: 12,
+    title: "Direct-to-Consumer Subscription",
+    description: "Monthly subscription box model for curated FMCG products delivered directly to consumers with personalized product selections.",
+    tags: ["D2C", "FMCG", "Subscription"],
+    timestamp: "4d ago",
+    trendAnalysis: { score: 85, trend: "up" as const },
+    consumerDemandScore: 79,
+    industryRelevance: "Medium",
+    image: "https://images.unsplash.com/photo-1617644491633-9cc71756fee5?auto=format&fit=crop&w=300&h=170&q=80"
+  },
+  {
+    id: 13,
+    title: "Functional Beverages",
+    description: "Innovative drinks with added health benefits like adaptogens, nootropics and immunity-boosting ingredients targeted at health-focused consumers.",
+    tags: ["Beverage", "FMCG", "Wellness"],
+    timestamp: "6d ago",
+    trendAnalysis: { score: 91, trend: "up" as const },
+    consumerDemandScore: 84,
+    industryRelevance: "High",
+    image: "https://images.unsplash.com/photo-1560508179-b2c9a3f8e92b?auto=format&fit=crop&w=300&h=170&q=80"
   }
 ];
 
@@ -100,7 +133,7 @@ const Dashboard = () => {
           {/* Dashboard Header */}
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-bold">Top FMCG Product Ideas</h1>
+              <h1 className="text-3xl font-bold">Product Ideas</h1>
               <p className="text-muted-foreground mt-1">High-potential product concepts for fast-moving consumer goods brands</p>
             </div>
             <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]">
@@ -112,7 +145,7 @@ const Dashboard = () => {
           {/* Main content grid with AI Insights panel */}
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             {/* Ideas Grid - Now spans 3 columns on large screens */}
-            <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {ideaCards.map((idea) => (
                 <Card 
                   key={idea.id} 
