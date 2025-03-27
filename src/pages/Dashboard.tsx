@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Search, Bell, User, Sparkles, TrendingUp, Lightbulb, Users, Radio, BookOpen, BarChart3, Brain, ExternalLink } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -7,106 +8,40 @@ import { cn } from "@/lib/utils";
 import ChatSidebar from '@/components/ai/ChatSidebar';
 import IdeaDetailModal, { Idea } from '@/components/ideas/IdeaDetailModal';
 
-// Sample data for idea cards
+// Sample data for idea cards (filtered for FMCG brands)
 const ideaCards: Idea[] = [
-  {
-    id: 1,
-    title: "Smart Home Assistant",
-    description: "AI-powered home management system with voice control and energy optimization.",
-    tags: ["IoT", "AI"],
-    timestamp: "2d ago",
-    trendAnalysis: { score: 87, trend: "up" as const },
-    consumerDemandScore: 76,
-    industryRelevance: "High",
-    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=300&h=170&q=80"
-  },
-  {
-    id: 2,
-    title: "Health Monitoring Wearable",
-    description: "Continuous health tracking device with personalized wellness recommendations.",
-    tags: ["Health", "Wearable"],
-    timestamp: "3d ago", 
-    trendAnalysis: { score: 92, trend: "up" as const },
-    consumerDemandScore: 85,
-    industryRelevance: "Very High",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=300&h=170&q=80"
-  },
   {
     id: 3,
     title: "Sustainable Packaging Solution",
-    description: "Biodegradable packaging materials made from agricultural waste.",
-    tags: ["Green", "Manufacturing"],
+    description: "Biodegradable packaging materials made from agricultural waste, perfect for FMCG products with high environmental concerns.",
+    tags: ["Green", "FMCG", "Packaging"],
     timestamp: "1w ago",
-    trendAnalysis: { score: 72, trend: "stable" as const },
-    consumerDemandScore: 63,
-    industryRelevance: "Medium",
+    trendAnalysis: { score: 92, trend: "up" as const },
+    consumerDemandScore: 88,
+    industryRelevance: "Very High",
     image: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?auto=format&fit=crop&w=300&h=170&q=80"
-  },
-  {
-    id: 4,
-    title: "AR Shopping Experience",
-    description: "Augmented reality platform for virtual try-on and immersive shopping experiences.",
-    tags: ["AR", "Retail"],
-    timestamp: "4d ago",
-    trendAnalysis: { score: 81, trend: "up" as const },
-    consumerDemandScore: 78,
-    industryRelevance: "High",
-    image: "https://images.unsplash.com/photo-1511385348-a52b4a160dc2?auto=format&fit=crop&w=300&h=170&q=80"
-  },
-  {
-    id: 5,
-    title: "Personalized Learning Platform",
-    description: "AI-driven education system that adapts to individual learning styles and progress.",
-    tags: ["EdTech", "AI"],
-    timestamp: "6d ago",
-    trendAnalysis: { score: 76, trend: "stable" as const },
-    consumerDemandScore: 82,
-    industryRelevance: "Medium-High",
-    image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=300&h=170&q=80"
-  },
-  {
-    id: 6,
-    title: "Urban Vertical Farming",
-    description: "Automated vertical farming solution for urban areas with AI-optimized growing conditions.",
-    tags: ["AgTech", "Sustainability"],
-    timestamp: "1d ago",
-    trendAnalysis: { score: 89, trend: "up" as const },
-    consumerDemandScore: 74,
-    industryRelevance: "High",
-    image: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=300&h=170&q=80"
-  },
-  {
-    id: 7,
-    title: "Blockchain Supply Chain",
-    description: "Transparent supply chain tracking using blockchain technology for product authenticity.",
-    tags: ["Blockchain", "Logistics"],
-    timestamp: "5d ago",
-    trendAnalysis: { score: 79, trend: "stable" as const },
-    consumerDemandScore: 68,
-    industryRelevance: "Medium-High",
-    image: "https://images.unsplash.com/photo-1561414927-6d86591d0c4f?auto=format&fit=crop&w=300&h=170&q=80"
-  },
-  {
-    id: 8,
-    title: "Autonomous Delivery Drones",
-    description: "Self-flying drones for last-mile delivery with smart obstacle avoidance and efficient routing.",
-    tags: ["Robotics", "Logistics"],
-    timestamp: "3d ago",
-    trendAnalysis: { score: 91, trend: "up" as const },
-    consumerDemandScore: 79,
-    industryRelevance: "High",
-    image: "https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=300&h=170&q=80"
   },
   {
     id: 9,
     title: "Personalized Nutrition App",
-    description: "Mobile platform that creates custom meal plans based on health data, preferences, and goals.",
-    tags: ["HealthTech", "Mobile"],
+    description: "Mobile platform for FMCG brands to offer personalized food & beverage recommendations based on customer preferences and dietary needs.",
+    tags: ["HealthTech", "FMCG", "Mobile"],
     timestamp: "2d ago",
-    trendAnalysis: { score: 84, trend: "up" as const },
+    trendAnalysis: { score: 89, trend: "up" as const },
     consumerDemandScore: 86,
     industryRelevance: "High",
     image: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=300&h=170&q=80"
+  },
+  {
+    id: 10,
+    title: "Smart Consumer Packaging",
+    description: "Interactive packaging with QR codes and AR features that connect FMCG products to digital experiences, recipes, and loyalty programs.",
+    tags: ["AR", "FMCG", "Packaging"],
+    timestamp: "3d ago",
+    trendAnalysis: { score: 87, trend: "up" as const },
+    consumerDemandScore: 82,
+    industryRelevance: "High",
+    image: "https://images.unsplash.com/photo-1607083206968-13611e3d76db?auto=format&fit=crop&w=300&h=170&q=80"
   }
 ];
 
@@ -165,8 +100,8 @@ const Dashboard = () => {
           {/* Dashboard Header */}
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-bold">AI Ideation Engine</h1>
-              <p className="text-muted-foreground mt-1">Generate and refine product ideas with AI assistance</p>
+              <h1 className="text-3xl font-bold">Top FMCG Product Ideas</h1>
+              <p className="text-muted-foreground mt-1">High-potential product concepts for fast-moving consumer goods brands</p>
             </div>
             <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]">
               <Lightbulb className="mr-2 h-4 w-4" />
@@ -267,7 +202,7 @@ const Dashboard = () => {
               <Card className="border border-border/40 bg-card/50 backdrop-blur h-full">
                 <div className="p-5 border-b border-border/40 flex items-center gap-2">
                   <Brain className="h-5 w-5 text-[#8B5CF6]" />
-                  <h3 className="font-semibold">AI Insights</h3>
+                  <h3 className="font-semibold">FMCG Market Insights</h3>
                 </div>
                 
                 <div className="p-5">
@@ -278,7 +213,7 @@ const Dashboard = () => {
                         <TrendingUp className="h-4 w-4 text-[#8B5CF6]" />
                         Market Trends
                       </h4>
-                      <p className="text-xs text-muted-foreground">Wearable health tech showing 18% growth in consumer adoption over the last quarter, suggesting strong market potential.</p>
+                      <p className="text-xs text-muted-foreground">Sustainability in packaging is showing 32% growth in consumer preference, with 78% of shoppers considering eco-friendliness when making purchase decisions.</p>
                     </div>
                     
                     {/* Competitive Analysis */}
@@ -287,7 +222,7 @@ const Dashboard = () => {
                         <BarChart3 className="h-4 w-4 text-[#8B5CF6]" />
                         Competitive Analysis
                       </h4>
-                      <p className="text-xs text-muted-foreground">Smart home ecosystem fragmentation presents opportunity for unified platform with better interoperability.</p>
+                      <p className="text-xs text-muted-foreground">Leading FMCG brands are investing heavily in digital experiences connected to physical products, creating unique differentiation opportunities.</p>
                     </div>
                     
                     {/* Research Insights */}
@@ -296,7 +231,7 @@ const Dashboard = () => {
                         <BookOpen className="h-4 w-4 text-[#8B5CF6]" />
                         Research Insights
                       </h4>
-                      <p className="text-xs text-muted-foreground">Recent studies show 76% of consumers willing to pay premium for sustainable packaging if clearly communicated.</p>
+                      <p className="text-xs text-muted-foreground">91% of consumers indicate interest in personalized nutrition recommendations for food and beverage products they regularly purchase.</p>
                     </div>
                     
                     {/* Suggested Actions */}
@@ -307,13 +242,13 @@ const Dashboard = () => {
                           <span className="bg-[#8B5CF6]/10 text-[#8B5CF6] p-1 rounded-full">
                             <Lightbulb className="h-3 w-3" />
                           </span>
-                          <span>Explore integration partnerships for Smart Home Assistant</span>
+                          <span>Develop sustainable packaging pilot program</span>
                         </li>
                         <li className="flex gap-2 items-center text-xs">
                           <span className="bg-[#8B5CF6]/10 text-[#8B5CF6] p-1 rounded-full">
                             <Lightbulb className="h-3 w-3" />
                           </span>
-                          <span>Develop consumer education strategy for sustainable packaging</span>
+                          <span>Partner with AR developers for interactive packaging solutions</span>
                         </li>
                       </ul>
                     </div>
@@ -326,28 +261,28 @@ const Dashboard = () => {
           {/* Additional Content */}
           <div className="mt-8">
             <Card className="p-6 border border-border/40 bg-card/50 backdrop-blur">
-              <h2 className="text-xl font-semibold mb-4">Development Progress</h2>
+              <h2 className="text-xl font-semibold mb-4">FMCG Innovation Pipeline</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="p-4 bg-background rounded-lg border border-border/60">
                   <div className="flex justify-between items-center mb-2">
-                    <h3 className="font-medium">Ideation</h3>
-                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-[#8B5CF6] text-white">4 Projects</span>
+                    <h3 className="font-medium">Research Phase</h3>
+                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-[#8B5CF6] text-white">2 Projects</span>
                   </div>
-                  <p className="text-sm text-muted-foreground">Early stage concept development and market research</p>
+                  <p className="text-sm text-muted-foreground">Consumer research and concept development</p>
                 </div>
                 <div className="p-4 bg-background rounded-lg border border-border/60">
                   <div className="flex justify-between items-center mb-2">
-                    <h3 className="font-medium">Prototyping</h3>
-                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-emerald-500 text-white">2 Projects</span>
+                    <h3 className="font-medium">Product Development</h3>
+                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-emerald-500 text-white">1 Project</span>
                   </div>
-                  <p className="text-sm text-muted-foreground">Building proof of concepts and initial prototypes</p>
+                  <p className="text-sm text-muted-foreground">Creating and testing prototypes with focus groups</p>
                 </div>
                 <div className="p-4 bg-background rounded-lg border border-border/60">
                   <div className="flex justify-between items-center mb-2">
-                    <h3 className="font-medium">Launch Ready</h3>
-                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-amber-500 text-white">1 Project</span>
+                    <h3 className="font-medium">Market Introduction</h3>
+                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-amber-500 text-white">0 Projects</span>
                   </div>
-                  <p className="text-sm text-muted-foreground">Final preparations before market introduction</p>
+                  <p className="text-sm text-muted-foreground">Final preparations for retail channel distribution</p>
                 </div>
               </div>
             </Card>
