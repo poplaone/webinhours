@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Card } from "@/components/ui/card";
 import ChatSidebar from '@/components/ai/ChatSidebar';
+import GenerateImageButton from '@/components/ai/GenerateImageButton';
 import { toast } from "sonner";
 
 // Form schema validation
@@ -67,6 +68,10 @@ const IdeaCreation = () => {
       const url = URL.createObjectURL(file);
       setImagePreview(url);
     }
+  };
+
+  const handleAIImageGenerated = (imageUrl: string) => {
+    setImagePreview(imageUrl);
   };
 
   const onSubmit = (values: IdeaFormValues) => {
@@ -221,26 +226,41 @@ const IdeaCreation = () => {
                             <>
                               <ImagePlus className="h-12 w-12 text-gray-400 mb-2" />
                               <p className="text-sm text-muted-foreground mb-2">
-                                Drag and drop an image or click to upload
+                                Upload an image or generate one with AI
                               </p>
-                              <input
-                                type="file"
-                                id="image-upload"
-                                className="hidden"
-                                accept="image/*"
-                                onChange={handleImageUpload}
-                              />
-                              <Button 
-                                type="button"
-                                variant="outline" 
-                                onClick={() => document.getElementById('image-upload')?.click()}
-                              >
-                                <Upload className="h-4 w-4 mr-2" />
-                                Upload Image
-                              </Button>
+                              <div className="flex flex-wrap gap-2 justify-center">
+                                <div>
+                                  <input
+                                    type="file"
+                                    id="image-upload"
+                                    className="hidden"
+                                    accept="image/*"
+                                    onChange={handleImageUpload}
+                                  />
+                                  <Button 
+                                    type="button"
+                                    variant="outline" 
+                                    onClick={() => document.getElementById('image-upload')?.click()}
+                                  >
+                                    <Upload className="h-4 w-4 mr-2" />
+                                    Upload Image
+                                  </Button>
+                                </div>
+                                <GenerateImageButton 
+                                  title={form.getValues('title')} 
+                                  description={form.getValues('description')}
+                                  onImageGenerated={handleAIImageGenerated}
+                                  disabled={!form.getValues('title') || !form.getValues('description')}
+                                />
+                              </div>
                             </>
                           )}
                         </div>
+                        {(!form.getValues('title') || !form.getValues('description')) && (
+                          <p className="text-xs text-muted-foreground mt-2">
+                            Fill in the title and description to enable AI image generation
+                          </p>
+                        )}
                       </div>
                     </div>
                     
