@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, Bell, User, Sparkles, TrendingUp, Lightbulb, Users, Radio, BookOpen, BarChart3, Brain, ExternalLink } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -9,14 +8,14 @@ import ChatSidebar from '@/components/ai/ChatSidebar';
 import IdeaDetailModal, { Idea } from '@/components/ideas/IdeaDetailModal';
 
 // Sample data for idea cards
-const ideaCards = [
+const ideaCards: Idea[] = [
   {
     id: 1,
     title: "Smart Home Assistant",
     description: "AI-powered home management system with voice control and energy optimization.",
     tags: ["IoT", "AI"],
     timestamp: "2d ago",
-    trendAnalysis: { score: 87, trend: "up" },
+    trendAnalysis: { score: 87, trend: "up" as const },
     consumerDemandScore: 76,
     industryRelevance: "High",
     image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=300&h=170&q=80"
@@ -27,7 +26,7 @@ const ideaCards = [
     description: "Continuous health tracking device with personalized wellness recommendations.",
     tags: ["Health", "Wearable"],
     timestamp: "3d ago", 
-    trendAnalysis: { score: 92, trend: "up" },
+    trendAnalysis: { score: 92, trend: "up" as const },
     consumerDemandScore: 85,
     industryRelevance: "Very High",
     image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=300&h=170&q=80"
@@ -38,7 +37,7 @@ const ideaCards = [
     description: "Biodegradable packaging materials made from agricultural waste.",
     tags: ["Green", "Manufacturing"],
     timestamp: "1w ago",
-    trendAnalysis: { score: 72, trend: "stable" },
+    trendAnalysis: { score: 72, trend: "stable" as const },
     consumerDemandScore: 63,
     industryRelevance: "Medium",
     image: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?auto=format&fit=crop&w=300&h=170&q=80"
@@ -49,7 +48,7 @@ const ideaCards = [
     description: "Augmented reality platform for virtual try-on and immersive shopping experiences.",
     tags: ["AR", "Retail"],
     timestamp: "4d ago",
-    trendAnalysis: { score: 81, trend: "up" },
+    trendAnalysis: { score: 81, trend: "up" as const },
     consumerDemandScore: 78,
     industryRelevance: "High",
     image: "https://images.unsplash.com/photo-1511385348-a52b4a160dc2?auto=format&fit=crop&w=300&h=170&q=80"
@@ -60,7 +59,7 @@ const ideaCards = [
     description: "AI-driven education system that adapts to individual learning styles and progress.",
     tags: ["EdTech", "AI"],
     timestamp: "6d ago",
-    trendAnalysis: { score: 76, trend: "stable" },
+    trendAnalysis: { score: 76, trend: "stable" as const },
     consumerDemandScore: 82,
     industryRelevance: "Medium-High",
     image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=300&h=170&q=80"
@@ -71,7 +70,7 @@ const ideaCards = [
     description: "Automated vertical farming solution for urban areas with AI-optimized growing conditions.",
     tags: ["AgTech", "Sustainability"],
     timestamp: "1d ago",
-    trendAnalysis: { score: 89, trend: "up" },
+    trendAnalysis: { score: 89, trend: "up" as const },
     consumerDemandScore: 74,
     industryRelevance: "High",
     image: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=300&h=170&q=80"
@@ -82,10 +81,32 @@ const ideaCards = [
     description: "Transparent supply chain tracking using blockchain technology for product authenticity.",
     tags: ["Blockchain", "Logistics"],
     timestamp: "5d ago",
-    trendAnalysis: { score: 79, trend: "stable" },
+    trendAnalysis: { score: 79, trend: "stable" as const },
     consumerDemandScore: 68,
     industryRelevance: "Medium-High",
     image: "https://images.unsplash.com/photo-1561414927-6d86591d0c4f?auto=format&fit=crop&w=300&h=170&q=80"
+  },
+  {
+    id: 8,
+    title: "Autonomous Delivery Drones",
+    description: "Self-flying drones for last-mile delivery with smart obstacle avoidance and efficient routing.",
+    tags: ["Robotics", "Logistics"],
+    timestamp: "3d ago",
+    trendAnalysis: { score: 91, trend: "up" as const },
+    consumerDemandScore: 79,
+    industryRelevance: "High",
+    image: "https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=300&h=170&q=80"
+  },
+  {
+    id: 9,
+    title: "Personalized Nutrition App",
+    description: "Mobile platform that creates custom meal plans based on health data, preferences, and goals.",
+    tags: ["HealthTech", "Mobile"],
+    timestamp: "2d ago",
+    trendAnalysis: { score: 84, trend: "up" as const },
+    consumerDemandScore: 86,
+    industryRelevance: "High",
+    image: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=300&h=170&q=80"
   }
 ];
 
