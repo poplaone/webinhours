@@ -11,15 +11,15 @@ import IdeaDetailModal, { Idea } from '@/components/ideas/IdeaDetailModal';
 // Sample data for idea cards (filtered for FMCG brands)
 const ideaCards: Idea[] = [
   {
-    id: 3,
-    title: "Sustainable Packaging Solution",
-    description: "Biodegradable packaging materials made from agricultural waste, perfect for FMCG products with high environmental concerns.",
-    tags: ["Green", "FMCG", "Packaging"],
-    timestamp: "1w ago",
-    trendAnalysis: { score: 92, trend: "up" as const },
-    consumerDemandScore: 88,
+    id: 1,
+    title: "Plant-Based Protein Snack",
+    description: "Innovative plant-based protein snacks targeting health-conscious consumers with eco-friendly packaging and clean ingredient profiles.",
+    tags: ["Plant-Based", "FMCG", "Health"],
+    timestamp: "5d ago",
+    trendAnalysis: { score: 94, trend: "up" as const },
+    consumerDemandScore: 92,
     industryRelevance: "Very High",
-    image: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?auto=format&fit=crop&w=300&h=170&q=80"
+    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=300&h=170&q=80"
   },
   {
     id: 9,
