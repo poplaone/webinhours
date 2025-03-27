@@ -177,7 +177,7 @@ const IdeaDetail = () => {
                       <h3 className="font-medium">Trend Analysis</h3>
                     </div>
                     <div className={cn(
-                      "text-2xl font-bold",
+                      "font-medium text-sm",
                       idea.trendAnalysis.trend === "up" ? "text-emerald-500" : 
                       idea.trendAnalysis.trend === "down" ? "text-red-500" : "text-amber-500"
                     )}>
