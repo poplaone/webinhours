@@ -1,15 +1,15 @@
 
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Search, Bell, User, Sparkles, TrendingUp, Lightbulb, Users, Radio, BookOpen, BarChart3, Brain, ExternalLink } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import ChatSidebar from '@/components/ai/ChatSidebar';
-import IdeaDetailModal, { Idea } from '@/components/ideas/IdeaDetailModal';
 
 // Sample data for idea cards (filtered for FMCG brands)
-const ideaCards: Idea[] = [
+const ideaCards = [
   {
     id: 1,
     title: "Plant-Based Protein Snack",
@@ -79,12 +79,10 @@ const ideaCards: Idea[] = [
 ];
 
 const Dashboard = () => {
-  const [selectedIdea, setSelectedIdea] = useState<Idea | null>(null);
-  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const openIdeaDetail = (idea: Idea) => {
-    setSelectedIdea(idea);
-    setIsDetailModalOpen(true);
+  const viewIdeaDetail = (ideaId: number) => {
+    navigate(`/idea/${ideaId}`);
   };
 
   return (
@@ -161,7 +159,7 @@ const Dashboard = () => {
                     {/* View Detail overlay that appears on hover */}
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                       <Button 
-                        onClick={() => openIdeaDetail(idea)} 
+                        onClick={() => viewIdeaDetail(idea.id)} 
                         variant="secondary" 
                         className="bg-white/20 text-white backdrop-blur-sm hover:bg-white/30"
                       >
@@ -322,13 +320,6 @@ const Dashboard = () => {
           </div>
         </main>
       </div>
-
-      {/* Idea Detail Modal */}
-      <IdeaDetailModal 
-        idea={selectedIdea} 
-        isOpen={isDetailModalOpen} 
-        onClose={() => setIsDetailModalOpen(false)} 
-      />
     </div>
   );
 };
