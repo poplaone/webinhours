@@ -1,11 +1,45 @@
 
 import React from 'react';
-import { Search, Bell, User, Sparkles, Settings, PlusCircle, Zap, TrendingUp, Lightbulb } from 'lucide-react';
+import { Search, Bell, User, Sparkles, Settings, PlusCircle, Zap, TrendingUp, Lightbulb, BarChart3, Users, Radio } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import ChatSidebar from '@/components/ai/ChatSidebar';
+
+// Sample data for idea cards
+const ideaCards = [
+  {
+    id: 1,
+    title: "Smart Home Assistant",
+    description: "AI-powered home management system with voice control and energy optimization.",
+    tags: ["IoT", "AI"],
+    timestamp: "2d ago",
+    trendAnalysis: { score: 87, trend: "up" },
+    consumerDemandScore: 76,
+    industryRelevance: "High"
+  },
+  {
+    id: 2,
+    title: "Health Monitoring Wearable",
+    description: "Continuous health tracking device with personalized wellness recommendations.",
+    tags: ["Health", "Wearable"],
+    timestamp: "3d ago", 
+    trendAnalysis: { score: 92, trend: "up" },
+    consumerDemandScore: 85,
+    industryRelevance: "Very High"
+  },
+  {
+    id: 3,
+    title: "Sustainable Packaging Solution",
+    description: "Biodegradable packaging materials made from agricultural waste.",
+    tags: ["Green", "Manufacturing"],
+    timestamp: "1w ago",
+    trendAnalysis: { score: 72, trend: "stable" },
+    consumerDemandScore: 63,
+    industryRelevance: "Medium"
+  }
+];
 
 const Dashboard = () => {
   return (
@@ -91,19 +125,63 @@ const Dashboard = () => {
             <Card className="p-6 border border-border/40 bg-card/50 backdrop-blur">
               <h2 className="text-xl font-semibold mb-4">Recent Ideas</h2>
               <div className="space-y-4">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className={cn(
+                {ideaCards.map((idea) => (
+                  <div key={idea.id} className={cn(
                     "p-3 rounded-lg border border-border/60",
                     "hover:border-[#8B5CF6]/40 hover:bg-[#8B5CF6]/5 transition-colors cursor-pointer"
                   )}>
                     <div className="flex justify-between items-start">
-                      <h3 className="font-medium">Smart Home Assistant</h3>
-                      <span className="text-xs text-muted-foreground">2d ago</span>
+                      <h3 className="font-medium">{idea.title}</h3>
+                      <span className="text-xs text-muted-foreground">{idea.timestamp}</span>
                     </div>
-                    <p className="text-sm text-muted-foreground mt-1">AI-powered home management system with voice control and energy optimization.</p>
+                    <p className="text-sm text-muted-foreground mt-1">{idea.description}</p>
+                    
+                    {/* New metrics section */}
+                    <div className="mt-3 grid grid-cols-3 gap-2 text-xs border-t border-border/40 pt-2">
+                      <div className="flex flex-col">
+                        <div className="flex items-center gap-1 text-muted-foreground">
+                          <TrendingUp className="h-3 w-3 text-[#8B5CF6]" />
+                          <span>Trend</span>
+                        </div>
+                        <div className={cn(
+                          "font-medium",
+                          idea.trendAnalysis.trend === "up" ? "text-emerald-500" : 
+                          idea.trendAnalysis.trend === "down" ? "text-red-500" : "text-amber-500"
+                        )}>
+                          {idea.trendAnalysis.score}%
+                          {idea.trendAnalysis.trend === "up" && " ↑"}
+                          {idea.trendAnalysis.trend === "down" && " ↓"}
+                          {idea.trendAnalysis.trend === "stable" && " →"}
+                        </div>
+                      </div>
+                      
+                      <div className="flex flex-col">
+                        <div className="flex items-center gap-1 text-muted-foreground">
+                          <Users className="h-3 w-3 text-[#8B5CF6]" />
+                          <span>Demand</span>
+                        </div>
+                        <div className="font-medium">
+                          {idea.consumerDemandScore}%
+                        </div>
+                      </div>
+                      
+                      <div className="flex flex-col">
+                        <div className="flex items-center gap-1 text-muted-foreground">
+                          <Radio className="h-3 w-3 text-[#8B5CF6]" />
+                          <span>Relevance</span>
+                        </div>
+                        <div className="font-medium">
+                          {idea.industryRelevance}
+                        </div>
+                      </div>
+                    </div>
+                    
                     <div className="flex gap-2 mt-2">
-                      <span className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-2 py-1 rounded-full">IoT</span>
-                      <span className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-2 py-1 rounded-full">AI</span>
+                      {idea.tags.map((tag, index) => (
+                        <span key={index} className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-2 py-1 rounded-full">
+                          {tag}
+                        </span>
+                      ))}
                     </div>
                   </div>
                 ))}

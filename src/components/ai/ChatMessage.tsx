@@ -2,6 +2,7 @@
 import React from 'react';
 import { Bot, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import ReactMarkdown from 'react-markdown';
 
 type ChatMessageProps = {
   message: string;
@@ -26,7 +27,9 @@ const ChatMessage = ({ message, isUser, timestamp }: ChatMessageProps) => {
         isUser ? "bg-[#8B5CF6]/10 border border-[#8B5CF6]/20" : "bg-muted/40 border border-border/60"
       )}>
         <div className="prose-sm max-w-none">
-          {message}
+          <ReactMarkdown>
+            {message}
+          </ReactMarkdown>
         </div>
         {timestamp && (
           <div className="mt-1 text-xs text-muted-foreground">
