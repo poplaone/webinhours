@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,28 +8,31 @@ import Dashboard from "./pages/Dashboard";
 import IdeaDetail from "./pages/IdeaDetail";
 import IdeaCreation from "./pages/IdeaCreation";
 import ConceptDetail from "./pages/ConceptDetail";
+import ConceptDetailsView from './pages/ConceptDetailsView';
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/idea/new" element={<IdeaCreation />} />
-          <Route path="/idea/:id" element={<IdeaDetail />} />
-          <Route path="/concept/:id" element={<ConceptDetail />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/idea/new" element={<IdeaCreation />} />
+            <Route path="/idea/:id" element={<IdeaDetail />} />
+            <Route path="/concept/:id" element={<ConceptDetail />} />
+            <Route path="/concept-details/:conceptId" element={<ConceptDetailsView />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+}
 
 export default App;

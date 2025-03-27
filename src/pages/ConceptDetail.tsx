@@ -89,6 +89,10 @@ const ConceptDetail = () => {
     navigate(`/idea/${id}`);
   };
 
+  const handleViewConceptDetails = (conceptId: number) => {
+    navigate(`/concept-details/${conceptId}`);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex">
       {/* AI Chat Sidebar */}
@@ -167,9 +171,14 @@ const ConceptDetail = () => {
                         </ul>
                       </div>
                       
-                      <div className="mt-4 flex justify-end gap-2">
-                        <Button variant="outline" size="sm">View Details</Button>
-                        <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]" size="sm">Develop</Button>
+                      <div className="mt-4 flex justify-end">
+                        <Button 
+                          className="bg-[#8B5CF6] hover:bg-[#7C3AED]" 
+                          size="sm"
+                          onClick={() => handleViewConceptDetails(concept.id)}
+                        >
+                          View Details
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
