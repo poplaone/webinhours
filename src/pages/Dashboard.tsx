@@ -1,11 +1,12 @@
 
-import React from 'react';
-import { Search, Bell, User, Sparkles, TrendingUp, Lightbulb, Users, Radio, BookOpen, BarChart3, Brain } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, Bell, User, Sparkles, TrendingUp, Lightbulb, Users, Radio, BookOpen, BarChart3, Brain, ExternalLink } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import ChatSidebar from '@/components/ai/ChatSidebar';
+import IdeaDetailModal, { Idea } from '@/components/ideas/IdeaDetailModal';
 
 // Sample data for idea cards
 const ideaCards = [
@@ -63,10 +64,40 @@ const ideaCards = [
     consumerDemandScore: 82,
     industryRelevance: "Medium-High",
     image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=300&h=170&q=80"
+  },
+  {
+    id: 6,
+    title: "Urban Vertical Farming",
+    description: "Automated vertical farming solution for urban areas with AI-optimized growing conditions.",
+    tags: ["AgTech", "Sustainability"],
+    timestamp: "1d ago",
+    trendAnalysis: { score: 89, trend: "up" },
+    consumerDemandScore: 74,
+    industryRelevance: "High",
+    image: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=300&h=170&q=80"
+  },
+  {
+    id: 7,
+    title: "Blockchain Supply Chain",
+    description: "Transparent supply chain tracking using blockchain technology for product authenticity.",
+    tags: ["Blockchain", "Logistics"],
+    timestamp: "5d ago",
+    trendAnalysis: { score: 79, trend: "stable" },
+    consumerDemandScore: 68,
+    industryRelevance: "Medium-High",
+    image: "https://images.unsplash.com/photo-1561414927-6d86591d0c4f?auto=format&fit=crop&w=300&h=170&q=80"
   }
 ];
 
 const Dashboard = () => {
+  const [selectedIdea, setSelectedIdea] = useState<Idea | null>(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+
+  const openIdeaDetail = (idea: Idea) => {
+    setSelectedIdea(idea);
+    setIsDetailModalOpen(true);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex">
       {/* AI Chat Sidebar */}
@@ -127,14 +158,28 @@ const Dashboard = () => {
             {/* Ideas Grid - Now spans 3 columns on large screens */}
             <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {ideaCards.map((idea) => (
-                <Card key={idea.id} className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg transition-shadow">
-                  {/* Image at the top */}
-                  <div className="h-40 overflow-hidden">
+                <Card 
+                  key={idea.id} 
+                  className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg transition-shadow group relative"
+                >
+                  {/* Image container with hover overlay */}
+                  <div className="h-40 overflow-hidden relative">
                     <img 
                       src={idea.image} 
                       alt={idea.title} 
-                      className="w-full h-full object-cover transition-transform hover:scale-105 duration-300"
+                      className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-300"
                     />
+                    {/* View Detail overlay that appears on hover */}
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <Button 
+                        onClick={() => openIdeaDetail(idea)} 
+                        variant="secondary" 
+                        className="bg-white/20 text-white backdrop-blur-sm hover:bg-white/30"
+                      >
+                        <ExternalLink className="mr-2 h-4 w-4" />
+                        View Detail
+                      </Button>
+                    </div>
                   </div>
                   
                   <div className="p-4 flex-grow">
@@ -288,6 +333,13 @@ const Dashboard = () => {
           </div>
         </main>
       </div>
+
+      {/* Idea Detail Modal */}
+      <IdeaDetailModal 
+        idea={selectedIdea} 
+        isOpen={isDetailModalOpen} 
+        onClose={() => setIsDetailModalOpen(false)} 
+      />
     </div>
   );
 };
