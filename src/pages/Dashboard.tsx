@@ -41,6 +41,28 @@ const ideaCards = [
     consumerDemandScore: 63,
     industryRelevance: "Medium",
     image: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?auto=format&fit=crop&w=300&h=170&q=80"
+  },
+  {
+    id: 4,
+    title: "AR Shopping Experience",
+    description: "Augmented reality platform for virtual try-on and immersive shopping experiences.",
+    tags: ["AR", "Retail"],
+    timestamp: "4d ago",
+    trendAnalysis: { score: 81, trend: "up" },
+    consumerDemandScore: 78,
+    industryRelevance: "High",
+    image: "https://images.unsplash.com/photo-1511385348-a52b4a160dc2?auto=format&fit=crop&w=300&h=170&q=80"
+  },
+  {
+    id: 5,
+    title: "Personalized Learning Platform",
+    description: "AI-driven education system that adapts to individual learning styles and progress.",
+    tags: ["EdTech", "AI"],
+    timestamp: "6d ago",
+    trendAnalysis: { score: 76, trend: "stable" },
+    consumerDemandScore: 82,
+    industryRelevance: "Medium-High",
+    image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=300&h=170&q=80"
   }
 ];
 
@@ -115,7 +137,7 @@ const Dashboard = () => {
                     />
                   </div>
                   
-                  <div className="p-5 flex-grow">
+                  <div className="p-4 flex-grow">
                     <div className="flex justify-between items-start">
                       <h3 className="font-semibold text-lg">{idea.title}</h3>
                       <span className="text-xs text-muted-foreground">{idea.timestamp}</span>
@@ -123,7 +145,7 @@ const Dashboard = () => {
                     <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{idea.description}</p>
                     
                     {/* Metrics section with improved visuals */}
-                    <div className="mt-4 grid grid-cols-3 gap-3 text-xs border-t border-border/40 pt-3">
+                    <div className="mt-3 grid grid-cols-3 gap-2 text-xs border-t border-border/40 pt-2">
                       <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
                         <div className="flex items-center gap-1 text-muted-foreground mb-1">
                           <TrendingUp className="h-3 w-3 text-[#8B5CF6]" />
@@ -162,7 +184,7 @@ const Dashboard = () => {
                       </div>
                     </div>
                     
-                    <div className="flex gap-2 mt-3">
+                    <div className="flex gap-2 mt-2">
                       {idea.tags.map((tag, index) => (
                         <span key={index} className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-2 py-1 rounded-full">
                           {tag}
