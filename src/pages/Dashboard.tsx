@@ -116,8 +116,9 @@ const allCategories = [
 const Dashboard = () => {
   const navigate = useNavigate();
   const [myIdeas, setMyIdeas] = useState(myIdeasInitial);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(allCategories);
   const [activeTab, setActiveTab] = useState("recommended");
+  const [sidebarVisible, setSidebarVisible] = useState(true);
 
   // Check for newly created idea in sessionStorage
   useEffect(() => {
@@ -159,14 +160,14 @@ const Dashboard = () => {
     }
   }, []);
 
-  // Filter ideas based on selected category
-  const filteredIndustryIdeas = selectedCategory
-    ? industryIdeaCards.filter(idea => idea.category === selectedCategory)
-    : industryIdeaCards;
+  // Filter ideas based on selected categories
+  const filteredIndustryIdeas = industryIdeaCards.filter(idea => 
+    selectedCategories.includes(idea.category)
+  );
   
-  const filteredMyIdeas = selectedCategory
-    ? myIdeas.filter(idea => idea.category === selectedCategory)
-    : myIdeas;
+  const filteredMyIdeas = myIdeas.filter(idea => 
+    selectedCategories.includes(idea.category)
+  );
 
   const viewIdeaDetail = (ideaId: number) => {
     navigate(`/idea/${ideaId}`);
@@ -174,11 +175,20 @@ const Dashboard = () => {
 
   // Handle category selection
   const handleCategoryClick = (category: string) => {
-    if (selectedCategory === category) {
-      setSelectedCategory(null); // Deselect if already selected
+    if (selectedCategories.includes(category)) {
+      // Remove category if already selected
+      if (selectedCategories.length > 1) { // Prevent removing all categories
+        setSelectedCategories(prev => prev.filter(cat => cat !== category));
+      }
     } else {
-      setSelectedCategory(category);
+      // Add category if not selected
+      setSelectedCategories(prev => [...prev, category]);
     }
+  };
+
+  // Toggle AI insights sidebar
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
   };
 
   // Render an idea card
@@ -267,8 +277,12 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex">
-      {/* AI Chat Sidebar */}
-      <ChatSidebar />
+      {/* AI Chat Sidebar - only shown when sidebarVisible is true */}
+      {sidebarVisible && (
+        <div className="w-72 shrink-0">
+          <ChatSidebar />
+        </div>
+      )}
       
       <div className="flex-1 flex flex-col">
         {/* Top Bar */}
@@ -296,6 +310,14 @@ const Dashboard = () => {
             
             {/* Actions */}
             <div className="flex items-center gap-4">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="text-muted-foreground hover:text-foreground"
+                onClick={toggleSidebar}
+              >
+                <Sparkles className="h-5 w-5" />
+              </Button>
               <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
                 <Bell className="h-5 w-5" />
               </Button>
@@ -318,29 +340,6 @@ const Dashboard = () => {
               </Button>
             </div>
             
-            {/* Category filter chips */}
-            <div className="flex items-center gap-3 mb-6 overflow-x-auto pb-2">
-              <div className="flex items-center text-muted-foreground text-sm">
-                <Filter className="h-4 w-4 mr-1" />
-                Filter:
-              </div>
-              
-              {allCategories.map(category => (
-                <button
-                  key={category}
-                  onClick={() => handleCategoryClick(category)}
-                  className={cn(
-                    "px-3 py-1 rounded-full text-sm whitespace-nowrap transition-colors",
-                    selectedCategory === category 
-                      ? "bg-[#8B5CF6] text-white" 
-                      : "bg-[#8B5CF6]/10 text-[#8B5CF6] hover:bg-[#8B5CF6]/20"
-                  )}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-
             {/* Tabs */}
             <Tabs 
               defaultValue="recommended" 
@@ -348,7 +347,7 @@ const Dashboard = () => {
               onValueChange={setActiveTab}
               className="w-full"
             >
-              <TabsList className="grid w-full max-w-md grid-cols-2 mb-6">
+              <TabsList className="grid w-full max-w-md grid-cols-2 mb-4">
                 {myIdeas.length > 0 && (
                   <TabsTrigger value="my-ideas">My Ideas</TabsTrigger>
                 )}
@@ -357,6 +356,29 @@ const Dashboard = () => {
                 </TabsTrigger>
               </TabsList>
               
+              {/* Category filter chips - moved below tabs */}
+              <div className="flex items-center gap-3 mb-6 overflow-x-auto pb-2">
+                <div className="flex items-center text-muted-foreground text-sm">
+                  <Filter className="h-4 w-4 mr-1" />
+                  Filter:
+                </div>
+                
+                {allCategories.map(category => (
+                  <button
+                    key={category}
+                    onClick={() => handleCategoryClick(category)}
+                    className={cn(
+                      "px-3 py-1 rounded-full text-sm whitespace-nowrap transition-colors",
+                      selectedCategories.includes(category) 
+                        ? "bg-[#8B5CF6] text-white" 
+                        : "bg-[#8B5CF6]/10 text-[#8B5CF6] hover:bg-[#8B5CF6]/20"
+                    )}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+              
               {/* My Ideas Tab Content */}
               {myIdeas.length > 0 && (
                 <TabsContent value="my-ideas" className="mt-0">
@@ -364,9 +386,9 @@ const Dashboard = () => {
                     {filteredMyIdeas.map(idea => renderIdeaCard(idea))}
                   </div>
                   
-                  {filteredMyIdeas.length === 0 && selectedCategory && (
+                  {filteredMyIdeas.length === 0 && (
                     <div className="text-center py-10">
-                      <p className="text-muted-foreground">No ideas found in the "{selectedCategory}" category.</p>
+                      <p className="text-muted-foreground">No ideas found with the selected categories.</p>
                     </div>
                   )}
                 </TabsContent>
@@ -378,9 +400,9 @@ const Dashboard = () => {
                   {filteredIndustryIdeas.map(idea => renderIdeaCard(idea))}
                 </div>
                 
-                {filteredIndustryIdeas.length === 0 && selectedCategory && (
+                {filteredIndustryIdeas.length === 0 && (
                   <div className="text-center py-10">
-                    <p className="text-muted-foreground">No recommended ideas found in the "{selectedCategory}" category.</p>
+                    <p className="text-muted-foreground">No recommended ideas found with the selected categories.</p>
                   </div>
                 )}
               </TabsContent>
