@@ -1,10 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Bell, User, Sparkles, TrendingUp, Lightbulb, Users, Radio, BookOpen, BarChart3, Brain, ExternalLink } from 'lucide-react';
+import { Search, Bell, User, Sparkles, TrendingUp, Lightbulb, Users, Radio, BookOpen, BarChart3, Brain, ExternalLink, Filter } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import ChatSidebar from '@/components/ai/ChatSidebar';
@@ -20,7 +21,8 @@ const industryIdeaCards = [
     trendAnalysis: { score: 94, trend: "up" },
     consumerDemandScore: 92,
     industryRelevance: "Very High",
-    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=300&h=170&q=80"
+    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=300&h=170&q=80",
+    category: "Food & Beverages"
   },
   {
     id: 9,
@@ -31,7 +33,8 @@ const industryIdeaCards = [
     trendAnalysis: { score: 89, trend: "up" },
     consumerDemandScore: 86,
     industryRelevance: "High",
-    image: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=300&h=170&q=80"
+    image: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=300&h=170&q=80",
+    category: "Health & Wellness"
   },
   {
     id: 10,
@@ -42,7 +45,8 @@ const industryIdeaCards = [
     trendAnalysis: { score: 87, trend: "up" },
     consumerDemandScore: 82,
     industryRelevance: "High",
-    image: "https://images.unsplash.com/photo-1607083206968-13611e3d76db?auto=format&fit=crop&w=300&h=170&q=80"
+    image: "https://images.unsplash.com/photo-1607083206968-13611e3d76db?auto=format&fit=crop&w=300&h=170&q=80",
+    category: "Technology"
   },
   {
     id: 11,
@@ -53,7 +57,8 @@ const industryIdeaCards = [
     trendAnalysis: { score: 92, trend: "up" },
     consumerDemandScore: 88,
     industryRelevance: "Very High",
-    image: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?auto=format&fit=crop&w=300&h=170&q=80"
+    image: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?auto=format&fit=crop&w=300&h=170&q=80",
+    category: "Sustainability"
   },
   {
     id: 12,
@@ -64,7 +69,8 @@ const industryIdeaCards = [
     trendAnalysis: { score: 85, trend: "up" },
     consumerDemandScore: 79,
     industryRelevance: "Medium",
-    image: "https://images.unsplash.com/photo-1617644491633-9cc71756fee5?auto=format&fit=crop&w=300&h=170&q=80"
+    image: "https://images.unsplash.com/photo-1617644491633-9cc71756fee5?auto=format&fit=crop&w=300&h=170&q=80",
+    category: "Retail"
   },
   {
     id: 13,
@@ -75,7 +81,8 @@ const industryIdeaCards = [
     trendAnalysis: { score: 91, trend: "up" },
     consumerDemandScore: 84,
     industryRelevance: "High",
-    image: "https://images.unsplash.com/photo-1560508179-b2c9a3f8e92b?auto=format&fit=crop&w=300&h=170&q=80"
+    image: "https://images.unsplash.com/photo-1560508179-b2c9a3f8e92b?auto=format&fit=crop&w=300&h=170&q=80",
+    category: "Food & Beverages"
   }
 ];
 
@@ -90,13 +97,27 @@ const myIdeasInitial = [
     trendAnalysis: { score: 89, trend: "up" },
     consumerDemandScore: 88,
     industryRelevance: "High",
-    image: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?auto=format&fit=crop&w=300&h=170&q=80"
+    image: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?auto=format&fit=crop&w=300&h=170&q=80",
+    category: "Sustainability"
   }
+];
+
+// Define all available categories
+const allCategories = [
+  "Food & Beverages",
+  "Health & Wellness",
+  "Technology",
+  "Sustainability",
+  "Retail",
+  "Personal Care",
+  "Home Goods"
 ];
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [myIdeas, setMyIdeas] = useState(myIdeasInitial);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("recommended");
 
   // Check for newly created idea in sessionStorage
   useEffect(() => {
@@ -115,11 +136,17 @@ const Dashboard = () => {
           trendAnalysis: { score: 85, trend: "up" },
           consumerDemandScore: 80,
           industryRelevance: "Medium",
-          image: newIdea.imageUrl || "https://images.unsplash.com/photo-1617644491633-9cc71756fee5?auto=format&fit=crop&w=300&h=170&q=80"
+          image: newIdea.imageUrl || "https://images.unsplash.com/photo-1617644491633-9cc71756fee5?auto=format&fit=crop&w=300&h=170&q=80",
+          category: newIdea.category || "Food & Beverages"
         };
         
         // Add the new idea to the list
         setMyIdeas(prevIdeas => [ideaToAdd, ...prevIdeas]);
+        
+        // If this is the first idea, set active tab to "my-ideas"
+        if (myIdeasInitial.length === 0) {
+          setActiveTab("my-ideas");
+        }
         
         // Show toast notification
         toast.success("New idea added to your dashboard!");
@@ -132,8 +159,26 @@ const Dashboard = () => {
     }
   }, []);
 
+  // Filter ideas based on selected category
+  const filteredIndustryIdeas = selectedCategory
+    ? industryIdeaCards.filter(idea => idea.category === selectedCategory)
+    : industryIdeaCards;
+  
+  const filteredMyIdeas = selectedCategory
+    ? myIdeas.filter(idea => idea.category === selectedCategory)
+    : myIdeas;
+
   const viewIdeaDetail = (ideaId: number) => {
     navigate(`/idea/${ideaId}`);
+  };
+
+  // Handle category selection
+  const handleCategoryClick = (category: string) => {
+    if (selectedCategory === category) {
+      setSelectedCategory(null); // Deselect if already selected
+    } else {
+      setSelectedCategory(category);
+    }
   };
 
   // Render an idea card
@@ -263,100 +308,83 @@ const Dashboard = () => {
 
         {/* Main Content */}
         <main className="container py-6 flex-1">
-          {/* My Ideas Section */}
-          <div className="mb-10">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h2 className="text-2xl font-bold">My Ideas</h2>
-                <p className="text-muted-foreground mt-1">Ideas you've created or saved</p>
-              </div>
+          {/* Tabs Structure */}
+          <div className="mb-4">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold">Product Ideas</h2>
               <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]" onClick={() => navigate('/idea/new')}>
                 <Lightbulb className="mr-2 h-4 w-4" />
                 New Idea
               </Button>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {myIdeas.map(idea => renderIdeaCard(idea))}
-            </div>
-          </div>
-
-          {/* Industry Ideas Section */}
-          <div className="mt-8">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h2 className="text-2xl font-bold">Industry Ideas</h2>
-                <p className="text-muted-foreground mt-1">High-potential product concepts for fast-moving consumer goods brands</p>
-              </div>
-            </div>
-
-            {/* Main content grid with AI Insights panel */}
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-              {/* Ideas Grid - Now spans 3 columns on large screens */}
-              <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {industryIdeaCards.map(idea => renderIdeaCard(idea))}
+            
+            {/* Category filter chips */}
+            <div className="flex items-center gap-3 mb-6 overflow-x-auto pb-2">
+              <div className="flex items-center text-muted-foreground text-sm">
+                <Filter className="h-4 w-4 mr-1" />
+                Filter:
               </div>
               
-              {/* AI Insights Panel - 1 column */}
-              <div className="lg:col-span-1">
-                <Card className="border border-border/40 bg-card/50 backdrop-blur h-full">
-                  <div className="p-5 border-b border-border/40 flex items-center gap-2">
-                    <Brain className="h-5 w-5 text-[#8B5CF6]" />
-                    <h3 className="font-semibold">FMCG Market Insights</h3>
+              {allCategories.map(category => (
+                <button
+                  key={category}
+                  onClick={() => handleCategoryClick(category)}
+                  className={cn(
+                    "px-3 py-1 rounded-full text-sm whitespace-nowrap transition-colors",
+                    selectedCategory === category 
+                      ? "bg-[#8B5CF6] text-white" 
+                      : "bg-[#8B5CF6]/10 text-[#8B5CF6] hover:bg-[#8B5CF6]/20"
+                  )}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+
+            {/* Tabs */}
+            <Tabs 
+              defaultValue="recommended" 
+              value={activeTab}
+              onValueChange={setActiveTab}
+              className="w-full"
+            >
+              <TabsList className="grid w-full max-w-md grid-cols-2 mb-6">
+                {myIdeas.length > 0 && (
+                  <TabsTrigger value="my-ideas">My Ideas</TabsTrigger>
+                )}
+                <TabsTrigger value="recommended" className={myIdeas.length === 0 ? "col-span-2" : ""}>
+                  Recommended Ideas
+                </TabsTrigger>
+              </TabsList>
+              
+              {/* My Ideas Tab Content */}
+              {myIdeas.length > 0 && (
+                <TabsContent value="my-ideas" className="mt-0">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {filteredMyIdeas.map(idea => renderIdeaCard(idea))}
                   </div>
                   
-                  <div className="p-5">
-                    <div className="space-y-4">
-                      {/* Trend Insights */}
-                      <div>
-                        <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
-                          <TrendingUp className="h-4 w-4 text-[#8B5CF6]" />
-                          Market Trends
-                        </h4>
-                        <p className="text-xs text-muted-foreground">Sustainability in packaging is showing 32% growth in consumer preference, with 78% of shoppers considering eco-friendliness when making purchase decisions.</p>
-                      </div>
-                      
-                      {/* Competitive Analysis */}
-                      <div>
-                        <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
-                          <BarChart3 className="h-4 w-4 text-[#8B5CF6]" />
-                          Competitive Analysis
-                        </h4>
-                        <p className="text-xs text-muted-foreground">Leading FMCG brands are investing heavily in digital experiences connected to physical products, creating unique differentiation opportunities.</p>
-                      </div>
-                      
-                      {/* Research Insights */}
-                      <div>
-                        <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
-                          <BookOpen className="h-4 w-4 text-[#8B5CF6]" />
-                          Research Insights
-                        </h4>
-                        <p className="text-xs text-muted-foreground">91% of consumers indicate interest in personalized nutrition recommendations for food and beverage products they regularly purchase.</p>
-                      </div>
-                      
-                      {/* Suggested Actions */}
-                      <div className="pt-2 border-t border-border/40">
-                        <h4 className="text-sm font-medium mb-2">Recommended Actions</h4>
-                        <ul className="space-y-2">
-                          <li className="flex gap-2 items-center text-xs">
-                            <span className="bg-[#8B5CF6]/10 text-[#8B5CF6] p-1 rounded-full">
-                              <Lightbulb className="h-3 w-3" />
-                            </span>
-                            <span>Develop sustainable packaging pilot program</span>
-                          </li>
-                          <li className="flex gap-2 items-center text-xs">
-                            <span className="bg-[#8B5CF6]/10 text-[#8B5CF6] p-1 rounded-full">
-                              <Lightbulb className="h-3 w-3" />
-                            </span>
-                            <span>Partner with AR developers for interactive packaging solutions</span>
-                          </li>
-                        </ul>
-                      </div>
+                  {filteredMyIdeas.length === 0 && selectedCategory && (
+                    <div className="text-center py-10">
+                      <p className="text-muted-foreground">No ideas found in the "{selectedCategory}" category.</p>
                     </div>
+                  )}
+                </TabsContent>
+              )}
+              
+              {/* Recommended Ideas Tab Content */}
+              <TabsContent value="recommended" className="mt-0">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {filteredIndustryIdeas.map(idea => renderIdeaCard(idea))}
+                </div>
+                
+                {filteredIndustryIdeas.length === 0 && selectedCategory && (
+                  <div className="text-center py-10">
+                    <p className="text-muted-foreground">No recommended ideas found in the "{selectedCategory}" category.</p>
                   </div>
-                </Card>
-              </div>
-            </div>
+                )}
+              </TabsContent>
+            </Tabs>
           </div>
 
           {/* Innovation Pipeline Section */}
