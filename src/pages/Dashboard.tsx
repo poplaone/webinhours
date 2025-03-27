@@ -6,6 +6,11 @@ import DashboardHeader from '@/components/layout/DashboardHeader';
 import IdeasTabs from '@/components/ideas/IdeasTabs';
 import InnovationPipeline from '@/components/ideas/InnovationPipeline';
 import { industryIdeaCards, myIdeasInitial, allCategories } from '@/data/ideaData';
+import {
+  ResizablePanelGroup,
+  ResizablePanel,
+  ResizableHandle
+} from '@/components/ui/resizable';
 
 const Dashboard = () => {
   const [myIdeas, setMyIdeas] = useState(myIdeasInitial);
@@ -81,37 +86,51 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex">
-      {/* AI Chat Sidebar - only shown when sidebarVisible is true */}
-      {sidebarVisible && (
-        <div className="w-72 shrink-0">
-          <ChatSidebar />
-        </div>
-      )}
+    <div className="min-h-screen bg-gradient-to-br from-background to-background/80">
+      <DashboardHeader toggleSidebar={toggleSidebar} />
       
-      <div className="flex-1 flex flex-col">
-        {/* Top Bar */}
-        <DashboardHeader toggleSidebar={toggleSidebar} />
+      <ResizablePanelGroup 
+        direction="horizontal" 
+        className="min-h-[calc(100vh-4rem)]"
+      >
+        <ResizablePanel 
+          defaultSize={80} 
+          minSize={60}
+          className="p-4"
+        >
+          <main className="mx-auto max-w-screen-xl">
+            {/* Tabs Structure */}
+            <IdeasTabs 
+              myIdeas={myIdeas}
+              industryIdeas={industryIdeaCards}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              allCategories={allCategories}
+              selectedCategories={selectedCategories}
+              handleCategoryClick={handleCategoryClick}
+              filteredMyIdeas={filteredMyIdeas}
+              filteredIndustryIdeas={filteredIndustryIdeas}
+            />
 
-        {/* Main Content */}
-        <main className="container py-6 flex-1">
-          {/* Tabs Structure */}
-          <IdeasTabs 
-            myIdeas={myIdeas}
-            industryIdeas={industryIdeaCards}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            allCategories={allCategories}
-            selectedCategories={selectedCategories}
-            handleCategoryClick={handleCategoryClick}
-            filteredMyIdeas={filteredMyIdeas}
-            filteredIndustryIdeas={filteredIndustryIdeas}
-          />
-
-          {/* Innovation Pipeline Section */}
-          <InnovationPipeline />
-        </main>
-      </div>
+            {/* Innovation Pipeline Section */}
+            <InnovationPipeline />
+          </main>
+        </ResizablePanel>
+        
+        {sidebarVisible && (
+          <>
+            <ResizableHandle withHandle />
+            <ResizablePanel 
+              defaultSize={20} 
+              minSize={15} 
+              maxSize={30}
+              className="border-l"
+            >
+              <ChatSidebar />
+            </ResizablePanel>
+          </>
+        )}
+      </ResizablePanelGroup>
     </div>
   );
 };
