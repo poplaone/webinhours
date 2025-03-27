@@ -62,9 +62,9 @@ const IdeaDetailModal: React.FC<IdeaDetailModalProps> = ({ idea, isOpen, onClose
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-5xl max-h-[85vh]">
-        <ScrollArea className="h-full pr-4">
-          <div className="pr-4">
+      <DialogContent className="max-w-5xl overflow-hidden">
+        <ScrollArea className="h-[80vh] overflow-y-auto pr-4">
+          <div className="pr-4 pb-4">
             <DialogHeader>
               <DialogTitle className="text-2xl">{idea.title}</DialogTitle>
               <DialogDescription className="flex items-center gap-2 text-muted-foreground">
