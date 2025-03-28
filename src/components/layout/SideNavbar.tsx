@@ -10,11 +10,13 @@ import {
   Settings, 
   ChevronRight,
   ChevronLeft,
-  Menu
+  Menu,
+  X
 } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Sheet, SheetContent, SheetClose } from "@/components/ui/sheet";
 import ChatSidebar from '@/components/ai/ChatSidebar';
 
 const SideNavbar = () => {
@@ -58,18 +60,10 @@ const SideNavbar = () => {
 
   const toggleSideNav = () => {
     setIsExpanded(!isExpanded);
-    // Close AI chat if sidebar is collapsed
-    if (isExpanded && isAIChatOpen) {
-      setIsAIChatOpen(false);
-    }
   };
 
   const toggleAIChat = () => {
     setIsAIChatOpen(!isAIChatOpen);
-    // Make sure sidebar is expanded when opening AI chat
-    if (!isExpanded && !isAIChatOpen) {
-      setIsExpanded(true);
-    }
   };
 
   return (
@@ -77,7 +71,7 @@ const SideNavbar = () => {
       {/* Main Navigation */}
       <div className={cn(
         "h-full transition-all duration-300 flex flex-col bg-background border-r",
-        isExpanded ? "w-60" : "w-16"
+        isExpanded ? "w-72" : "w-16" // Increased width from w-60 to w-72
       )}>
         {/* Logo Area */}
         <div className="flex items-center justify-between p-4 h-16 border-b">
@@ -131,7 +125,7 @@ const SideNavbar = () => {
 
         <Separator />
         
-        {/* AI Chat Trigger */}
+        {/* AI Chat Trigger - Moved to bottom */}
         <div className="p-4">
           <Button 
             variant="outline" 
@@ -161,12 +155,24 @@ const SideNavbar = () => {
         )}
       </div>
 
-      {/* AI Chat Panel (conditionally rendered) */}
-      {isAIChatOpen && (
-        <div className="h-full border-r">
-          <ChatSidebar />
-        </div>
-      )}
+      {/* AI Chat Panel (as overlay using Sheet component) */}
+      <Sheet open={isAIChatOpen} onOpenChange={setIsAIChatOpen}>
+        <SheetContent side="bottom" className="h-[80vh] p-0 border-t rounded-t-xl">
+          <div className="flex items-center justify-between p-4 border-b">
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-[#8B5CF6]" />
+              <span className="font-medium">AI Ideation Chat</span>
+            </div>
+            <SheetClose className="rounded-full h-8 w-8 p-0">
+              <X className="h-4 w-4" />
+              <span className="sr-only">Close</span>
+            </SheetClose>
+          </div>
+          <div className="h-[calc(100%-60px)]">
+            <ChatSidebar />
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 };
