@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
@@ -75,12 +74,10 @@ const SideNavbar = () => {
 
   return (
     <div className="flex h-full relative">
-      {/* Main Navigation */}
       <div className={cn(
         "h-full transition-all duration-300 flex flex-col bg-background border-r",
         isExpanded ? "w-72" : "w-16"
       )}>
-        {/* Logo Area */}
         <div className="flex items-center justify-between p-4 h-16 border-b">
           <div className={cn("flex items-center", !isExpanded && "justify-center w-full")}>
             {isExpanded ? (
@@ -111,7 +108,6 @@ const SideNavbar = () => {
           </Button>
         </div>
 
-        {/* Navigation Links - Flex-1 removed to allow for chat */}
         <div className="flex flex-col py-4 overflow-y-auto">
           {navItems.map((item) => (
             <Button
@@ -132,19 +128,18 @@ const SideNavbar = () => {
 
         <Separator />
         
-        {/* AI Chat Section - Takes up remaining space */}
         {isExpanded && isAIChatOpen && (
           <div className="flex-grow overflow-hidden flex flex-col">
-            <div className="h-full">
+            <div className="h-full relative">
               <ChatSidebar 
                 isMaximized={false} 
-                onToggleMaximize={toggleAIChatMaximize} 
+                onToggleMaximize={toggleAIChatMaximize}
+                onClose={toggleAIChat}
               />
             </div>
           </div>
         )}
         
-        {/* AI Chat Trigger - Only visible when collapsed or if chat is closed */}
         {(!isExpanded || !isAIChatOpen) && (
           <div className="p-4 mt-auto">
             <Button 
@@ -161,7 +156,6 @@ const SideNavbar = () => {
           </div>
         )}
 
-        {/* Toggle Button (only visible when collapsed) */}
         {!isExpanded && (
           <div className="p-2 border-t mt-auto">
             <Button
@@ -176,7 +170,6 @@ const SideNavbar = () => {
         )}
       </div>
 
-      {/* AI Chat Panel (as overlay using Sheet component) - Only shown when maximized */}
       <Sheet open={isAIChatMaximized} onOpenChange={setIsAIChatMaximized}>
         <SheetContent side="bottom" className="h-[80vh] p-0 border-t rounded-t-xl">
           <div className="h-full">

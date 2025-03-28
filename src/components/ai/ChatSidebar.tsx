@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { SendIcon, Sparkles, Zap, Plus, Minimize2, Maximize2 } from 'lucide-react';
+import { SendIcon, Sparkles, Zap, Plus, Minimize2, Maximize2, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -16,10 +15,11 @@ type Message = {
 type ChatSidebarProps = {
   isMaximized?: boolean;
   onToggleMaximize?: () => void;
+  onClose?: () => void;
   className?: string;
 };
 
-const ChatSidebar = ({ isMaximized = false, onToggleMaximize, className }: ChatSidebarProps) => {
+const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className }: ChatSidebarProps) => {
   const [inputMessage, setInputMessage] = useState('');
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -81,10 +81,10 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, className }: ChatS
 
   return (
     <div className={cn("h-full flex flex-col bg-background", className)}>
-      <div className="flex items-center justify-between bg-[#8B5CF6]/5 border-b border-[#8B5CF6]/10 px-4 py-2">
+      <div className="flex items-center justify-between bg-[#1A1F2C] border-b border-[#8B5CF6]/10 px-4 py-3">
         <div className="flex items-center">
           <Sparkles className="h-4 w-4 text-[#8B5CF6] mr-2" />
-          <span className="text-sm font-medium">AI Ideation Chat</span>
+          <span className="text-sm font-medium text-white">AI Ideation Chat</span>
           {activeIdea && (
             <>
               <span className="mx-2 text-muted-foreground">–</span>
@@ -95,24 +95,36 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, className }: ChatS
             </>
           )}
         </div>
-        {onToggleMaximize && (
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="h-7 w-7 p-0" 
-            onClick={onToggleMaximize}
-          >
-            {isMaximized ? (
-              <Minimize2 className="h-4 w-4 text-muted-foreground" />
-            ) : (
-              <Maximize2 className="h-4 w-4 text-muted-foreground" />
-            )}
-          </Button>
-        )}
+        <div className="flex items-center space-x-1">
+          {onToggleMaximize && (
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="h-7 w-7 p-0 text-white hover:bg-[#8B5CF6]/20" 
+              onClick={onToggleMaximize}
+            >
+              {isMaximized ? (
+                <Minimize2 className="h-4 w-4" />
+              ) : (
+                <Maximize2 className="h-4 w-4" />
+              )}
+            </Button>
+          )}
+          {onClose && (
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="h-7 w-7 p-0 text-white hover:bg-[#8B5CF6]/20" 
+              onClick={onClose}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
       </div>
       
-      <ScrollArea className="flex-1">
-        <div className="p-4 flex flex-col">
+      <ScrollArea className="flex-1 pb-24">
+        <div className="p-4 flex flex-col bg-[#121212]">
           {messages.map((message, index) => (
             <ChatMessage
               key={index}
@@ -124,15 +136,15 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, className }: ChatS
         </div>
       </ScrollArea>
       
-      <div className="p-4 border-t mt-auto">
+      <div className="p-4 bg-[#121212] border-t border-[#8B5CF6]/10 absolute bottom-0 left-0 right-0">
         <div className="relative">
           <Textarea
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Ask AI to create or edit an idea..."
-            className="min-h-10 resize-none pr-12 py-2"
-            rows={2}
+            className="min-h-10 resize-none pr-12 py-2 bg-[#1A1F2C] border-[#8B5CF6]/30 text-white placeholder:text-gray-400"
+            rows={1}
           />
           <Button
             size="icon"
@@ -145,11 +157,11 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, className }: ChatS
           </Button>
         </div>
         <div className="flex gap-2 mt-2">
-          <Button variant="outline" size="sm" className="text-xs h-7">
+          <Button variant="outline" size="sm" className="text-xs h-7 bg-[#1A1F2C] border-[#8B5CF6]/30 text-white hover:bg-[#8B5CF6]/20">
             <Plus className="h-3 w-3 mr-1" />
             New Idea
           </Button>
-          <Button variant="outline" size="sm" className="text-xs h-7">
+          <Button variant="outline" size="sm" className="text-xs h-7 bg-[#1A1F2C] border-[#8B5CF6]/30 text-white hover:bg-[#8B5CF6]/20">
             <Zap className="h-3 w-3 mr-1" />
             Suggestions
           </Button>
