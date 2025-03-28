@@ -52,13 +52,8 @@ const SideNavbar = () => {
       label: 'Analytics', 
       path: '/concept-details/1',
       active: location.pathname.includes('/concept-details')
-    },
-    { 
-      icon: Settings, 
-      label: 'Settings', 
-      path: '/settings',
-      active: location.pathname === '/settings'
     }
+    // Settings removed from here
   ];
 
   const toggleSideNav = () => {

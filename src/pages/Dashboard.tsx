@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Bell, User, Sparkles, TrendingUp, Lightbulb, Users, Radio, BookOpen, BarChart3, Brain, ExternalLink } from 'lucide-react';
+import { Search, Bell, User, Sparkles, TrendingUp, Lightbulb, Users, Radio, BookOpen, BarChart3, Brain, ExternalLink, Settings } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -107,6 +108,14 @@ const Dashboard = () => {
             
             {/* Actions */}
             <div className="flex items-center gap-4">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="text-muted-foreground hover:text-foreground"
+                onClick={() => navigate('/settings')}
+              >
+                <Settings className="h-5 w-5" />
+              </Button>
               <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
                 <Bell className="h-5 w-5" />
               </Button>
