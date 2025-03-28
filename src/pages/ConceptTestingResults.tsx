@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Users, BarChart3, TrendingUp, ThumbsUp, MessageSquare, Heart, BrainCircuit, Star } from 'lucide-react';
@@ -275,89 +276,135 @@ const ConceptTestingResults = () => {
                 <CardTitle className="text-lg">Feature Ratings</CardTitle>
                 <CardDescription>Average rating of key product features (1-5 scale)</CardDescription>
               </CardHeader>
-              <CardContent className="pb-6">
-                <div className="h-[350px] mb-8">
-                  <ChartContainer
-                    config={{
-                      bar: {
-                        theme: {
-                          light: "#2563EB",
-                          dark: "#2563EB",
-                        },
-                      },
-                    }}
-                  >
-                    <BarChart 
-                      data={featureRatingData}
-                      layout="vertical"
-                      margin={{ top: 5, right: 30, left: 120, bottom: 5 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
-                      <XAxis 
-                        type="number" 
-                        domain={[0, 5]} 
-                        tick={{ fill: '#888888' }} 
-                      />
-                      <YAxis 
-                        dataKey="name" 
-                        type="category" 
-                        tick={{ fill: '#888888' }} 
-                        width={120} 
-                      />
-                      <Tooltip 
-                        content={({ payload, label }) => {
-                          if (payload && payload.length) {
-                            return (
-                              <div className="bg-card p-2 border rounded-md shadow-md">
-                                <p className="font-semibold">{label}</p>
-                                <p className="text-[#2563EB] font-bold">{`${payload[0].value} / 5`}</p>
-                              </div>
-                            );
-                          }
-                          return null;
+              <CardContent className="pt-4">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                  <div className="lg:col-span-8">
+                    <div className="h-[350px]">
+                      <ChartContainer
+                        config={{
+                          bar: {
+                            theme: {
+                              light: "#2563EB",
+                              dark: "#2563EB",
+                            },
+                          },
                         }}
-                      />
-                      <Bar 
-                        dataKey="score" 
-                        radius={[0, 0, 0, 0]} 
-                        barSize={30}
-                        shape={(props) => {
-                          const { x, y, width, height, maxScore } = props;
-                          return (
-                            <g>
-                              <rect 
-                                x={x} 
-                                y={y} 
-                                width={width} 
-                                height={height} 
-                                fill="#1E1E30" 
-                                radius={0} 
-                              />
-                              <rect 
-                                x={x} 
-                                y={y} 
-                                width={(props.value / 5) * width} 
-                                height={height} 
-                                fill="#2563EB" 
-                                radius={0} 
-                              />
-                            </g>
-                          );
-                        }}
-                      />
-                    </BarChart>
-                  </ChartContainer>
+                      >
+                        <BarChart 
+                          data={featureRatingData}
+                          layout="vertical"
+                          margin={{ top: 10, right: 30, left: 120, bottom: 5 }}
+                        >
+                          <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
+                          <XAxis 
+                            type="number" 
+                            domain={[0, 5]} 
+                            tick={{ fill: '#888888' }} 
+                          />
+                          <YAxis 
+                            dataKey="name" 
+                            type="category" 
+                            tick={{ fill: '#888888' }} 
+                            width={120} 
+                          />
+                          <Tooltip 
+                            content={({ payload, label }) => {
+                              if (payload && payload.length) {
+                                return (
+                                  <div className="bg-card p-3 border rounded-md shadow-md">
+                                    <p className="font-semibold">{label}</p>
+                                    <div className="flex items-center gap-2 mt-1">
+                                      <Star className="h-4 w-4 fill-[#2563EB] text-[#2563EB]" />
+                                      <p className="text-[#2563EB] font-bold">{`${payload[0].value} / 5`}</p>
+                                    </div>
+                                  </div>
+                                );
+                              }
+                              return null;
+                            }}
+                          />
+                          <Bar 
+                            dataKey="score" 
+                            radius={[0, 0, 0, 0]} 
+                            barSize={30}
+                            shape={(props) => {
+                              const { x, y, width, height, maxScore } = props;
+                              return (
+                                <g>
+                                  <rect 
+                                    x={x} 
+                                    y={y} 
+                                    width={width} 
+                                    height={height} 
+                                    fill="#1E1E30" 
+                                    radius={0} 
+                                    fillOpacity={0.15}
+                                  />
+                                  <rect 
+                                    x={x} 
+                                    y={y} 
+                                    width={(props.value / 5) * width} 
+                                    height={height} 
+                                    fill="#2563EB" 
+                                    radius={0} 
+                                  />
+                                </g>
+                              );
+                            }}
+                          />
+                        </BarChart>
+                      </ChartContainer>
+                    </div>
+                  </div>
+                  
+                  <div className="lg:col-span-4 flex flex-col">
+                    <div className="mb-4">
+                      <h4 className="text-sm font-medium mb-2">Rating Breakdown</h4>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Average scores across all participants for key product features on a 5-point scale.
+                      </p>
+                      <div className="bg-muted/50 rounded-lg p-4">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-sm font-medium">Average Rating</span>
+                          <div className="flex items-center">
+                            <Star className="h-4 w-4 fill-[#2563EB] text-[#2563EB] mr-1" />
+                            <span className="font-bold">4.2</span>
+                            <span className="text-xs text-muted-foreground ml-1">/5</span>
+                          </div>
+                        </div>
+                        <div className="w-full bg-muted rounded-full h-2 mb-4">
+                          <div className="bg-[#2563EB] h-2 rounded-full" style={{ width: '84%' }}></div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 text-xs">
+                          <div>
+                            <div className="flex justify-between">
+                              <span>Highest</span>
+                              <span className="font-medium">4.7</span>
+                            </div>
+                            <div className="text-muted-foreground">Eco-Friendly Packaging</div>
+                          </div>
+                          <div>
+                            <div className="flex justify-between">
+                              <span>Lowest</span>
+                              <span className="font-medium">3.7</span>
+                            </div>
+                            <div className="text-muted-foreground">Taste/Flavor</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-8">
                   {featureRatingData.map((feature, index) => (
-                    <Card key={index} className="overflow-hidden bg-card border-border">
+                    <Card key={index} className={`overflow-hidden hover:border-[#2563EB]/50 transition-colors ${index === 0 ? 'border-[#2563EB]/50 bg-[#2563EB]/5' : ''}`}>
                       <CardContent className="p-4">
                         <div className="flex flex-col h-full">
-                          <p className="text-sm font-medium mb-3 line-clamp-2 h-10 flex items-center">{feature.name}</p>
+                          <p className="text-sm font-medium mb-3 line-clamp-2 min-h-[40px] flex items-center">{feature.name}</p>
                           <div className="flex items-center gap-1 mt-auto">
-                            <Star className="h-4 w-4 fill-[#2563EB] text-[#2563EB]" />
-                            <span className="text-xl font-bold text-[#2563EB]">{feature.score}</span>
+                            <Star className={`h-4 w-4 ${index === 0 ? 'fill-[#2563EB]' : ''} text-[#2563EB]`} />
+                            <span className={`text-xl font-bold ${index === 0 ? 'text-[#2563EB]' : ''}`}>{feature.score}</span>
                             <span className="text-xs text-muted-foreground">/5</span>
                           </div>
                         </div>
