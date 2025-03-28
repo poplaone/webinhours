@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -139,8 +140,10 @@ const IdeaDetail = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex">
-      {/* AI Chat Sidebar */}
-      <ChatSidebar />
+      {/* AI Chat Sidebar - now with fixed width */}
+      <div className="w-[280px] flex-shrink-0 border-r border-border/30">
+        <ChatSidebar />
+      </div>
       
       <div className="flex-1 flex flex-col">
         {/* Top Bar */}
