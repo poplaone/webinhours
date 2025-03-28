@@ -130,7 +130,7 @@ const SideNavbar = () => {
         <Separator />
         
         {/* AI Chat section that stretches to the bottom */}
-        {isExpanded && isAIChatOpen && (
+        {isExpanded && isAIChatOpen ? (
           <div className="flex-grow flex flex-col min-h-0">
             <ChatSidebar 
               isMaximized={false} 
@@ -139,9 +139,7 @@ const SideNavbar = () => {
               className="h-full"
             />
           </div>
-        )}
-        
-        {(!isExpanded || !isAIChatOpen) && (
+        ) : (
           <div className="p-4 mt-auto">
             <Button 
               variant="outline" 
