@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
@@ -128,15 +129,15 @@ const SideNavbar = () => {
 
         <Separator />
         
+        {/* AI Chat section that stretches to the bottom */}
         {isExpanded && isAIChatOpen && (
-          <div className="flex-grow overflow-hidden flex flex-col">
-            <div className="h-full relative">
-              <ChatSidebar 
-                isMaximized={false} 
-                onToggleMaximize={toggleAIChatMaximize}
-                onClose={toggleAIChat}
-              />
-            </div>
+          <div className="flex-grow flex flex-col min-h-0">
+            <ChatSidebar 
+              isMaximized={false} 
+              onToggleMaximize={toggleAIChatMaximize}
+              onClose={toggleAIChat}
+              className="h-full"
+            />
           </div>
         )}
         

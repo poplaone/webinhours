@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { SendIcon, Sparkles, Zap, Plus, Minimize2, Maximize2, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -80,7 +81,7 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
   };
 
   return (
-    <div className={cn("h-full flex flex-col bg-background", className)}>
+    <div className={cn("flex flex-col h-full bg-background", className)}>
       <div className="flex items-center justify-between bg-[#1A1F2C] border-b border-[#8B5CF6]/10 px-4 py-3">
         <div className="flex items-center">
           <Sparkles className="h-4 w-4 text-[#8B5CF6] mr-2" />
@@ -123,8 +124,8 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
         </div>
       </div>
       
-      <ScrollArea className="flex-1 pb-24">
-        <div className="p-4 flex flex-col bg-[#121212]">
+      <ScrollArea className="flex-grow bg-[#121212] overflow-auto">
+        <div className="p-4 flex flex-col">
           {messages.map((message, index) => (
             <ChatMessage
               key={index}
@@ -136,7 +137,7 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
         </div>
       </ScrollArea>
       
-      <div className="p-4 bg-[#121212] border-t border-[#8B5CF6]/10 absolute bottom-0 left-0 right-0">
+      <div className="p-4 bg-[#121212] border-t border-[#8B5CF6]/10">
         <div className="relative">
           <Textarea
             value={inputMessage}
