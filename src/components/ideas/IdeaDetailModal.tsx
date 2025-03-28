@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { BarChart3, Calendar, Lightbulb, TrendingUp, Users, Radio, BarChart, BookOpen, Brain } from 'lucide-react';
+import { BarChart3, Calendar, Lightbulb, TrendingUp, Users, Radio, BarChart, BookOpen, Brain, ClipboardCheck } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { AreaChart, Area, BarChart as RechartsBarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
@@ -58,11 +59,17 @@ const COLORS = ['#8B5CF6', '#A78BFA', '#C4B5FD', '#DDD6FE', '#EDE9FE'];
 
 const IdeaDetailModal: React.FC<IdeaDetailModalProps> = ({ idea, isOpen, onClose }) => {
   const [isConceptModalOpen, setIsConceptModalOpen] = useState(false);
+  const navigate = useNavigate();
   
   if (!idea) return null;
 
   const handleDevelopIdea = () => {
     setIsConceptModalOpen(true);
+  };
+
+  const handleLaunchSurvey = () => {
+    navigate(`/concept-testing/${idea.id}`);
+    onClose();
   };
 
   return (
@@ -78,6 +85,24 @@ const IdeaDetailModal: React.FC<IdeaDetailModalProps> = ({ idea, isOpen, onClose
                   Added {idea.timestamp}
                 </DialogDescription>
               </DialogHeader>
+              
+              <div className="flex gap-3 mb-4">
+                <Button 
+                  className="bg-[#8B5CF6] hover:bg-[#7C3AED] flex-1"
+                  onClick={handleDevelopIdea}
+                >
+                  <Lightbulb className="mr-2 h-4 w-4" />
+                  Develop Idea
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6]/10 flex-1"
+                  onClick={handleLaunchSurvey}
+                >
+                  <ClipboardCheck className="mr-2 h-4 w-4" />
+                  Launch Survey
+                </Button>
+              </div>
 
               <div className="w-full h-48 overflow-hidden rounded-md mb-4">
                 <img 
@@ -346,7 +371,7 @@ const IdeaDetailModal: React.FC<IdeaDetailModalProps> = ({ idea, isOpen, onClose
                 </div>
               </Card>
 
-              <div className="flex justify-end gap-3 mb-2">
+              <div className="flex justify-end gap-3 mb-2 mt-6">
                 <Button variant="outline" onClick={onClose}>Close</Button>
                 <Button 
                   className="bg-[#8B5CF6] hover:bg-[#7C3AED]"
@@ -354,6 +379,14 @@ const IdeaDetailModal: React.FC<IdeaDetailModalProps> = ({ idea, isOpen, onClose
                 >
                   <Lightbulb className="mr-2 h-4 w-4" />
                   Develop Idea
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6]/10"
+                  onClick={handleLaunchSurvey}
+                >
+                  <ClipboardCheck className="mr-2 h-4 w-4" />
+                  Launch Survey
                 </Button>
               </div>
             </div>

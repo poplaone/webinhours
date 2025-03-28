@@ -13,12 +13,14 @@ import {
   Menu,
   X,
   Minimize2,
-  Maximize2
+  Maximize2,
+  ClipboardCheck
 } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetClose } from "@/components/ui/sheet";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import ChatSidebar from '@/components/ai/ChatSidebar';
 
 const SideNavbar = () => {
@@ -33,25 +35,29 @@ const SideNavbar = () => {
       icon: LayoutDashboard, 
       label: 'Dashboard', 
       path: '/dashboard',
-      active: location.pathname === '/dashboard'
+      active: location.pathname === '/dashboard',
+      description: 'View all product ideas'
     },
     { 
       icon: Lightbulb, 
       label: 'Product Ideas', 
       path: '/idea/new',
-      active: location.pathname === '/idea/new'
+      active: location.pathname === '/idea/new',
+      description: 'Create new product ideas'
+    },
+    { 
+      icon: ClipboardCheck, 
+      label: 'Concept Testing', 
+      path: '/concept-testing/1',
+      active: location.pathname.includes('/concept-testing'),
+      description: 'Launch and review surveys'
     },
     { 
       icon: BarChart3, 
-      label: 'Concept Testing', 
-      path: '/concept-testing/1',
-      active: location.pathname.includes('/concept-testing')
-    },
-    { 
-      icon: Users, 
       label: 'Analytics', 
       path: '/concept-details/1',
-      active: location.pathname.includes('/concept-details')
+      active: location.pathname.includes('/concept-details'),
+      description: 'View detailed analytics'
     }
     // Settings removed from here
   ];
@@ -108,19 +114,30 @@ const SideNavbar = () => {
         {/* Navigation items section - make it scrollable if needed but fixed height */}
         <div className="flex flex-col py-4 shrink-0 overflow-y-auto">
           {navItems.map((item) => (
-            <Button
-              key={item.label}
-              variant={item.active ? "secondary" : "ghost"}
-              className={cn(
-                "mb-1 justify-start",
-                item.active && "bg-[#8B5CF6]/10 text-[#8B5CF6]",
-                !isExpanded && "justify-center"
-              )}
-              onClick={() => navigate(item.path)}
-            >
-              <item.icon className="h-5 w-5" />
-              {isExpanded && <span className="ml-2">{item.label}</span>}
-            </Button>
+            <TooltipProvider key={item.label} delayDuration={300}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant={item.active ? "secondary" : "ghost"}
+                    className={cn(
+                      "mb-1 justify-start",
+                      item.active && "bg-[#8B5CF6]/10 text-[#8B5CF6]",
+                      !isExpanded && "justify-center"
+                    )}
+                    onClick={() => navigate(item.path)}
+                  >
+                    <item.icon className="h-5 w-5" />
+                    {isExpanded && <span className="ml-2">{item.label}</span>}
+                  </Button>
+                </TooltipTrigger>
+                {!isExpanded && (
+                  <TooltipContent side="right">
+                    <p>{item.label}</p>
+                    <p className="text-xs text-muted-foreground">{item.description}</p>
+                  </TooltipContent>
+                )}
+              </Tooltip>
+            </TooltipProvider>
           ))}
         </div>
 
