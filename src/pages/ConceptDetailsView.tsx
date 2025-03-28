@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -21,8 +20,8 @@ import {
 import ChatSidebar from '@/components/ai/ChatSidebar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { toast } from '@/components/ui/use-toast';
 
-// Sample concept details
 const conceptDetails = [
   {
     id: 1,
@@ -264,20 +263,26 @@ const ConceptDetailsView = () => {
   };
 
   const handleLaunchSurvey = () => {
-    // This would launch the survey - for now just show an alert
-    alert("Survey launching functionality would be implemented here!");
+    toast({
+      title: "Survey Launched Successfully",
+      description: "Your concept testing survey has been sent to participants.",
+    });
+    setTimeout(() => {
+      navigate(`/concept-testing/${conceptId}`);
+    }, 1500);
+  };
+
+  const handleViewResults = () => {
+    navigate(`/concept-testing/${conceptId}`);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex">
-      {/* AI Chat Sidebar */}
       <ChatSidebar />
       
       <div className="flex-1 flex flex-col">
-        {/* Top Bar */}
         <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <div className="container flex h-16 items-center justify-between">
-            {/* Back button and title */}
             <div className="flex items-center gap-4">
               <Button variant="ghost" onClick={handleBack}>
                 <ArrowLeft className="mr-2 h-4 w-4" />
@@ -289,22 +294,29 @@ const ConceptDetailsView = () => {
               </div>
             </div>
             
-            {/* Primary CTA */}
-            <Button 
-              onClick={handleLaunchSurvey}
-              className="bg-[#8B5CF6] hover:bg-[#7C3AED]"
-            >
-              <Rocket className="mr-2 h-4 w-4" />
-              Launch Survey
-            </Button>
+            <div className="flex items-center gap-3">
+              <Button 
+                variant="outline"
+                onClick={handleViewResults}
+                className="border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6]/10"
+              >
+                <BarChart3 className="mr-2 h-4 w-4" />
+                View Results
+              </Button>
+              <Button 
+                onClick={handleLaunchSurvey}
+                className="bg-[#8B5CF6] hover:bg-[#7C3AED]"
+              >
+                <Rocket className="mr-2 h-4 w-4" />
+                Launch Survey
+              </Button>
+            </div>
           </div>
         </header>
 
-        {/* Main Content */}
         <main className="container py-6 flex-1 overflow-auto">
           <ScrollArea className="h-[calc(100vh-4rem)]">
             <div className="pr-4 pb-10">
-              {/* Concept Hero */}
               <div className="relative rounded-lg overflow-hidden mb-6">
                 <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/20">
                   <div className="h-full flex flex-col justify-end p-6 md:p-8">
@@ -320,7 +332,6 @@ const ConceptDetailsView = () => {
                 />
               </div>
               
-              {/* Main content tabs */}
               <Tabs defaultValue="overview" className="w-full">
                 <TabsList className="mb-6">
                   <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -330,8 +341,7 @@ const ConceptDetailsView = () => {
                 
                 <TabsContent value="overview">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* Concept Statement */}
-                    <Card className="md:col-span-3">
+                    <Card>
                       <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                           <Lightbulb className="h-5 w-5 text-[#8B5CF6]" />
@@ -343,7 +353,6 @@ const ConceptDetailsView = () => {
                       </CardContent>
                     </Card>
                     
-                    {/* Key Benefits */}
                     <Card>
                       <CardHeader>
                         <CardTitle className="flex items-center gap-2">
@@ -363,7 +372,6 @@ const ConceptDetailsView = () => {
                       </CardContent>
                     </Card>
                     
-                    {/* Target Consumer */}
                     <Card>
                       <CardHeader>
                         <CardTitle className="flex items-center gap-2">
@@ -383,7 +391,6 @@ const ConceptDetailsView = () => {
                       </CardContent>
                     </Card>
                     
-                    {/* Brand Fit */}
                     <Card>
                       <CardHeader>
                         <CardTitle className="flex items-center gap-2">
@@ -404,7 +411,6 @@ const ConceptDetailsView = () => {
                     </Card>
                   </div>
                   
-                  {/* Proposed Packaging & Price */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                     <Card>
                       <CardHeader>
@@ -454,7 +460,6 @@ const ConceptDetailsView = () => {
                     </Card>
                   </div>
                   
-                  {/* Consumer Testing */}
                   <Card className="mt-6">
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
