@@ -83,7 +83,7 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
   return (
     <div className={cn(
       "flex flex-col h-full max-h-full bg-background", 
-      isMaximized ? "w-full" : "max-w-[336px]", // Increased from 280px to 336px (20% more)
+      isMaximized ? "w-full" : "max-w-[403px]", // Increased from 336px to 403px (20% more)
       className
     )}>
       <div className="flex-none items-center justify-between bg-[#1A1F2C] border-b border-[#8B5CF6]/10 px-4 py-3">
