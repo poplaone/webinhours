@@ -44,12 +44,11 @@ const purchaseIntentData = [
 ];
 
 const featureRatingData = [
-  { name: 'Eco-Friendly Packaging', score: 4.7 },
-  { name: 'Plant-Based Ingredients', score: 4.5 },
-  { name: 'Protein Content', score: 4.3 },
-  { name: 'Taste/Flavor', score: 4.1 },
-  { name: 'Price Point', score: 3.8 },
-  { name: 'Texture', score: 3.7 },
+  { name: 'Eco-Friendly Packaging', score: 4.7, maxScore: 5 },
+  { name: 'Protein Content', score: 4.3, maxScore: 5 },
+  { name: 'Plant-Based Ingredients', score: 4.1, maxScore: 5 },
+  { name: 'Texture', score: 4.0, maxScore: 5 },
+  { name: 'Taste/Flavor', score: 3.7, maxScore: 5 },
 ];
 
 const weeklyTrendData = [
@@ -277,42 +276,88 @@ const ConceptTestingResults = () => {
                 <CardDescription>Average rating of key product features (1-5 scale)</CardDescription>
               </CardHeader>
               <CardContent className="pb-6">
-                <div className="h-[300px] mb-6">
+                <div className="h-[350px] mb-8">
                   <ChartContainer
                     config={{
                       bar: {
                         theme: {
-                          light: "#8B5CF6",
-                          dark: "#8B5CF6",
+                          light: "#2563EB",
+                          dark: "#2563EB",
                         },
                       },
                     }}
                   >
                     <BarChart 
-                      data={featureRatingData} 
-                      layout="vertical" 
+                      data={featureRatingData}
+                      layout="vertical"
                       margin={{ top: 5, right: 30, left: 120, bottom: 5 }}
                     >
                       <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
-                      <XAxis type="number" domain={[0, 5]} tick={{ fill: '#888888' }} />
-                      <YAxis dataKey="name" type="category" tick={{ fill: '#888888' }} width={120} />
-                      <ChartTooltip
-                        content={<ChartTooltipContent />}
+                      <XAxis 
+                        type="number" 
+                        domain={[0, 5]} 
+                        tick={{ fill: '#888888' }} 
                       />
-                      <Bar dataKey="score" fill="#8B5CF6" radius={[0, 4, 4, 0]} />
+                      <YAxis 
+                        dataKey="name" 
+                        type="category" 
+                        tick={{ fill: '#888888' }} 
+                        width={120} 
+                      />
+                      <Tooltip 
+                        content={({ payload, label }) => {
+                          if (payload && payload.length) {
+                            return (
+                              <div className="bg-card p-2 border rounded-md shadow-md">
+                                <p className="font-semibold">{label}</p>
+                                <p className="text-[#2563EB] font-bold">{`${payload[0].value} / 5`}</p>
+                              </div>
+                            );
+                          }
+                          return null;
+                        }}
+                      />
+                      <Bar 
+                        dataKey="score" 
+                        radius={[0, 0, 0, 0]} 
+                        barSize={30}
+                        shape={(props) => {
+                          const { x, y, width, height, maxScore } = props;
+                          return (
+                            <g>
+                              <rect 
+                                x={x} 
+                                y={y} 
+                                width={width} 
+                                height={height} 
+                                fill="#1E1E30" 
+                                radius={0} 
+                              />
+                              <rect 
+                                x={x} 
+                                y={y} 
+                                width={(props.value / 5) * width} 
+                                height={height} 
+                                fill="#2563EB" 
+                                radius={0} 
+                              />
+                            </g>
+                          );
+                        }}
+                      />
                     </BarChart>
                   </ChartContainer>
                 </div>
                 
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-8">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-8">
                   {featureRatingData.map((feature, index) => (
-                    <Card key={index} className="overflow-hidden bg-[#8B5CF6]/5 border-[#8B5CF6]/20">
-                      <CardContent className="p-4 text-center">
-                        <div className="flex flex-col items-center justify-center h-full">
-                          <p className="text-sm font-medium mb-2 line-clamp-2 h-10 flex items-center">{feature.name}</p>
-                          <div className="flex items-center gap-1 mt-1">
-                            <Star className="h-4 w-4 fill-[#8B5CF6] text-[#8B5CF6]" />
-                            <span className="text-xl font-bold">{feature.score}</span>
+                    <Card key={index} className="overflow-hidden bg-card border-border">
+                      <CardContent className="p-4">
+                        <div className="flex flex-col h-full">
+                          <p className="text-sm font-medium mb-3 line-clamp-2 h-10 flex items-center">{feature.name}</p>
+                          <div className="flex items-center gap-1 mt-auto">
+                            <Star className="h-4 w-4 fill-[#2563EB] text-[#2563EB]" />
+                            <span className="text-xl font-bold text-[#2563EB]">{feature.score}</span>
                             <span className="text-xs text-muted-foreground">/5</span>
                           </div>
                         </div>
