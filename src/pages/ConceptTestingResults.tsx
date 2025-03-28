@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Users, BarChart3, TrendingUp, ThumbsUp, MessageSquare, Heart, BrainCircuit, Star } from 'lucide-react';
@@ -415,166 +414,209 @@ const ConceptTestingResults = () => {
               </CardContent>
             </Card>
             
-            <Card className="overflow-hidden mt-8">
-              <CardHeader>
-                <CardTitle className="text-lg">Sentiment Trend</CardTitle>
-                <CardDescription>Weekly sentiment trend during the survey period</CardDescription>
-              </CardHeader>
-              <CardContent className="pb-6">
-                <div className="h-[400px] mb-8">
-                  <ChartContainer
-                    config={{
-                      positive: {
-                        theme: {
-                          light: "#10B981",
-                          dark: "#10B981",
-                        },
-                      },
-                      negative: {
-                        theme: {
-                          light: "#EF4444",
-                          dark: "#EF4444",
-                        },
-                      },
-                      neutral: {
-                        theme: {
-                          light: "#8B5CF6",
-                          dark: "#8B5CF6",
-                        },
-                      },
-                    }}
-                  >
-                    <LineChart 
-                      data={weeklyTrendData} 
-                      margin={{ top: 20, right: 30, left: 20, bottom: 45 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                      <XAxis 
-                        dataKey="name" 
-                        tick={{ fill: '#888888' }}
-                        axisLine={{ stroke: '#E2E8F0' }}
-                        padding={{ left: 20, right: 20 }}
-                      />
-                      <YAxis 
-                        tick={{ fill: '#888888' }}
-                        axisLine={{ stroke: '#E2E8F0' }}
-                        domain={[0, 100]}
-                        padding={{ top: 20, bottom: 20 }}
-                      />
-                      <Tooltip
-                        content={({ active, payload, label }) => {
-                          if (active && payload && payload.length) {
-                            return (
-                              <div className="bg-background p-4 border rounded-md shadow-md">
-                                <p className="font-semibold mb-2">{label}</p>
-                                {payload.map((entry, index) => (
-                                  <div key={`item-${index}`} className="flex items-center justify-between gap-4 mb-1">
-                                    <div className="flex items-center gap-2">
-                                      <div 
-                                        className="w-3 h-3 rounded-full" 
-                                        style={{ 
-                                          backgroundColor: entry.name === 'positive' ? '#10B981' : 
-                                                          entry.name === 'negative' ? '#EF4444' : '#8B5CF6' 
-                                        }}
-                                      />
-                                      <span className="capitalize">{entry.name}</span>
-                                    </div>
-                                    <span className="font-medium">{`${entry.value}%`}</span>
-                                  </div>
-                                ))}
-                                <div className="flex items-center justify-between mt-2 pt-2 border-t">
-                                  <span className="text-sm text-muted-foreground">Total</span>
-                                  <span className="font-medium">
-                                    {payload.reduce((sum, entry) => sum + (entry.value as number), 0)}%
-                                  </span>
-                                </div>
-                              </div>
-                            );
-                          }
-                          return null;
-                        }}
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="positive" 
-                        stroke="#10B981" 
-                        strokeWidth={3}
-                        dot={{ r: 6, fill: "#10B981", strokeWidth: 2, stroke: "#fff" }}
-                        activeDot={{ r: 8, fill: "#10B981", strokeWidth: 2, stroke: "#fff" }}
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="negative" 
-                        stroke="#EF4444" 
-                        strokeWidth={3}
-                        dot={{ r: 6, fill: "#EF4444", strokeWidth: 2, stroke: "#fff" }}
-                        activeDot={{ r: 8, fill: "#EF4444", strokeWidth: 2, stroke: "#fff" }}
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="neutral" 
-                        stroke="#8B5CF6" 
-                        strokeWidth={3}
-                        dot={{ r: 6, fill: "#8B5CF6", strokeWidth: 2, stroke: "#fff" }}
-                        activeDot={{ r: 8, fill: "#8B5CF6", strokeWidth: 2, stroke: "#fff" }}
-                      />
-                      <Legend 
-                        verticalAlign="bottom"
-                        wrapperStyle={{ paddingTop: 20, paddingBottom: 0 }}
-                        height={36}
-                        formatter={(value) => <span className="capitalize">{value}</span>}
-                        iconType="circle"
-                        iconSize={10}
-                      />
-                    </LineChart>
-                  </ChartContainer>
+            <Card className="overflow-hidden">
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle className="text-lg">Sentiment Trend</CardTitle>
+                  <CardDescription>Weekly sentiment trend during the survey period</CardDescription>
                 </div>
-                <div className="grid grid-cols-3 gap-4 mt-12">
-                  <Card className="bg-green-500/10 border-green-500/20">
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between">
+                <Badge variant="outline" className="ml-auto bg-[#8B5CF6]/10 text-[#8B5CF6] border-[#8B5CF6]/20">
+                  4-Week Period
+                </Badge>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                  <div className="lg:col-span-8">
+                    <div className="h-[350px]">
+                      <ChartContainer
+                        config={{
+                          positive: {
+                            theme: {
+                              light: "#10B981",
+                              dark: "#10B981",
+                            },
+                          },
+                          negative: {
+                            theme: {
+                              light: "#EF4444",
+                              dark: "#EF4444",
+                            },
+                          },
+                          neutral: {
+                            theme: {
+                              light: "#8B5CF6",
+                              dark: "#8B5CF6",
+                            },
+                          },
+                        }}
+                      >
+                        <LineChart 
+                          data={weeklyTrendData} 
+                          margin={{ top: 20, right: 30, left: 20, bottom: 45 }}
+                        >
+                          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+                          <XAxis 
+                            dataKey="name" 
+                            tick={{ fill: '#888888' }}
+                            axisLine={{ stroke: '#E2E8F0' }}
+                            padding={{ left: 20, right: 20 }}
+                          />
+                          <YAxis 
+                            tick={{ fill: '#888888' }}
+                            axisLine={{ stroke: '#E2E8F0' }}
+                            domain={[0, 100]}
+                            padding={{ top: 20, bottom: 20 }}
+                            tickFormatter={(value) => `${value}%`}
+                          />
+                          <Tooltip
+                            content={({ active, payload, label }) => {
+                              if (active && payload && payload.length) {
+                                return (
+                                  <div className="bg-background p-4 border rounded-md shadow-md">
+                                    <p className="font-semibold mb-2">{label}</p>
+                                    {payload.map((entry, index) => (
+                                      <div key={`item-${index}`} className="flex items-center justify-between gap-4 mb-1">
+                                        <div className="flex items-center gap-2">
+                                          <div 
+                                            className="w-3 h-3 rounded-full" 
+                                            style={{ 
+                                              backgroundColor: entry.name === 'positive' ? '#10B981' : 
+                                                            entry.name === 'negative' ? '#EF4444' : '#8B5CF6' 
+                                            }}
+                                          />
+                                          <span className="capitalize">{entry.name}</span>
+                                        </div>
+                                        <span className="font-medium">{`${entry.value}%`}</span>
+                                      </div>
+                                    ))}
+                                    <div className="flex items-center justify-between mt-2 pt-2 border-t">
+                                      <span className="text-sm text-muted-foreground">Total</span>
+                                      <span className="font-medium">
+                                        {payload.reduce((sum, entry) => sum + (entry.value as number), 0)}%
+                                      </span>
+                                    </div>
+                                  </div>
+                                );
+                              }
+                              return null;
+                            }}
+                          />
+                          <Line 
+                            type="monotone" 
+                            dataKey="positive" 
+                            stroke="#10B981" 
+                            strokeWidth={3}
+                            dot={{ r: 6, fill: "#10B981", strokeWidth: 2, stroke: "#fff" }}
+                            activeDot={{ r: 8, fill: "#10B981", strokeWidth: 2, stroke: "#fff" }}
+                          />
+                          <Line 
+                            type="monotone" 
+                            dataKey="negative" 
+                            stroke="#EF4444" 
+                            strokeWidth={3}
+                            dot={{ r: 6, fill: "#EF4444", strokeWidth: 2, stroke: "#fff" }}
+                            activeDot={{ r: 8, fill: "#EF4444", strokeWidth: 2, stroke: "#fff" }}
+                          />
+                          <Line 
+                            type="monotone" 
+                            dataKey="neutral" 
+                            stroke="#8B5CF6" 
+                            strokeWidth={3}
+                            dot={{ r: 6, fill: "#8B5CF6", strokeWidth: 2, stroke: "#fff" }}
+                            activeDot={{ r: 8, fill: "#8B5CF6", strokeWidth: 2, stroke: "#fff" }}
+                          />
+                          <Legend 
+                            verticalAlign="bottom"
+                            wrapperStyle={{ paddingTop: 20, paddingBottom: 0 }}
+                            height={36}
+                            formatter={(value) => <span className="capitalize">{value}</span>}
+                            iconType="circle"
+                            iconSize={10}
+                          />
+                        </LineChart>
+                      </ChartContainer>
+                    </div>
+                  </div>
+                  <div className="lg:col-span-4 flex flex-col">
+                    <div className="mb-4">
+                      <h4 className="text-sm font-medium mb-2">Trend Overview</h4>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Weekly sentiment analysis showing positive growth trend and decreasing negative sentiment over the survey period.
+                      </p>
+                      <div className="bg-muted/50 rounded-lg p-4">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-sm font-medium">Overall Direction</span>
+                          <div className="flex items-center">
+                            <TrendingUp className="h-4 w-4 text-green-500 mr-1" />
+                            <span className="font-bold text-green-500">Positive</span>
+                          </div>
+                        </div>
+                        <div className="w-full bg-muted rounded-full h-2 mb-4">
+                          <div className="bg-green-500 h-2 rounded-full" style={{ width: '75%' }}></div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 text-xs">
+                          <div>
+                            <div className="flex justify-between">
+                              <span>Initial Positive</span>
+                              <span className="font-medium">65%</span>
+                            </div>
+                            <div className="text-muted-foreground">Week 1</div>
+                          </div>
+                          <div>
+                            <div className="flex justify-between">
+                              <span>Current Positive</span>
+                              <span className="font-medium">75%</span>
+                            </div>
+                            <div className="text-muted-foreground">Week 4</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-3 mt-auto">
+                      <div className="flex items-center justify-between p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
                         <div className="flex items-center gap-2">
                           <div className="w-3 h-3 rounded-full bg-green-500"></div>
                           <span className="text-sm font-medium">Positive</span>
                         </div>
-                        <TrendingUp className="h-4 w-4 text-green-500" />
+                        <div className="flex items-center gap-1">
+                          <span className="text-lg font-bold text-green-500">75%</span>
+                          <span className="text-green-500 text-xs flex items-center">
+                            <TrendingUp className="h-3 w-3 mr-0.5" />
+                            +10%
+                          </span>
+                        </div>
                       </div>
-                      <div className="mt-2">
-                        <span className="text-2xl font-bold text-green-500">75%</span>
-                        <span className="text-green-500 text-xs ml-1">+10%</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                  <Card className="bg-red-500/10 border-red-500/20">
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between">
+                      
+                      <div className="flex items-center justify-between p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
                         <div className="flex items-center gap-2">
                           <div className="w-3 h-3 rounded-full bg-red-500"></div>
                           <span className="text-sm font-medium">Negative</span>
                         </div>
-                        <TrendingUp className="h-4 w-4 text-red-500 rotate-180" />
+                        <div className="flex items-center gap-1">
+                          <span className="text-lg font-bold text-red-500">7%</span>
+                          <span className="text-green-500 text-xs flex items-center">
+                            <TrendingUp className="h-3 w-3 mr-0.5 rotate-180" />
+                            -5%
+                          </span>
+                        </div>
                       </div>
-                      <div className="mt-2">
-                        <span className="text-2xl font-bold text-red-500">7%</span>
-                        <span className="text-green-500 text-xs ml-1">-5%</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                  <Card className="bg-purple-500/10 border-purple-500/20">
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between">
+                      
+                      <div className="flex items-center justify-between p-3 bg-purple-500/10 border border-purple-500/20 rounded-lg">
                         <div className="flex items-center gap-2">
                           <div className="w-3 h-3 rounded-full bg-[#8B5CF6]"></div>
                           <span className="text-sm font-medium">Neutral</span>
                         </div>
-                        <TrendingUp className="h-4 w-4 text-[#8B5CF6] rotate-90" />
+                        <div className="flex items-center gap-1">
+                          <span className="text-lg font-bold text-[#8B5CF6]">18%</span>
+                          <span className="text-red-500 text-xs flex items-center">
+                            <TrendingUp className="h-3 w-3 mr-0.5 rotate-180" />
+                            -5%
+                          </span>
+                        </div>
                       </div>
-                      <div className="mt-2">
-                        <span className="text-2xl font-bold text-[#8B5CF6]">18%</span>
-                        <span className="text-red-500 text-xs ml-1">-5%</span>
-                      </div>
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -721,240 +763,4 @@ const ConceptTestingResults = () => {
             </Card>
           </TabsContent>
           
-          <TabsContent value="feedback" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Consumer Feedback</CardTitle>
-                <CardDescription>Selected comments from survey respondents</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {feedbackComments.map((comment) => (
-                    <div key={comment.id} className="p-4 border rounded-lg">
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-center gap-2 mb-2">
-                          <Badge variant="outline" className={
-                            comment.sentiment === "positive" ? "bg-green-500/10 text-green-500 border-green-500/20" :
-                            comment.sentiment === "negative" ? "bg-red-500/10 text-red-500 border-red-500/20" :
-                            "bg-gray-500/10 text-gray-500 border-gray-500/20"
-                          }>
-                            {comment.sentiment === "positive" ? 
-                              <ThumbsUp className="w-3 h-3 mr-1" /> : 
-                              comment.sentiment === "negative" ? 
-                              <MessageSquare className="w-3 h-3 mr-1" /> : 
-                              <MessageSquare className="w-3 h-3 mr-1" />
-                            }
-                            {comment.sentiment.charAt(0).toUpperCase() + comment.sentiment.slice(1)}
-                          </Badge>
-                          <Badge variant="outline" className="bg-[#8B5CF6]/10 text-[#8B5CF6] border-[#8B5CF6]/20">
-                            {comment.demographic}
-                          </Badge>
-                        </div>
-                        <span className="text-xs text-muted-foreground">{comment.date}</span>
-                      </div>
-                      <p className="text-sm">{comment.comment}</p>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Sentiment by Feature</CardTitle>
-                <CardDescription>Consumer sentiment broken down by product feature</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Feature</TableHead>
-                      <TableHead>Positive</TableHead>
-                      <TableHead>Neutral</TableHead>
-                      <TableHead>Negative</TableHead>
-                      <TableHead className="text-right">Overall Sentiment</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell className="font-medium">Eco-Friendly Packaging</TableCell>
-                      <TableCell className="text-green-500">87%</TableCell>
-                      <TableCell>10%</TableCell>
-                      <TableCell className="text-red-500">3%</TableCell>
-                      <TableCell className="text-right text-green-500 font-medium">Strong Positive</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="font-medium">Plant-Based Ingredients</TableCell>
-                      <TableCell className="text-green-500">76%</TableCell>
-                      <TableCell>15%</TableCell>
-                      <TableCell className="text-red-500">9%</TableCell>
-                      <TableCell className="text-right text-green-500 font-medium">Positive</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="font-medium">Taste/Flavor Profile</TableCell>
-                      <TableCell className="text-green-500">68%</TableCell>
-                      <TableCell>20%</TableCell>
-                      <TableCell className="text-red-500">12%</TableCell>
-                      <TableCell className="text-right text-green-500 font-medium">Positive</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="font-medium">Price Point</TableCell>
-                      <TableCell className="text-green-500">42%</TableCell>
-                      <TableCell>30%</TableCell>
-                      <TableCell className="text-red-500">28%</TableCell>
-                      <TableCell className="text-right text-amber-500 font-medium">Mixed</TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          
-          <TabsContent value="insights" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <BrainCircuit className="h-5 w-5 text-[#8B5CF6]" />
-                  AI-Generated Insights
-                </CardTitle>
-                <CardDescription>Machine learning analysis of survey responses and feedback</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {aiInsights.map((insight, index) => (
-                    <div key={index} className="p-4 border border-[#8B5CF6]/20 bg-[#8B5CF6]/5 rounded-lg">
-                      <div className="flex gap-3">
-                        <div className="flex-shrink-0 mt-1">
-                          <Heart className="h-4 w-4 text-[#8B5CF6]" />
-                        </div>
-                        <p>{insight}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Recommendations</CardTitle>
-                  <CardDescription>AI-suggested next steps based on test results</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3">
-                    <li className="flex items-start gap-2">
-                      <div className="mt-1 p-1 rounded-full bg-green-500/10">
-                        <TrendingUp className="h-3 w-3 text-green-500" />
-                      </div>
-                      <div>
-                        <p className="font-medium">Proceed with development</p>
-                        <p className="text-sm text-muted-foreground">Strong positive reception (77% overall) supports moving forward with the concept.</p>
-                      </div>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <div className="mt-1 p-1 rounded-full bg-[#8B5CF6]/10">
-                        <Users className="h-3 w-3 text-[#8B5CF6]" />
-                      </div>
-                      <div>
-                        <p className="font-medium">Focus on West Coast launch</p>
-                        <p className="text-sm text-muted-foreground">Geographic data indicates strongest reception in western regions (4.5/5 purchase intent).</p>
-                      </div>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <div className="mt-1 p-1 rounded-full bg-amber-500/10">
-                        <BarChart3 className="h-3 w-3 text-amber-500" />
-                      </div>
-                      <div>
-                        <p className="font-medium">Review pricing strategy</p>
-                        <p className="text-sm text-muted-foreground">Mixed sentiment on price point suggests need for reconsideration or clearer value proposition.</p>
-                      </div>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <div className="mt-1 p-1 rounded-full bg-blue-500/10">
-                        <MessageSquare className="h-3 w-3 text-blue-500" />
-                      </div>
-                      <div>
-                        <p className="font-medium">Texture improvement</p>
-                        <p className="text-sm text-muted-foreground">Consumer feedback indicates refinement needed for texture/mouthfeel aspects.</p>
-                      </div>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Market Fit Analysis</CardTitle>
-                  <CardDescription>AI assessment of concept's market potential</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <h4 className="font-medium">Market Need Alignment</h4>
-                        <span className="text-green-500 font-medium">92%</span>
-                      </div>
-                      <div className="w-full bg-muted rounded-full h-2">
-                        <div className="bg-green-500 h-2 rounded-full" style={{ width: '92%' }}></div>
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <h4 className="font-medium">Brand Fit</h4>
-                        <span className="text-green-500 font-medium">88%</span>
-                      </div>
-                      <div className="w-full bg-muted rounded-full h-2">
-                        <div className="bg-green-500 h-2 rounded-full" style={{ width: '88%' }}></div>
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <h4 className="font-medium">Competitive Advantage</h4>
-                        <span className="text-green-500 font-medium">76%</span>
-                      </div>
-                      <div className="w-full bg-muted rounded-full h-2">
-                        <div className="bg-green-500 h-2 rounded-full" style={{ width: '76%' }}></div>
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <h4 className="font-medium">Scalability Potential</h4>
-                        <span className="text-[#8B5CF6] font-medium">84%</span>
-                      </div>
-                      <div className="w-full bg-muted rounded-full h-2">
-                        <div className="bg-[#8B5CF6] h-2 rounded-full" style={{ width: '84%' }}></div>
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <h4 className="font-medium">Price to Value Perception</h4>
-                        <span className="text-amber-500 font-medium">68%</span>
-                      </div>
-                      <div className="w-full bg-muted rounded-full h-2">
-                        <div className="bg-amber-500 h-2 rounded-full" style={{ width: '68%' }}></div>
-                      </div>
-                    </div>
-                    
-                    <div className="pt-4 mt-4 border-t">
-                      <h4 className="font-medium mb-2">Executive Summary</h4>
-                      <p className="text-sm text-muted-foreground">
-                        This concept shows strong overall market potential with 82% aggregate positive indicators. Primary strengths include excellent alignment with current consumer needs and brand identity. The main areas for refinement are price positioning and some aspect-specific improvements in product formulation.
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-        </Tabs>
-      </div>
-    </div>
-  );
-};
-
-export default ConceptTestingResults;
+          <TabsContent
