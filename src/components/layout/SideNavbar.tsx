@@ -49,7 +49,7 @@ const SideNavbar = () => {
     },
     { 
       icon: Users, 
-      label: 'Audience Insights', 
+      label: 'Analytics', 
       path: '/concept-details/1',
       active: location.pathname.includes('/concept-details')
     },
