@@ -9,7 +9,8 @@ import {
   Users, 
   Settings, 
   ChevronRight,
-  ChevronLeft
+  ChevronLeft,
+  Menu
 } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -79,11 +80,34 @@ const SideNavbar = () => {
         isExpanded ? "w-60" : "w-16"
       )}>
         {/* Logo Area */}
-        <div className="flex items-center p-4 h-16 border-b">
+        <div className="flex items-center justify-between p-4 h-16 border-b">
           <div className={cn("flex items-center", !isExpanded && "justify-center w-full")}>
-            <Sparkles className="h-5 w-5 text-[#8B5CF6]" />
-            {isExpanded && <span className="ml-2 font-semibold">Pulse Vision.AI</span>}
+            {isExpanded ? (
+              <>
+                <div className="flex items-center">
+                  <div className="bg-[#9b87f5] rounded-md p-1 mr-2">
+                    <span className="text-white font-bold">AI</span>
+                  </div>
+                  <span className="font-semibold">Pulse Vision.AI</span>
+                </div>
+              </>
+            ) : (
+              <div className="bg-[#9b87f5] rounded-md p-1">
+                <span className="text-white font-bold">AI</span>
+              </div>
+            )}
           </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleSideNav}
+            className={cn(
+              "h-8 w-8 p-0",
+              !isExpanded && "hidden"
+            )}
+          >
+            <Menu className="h-4 w-4" />
+          </Button>
         </div>
 
         {/* Navigation Links */}
@@ -122,20 +146,19 @@ const SideNavbar = () => {
           </Button>
         </div>
 
-        {/* Toggle Button */}
-        <div className="p-2 border-t">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleSideNav}
-            className="w-full h-8"
-          >
-            {isExpanded ? 
-              <ChevronLeft className="h-4 w-4" /> : 
+        {/* Toggle Button (only visible when collapsed) */}
+        {!isExpanded && (
+          <div className="p-2 border-t">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleSideNav}
+              className="w-full h-8"
+            >
               <ChevronRight className="h-4 w-4" />
-            }
-          </Button>
-        </div>
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* AI Chat Panel (conditionally rendered) */}
