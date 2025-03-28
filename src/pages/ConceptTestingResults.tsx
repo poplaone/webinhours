@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Users, BarChart3, TrendingUp, ThumbsUp, MessageSquare, Heart, BrainCircuit } from 'lucide-react';
@@ -10,7 +9,6 @@ import { AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Cart
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 
-// Sample data for the testing results
 const surveyOverviewData = {
   totalResponses: 326,
   completionRate: 87,
@@ -114,7 +112,6 @@ const ConceptTestingResults = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-background/80">
       <div className="container py-6">
-        {/* Header Section */}
         <div className="flex items-center mb-6">
           <Button 
             variant="ghost" 
@@ -138,7 +135,6 @@ const ConceptTestingResults = () => {
           </div>
         </div>
         
-        {/* Survey Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <Card>
             <CardContent className="pt-6">
@@ -197,7 +193,6 @@ const ConceptTestingResults = () => {
           </Card>
         </div>
         
-        {/* Main Content Tabs */}
         <Tabs defaultValue="overview" className="space-y-6">
           <TabsList className="bg-muted/50 border">
             <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -206,11 +201,9 @@ const ConceptTestingResults = () => {
             <TabsTrigger value="insights">AI Insights</TabsTrigger>
           </TabsList>
           
-          {/* Overview Tab Content */}
-          <TabsContent value="overview" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Purchase Intent Chart */}
-              <Card>
+          <TabsContent value="overview" className="space-y-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <Card className="overflow-hidden">
                 <CardHeader>
                   <CardTitle className="text-lg">Purchase Intent</CardTitle>
                   <CardDescription>Consumer likelihood to purchase this product</CardDescription>
@@ -246,8 +239,7 @@ const ConceptTestingResults = () => {
                 </CardContent>
               </Card>
               
-              {/* Sentiment Analysis */}
-              <Card>
+              <Card className="overflow-hidden">
                 <CardHeader>
                   <CardTitle className="text-lg">Sentiment Analysis</CardTitle>
                   <CardDescription>Overall consumer sentiment toward the concept</CardDescription>
@@ -279,14 +271,13 @@ const ConceptTestingResults = () => {
               </Card>
             </div>
             
-            {/* Feature Ratings */}
-            <Card>
+            <Card className="overflow-hidden">
               <CardHeader>
                 <CardTitle className="text-lg">Feature Ratings</CardTitle>
                 <CardDescription>Average rating of key product features (1-5 scale)</CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="h-80">
+              <CardContent className="pb-6">
+                <div className="h-[400px]">
                   <ChartContainer
                     config={{
                       bar: {
@@ -311,14 +302,13 @@ const ConceptTestingResults = () => {
               </CardContent>
             </Card>
             
-            {/* Sentiment Trend Over Time */}
-            <Card>
+            <Card className="overflow-hidden mt-8">
               <CardHeader>
                 <CardTitle className="text-lg">Sentiment Trend</CardTitle>
                 <CardDescription>Weekly sentiment trend during the survey period</CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="h-80">
+              <CardContent className="pb-6">
+                <div className="h-[400px]">
                   <ChartContainer
                     config={{
                       area: {
@@ -329,7 +319,7 @@ const ConceptTestingResults = () => {
                       },
                     }}
                   >
-                    <AreaChart data={weeklyTrendData} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
+                    <AreaChart data={weeklyTrendData} margin={{ top: 10, right: 30, left: 0, bottom: 20 }}>
                       <defs>
                         <linearGradient id="colorPositive" x1="0" y1="0" x2="0" y2="1">
                           <stop offset="5%" stopColor="#10B981" stopOpacity={0.8}/>
@@ -359,10 +349,8 @@ const ConceptTestingResults = () => {
             </Card>
           </TabsContent>
           
-          {/* Demographics Tab Content */}
           <TabsContent value="demographics" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Age Demographics */}
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg">Age Demographics</CardTitle>
@@ -394,7 +382,6 @@ const ConceptTestingResults = () => {
                 </CardContent>
               </Card>
               
-              {/* Demographics Table */}
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg">Demographic Breakdown</CardTitle>
@@ -457,7 +444,6 @@ const ConceptTestingResults = () => {
               </Card>
             </div>
             
-            {/* Geographic Distribution */}
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Geographic Distribution</CardTitle>
@@ -504,7 +490,6 @@ const ConceptTestingResults = () => {
             </Card>
           </TabsContent>
           
-          {/* Feedback Tab Content */}
           <TabsContent value="feedback" className="space-y-6">
             <Card>
               <CardHeader>
@@ -594,7 +579,6 @@ const ConceptTestingResults = () => {
             </Card>
           </TabsContent>
           
-          {/* AI Insights Tab Content */}
           <TabsContent value="insights" className="space-y-6">
             <Card>
               <CardHeader>
