@@ -277,7 +277,7 @@ const ConceptTestingResults = () => {
                 <CardDescription>Average rating of key product features (1-5 scale)</CardDescription>
               </CardHeader>
               <CardContent className="pb-6">
-                <div className="h-[300px] mb-6">
+                <div className="h-[300px]">
                   <ChartContainer
                     config={{
                       bar: {
@@ -290,16 +290,37 @@ const ConceptTestingResults = () => {
                   >
                     <BarChart 
                       data={featureRatingData} 
-                      layout="vertical" 
-                      margin={{ top: 5, right: 30, left: 120, bottom: 5 }}
+                      margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
                     >
-                      <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
-                      <XAxis type="number" domain={[0, 5]} tick={{ fill: '#888888' }} />
-                      <YAxis dataKey="name" type="category" tick={{ fill: '#888888' }} width={120} />
+                      <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={false} />
+                      <XAxis dataKey="name" tick={{ fill: '#888888' }} />
+                      <YAxis domain={[0, 5]} tick={{ fill: '#888888' }} />
                       <ChartTooltip
-                        content={<ChartTooltipContent />}
+                        content={({ active, payload }) => {
+                          if (active && payload && payload.length) {
+                            return (
+                              <div className="rounded-lg border border-border/50 bg-background px-3 py-2 text-sm shadow-xl">
+                                <div className="flex items-center gap-2">
+                                  <div className="h-2 w-2 rounded-full bg-[#8B5CF6]" />
+                                  <span className="font-medium">{payload[0].payload.name}</span>
+                                </div>
+                                <div className="flex gap-1 mt-1">
+                                  <span className="font-mono tabular-nums font-medium">{payload[0].value}</span>
+                                  <span className="text-muted-foreground">/5</span>
+                                </div>
+                              </div>
+                            );
+                          }
+                          return null;
+                        }}
                       />
-                      <Bar dataKey="score" fill="#8B5CF6" radius={[0, 4, 4, 0]} />
+                      <Bar 
+                        dataKey="score" 
+                        fill="#8B5CF6" 
+                        radius={[4, 4, 0, 0]} 
+                        barSize={40}
+                        maxBarSize={50}
+                      />
                     </BarChart>
                   </ChartContainer>
                 </div>
