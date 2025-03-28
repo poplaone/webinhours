@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Users, BarChart3, TrendingUp, ThumbsUp, MessageSquare, Heart, BrainCircuit } from 'lucide-react';
+import { ArrowLeft, Users, BarChart3, TrendingUp, ThumbsUp, MessageSquare, Heart, BrainCircuit, Star } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -277,7 +277,7 @@ const ConceptTestingResults = () => {
                 <CardDescription>Average rating of key product features (1-5 scale)</CardDescription>
               </CardHeader>
               <CardContent className="pb-6">
-                <div className="h-[400px]">
+                <div className="h-[300px] mb-6">
                   <ChartContainer
                     config={{
                       bar: {
@@ -288,16 +288,37 @@ const ConceptTestingResults = () => {
                       },
                     }}
                   >
-                    <BarChart data={featureRatingData} layout="vertical" margin={{ top: 5, right: 30, left: 150, bottom: 5 }}>
+                    <BarChart 
+                      data={featureRatingData} 
+                      layout="vertical" 
+                      margin={{ top: 5, right: 30, left: 120, bottom: 5 }}
+                    >
                       <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
                       <XAxis type="number" domain={[0, 5]} tick={{ fill: '#888888' }} />
-                      <YAxis dataKey="name" type="category" tick={{ fill: '#888888' }} width={150} />
+                      <YAxis dataKey="name" type="category" tick={{ fill: '#888888' }} width={120} />
                       <ChartTooltip
                         content={<ChartTooltipContent />}
                       />
                       <Bar dataKey="score" fill="#8B5CF6" radius={[0, 4, 4, 0]} />
                     </BarChart>
                   </ChartContainer>
+                </div>
+                
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-8">
+                  {featureRatingData.map((feature, index) => (
+                    <Card key={index} className="overflow-hidden bg-[#8B5CF6]/5 border-[#8B5CF6]/20">
+                      <CardContent className="p-4 text-center">
+                        <div className="flex flex-col items-center justify-center h-full">
+                          <p className="text-sm font-medium mb-2 line-clamp-2 h-10 flex items-center">{feature.name}</p>
+                          <div className="flex items-center gap-1 mt-1">
+                            <Star className="h-4 w-4 fill-[#8B5CF6] text-[#8B5CF6]" />
+                            <span className="text-xl font-bold">{feature.score}</span>
+                            <span className="text-xs text-muted-foreground">/5</span>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
                 </div>
               </CardContent>
             </Card>
