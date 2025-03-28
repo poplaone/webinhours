@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,6 +10,7 @@ import IdeaDetail from "./pages/IdeaDetail";
 import IdeaCreation from "./pages/IdeaCreation";
 import ConceptDetail from "./pages/ConceptDetail";
 import ConceptDetailsView from './pages/ConceptDetailsView';
+import ConceptTestingResults from './pages/ConceptTestingResults';
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +29,7 @@ function App() {
             <Route path="/idea/:id" element={<IdeaDetail />} />
             <Route path="/concept/:id" element={<ConceptDetail />} />
             <Route path="/concept-details/:conceptId" element={<ConceptDetailsView />} />
+            <Route path="/concept-testing/:id" element={<ConceptTestingResults />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
