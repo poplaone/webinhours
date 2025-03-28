@@ -374,7 +374,7 @@ const ConceptTestingResults = () => {
                 <CardDescription>Weekly sentiment trend during the survey period</CardDescription>
               </CardHeader>
               <CardContent className="pb-6">
-                <div className="h-[400px]">
+                <div className="h-[400px] mb-8">
                   <ChartContainer
                     config={{
                       positive: {
@@ -397,17 +397,22 @@ const ConceptTestingResults = () => {
                       },
                     }}
                   >
-                    <LineChart data={weeklyTrendData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+                    <LineChart 
+                      data={weeklyTrendData} 
+                      margin={{ top: 20, right: 30, left: 20, bottom: 45 }}
+                    >
                       <CartesianGrid strokeDasharray="3 3" vertical={false} />
                       <XAxis 
                         dataKey="name" 
                         tick={{ fill: '#888888' }}
                         axisLine={{ stroke: '#E2E8F0' }}
+                        padding={{ left: 20, right: 20 }}
                       />
                       <YAxis 
                         tick={{ fill: '#888888' }}
                         axisLine={{ stroke: '#E2E8F0' }}
                         domain={[0, 100]}
+                        padding={{ top: 20, bottom: 20 }}
                       />
                       <Tooltip
                         content={({ active, payload, label }) => {
@@ -467,7 +472,8 @@ const ConceptTestingResults = () => {
                         activeDot={{ r: 8, fill: "#8B5CF6", strokeWidth: 2, stroke: "#fff" }}
                       />
                       <Legend 
-                        verticalAlign="bottom" 
+                        verticalAlign="bottom"
+                        wrapperStyle={{ paddingTop: 20, paddingBottom: 0 }}
                         height={36}
                         formatter={(value) => <span className="capitalize">{value}</span>}
                         iconType="circle"
@@ -476,7 +482,7 @@ const ConceptTestingResults = () => {
                     </LineChart>
                   </ChartContainer>
                 </div>
-                <div className="grid grid-cols-3 gap-4 mt-6">
+                <div className="grid grid-cols-3 gap-4 mt-12">
                   <Card className="bg-green-500/10 border-green-500/20">
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between">
