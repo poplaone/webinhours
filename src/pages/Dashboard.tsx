@@ -260,26 +260,6 @@ const Dashboard = () => {
                         </span>
                       ))}
                     </div>
-                    
-                    <div className="border-t border-border/40 p-2 flex justify-between">
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="text-xs text-muted-foreground hover:text-[#8B5CF6]"
-                        onClick={() => viewIdeaDetail(idea.id)}
-                      >
-                        View Details
-                      </Button>
-                      <Button 
-                        variant="ghost"
-                        size="sm"
-                        className="text-xs text-muted-foreground hover:text-[#8B5CF6] flex items-center"
-                        onClick={() => viewConceptTesting(idea.id)}
-                      >
-                        <ClipboardCheck className="mr-1.5 h-3 w-3" />
-                        Launch Survey
-                      </Button>
-                    </div>
                   </div>
                 </Card>
               ))}
