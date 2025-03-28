@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, LineChart, Line } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 
@@ -377,39 +377,151 @@ const ConceptTestingResults = () => {
                 <div className="h-[400px]">
                   <ChartContainer
                     config={{
-                      area: {
+                      positive: {
                         theme: {
                           light: "#10B981",
                           dark: "#10B981",
                         },
                       },
+                      negative: {
+                        theme: {
+                          light: "#EF4444",
+                          dark: "#EF4444",
+                        },
+                      },
+                      neutral: {
+                        theme: {
+                          light: "#8B5CF6",
+                          dark: "#8B5CF6",
+                        },
+                      },
                     }}
                   >
-                    <AreaChart data={weeklyTrendData} margin={{ top: 10, right: 30, left: 0, bottom: 20 }}>
-                      <defs>
-                        <linearGradient id="colorPositive" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#10B981" stopOpacity={0.8}/>
-                          <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
-                        </linearGradient>
-                        <linearGradient id="colorNegative" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#EF4444" stopOpacity={0.8}/>
-                          <stop offset="95%" stopColor="#EF4444" stopOpacity={0}/>
-                        </linearGradient>
-                        <linearGradient id="colorNeutral" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#A1A1AA" stopOpacity={0.8}/>
-                          <stop offset="95%" stopColor="#A1A1AA" stopOpacity={0}/>
-                        </linearGradient>
-                      </defs>
-                      <XAxis dataKey="name" tick={{ fill: '#888888' }} />
-                      <YAxis tick={{ fill: '#888888' }} />
+                    <LineChart data={weeklyTrendData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
                       <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                      <Tooltip />
-                      <Area type="monotone" dataKey="positive" stroke="#10B981" fillOpacity={1} fill="url(#colorPositive)" />
-                      <Area type="monotone" dataKey="negative" stroke="#EF4444" fillOpacity={1} fill="url(#colorNegative)" />
-                      <Area type="monotone" dataKey="neutral" stroke="#A1A1AA" fillOpacity={1} fill="url(#colorNeutral)" />
-                      <Legend />
-                    </AreaChart>
+                      <XAxis 
+                        dataKey="name" 
+                        tick={{ fill: '#888888' }}
+                        axisLine={{ stroke: '#E2E8F0' }}
+                      />
+                      <YAxis 
+                        tick={{ fill: '#888888' }}
+                        axisLine={{ stroke: '#E2E8F0' }}
+                        domain={[0, 100]}
+                      />
+                      <Tooltip
+                        content={({ active, payload, label }) => {
+                          if (active && payload && payload.length) {
+                            return (
+                              <div className="bg-background p-4 border rounded-md shadow-md">
+                                <p className="font-semibold mb-2">{label}</p>
+                                {payload.map((entry, index) => (
+                                  <div key={`item-${index}`} className="flex items-center justify-between gap-4 mb-1">
+                                    <div className="flex items-center gap-2">
+                                      <div 
+                                        className="w-3 h-3 rounded-full" 
+                                        style={{ 
+                                          backgroundColor: entry.name === 'positive' ? '#10B981' : 
+                                                          entry.name === 'negative' ? '#EF4444' : '#8B5CF6' 
+                                        }}
+                                      />
+                                      <span className="capitalize">{entry.name}</span>
+                                    </div>
+                                    <span className="font-medium">{`${entry.value}%`}</span>
+                                  </div>
+                                ))}
+                                <div className="flex items-center justify-between mt-2 pt-2 border-t">
+                                  <span className="text-sm text-muted-foreground">Total</span>
+                                  <span className="font-medium">
+                                    {payload.reduce((sum, entry) => sum + (entry.value as number), 0)}%
+                                  </span>
+                                </div>
+                              </div>
+                            );
+                          }
+                          return null;
+                        }}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="positive" 
+                        stroke="#10B981" 
+                        strokeWidth={3}
+                        dot={{ r: 6, fill: "#10B981", strokeWidth: 2, stroke: "#fff" }}
+                        activeDot={{ r: 8, fill: "#10B981", strokeWidth: 2, stroke: "#fff" }}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="negative" 
+                        stroke="#EF4444" 
+                        strokeWidth={3}
+                        dot={{ r: 6, fill: "#EF4444", strokeWidth: 2, stroke: "#fff" }}
+                        activeDot={{ r: 8, fill: "#EF4444", strokeWidth: 2, stroke: "#fff" }}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="neutral" 
+                        stroke="#8B5CF6" 
+                        strokeWidth={3}
+                        dot={{ r: 6, fill: "#8B5CF6", strokeWidth: 2, stroke: "#fff" }}
+                        activeDot={{ r: 8, fill: "#8B5CF6", strokeWidth: 2, stroke: "#fff" }}
+                      />
+                      <Legend 
+                        verticalAlign="bottom" 
+                        height={36}
+                        formatter={(value) => <span className="capitalize">{value}</span>}
+                        iconType="circle"
+                        iconSize={10}
+                      />
+                    </LineChart>
                   </ChartContainer>
+                </div>
+                <div className="grid grid-cols-3 gap-4 mt-6">
+                  <Card className="bg-green-500/10 border-green-500/20">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                          <span className="text-sm font-medium">Positive</span>
+                        </div>
+                        <TrendingUp className="h-4 w-4 text-green-500" />
+                      </div>
+                      <div className="mt-2">
+                        <span className="text-2xl font-bold text-green-500">75%</span>
+                        <span className="text-green-500 text-xs ml-1">+10%</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card className="bg-red-500/10 border-red-500/20">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                          <span className="text-sm font-medium">Negative</span>
+                        </div>
+                        <TrendingUp className="h-4 w-4 text-red-500 rotate-180" />
+                      </div>
+                      <div className="mt-2">
+                        <span className="text-2xl font-bold text-red-500">7%</span>
+                        <span className="text-green-500 text-xs ml-1">-5%</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card className="bg-purple-500/10 border-purple-500/20">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 rounded-full bg-[#8B5CF6]"></div>
+                          <span className="text-sm font-medium">Neutral</span>
+                        </div>
+                        <TrendingUp className="h-4 w-4 text-[#8B5CF6] rotate-90" />
+                      </div>
+                      <div className="mt-2">
+                        <span className="text-2xl font-bold text-[#8B5CF6]">18%</span>
+                        <span className="text-red-500 text-xs ml-1">-5%</span>
+                      </div>
+                    </CardContent>
+                  </Card>
                 </div>
               </CardContent>
             </Card>
