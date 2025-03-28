@@ -1,86 +1,140 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Calendar, Lightbulb, TrendingUp, Users, Radio, BarChart, BookOpen, Brain } from 'lucide-react';
-import { cn } from "@/lib/utils";
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
-import { AreaChart, Area, BarChart as RechartsBarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { Sparkles, Lightbulb, BookOpen, FileText, Brain, Star, BarChart3, Users, TrendingUp, GripVertical } from 'lucide-react';
 import ChatSidebar from '@/components/ai/ChatSidebar';
-import { useNavigate as useNav } from 'react-router-dom';
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
-// Sample data for market trends
-const marketTrendData = [
-  { name: 'Jan', value: 30 },
-  { name: 'Feb', value: 40 },
-  { name: 'Mar', value: 45 },
-  { name: 'Apr', value: 55 },
-  { name: 'May', value: 60 },
-  { name: 'Jun', value: 75 },
-  { name: 'Jul', value: 85 },
-];
+// Define the idea type
+export interface Idea {
+  id: number;
+  title: string;
+  description: string;
+  tags: string[];
+  timestamp: string;
+  trendAnalysis: { score: number; trend: "up" | "down" | "stable" };
+  consumerDemandScore: number;
+  industryRelevance: string;
+  image: string;
+  problemStatement: string;
+  targetAudience: string;
+  uniqueSellingProposition: string;
+  solutionOutline: string;
+  revenueModel: string;
+  potentialChallenges: string;
+}
 
-const demographicData = [
-  { name: 'Gen Z', value: 35 },
-  { name: 'Millennials', value: 45 },
-  { name: 'Gen X', value: 15 },
-  { name: 'Boomers', value: 5 },
-];
-
-const consumerPreferenceData = [
-  { name: 'Eco-friendly', value: 85 },
-  { name: 'Healthy', value: 75 },
-  { name: 'Affordable', value: 60 },
-  { name: 'Convenient', value: 50 },
-  { name: 'Premium', value: 40 },
-];
-
-const COLORS = ['#8B5CF6', '#A78BFA', '#C4B5FD', '#DDD6FE', '#EDE9FE'];
-
-// Sample data for idea cards
-const ideaCards = [
+// Sample idea data
+const sampleIdeas: Idea[] = [
   {
     id: 1,
-    title: "Plant-Based Protein Snack",
-    description: "Innovative plant-based protein snacks targeting health-conscious consumers with eco-friendly packaging and clean ingredient profiles.",
-    tags: ["Plant-Based", "FMCG", "Health"],
-    timestamp: "5d ago",
-    trendAnalysis: { score: 94, trend: "up" as const },
-    consumerDemandScore: 92,
+    title: "AI-Powered Personalized Nutrition App",
+    description: "A mobile app that provides personalized nutrition recommendations based on user's dietary preferences, health goals, and real-time data analysis.",
+    tags: ["AI", "HealthTech", "Mobile"],
+    timestamp: "2d ago",
+    trendAnalysis: { score: 92, trend: "up" },
+    consumerDemandScore: 88,
     industryRelevance: "Very High",
-    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=300&h=170&q=80"
+    image: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=300&h=170&q=80",
+    problemStatement: "Consumers struggle to maintain a healthy diet due to lack of personalized guidance.",
+    targetAudience: "Health-conscious individuals, fitness enthusiasts, and people with specific dietary needs.",
+    uniqueSellingProposition: "AI-driven personalization, real-time data analysis, and integration with wearable devices.",
+    solutionOutline: "Develop a mobile app with AI algorithms, user profile creation, data tracking, and personalized recommendations.",
+    revenueModel: "Subscription fees, premium features, and partnerships with food and supplement brands.",
+    potentialChallenges: "Data privacy concerns, accuracy of AI algorithms, and competition from existing nutrition apps."
   },
   {
-    id: 9,
-    title: "Personalized Nutrition App",
-    description: "Mobile platform for FMCG brands to offer personalized food & beverage recommendations based on customer preferences and dietary needs.",
-    tags: ["HealthTech", "FMCG", "Mobile"],
-    timestamp: "2d ago",
-    trendAnalysis: { score: 89, trend: "up" as const },
-    consumerDemandScore: 86,
-    industryRelevance: "High",
-    image: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=300&h=170&q=80"
+    id: 2,
+    title: "Sustainable Packaging Solution for FMCG",
+    description: "Biodegradable packaging materials made from agricultural waste, perfect for FMCG products with high environmental concerns.",
+    tags: ["Green", "FMCG", "Packaging"],
+    timestamp: "1w ago",
+    trendAnalysis: { score: 95, trend: "up" },
+    consumerDemandScore: 90,
+    industryRelevance: "Very High",
+    image: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?auto=format&fit=crop&w=300&h=170&q=80",
+    problemStatement: "FMCG companies face increasing pressure to reduce plastic waste and adopt sustainable packaging solutions.",
+    targetAudience: "FMCG brands, retailers, and environmentally conscious consumers.",
+    uniqueSellingProposition: "Biodegradable materials, reduced carbon footprint, and compliance with environmental regulations.",
+    solutionOutline: "Develop biodegradable packaging materials from agricultural waste, optimize production processes, and establish partnerships with FMCG brands.",
+    revenueModel: "Sales of packaging materials, licensing agreements, and consulting services.",
+    potentialChallenges: "Scalability of production, cost competitiveness, and acceptance by consumers."
   },
-  // ... other idea data (truncated for brevity)
+  {
+    id: 3,
+    title: "Smart Home Energy Management System",
+    description: "An IoT-based system that optimizes energy consumption in homes by analyzing usage patterns and automating energy-saving measures.",
+    tags: ["IoT", "Energy", "Home Automation"],
+    timestamp: "3d ago",
+    trendAnalysis: { score: 88, trend: "up" },
+    consumerDemandScore: 85,
+    industryRelevance: "High",
+    image: "https://images.unsplash.com/photo-1560508179-b2c9a3f8e92b?auto=format&fit=crop&w=300&h=170&q=80",
+    problemStatement: "Homeowners struggle to manage energy consumption and reduce utility bills.",
+    targetAudience: "Homeowners, apartment dwellers, and property managers.",
+    uniqueSellingProposition: "Real-time energy monitoring, automated energy-saving measures, and integration with smart home devices.",
+    solutionOutline: "Develop an IoT-based system with smart sensors, data analytics, and mobile app control.",
+    revenueModel: "Sales of hardware, subscription fees for premium features, and partnerships with utility companies.",
+    potentialChallenges: "Data security concerns, compatibility with existing home appliances, and competition from established smart home brands."
+  },
+  {
+    id: 4,
+    title: "AI-Powered Chatbot for Customer Support",
+    description: "A chatbot that provides instant customer support using natural language processing and machine learning.",
+    tags: ["AI", "Customer Service", "Chatbot"],
+    timestamp: "5d ago",
+    trendAnalysis: { score: 90, trend: "up" },
+    consumerDemandScore: 87,
+    industryRelevance: "Very High",
+    image: "https://images.unsplash.com/photo-1607083206968-13611e3d76db?auto=format&fit=crop&w=300&h=170&q=80",
+    problemStatement: "Businesses struggle to provide timely and efficient customer support.",
+    targetAudience: "Businesses of all sizes, customer service teams, and online retailers.",
+    uniqueSellingProposition: "24/7 availability, natural language processing, and integration with CRM systems.",
+    solutionOutline: "Develop a chatbot using NLP and machine learning, integrate with customer service platforms, and provide training data.",
+    revenueModel: "Subscription fees, usage-based pricing, and customization services.",
+    potentialChallenges: "Accuracy of chatbot responses, handling complex customer inquiries, and integration with legacy systems."
+  },
+  {
+    id: 5,
+    title: "AR-Based Virtual Try-On for E-commerce",
+    description: "An augmented reality app that allows customers to virtually try on clothing and accessories before making a purchase.",
+    tags: ["AR", "E-commerce", "Fashion"],
+    timestamp: "4d ago",
+    trendAnalysis: { score: 85, trend: "up" },
+    consumerDemandScore: 82,
+    industryRelevance: "High",
+    image: "https://images.unsplash.com/photo-1617644491633-9cc71756fee5?auto=format&fit=crop&w=300&h=170&q=80",
+    problemStatement: "Customers hesitate to purchase clothing and accessories online due to uncertainty about fit and appearance.",
+    targetAudience: "Online shoppers, fashion retailers, and apparel brands.",
+    uniqueSellingProposition: "Realistic virtual try-on experience, improved purchase confidence, and reduced return rates.",
+    solutionOutline: "Develop an AR app with 3D modeling, image recognition, and virtual try-on capabilities.",
+    revenueModel: "Licensing fees, usage-based pricing, and partnerships with e-commerce platforms.",
+    potentialChallenges: "Accuracy of virtual try-on, compatibility with different devices, and integration with e-commerce websites."
+  }
 ];
 
 const IdeaDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const idNumber = parseInt(id || "1");
-  
-  // Find the idea with the matching ID
-  const idea = ideaCards.find(idea => idea.id === idNumber) || ideaCards[0];
-  
-  const handleDevelopIdea = () => {
-    navigate(`/concept/${idea.id}`);
-  };
-  
+
+  // Find the idea based on the ID
+  const idea = sampleIdeas.find((idea) => idea.id === Number(id));
+
+  // If idea is not found, you might want to handle this case
+  if (!idea) {
+    return <div>Idea not found</div>;
+  }
+
   const handleBackToDashboard = () => {
     navigate('/dashboard');
+  };
+
+  const handleViewConceptCreation = () => {
+    navigate(`/concept/${id}`);
   };
 
   return (
@@ -98,19 +152,16 @@ const IdeaDetail = () => {
                 ← Back to Dashboard
               </Button>
               <div className="flex items-center">
-                <Lightbulb className="h-5 w-5 text-[#8B5CF6]" />
+                <Sparkles className="h-5 w-5 text-[#8B5CF6]" />
                 <span className="ml-2 text-xl font-semibold">Idea Detail</span>
               </div>
             </div>
             
             {/* Actions */}
             <div className="flex items-center gap-4">
-              <Button 
-                className="bg-[#8B5CF6] hover:bg-[#7C3AED]"
-                onClick={handleDevelopIdea}
-              >
+              <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]" onClick={handleViewConceptCreation}>
                 <Lightbulb className="mr-2 h-4 w-4" />
-                Develop Idea
+                Concept Creation
               </Button>
             </div>
           </div>
@@ -120,278 +171,107 @@ const IdeaDetail = () => {
         <main className="container py-6 flex-1 overflow-auto">
           <ScrollArea className="h-[calc(100vh-4rem)]">
             <div className="pr-4 pb-10">
-              <h1 className="text-2xl font-bold mb-2">{idea.title}</h1>
-              <div className="flex items-center gap-2 text-muted-foreground mb-4">
-                <Calendar className="h-4 w-4" />
-                Added {idea.timestamp}
-              </div>
-
-              <div className="w-full h-48 overflow-hidden rounded-md mb-4">
-                <img 
-                  src={idea.image} 
-                  alt={idea.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              <div className="flex flex-wrap gap-2 mb-4">
-                {idea.tags.map((tag, index) => (
-                  <Badge key={index} variant="secondary" className="bg-[#8B5CF6]/10 text-[#8B5CF6] hover:bg-[#8B5CF6]/20">
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-                <Card className="bg-[#8B5CF6]/5 border-[#8B5CF6]/20">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="p-2 bg-[#8B5CF6]/10 rounded-full">
-                        <Brain className="h-5 w-5 text-[#8B5CF6]" />
-                      </div>
-                      <h3 className="font-semibold">AI-Generated Summary</h3>
-                    </div>
-                    <p className="text-muted-foreground">
-                      {idea.title === "Plant-Based Protein Snack" ? 
-                        "This plant-based protein snack concept addresses three converging market trends: rising plant-based diets, increased protein consumption, and demand for convenient, healthy snacking options. Market analysis indicates significant growth potential with 37% CAGR in the plant-based snack category through 2028, driven by health-conscious millennials and Gen Z consumers seeking sustainable food options." :
-                        "This innovative product concept shows strong alignment with current market trends and consumer demands. Analysis of market data shows considerable growth potential in this segment, with increasing consumer interest across multiple demographics. The concept addresses key pain points and offers a differentiated solution in an expanding market."}
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardContent className="p-4">
-                    <h3 className="text-lg font-semibold mb-2">Overview</h3>
-                    <p className="text-muted-foreground">{idea.description}</p>
-                  </CardContent>
-                </Card>
-              </div>
-
-              <div className="grid grid-cols-3 gap-4 mb-4">
-                <Card>
-                  <CardContent className="p-3">
-                    <div className="flex items-center gap-2 mb-1">
-                      <div className="p-2 bg-[#8B5CF6]/10 rounded-full">
-                        <TrendingUp className="h-4 w-4 text-[#8B5CF6]" />
-                      </div>
-                      <h3 className="font-medium">Trend Analysis</h3>
-                    </div>
-                    <div className={cn(
-                      "font-medium text-sm",
-                      idea.trendAnalysis.trend === "up" ? "text-emerald-500" : 
-                      idea.trendAnalysis.trend === "down" ? "text-red-500" : "text-amber-500"
-                    )}>
-                      {idea.trendAnalysis.score}%
-                      {idea.trendAnalysis.trend === "up" && " ↑"}
-                      {idea.trendAnalysis.trend === "down" && " ↓"}
-                      {idea.trendAnalysis.trend === "stable" && " →"}
-                    </div>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {idea.trendAnalysis.trend === "up" 
-                        ? "Trending upward in market interest" 
-                        : idea.trendAnalysis.trend === "down" 
-                          ? "Declining in market interest" 
-                          : "Maintaining stable market interest"}
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardContent className="p-3">
-                    <div className="flex items-center gap-2 mb-1">
-                      <div className="p-2 bg-[#8B5CF6]/10 rounded-full">
-                        <Users className="h-4 w-4 text-[#8B5CF6]" />
-                      </div>
-                      <h3 className="font-medium">Consumer Demand</h3>
-                    </div>
-                    <div className="text-2xl font-bold">
-                      {idea.consumerDemandScore}%
-                    </div>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {idea.consumerDemandScore > 80 ? "Very high consumer interest" :
-                       idea.consumerDemandScore > 60 ? "Strong consumer interest" :
-                       idea.consumerDemandScore > 40 ? "Moderate consumer interest" : "Low consumer interest"}
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardContent className="p-3">
-                    <div className="flex items-center gap-2 mb-1">
-                      <div className="p-2 bg-[#8B5CF6]/10 rounded-full">
-                        <Radio className="h-4 w-4 text-[#8B5CF6]" />
-                      </div>
-                      <h3 className="font-medium">Industry Relevance</h3>
-                    </div>
-                    <div className="text-2xl font-bold">
-                      {idea.industryRelevance}
-                    </div>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Alignment with industry trends
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-                <Card className="p-4">
-                  <h3 className="text-md font-semibold mb-2 flex items-center gap-2">
-                    <TrendingUp className="h-5 w-5 text-[#8B5CF6]" />
-                    Market Growth Trend
-                  </h3>
-                  <div className="h-56">
-                    <ChartContainer
-                      config={{
-                        area: {
-                          theme: {
-                            light: "#8B5CF6",
-                            dark: "#8B5CF6",
-                          },
-                        },
-                      }}
-                    >
-                      <AreaChart data={marketTrendData} margin={{ top: 5, right: 5, left: 0, bottom: 5 }}>
-                        <defs>
-                          <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.8}/>
-                            <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0}/>
-                          </linearGradient>
-                        </defs>
-                        <XAxis dataKey="name" tick={{ fill: '#888888' }} />
-                        <YAxis tick={{ fill: '#888888' }} />
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                        <ChartTooltip
-                          content={<ChartTooltipContent nameKey="name" />}
-                        />
-                        <Area type="monotone" dataKey="value" stroke="#8B5CF6" fillOpacity={1} fill="url(#colorValue)" />
-                      </AreaChart>
-                    </ChartContainer>
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    Growth trajectory shows accelerating market demand over the past 6 months.
-                  </p>
-                </Card>
-
-                <Card className="p-4">
-                  <h3 className="text-md font-semibold mb-2 flex items-center gap-2">
-                    <BookOpen className="h-5 w-5 text-[#8B5CF6]" />
-                    Consumer Preferences
-                  </h3>
-                  <div className="h-56">
-                    <ChartContainer
-                      config={{
-                        bar: {
-                          theme: {
-                            light: "#8B5CF6",
-                            dark: "#8B5CF6",
-                          },
-                        },
-                      }}
-                    >
-                      <RechartsBarChart data={consumerPreferenceData} layout="vertical" margin={{ top: 5, right: 5, left: 60, bottom: 5 }}>
-                        <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
-                        <XAxis type="number" tick={{ fill: '#888888' }} />
-                        <YAxis dataKey="name" type="category" tick={{ fill: '#888888' }} width={60} />
-                        <ChartTooltip
-                          content={<ChartTooltipContent />}
-                        />
-                        <Bar dataKey="value" fill="#8B5CF6" radius={[0, 4, 4, 0]} />
-                      </RechartsBarChart>
-                    </ChartContainer>
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    Consumer preferences show strong prioritization of eco-friendly features and health benefits.
-                  </p>
-                </Card>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-                <Card className="p-4">
-                  <h3 className="text-md font-semibold mb-2 flex items-center gap-2">
-                    <Users className="h-5 w-5 text-[#8B5CF6]" />
-                    Target Demographics
-                  </h3>
-                  <div className="h-56">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie
-                          data={demographicData}
-                          cx="50%"
-                          cy="50%"
-                          labelLine={false}
-                          outerRadius={70}
-                          fill="#8884d8"
-                          dataKey="value"
-                          label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                        >
-                          {demographicData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                          ))}
-                        </Pie>
-                        <Legend />
-                        <Tooltip formatter={(value) => `${value}%`} />
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </div>
-                </Card>
-
-                <Card className="p-4">
-                  <h4 className="font-medium mb-3">Key Demographics</h4>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Segment</TableHead>
-                        <TableHead>Characteristics</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell className="font-medium">Millennials</TableCell>
-                        <TableCell>Health-conscious, values sustainability</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Gen Z</TableCell>
-                        <TableCell>Environmentally aware, social media savvy</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Gen X</TableCell>
-                        <TableCell>Practical, increasing health awareness</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </Card>
-              </div>
-
-              <Card className="p-4 mb-4">
-                <h3 className="text-md font-semibold mb-2 flex items-center gap-2">
-                  <BarChart className="h-5 w-5 text-[#8B5CF6]" />
-                  Detailed Market Analysis
-                </h3>
-                <p className="text-sm text-muted-foreground mb-3">
-                  {idea.title === "Plant-Based Protein Snack" ?
-                    "The plant-based protein snack market is experiencing rapid growth driven by increasing health consciousness and sustainability concerns. With a projected CAGR of 12.8% from 2023-2028, this category is outpacing traditional snack segments by more than 3x." :
-                    "Market analysis reveals significant growth potential in this product category. Current market size is estimated at $4.2B with projected annual growth of 8.7% over the next five years, outperforming the broader industry average of 3.2%."}
-                </p>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <h4 className="font-medium mb-2">Key Insights:</h4>
-                    <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground ml-2">
-                      <li>Market penetration in urban centers is 2.3x higher than in suburban areas</li>
-                      <li>Early adopters show 78% repeat purchase rates within the first 3 months</li>
-                      <li>DTC channel growth outpacing traditional retail by 15% in this category</li>
-                      <li>Social media engagement drives 42% higher conversion compared to other marketing channels</li>
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h4 className="font-medium mb-2">Competitive Landscape:</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Market competition analysis indicates 14 major players with no clear dominant leader, suggesting opportunity for innovative new entrants to capture significant market share through differentiated positioning and strong branding strategies.
-                    </p>
-                  </div>
+              {/* Idea Header */}
+              <div className="mb-8">
+                <h1 className="text-3xl font-bold mb-2">{idea.title}</h1>
+                <div className="flex gap-2">
+                  {idea.tags.map((tag, index) => (
+                    <Badge key={index} className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs font-medium rounded-full px-2 py-1">
+                      {tag}
+                    </Badge>
+                  ))}
                 </div>
-              </Card>
+                <p className="text-muted-foreground mt-2">{idea.description}</p>
+              </div>
+
+              {/* Idea Metrics */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <Card className="p-4 border border-border/40 bg-card/50 backdrop-blur">
+                  <div className="flex items-center gap-2 mb-2">
+                    <TrendingUp className="h-4 w-4 text-[#8B5CF6]" />
+                    <h3 className="font-medium">Trend Analysis</h3>
+                  </div>
+                  <div className={cn(
+                    "font-medium text-sm",
+                    {
+                      "text-emerald-500": idea.trendAnalysis.trend === "up",
+                      "text-red-500": idea.trendAnalysis.trend === "down",
+                      "text-amber-500": idea.trendAnalysis.trend === "stable"
+                    }
+                  )}>
+                    {idea.trendAnalysis.score}%
+                    {idea.trendAnalysis.trend === "up" && " ↑"}
+                    {idea.trendAnalysis.trend === "down" && " ↓"}
+                    {idea.trendAnalysis.trend === "stable" && " →"}
+                  </div>
+                </Card>
+                <Card className="p-4 border border-border/40 bg-card/50 backdrop-blur">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Users className="h-4 w-4 text-[#8B5CF6]" />
+                    <h3 className="font-medium">Consumer Demand</h3>
+                  </div>
+                  <p className="font-medium text-sm">{idea.consumerDemandScore}%</p>
+                </Card>
+                <Card className="p-4 border border-border/40 bg-card/50 backdrop-blur">
+                  <div className="flex items-center gap-2 mb-2">
+                    <BookOpen className="h-4 w-4 text-[#8B5CF6]" />
+                    <h3 className="font-medium">Industry Relevance</h3>
+                  </div>
+                  <p className="font-medium text-sm">{idea.industryRelevance}</p>
+                </Card>
+              </div>
+
+              {/* Core Idea Details */}
+              <div className="space-y-6 mb-8">
+                <Card className="p-6 border border-border/40 bg-card/50 backdrop-blur">
+                  <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <FileText className="h-5 w-5 text-[#8B5CF6]" />
+                    Core Idea Details
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <h3 className="font-medium mb-2">Problem Statement</h3>
+                      <p className="text-sm text-muted-foreground">{idea.problemStatement}</p>
+                    </div>
+                    <div>
+                      <h3 className="font-medium mb-2">Target Audience</h3>
+                      <p className="text-sm text-muted-foreground">{idea.targetAudience}</p>
+                    </div>
+                    <div>
+                      <h3 className="font-medium mb-2">Unique Selling Proposition</h3>
+                      <p className="text-sm text-muted-foreground">{idea.uniqueSellingProposition}</p>
+                    </div>
+                    <div>
+                      <h3 className="font-medium mb-2">Solution Outline</h3>
+                      <p className="text-sm text-muted-foreground">{idea.solutionOutline}</p>
+                    </div>
+                    <div>
+                      <h3 className="font-medium mb-2">Revenue Model</h3>
+                      <p className="text-sm text-muted-foreground">{idea.revenueModel}</p>
+                    </div>
+                    <div>
+                      <h3 className="font-medium mb-2">Potential Challenges</h3>
+                      <p className="text-sm text-muted-foreground">{idea.potentialChallenges}</p>
+                    </div>
+                  </div>
+                </Card>
+              </div>
+
+              {/* AI Brainstorming Section */}
+              <div className="border-t border-border/30 pt-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <Brain className="h-5 w-5 text-[#8B5CF6]" />
+                  <h2 className="text-xl font-semibold">AI Brainstorming</h2>
+                </div>
+                <p className="text-muted-foreground">Generate new angles and variations for this idea using AI</p>
+                
+                <div className="mt-4">
+                  <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]">
+                    <Sparkles className="mr-2 h-4 w-4" />
+                    Generate New Ideas
+                  </Button>
+                </div>
+              </div>
             </div>
           </ScrollArea>
         </main>

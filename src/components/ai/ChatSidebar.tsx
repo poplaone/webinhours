@@ -124,7 +124,7 @@ const ChatSidebar = () => {
             </div>
           </ScrollArea>
           
-          <div className="p-4 border-t">
+          <div className="p-4 border-t mt-auto">
             <div className="relative">
               <Textarea
                 value={inputMessage}
@@ -157,17 +157,25 @@ const ChatSidebar = () => {
           </div>
         </>
       ) : (
-        <div className="flex flex-col items-center py-4 space-y-4">
-          <Button variant="ghost" size="icon" className="text-[#8B5CF6]">
-            <Sparkles className="h-5 w-5" />
-          </Button>
-          <Button variant="ghost" size="icon" className="text-[#8B5CF6]">
-            <Plus className="h-5 w-5" />
-          </Button>
-          <Button variant="ghost" size="icon" className="text-[#8B5CF6]">
-            <Zap className="h-5 w-5" />
-          </Button>
-        </div>
+        <>
+          <div className="flex flex-col items-center py-4 space-y-4 flex-1">
+            <Button variant="ghost" size="icon" className="text-[#8B5CF6]">
+              <Sparkles className="h-5 w-5" />
+            </Button>
+            <Button variant="ghost" size="icon" className="text-[#8B5CF6]">
+              <Plus className="h-5 w-5" />
+            </Button>
+            <Button variant="ghost" size="icon" className="text-[#8B5CF6]">
+              <Zap className="h-5 w-5" />
+            </Button>
+          </div>
+          
+          <div className="mt-auto p-2 flex flex-col items-center border-t">
+            <Button variant="ghost" size="icon" className="text-[#8B5CF6]">
+              <SendIcon className="h-5 w-5" />
+            </Button>
+          </div>
+        </>
       )}
     </div>
   );
