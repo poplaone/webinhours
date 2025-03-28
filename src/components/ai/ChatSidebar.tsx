@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { SendIcon, Sparkles, Zap, Plus, Minimize2, Maximize2, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -80,7 +81,7 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
   };
 
   return (
-    <div className={cn("flex flex-col h-full bg-background", className)}>
+    <div className={cn("flex flex-col h-full max-h-full bg-background", className)}>
       <div className="flex-none items-center justify-between bg-[#1A1F2C] border-b border-[#8B5CF6]/10 px-4 py-3">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center">
@@ -125,7 +126,7 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
         </div>
       </div>
       
-      <ScrollArea className="flex-grow bg-[#121212]">
+      <ScrollArea className="flex-grow bg-[#121212] overflow-y-auto">
         <div className="p-4 flex flex-col">
           {messages.map((message, index) => (
             <ChatMessage

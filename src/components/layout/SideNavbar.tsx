@@ -76,7 +76,7 @@ const SideNavbar = () => {
   return (
     <div className="flex h-full relative">
       <div className={cn(
-        "h-full transition-all duration-300 flex flex-col bg-background border-r",
+        "h-full transition-all duration-300 flex flex-col bg-background border-r fixed left-0 top-0 bottom-0",
         isExpanded ? "w-72" : "w-16"
       )}>
         {/* Header with logo and toggle */}
@@ -110,7 +110,7 @@ const SideNavbar = () => {
           </Button>
         </div>
 
-        {/* Navigation items section */}
+        {/* Navigation items section - make it scrollable if needed but fixed height */}
         <div className="flex flex-col py-4 shrink-0 overflow-y-auto">
           {navItems.map((item) => (
             <Button
@@ -173,6 +173,12 @@ const SideNavbar = () => {
           )}
         </div>
       </div>
+
+      {/* Add margin to content to prevent overlap with fixed sidebar */}
+      <div className={cn(
+        "flex-grow transition-all duration-300",
+        isExpanded ? "ml-72" : "ml-16"
+      )}></div>
 
       {/* Maximized chat sheet */}
       <Sheet open={isAIChatMaximized} onOpenChange={setIsAIChatMaximized}>
