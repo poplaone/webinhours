@@ -78,7 +78,7 @@ const SideNavbar = () => {
     <div className="flex h-full relative">
       <div className={cn(
         "h-full transition-all duration-300 flex flex-col bg-background border-r fixed left-0 top-0 bottom-0",
-        isExpanded ? "w-60" : "w-16" // Reduced from w-72 to w-60
+        isExpanded ? "w-72" : "w-16" // Increased from w-60 to w-72 (20% more)
       )}>
         {/* Header with logo and toggle */}
         <div className="flex items-center justify-between p-4 h-16 shrink-0 border-b">
@@ -189,7 +189,7 @@ const SideNavbar = () => {
       {/* Add margin to content to prevent overlap with fixed sidebar */}
       <div className={cn(
         "flex-grow transition-all duration-300",
-        isExpanded ? "ml-60" : "ml-16" // Updated margin to match new width
+        isExpanded ? "ml-72" : "ml-16" // Updated margin to match new width
       )}></div>
 
       {/* Maximized chat sheet */}
