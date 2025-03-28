@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Bell, User, Sparkles, TrendingUp, Lightbulb, Users, Radio, BookOpen, BarChart3, Brain, ExternalLink, Settings, ClipboardCheck } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import SideNavbar from '@/components/layout/SideNavbar';
+import CategoryFilter from '@/components/filters/CategoryFilter';
 
 const ideaCards = [
   {
@@ -18,7 +19,8 @@ const ideaCards = [
     trendAnalysis: { score: 94, trend: "up" },
     consumerDemandScore: 92,
     industryRelevance: "Very High",
-    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=300&h=170&q=80"
+    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=300&h=170&q=80",
+    category: "Food & Snacks"
   },
   {
     id: 9,
@@ -29,7 +31,8 @@ const ideaCards = [
     trendAnalysis: { score: 89, trend: "up" },
     consumerDemandScore: 86,
     industryRelevance: "High",
-    image: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=300&h=170&q=80"
+    image: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=300&h=170&q=80",
+    category: "Health & Wellness"
   },
   {
     id: 10,
@@ -40,7 +43,8 @@ const ideaCards = [
     trendAnalysis: { score: 87, trend: "up" },
     consumerDemandScore: 82,
     industryRelevance: "High",
-    image: "https://images.unsplash.com/photo-1607083206968-13611e3d76db?auto=format&fit=crop&w=300&h=170&q=80"
+    image: "https://images.unsplash.com/photo-1607083206968-13611e3d76db?auto=format&fit=crop&w=300&h=170&q=80",
+    category: "Household Products"
   },
   {
     id: 11,
@@ -51,7 +55,8 @@ const ideaCards = [
     trendAnalysis: { score: 92, trend: "up" },
     consumerDemandScore: 88,
     industryRelevance: "Very High",
-    image: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?auto=format&fit=crop&w=300&h=170&q=80"
+    image: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?auto=format&fit=crop&w=300&h=170&q=80",
+    category: "Household Products"
   },
   {
     id: 12,
@@ -62,7 +67,8 @@ const ideaCards = [
     trendAnalysis: { score: 85, trend: "up" },
     consumerDemandScore: 79,
     industryRelevance: "Medium",
-    image: "https://images.unsplash.com/photo-1617644491633-9cc71756fee5?auto=format&fit=crop&w=300&h=170&q=80"
+    image: "https://images.unsplash.com/photo-1617644491633-9cc71756fee5?auto=format&fit=crop&w=300&h=170&q=80",
+    category: "Food & Snacks"
   },
   {
     id: 13,
@@ -73,12 +79,14 @@ const ideaCards = [
     trendAnalysis: { score: 91, trend: "up" },
     consumerDemandScore: 84,
     industryRelevance: "High",
-    image: "https://images.unsplash.com/photo-1560508179-b2c9a3f8e92b?auto=format&fit=crop&w=300&h=170&q=80"
+    image: "https://images.unsplash.com/photo-1560508179-b2c9a3f8e92b?auto=format&fit=crop&w=300&h=170&q=80",
+    category: "Beverages"
   }
 ];
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const viewIdeaDetail = (ideaId: number) => {
     navigate(`/idea/${ideaId}`);
@@ -87,6 +95,10 @@ const Dashboard = () => {
   const viewConceptTesting = (ideaId: number) => {
     navigate(`/concept-testing/${ideaId}`);
   };
+
+  const filteredIdeas = selectedCategories.length === 0
+    ? ideaCards
+    : ideaCards.filter(idea => selectedCategories.includes(idea.category));
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex">
@@ -131,15 +143,21 @@ const Dashboard = () => {
               <h1 className="text-3xl font-bold">Product Ideas</h1>
               <p className="text-muted-foreground mt-1">High-potential product concepts for fast-moving consumer goods brands</p>
             </div>
-            <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]" onClick={() => navigate('/idea/new')}>
-              <Lightbulb className="mr-2 h-4 w-4" />
-              New Idea
-            </Button>
+            <div className="flex items-center">
+              <CategoryFilter 
+                selectedCategories={selectedCategories}
+                onCategoryChange={setSelectedCategories}
+              />
+              <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED] ml-4" onClick={() => navigate('/idea/new')}>
+                <Lightbulb className="mr-2 h-4 w-4" />
+                New Idea
+              </Button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {ideaCards.map((idea) => (
+              {filteredIdeas.map((idea) => (
                 <Card 
                   key={idea.id} 
                   className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg transition-shadow group relative"
