@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { SendIcon, Sparkles, Zap, Plus, Minimize2, Maximize2, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -82,49 +81,51 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
 
   return (
     <div className={cn("flex flex-col h-full bg-background", className)}>
-      <div className="flex items-center justify-between bg-[#1A1F2C] border-b border-[#8B5CF6]/10 px-4 py-3">
-        <div className="flex items-center">
-          <Sparkles className="h-4 w-4 text-[#8B5CF6] mr-2" />
-          <span className="text-sm font-medium text-white">AI Ideation Chat</span>
-          {activeIdea && (
-            <>
-              <span className="mx-2 text-muted-foreground">–</span>
-              <div className="flex items-center">
-                <Zap className="h-3 w-3 text-[#8B5CF6] mr-1" />
-                <span className="text-xs">{activeIdea}</span>
-              </div>
-            </>
-          )}
-        </div>
-        <div className="flex items-center space-x-1">
-          {onToggleMaximize && (
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="h-7 w-7 p-0 text-white hover:bg-[#8B5CF6]/20" 
-              onClick={onToggleMaximize}
-            >
-              {isMaximized ? (
-                <Minimize2 className="h-4 w-4" />
-              ) : (
-                <Maximize2 className="h-4 w-4" />
-              )}
-            </Button>
-          )}
-          {onClose && (
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="h-7 w-7 p-0 text-white hover:bg-[#8B5CF6]/20" 
-              onClick={onClose}
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          )}
+      <div className="flex-none items-center justify-between bg-[#1A1F2C] border-b border-[#8B5CF6]/10 px-4 py-3">
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center">
+            <Sparkles className="h-4 w-4 text-[#8B5CF6] mr-2" />
+            <span className="text-sm font-medium text-white">AI Ideation Chat</span>
+            {activeIdea && (
+              <>
+                <span className="mx-2 text-muted-foreground">–</span>
+                <div className="flex items-center">
+                  <Zap className="h-3 w-3 text-[#8B5CF6] mr-1" />
+                  <span className="text-xs">{activeIdea}</span>
+                </div>
+              </>
+            )}
+          </div>
+          <div className="flex items-center space-x-1">
+            {onToggleMaximize && (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="h-7 w-7 p-0 text-white hover:bg-[#8B5CF6]/20" 
+                onClick={onToggleMaximize}
+              >
+                {isMaximized ? (
+                  <Minimize2 className="h-4 w-4" />
+                ) : (
+                  <Maximize2 className="h-4 w-4" />
+                )}
+              </Button>
+            )}
+            {onClose && (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="h-7 w-7 p-0 text-white hover:bg-[#8B5CF6]/20" 
+                onClick={onClose}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
         </div>
       </div>
       
-      <ScrollArea className="flex-grow bg-[#121212] overflow-auto">
+      <ScrollArea className="flex-grow bg-[#121212]">
         <div className="p-4 flex flex-col">
           {messages.map((message, index) => (
             <ChatMessage
@@ -137,7 +138,7 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
         </div>
       </ScrollArea>
       
-      <div className="p-4 bg-[#121212] border-t border-[#8B5CF6]/10">
+      <div className="flex-none p-4 bg-[#121212] border-t border-[#8B5CF6]/10">
         <div className="relative">
           <Textarea
             value={inputMessage}

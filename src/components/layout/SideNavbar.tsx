@@ -79,7 +79,8 @@ const SideNavbar = () => {
         "h-full transition-all duration-300 flex flex-col bg-background border-r",
         isExpanded ? "w-72" : "w-16"
       )}>
-        <div className="flex items-center justify-between p-4 h-16 border-b">
+        {/* Header with logo and toggle */}
+        <div className="flex items-center justify-between p-4 h-16 shrink-0 border-b">
           <div className={cn("flex items-center", !isExpanded && "justify-center w-full")}>
             {isExpanded ? (
               <>
@@ -109,7 +110,8 @@ const SideNavbar = () => {
           </Button>
         </div>
 
-        <div className="flex flex-col py-4 overflow-y-auto">
+        {/* Navigation items section */}
+        <div className="flex flex-col py-4 shrink-0 overflow-y-auto">
           {navItems.map((item) => (
             <Button
               key={item.label}
@@ -127,48 +129,52 @@ const SideNavbar = () => {
           ))}
         </div>
 
-        <Separator />
+        <Separator className="shrink-0" />
         
         {/* AI Chat section that stretches to the bottom */}
-        {isExpanded && isAIChatOpen ? (
-          <div className="flex-grow flex flex-col min-h-0">
+        <div className={cn(
+          "flex flex-col flex-grow min-h-0",
+          (!isExpanded || !isAIChatOpen) && "mt-auto"
+        )}>
+          {isExpanded && isAIChatOpen ? (
             <ChatSidebar 
               isMaximized={false} 
               onToggleMaximize={toggleAIChatMaximize}
               onClose={toggleAIChat}
               className="h-full"
             />
-          </div>
-        ) : (
-          <div className="p-4 mt-auto">
-            <Button 
-              variant="outline" 
-              className={cn(
-                "w-full justify-start border border-[#8B5CF6]/30 bg-[#8B5CF6]/5 text-[#8B5CF6] hover:bg-[#8B5CF6]/10",
-                !isExpanded && "justify-center"
-              )}
-              onClick={toggleAIChat}
-            >
-              <Sparkles className="h-5 w-5" />
-              {isExpanded && <span className="ml-2">AI Ideation Chat</span>}
-            </Button>
-          </div>
-        )}
+          ) : (
+            <div className="p-4">
+              <Button 
+                variant="outline" 
+                className={cn(
+                  "w-full justify-start border border-[#8B5CF6]/30 bg-[#8B5CF6]/5 text-[#8B5CF6] hover:bg-[#8B5CF6]/10",
+                  !isExpanded && "justify-center"
+                )}
+                onClick={toggleAIChat}
+              >
+                <Sparkles className="h-5 w-5" />
+                {isExpanded && <span className="ml-2">AI Ideation Chat</span>}
+              </Button>
+            </div>
+          )}
 
-        {!isExpanded && (
-          <div className="p-2 border-t mt-auto">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleSideNav}
-              className="w-full h-8"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
-        )}
+          {!isExpanded && (
+            <div className="p-2 border-t mt-auto">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleSideNav}
+                className="w-full h-8"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
 
+      {/* Maximized chat sheet */}
       <Sheet open={isAIChatMaximized} onOpenChange={setIsAIChatMaximized}>
         <SheetContent side="bottom" className="h-[80vh] p-0 border-t rounded-t-xl">
           <div className="h-full">
