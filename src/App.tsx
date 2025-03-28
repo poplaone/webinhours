@@ -30,6 +30,7 @@ function App() {
             <Route path="/concept/:id" element={<ConceptDetail />} />
             <Route path="/concept-details/:conceptId" element={<ConceptDetailsView />} />
             <Route path="/concept-testing/:id" element={<ConceptTestingResults />} />
+            <Route path="/settings" element={<div className="p-6"><h1 className="text-2xl font-bold">Settings Page</h1><p className="mt-2">Settings content will appear here.</p></div>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

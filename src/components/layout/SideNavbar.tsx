@@ -1,0 +1,151 @@
+
+import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { 
+  Sparkles, 
+  LayoutDashboard, 
+  Lightbulb, 
+  BarChart3, 
+  Users, 
+  Settings, 
+  ChevronRight,
+  ChevronLeft
+} from 'lucide-react';
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import ChatSidebar from '@/components/ai/ChatSidebar';
+
+const SideNavbar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [isExpanded, setIsExpanded] = useState(true);
+  const [isAIChatOpen, setIsAIChatOpen] = useState(false);
+
+  const navItems = [
+    { 
+      icon: LayoutDashboard, 
+      label: 'Dashboard', 
+      path: '/dashboard',
+      active: location.pathname === '/dashboard'
+    },
+    { 
+      icon: Lightbulb, 
+      label: 'Product Ideas', 
+      path: '/idea/new',
+      active: location.pathname === '/idea/new'
+    },
+    { 
+      icon: BarChart3, 
+      label: 'Concept Testing', 
+      path: '/concept-testing/1',
+      active: location.pathname.includes('/concept-testing')
+    },
+    { 
+      icon: Users, 
+      label: 'Audience Insights', 
+      path: '/concept-details/1',
+      active: location.pathname.includes('/concept-details')
+    },
+    { 
+      icon: Settings, 
+      label: 'Settings', 
+      path: '/settings',
+      active: location.pathname === '/settings'
+    }
+  ];
+
+  const toggleSideNav = () => {
+    setIsExpanded(!isExpanded);
+    // Close AI chat if sidebar is collapsed
+    if (isExpanded && isAIChatOpen) {
+      setIsAIChatOpen(false);
+    }
+  };
+
+  const toggleAIChat = () => {
+    setIsAIChatOpen(!isAIChatOpen);
+    // Make sure sidebar is expanded when opening AI chat
+    if (!isExpanded && !isAIChatOpen) {
+      setIsExpanded(true);
+    }
+  };
+
+  return (
+    <div className="flex h-full relative">
+      {/* Main Navigation */}
+      <div className={cn(
+        "h-full transition-all duration-300 flex flex-col bg-background border-r",
+        isExpanded ? "w-60" : "w-16"
+      )}>
+        {/* Logo Area */}
+        <div className="flex items-center p-4 h-16 border-b">
+          <div className={cn("flex items-center", !isExpanded && "justify-center w-full")}>
+            <Sparkles className="h-5 w-5 text-[#8B5CF6]" />
+            {isExpanded && <span className="ml-2 font-semibold">Pulse Vision.AI</span>}
+          </div>
+        </div>
+
+        {/* Navigation Links */}
+        <div className="flex flex-col flex-1 py-4 overflow-y-auto">
+          {navItems.map((item) => (
+            <Button
+              key={item.label}
+              variant={item.active ? "secondary" : "ghost"}
+              className={cn(
+                "mb-1 justify-start",
+                item.active && "bg-[#8B5CF6]/10 text-[#8B5CF6]",
+                !isExpanded && "justify-center"
+              )}
+              onClick={() => navigate(item.path)}
+            >
+              <item.icon className="h-5 w-5" />
+              {isExpanded && <span className="ml-2">{item.label}</span>}
+            </Button>
+          ))}
+        </div>
+
+        <Separator />
+        
+        {/* AI Chat Trigger */}
+        <div className="p-4">
+          <Button 
+            variant="outline" 
+            className={cn(
+              "w-full justify-start border border-[#8B5CF6]/30 bg-[#8B5CF6]/5 text-[#8B5CF6] hover:bg-[#8B5CF6]/10",
+              !isExpanded && "justify-center"
+            )}
+            onClick={toggleAIChat}
+          >
+            <Sparkles className="h-5 w-5" />
+            {isExpanded && <span className="ml-2">AI Ideation Chat</span>}
+          </Button>
+        </div>
+
+        {/* Toggle Button */}
+        <div className="p-2 border-t">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleSideNav}
+            className="w-full h-8"
+          >
+            {isExpanded ? 
+              <ChevronLeft className="h-4 w-4" /> : 
+              <ChevronRight className="h-4 w-4" />
+            }
+          </Button>
+        </div>
+      </div>
+
+      {/* AI Chat Panel (conditionally rendered) */}
+      {isAIChatOpen && (
+        <div className="h-full border-r">
+          <ChatSidebar />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default SideNavbar;

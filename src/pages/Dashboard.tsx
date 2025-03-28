@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import ChatSidebar from '@/components/ai/ChatSidebar';
+import SideNavbar from '@/components/layout/SideNavbar';
 
 // Sample data for idea cards (filtered for FMCG brands)
 const ideaCards = [
@@ -86,23 +86,15 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex">
-      {/* AI Chat Sidebar */}
-      <ChatSidebar />
+      {/* Side Navigation */}
+      <SideNavbar />
       
       <div className="flex-1 flex flex-col">
         {/* Top Bar */}
         <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <div className="container flex h-16 items-center justify-between">
-            {/* Logo */}
-            <div className="flex items-center gap-2">
-              <div className="flex items-center">
-                <Sparkles className="h-5 w-5 text-[#8B5CF6]" />
-                <span className="ml-2 text-xl font-semibold">Pulse Vision.AI</span>
-              </div>
-            </div>
-            
             {/* Search Bar */}
-            <div className="hidden md:flex flex-1 items-center justify-center px-4">
+            <div className="flex-1 items-center justify-center px-4">
               <div className="w-full max-w-sm relative">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
