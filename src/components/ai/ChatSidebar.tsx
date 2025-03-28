@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { SendIcon, Sparkles, Zap, Plus } from 'lucide-react';
+import { SendIcon, Sparkles, Zap, Plus, Minimize2, Maximize2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -13,7 +13,13 @@ type Message = {
   timestamp: string;
 };
 
-const ChatSidebar = () => {
+type ChatSidebarProps = {
+  isMaximized?: boolean;
+  onToggleMaximize?: () => void;
+  className?: string;
+};
+
+const ChatSidebar = ({ isMaximized = false, onToggleMaximize, className }: ChatSidebarProps) => {
   const [inputMessage, setInputMessage] = useState('');
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -74,13 +80,36 @@ const ChatSidebar = () => {
   };
 
   return (
-    <div className="h-full flex flex-col bg-background">
-      {activeIdea && (
-        <div className="bg-[#8B5CF6]/5 border-b border-[#8B5CF6]/10 px-4 py-2 flex items-center">
-          <Zap className="h-4 w-4 text-[#8B5CF6] mr-2" />
-          <span className="text-sm font-medium">{activeIdea}</span>
+    <div className={cn("h-full flex flex-col bg-background", className)}>
+      <div className="flex items-center justify-between bg-[#8B5CF6]/5 border-b border-[#8B5CF6]/10 px-4 py-2">
+        <div className="flex items-center">
+          <Sparkles className="h-4 w-4 text-[#8B5CF6] mr-2" />
+          <span className="text-sm font-medium">AI Ideation Chat</span>
+          {activeIdea && (
+            <>
+              <span className="mx-2 text-muted-foreground">–</span>
+              <div className="flex items-center">
+                <Zap className="h-3 w-3 text-[#8B5CF6] mr-1" />
+                <span className="text-xs">{activeIdea}</span>
+              </div>
+            </>
+          )}
         </div>
-      )}
+        {onToggleMaximize && (
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="h-7 w-7 p-0" 
+            onClick={onToggleMaximize}
+          >
+            {isMaximized ? (
+              <Minimize2 className="h-4 w-4 text-muted-foreground" />
+            ) : (
+              <Maximize2 className="h-4 w-4 text-muted-foreground" />
+            )}
+          </Button>
+        )}
+      </div>
       
       <ScrollArea className="flex-1">
         <div className="p-4 flex flex-col">

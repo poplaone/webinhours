@@ -11,7 +11,9 @@ import {
   ChevronRight,
   ChevronLeft,
   Menu,
-  X
+  X,
+  Minimize2,
+  Maximize2
 } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -23,7 +25,8 @@ const SideNavbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isExpanded, setIsExpanded] = useState(true);
-  const [isAIChatOpen, setIsAIChatOpen] = useState(false);
+  const [isAIChatMaximized, setIsAIChatMaximized] = useState(false);
+  const [isAIChatOpen, setIsAIChatOpen] = useState(true); // Default to open
 
   const navItems = [
     { 
@@ -66,12 +69,16 @@ const SideNavbar = () => {
     setIsAIChatOpen(!isAIChatOpen);
   };
 
+  const toggleAIChatMaximize = () => {
+    setIsAIChatMaximized(!isAIChatMaximized);
+  };
+
   return (
     <div className="flex h-full relative">
       {/* Main Navigation */}
       <div className={cn(
         "h-full transition-all duration-300 flex flex-col bg-background border-r",
-        isExpanded ? "w-72" : "w-16" // Increased width from w-60 to w-72
+        isExpanded ? "w-72" : "w-16"
       )}>
         {/* Logo Area */}
         <div className="flex items-center justify-between p-4 h-16 border-b">
@@ -104,8 +111,8 @@ const SideNavbar = () => {
           </Button>
         </div>
 
-        {/* Navigation Links */}
-        <div className="flex flex-col flex-1 py-4 overflow-y-auto">
+        {/* Navigation Links - Flex-1 removed to allow for chat */}
+        <div className="flex flex-col py-4 overflow-y-auto">
           {navItems.map((item) => (
             <Button
               key={item.label}
@@ -125,24 +132,38 @@ const SideNavbar = () => {
 
         <Separator />
         
-        {/* AI Chat Trigger - Moved to bottom */}
-        <div className="p-4">
-          <Button 
-            variant="outline" 
-            className={cn(
-              "w-full justify-start border border-[#8B5CF6]/30 bg-[#8B5CF6]/5 text-[#8B5CF6] hover:bg-[#8B5CF6]/10",
-              !isExpanded && "justify-center"
-            )}
-            onClick={toggleAIChat}
-          >
-            <Sparkles className="h-5 w-5" />
-            {isExpanded && <span className="ml-2">AI Ideation Chat</span>}
-          </Button>
-        </div>
+        {/* AI Chat Section - Takes up remaining space */}
+        {isExpanded && isAIChatOpen && (
+          <div className="flex-grow overflow-hidden flex flex-col">
+            <div className="h-full">
+              <ChatSidebar 
+                isMaximized={false} 
+                onToggleMaximize={toggleAIChatMaximize} 
+              />
+            </div>
+          </div>
+        )}
+        
+        {/* AI Chat Trigger - Only visible when collapsed or if chat is closed */}
+        {(!isExpanded || !isAIChatOpen) && (
+          <div className="p-4 mt-auto">
+            <Button 
+              variant="outline" 
+              className={cn(
+                "w-full justify-start border border-[#8B5CF6]/30 bg-[#8B5CF6]/5 text-[#8B5CF6] hover:bg-[#8B5CF6]/10",
+                !isExpanded && "justify-center"
+              )}
+              onClick={toggleAIChat}
+            >
+              <Sparkles className="h-5 w-5" />
+              {isExpanded && <span className="ml-2">AI Ideation Chat</span>}
+            </Button>
+          </div>
+        )}
 
         {/* Toggle Button (only visible when collapsed) */}
         {!isExpanded && (
-          <div className="p-2 border-t">
+          <div className="p-2 border-t mt-auto">
             <Button
               variant="ghost"
               size="icon"
@@ -155,21 +176,15 @@ const SideNavbar = () => {
         )}
       </div>
 
-      {/* AI Chat Panel (as overlay using Sheet component) */}
-      <Sheet open={isAIChatOpen} onOpenChange={setIsAIChatOpen}>
+      {/* AI Chat Panel (as overlay using Sheet component) - Only shown when maximized */}
+      <Sheet open={isAIChatMaximized} onOpenChange={setIsAIChatMaximized}>
         <SheetContent side="bottom" className="h-[80vh] p-0 border-t rounded-t-xl">
-          <div className="flex items-center justify-between p-4 border-b">
-            <div className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-[#8B5CF6]" />
-              <span className="font-medium">AI Ideation Chat</span>
-            </div>
-            <SheetClose className="rounded-full h-8 w-8 p-0">
-              <X className="h-4 w-4" />
-              <span className="sr-only">Close</span>
-            </SheetClose>
-          </div>
-          <div className="h-[calc(100%-60px)]">
-            <ChatSidebar />
+          <div className="h-full">
+            <ChatSidebar 
+              isMaximized={true}
+              onToggleMaximize={toggleAIChatMaximize}
+              className="h-full"
+            />
           </div>
         </SheetContent>
       </Sheet>
