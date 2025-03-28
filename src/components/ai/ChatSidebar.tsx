@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { SendIcon, Sparkles, Zap, Plus, Minimize2, Maximize2, X } from 'lucide-react';
+import { SendIcon, Sparkles, Zap, Plus, Minimize2, Maximize2, X, Paperclip } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -146,18 +146,27 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Ask AI to create or edit an idea..."
-            className="min-h-10 resize-none pr-12 py-2 bg-[#1A1F2C] border-[#8B5CF6]/30 text-white placeholder:text-gray-400"
-            rows={1}
+            className="min-h-16 resize-none pr-20 py-3 bg-[#1A1F2C] border-[#8B5CF6]/30 text-white placeholder:text-gray-400"
+            rows={2}
           />
-          <Button
-            size="icon"
-            variant="ghost"
-            className="absolute right-1 bottom-1 h-8 w-8 text-[#8B5CF6]"
-            onClick={handleSendMessage}
-            disabled={!inputMessage.trim()}
-          >
-            <SendIcon className="h-4 w-4" />
-          </Button>
+          <div className="absolute right-2 bottom-2 flex items-center gap-2">
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-8 w-8 text-[#8B5CF6]"
+            >
+              <Paperclip className="h-4 w-4" />
+            </Button>
+            <Button
+              size="icon"
+              variant="ghost"
+              className="h-8 w-8 text-[#8B5CF6]"
+              onClick={handleSendMessage}
+              disabled={!inputMessage.trim()}
+            >
+              <SendIcon className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
         <div className="flex gap-2 mt-2">
           <Button variant="outline" size="sm" className="text-xs h-7 bg-[#1A1F2C] border-[#8B5CF6]/30 text-white hover:bg-[#8B5CF6]/20">
