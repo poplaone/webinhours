@@ -3,24 +3,27 @@ import React, { useState } from 'react';
 import OnboardingLayout from '../components/onboarding/OnboardingLayout';
 import WelcomeStep from '../components/onboarding/WelcomeStep';
 import MarketTrendsStep from '../components/onboarding/MarketTrendsStep';
-import CompleteStep from '../components/onboarding/CompleteStep';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  const totalSteps = 3; // Total of 3 steps
+  const totalSteps = 2; // Updated to 2 steps only
+  const navigate = useNavigate();
 
   const handleNext = () => {
     if (currentStep < totalSteps - 1) {
       setCurrentStep(currentStep + 1);
       window.scrollTo(0, 0);
+    } else {
+      // If we're on the last step, navigate to dashboard
+      navigate('/dashboard');
     }
   };
 
   const handleSkip = () => {
-    // Skip to the final step
-    setCurrentStep(totalSteps - 1);
-    window.scrollTo(0, 0);
+    // Skip directly to dashboard
+    navigate('/dashboard');
   };
 
   const handlePrevious = () => {
@@ -49,7 +52,6 @@ const Index = () => {
         >
           {currentStep === 0 && <WelcomeStep />}
           {currentStep === 1 && <MarketTrendsStep />}
-          {currentStep === 2 && <CompleteStep />}
         </OnboardingLayout>
       </motion.div>
     </AnimatePresence>
