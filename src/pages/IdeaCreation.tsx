@@ -296,18 +296,6 @@ const IdeaCreation = () => {
             
             <div className="flex items-center gap-2">
               <Button 
-                onClick={quickGenerateInsights} 
-                className="bg-[#8B5CF6]/20 hover:bg-[#8B5CF6]/30 text-[#8B5CF6]"
-                disabled={isGeneratingDetailInsights}
-              >
-                {isGeneratingDetailInsights ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <Zap className="mr-2 h-4 w-4" />
-                )}
-                Quick Analysis
-              </Button>
-              <Button 
                 onClick={goToNextStep} 
                 className="bg-[#8B5CF6] hover:bg-[#7C3AED]"
                 disabled={currentStep === 3}
