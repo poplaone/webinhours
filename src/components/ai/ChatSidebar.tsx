@@ -81,8 +81,8 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
 
   return (
     <div className={cn(
-      "flex flex-col h-full bg-background", 
-      isMaximized ? "w-full" : "w-[320px]",
+      "flex flex-col h-full overflow-hidden", 
+      isMaximized ? "w-full" : "w-full",
       className
     )}>
       {/* Chat header */}
@@ -130,17 +130,17 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
         </div>
       </div>
       
-      {/* Fixed chat message display area - only showing the latest message */}
-      <div className="bg-[#121212] flex-grow flex flex-col justify-center">
-        <div className="p-4">
-          {messages.length > 0 && (
+      {/* Message display area */}
+      <div className="bg-[#121212] flex-grow overflow-y-auto">
+        <div className="p-4 space-y-4">
+          {messages.map((message, index) => (
             <ChatMessage
-              key={messages.length - 1}
-              message={messages[messages.length - 1].content}
-              isUser={messages[messages.length - 1].isUser}
-              timestamp={messages[messages.length - 1].timestamp}
+              key={index}
+              message={message.content}
+              isUser={message.isUser}
+              timestamp={message.timestamp}
             />
-          )}
+          ))}
         </div>
       </div>
       
