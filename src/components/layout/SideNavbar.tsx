@@ -30,6 +30,7 @@ const SideNavbar = () => {
   const [isAIChatMaximized, setIsAIChatMaximized] = useState(false);
   const [isAIChatOpen, setIsAIChatOpen] = useState(true); // Default to open
 
+  // Updated navItems to consider Dashboard path for Product Ideas highlight
   const navItems = [
     { 
       icon: LayoutDashboard, 
@@ -42,7 +43,8 @@ const SideNavbar = () => {
       icon: Lightbulb, 
       label: 'Product Ideas', 
       path: '/idea/new',
-      active: location.pathname === '/idea/new',
+      // This item should be active on both the dashboard and idea/new routes
+      active: location.pathname === '/idea/new' || location.pathname === '/dashboard',
       description: 'Create new product ideas'
     },
     { 
