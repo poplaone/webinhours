@@ -22,6 +22,7 @@ import ChatSidebar from '@/components/ai/ChatSidebar';
 import { toast } from "sonner";
 import { Progress } from "@/components/ui/progress";
 
+// Form schema validation
 const ideaFormSchema = z.object({
   problemStatement: z.string().min(10, {
     message: "Problem statement must be at least 10 characters.",
@@ -67,6 +68,7 @@ const IdeaCreation = () => {
   const [processingProgress, setProcessingProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   
+  // Default form values
   const defaultValues: Partial<IdeaFormValues> = {
     problemStatement: "",
     title: "",
@@ -76,6 +78,7 @@ const IdeaCreation = () => {
     tags: "",
   };
 
+  // Initialize form
   const form = useForm<IdeaFormValues>({
     resolver: zodResolver(ideaFormSchema),
     defaultValues,
@@ -85,6 +88,7 @@ const IdeaCreation = () => {
   const onSubmit = (values: IdeaFormValues) => {
     toast.success("Idea created successfully!");
     console.log(values);
+    // Navigate to dashboard after successful submission
     setTimeout(() => {
       navigate('/dashboard');
     }, 1500);
@@ -106,8 +110,10 @@ const IdeaCreation = () => {
     const file = event.target.files?.[0];
     if (!file) return;
 
+    // Start processing animation
     setIsProcessingDocument(true);
     
+    // Simulate document processing with progress updates
     let progress = 0;
     const interval = setInterval(() => {
       progress += 5;
@@ -116,6 +122,7 @@ const IdeaCreation = () => {
       if (progress >= 100) {
         clearInterval(interval);
         
+        // Simulate AI populated data
         setTimeout(() => {
           form.setValue('title', 'Smart Eco-Packaging Solution');
           form.setValue('description', 'A sustainable packaging solution that reduces environmental impact while maintaining product protection. The packaging uses biodegradable materials that decompose within 6 months after disposal.');
@@ -124,6 +131,7 @@ const IdeaCreation = () => {
           form.setValue('businessValue', 'Reduced environmental footprint, potential cost savings through optimized material usage, and increased brand loyalty from environmentally conscious consumers.');
           form.setValue('tags', 'Sustainable, Packaging, Eco-friendly, Innovation');
           
+          // Generate insights based on the uploaded document
           generateMarketInsights();
           
           setIsProcessingDocument(false);
@@ -138,7 +146,9 @@ const IdeaCreation = () => {
     
     setIsGeneratingInsights(true);
     
+    // Simulating API call with setTimeout
     setTimeout(() => {
+      // Mock data based on the problem statement
       const insights: MarketInsight[] = [
         {
           title: 'Market Size',
@@ -167,6 +177,7 @@ const IdeaCreation = () => {
         'Partner with established brands for faster market entry'
       ];
 
+      // Add strengths and weaknesses analysis
       const swAnalysis: StrengthWeakness[] = [
         {
           type: 'strength',
@@ -201,9 +212,11 @@ const IdeaCreation = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex">
+      {/* AI Chat Sidebar */}
       <ChatSidebar />
       
       <div className="flex-1 flex flex-col">
+        {/* Top Bar */}
         <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <div className="container flex h-16 items-center justify-between">
             <div className="flex items-center gap-2">
@@ -217,6 +230,7 @@ const IdeaCreation = () => {
               </div>
             </div>
             
+            {/* Next Step Button in Top Bar */}
             <Button 
               onClick={goToNextStep} 
               className="bg-[#8B5CF6] hover:bg-[#7C3AED]"
@@ -228,8 +242,10 @@ const IdeaCreation = () => {
           </div>
         </header>
 
+        {/* Main Content */}
         <main className="container py-6 flex-1 overflow-auto">
           <div className="max-w-4xl mx-auto">
+            {/* Progress Steps */}
             <div className="mb-6">
               <div className="flex justify-between">
                 <div className="flex flex-col items-center">
@@ -261,50 +277,233 @@ const IdeaCreation = () => {
 
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                {currentStep === 1 && (
-                  <Card className="bg-gradient-to-r from-[#8B5CF6]/10 to-[#7C3AED]/5 border-[#8B5CF6]/20">
-                    <CardContent className="p-4">
-                      <div className="flex items-center gap-4">
-                        <FileText className="h-12 w-12 text-[#8B5CF6] flex-shrink-0" />
-                        <div className="flex-grow">
-                          <h3 className="text-lg font-medium">Upload Research Document</h3>
-                          <p className="text-muted-foreground text-sm">
-                            Upload a document to let AI analyze and populate the idea details.
-                          </p>
-                          
-                          <input 
-                            type="file" 
-                            ref={fileInputRef} 
-                            onChange={handleFileChange}
-                            className="hidden" 
-                            accept=".pdf,.doc,.docx,.txt"
-                          />
-                          
-                          {isProcessingDocument ? (
-                            <div className="w-full mt-2">
-                              <div className="flex items-center justify-between mb-1">
-                                <span className="text-xs text-muted-foreground">Processing...</span>
-                                <span className="text-xs font-medium">{processingProgress}%</span>
-                              </div>
-                              <Progress value={processingProgress} className="h-1.5 w-full bg-muted" />
+                {/* Document Upload Option - Compact Version */}
+                <Card className="bg-gradient-to-r from-[#8B5CF6]/10 to-[#7C3AED]/5 border-[#8B5CF6]/20">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-4">
+                      <FileText className="h-12 w-12 text-[#8B5CF6] flex-shrink-0" />
+                      <div className="flex-grow">
+                        <h3 className="text-lg font-medium">Upload Research Document</h3>
+                        <p className="text-muted-foreground text-sm">
+                          Upload a document to let AI analyze and populate the idea details.
+                        </p>
+                        
+                        <input 
+                          type="file" 
+                          ref={fileInputRef} 
+                          onChange={handleFileChange}
+                          className="hidden" 
+                          accept=".pdf,.doc,.docx,.txt"
+                        />
+                        
+                        {isProcessingDocument ? (
+                          <div className="w-full mt-2">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-xs text-muted-foreground">Processing...</span>
+                              <span className="text-xs font-medium">{processingProgress}%</span>
                             </div>
+                            <Progress value={processingProgress} className="h-1.5 w-full bg-muted" />
+                          </div>
+                        ) : (
+                          <Button 
+                            type="button" 
+                            onClick={handleUploadClick}
+                            className="bg-[#8B5CF6] hover:bg-[#7C3AED] mt-2"
+                            size="sm"
+                          >
+                            <Upload className="mr-2 h-3.5 w-3.5" />
+                            Select Document
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Step 1: Basic Information */}
+                {currentStep === 1 && (
+                  <Card className="p-5 bg-background border-muted-foreground/20">
+                    <div className="space-y-5">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Lightbulb className="h-5 w-5 text-[#8B5CF6]" />
+                        <h2 className="text-xl font-semibold">Basic Information</h2>
+                      </div>
+                      
+                      <FormField
+                        control={form.control}
+                        name="title"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Idea Title</FormLabel>
+                            <FormControl>
+                              <Input 
+                                placeholder="Enter a catchy title for your idea" 
+                                className="bg-[#1A1F2C] border-[#8B5CF6]/30 text-white placeholder:text-gray-400"
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormDescription>
+                              Keep it concise and memorable.
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="description"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Description</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                placeholder="Describe your idea in detail..." 
+                                className="min-h-[100px] bg-[#1A1F2C] border-[#8B5CF6]/30 text-white placeholder:text-gray-400"
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormDescription>
+                              Explain the concept, its purpose, and potential impact.
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="problemStatement"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>What Problem Are We Trying to Solve?</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                placeholder="Describe the problem or opportunity you're addressing..." 
+                                className="min-h-[80px] bg-[#1A1F2C] border-[#8B5CF6]/30 text-white placeholder:text-gray-400"
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormDescription>
+                              Clearly define the problem or opportunity your idea addresses.
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <div className="flex justify-end">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={generateMarketInsights}
+                          className="bg-[#1A1F2C] border-[#8B5CF6]/30 text-white hover:bg-[#8B5CF6]/20"
+                          disabled={isGeneratingInsights}
+                        >
+                          {isGeneratingInsights ? (
+                            <>
+                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                              Generating Insights...
+                            </>
                           ) : (
-                            <Button 
-                              type="button" 
-                              onClick={handleUploadClick}
-                              className="bg-[#8B5CF6] hover:bg-[#7C3AED] mt-2"
-                              size="sm"
-                            >
-                              <Upload className="mr-2 h-3.5 w-3.5" />
-                              Select Document
-                            </Button>
+                            <>
+                              <BarChart3 className="mr-2 h-4 w-4" />
+                              Generate Market Insights
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                      
+                      {/* Market Insights Section - More Compact Layout */}
+                      {marketInsights.length > 0 && (
+                        <div className="mt-4 space-y-3">
+                          <h3 className="text-lg font-medium">Market Insights</h3>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            {marketInsights.map((insight, index) => (
+                              <Card key={index} className="bg-[#1A1F2C] border-[#8B5CF6]/20">
+                                <CardContent className="p-3">
+                                  <h4 className="text-xs text-gray-400">{insight.title}</h4>
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-lg font-semibold text-white">{insight.value}</span>
+                                    {insight.trend === 'up' && <TrendingUp className="h-4 w-4 text-green-500" />}
+                                    {insight.trend === 'down' && <TrendingUp className="h-4 w-4 text-red-500 rotate-180" />}
+                                    {insight.trend === 'neutral' && <ArrowRightCircle className="h-4 w-4 text-yellow-500" />}
+                                  </div>
+                                  <p className="text-xs text-gray-400 mt-1">{insight.description}</p>
+                                </CardContent>
+                              </Card>
+                            ))}
+                          </div>
+                          
+                          {/* Strengths and Weaknesses Analysis - Compact */}
+                          {strengthsWeaknesses.length > 0 && (
+                            <div className="mt-4">
+                              <h3 className="text-base font-medium mb-2">Strengths & Weaknesses Analysis</h3>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                {/* Strengths Column */}
+                                <div>
+                                  <h4 className="text-sm font-medium text-green-500 flex items-center gap-1 mb-2">
+                                    <CheckCircle2 className="h-3.5 w-3.5" />
+                                    Strengths
+                                  </h4>
+                                  <div className="space-y-2">
+                                    {strengthsWeaknesses
+                                      .filter(item => item.type === 'strength')
+                                      .map((strength, index) => (
+                                        <Card key={index} className="bg-green-900/10 border-green-500/20">
+                                          <CardContent className="p-2">
+                                            <h5 className="text-xs font-medium text-green-500">{strength.title}</h5>
+                                            <p className="text-xs text-gray-300">{strength.description}</p>
+                                          </CardContent>
+                                        </Card>
+                                      ))}
+                                  </div>
+                                </div>
+                                
+                                {/* Weaknesses Column */}
+                                <div>
+                                  <h4 className="text-sm font-medium text-red-500 flex items-center gap-1 mb-2">
+                                    <XCircle className="h-3.5 w-3.5" />
+                                    Weaknesses
+                                  </h4>
+                                  <div className="space-y-2">
+                                    {strengthsWeaknesses
+                                      .filter(item => item.type === 'weakness')
+                                      .map((weakness, index) => (
+                                        <Card key={index} className="bg-red-900/10 border-red-500/20">
+                                          <CardContent className="p-2">
+                                            <h5 className="text-xs font-medium text-red-500">{weakness.title}</h5>
+                                            <p className="text-xs text-gray-300">{weakness.description}</p>
+                                          </CardContent>
+                                        </Card>
+                                      ))}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                          
+                          {/* Idea Improvement Suggestions - Compact */}
+                          {ideaSuggestions.length > 0 && (
+                            <div className="mt-3">
+                              <h3 className="text-base font-medium mb-1">Improvement Suggestions</h3>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-1">
+                                {ideaSuggestions.map((suggestion, index) => (
+                                  <div key={index} className="flex items-start gap-1.5">
+                                    <Lightbulb className="h-3.5 w-3.5 text-[#8B5CF6] mt-0.5" />
+                                    <span className="text-xs">{suggestion}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
                           )}
                         </div>
-                      </div>
-                    </CardContent>
+                      )}
+                    </div>
                   </Card>
                 )}
 
+                {/* Step 2: Detailed Information */}
                 {currentStep === 2 && (
                   <Card className="p-5">
                     <div className="space-y-5">
@@ -374,93 +573,6 @@ const IdeaCreation = () => {
                           </FormItem>
                         )}
                       />
-                      
-                      {marketInsights.length > 0 && (
-                        <div className="mt-6">
-                          <div className="flex items-center gap-2 mb-3">
-                            <BarChart3 className="h-5 w-5 text-[#8B5CF6]" />
-                            <h3 className="text-lg font-medium">Market Insights</h3>
-                          </div>
-                          
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            {marketInsights.map((insight, index) => (
-                              <Card key={index} className="p-3 bg-muted/30">
-                                <div className="flex justify-between items-start">
-                                  <h4 className="text-sm font-medium">{insight.title}</h4>
-                                  {insight.trend === 'up' && <TrendingUp className="h-4 w-4 text-green-500" />}
-                                  {insight.trend === 'down' && <TrendingUp className="h-4 w-4 text-red-500 transform rotate-180" />}
-                                  {insight.trend === 'neutral' && <TrendingUp className="h-4 w-4 text-yellow-500 transform rotate-90" />}
-                                </div>
-                                <div className="text-xl font-bold mt-1">{insight.value}</div>
-                                <p className="text-xs text-muted-foreground mt-1">{insight.description}</p>
-                              </Card>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      
-                      {strengthsWeaknesses.length > 0 && (
-                        <div className="mt-3">
-                          <div className="flex items-center gap-2 mb-3">
-                            <BarChart3 className="h-5 w-5 text-[#8B5CF6]" />
-                            <h3 className="text-lg font-medium">Strengths & Weaknesses</h3>
-                          </div>
-                          
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {strengthsWeaknesses.map((item, index) => (
-                              <div key={index} className="flex gap-2">
-                                {item.type === 'strength' ? (
-                                  <CheckCircle2 className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                                ) : (
-                                  <XCircle className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
-                                )}
-                                <div>
-                                  <h4 className="text-sm font-medium">{item.title}</h4>
-                                  <p className="text-xs text-muted-foreground">{item.description}</p>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      
-                      <Button 
-                        type="button" 
-                        variant="outline" 
-                        size="sm" 
-                        onClick={generateMarketInsights}
-                        disabled={isGeneratingInsights}
-                        className="mt-2"
-                      >
-                        {isGeneratingInsights ? (
-                          <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Generating Insights...
-                          </>
-                        ) : (
-                          <>
-                            <Sparkles className="mr-2 h-4 w-4 text-[#8B5CF6]" />
-                            Generate AI Insights
-                          </>
-                        )}
-                      </Button>
-                      
-                      {ideaSuggestions.length > 0 && (
-                        <div className="bg-[#8B5CF6]/10 rounded-md p-3 border border-[#8B5CF6]/20">
-                          <div className="flex items-center gap-2 mb-2">
-                            <Lightbulb className="h-4 w-4 text-[#8B5CF6]" />
-                            <h4 className="text-sm font-medium">AI Suggestions</h4>
-                          </div>
-                          <ul className="space-y-1.5">
-                            {ideaSuggestions.map((suggestion, index) => (
-                              <li key={index} className="text-xs flex gap-2 items-start">
-                                <ArrowRightCircle className="h-3 w-3 text-[#8B5CF6] mt-0.5 flex-shrink-0" />
-                                <span>{suggestion}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
                     </div>
                     
                     <div className="flex justify-between mt-5">
@@ -476,6 +588,7 @@ const IdeaCreation = () => {
                   </Card>
                 )}
 
+                {/* Step 3: Review and Submit */}
                 {currentStep === 3 && (
                   <Card className="p-5">
                     <div className="space-y-4">
