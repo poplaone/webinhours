@@ -12,6 +12,7 @@ interface OnboardingLayoutProps {
   totalSteps: number;
   onNext?: () => void;
   onPrevious?: () => void;
+  onSkip?: () => void;
   isLastStep?: boolean;
 }
 
@@ -21,6 +22,7 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
   totalSteps,
   onNext,
   onPrevious,
+  onSkip,
   isLastStep = false,
 }) => {
   const [mounted, setMounted] = useState(false);
@@ -283,17 +285,28 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
                   Back
                 </button>
                 
-                <motion.button
-                  whileTap={{ scale: 0.98 }}
-                  onClick={handleNext}
-                  className={cn(
-                    "btn-shine px-5 py-2 rounded-lg bg-[#8B5CF6] text-white shadow-sm",
-                    "hover:bg-[#7C3AED] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]/50",
-                    "transition-all duration-300 ease-in-out"
+                <div className="flex items-center space-x-3">
+                  {onSkip && (
+                    <button
+                      onClick={onSkip}
+                      className="px-5 py-2 rounded-lg text-muted-foreground hover:text-[#8B5CF6] transition-all"
+                    >
+                      Skip
+                    </button>
                   )}
-                >
-                  {isLastStep ? "Get Started" : "Continue"}
-                </motion.button>
+                  
+                  <motion.button
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handleNext}
+                    className={cn(
+                      "btn-shine px-5 py-2 rounded-lg bg-[#8B5CF6] text-white shadow-sm",
+                      "hover:bg-[#7C3AED] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]/50",
+                      "transition-all duration-300 ease-in-out"
+                    )}
+                  >
+                    {isLastStep ? "Get Started" : "Continue"}
+                  </motion.button>
+                </div>
               </div>
             </motion.div>
           </AnimatePresence>

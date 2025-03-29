@@ -47,7 +47,7 @@ const StepIndicator: React.FC<StepIndicatorProps> = ({
               i === currentStep ? "text-white font-medium" : "text-[#C4B5FD] font-normal"
             )}>
               {i === 0 && "Welcome"}
-              {i === 1 && "Brand Info"}
+              {i === 1 && "Preferences"}
               {i === 2 && "Complete"}
             </div>
           )}
