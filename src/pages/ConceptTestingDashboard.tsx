@@ -126,7 +126,7 @@ const ConceptTestingDashboard = () => {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen overflow-hidden">
       <SideNavbar />
       <div className="flex-1 overflow-auto">
         <div className="container p-6">
