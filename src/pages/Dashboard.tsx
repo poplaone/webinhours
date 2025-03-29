@@ -1,9 +1,10 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Bell, User, Sparkles, TrendingUp, Lightbulb, Users, Radio, BookOpen, BarChart3, Brain, ExternalLink, Settings, ClipboardCheck } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import SideNavbar from '@/components/layout/SideNavbar';
@@ -101,10 +102,10 @@ const Dashboard = () => {
     : ideaCards.filter(idea => selectedCategories.includes(idea.category));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex">
+    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-background to-background/80">
       <SideNavbar />
       
-      <div className="flex-1 h-screen flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden">
         <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <div className="container flex h-16 items-center justify-between">
             <div className="flex-1 items-center justify-center px-4">
@@ -137,7 +138,7 @@ const Dashboard = () => {
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto py-6 px-4 md:px-6 lg:container pb-12">
+        <main className="flex-1 overflow-y-auto p-6 lg:container">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
             <div>
               <h1 className="text-3xl font-bold">Product Ideas</h1>
@@ -160,7 +161,7 @@ const Dashboard = () => {
               {filteredIdeas.map((idea) => (
                 <Card 
                   key={idea.id} 
-                  className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg transition-shadow group relative"
+                  className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg transition-shadow group relative h-full"
                 >
                   <div className="h-40 overflow-hidden relative">
                     <img 
@@ -207,7 +208,7 @@ const Dashboard = () => {
                     </div>
                   </div>
                   
-                  <div className="p-4 flex-grow flex flex-col">
+                  <CardContent className="p-4 flex-grow flex flex-col">
                     <div className="flex justify-between items-start mb-2">
                       <h3 className="font-semibold text-lg cursor-pointer hover:text-[#8B5CF6] transition-colors" onClick={() => viewIdeaDetail(idea.id)}>{idea.title}</h3>
                       <span className="text-xs text-muted-foreground">{idea.timestamp}</span>
@@ -262,7 +263,7 @@ const Dashboard = () => {
                         ))}
                       </div>
                     </div>
-                  </div>
+                  </CardContent>
                 </Card>
               ))}
             </div>
@@ -274,7 +275,7 @@ const Dashboard = () => {
                   <h3 className="font-semibold">FMCG Market Insights</h3>
                 </div>
                 
-                <div className="p-5">
+                <CardContent className="p-5">
                   <div className="space-y-4">
                     <div>
                       <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
@@ -318,7 +319,7 @@ const Dashboard = () => {
                       </ul>
                     </div>
                   </div>
-                </div>
+                </CardContent>
               </Card>
             </div>
           </div>
