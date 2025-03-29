@@ -246,81 +246,85 @@ const IdeaCreation = () => {
         <main className="container py-6 flex-1 overflow-auto">
           <div className="max-w-4xl mx-auto">
             {/* Progress Steps */}
-            <div className="mb-8">
+            <div className="mb-6">
               <div className="flex justify-between">
                 <div className="flex flex-col items-center">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${currentStep >= 1 ? 'bg-[#8B5CF6] text-white' : 'bg-muted text-muted-foreground'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${currentStep >= 1 ? 'bg-[#8B5CF6] text-white' : 'bg-muted text-muted-foreground'}`}>
                     1
                   </div>
-                  <span className="text-sm mt-1">Basics</span>
+                  <span className="text-xs mt-1">Basics</span>
                 </div>
                 <div className="flex-1 flex items-center mx-2">
                   <div className={`h-1 w-full ${currentStep >= 2 ? 'bg-[#8B5CF6]' : 'bg-muted'}`}></div>
                 </div>
                 <div className="flex flex-col items-center">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${currentStep >= 2 ? 'bg-[#8B5CF6] text-white' : 'bg-muted text-muted-foreground'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${currentStep >= 2 ? 'bg-[#8B5CF6] text-white' : 'bg-muted text-muted-foreground'}`}>
                     2
                   </div>
-                  <span className="text-sm mt-1">Details</span>
+                  <span className="text-xs mt-1">Details</span>
                 </div>
                 <div className="flex-1 flex items-center mx-2">
                   <div className={`h-1 w-full ${currentStep >= 3 ? 'bg-[#8B5CF6]' : 'bg-muted'}`}></div>
                 </div>
                 <div className="flex flex-col items-center">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${currentStep >= 3 ? 'bg-[#8B5CF6] text-white' : 'bg-muted text-muted-foreground'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${currentStep >= 3 ? 'bg-[#8B5CF6] text-white' : 'bg-muted text-muted-foreground'}`}>
                     3
                   </div>
-                  <span className="text-sm mt-1">Review</span>
+                  <span className="text-xs mt-1">Review</span>
                 </div>
               </div>
             </div>
 
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                {/* Document Upload Option */}
-                <Card className="p-6 mb-6 bg-gradient-to-r from-[#8B5CF6]/10 to-[#7C3AED]/5 border-[#8B5CF6]/20">
-                  <div className="flex flex-col items-center text-center p-4">
-                    <FileText className="h-12 w-12 text-[#8B5CF6] mb-4" />
-                    <h3 className="text-xl font-medium mb-2">Upload Research Document</h3>
-                    <p className="text-muted-foreground mb-6 max-w-md">
-                      Upload a research document or market analysis to let our AI analyze it and populate the idea details automatically.
-                    </p>
-                    
-                    <input 
-                      type="file" 
-                      ref={fileInputRef} 
-                      onChange={handleFileChange}
-                      className="hidden" 
-                      accept=".pdf,.doc,.docx,.txt"
-                    />
-                    
-                    {isProcessingDocument ? (
-                      <div className="w-full max-w-md">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm text-muted-foreground">Processing document...</span>
-                          <span className="text-sm font-medium">{processingProgress}%</span>
-                        </div>
-                        <Progress value={processingProgress} className="h-2 w-full bg-muted" />
-                        <p className="text-xs text-muted-foreground mt-2">AI is analyzing your document and extracting relevant information</p>
+                {/* Document Upload Option - Compact Version */}
+                <Card className="bg-gradient-to-r from-[#8B5CF6]/10 to-[#7C3AED]/5 border-[#8B5CF6]/20">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-4">
+                      <FileText className="h-12 w-12 text-[#8B5CF6] flex-shrink-0" />
+                      <div className="flex-grow">
+                        <h3 className="text-lg font-medium">Upload Research Document</h3>
+                        <p className="text-muted-foreground text-sm">
+                          Upload a document to let AI analyze and populate the idea details.
+                        </p>
+                        
+                        <input 
+                          type="file" 
+                          ref={fileInputRef} 
+                          onChange={handleFileChange}
+                          className="hidden" 
+                          accept=".pdf,.doc,.docx,.txt"
+                        />
+                        
+                        {isProcessingDocument ? (
+                          <div className="w-full mt-2">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-xs text-muted-foreground">Processing...</span>
+                              <span className="text-xs font-medium">{processingProgress}%</span>
+                            </div>
+                            <Progress value={processingProgress} className="h-1.5 w-full bg-muted" />
+                          </div>
+                        ) : (
+                          <Button 
+                            type="button" 
+                            onClick={handleUploadClick}
+                            className="bg-[#8B5CF6] hover:bg-[#7C3AED] mt-2"
+                            size="sm"
+                          >
+                            <Upload className="mr-2 h-3.5 w-3.5" />
+                            Select Document
+                          </Button>
+                        )}
                       </div>
-                    ) : (
-                      <Button 
-                        type="button" 
-                        onClick={handleUploadClick}
-                        className="bg-[#8B5CF6] hover:bg-[#7C3AED]"
-                      >
-                        <Upload className="mr-2 h-4 w-4" />
-                        Select Document
-                      </Button>
-                    )}
-                  </div>
+                    </div>
+                  </CardContent>
                 </Card>
 
                 {/* Step 1: Basic Information */}
                 {currentStep === 1 && (
-                  <Card className="p-6 bg-background border-muted-foreground/20">
-                    <div className="space-y-6">
-                      <div className="flex items-center gap-2 mb-4">
+                  <Card className="p-5 bg-background border-muted-foreground/20">
+                    <div className="space-y-5">
+                      <div className="flex items-center gap-2 mb-3">
                         <Lightbulb className="h-5 w-5 text-[#8B5CF6]" />
                         <h2 className="text-xl font-semibold">Basic Information</h2>
                       </div>
@@ -355,7 +359,7 @@ const IdeaCreation = () => {
                             <FormControl>
                               <Textarea 
                                 placeholder="Describe your idea in detail..." 
-                                className="min-h-[120px] bg-[#1A1F2C] border-[#8B5CF6]/30 text-white placeholder:text-gray-400"
+                                className="min-h-[100px] bg-[#1A1F2C] border-[#8B5CF6]/30 text-white placeholder:text-gray-400"
                                 {...field} 
                               />
                             </FormControl>
@@ -410,103 +414,100 @@ const IdeaCreation = () => {
                         </Button>
                       </div>
                       
-                      {/* Market Insights Section */}
+                      {/* Market Insights Section - More Compact Layout */}
                       {marketInsights.length > 0 && (
-                        <div className="mt-6 space-y-4">
+                        <div className="mt-4 space-y-3">
                           <h3 className="text-lg font-medium">Market Insights</h3>
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                             {marketInsights.map((insight, index) => (
                               <Card key={index} className="bg-[#1A1F2C] border-[#8B5CF6]/20">
-                                <CardContent className="p-4">
-                                  <h4 className="text-sm text-gray-400">{insight.title}</h4>
-                                  <div className="flex items-center gap-2 mt-1">
-                                    <span className="text-xl font-semibold text-white">{insight.value}</span>
+                                <CardContent className="p-3">
+                                  <h4 className="text-xs text-gray-400">{insight.title}</h4>
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-lg font-semibold text-white">{insight.value}</span>
                                     {insight.trend === 'up' && <TrendingUp className="h-4 w-4 text-green-500" />}
                                     {insight.trend === 'down' && <TrendingUp className="h-4 w-4 text-red-500 rotate-180" />}
                                     {insight.trend === 'neutral' && <ArrowRightCircle className="h-4 w-4 text-yellow-500" />}
                                   </div>
-                                  <p className="text-xs text-gray-400 mt-2">{insight.description}</p>
+                                  <p className="text-xs text-gray-400 mt-1">{insight.description}</p>
                                 </CardContent>
                               </Card>
                             ))}
                           </div>
                           
-                          {/* Strengths and Weaknesses Analysis */}
+                          {/* Strengths and Weaknesses Analysis - Compact */}
                           {strengthsWeaknesses.length > 0 && (
-                            <div className="mt-6">
-                              <h3 className="text-lg font-medium mb-4">Strengths & Weaknesses Analysis</h3>
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="mt-4">
+                              <h3 className="text-base font-medium mb-2">Strengths & Weaknesses Analysis</h3>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 {/* Strengths Column */}
-                                <div className="space-y-3">
-                                  <h4 className="text-base font-medium text-green-500 flex items-center gap-2">
-                                    <CheckCircle2 className="h-4 w-4" />
+                                <div>
+                                  <h4 className="text-sm font-medium text-green-500 flex items-center gap-1 mb-2">
+                                    <CheckCircle2 className="h-3.5 w-3.5" />
                                     Strengths
                                   </h4>
-                                  {strengthsWeaknesses
-                                    .filter(item => item.type === 'strength')
-                                    .map((strength, index) => (
-                                      <Card key={index} className="bg-green-900/10 border-green-500/20">
-                                        <CardContent className="p-4">
-                                          <h5 className="text-sm font-medium text-green-500">{strength.title}</h5>
-                                          <p className="text-xs text-gray-300 mt-1">{strength.description}</p>
-                                        </CardContent>
-                                      </Card>
-                                    ))}
+                                  <div className="space-y-2">
+                                    {strengthsWeaknesses
+                                      .filter(item => item.type === 'strength')
+                                      .map((strength, index) => (
+                                        <Card key={index} className="bg-green-900/10 border-green-500/20">
+                                          <CardContent className="p-2">
+                                            <h5 className="text-xs font-medium text-green-500">{strength.title}</h5>
+                                            <p className="text-xs text-gray-300">{strength.description}</p>
+                                          </CardContent>
+                                        </Card>
+                                      ))}
+                                  </div>
                                 </div>
                                 
                                 {/* Weaknesses Column */}
-                                <div className="space-y-3">
-                                  <h4 className="text-base font-medium text-red-500 flex items-center gap-2">
-                                    <XCircle className="h-4 w-4" />
+                                <div>
+                                  <h4 className="text-sm font-medium text-red-500 flex items-center gap-1 mb-2">
+                                    <XCircle className="h-3.5 w-3.5" />
                                     Weaknesses
                                   </h4>
-                                  {strengthsWeaknesses
-                                    .filter(item => item.type === 'weakness')
-                                    .map((weakness, index) => (
-                                      <Card key={index} className="bg-red-900/10 border-red-500/20">
-                                        <CardContent className="p-4">
-                                          <h5 className="text-sm font-medium text-red-500">{weakness.title}</h5>
-                                          <p className="text-xs text-gray-300 mt-1">{weakness.description}</p>
-                                        </CardContent>
-                                      </Card>
-                                    ))}
+                                  <div className="space-y-2">
+                                    {strengthsWeaknesses
+                                      .filter(item => item.type === 'weakness')
+                                      .map((weakness, index) => (
+                                        <Card key={index} className="bg-red-900/10 border-red-500/20">
+                                          <CardContent className="p-2">
+                                            <h5 className="text-xs font-medium text-red-500">{weakness.title}</h5>
+                                            <p className="text-xs text-gray-300">{weakness.description}</p>
+                                          </CardContent>
+                                        </Card>
+                                      ))}
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           )}
                           
-                          {/* Idea Improvement Suggestions */}
+                          {/* Idea Improvement Suggestions - Compact */}
                           {ideaSuggestions.length > 0 && (
-                            <div className="mt-4">
-                              <h3 className="text-lg font-medium mb-2">Improvement Suggestions</h3>
-                              <ul className="space-y-2">
+                            <div className="mt-3">
+                              <h3 className="text-base font-medium mb-1">Improvement Suggestions</h3>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-1">
                                 {ideaSuggestions.map((suggestion, index) => (
-                                  <li key={index} className="flex items-start gap-2">
-                                    <Lightbulb className="h-4 w-4 text-[#8B5CF6] mt-1" />
-                                    <span className="text-sm">{suggestion}</span>
-                                  </li>
+                                  <div key={index} className="flex items-start gap-1.5">
+                                    <Lightbulb className="h-3.5 w-3.5 text-[#8B5CF6] mt-0.5" />
+                                    <span className="text-xs">{suggestion}</span>
+                                  </div>
                                 ))}
-                              </ul>
+                              </div>
                             </div>
                           )}
                         </div>
                       )}
-                    </div>
-                    
-                    <div className="flex justify-end mt-6">
-                      <Button type="button" onClick={goToNextStep} className="bg-[#8B5CF6] hover:bg-[#7C3AED]">
-                        Next Step
-                        <ChevronRight className="ml-2 h-4 w-4" />
-                      </Button>
                     </div>
                   </Card>
                 )}
 
                 {/* Step 2: Detailed Information */}
                 {currentStep === 2 && (
-                  <Card className="p-6">
-                    <div className="space-y-6">
-                      <div className="flex items-center gap-2 mb-4">
+                  <Card className="p-5">
+                    <div className="space-y-5">
+                      <div className="flex items-center gap-2 mb-3">
                         <Users className="h-5 w-5 text-[#8B5CF6]" />
                         <h2 className="text-xl font-semibold">Detailed Information</h2>
                       </div>
@@ -574,7 +575,7 @@ const IdeaCreation = () => {
                       />
                     </div>
                     
-                    <div className="flex justify-between mt-6">
+                    <div className="flex justify-between mt-5">
                       <Button type="button" variant="outline" onClick={goToPreviousStep}>
                         <ArrowLeft className="mr-2 h-4 w-4" />
                         Previous Step
@@ -589,41 +590,41 @@ const IdeaCreation = () => {
 
                 {/* Step 3: Review and Submit */}
                 {currentStep === 3 && (
-                  <Card className="p-6">
-                    <div className="space-y-6">
-                      <div className="flex items-center gap-2 mb-4">
+                  <Card className="p-5">
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-2 mb-3">
                         <TrendingUp className="h-5 w-5 text-[#8B5CF6]" />
                         <h2 className="text-xl font-semibold">Review and Submit</h2>
                       </div>
                       
-                      <div className="space-y-4">
-                        <div className="border-b pb-4">
-                          <h3 className="font-medium mb-1">Idea Title</h3>
-                          <p>{form.getValues('title')}</p>
-                        </div>
-                        
-                        <div className="border-b pb-4">
-                          <h3 className="font-medium mb-1">Description</h3>
-                          <p className="whitespace-pre-line">{form.getValues('description')}</p>
-                        </div>
-                        
-                        <div className="border-b pb-4">
-                          <h3 className="font-medium mb-1">Target Audience</h3>
-                          <p className="whitespace-pre-line">{form.getValues('targetAudience')}</p>
-                        </div>
-                        
-                        <div className="border-b pb-4">
-                          <h3 className="font-medium mb-1">Business Value</h3>
-                          <p className="whitespace-pre-line">{form.getValues('businessValue')}</p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <h3 className="text-sm font-medium mb-1 text-muted-foreground">Idea Title</h3>
+                          <p className="text-base">{form.getValues('title')}</p>
                         </div>
                         
                         <div>
-                          <h3 className="font-medium mb-1">Tags</h3>
-                          <div className="flex flex-wrap gap-2">
+                          <h3 className="text-sm font-medium mb-1 text-muted-foreground">Target Audience</h3>
+                          <p className="text-sm">{form.getValues('targetAudience')}</p>
+                        </div>
+                        
+                        <div className="md:col-span-2">
+                          <h3 className="text-sm font-medium mb-1 text-muted-foreground">Description</h3>
+                          <p className="text-sm whitespace-pre-line">{form.getValues('description')}</p>
+                        </div>
+                        
+                        <div>
+                          <h3 className="text-sm font-medium mb-1 text-muted-foreground">Business Value</h3>
+                          <p className="text-sm">{form.getValues('businessValue')}</p>
+                        </div>
+                        
+                        <div>
+                          <h3 className="text-sm font-medium mb-1 text-muted-foreground">Tags</h3>
+                          <div className="flex flex-wrap gap-1.5">
                             {form.getValues('tags').split(',').map((tag, index) => tag.trim() && (
                               <span 
                                 key={index} 
-                                className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-2 py-1 rounded-full"
+                                className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-2 py-0.5 rounded-full"
                               >
                                 {tag.trim()}
                               </span>
@@ -632,19 +633,19 @@ const IdeaCreation = () => {
                         </div>
                       </div>
                       
-                      <div className="bg-muted/50 p-4 rounded-md">
-                        <div className="flex items-center gap-2 mb-2">
+                      <div className="bg-muted/50 p-3 rounded-md">
+                        <div className="flex items-center gap-2 mb-1">
                           <BarChart3 className="h-4 w-4 text-[#8B5CF6]" />
-                          <h3 className="font-medium">AI Analysis</h3>
+                          <h3 className="font-medium text-sm">AI Analysis</h3>
                         </div>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-xs text-muted-foreground">
                           Based on current market research and trends, this idea has a high potential for success in the FMCG sector. The concept aligns well with consumer demand for innovative solutions in this space.
                         </p>
                       </div>
                     </div>
                     
-                    <div className="flex justify-between mt-6">
-                      <Button type="button" variant="outline" onClick={goToPreviousStep}>
+                    <div className="flex justify-between mt-5">
+                      <Button type="button" variant="outline" onClick={goToPreviousStep} size="sm">
                         <ArrowLeft className="mr-2 h-4 w-4" />
                         Previous Step
                       </Button>
