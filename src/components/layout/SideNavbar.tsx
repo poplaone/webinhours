@@ -50,7 +50,7 @@ const SideNavbar = () => {
     { 
       icon: ClipboardCheck, 
       label: 'Concept Testing', 
-      path: '/concept-testing/1',
+      path: '/concept-testing',
       active: location.pathname.includes('/concept-testing'),
       description: 'Launch and review surveys'
     },

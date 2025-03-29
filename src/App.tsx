@@ -11,6 +11,7 @@ import IdeaCreation from "./pages/IdeaCreation";
 import ConceptDetail from "./pages/ConceptDetail";
 import ConceptDetailsView from './pages/ConceptDetailsView';
 import ConceptTestingResults from './pages/ConceptTestingResults';
+import ConceptTestingDashboard from './pages/ConceptTestingDashboard';
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ function App() {
             <Route path="/concept/:id" element={<ConceptDetail />} />
             <Route path="/concept-details/:conceptId" element={<ConceptDetailsView />} />
             <Route path="/concept-testing/:id" element={<ConceptTestingResults />} />
+            <Route path="/concept-testing" element={<ConceptTestingDashboard />} />
             <Route path="/settings" element={<div className="p-6"><h1 className="text-2xl font-bold">Settings Page</h1><p className="mt-2">Settings content will appear here.</p></div>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
