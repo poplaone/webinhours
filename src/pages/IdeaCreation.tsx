@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { ArrowLeft, Upload, ImagePlus, Lightbulb, TrendingUp, Users, BarChart3, ChevronRight, Sparkles } from 'lucide-react';
+import { ArrowLeft, Upload, ImagePlus, Lightbulb, TrendingUp, Users, BarChart3, ChevronRight, Sparkles, ArrowRightCircle, Loader2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,12 +17,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import ChatSidebar from '@/components/ai/ChatSidebar';
 import { toast } from "sonner";
 
 // Form schema validation
 const ideaFormSchema = z.object({
+  problemStatement: z.string().min(10, {
+    message: "Problem statement must be at least 10 characters.",
+  }),
   title: z.string().min(5, {
     message: "Title must be at least 5 characters.",
   }),
@@ -40,13 +43,24 @@ const ideaFormSchema = z.object({
 
 type IdeaFormValues = z.infer<typeof ideaFormSchema>;
 
+type MarketInsight = {
+  title: string;
+  value: string;
+  trend: 'up' | 'down' | 'neutral';
+  description: string;
+};
+
 const IdeaCreation = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isGeneratingInsights, setIsGeneratingInsights] = useState(false);
+  const [marketInsights, setMarketInsights] = useState<MarketInsight[]>([]);
+  const [ideaSuggestions, setIdeaSuggestions] = useState<string[]>([]);
   
   // Default form values
   const defaultValues: Partial<IdeaFormValues> = {
+    problemStatement: "",
     title: "",
     description: "",
     targetAudience: "",
@@ -80,9 +94,9 @@ const IdeaCreation = () => {
 
   const goToNextStep = () => {
     if (currentStep === 1) {
-      const { title, description } = form.getValues();
-      if (title.length < 5 || description.length < 20) {
-        form.trigger(["title", "description"]);
+      const { problemStatement, title, description } = form.getValues();
+      if (problemStatement.length < 10 || title.length < 5 || description.length < 20) {
+        form.trigger(["problemStatement", "title", "description"]);
         return;
       }
     }
@@ -91,6 +105,55 @@ const IdeaCreation = () => {
 
   const goToPreviousStep = () => {
     setCurrentStep(prev => prev - 1);
+  };
+
+  const generateMarketInsights = () => {
+    const problemStatement = form.getValues('problemStatement');
+    
+    if (problemStatement.length < 10) {
+      form.trigger('problemStatement');
+      return;
+    }
+    
+    setIsGeneratingInsights(true);
+    
+    // Simulating API call with setTimeout
+    setTimeout(() => {
+      // Mock data based on the problem statement
+      const insights: MarketInsight[] = [
+        {
+          title: 'Market Size',
+          value: '$4.2B',
+          trend: 'up',
+          description: 'The global market for this solution is growing at 14% CAGR',
+        },
+        {
+          title: 'Competition',
+          value: 'Medium',
+          trend: 'neutral',
+          description: 'Several established players but room for innovation',
+        },
+        {
+          title: 'Growth Potential',
+          value: 'High',
+          trend: 'up',
+          description: 'Emerging markets show strong adoption trends',
+        }
+      ];
+      
+      const suggestions = [
+        'Consider focusing on mobile-first approach for wider reach',
+        'Adding AI-driven personalization could be a key differentiator',
+        'Subscription model may yield better long-term revenue',
+        'Partner with established brands for faster market entry'
+      ];
+      
+      setMarketInsights(insights);
+      setIdeaSuggestions(suggestions);
+      setIsGeneratingInsights(false);
+      
+      toast.success("Market insights generated!");
+    }, 2000);
   };
 
   return (
@@ -152,7 +215,7 @@ const IdeaCreation = () => {
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 {/* Step 1: Basic Information */}
                 {currentStep === 1 && (
-                  <Card className="p-6">
+                  <Card className="p-6 bg-background border-muted-foreground/20">
                     <div className="space-y-6">
                       <div className="flex items-center gap-2 mb-4">
                         <Lightbulb className="h-5 w-5 text-[#8B5CF6]" />
@@ -161,12 +224,99 @@ const IdeaCreation = () => {
                       
                       <FormField
                         control={form.control}
+                        name="problemStatement"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>What Problem Are We Trying to Solve?</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                placeholder="Describe the problem or opportunity you're addressing..." 
+                                className="min-h-[80px] bg-[#1A1F2C] border-[#8B5CF6]/30 text-white placeholder:text-gray-400"
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormDescription>
+                              Clearly define the problem or opportunity your idea addresses.
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      {form.watch('problemStatement')?.length >= 10 && (
+                        <div className="flex justify-end">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={generateMarketInsights}
+                            className="bg-[#1A1F2C] border-[#8B5CF6]/30 text-white hover:bg-[#8B5CF6]/20"
+                            disabled={isGeneratingInsights}
+                          >
+                            {isGeneratingInsights ? (
+                              <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Generating Insights...
+                              </>
+                            ) : (
+                              <>
+                                <BarChart3 className="mr-2 h-4 w-4" />
+                                Generate Market Insights
+                              </>
+                            )}
+                          </Button>
+                        </div>
+                      )}
+                      
+                      {/* Market Insights Section */}
+                      {marketInsights.length > 0 && (
+                        <div className="mt-6 space-y-4">
+                          <h3 className="text-lg font-medium">Market Insights</h3>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {marketInsights.map((insight, index) => (
+                              <Card key={index} className="bg-[#1A1F2C] border-[#8B5CF6]/20">
+                                <CardContent className="p-4">
+                                  <h4 className="text-sm text-gray-400">{insight.title}</h4>
+                                  <div className="flex items-center gap-2 mt-1">
+                                    <span className="text-xl font-semibold text-white">{insight.value}</span>
+                                    {insight.trend === 'up' && <TrendingUp className="h-4 w-4 text-green-500" />}
+                                    {insight.trend === 'down' && <TrendingUp className="h-4 w-4 text-red-500 rotate-180" />}
+                                    {insight.trend === 'neutral' && <ArrowRightCircle className="h-4 w-4 text-yellow-500" />}
+                                  </div>
+                                  <p className="text-xs text-gray-400 mt-2">{insight.description}</p>
+                                </CardContent>
+                              </Card>
+                            ))}
+                          </div>
+                          
+                          {/* Idea Improvement Suggestions */}
+                          {ideaSuggestions.length > 0 && (
+                            <div className="mt-4">
+                              <h3 className="text-lg font-medium mb-2">Improvement Suggestions</h3>
+                              <ul className="space-y-2">
+                                {ideaSuggestions.map((suggestion, index) => (
+                                  <li key={index} className="flex items-start gap-2">
+                                    <Lightbulb className="h-4 w-4 text-[#8B5CF6] mt-1" />
+                                    <span className="text-sm">{suggestion}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      <FormField
+                        control={form.control}
                         name="title"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Idea Title</FormLabel>
                             <FormControl>
-                              <Input placeholder="Enter a catchy title for your idea" {...field} />
+                              <Input 
+                                placeholder="Enter a catchy title for your idea" 
+                                className="bg-[#1A1F2C] border-[#8B5CF6]/30 text-white placeholder:text-gray-400"
+                                {...field} 
+                              />
                             </FormControl>
                             <FormDescription>
                               Keep it concise and memorable.
@@ -185,7 +335,7 @@ const IdeaCreation = () => {
                             <FormControl>
                               <Textarea 
                                 placeholder="Describe your idea in detail..." 
-                                className="min-h-[120px]"
+                                className="min-h-[120px] bg-[#1A1F2C] border-[#8B5CF6]/30 text-white placeholder:text-gray-400"
                                 {...field} 
                               />
                             </FormControl>
@@ -199,7 +349,7 @@ const IdeaCreation = () => {
 
                       <div>
                         <FormLabel>Idea Visualization</FormLabel>
-                        <div className="mt-2 border-2 border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center">
+                        <div className="mt-2 border-2 border-dashed border-[#8B5CF6]/30 rounded-lg p-6 flex flex-col items-center justify-center bg-[#1A1F2C]">
                           {imagePreview ? (
                             <div className="relative w-full">
                               <img 
@@ -211,7 +361,7 @@ const IdeaCreation = () => {
                                 type="button"
                                 variant="outline" 
                                 size="sm" 
-                                className="mt-2"
+                                className="mt-2 bg-[#1A1F2C] border-[#8B5CF6]/30 text-white hover:bg-[#8B5CF6]/20"
                                 onClick={() => setImagePreview(null)}
                               >
                                 Remove Image
@@ -234,6 +384,7 @@ const IdeaCreation = () => {
                                 type="button"
                                 variant="outline" 
                                 onClick={() => document.getElementById('image-upload')?.click()}
+                                className="bg-[#1A1F2C] border-[#8B5CF6]/30 text-white hover:bg-[#8B5CF6]/20"
                               >
                                 <Upload className="h-4 w-4 mr-2" />
                                 Upload Image

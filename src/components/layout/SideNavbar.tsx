@@ -59,7 +59,6 @@ const SideNavbar = () => {
       active: location.pathname.includes('/concept-details'),
       description: 'View detailed analytics'
     }
-    // Settings removed from here
   ];
 
   const toggleSideNav = () => {
@@ -77,11 +76,11 @@ const SideNavbar = () => {
   return (
     <div className="h-screen">
       <div className={cn(
-        "h-full transition-all duration-300 flex flex-col bg-background border-r z-20",
+        "h-full transition-all duration-300 flex flex-col bg-[#121212] border-r border-[#1A1F2C] z-20",
         isExpanded ? "w-72" : "w-16"
       )}>
         {/* Header with logo and toggle */}
-        <div className="flex items-center justify-between p-4 h-16 shrink-0 border-b">
+        <div className="flex items-center justify-between p-4 h-16 shrink-0 border-b border-[#1A1F2C]">
           <div className={cn("flex items-center", !isExpanded && "justify-center w-full")}>
             {isExpanded ? (
               <>
@@ -89,7 +88,7 @@ const SideNavbar = () => {
                   <div className="bg-[#9b87f5] rounded-md p-1 mr-2">
                     <span className="text-white font-bold">AI</span>
                   </div>
-                  <span className="font-semibold">Pulse Vision.AI</span>
+                  <span className="font-semibold text-white">Pulse Vision.AI</span>
                 </div>
               </>
             ) : (
@@ -103,7 +102,7 @@ const SideNavbar = () => {
             size="icon"
             onClick={toggleSideNav}
             className={cn(
-              "h-8 w-8 p-0",
+              "h-8 w-8 p-0 text-white hover:bg-[#8B5CF6]/20",
               !isExpanded && "hidden"
             )}
           >
@@ -111,7 +110,7 @@ const SideNavbar = () => {
           </Button>
         </div>
 
-        {/* Navigation items section - make it scrollable if needed but fixed height */}
+        {/* Navigation items section */}
         <div className="flex flex-col py-4 shrink-0 overflow-y-auto">
           {navItems.map((item) => (
             <TooltipProvider key={item.label} delayDuration={300}>
@@ -122,7 +121,8 @@ const SideNavbar = () => {
                     className={cn(
                       "mb-1 justify-start",
                       item.active && "bg-[#8B5CF6]/10 text-[#8B5CF6]",
-                      !isExpanded && "justify-center"
+                      !isExpanded && "justify-center",
+                      "text-white hover:bg-[#8B5CF6]/20"
                     )}
                     onClick={() => navigate(item.path)}
                   >
@@ -141,7 +141,7 @@ const SideNavbar = () => {
           ))}
         </div>
 
-        <Separator className="shrink-0" />
+        <Separator className="shrink-0 bg-[#1A1F2C]" />
         
         {/* AI Chat section that stretches to the bottom */}
         <div className={cn(
@@ -172,12 +172,12 @@ const SideNavbar = () => {
           )}
 
           {!isExpanded && (
-            <div className="p-2 border-t mt-auto">
+            <div className="p-2 border-t border-[#1A1F2C] mt-auto">
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={toggleSideNav}
-                className="w-full h-8"
+                className="w-full h-8 text-white hover:bg-[#8B5CF6]/20"
               >
                 <ChevronRight className="h-4 w-4" />
               </Button>
