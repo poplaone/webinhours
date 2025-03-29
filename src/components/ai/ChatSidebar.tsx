@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import ChatMessage from './ChatMessage';
 import { cn } from '@/lib/utils';
+import { useNavigate } from 'react-router-dom';
 
 type Message = {
   content: string;
@@ -20,6 +21,7 @@ type ChatSidebarProps = {
 };
 
 const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className }: ChatSidebarProps) => {
+  const navigate = useNavigate();
   const [inputMessage, setInputMessage] = useState('');
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -54,18 +56,34 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         };
         setActiveIdea("New idea");
+        
+        // Navigate to idea detail page after a brief delay to show the message
+        setTimeout(() => {
+          navigate('/idea/1');
+        }, 1000);
       } else if (inputMessage.toLowerCase().includes('edit') || inputMessage.toLowerCase().includes('modify')) {
         aiResponse = {
           content: "I'd be happy to help you refine an existing idea. Which aspect would you like to focus on? Market fit, technical requirements, or user experience?",
           isUser: false,
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         };
+        
+        // Navigate to idea detail page after a brief delay
+        setTimeout(() => {
+          navigate('/idea/2');
+        }, 1000);
       } else {
         aiResponse = {
           content: "I can help you brainstorm new product ideas or refine existing ones. Would you like to create a new concept or work on something you already have?",
           isUser: false,
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         };
+        
+        // Navigate to a random idea detail page
+        setTimeout(() => {
+          const randomIdeaId = Math.floor(Math.random() * 5) + 1; // Random ID between 1-5
+          navigate(`/idea/${randomIdeaId}`);
+        }, 1000);
       }
       
       setMessages(prev => [...prev, aiResponse]);
@@ -77,6 +95,61 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
       e.preventDefault();
       handleSendMessage();
     }
+  };
+
+  // Handle quick actions
+  const handleNewIdea = () => {
+    const newMessage = {
+      content: "I'd like to create a new idea.",
+      isUser: true,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    };
+    
+    setMessages(prev => [...prev, newMessage]);
+    
+    // Simulate AI response
+    setTimeout(() => {
+      const aiResponse = {
+        content: "Excellent! Let's create a new idea together. Could you tell me what problem you're trying to solve or what industry you're interested in?",
+        isUser: false,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      };
+      
+      setMessages(prev => [...prev, aiResponse]);
+      setActiveIdea("New idea");
+      
+      // Navigate to idea detail
+      setTimeout(() => {
+        navigate('/idea/1');
+      }, 1000);
+    }, 800);
+  };
+
+  const handleSuggestions = () => {
+    const newMessage = {
+      content: "I need some idea suggestions.",
+      isUser: true,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    };
+    
+    setMessages(prev => [...prev, newMessage]);
+    
+    // Simulate AI response
+    setTimeout(() => {
+      const aiResponse = {
+        content: "Here are some trending areas to consider: AI-powered personalization, sustainable packaging solutions, remote learning tools, contactless service experiences, and digital wellness applications. Would you like to explore any of these?",
+        isUser: false,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      };
+      
+      setMessages(prev => [...prev, aiResponse]);
+      
+      // Navigate to a random idea detail
+      setTimeout(() => {
+        const randomIdeaId = Math.floor(Math.random() * 5) + 1;
+        navigate(`/idea/${randomIdeaId}`);
+      }, 1000);
+    }, 800);
   };
 
   return (
@@ -175,11 +248,21 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
           </div>
         </div>
         <div className="flex gap-2 mt-2">
-          <Button variant="outline" size="sm" className="text-xs h-7 bg-[#1A1F2C] border-[#8B5CF6]/30 text-white hover:bg-[#8B5CF6]/20">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-xs h-7 bg-[#1A1F2C] border-[#8B5CF6]/30 text-white hover:bg-[#8B5CF6]/20"
+            onClick={handleNewIdea}
+          >
             <Plus className="h-3 w-3 mr-1" />
             New Idea
           </Button>
-          <Button variant="outline" size="sm" className="text-xs h-7 bg-[#1A1F2C] border-[#8B5CF6]/30 text-white hover:bg-[#8B5CF6]/20">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-xs h-7 bg-[#1A1F2C] border-[#8B5CF6]/30 text-white hover:bg-[#8B5CF6]/20"
+            onClick={handleSuggestions}
+          >
             <Zap className="h-3 w-3 mr-1" />
             Suggestions
           </Button>
@@ -190,3 +273,4 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
 };
 
 export default ChatSidebar;
+
