@@ -96,8 +96,13 @@ const IdeaCreation = () => {
   const onSubmit = (values: IdeaFormValues) => {
     toast.success("Idea created successfully!");
     console.log(values);
+    
+    // Generate a random ID for the new idea (in a real app, this would come from the backend)
+    const newIdeaId = Math.floor(Math.random() * 10000) + 1;
+    
+    // Redirect to the idea detail page instead of dashboard
     setTimeout(() => {
-      navigate('/dashboard');
+      navigate(`/idea/${newIdeaId}`);
     }, 1500);
   };
 
