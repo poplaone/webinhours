@@ -1,10 +1,10 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { ArrowLeft, Upload, ImagePlus, Lightbulb, TrendingUp, Users, BarChart3, ChevronRight, Sparkles, ArrowRightCircle, Loader2, CheckCircle2, XCircle } from 'lucide-react';
+import { ArrowLeft, Upload, Lightbulb, TrendingUp, Users, BarChart3, ChevronRight, Sparkles, ArrowRightCircle, Loader2, CheckCircle2, XCircle, FileText } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,6 +20,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import ChatSidebar from '@/components/ai/ChatSidebar';
 import { toast } from "sonner";
+import { Progress } from "@/components/ui/progress";
 
 // Form schema validation
 const ideaFormSchema = z.object({
@@ -63,6 +64,9 @@ const IdeaCreation = () => {
   const [marketInsights, setMarketInsights] = useState<MarketInsight[]>([]);
   const [ideaSuggestions, setIdeaSuggestions] = useState<string[]>([]);
   const [strengthsWeaknesses, setStrengthsWeaknesses] = useState<StrengthWeakness[]>([]);
+  const [isProcessingDocument, setIsProcessingDocument] = useState(false);
+  const [processingProgress, setProcessingProgress] = useState(0);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   // Default form values
   const defaultValues: Partial<IdeaFormValues> = {
@@ -78,7 +82,7 @@ const IdeaCreation = () => {
   const form = useForm<IdeaFormValues>({
     resolver: zodResolver(ideaFormSchema),
     defaultValues,
-    mode: "onSubmit", // Changed from default onBlur to onSubmit
+    mode: "onSubmit",
   });
 
   const onSubmit = (values: IdeaFormValues) => {
@@ -96,6 +100,45 @@ const IdeaCreation = () => {
 
   const goToPreviousStep = () => {
     setCurrentStep(prev => prev - 1);
+  };
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Start processing animation
+    setIsProcessingDocument(true);
+    
+    // Simulate document processing with progress updates
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += 5;
+      setProcessingProgress(progress);
+      
+      if (progress >= 100) {
+        clearInterval(interval);
+        
+        // Simulate AI populated data
+        setTimeout(() => {
+          form.setValue('title', 'Smart Eco-Packaging Solution');
+          form.setValue('description', 'A sustainable packaging solution that reduces environmental impact while maintaining product protection. The packaging uses biodegradable materials that decompose within 6 months after disposal.');
+          form.setValue('problemStatement', 'Traditional packaging contributes significantly to landfill waste and ocean pollution, with most materials taking hundreds of years to decompose.');
+          form.setValue('targetAudience', 'Environmentally conscious consumers ages 25-45, retail brands looking to improve sustainability metrics, and food delivery services.');
+          form.setValue('businessValue', 'Reduced environmental footprint, potential cost savings through optimized material usage, and increased brand loyalty from environmentally conscious consumers.');
+          form.setValue('tags', 'Sustainable, Packaging, Eco-friendly, Innovation');
+          
+          // Generate insights based on the uploaded document
+          generateMarketInsights();
+          
+          setIsProcessingDocument(false);
+          toast.success("Document processed successfully!");
+        }, 500);
+      }
+    }, 100);
   };
 
   const generateMarketInsights = () => {
@@ -186,6 +229,16 @@ const IdeaCreation = () => {
                 <span className="ml-2 text-xl font-semibold">New Idea Creation</span>
               </div>
             </div>
+            
+            {/* Next Step Button in Top Bar */}
+            <Button 
+              onClick={goToNextStep} 
+              className="bg-[#8B5CF6] hover:bg-[#7C3AED]"
+              disabled={currentStep === 3}
+            >
+              Next Step
+              <ChevronRight className="ml-2 h-4 w-4" />
+            </Button>
           </div>
         </header>
 
@@ -224,6 +277,45 @@ const IdeaCreation = () => {
 
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                {/* Document Upload Option */}
+                <Card className="p-6 mb-6 bg-gradient-to-r from-[#8B5CF6]/10 to-[#7C3AED]/5 border-[#8B5CF6]/20">
+                  <div className="flex flex-col items-center text-center p-4">
+                    <FileText className="h-12 w-12 text-[#8B5CF6] mb-4" />
+                    <h3 className="text-xl font-medium mb-2">Upload Research Document</h3>
+                    <p className="text-muted-foreground mb-6 max-w-md">
+                      Upload a research document or market analysis to let our AI analyze it and populate the idea details automatically.
+                    </p>
+                    
+                    <input 
+                      type="file" 
+                      ref={fileInputRef} 
+                      onChange={handleFileChange}
+                      className="hidden" 
+                      accept=".pdf,.doc,.docx,.txt"
+                    />
+                    
+                    {isProcessingDocument ? (
+                      <div className="w-full max-w-md">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm text-muted-foreground">Processing document...</span>
+                          <span className="text-sm font-medium">{processingProgress}%</span>
+                        </div>
+                        <Progress value={processingProgress} className="h-2 w-full bg-muted" />
+                        <p className="text-xs text-muted-foreground mt-2">AI is analyzing your document and extracting relevant information</p>
+                      </div>
+                    ) : (
+                      <Button 
+                        type="button" 
+                        onClick={handleUploadClick}
+                        className="bg-[#8B5CF6] hover:bg-[#7C3AED]"
+                      >
+                        <Upload className="mr-2 h-4 w-4" />
+                        Select Document
+                      </Button>
+                    )}
+                  </div>
+                </Card>
+
                 {/* Step 1: Basic Information */}
                 {currentStep === 1 && (
                   <Card className="p-6 bg-background border-muted-foreground/20">
