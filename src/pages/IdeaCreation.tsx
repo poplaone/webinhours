@@ -1,3 +1,4 @@
+
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
@@ -373,6 +374,93 @@ const IdeaCreation = () => {
                           </FormItem>
                         )}
                       />
+                      
+                      {marketInsights.length > 0 && (
+                        <div className="mt-6">
+                          <div className="flex items-center gap-2 mb-3">
+                            <BarChart3 className="h-5 w-5 text-[#8B5CF6]" />
+                            <h3 className="text-lg font-medium">Market Insights</h3>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {marketInsights.map((insight, index) => (
+                              <Card key={index} className="p-3 bg-muted/30">
+                                <div className="flex justify-between items-start">
+                                  <h4 className="text-sm font-medium">{insight.title}</h4>
+                                  {insight.trend === 'up' && <TrendingUp className="h-4 w-4 text-green-500" />}
+                                  {insight.trend === 'down' && <TrendingUp className="h-4 w-4 text-red-500 transform rotate-180" />}
+                                  {insight.trend === 'neutral' && <TrendingUp className="h-4 w-4 text-yellow-500 transform rotate-90" />}
+                                </div>
+                                <div className="text-xl font-bold mt-1">{insight.value}</div>
+                                <p className="text-xs text-muted-foreground mt-1">{insight.description}</p>
+                              </Card>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {strengthsWeaknesses.length > 0 && (
+                        <div className="mt-3">
+                          <div className="flex items-center gap-2 mb-3">
+                            <BarChart3 className="h-5 w-5 text-[#8B5CF6]" />
+                            <h3 className="text-lg font-medium">Strengths & Weaknesses</h3>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {strengthsWeaknesses.map((item, index) => (
+                              <div key={index} className="flex gap-2">
+                                {item.type === 'strength' ? (
+                                  <CheckCircle2 className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                                ) : (
+                                  <XCircle className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
+                                )}
+                                <div>
+                                  <h4 className="text-sm font-medium">{item.title}</h4>
+                                  <p className="text-xs text-muted-foreground">{item.description}</p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={generateMarketInsights}
+                        disabled={isGeneratingInsights}
+                        className="mt-2"
+                      >
+                        {isGeneratingInsights ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Generating Insights...
+                          </>
+                        ) : (
+                          <>
+                            <Sparkles className="mr-2 h-4 w-4 text-[#8B5CF6]" />
+                            Generate AI Insights
+                          </>
+                        )}
+                      </Button>
+                      
+                      {ideaSuggestions.length > 0 && (
+                        <div className="bg-[#8B5CF6]/10 rounded-md p-3 border border-[#8B5CF6]/20">
+                          <div className="flex items-center gap-2 mb-2">
+                            <Lightbulb className="h-4 w-4 text-[#8B5CF6]" />
+                            <h4 className="text-sm font-medium">AI Suggestions</h4>
+                          </div>
+                          <ul className="space-y-1.5">
+                            {ideaSuggestions.map((suggestion, index) => (
+                              <li key={index} className="text-xs flex gap-2 items-start">
+                                <ArrowRightCircle className="h-3 w-3 text-[#8B5CF6] mt-0.5 flex-shrink-0" />
+                                <span>{suggestion}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
                     
                     <div className="flex justify-between mt-5">
