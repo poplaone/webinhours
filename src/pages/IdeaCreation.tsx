@@ -1,3 +1,4 @@
+
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
@@ -278,7 +279,10 @@ const IdeaCreation = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex">
-      <ChatSidebar />
+      {/* AI Chat Sidebar - fixed width to match IdeaDetail page */}
+      <div className="w-[403px] flex-shrink-0 border-r border-border/30">
+        <ChatSidebar />
+      </div>
       
       <div className="flex-1 flex flex-col">
         <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
