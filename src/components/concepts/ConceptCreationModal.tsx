@@ -1,10 +1,10 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Plus, Lightbulb, BookOpen, FileText, Brain, Star, BarChart3, Users, TrendingUp } from 'lucide-react';
+import ConceptCreationForm from './ConceptCreationForm';
 
 // Define the concept type
 export interface Concept {
@@ -68,120 +68,145 @@ const sampleConcepts: Concept[] = [
 ];
 
 const ConceptCreationModal: React.FC<ConceptCreationModalProps> = ({ isOpen, onClose, ideaTitle }) => {
+  const [showManualCreation, setShowManualCreation] = useState(false);
+  
+  const handleCreateManually = () => {
+    setShowManualCreation(true);
+  };
+  
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-6xl overflow-hidden">
-        <ScrollArea className="h-[80vh] overflow-y-auto pr-4">
-          <div className="pr-4 pb-6">
-            <DialogHeader className="mb-6">
-              <DialogTitle className="text-2xl flex items-center gap-2">
-                <BookOpen className="h-6 w-6 text-[#8B5CF6]" />
-                Concept Creation
-                {ideaTitle && <span className="text-muted-foreground text-lg ml-2">for {ideaTitle}</span>}
-              </DialogTitle>
-            </DialogHeader>
+    <>
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent className="max-w-6xl overflow-hidden">
+          <ScrollArea className="h-[80vh] overflow-y-auto pr-4">
+            <div className="pr-4 pb-6">
+              <DialogHeader className="mb-6">
+                <DialogTitle className="text-2xl flex items-center gap-2">
+                  <BookOpen className="h-6 w-6 text-[#8B5CF6]" />
+                  Concept Creation
+                  {ideaTitle && <span className="text-muted-foreground text-lg ml-2">for {ideaTitle}</span>}
+                </DialogTitle>
+              </DialogHeader>
 
-            {/* Create New Concept Button */}
-            <div className="flex justify-between items-center mb-6">
-              <p className="text-muted-foreground">Transform your idea into market-ready concept variants</p>
-              <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]">
-                <Plus className="mr-2 h-4 w-4" />
-                Create New Concept
-              </Button>
-            </div>
+              {/* Create New Concept Buttons */}
+              <div className="flex justify-between items-center mb-6">
+                <p className="text-muted-foreground">Transform your idea into market-ready concept variants</p>
+                <div className="flex gap-3">
+                  <Button 
+                    variant="outline" 
+                    className="border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6]/10"
+                    onClick={handleCreateManually}
+                  >
+                    <Plus className="mr-2 h-4 w-4" />
+                    Create Manually
+                  </Button>
+                  <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]">
+                    <Lightbulb className="mr-2 h-4 w-4" />
+                    AI-Generated Concept
+                  </Button>
+                </div>
+              </div>
 
-            {/* Concept Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {sampleConcepts.map((concept) => (
-                <Card key={concept.id} className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden hover:shadow-md transition-shadow">
-                  {/* Image */}
-                  {concept.image && (
-                    <div className="h-40 overflow-hidden">
-                      <img 
-                        src={concept.image} 
-                        alt={concept.title} 
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  )}
-                  
-                  <CardContent className="p-4">
+              {/* Concept Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {sampleConcepts.map((concept) => (
+                  <Card key={concept.id} className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden hover:shadow-md transition-shadow">
+                    {/* Image */}
+                    {concept.image && (
+                      <div className="h-40 overflow-hidden">
+                        <img 
+                          src={concept.image} 
+                          alt={concept.title} 
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+                    
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="p-1 rounded-full bg-[#8B5CF6]/10">
+                          <Lightbulb className="h-4 w-4 text-[#8B5CF6]" />
+                        </div>
+                        <h3 className="font-semibold text-lg">{concept.title}</h3>
+                      </div>
+                      
+                      <p className="text-sm text-muted-foreground mb-3">
+                        {concept.description}
+                      </p>
+                      
+                      {/* Key Differentiators Section */}
+                      <div className="mt-2">
+                        <div className="flex items-center gap-1 text-sm font-medium mb-1">
+                          <Star className="h-4 w-4 text-[#8B5CF6]" />
+                          Key Differentiators
+                        </div>
+                        <ul className="text-sm space-y-1 ml-5 list-disc text-muted-foreground">
+                          {concept.differentiators.map((diff, index) => (
+                            <li key={index}>{diff}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </CardContent>
+                    
+                    <CardFooter className="p-4 pt-0 flex justify-end gap-2">
+                      <Button variant="outline" size="sm">View Details</Button>
+                      <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]" size="sm">Develop</Button>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+
+              {/* Market Research Section */}
+              <div className="mt-8 border-t border-border/30 pt-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <BarChart3 className="h-5 w-5 text-[#8B5CF6]" />
+                  <h2 className="text-xl font-semibold">Market Research Insights</h2>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <Card className="p-4">
                     <div className="flex items-center gap-2 mb-2">
-                      <div className="p-1 rounded-full bg-[#8B5CF6]/10">
-                        <Lightbulb className="h-4 w-4 text-[#8B5CF6]" />
-                      </div>
-                      <h3 className="font-semibold text-lg">{concept.title}</h3>
+                      <TrendingUp className="h-4 w-4 text-[#8B5CF6]" />
+                      <h3 className="font-medium">Market Trends</h3>
                     </div>
-                    
-                    <p className="text-sm text-muted-foreground mb-3">
-                      {concept.description}
+                    <p className="text-sm text-muted-foreground">
+                      35% of consumers prefer eco-friendly products, with 28% willing to pay a premium for sustainability features.
                     </p>
-                    
-                    {/* Key Differentiators Section */}
-                    <div className="mt-2">
-                      <div className="flex items-center gap-1 text-sm font-medium mb-1">
-                        <Star className="h-4 w-4 text-[#8B5CF6]" />
-                        Key Differentiators
-                      </div>
-                      <ul className="text-sm space-y-1 ml-5 list-disc text-muted-foreground">
-                        {concept.differentiators.map((diff, index) => (
-                          <li key={index}>{diff}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  </CardContent>
+                  </Card>
                   
-                  <CardFooter className="p-4 pt-0 flex justify-end gap-2">
-                    <Button variant="outline" size="sm">View Details</Button>
-                    <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]" size="sm">Develop</Button>
-                  </CardFooter>
-                </Card>
-              ))}
-            </div>
-
-            {/* Market Research Section */}
-            <div className="mt-8 border-t border-border/30 pt-6">
-              <div className="flex items-center gap-2 mb-4">
-                <BarChart3 className="h-5 w-5 text-[#8B5CF6]" />
-                <h2 className="text-xl font-semibold">Market Research Insights</h2>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card className="p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <TrendingUp className="h-4 w-4 text-[#8B5CF6]" />
-                    <h3 className="font-medium">Market Trends</h3>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    35% of consumers prefer eco-friendly products, with 28% willing to pay a premium for sustainability features.
-                  </p>
-                </Card>
-                
-                <Card className="p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Users className="h-4 w-4 text-[#8B5CF6]" />
-                    <h3 className="font-medium">Target Demographics</h3>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Primary audience segments include urban professionals (25-40) and health-conscious consumers across all age groups.
-                  </p>
-                </Card>
-                
-                <Card className="p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Brain className="h-4 w-4 text-[#8B5CF6]" />
-                    <h3 className="font-medium">AI-Generated Insights</h3>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Digital companions to physical products show 47% higher customer retention and 32% increase in brand loyalty.
-                  </p>
-                </Card>
+                  <Card className="p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Users className="h-4 w-4 text-[#8B5CF6]" />
+                      <h3 className="font-medium">Target Demographics</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Primary audience segments include urban professionals (25-40) and health-conscious consumers across all age groups.
+                    </p>
+                  </Card>
+                  
+                  <Card className="p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Brain className="h-4 w-4 text-[#8B5CF6]" />
+                      <h3 className="font-medium">AI-Generated Insights</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Digital companions to physical products show 47% higher customer retention and 32% increase in brand loyalty.
+                    </p>
+                  </Card>
+                </div>
               </div>
             </div>
-          </div>
-        </ScrollArea>
-      </DialogContent>
-    </Dialog>
+          </ScrollArea>
+        </DialogContent>
+      </Dialog>
+      
+      {/* Manual Concept Creation Form */}
+      <ConceptCreationForm 
+        isOpen={showManualCreation} 
+        onClose={() => setShowManualCreation(false)}
+        ideaTitle={ideaTitle}
+      />
+    </>
   );
 };
 

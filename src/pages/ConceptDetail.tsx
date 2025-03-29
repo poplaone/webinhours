@@ -1,11 +1,12 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Plus, Lightbulb, BookOpen, FileText, Brain, Star, BarChart3, Users, TrendingUp } from 'lucide-react';
 import ChatSidebar from '@/components/ai/ChatSidebar';
+import ConceptCreationForm from '@/components/concepts/ConceptCreationForm';
 
 // Define the concept type
 export interface Concept {
@@ -84,6 +85,7 @@ const marketResearchData = [
 const ConceptDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [showManualCreation, setShowManualCreation] = useState(false);
   
   const handleBackToIdea = () => {
     navigate(`/idea/${id}`);
@@ -91,6 +93,10 @@ const ConceptDetail = () => {
 
   const handleViewConceptDetails = (conceptId: number) => {
     navigate(`/concept-details/${conceptId}`);
+  };
+
+  const handleCreateManually = () => {
+    setShowManualCreation(true);
   };
 
   return (
@@ -115,9 +121,17 @@ const ConceptDetail = () => {
             
             {/* Actions */}
             <div className="flex items-center gap-4">
-              <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]">
+              <Button 
+                variant="outline" 
+                className="border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6]/10"
+                onClick={handleCreateManually}
+              >
                 <Plus className="mr-2 h-4 w-4" />
-                Create New Concept
+                Create Manually
+              </Button>
+              <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]">
+                <Lightbulb className="mr-2 h-4 w-4" />
+                AI-Generated Concept
               </Button>
             </div>
           </div>
@@ -210,6 +224,13 @@ const ConceptDetail = () => {
           </ScrollArea>
         </main>
       </div>
+
+      {/* Manual Concept Creation Form */}
+      <ConceptCreationForm 
+        isOpen={showManualCreation} 
+        onClose={() => setShowManualCreation(false)}
+        ideaTitle="AI-Powered Personalized Nutrition App"
+      />
     </div>
   );
 };
