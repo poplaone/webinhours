@@ -130,10 +130,9 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
         </div>
       </div>
       
-      {/* Fixed, non-scrollable chat area */}
-      <div className="flex-grow bg-[#121212] flex flex-col">
-        <div className="flex-1 p-4 flex flex-col overflow-hidden">
-          {/* Only show the last message */}
+      {/* Fixed chat message display area - only showing the latest message */}
+      <div className="bg-[#121212] flex-grow flex flex-col justify-center">
+        <div className="p-4">
           {messages.length > 0 && (
             <ChatMessage
               key={messages.length - 1}
