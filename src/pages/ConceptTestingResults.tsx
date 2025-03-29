@@ -1,5 +1,8 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import SideNavbar from '@/components/layout/SideNavbar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -70,11 +73,28 @@ const surveyData = {
 const COLORS = ['#9b87f5', '#a78bfa', '#8b5cf6', '#7c3aed', '#6d28d9'];
 
 const ConceptTestingResults = () => {
+  const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    navigate('/concept-testing');
+  };
+
   return (
     <div className="flex h-screen overflow-hidden">
       <SideNavbar />
       <div className="flex-1 overflow-auto">
         <div className="container p-6">
+          <div className="flex items-center mb-6">
+            <Button 
+              variant="ghost" 
+              className="mr-4 p-0 h-auto"
+              onClick={handleBackClick}
+            >
+              <ArrowLeft className="h-5 w-5 mr-1" />
+              <span>Back to Dashboard</span>
+            </Button>
+          </div>
+          
           <div className="mb-6">
             <h1 className="text-3xl font-bold">{surveyData.name}</h1>
             <p className="text-muted-foreground">Results and analytics</p>
