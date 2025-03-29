@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
@@ -25,20 +24,20 @@ import { toast } from "sonner";
 const ideaFormSchema = z.object({
   problemStatement: z.string().min(10, {
     message: "Problem statement must be at least 10 characters.",
-  }),
+  }).optional().or(z.literal('')),
   title: z.string().min(5, {
     message: "Title must be at least 5 characters.",
-  }),
+  }).optional().or(z.literal('')),
   description: z.string().min(20, {
     message: "Description must be at least 20 characters.",
-  }),
+  }).optional().or(z.literal('')),
   targetAudience: z.string().min(5, {
     message: "Target audience must be at least 5 characters.",
-  }),
+  }).optional().or(z.literal('')),
   businessValue: z.string().min(5, {
     message: "Business value must be at least 5 characters.",
-  }),
-  tags: z.string(),
+  }).optional().or(z.literal('')),
+  tags: z.string().optional().or(z.literal('')),
 });
 
 type IdeaFormValues = z.infer<typeof ideaFormSchema>;
@@ -72,6 +71,7 @@ const IdeaCreation = () => {
   const form = useForm<IdeaFormValues>({
     resolver: zodResolver(ideaFormSchema),
     defaultValues,
+    mode: "onSubmit", // Changed from default onBlur to onSubmit
   });
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,13 +93,6 @@ const IdeaCreation = () => {
   };
 
   const goToNextStep = () => {
-    if (currentStep === 1) {
-      const { problemStatement, title, description } = form.getValues();
-      if (problemStatement.length < 10 || title.length < 5 || description.length < 20) {
-        form.trigger(["problemStatement", "title", "description"]);
-        return;
-      }
-    }
     setCurrentStep(prev => prev + 1);
   };
 
@@ -109,11 +102,6 @@ const IdeaCreation = () => {
 
   const generateMarketInsights = () => {
     const problemStatement = form.getValues('problemStatement');
-    
-    if (problemStatement.length < 10) {
-      form.trigger('problemStatement');
-      return;
-    }
     
     setIsGeneratingInsights(true);
     
@@ -243,29 +231,27 @@ const IdeaCreation = () => {
                         )}
                       />
                       
-                      {form.watch('problemStatement')?.length >= 10 && (
-                        <div className="flex justify-end">
-                          <Button
-                            type="button"
-                            variant="outline"
-                            onClick={generateMarketInsights}
-                            className="bg-[#1A1F2C] border-[#8B5CF6]/30 text-white hover:bg-[#8B5CF6]/20"
-                            disabled={isGeneratingInsights}
-                          >
-                            {isGeneratingInsights ? (
-                              <>
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Generating Insights...
-                              </>
-                            ) : (
-                              <>
-                                <BarChart3 className="mr-2 h-4 w-4" />
-                                Generate Market Insights
-                              </>
-                            )}
-                          </Button>
-                        </div>
-                      )}
+                      <div className="flex justify-end">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={generateMarketInsights}
+                          className="bg-[#1A1F2C] border-[#8B5CF6]/30 text-white hover:bg-[#8B5CF6]/20"
+                          disabled={isGeneratingInsights}
+                        >
+                          {isGeneratingInsights ? (
+                            <>
+                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                              Generating Insights...
+                            </>
+                          ) : (
+                            <>
+                              <BarChart3 className="mr-2 h-4 w-4" />
+                              Generate Market Insights
+                            </>
+                          )}
+                        </Button>
+                      </div>
                       
                       {/* Market Insights Section */}
                       {marketInsights.length > 0 && (
