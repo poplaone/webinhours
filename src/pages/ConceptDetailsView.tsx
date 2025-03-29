@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -278,7 +279,10 @@ const ConceptDetailsView = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex">
-      <ChatSidebar />
+      {/* Adjust the width of the ChatSidebar to match the Idea Detail screen */}
+      <div className="w-80 border-r border-border bg-card">
+        <ChatSidebar className="h-screen" />
+      </div>
       
       <div className="flex-1 flex flex-col">
         <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
