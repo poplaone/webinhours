@@ -1,12 +1,19 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { Lightbulb, BarChart3, TrendingUp, CornerUpRight, Zap } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 const ProductFocusStep: React.FC = () => {
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
   const [targetAudience, setTargetAudience] = useState('');
   const [competitorCount, setCompetitorCount] = useState(0);
+  const [showInsights, setShowInsights] = useState(false);
+  const [isGeneratingInsights, setIsGeneratingInsights] = useState(false);
+  const [innovationType, setInnovationType] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const goals = [
     {
@@ -81,8 +88,95 @@ const ProductFocusStep: React.FC = () => {
 
   const audiences = ["Gen Z", "Millennials", "Gen X", "Baby Boomers", "Luxury", "Budget-conscious", "Professionals", "Families"];
 
+  // Generate insights based on user inputs
+  const generateInsights = () => {
+    if (selectedGoals.length === 0 && !targetAudience) {
+      toast({
+        title: "Missing information",
+        description: "Please select at least one goal or audience to generate insights",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setIsGeneratingInsights(true);
+    
+    // Simulate API call with setTimeout
+    setTimeout(() => {
+      // Determine innovation type based on selected goals
+      let type = "incremental";
+      
+      if (selectedGoals.includes('new-market') && selectedGoals.includes('innovation')) {
+        type = "disruptive";
+      } else if (selectedGoals.includes('innovation')) {
+        type = "radical";
+      } else if (selectedGoals.includes('new-market') || selectedGoals.includes('customer-needs')) {
+        type = "augmentative";
+      }
+      
+      setInnovationType(type);
+      setShowInsights(true);
+      setIsGeneratingInsights(false);
+      
+      toast({
+        title: "Insights Generated",
+        description: "AI has analyzed your inputs and generated relevant insights",
+      });
+    }, 1500);
+  };
+
+  // Clear insights when inputs change
+  useEffect(() => {
+    if (showInsights) {
+      setShowInsights(false);
+    }
+  }, [selectedGoals, targetAudience, competitorCount]);
+
+  // Innovation type descriptions
+  const innovationDescriptions = {
+    incremental: {
+      title: "Incremental Innovation",
+      description: "Focuses on improving existing products with minor changes. Lower risk, steady returns.",
+      marketImpact: "Typically maintains current market position with modest growth potential.",
+      examples: "iPhone annual updates, car model refreshes, improved product formulations.",
+      color: "blue"
+    },
+    augmentative: {
+      title: "Augmentative Innovation",
+      description: "Extends existing product lines into adjacent markets or new customer segments.",
+      marketImpact: "Expands market reach and increases revenue streams without disrupting core business.",
+      examples: "Amazon expanding from books to all retail, Netflix moving from DVD rental to streaming.",
+      color: "green"
+    },
+    radical: {
+      title: "Radical Innovation",
+      description: "Breakthrough technology or approach that creates significant performance improvements.",
+      marketImpact: "Creates new value within existing markets, potential for high growth and premium positioning.",
+      examples: "First smartphones, OLED displays, electric vehicles, gene therapy treatments.",
+      color: "purple"
+    },
+    disruptive: {
+      title: "Disruptive Innovation",
+      description: "Redefines market expectations and overthrows existing solutions with a new paradigm.",
+      marketImpact: "Creates entirely new markets or radically transforms existing ones, high-risk & high-reward.",
+      examples: "Personal computers, smartphones, streaming services, ride-sharing platforms.",
+      color: "amber"
+    }
+  };
+
+  // Get innovation color
+  const getInnovationColor = (type: string) => {
+    const colors = {
+      incremental: "blue",
+      augmentative: "green", 
+      radical: "purple",
+      disruptive: "amber"
+    };
+    return colors[type as keyof typeof colors] || "blue";
+  };
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -186,7 +280,108 @@ const ProductFocusStep: React.FC = () => {
             <span>Many</span>
           </div>
         </div>
+        
+        {/* Generate Insights Button */}
+        <div className="flex justify-end">
+          <Button 
+            onClick={generateInsights}
+            disabled={isGeneratingInsights}
+            className="bg-blue-600 hover:bg-blue-700 text-white"
+          >
+            {isGeneratingInsights ? (
+              <>
+                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Generating...
+              </>
+            ) : (
+              <>
+                <BarChart3 className="mr-2 h-4 w-4" />
+                Generate Market Insights
+              </>
+            )}
+          </Button>
+        </div>
       </motion.div>
+
+      {/* AI Insights Section */}
+      {showInsights && innovationType && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="mt-4 space-y-4"
+        >
+          <div className="border rounded-xl overflow-hidden">
+            <div className={`px-4 py-3 bg-${getInnovationColor(innovationType)}-50 border-b border-${getInnovationColor(innovationType)}-100 flex items-center`}>
+              <Lightbulb className={`h-5 w-5 text-${getInnovationColor(innovationType)}-500 mr-2`} />
+              <h3 className={`text-${getInnovationColor(innovationType)}-700 font-medium`}>
+                AI Innovation Analysis
+              </h3>
+            </div>
+            
+            <div className="p-4 space-y-3">
+              {/* Innovation Type Classification */}
+              <div className="mb-3">
+                <div className="flex items-center mb-1">
+                  <Zap className={`h-4 w-4 text-${getInnovationColor(innovationType)}-500 mr-1.5`} />
+                  <h4 className="text-sm font-medium">Innovation Classification</h4>
+                </div>
+                <div className={`mt-1 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-${getInnovationColor(innovationType)}-100 text-${getInnovationColor(innovationType)}-800`}>
+                  {innovationDescriptions[innovationType as keyof typeof innovationDescriptions]?.title}
+                </div>
+                <p className="text-sm text-gray-600 mt-1">
+                  {innovationDescriptions[innovationType as keyof typeof innovationDescriptions]?.description}
+                </p>
+              </div>
+              
+              {/* Market Impact */}
+              <div className="mb-3">
+                <div className="flex items-center mb-1">
+                  <TrendingUp className={`h-4 w-4 text-${getInnovationColor(innovationType)}-500 mr-1.5`} />
+                  <h4 className="text-sm font-medium">Potential Market Impact</h4>
+                </div>
+                <p className="text-sm text-gray-600">
+                  {innovationDescriptions[innovationType as keyof typeof innovationDescriptions]?.marketImpact}
+                </p>
+              </div>
+              
+              {/* Examples */}
+              <div>
+                <div className="flex items-center mb-1">
+                  <CornerUpRight className={`h-4 w-4 text-${getInnovationColor(innovationType)}-500 mr-1.5`} />
+                  <h4 className="text-sm font-medium">Similar Innovation Examples</h4>
+                </div>
+                <p className="text-sm text-gray-600">
+                  {innovationDescriptions[innovationType as keyof typeof innovationDescriptions]?.examples}
+                </p>
+              </div>
+              
+              {/* Additional Context Based on User Selections */}
+              {selectedGoals.length > 0 && (
+                <div className="mt-3 pt-3 border-t border-gray-100">
+                  <div className="flex items-start mb-1">
+                    <BarChart3 className="h-4 w-4 text-gray-500 mr-1.5 mt-0.5" />
+                    <div>
+                      <h4 className="text-sm font-medium">Strategic Analysis</h4>
+                      <p className="text-sm text-gray-600 mt-1">
+                        {selectedGoals.includes('new-market') 
+                          ? "Entering new markets requires significant customer research and competitive analysis. Consider pilot testing before full launch." 
+                          : "Focusing on existing markets allows for incremental improvements with lower risk profile."}
+                        {selectedGoals.includes('innovation') && " Your focus on breakthrough innovation suggests allocation of dedicated R&D resources will be critical for success."}
+                        {competitorCount > 7 && " In your highly competitive market, differentiation will be essential for capturing market share."}
+                        {competitorCount < 3 && " The limited competition in your space provides opportunity for establishing early market leadership."}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </motion.div>
+      )}
 
       <motion.div
         initial={{ opacity: 0 }}
