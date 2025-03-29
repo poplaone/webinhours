@@ -1,12 +1,13 @@
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Plus, Lightbulb, BookOpen, FileText, Brain, Star, BarChart3, Users, TrendingUp } from 'lucide-react';
+import { toast } from "sonner";
 import ChatSidebar from '@/components/ai/ChatSidebar';
 import ConceptCreationForm from '@/components/concepts/ConceptCreationForm';
+import AIConceptGenerationModal from '@/components/concepts/AIConceptGenerationModal';
 
 // Define the concept type
 export interface Concept {
@@ -86,6 +87,7 @@ const ConceptDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [showManualCreation, setShowManualCreation] = useState(false);
+  const [showAIGeneration, setShowAIGeneration] = useState(false);
   
   const handleBackToIdea = () => {
     navigate(`/idea/${id}`);
@@ -97,6 +99,10 @@ const ConceptDetail = () => {
 
   const handleCreateManually = () => {
     setShowManualCreation(true);
+  };
+
+  const handleGenerateWithAI = () => {
+    setShowAIGeneration(true);
   };
 
   return (
@@ -129,7 +135,10 @@ const ConceptDetail = () => {
                 <Plus className="mr-2 h-4 w-4" />
                 Create Manually
               </Button>
-              <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]">
+              <Button 
+                variant="purple"
+                onClick={handleGenerateWithAI}
+              >
                 <Lightbulb className="mr-2 h-4 w-4" />
                 AI-Generated Concept
               </Button>
@@ -230,6 +239,13 @@ const ConceptDetail = () => {
         isOpen={showManualCreation} 
         onClose={() => setShowManualCreation(false)}
         ideaTitle="AI-Powered Personalized Nutrition App"
+      />
+
+      {/* AI Concept Generation Modal */}
+      <AIConceptGenerationModal
+        isOpen={showAIGeneration}
+        onClose={() => setShowAIGeneration(false)}
+        ideaId={id ? parseInt(id) : 1}
       />
     </div>
   );

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Plus, Lightbulb, BookOpen, FileText, Brain, Star, BarChart3, Users, TrendingUp } from 'lucide-react';
 import ConceptCreationForm from './ConceptCreationForm';
+import AIConceptGenerationModal from './AIConceptGenerationModal';
 
 // Define the concept type
 export interface Concept {
@@ -69,9 +70,14 @@ const sampleConcepts: Concept[] = [
 
 const ConceptCreationModal: React.FC<ConceptCreationModalProps> = ({ isOpen, onClose, ideaTitle }) => {
   const [showManualCreation, setShowManualCreation] = useState(false);
+  const [showAIGeneration, setShowAIGeneration] = useState(false);
   
   const handleCreateManually = () => {
     setShowManualCreation(true);
+  };
+  
+  const handleGenerateWithAI = () => {
+    setShowAIGeneration(true);
   };
   
   return (
@@ -100,7 +106,10 @@ const ConceptCreationModal: React.FC<ConceptCreationModalProps> = ({ isOpen, onC
                     <Plus className="mr-2 h-4 w-4" />
                     Create Manually
                   </Button>
-                  <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]">
+                  <Button 
+                    variant="purple"
+                    onClick={handleGenerateWithAI}
+                  >
                     <Lightbulb className="mr-2 h-4 w-4" />
                     AI-Generated Concept
                   </Button>
@@ -205,6 +214,13 @@ const ConceptCreationModal: React.FC<ConceptCreationModalProps> = ({ isOpen, onC
         isOpen={showManualCreation} 
         onClose={() => setShowManualCreation(false)}
         ideaTitle={ideaTitle}
+      />
+
+      {/* AI Concept Generation Modal */}
+      <AIConceptGenerationModal
+        isOpen={showAIGeneration}
+        onClose={() => setShowAIGeneration(false)}
+        ideaId={1} // Default to 1 for now, could be derived from ideaTitle or passed in
       />
     </>
   );
