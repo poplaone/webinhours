@@ -1,9 +1,10 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { ArrowLeft, Upload, ImagePlus, Lightbulb, TrendingUp, Users, BarChart3, ChevronRight, Sparkles, ArrowRightCircle, Loader2 } from 'lucide-react';
+import { ArrowLeft, Upload, ImagePlus, Lightbulb, TrendingUp, Users, BarChart3, ChevronRight, Sparkles, ArrowRightCircle, Loader2, CheckCircle2, XCircle } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -49,6 +50,12 @@ type MarketInsight = {
   description: string;
 };
 
+type StrengthWeakness = {
+  type: 'strength' | 'weakness';
+  title: string;
+  description: string;
+};
+
 const IdeaCreation = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
@@ -56,6 +63,7 @@ const IdeaCreation = () => {
   const [isGeneratingInsights, setIsGeneratingInsights] = useState(false);
   const [marketInsights, setMarketInsights] = useState<MarketInsight[]>([]);
   const [ideaSuggestions, setIdeaSuggestions] = useState<string[]>([]);
+  const [strengthsWeaknesses, setStrengthsWeaknesses] = useState<StrengthWeakness[]>([]);
   
   // Default form values
   const defaultValues: Partial<IdeaFormValues> = {
@@ -135,9 +143,34 @@ const IdeaCreation = () => {
         'Subscription model may yield better long-term revenue',
         'Partner with established brands for faster market entry'
       ];
+
+      // Add strengths and weaknesses analysis
+      const swAnalysis: StrengthWeakness[] = [
+        {
+          type: 'strength',
+          title: 'Innovative Approach',
+          description: 'Your solution takes a novel approach to solving the problem, which can be a significant differentiator.',
+        },
+        {
+          type: 'strength',
+          title: 'Market Timing',
+          description: 'The current market conditions are favorable for this type of solution.',
+        },
+        {
+          type: 'weakness',
+          title: 'Resource Requirements',
+          description: 'Implementation may require significant technical resources and expertise.',
+        },
+        {
+          type: 'weakness',
+          title: 'Adoption Barriers',
+          description: 'Potential users may face learning curves or integration challenges.',
+        }
+      ];
       
       setMarketInsights(insights);
       setIdeaSuggestions(suggestions);
+      setStrengthsWeaknesses(swAnalysis);
       setIsGeneratingInsights(false);
       
       toast.success("Market insights generated!");
@@ -273,6 +306,50 @@ const IdeaCreation = () => {
                               </Card>
                             ))}
                           </div>
+                          
+                          {/* Strengths and Weaknesses Analysis */}
+                          {strengthsWeaknesses.length > 0 && (
+                            <div className="mt-6">
+                              <h3 className="text-lg font-medium mb-4">Strengths & Weaknesses Analysis</h3>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {/* Strengths Column */}
+                                <div className="space-y-3">
+                                  <h4 className="text-base font-medium text-green-500 flex items-center gap-2">
+                                    <CheckCircle2 className="h-4 w-4" />
+                                    Strengths
+                                  </h4>
+                                  {strengthsWeaknesses
+                                    .filter(item => item.type === 'strength')
+                                    .map((strength, index) => (
+                                      <Card key={index} className="bg-green-900/10 border-green-500/20">
+                                        <CardContent className="p-4">
+                                          <h5 className="text-sm font-medium text-green-500">{strength.title}</h5>
+                                          <p className="text-xs text-gray-300 mt-1">{strength.description}</p>
+                                        </CardContent>
+                                      </Card>
+                                    ))}
+                                </div>
+                                
+                                {/* Weaknesses Column */}
+                                <div className="space-y-3">
+                                  <h4 className="text-base font-medium text-red-500 flex items-center gap-2">
+                                    <XCircle className="h-4 w-4" />
+                                    Weaknesses
+                                  </h4>
+                                  {strengthsWeaknesses
+                                    .filter(item => item.type === 'weakness')
+                                    .map((weakness, index) => (
+                                      <Card key={index} className="bg-red-900/10 border-red-500/20">
+                                        <CardContent className="p-4">
+                                          <h5 className="text-sm font-medium text-red-500">{weakness.title}</h5>
+                                          <p className="text-xs text-gray-300 mt-1">{weakness.description}</p>
+                                        </CardContent>
+                                      </Card>
+                                    ))}
+                                </div>
+                              </div>
+                            </div>
+                          )}
                           
                           {/* Idea Improvement Suggestions */}
                           {ideaSuggestions.length > 0 && (
