@@ -1,9 +1,11 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Sparkles, Lightbulb, BookOpen, FileText, Brain, Star, BarChart3, Users, TrendingUp, GripVertical } from 'lucide-react';
+import { Sparkles, Lightbulb, BookOpen, FileText, Brain, Star, BarChart3, Users, TrendingUp, GripVertical, Save } from 'lucide-react';
+import { toast } from "sonner";
 import ChatSidebar from '@/components/ai/ChatSidebar';
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
@@ -166,6 +168,10 @@ const IdeaDetail = () => {
   const handleViewConceptCreation = () => {
     navigate(`/concept/${id}`);
   };
+  
+  const handleSaveIdea = () => {
+    toast.success("Idea saved successfully!");
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex">
@@ -191,6 +197,14 @@ const IdeaDetail = () => {
             
             {/* Actions */}
             <div className="flex items-center gap-4">
+              <Button 
+                variant="outline"
+                className="border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6]/10"
+                onClick={handleSaveIdea}
+              >
+                <Save className="mr-2 h-4 w-4" />
+                Save Idea
+              </Button>
               <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]" onClick={handleViewConceptCreation}>
                 <Lightbulb className="mr-2 h-4 w-4" />
                 Concept Creation
