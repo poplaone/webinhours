@@ -82,10 +82,11 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
 
   return (
     <div className={cn(
-      "flex flex-col h-full max-h-full bg-background", 
-      isMaximized ? "w-full" : "max-w-[403px]", // Increased from 336px to 403px (20% more)
+      "flex flex-col h-full bg-background", 
+      isMaximized ? "w-full" : "w-[320px]",
       className
     )}>
+      {/* Chat header */}
       <div className="flex-none items-center justify-between bg-[#1A1F2C] border-b border-[#8B5CF6]/10 px-4 py-3">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center">
@@ -130,21 +131,22 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
         </div>
       </div>
       
-      <div className="flex-grow bg-[#121212] overflow-hidden">
-        <ScrollArea className="h-full w-full">
-          <div className="p-4 flex flex-col">
-            {messages.map((message, index) => (
-              <ChatMessage
-                key={index}
-                message={message.content}
-                isUser={message.isUser}
-                timestamp={message.timestamp}
-              />
-            ))}
-          </div>
-        </ScrollArea>
+      {/* Fixed, non-scrollable chat area */}
+      <div className="flex-grow bg-[#121212] flex flex-col">
+        <div className="flex-1 p-4 flex flex-col overflow-hidden">
+          {/* Only show the last message */}
+          {messages.length > 0 && (
+            <ChatMessage
+              key={messages.length - 1}
+              message={messages[messages.length - 1].content}
+              isUser={messages[messages.length - 1].isUser}
+              timestamp={messages[messages.length - 1].timestamp}
+            />
+          )}
+        </div>
       </div>
       
+      {/* Input area */}
       <div className="flex-none p-4 bg-[#121212] border-t border-[#8B5CF6]/10">
         <div className="relative">
           <Textarea

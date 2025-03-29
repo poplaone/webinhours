@@ -100,7 +100,7 @@ const SideNavbar = () => {
           <Button
             variant="ghost"
             size="icon"
-            onClick={toggleSideNav}
+            onClick={() => setIsExpanded(!isExpanded)}
             className={cn(
               "h-8 w-8 p-0 text-white hover:bg-[#8B5CF6]/20",
               !isExpanded && "hidden"
@@ -151,8 +151,8 @@ const SideNavbar = () => {
           {isExpanded && isAIChatOpen ? (
             <ChatSidebar 
               isMaximized={false} 
-              onToggleMaximize={toggleAIChatMaximize}
-              onClose={toggleAIChat}
+              onToggleMaximize={() => setIsAIChatMaximized(!isAIChatMaximized)}
+              onClose={() => setIsAIChatOpen(false)}
               className="h-full"
             />
           ) : (
@@ -163,7 +163,7 @@ const SideNavbar = () => {
                   "w-full justify-start border border-[#8B5CF6]/30 bg-[#8B5CF6]/5 text-[#8B5CF6] hover:bg-[#8B5CF6]/10",
                   !isExpanded && "justify-center"
                 )}
-                onClick={toggleAIChat}
+                onClick={() => setIsAIChatOpen(true)}
               >
                 <Sparkles className="h-5 w-5" />
                 {isExpanded && <span className="ml-2">AI Ideation Chat</span>}
@@ -176,7 +176,7 @@ const SideNavbar = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={toggleSideNav}
+                onClick={() => setIsExpanded(true)}
                 className="w-full h-8 text-white hover:bg-[#8B5CF6]/20"
               >
                 <ChevronRight className="h-4 w-4" />
@@ -192,7 +192,7 @@ const SideNavbar = () => {
           <div className="h-full">
             <ChatSidebar 
               isMaximized={true}
-              onToggleMaximize={toggleAIChatMaximize}
+              onToggleMaximize={() => setIsAIChatMaximized(false)}
               className="h-full"
             />
           </div>
