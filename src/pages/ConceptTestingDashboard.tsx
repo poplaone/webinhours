@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -200,78 +201,6 @@ const ConceptTestingDashboard = () => {
             </Button>
           </div>
 
-          <Card className="mb-6">
-            <CardContent className="p-6">
-              <div className="flex justify-between items-center mb-2">
-                <div>
-                  <h2 className="text-2xl font-bold">Quick Testing Session</h2>
-                  <p className="text-muted-foreground">Start a new concept testing session</p>
-                </div>
-                <Button 
-                  onClick={handleStartSession}
-                  className="bg-[#2563eb] hover:bg-blue-700"
-                >
-                  <Plus className="mr-2 h-4 w-4" /> Start Session
-                </Button>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-                <Select value={selectedTestingType} onValueChange={setSelectedTestingType}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select testing type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {testingTypes.map((type) => (
-                      <SelectItem key={type.id} value={type.name}>
-                        {type.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                
-                <Select value={selectedConcept} onValueChange={setSelectedConcept}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select product concept" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {productConcepts.map((concept) => (
-                      <SelectItem key={concept.id} value={concept.name}>
-                        {concept.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                
-                <Select value={selectedParticipants} onValueChange={setSelectedParticipants}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Number of participants" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {participantOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </CardContent>
-          </Card>
-
-          <div className="flex items-center gap-4 mb-6">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search tests by name or category..."
-                className="pl-10"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-            <Button variant="outline" className="gap-2">
-              <Filter className="h-4 w-4" /> Filter
-            </Button>
-          </div>
-
           <div className="mb-6">
             <h2 className="text-xl font-semibold mb-4">Testing Overview</h2>
             <Separator className="mb-6" />
@@ -309,6 +238,21 @@ const ConceptTestingDashboard = () => {
                 </CardContent>
               </Card>
             </div>
+          </div>
+
+          <div className="flex items-center gap-4 mb-6">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search tests by name or category..."
+                className="pl-10"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <Button variant="outline" className="gap-2">
+              <Filter className="h-4 w-4" /> Filter
+            </Button>
           </div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -454,6 +398,64 @@ const ConceptTestingDashboard = () => {
               </div>
             </TabsContent>
           </Tabs>
+
+          {/* Quick Testing Session moved to the bottom */}
+          <Card className="mt-6">
+            <CardContent className="p-6">
+              <div className="flex justify-between items-center mb-2">
+                <div>
+                  <h2 className="text-2xl font-bold">Quick Testing Session</h2>
+                  <p className="text-muted-foreground">Start a new concept testing session</p>
+                </div>
+                <Button 
+                  onClick={handleStartSession}
+                  className="bg-[#2563eb] hover:bg-blue-700"
+                >
+                  <Plus className="mr-2 h-4 w-4" /> Start Session
+                </Button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                <Select value={selectedTestingType} onValueChange={setSelectedTestingType}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select testing type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {testingTypes.map((type) => (
+                      <SelectItem key={type.id} value={type.name}>
+                        {type.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                
+                <Select value={selectedConcept} onValueChange={setSelectedConcept}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select product concept" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {productConcepts.map((concept) => (
+                      <SelectItem key={concept.id} value={concept.name}>
+                        {concept.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                
+                <Select value={selectedParticipants} onValueChange={setSelectedParticipants}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Number of participants" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {participantOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
