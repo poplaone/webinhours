@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -9,6 +8,8 @@ import ChatSidebar from '@/components/ai/ChatSidebar';
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
 // Define the idea type
 export interface Idea {
@@ -118,6 +119,34 @@ const sampleIdeas: Idea[] = [
   }
 ];
 
+// Sample chart data
+const marketTrendData = [
+  { name: 'Jan', value: 30 },
+  { name: 'Feb', value: 40 },
+  { name: 'Mar', value: 45 },
+  { name: 'Apr', value: 55 },
+  { name: 'May', value: 60 },
+  { name: 'Jun', value: 75 },
+  { name: 'Jul', value: 85 },
+];
+
+const demographicData = [
+  { name: 'Gen Z', value: 35 },
+  { name: 'Millennials', value: 45 },
+  { name: 'Gen X', value: 15 },
+  { name: 'Boomers', value: 5 },
+];
+
+const consumerPreferenceData = [
+  { name: 'Eco-friendly', value: 85 },
+  { name: 'Healthy', value: 75 },
+  { name: 'Affordable', value: 60 },
+  { name: 'Convenient', value: 50 },
+  { name: 'Premium', value: 40 },
+];
+
+const COLORS = ['#8B5CF6', '#A78BFA', '#C4B5FD', '#DDD6FE', '#EDE9FE'];
+
 const IdeaDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -187,6 +216,19 @@ const IdeaDetail = () => {
                 <p className="text-muted-foreground mt-2">{idea.description}</p>
               </div>
 
+              {/* AI Generated Summary */}
+              <Card className="p-6 border border-border/40 bg-[#8B5CF6]/5 backdrop-blur mb-8">
+                <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                  <Brain className="h-5 w-5 text-[#8B5CF6]" />
+                  AI-Generated Summary
+                </h2>
+                <p className="text-muted-foreground">
+                  {idea.title === "AI-Powered Personalized Nutrition App" ? 
+                    "This AI-powered nutrition app concept addresses three converging market trends: rising personalized health solutions, increased focus on preventative wellness, and demand for convenient, data-driven lifestyle tools. Market analysis indicates significant growth potential with 32% CAGR in the health-tech app category through 2027, driven by health-conscious millennials and Gen Z consumers seeking tailored nutrition guidance. The integration with wearable devices creates a powerful ecosystem that could disrupt traditional nutrition consultation models." :
+                    "This innovative product concept shows strong alignment with current market trends and consumer demands. Analysis of market data shows considerable growth potential in this segment, with increasing consumer interest across multiple demographics. The concept addresses key pain points and offers a differentiated solution in an expanding market."}
+                </p>
+              </Card>
+
               {/* Idea Metrics */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <Card className="p-4 border border-border/40 bg-card/50 backdrop-blur">
@@ -223,6 +265,94 @@ const IdeaDetail = () => {
                   <p className="font-medium text-sm">{idea.industryRelevance}</p>
                 </Card>
               </div>
+
+              {/* Data Visualizations */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                {/* Market Growth Trend */}
+                <Card className="p-4 border border-border/40 bg-card/50 backdrop-blur">
+                  <h3 className="text-md font-semibold mb-2 flex items-center gap-2">
+                    <TrendingUp className="h-5 w-5 text-[#8B5CF6]" />
+                    Market Growth Trend
+                  </h3>
+                  <div className="h-56">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={marketTrendData} margin={{ top: 5, right: 5, left: 0, bottom: 5 }}>
+                        <defs>
+                          <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.8}/>
+                            <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0}/>
+                          </linearGradient>
+                        </defs>
+                        <XAxis dataKey="name" tick={{ fill: '#888888' }} />
+                        <YAxis tick={{ fill: '#888888' }} />
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                        <Tooltip />
+                        <Area type="monotone" dataKey="value" stroke="#8B5CF6" fillOpacity={1} fill="url(#colorValue)" />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Growth trajectory shows accelerating market demand over the past 6 months.
+                  </p>
+                </Card>
+
+                {/* Consumer Preferences */}
+                <Card className="p-4 border border-border/40 bg-card/50 backdrop-blur">
+                  <h3 className="text-md font-semibold mb-2 flex items-center gap-2">
+                    <BookOpen className="h-5 w-5 text-[#8B5CF6]" />
+                    Consumer Preferences
+                  </h3>
+                  <div className="h-56">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={consumerPreferenceData} layout="vertical" margin={{ top: 5, right: 5, left: 60, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
+                        <XAxis type="number" tick={{ fill: '#888888' }} />
+                        <YAxis dataKey="name" type="category" tick={{ fill: '#888888' }} width={60} />
+                        <Tooltip />
+                        <Bar dataKey="value" fill="#8B5CF6" radius={[0, 4, 4, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Consumer preferences show strong prioritization of eco-friendly features and health benefits.
+                  </p>
+                </Card>
+              </div>
+
+              {/* Target Demographics */}
+              <Card className="p-4 border border-border/40 bg-card/50 backdrop-blur mb-8">
+                <h3 className="text-md font-semibold mb-2 flex items-center gap-2">
+                  <Users className="h-5 w-5 text-[#8B5CF6]" />
+                  Target Demographics
+                </h3>
+                <div className="h-56">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={demographicData}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        outerRadius={70}
+                        fill="#8884d8"
+                        dataKey="value"
+                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      >
+                        {demographicData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Legend />
+                      <Tooltip formatter={(value) => `${value}%`} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="mt-2">
+                  <p className="text-xs text-muted-foreground">
+                    Millennials and Gen Z make up over 80% of the target audience, indicating strong appeal to younger, tech-savvy demographics.
+                  </p>
+                </div>
+              </Card>
 
               {/* Core Idea Details */}
               <div className="space-y-6 mb-8">
