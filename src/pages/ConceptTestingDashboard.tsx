@@ -409,7 +409,7 @@ const ConceptTestingDashboard = () => {
                 </div>
                 <Button 
                   onClick={handleStartSession}
-                  className="bg-[#2563eb] hover:bg-blue-700"
+                  className="bg-[#9b87f5] hover:bg-[#8B5CF6]"
                 >
                   <Plus className="mr-2 h-4 w-4" /> Start Session
                 </Button>
