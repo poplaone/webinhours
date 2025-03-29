@@ -18,7 +18,6 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { ArrowLeft, Save, Loader2, Sparkles, TrendingUp, Users, BookOpen, FileText, BarChart3, Brain } from 'lucide-react';
 import { useToast } from "@/components/ui/use-toast"
 import { cn } from "@/lib/utils";
-import { useLoaderData } from 'react-router-dom';
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -63,13 +62,35 @@ const formSchema = z.object({
 });
 
 const IdeaCreation = () => {
-  const { initialValues } = useLoaderData() as { initialValues: z.infer<typeof formSchema> };
+  const initialValues = {
+    title: "",
+    description: "",
+    problemStatement: "",
+    targetAudience: "",
+    uniqueSellingProposition: "",
+    solutionOutline: "",
+    revenueModel: "",
+    potentialChallenges: "",
+    marketAnalysis: "",
+    competitiveAnalysis: "",
+    growthPotentialAnalysis: "",
+    detailedInsights: "",
+    trendAnalysis: { score: 50, trend: "stable" },
+    consumerDemandScore: 50,
+    industryRelevance: "Medium",
+  };
+
+  const tagOptions = [
+    "Tech", "Healthcare", "Education", "Finance", 
+    "Entertainment", "E-commerce", "Social Media", 
+    "Sustainability", "AI", "Mobile"
+  ];
+
   const [currentStep, setCurrentStep] = useState(0);
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast()
 
-  const { tags: tagOptions } = useLoaderData() as { tags: string[] };
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -128,7 +149,6 @@ const IdeaCreation = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1500));
     setIsSubmitting(false);
     toast({
@@ -473,7 +493,6 @@ const IdeaCreation = () => {
               <p className="text-muted-foreground mt-2">{description}</p>
             </div>
 
-            {/* Idea Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               <Card className="p-4 border border-border/40 bg-card/50 backdrop-blur">
                 <div className="flex items-center gap-2 mb-2">
@@ -510,7 +529,6 @@ const IdeaCreation = () => {
               </Card>
             </div>
 
-            {/* Core Idea Details */}
             <Card className="p-6 border border-border/40 bg-card/50 backdrop-blur mb-8">
               <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                 <FileText className="h-5 w-5 text-[#8B5CF6]" />
@@ -544,7 +562,6 @@ const IdeaCreation = () => {
               </div>
             </Card>
 
-            {/* Market Analysis */}
             {marketAnalysis && (
               <Card className="p-6 border border-border/40 bg-card/50 backdrop-blur mb-8">
                 <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
@@ -566,7 +583,6 @@ const IdeaCreation = () => {
               </Card>
             )}
 
-            {/* Generated Insights */}
             {detailedInsights && (
               <Card className="p-6 border border-border/40 bg-card/50 backdrop-blur mb-8">
                 <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
@@ -577,7 +593,6 @@ const IdeaCreation = () => {
               </Card>
             )}
 
-            {/* Submit Button */}
             <div className="flex justify-end space-x-4 mt-8">
               <Button 
                 variant="outline" 
