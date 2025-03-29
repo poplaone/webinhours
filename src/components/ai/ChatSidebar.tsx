@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { SendIcon, Sparkles, Zap, Plus, Minimize2, Maximize2, X, Paperclip } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import ChatMessage from './ChatMessage';
 import { cn } from '@/lib/utils';
 
