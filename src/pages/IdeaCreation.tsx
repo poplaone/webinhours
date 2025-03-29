@@ -93,14 +93,13 @@ const IdeaCreation = () => {
   });
 
   const onSubmit = (values: IdeaFormValues) => {
-    // Generate a random ID for the new idea (in a real app, this would come from the backend)
-    const newIdeaId = Math.floor(Math.random() * 10000) + 1;
+    const existingIdeaId = 1; // Using a known existing idea ID
     
-    toast.success("Idea created successfully! Redirecting to idea details...");
+    toast.success("Redirecting to idea details...");
     console.log(values);
     
-    // Immediately navigate to the idea detail page instead of using setTimeout
-    navigate(`/idea/${newIdeaId}`);
+    // Immediately navigate to the idea detail page
+    navigate(`/idea/${existingIdeaId}`);
   };
 
   const goToNextStep = () => {
