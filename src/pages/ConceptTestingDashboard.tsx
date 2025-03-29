@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -157,6 +158,46 @@ const ConceptTestingDashboard = () => {
             </Button>
           </div>
 
+          {/* Testing Overview moved to top, just below search bar */}
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold mb-4">Testing Overview</h2>
+            <Separator className="mb-6" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">Total Tests</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-3xl font-bold">{mockOngoingTests.length + mockCompletedTests.length}</div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">Tests in Progress</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-3xl font-bold">{mockOngoingTests.length}</div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">Completed Tests</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-3xl font-bold">{mockCompletedTests.length}</div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">Avg. Completion Rate</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-3xl font-bold">78%</div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-6">
               <TabsTrigger value="ongoing">Ongoing Tests</TabsTrigger>
@@ -300,45 +341,6 @@ const ConceptTestingDashboard = () => {
               </div>
             </TabsContent>
           </Tabs>
-
-          <div className="mt-8">
-            <h2 className="text-xl font-semibold mb-4">Testing Overview</h2>
-            <Separator className="mb-6" />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">Total Tests</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold">{mockOngoingTests.length + mockCompletedTests.length}</div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">Tests in Progress</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold">{mockOngoingTests.length}</div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">Completed Tests</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold">{mockCompletedTests.length}</div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">Avg. Completion Rate</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold">78%</div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
         </div>
       </div>
     </div>
