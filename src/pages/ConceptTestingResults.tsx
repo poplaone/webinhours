@@ -1,13 +1,14 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Rocket, BarChart, Users, Tag } from 'lucide-react';
+import { ArrowLeft, Rocket, BarChart as BarChartIcon, Users, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SideNavbar from '@/components/layout/SideNavbar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { 
-  BarChart as RechartsBarChart, 
+  BarChart, 
   Bar, 
   XAxis, 
   YAxis, 
@@ -145,7 +146,7 @@ const ConceptTestingResults = () => {
                       <span>Real user engagement tracking</span>
                     </li>
                     <li className="flex items-center">
-                      <BarChart className="h-4 w-4 mr-2 text-[#9b87f5]" />
+                      <BarChartIcon className="h-4 w-4 mr-2 text-[#9b87f5]" />
                       <span>Funnel performance analysis</span>
                     </li>
                     <li className="flex items-center">
@@ -330,7 +331,7 @@ const ConceptTestingResults = () => {
                         Based on concept testing results, here's how your product is projected to perform against category benchmarks:
                       </p>
                       <ResponsiveContainer width="100%" height={300}>
-                        <RechartsBarChart
+                        <BarChart
                           data={benchmarkData}
                           margin={{
                             top: 20,
@@ -346,7 +347,7 @@ const ConceptTestingResults = () => {
                           <Legend />
                           <Bar dataKey="product" name="Your Product" fill="#9b87f5" />
                           <Bar dataKey="category" name="Category Average" fill="#d1d5db" />
-                        </RechartsBarChart>
+                        </BarChart>
                       </ResponsiveContainer>
                     </div>
 
