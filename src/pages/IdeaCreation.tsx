@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { ArrowLeft, Upload, Lightbulb, TrendingUp, Users, BarChart3, ChevronRight, Sparkles, ArrowRightCircle, Loader2, CheckCircle2, XCircle, FileText } from 'lucide-react';
+import { ArrowLeft, Upload, Lightbulb, TrendingUp, Users, BarChart3, ChevronRight, Sparkles, ArrowRightCircle, Loader2, CheckCircle2, XCircle, FileText, Zap, Activity, Gauge, LineChart } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -57,15 +57,26 @@ type StrengthWeakness = {
   description: string;
 };
 
+type InnovationType = 'augmentative' | 'disruptive' | 'incremental' | 'radical';
+
+type InnovationAnalysis = {
+  type: InnovationType;
+  score: number;
+  description: string;
+  marketImpact: string;
+};
+
 const IdeaCreation = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [isGeneratingInsights, setIsGeneratingInsights] = useState(false);
+  const [isGeneratingDetailInsights, setIsGeneratingDetailInsights] = useState(false);
   const [marketInsights, setMarketInsights] = useState<MarketInsight[]>([]);
   const [ideaSuggestions, setIdeaSuggestions] = useState<string[]>([]);
   const [strengthsWeaknesses, setStrengthsWeaknesses] = useState<StrengthWeakness[]>([]);
   const [isProcessingDocument, setIsProcessingDocument] = useState(false);
   const [processingProgress, setProcessingProgress] = useState(0);
+  const [innovationAnalysis, setInnovationAnalysis] = useState<InnovationAnalysis[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   // Default form values
@@ -208,6 +219,71 @@ const IdeaCreation = () => {
       
       toast.success("Market insights generated!");
     }, 2000);
+  };
+
+  const generateDetailInsights = () => {
+    const targetAudience = form.getValues('targetAudience');
+    const businessValue = form.getValues('businessValue');
+    const tags = form.getValues('tags');
+    
+    if (!targetAudience || !businessValue) {
+      toast.error("Please fill in Target Audience and Business Value fields first");
+      return;
+    }
+    
+    setIsGeneratingDetailInsights(true);
+    
+    // Simulating API call with setTimeout
+    setTimeout(() => {
+      // Generate innovation analysis data
+      const analysis: InnovationAnalysis[] = [
+        {
+          type: 'incremental',
+          score: 72,
+          description: 'Your idea builds upon existing solutions with modest improvements.',
+          marketImpact: 'Lower risk, quicker market entry, but potential for limited differentiation.',
+        },
+        {
+          type: 'disruptive',
+          score: 54,
+          description: 'Shows potential to redefine how the market operates in specific segments.',
+          marketImpact: 'May face resistance from established players but could capture new market segments.',
+        },
+        {
+          type: 'augmentative',
+          score: 83,
+          description: 'Significantly enhances existing products or services with new capabilities.',
+          marketImpact: 'Strong potential for market adoption as it builds on familiar concepts.',
+        },
+        {
+          type: 'radical',
+          score: 41,
+          description: 'Introduces fundamentally new approaches or technologies to the problem space.',
+          marketImpact: 'High risk but potential for industry transformation if successful.',
+        }
+      ];
+      
+      setInnovationAnalysis(analysis);
+      setIsGeneratingDetailInsights(false);
+      
+      toast.success("Innovation analysis generated!");
+    }, 2000);
+  };
+
+  // Helper function to get icon based on innovation type
+  const getInnovationTypeIcon = (type: InnovationType) => {
+    switch (type) {
+      case 'incremental':
+        return <Activity className="h-4 w-4" />;
+      case 'disruptive':
+        return <Zap className="h-4 w-4" />;
+      case 'augmentative':
+        return <Gauge className="h-4 w-4" />;
+      case 'radical':
+        return <LineChart className="h-4 w-4" />;
+      default:
+        return <Lightbulb className="h-4 w-4" />;
+    }
   };
 
   return (
@@ -573,6 +649,77 @@ const IdeaCreation = () => {
                           </FormItem>
                         )}
                       />
+                      
+                      <div className="flex justify-end">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={generateDetailInsights}
+                          className="bg-[#1A1F2C] border-[#8B5CF6]/30 text-white hover:bg-[#8B5CF6]/20"
+                          disabled={isGeneratingDetailInsights}
+                        >
+                          {isGeneratingDetailInsights ? (
+                            <>
+                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                              Analyzing Innovation...
+                            </>
+                          ) : (
+                            <>
+                              <Zap className="mr-2 h-4 w-4" />
+                              Generate Innovation Analysis
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                      
+                      {/* Innovation Analysis Section */}
+                      {innovationAnalysis.length > 0 && (
+                        <div className="mt-4 space-y-3">
+                          <h3 className="text-lg font-medium">Innovation Analysis</h3>
+                          <p className="text-sm text-muted-foreground">Assessment of your idea across different innovation dimensions and potential market impact.</p>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            {innovationAnalysis.map((analysis, index) => (
+                              <Card key={index} className={`border-${getScoreColorClass(analysis.score)}/30`}>
+                                <CardContent className="p-4">
+                                  <div className="flex items-center justify-between mb-1.5">
+                                    <div className="flex items-center gap-1.5">
+                                      {getInnovationTypeIcon(analysis.type)}
+                                      <h4 className="text-sm font-medium capitalize">{analysis.type} Innovation</h4>
+                                    </div>
+                                    <div className={`text-lg font-bold text-${getScoreColorClass(analysis.score)}`}>
+                                      {analysis.score}%
+                                    </div>
+                                  </div>
+                                  
+                                  <Progress 
+                                    value={analysis.score} 
+                                    className={`h-1.5 w-full bg-muted mb-2`}
+                                    indicatorClassName={`bg-${getScoreColorClass(analysis.score)}`}
+                                  />
+                                  
+                                  <p className="text-xs mt-2">{analysis.description}</p>
+                                  
+                                  <div className="mt-3">
+                                    <h5 className="text-xs font-medium mb-1">Market Impact</h5>
+                                    <p className="text-xs text-muted-foreground">{analysis.marketImpact}</p>
+                                  </div>
+                                </CardContent>
+                              </Card>
+                            ))}
+                          </div>
+
+                          <Card className="bg-[#1A1F2C]/50 border-[#8B5CF6]/20 p-3">
+                            <div className="flex items-start gap-2">
+                              <Lightbulb className="h-5 w-5 text-[#8B5CF6] mt-0.5 flex-shrink-0" />
+                              <div>
+                                <h4 className="text-sm font-medium mb-1">Key Takeaway</h4>
+                                <p className="text-xs text-muted-foreground">Your idea shows strongest potential as an {getHighestInnovationType(innovationAnalysis)} innovation. Consider focusing on the corresponding market strategy to maximize impact.</p>
+                              </div>
+                            </div>
+                          </Card>
+                        </div>
+                      )}
                     </div>
                     
                     <div className="flex justify-between mt-5">
@@ -663,6 +810,24 @@ const IdeaCreation = () => {
       </div>
     </div>
   );
+};
+
+// Helper functions for innovation analysis
+const getScoreColorClass = (score: number): string => {
+  if (score >= 80) return 'green-500';
+  if (score >= 60) return 'blue-500';
+  if (score >= 40) return 'yellow-500';
+  return 'red-500';
+};
+
+const getHighestInnovationType = (analysis: InnovationAnalysis[]): string => {
+  if (!analysis.length) return 'augmentative';
+  
+  const highest = analysis.reduce((prev, current) => {
+    return (prev.score > current.score) ? prev : current;
+  });
+  
+  return highest.type;
 };
 
 export default IdeaCreation;
