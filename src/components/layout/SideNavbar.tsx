@@ -30,13 +30,13 @@ const SideNavbar = () => {
   const [isAIChatMaximized, setIsAIChatMaximized] = useState(false);
   const [isAIChatOpen, setIsAIChatOpen] = useState(true); // Default to open
 
-  // Updated navItems to consider Dashboard path for Product Ideas highlight
+  // Modified navItems to highlight only Product Ideas when on dashboard
   const navItems = [
     { 
       icon: LayoutDashboard, 
       label: 'Dashboard', 
       path: '/dashboard',
-      active: location.pathname === '/dashboard',
+      active: false, // Dashboard is never highlighted
       description: 'View all product ideas'
     },
     { 
