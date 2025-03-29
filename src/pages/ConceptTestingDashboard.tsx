@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -8,7 +7,9 @@ import {
   Check, 
   Filter, 
   Plus, 
-  Search 
+  Search,
+  ChevronDown,
+  ChevronUp 
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
@@ -32,8 +33,15 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import SideNavbar from '@/components/layout/SideNavbar';
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { toast } from "@/components/ui/use-toast";
 
-// Mock data for concept tests
 const mockOngoingTests = [
   { 
     id: 1, 
@@ -106,10 +114,37 @@ const mockCompletedTests = [
   }
 ];
 
+const testingTypes = [
+  { id: 1, name: "A/B Testing" },
+  { id: 2, name: "User Preference" },
+  { id: 3, name: "Concept Validation" },
+  { id: 4, name: "Message Testing" },
+  { id: 5, name: "Price Testing" }
+];
+
+const productConcepts = [
+  { id: 1, name: "Eco-Friendly Packaging Concept" },
+  { id: 2, name: "Premium Product Line" },
+  { id: 3, name: "Budget-Friendly Alternative" },
+  { id: 4, name: "Seasonal Limited Edition" },
+  { id: 5, name: "New Product Variant" }
+];
+
+const participantOptions = [
+  { value: "50", label: "50 participants" },
+  { value: "100", label: "100 participants" },
+  { value: "200", label: "200 participants" },
+  { value: "500", label: "500 participants" },
+  { value: "1000", label: "1000 participants" }
+];
+
 const ConceptTestingDashboard = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('ongoing');
+  const [selectedTestingType, setSelectedTestingType] = useState('');
+  const [selectedConcept, setSelectedConcept] = useState('');
+  const [selectedParticipants, setSelectedParticipants] = useState('');
 
   const filteredOngoingTests = mockOngoingTests.filter(test => 
     test.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -123,6 +158,28 @@ const ConceptTestingDashboard = () => {
 
   const handleViewDetails = (id: number) => {
     navigate(`/concept-testing/${id}`);
+  };
+
+  const handleStartSession = () => {
+    if (!selectedTestingType || !selectedConcept || !selectedParticipants) {
+      toast({
+        title: "Incomplete information",
+        description: "Please select all required fields to start a testing session.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Testing session created",
+      description: `Started a new ${selectedTestingType} with ${selectedParticipants} participants.`,
+    });
+
+    setSelectedTestingType('');
+    setSelectedConcept('');
+    setSelectedParticipants('');
+
+    navigate('/concept-testing/1');
   };
 
   return (
@@ -143,6 +200,63 @@ const ConceptTestingDashboard = () => {
             </Button>
           </div>
 
+          <Card className="mb-6">
+            <CardContent className="p-6">
+              <div className="flex justify-between items-center mb-2">
+                <div>
+                  <h2 className="text-2xl font-bold">Quick Testing Session</h2>
+                  <p className="text-muted-foreground">Start a new concept testing session</p>
+                </div>
+                <Button 
+                  onClick={handleStartSession}
+                  className="bg-[#2563eb] hover:bg-blue-700"
+                >
+                  <Plus className="mr-2 h-4 w-4" /> Start Session
+                </Button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                <Select value={selectedTestingType} onValueChange={setSelectedTestingType}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select testing type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {testingTypes.map((type) => (
+                      <SelectItem key={type.id} value={type.name}>
+                        {type.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                
+                <Select value={selectedConcept} onValueChange={setSelectedConcept}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select product concept" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {productConcepts.map((concept) => (
+                      <SelectItem key={concept.id} value={concept.name}>
+                        {concept.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                
+                <Select value={selectedParticipants} onValueChange={setSelectedParticipants}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Number of participants" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {participantOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </CardContent>
+          </Card>
+
           <div className="flex items-center gap-4 mb-6">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -158,7 +272,6 @@ const ConceptTestingDashboard = () => {
             </Button>
           </div>
 
-          {/* Testing Overview moved to top, just below search bar */}
           <div className="mb-6">
             <h2 className="text-xl font-semibold mb-4">Testing Overview</h2>
             <Separator className="mb-6" />
