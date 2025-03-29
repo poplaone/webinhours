@@ -45,6 +45,7 @@ const Index = () => {
           onPrevious={handlePrevious}
           onSkip={currentStep === 1 ? handleSkip : undefined} // Only show skip on the second step
           isLastStep={currentStep === totalSteps - 1}
+          showSteppers={false} // Setting showSteppers to false to hide them
         >
           {currentStep === 0 && <WelcomeStep />}
           {currentStep === 1 && <MarketTrendsStep />}

@@ -14,6 +14,7 @@ interface OnboardingLayoutProps {
   onPrevious?: () => void;
   onSkip?: () => void;
   isLastStep?: boolean;
+  showSteppers?: boolean;
 }
 
 const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
@@ -24,6 +25,7 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
   onPrevious,
   onSkip,
   isLastStep = false,
+  showSteppers = true,
 }) => {
   const [mounted, setMounted] = useState(false);
   const navigate = useNavigate();
@@ -236,13 +238,15 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
       </div>
 
       {/* Mobile step indicator - only visible on small screens */}
-      <div className="flex flex-col p-4 md:hidden bg-card">
-        <div className="font-display text-xl font-semibold mb-1 flex items-center">
-          <Sparkles className="mr-2 h-4 w-4" /> NPD Platform
+      {showSteppers && (
+        <div className="flex flex-col p-4 md:hidden bg-card">
+          <div className="font-display text-xl font-semibold mb-1 flex items-center">
+            <Sparkles className="mr-2 h-4 w-4" /> NPD Platform
+          </div>
+          <div className="text-sm text-muted-foreground mb-4">AI-Powered Product Development</div>
+          <StepIndicator currentStep={currentStep} totalSteps={totalSteps} />
         </div>
-        <div className="text-sm text-muted-foreground mb-4">AI-Powered Product Development</div>
-        <StepIndicator currentStep={currentStep} totalSteps={totalSteps} />
-      </div>
+      )}
 
       {/* Main content area */}
       <div className={cn(
@@ -257,9 +261,11 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
         />
         
         {/* Step indicators on the right side - desktop only */}
-        <div className="hidden md:block absolute right-8 top-12 z-20">
-          <StepIndicator currentStep={currentStep} totalSteps={totalSteps} />
-        </div>
+        {showSteppers && (
+          <div className="hidden md:block absolute right-8 top-12 z-20">
+            <StepIndicator currentStep={currentStep} totalSteps={totalSteps} />
+          </div>
+        )}
         
         <div className="max-w-2xl mx-auto w-full z-10">
           <AnimatePresence mode="wait">
