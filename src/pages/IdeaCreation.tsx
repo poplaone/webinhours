@@ -59,7 +59,6 @@ type StrengthWeakness = {
 const IdeaCreation = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isGeneratingInsights, setIsGeneratingInsights] = useState(false);
   const [marketInsights, setMarketInsights] = useState<MarketInsight[]>([]);
   const [ideaSuggestions, setIdeaSuggestions] = useState<string[]>([]);
@@ -81,15 +80,6 @@ const IdeaCreation = () => {
     defaultValues,
     mode: "onSubmit", // Changed from default onBlur to onSubmit
   });
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      // Create a preview URL for the image
-      const url = URL.createObjectURL(file);
-      setImagePreview(url);
-    }
-  };
 
   const onSubmit = (values: IdeaFormValues) => {
     toast.success("Idea created successfully!");
@@ -245,6 +235,48 @@ const IdeaCreation = () => {
                       
                       <FormField
                         control={form.control}
+                        name="title"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Idea Title</FormLabel>
+                            <FormControl>
+                              <Input 
+                                placeholder="Enter a catchy title for your idea" 
+                                className="bg-[#1A1F2C] border-[#8B5CF6]/30 text-white placeholder:text-gray-400"
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormDescription>
+                              Keep it concise and memorable.
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="description"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Description</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                placeholder="Describe your idea in detail..." 
+                                className="min-h-[120px] bg-[#1A1F2C] border-[#8B5CF6]/30 text-white placeholder:text-gray-400"
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormDescription>
+                              Explain the concept, its purpose, and potential impact.
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
                         name="problemStatement"
                         render={({ field }) => (
                           <FormItem>
@@ -367,95 +399,6 @@ const IdeaCreation = () => {
                           )}
                         </div>
                       )}
-
-                      <FormField
-                        control={form.control}
-                        name="title"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Idea Title</FormLabel>
-                            <FormControl>
-                              <Input 
-                                placeholder="Enter a catchy title for your idea" 
-                                className="bg-[#1A1F2C] border-[#8B5CF6]/30 text-white placeholder:text-gray-400"
-                                {...field} 
-                              />
-                            </FormControl>
-                            <FormDescription>
-                              Keep it concise and memorable.
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="description"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Description</FormLabel>
-                            <FormControl>
-                              <Textarea 
-                                placeholder="Describe your idea in detail..." 
-                                className="min-h-[120px] bg-[#1A1F2C] border-[#8B5CF6]/30 text-white placeholder:text-gray-400"
-                                {...field} 
-                              />
-                            </FormControl>
-                            <FormDescription>
-                              Explain the concept, its purpose, and potential impact.
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <div>
-                        <FormLabel>Idea Visualization</FormLabel>
-                        <div className="mt-2 border-2 border-dashed border-[#8B5CF6]/30 rounded-lg p-6 flex flex-col items-center justify-center bg-[#1A1F2C]">
-                          {imagePreview ? (
-                            <div className="relative w-full">
-                              <img 
-                                src={imagePreview} 
-                                alt="Preview" 
-                                className="mx-auto max-h-48 object-contain rounded-md"
-                              />
-                              <Button 
-                                type="button"
-                                variant="outline" 
-                                size="sm" 
-                                className="mt-2 bg-[#1A1F2C] border-[#8B5CF6]/30 text-white hover:bg-[#8B5CF6]/20"
-                                onClick={() => setImagePreview(null)}
-                              >
-                                Remove Image
-                              </Button>
-                            </div>
-                          ) : (
-                            <>
-                              <ImagePlus className="h-12 w-12 text-gray-400 mb-2" />
-                              <p className="text-sm text-muted-foreground mb-2">
-                                Drag and drop an image or click to upload
-                              </p>
-                              <input
-                                type="file"
-                                id="image-upload"
-                                className="hidden"
-                                accept="image/*"
-                                onChange={handleImageUpload}
-                              />
-                              <Button 
-                                type="button"
-                                variant="outline" 
-                                onClick={() => document.getElementById('image-upload')?.click()}
-                                className="bg-[#1A1F2C] border-[#8B5CF6]/30 text-white hover:bg-[#8B5CF6]/20"
-                              >
-                                <Upload className="h-4 w-4 mr-2" />
-                                Upload Image
-                              </Button>
-                            </>
-                          )}
-                        </div>
-                      </div>
                     </div>
                     
                     <div className="flex justify-end mt-6">
@@ -571,17 +514,6 @@ const IdeaCreation = () => {
                           <h3 className="font-medium mb-1">Description</h3>
                           <p className="whitespace-pre-line">{form.getValues('description')}</p>
                         </div>
-                        
-                        {imagePreview && (
-                          <div className="border-b pb-4">
-                            <h3 className="font-medium mb-1">Visualization</h3>
-                            <img 
-                              src={imagePreview} 
-                              alt="Idea visualization" 
-                              className="max-h-48 object-contain rounded-md"
-                            />
-                          </div>
-                        )}
                         
                         <div className="border-b pb-4">
                           <h3 className="font-medium mb-1">Target Audience</h3>
