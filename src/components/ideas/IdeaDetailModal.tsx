@@ -98,21 +98,13 @@ const IdeaDetailModal: React.FC<IdeaDetailModalProps> = ({ idea, isOpen, onClose
                 </Button>
                 <Button 
                   variant="outline" 
-                  className="border-emerald-500 text-emerald-500 hover:bg-emerald-500/10 flex-1"
+                  className="border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6]/10 flex-1"
                   onClick={handleLaunchSurvey}
                 >
                   <ClipboardCheck className="mr-2 h-4 w-4" />
                   Launch Survey
                 </Button>
               </div>
-
-              <Button
-                className="w-full mb-4 bg-emerald-500 hover:bg-emerald-600 text-white h-12 text-lg"
-                onClick={handleLaunchSurvey}
-              >
-                <ClipboardCheck className="mr-2 h-5 w-5" />
-                Quick Launch Survey for this Idea
-              </Button>
 
               <div className="w-full h-48 overflow-hidden rounded-md mb-4">
                 <img 
@@ -392,7 +384,7 @@ const IdeaDetailModal: React.FC<IdeaDetailModalProps> = ({ idea, isOpen, onClose
                 </Button>
                 <Button 
                   variant="outline" 
-                  className="border-emerald-500 text-emerald-500 hover:bg-emerald-500/10"
+                  className="border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6]/10"
                   onClick={handleLaunchSurvey}
                 >
                   <ClipboardCheck className="mr-2 h-4 w-4" />

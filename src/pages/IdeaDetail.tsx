@@ -1,10 +1,9 @@
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Sparkles, Lightbulb, BookOpen, FileText, Brain, Star, BarChart3, Users, TrendingUp, GripVertical, Save, ClipboardCheck } from 'lucide-react';
+import { Sparkles, Lightbulb, BookOpen, FileText, Brain, Star, BarChart3, Users, TrendingUp, GripVertical, Save } from 'lucide-react';
 import { toast } from "sonner";
 import ChatSidebar from '@/components/ai/ChatSidebar';
 import { Separator } from "@/components/ui/separator";
@@ -173,11 +172,6 @@ const IdeaDetail = () => {
     toast.success("Idea saved successfully!");
   };
 
-  const handleLaunchSurvey = () => {
-    navigate(`/concept-testing/${id}`);
-    toast.success("Launching survey for " + idea.title);
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex">
       {/* AI Chat Sidebar - now with fixed width */}
@@ -209,14 +203,6 @@ const IdeaDetail = () => {
               >
                 <Save className="mr-2 h-4 w-4" />
                 Save Idea
-              </Button>
-              <Button 
-                variant="outline"
-                className="border-emerald-500 text-emerald-500 hover:bg-emerald-500/10"
-                onClick={handleLaunchSurvey}
-              >
-                <ClipboardCheck className="mr-2 h-4 w-4" />
-                Launch Survey
               </Button>
               <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]" onClick={handleViewConceptCreation}>
                 <Lightbulb className="mr-2 h-4 w-4" />

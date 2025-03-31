@@ -1,7 +1,6 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Bell, User, Sparkles, TrendingUp, Lightbulb, Users, Radio, BookOpen, BarChart3, Brain, ExternalLink, Settings, ClipboardCheck } from 'lucide-react';
+import { Search, Bell, User, Sparkles, TrendingUp, Lightbulb, Users, Radio, BookOpen, BarChart3, Brain, ExternalLink, Settings } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -187,24 +186,6 @@ const Dashboard = () => {
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
-                      
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button 
-                              onClick={() => viewConceptTesting(idea.id)} 
-                              variant="outline"
-                              className="bg-[#8B5CF6]/30 text-white border-white/30 hover:bg-[#8B5CF6]/50"
-                            >
-                              <ClipboardCheck className="mr-2 h-4 w-4" />
-                              Launch Survey
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Launch a survey for this idea</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
                     </div>
                   </div>
                   
@@ -262,17 +243,6 @@ const Dashboard = () => {
                           </span>
                         ))}
                       </div>
-                      
-                      {/* Add direct Launch Survey button */}
-                      <Button 
-                        variant="outline"
-                        size="sm"
-                        className="mt-3 w-full border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6]/10 flex items-center justify-center"
-                        onClick={() => viewConceptTesting(idea.id)}
-                      >
-                        <ClipboardCheck className="mr-2 h-3.5 w-3.5" />
-                        Launch Survey
-                      </Button>
                     </div>
                   </CardContent>
                 </Card>
