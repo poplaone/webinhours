@@ -262,6 +262,17 @@ const Dashboard = () => {
                           </span>
                         ))}
                       </div>
+                      
+                      {/* Add direct Launch Survey button */}
+                      <Button 
+                        variant="outline"
+                        size="sm"
+                        className="mt-3 w-full border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6]/10 flex items-center justify-center"
+                        onClick={() => viewConceptTesting(idea.id)}
+                      >
+                        <ClipboardCheck className="mr-2 h-3.5 w-3.5" />
+                        Launch Survey
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>

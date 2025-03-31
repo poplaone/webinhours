@@ -11,6 +11,7 @@ import { AreaChart, Area, BarChart as RechartsBarChart, Bar, XAxis, YAxis, Carte
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ConceptCreationModal from '../concepts/ConceptCreationModal';
+import { toast } from "sonner";
 
 export interface Idea {
   id: number;
@@ -69,6 +70,7 @@ const IdeaDetailModal: React.FC<IdeaDetailModalProps> = ({ idea, isOpen, onClose
 
   const handleLaunchSurvey = () => {
     navigate(`/concept-testing/${idea.id}`);
+    toast.success("Launching survey for " + idea.title);
     onClose();
   };
 
@@ -96,13 +98,21 @@ const IdeaDetailModal: React.FC<IdeaDetailModalProps> = ({ idea, isOpen, onClose
                 </Button>
                 <Button 
                   variant="outline" 
-                  className="border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6]/10 flex-1"
+                  className="border-emerald-500 text-emerald-500 hover:bg-emerald-500/10 flex-1"
                   onClick={handleLaunchSurvey}
                 >
                   <ClipboardCheck className="mr-2 h-4 w-4" />
                   Launch Survey
                 </Button>
               </div>
+
+              <Button
+                className="w-full mb-4 bg-emerald-500 hover:bg-emerald-600 text-white h-12 text-lg"
+                onClick={handleLaunchSurvey}
+              >
+                <ClipboardCheck className="mr-2 h-5 w-5" />
+                Quick Launch Survey for this Idea
+              </Button>
 
               <div className="w-full h-48 overflow-hidden rounded-md mb-4">
                 <img 
@@ -382,7 +392,7 @@ const IdeaDetailModal: React.FC<IdeaDetailModalProps> = ({ idea, isOpen, onClose
                 </Button>
                 <Button 
                   variant="outline" 
-                  className="border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6]/10"
+                  className="border-emerald-500 text-emerald-500 hover:bg-emerald-500/10"
                   onClick={handleLaunchSurvey}
                 >
                   <ClipboardCheck className="mr-2 h-4 w-4" />
