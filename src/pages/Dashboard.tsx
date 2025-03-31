@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import SideNavbar from '@/components/layout/SideNavbar';
 import CategoryFilter from '@/components/filters/CategoryFilter';
+import ConceptCardsList from '@/components/concepts/ConceptCardsList';
 
 const ideaCards = [
   {
@@ -87,6 +88,7 @@ const ideaCards = [
 const Dashboard = () => {
   const navigate = useNavigate();
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedIdeaId, setSelectedIdeaId] = useState<number | null>(null);
 
   const viewIdeaDetail = (ideaId: number) => {
     navigate(`/idea/${ideaId}`);
@@ -94,6 +96,10 @@ const Dashboard = () => {
 
   const viewConceptTesting = (ideaId: number) => {
     navigate(`/concept-testing/${ideaId}`);
+  };
+
+  const selectIdea = (ideaId: number) => {
+    setSelectedIdeaId(ideaId === selectedIdeaId ? null : ideaId);
   };
 
   const filteredIdeas = selectedCategories.length === 0
@@ -137,201 +143,169 @@ const Dashboard = () => {
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto p-6 lg:container">
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-            <div>
-              <h1 className="text-3xl font-bold">Product Ideas</h1>
-              <p className="text-muted-foreground mt-1">High-potential product concepts for fast-moving consumer goods brands</p>
-            </div>
-            <div className="flex items-center">
-              <CategoryFilter 
-                selectedCategories={selectedCategories}
-                onCategoryChange={setSelectedCategories}
-              />
-              <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED] ml-4" onClick={() => navigate('/idea/new')}>
-                <Lightbulb className="mr-2 h-4 w-4" />
-                New Idea
-              </Button>
-            </div>
+        <main className="flex-1 overflow-y-auto flex">
+          <div className="w-1/4 border-r border-border/40 p-6 overflow-y-auto">
+            <Card className="border border-border/40 bg-card/50 backdrop-blur h-full">
+              <div className="p-5 border-b border-border/40 flex items-center gap-2">
+                <Brain className="h-5 w-5 text-[#8B5CF6]" />
+                <h3 className="font-semibold">FMCG Market Insights</h3>
+              </div>
+              
+              <CardContent className="p-5">
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
+                      <TrendingUp className="h-4 w-4 text-[#8B5CF6]" />
+                      Market Trends
+                    </h4>
+                    <p className="text-xs text-muted-foreground">Sustainability in packaging is showing 32% growth in consumer preference, with 78% of shoppers considering eco-friendliness when making purchase decisions.</p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
+                      <BarChart3 className="h-4 w-4 text-[#8B5CF6]" />
+                      Competitive Analysis
+                    </h4>
+                    <p className="text-xs text-muted-foreground">Leading FMCG brands are investing heavily in digital experiences connected to physical products, creating unique differentiation opportunities.</p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
+                      <BookOpen className="h-4 w-4 text-[#8B5CF6]" />
+                      Research Insights
+                    </h4>
+                    <p className="text-xs text-muted-foreground">91% of consumers indicate interest in personalized nutrition recommendations for food and beverage products they regularly purchase.</p>
+                  </div>
+                  
+                  <div className="pt-2 border-t border-border/40">
+                    <h4 className="text-sm font-medium mb-2">Recommended Actions</h4>
+                    <ul className="space-y-2">
+                      <li className="flex gap-2 items-center text-xs">
+                        <span className="bg-[#8B5CF6]/10 text-[#8B5CF6] p-1 rounded-full">
+                          <Lightbulb className="h-3 w-3" />
+                        </span>
+                        <span>Develop sustainable packaging pilot program</span>
+                      </li>
+                      <li className="flex gap-2 items-center text-xs">
+                        <span className="bg-[#8B5CF6]/10 text-[#8B5CF6] p-1 rounded-full">
+                          <Lightbulb className="h-3 w-3" />
+                        </span>
+                        <span>Partner with AR developers for interactive packaging solutions</span>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <div className="mt-8 pt-4 border-t border-border/40">
+                    <h2 className="text-base font-semibold mb-4">FMCG Innovation Pipeline</h2>
+                    <div className="space-y-3">
+                      <div className="p-3 bg-background rounded-lg border border-border/60">
+                        <div className="flex justify-between items-center mb-1">
+                          <h3 className="font-medium text-sm">Research Phase</h3>
+                          <span className="text-xs font-medium px-2 py-1 rounded-full bg-[#8B5CF6] text-white">2</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">Consumer research and concept development</p>
+                      </div>
+                      <div className="p-3 bg-background rounded-lg border border-border/60">
+                        <div className="flex justify-between items-center mb-1">
+                          <h3 className="font-medium text-sm">Product Development</h3>
+                          <span className="text-xs font-medium px-2 py-1 rounded-full bg-emerald-500 text-white">1</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">Creating and testing prototypes</p>
+                      </div>
+                      <div className="p-3 bg-background rounded-lg border border-border/60">
+                        <div className="flex justify-between items-center mb-1">
+                          <h3 className="font-medium text-sm">Market Introduction</h3>
+                          <span className="text-xs font-medium px-2 py-1 rounded-full bg-amber-500 text-white">0</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">Final preparations for retail distribution</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          
+          <div className="w-2/5 p-6 overflow-y-auto">
+            <div className="flex flex-col mb-8 gap-4">
+              <div>
+                <h1 className="text-3xl font-bold">Product Ideas</h1>
+                <p className="text-muted-foreground mt-1">High-potential product concepts for fast-moving consumer goods brands</p>
+              </div>
+              <div className="flex items-center justify-between">
+                <CategoryFilter 
+                  selectedCategories={selectedCategories}
+                  onCategoryChange={setSelectedCategories}
+                />
+                <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]" onClick={() => navigate('/idea/new')}>
+                  <Lightbulb className="mr-2 h-4 w-4" />
+                  New Idea
+                </Button>
+              </div>
+            </div>
+            
+            <div className="space-y-4">
               {filteredIdeas.map((idea) => (
                 <Card 
                   key={idea.id} 
-                  className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg transition-shadow group relative h-full"
+                  className={cn(
+                    "border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg transition-shadow group relative cursor-pointer",
+                    selectedIdeaId === idea.id && "border-[#8B5CF6] ring-1 ring-[#8B5CF6] bg-[#8B5CF6]/5"
+                  )}
+                  onClick={() => selectIdea(idea.id)}
                 >
-                  <div className="h-40 overflow-hidden relative">
-                    <img 
-                      src={idea.image} 
-                      alt={idea.title} 
-                      className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-300"
-                    />
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button 
-                              onClick={() => viewIdeaDetail(idea.id)} 
-                              variant="secondary" 
-                              className="bg-white/20 text-white backdrop-blur-sm hover:bg-white/30"
-                            >
-                              <ExternalLink className="mr-2 h-4 w-4" />
-                              View Detail
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>View idea details</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                  <div className="flex">
+                    <div className="h-32 w-32 flex-shrink-0 overflow-hidden relative">
+                      <img 
+                        src={idea.image} 
+                        alt={idea.title} 
+                        className="w-full h-full object-cover"
+                      />
                     </div>
-                  </div>
-                  
-                  <CardContent className="p-4 flex-grow flex flex-col">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-semibold text-lg cursor-pointer hover:text-[#8B5CF6] transition-colors" onClick={() => viewIdeaDetail(idea.id)}>{idea.title}</h3>
-                      <span className="text-xs text-muted-foreground">{idea.timestamp}</span>
-                    </div>
-                    <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{idea.description}</p>
                     
-                    <div className="mt-auto">
-                      <div className="grid grid-cols-3 gap-2 text-xs border-t border-border/40 pt-2 mb-2">
-                        <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
-                          <div className="flex items-center gap-1 text-muted-foreground mb-1">
-                            <TrendingUp className="h-3 w-3 text-[#8B5CF6]" />
-                            <span>Trend</span>
-                          </div>
-                          <div className={cn(
-                            "font-medium text-sm",
-                            idea.trendAnalysis.trend === "up" ? "text-emerald-500" : 
-                            idea.trendAnalysis.trend === "down" ? "text-red-500" : "text-amber-500"
-                          )}>
-                            {idea.trendAnalysis.score}%
-                            {idea.trendAnalysis.trend === "up" && " ↑"}
-                            {idea.trendAnalysis.trend === "down" && " ↓"}
-                            {idea.trendAnalysis.trend === "stable" && " →"}
-                          </div>
-                        </div>
-                        
-                        <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
-                          <div className="flex items-center gap-1 text-muted-foreground mb-1">
-                            <Users className="h-3 w-3 text-[#8B5CF6]" />
-                            <span>Demand</span>
-                          </div>
-                          <div className="font-medium text-sm">
-                            {idea.consumerDemandScore}%
-                          </div>
-                        </div>
-                        
-                        <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
-                          <div className="flex items-center gap-1 text-muted-foreground mb-1">
-                            <Radio className="h-3 w-3 text-[#8B5CF6]" />
-                            <span>Relevance</span>
-                          </div>
-                          <div className="font-medium text-sm">
-                            {idea.industryRelevance}
-                          </div>
-                        </div>
+                    <CardContent className="p-4 flex-grow flex flex-col">
+                      <div className="flex justify-between items-start mb-2">
+                        <h3 className="font-semibold text-lg">{idea.title}</h3>
+                        <span className="text-xs text-muted-foreground">{idea.timestamp}</span>
                       </div>
+                      <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{idea.description}</p>
                       
-                      <div className="flex flex-wrap gap-2 mt-2">
-                        {idea.tags.map((tag, index) => (
-                          <span key={index} className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-2 py-1 rounded-full">
-                            {tag}
-                          </span>
-                        ))}
+                      <div className="mt-auto flex justify-between items-center">
+                        <div className="flex flex-wrap gap-2">
+                          {idea.tags.slice(0, 2).map((tag, index) => (
+                            <span key={index} className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-2 py-1 rounded-full">
+                              {tag}
+                            </span>
+                          ))}
+                          {idea.tags.length > 2 && (
+                            <span className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-2 py-1 rounded-full">
+                              +{idea.tags.length - 2}
+                            </span>
+                          )}
+                        </div>
+                        
+                        <div className="flex gap-2">
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild onClick={(e) => { e.stopPropagation(); viewIdeaDetail(idea.id); }}>
+                                <Button variant="ghost" size="icon" className="h-8 w-8">
+                                  <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>View idea details</TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        </div>
                       </div>
-                    </div>
-                  </CardContent>
+                    </CardContent>
+                  </div>
                 </Card>
               ))}
             </div>
-            
-            <div className="lg:col-span-1">
-              <Card className="border border-border/40 bg-card/50 backdrop-blur h-full">
-                <div className="p-5 border-b border-border/40 flex items-center gap-2">
-                  <Brain className="h-5 w-5 text-[#8B5CF6]" />
-                  <h3 className="font-semibold">FMCG Market Insights</h3>
-                </div>
-                
-                <CardContent className="p-5">
-                  <div className="space-y-4">
-                    <div>
-                      <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
-                        <TrendingUp className="h-4 w-4 text-[#8B5CF6]" />
-                        Market Trends
-                      </h4>
-                      <p className="text-xs text-muted-foreground">Sustainability in packaging is showing 32% growth in consumer preference, with 78% of shoppers considering eco-friendliness when making purchase decisions.</p>
-                    </div>
-                    
-                    <div>
-                      <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
-                        <BarChart3 className="h-4 w-4 text-[#8B5CF6]" />
-                        Competitive Analysis
-                      </h4>
-                      <p className="text-xs text-muted-foreground">Leading FMCG brands are investing heavily in digital experiences connected to physical products, creating unique differentiation opportunities.</p>
-                    </div>
-                    
-                    <div>
-                      <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
-                        <BookOpen className="h-4 w-4 text-[#8B5CF6]" />
-                        Research Insights
-                      </h4>
-                      <p className="text-xs text-muted-foreground">91% of consumers indicate interest in personalized nutrition recommendations for food and beverage products they regularly purchase.</p>
-                    </div>
-                    
-                    <div className="pt-2 border-t border-border/40">
-                      <h4 className="text-sm font-medium mb-2">Recommended Actions</h4>
-                      <ul className="space-y-2">
-                        <li className="flex gap-2 items-center text-xs">
-                          <span className="bg-[#8B5CF6]/10 text-[#8B5CF6] p-1 rounded-full">
-                            <Lightbulb className="h-3 w-3" />
-                          </span>
-                          <span>Develop sustainable packaging pilot program</span>
-                        </li>
-                        <li className="flex gap-2 items-center text-xs">
-                          <span className="bg-[#8B5CF6]/10 text-[#8B5CF6] p-1 rounded-full">
-                            <Lightbulb className="h-3 w-3" />
-                          </span>
-                          <span>Partner with AR developers for interactive packaging solutions</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
           </div>
-
-          <div className="mt-8">
-            <Card className="p-6 border border-border/40 bg-card/50 backdrop-blur">
-              <h2 className="text-xl font-semibold mb-4">FMCG Innovation Pipeline</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="p-4 bg-background rounded-lg border border-border/60">
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="font-medium">Research Phase</h3>
-                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-[#8B5CF6] text-white">2 Projects</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">Consumer research and concept development</p>
-                </div>
-                <div className="p-4 bg-background rounded-lg border border-border/60">
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="font-medium">Product Development</h3>
-                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-emerald-500 text-white">1 Project</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">Creating and testing prototypes with focus groups</p>
-                </div>
-                <div className="p-4 bg-background rounded-lg border border-border/60">
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="font-medium">Market Introduction</h3>
-                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-amber-500 text-white">0 Projects</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">Final preparations for retail channel distribution</p>
-                </div>
-              </div>
-            </Card>
+          
+          <div className="w-1/3 border-l border-border/40 overflow-y-auto">
+            <ConceptCardsList ideaId={selectedIdeaId ?? undefined} />
           </div>
         </main>
       </div>
