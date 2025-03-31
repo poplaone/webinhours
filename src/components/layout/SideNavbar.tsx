@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
@@ -34,15 +35,15 @@ const SideNavbar = () => {
       icon: LayoutDashboard, 
       label: 'Dashboard', 
       path: '/dashboard',
-      active: false, // Dashboard is never highlighted
+      active: location.pathname === '/dashboard',
       description: 'View all product ideas'
     },
     { 
       icon: Lightbulb, 
       label: 'Product Ideas', 
-      path: '/idea/new',
-      active: location.pathname === '/idea/new' || location.pathname === '/dashboard',
-      description: 'Create new product ideas'
+      path: '/dashboard',
+      active: location.pathname === '/dashboard',
+      description: 'View product ideas dashboard'
     },
     { 
       icon: ClipboardCheck, 
