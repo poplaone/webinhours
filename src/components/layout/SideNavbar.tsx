@@ -35,7 +35,7 @@ const SideNavbar = () => {
       icon: LayoutDashboard, 
       label: 'Dashboard', 
       path: '/dashboard',
-      active: location.pathname === '/dashboard',
+      active: false, // Dashboard is never highlighted
       description: 'View all product ideas'
     },
     { 
