@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Bell, User, Sparkles, TrendingUp, Lightbulb, Users, Radio, BookOpen, BarChart3, Brain, ExternalLink, Settings } from 'lucide-react';
+import { Search, Bell, User, Sparkles, TrendingUp, Code, Users, Radio, BookOpen, BarChart3, Brain, ExternalLink, Settings } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -9,78 +9,78 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import SideNavbar from '@/components/layout/SideNavbar';
 import CategoryFilter from '@/components/filters/CategoryFilter';
 
-const ideaCards = [
+const projectCards = [
   {
     id: 1,
-    title: "Plant-Based Protein Snack",
-    description: "Innovative plant-based protein snacks targeting health-conscious consumers with eco-friendly packaging and clean ingredient profiles.",
-    tags: ["Plant-Based", "FMCG", "Health"],
+    title: "E-commerce Platform Redesign",
+    description: "Modern React-based e-commerce solution with advanced shopping cart functionality and mobile-optimized checkout process.",
+    tags: ["React", "E-commerce", "Mobile"],
     timestamp: "5d ago",
     trendAnalysis: { score: 94, trend: "up" },
-    consumerDemandScore: 92,
-    industryRelevance: "Very High",
-    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=300&h=170&q=80",
-    category: "Food & Snacks"
+    clientSatisfaction: 92,
+    projectComplexity: "High",
+    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=300&h=170&q=80",
+    category: "E-commerce"
   },
   {
     id: 9,
-    title: "Personalized Nutrition App",
-    description: "Mobile platform for FMCG brands to offer personalized food & beverage recommendations based on customer preferences and dietary needs.",
-    tags: ["HealthTech", "FMCG", "Mobile"],
+    title: "Corporate Website Development",
+    description: "Professional corporate website with content management system, SEO optimization, and responsive design for all devices.",
+    tags: ["CMS", "SEO", "Corporate"],
     timestamp: "2d ago",
     trendAnalysis: { score: 89, trend: "up" },
-    consumerDemandScore: 86,
-    industryRelevance: "High",
-    image: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=300&h=170&q=80",
-    category: "Health & Wellness"
+    clientSatisfaction: 86,
+    projectComplexity: "Medium",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=300&h=170&q=80",
+    category: "Corporate"
   },
   {
     id: 10,
-    title: "Smart Consumer Packaging",
-    description: "Interactive packaging with QR codes and AR features that connect FMCG products to digital experiences, recipes, and loyalty programs.",
-    tags: ["AR", "FMCG", "Packaging"],
+    title: "Progressive Web Application",
+    description: "Fast-loading PWA with offline capabilities, push notifications, and native app-like experience across all platforms.",
+    tags: ["PWA", "Performance", "Mobile"],
     timestamp: "3d ago",
     trendAnalysis: { score: 87, trend: "up" },
-    consumerDemandScore: 82,
-    industryRelevance: "High",
-    image: "https://images.unsplash.com/photo-1607083206968-13611e3d76db?auto=format&fit=crop&w=300&h=170&q=80",
-    category: "Household Products"
+    clientSatisfaction: 82,
+    projectComplexity: "High",
+    image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=300&h=170&q=80",
+    category: "Web Apps"
   },
   {
     id: 11,
-    title: "Sustainable Packaging Solution",
-    description: "Biodegradable packaging materials made from agricultural waste, perfect for FMCG products with high environmental concerns.",
-    tags: ["Green", "FMCG", "Packaging"],
+    title: "Landing Page Optimization",
+    description: "High-converting landing pages with A/B testing, analytics integration, and conversion rate optimization strategies.",
+    tags: ["Landing", "CRO", "Analytics"],
     timestamp: "1w ago",
     trendAnalysis: { score: 92, trend: "up" },
-    consumerDemandScore: 88,
-    industryRelevance: "Very High",
-    image: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?auto=format&fit=crop&w=300&h=170&q=80",
-    category: "Household Products"
+    clientSatisfaction: 88,
+    projectComplexity: "Low",
+    image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=300&h=170&q=80",
+    category: "Marketing"
   },
   {
     id: 12,
-    title: "Direct-to-Consumer Subscription",
-    description: "Monthly subscription box model for curated FMCG products delivered directly to consumers with personalized product selections.",
-    tags: ["D2C", "FMCG", "Subscription"],
+    title: "SaaS Dashboard Interface",
+    description: "Comprehensive dashboard with real-time data visualization, user management, and API integration for SaaS platforms.",
+    tags: ["Dashboard", "SaaS", "API"],
     timestamp: "4d ago",
     trendAnalysis: { score: 85, trend: "up" },
-    consumerDemandScore: 79,
-    industryRelevance: "Medium",
-    image: "https://images.unsplash.com/photo-1617644491633-9cc71756fee5?auto=format&fit=crop&w=300&h=170&q=80",
-    category: "Food & Snacks"
+    clientSatisfaction: 79,
+    projectComplexity: "High",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=300&h=170&q=80",
+    category: "SaaS"
   },
   {
     id: 13,
-    title: "Functional Beverages",
-    description: "Innovative drinks with added health benefits like adaptogens, nootropics and immunity-boosting ingredients targeted at health-focused consumers.",
-    tags: ["Beverage", "FMCG", "Wellness"],
+    title: "Portfolio Website Creation",
+    description: "Creative portfolio websites with interactive galleries, smooth animations, and optimized performance for creative professionals.",
+    tags: ["Portfolio", "Creative", "Animation"],
     timestamp: "6d ago",
     trendAnalysis: { score: 91, trend: "up" },
-    consumerDemandScore: 84,
-    industryRelevance: "High",
-    image: "https://images.unsplash.com/photo-1560508179-b2c9a3f8e92b?auto=format&fit=crop&w=300&h=170&q=80",
-    category: "Beverages"
+    clientSatisfaction: 84,
+    projectComplexity: "Medium",
+    image: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?auto=format&fit=crop&w=300&h=170&q=80",
+    category: "Portfolio"
   }
 ];
 
@@ -88,17 +88,17 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
-  const viewIdeaDetail = (ideaId: number) => {
-    navigate(`/idea/${ideaId}`);
+  const viewProjectDetail = (projectId: number) => {
+    navigate(`/idea/${projectId}`);
   };
 
-  const viewConceptTesting = (ideaId: number) => {
-    navigate(`/concept-testing/${ideaId}`);
+  const viewClientReview = (projectId: number) => {
+    navigate(`/concept-testing/${projectId}`);
   };
 
-  const filteredIdeas = selectedCategories.length === 0
-    ? ideaCards
-    : ideaCards.filter(idea => selectedCategories.includes(idea.category));
+  const filteredProjects = selectedCategories.length === 0
+    ? projectCards
+    : projectCards.filter(project => selectedCategories.includes(project.category));
 
   return (
     <div className="flex h-screen overflow-hidden bg-gradient-to-br from-background to-background/80">
@@ -140,8 +140,8 @@ const Dashboard = () => {
         <main className="flex-1 overflow-y-auto p-6 lg:container">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
             <div>
-              <h1 className="text-3xl font-bold">Product Ideas</h1>
-              <p className="text-muted-foreground mt-1">High-potential product concepts for fast-moving consumer goods brands</p>
+              <h1 className="text-3xl font-bold">Web Development Projects</h1>
+              <p className="text-muted-foreground mt-1">Manage and track your ongoing web development projects</p>
             </div>
             <div className="flex items-center">
               <CategoryFilter 
@@ -149,23 +149,23 @@ const Dashboard = () => {
                 onCategoryChange={setSelectedCategories}
               />
               <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED] ml-4" onClick={() => navigate('/idea/new')}>
-                <Lightbulb className="mr-2 h-4 w-4" />
-                New Idea
+                <Code className="mr-2 h-4 w-4" />
+                New Project
               </Button>
             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {filteredIdeas.map((idea) => (
+              {filteredProjects.map((project) => (
                 <Card 
-                  key={idea.id} 
+                  key={project.id} 
                   className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg transition-shadow group relative h-full"
                 >
                   <div className="h-40 overflow-hidden relative">
                     <img 
-                      src={idea.image} 
-                      alt={idea.title} 
+                      src={project.image} 
+                      alt={project.title} 
                       className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-300"
                     />
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
@@ -173,16 +173,16 @@ const Dashboard = () => {
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Button 
-                              onClick={() => viewIdeaDetail(idea.id)} 
+                              onClick={() => viewProjectDetail(project.id)} 
                               variant="secondary" 
                               className="bg-white/20 text-white backdrop-blur-sm hover:bg-white/30"
                             >
                               <ExternalLink className="mr-2 h-4 w-4" />
-                              View Detail
+                              View Details
                             </Button>
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p>View idea details</p>
+                            <p>View project details</p>
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
@@ -191,53 +191,53 @@ const Dashboard = () => {
                   
                   <CardContent className="p-4 flex-grow flex flex-col">
                     <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-semibold text-lg cursor-pointer hover:text-[#8B5CF6] transition-colors" onClick={() => viewIdeaDetail(idea.id)}>{idea.title}</h3>
-                      <span className="text-xs text-muted-foreground">{idea.timestamp}</span>
+                      <h3 className="font-semibold text-lg cursor-pointer hover:text-[#8B5CF6] transition-colors" onClick={() => viewProjectDetail(project.id)}>{project.title}</h3>
+                      <span className="text-xs text-muted-foreground">{project.timestamp}</span>
                     </div>
-                    <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{idea.description}</p>
+                    <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{project.description}</p>
                     
                     <div className="mt-auto">
                       <div className="grid grid-cols-3 gap-2 text-xs border-t border-border/40 pt-2 mb-2">
                         <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
                           <div className="flex items-center gap-1 text-muted-foreground mb-1">
                             <TrendingUp className="h-3 w-3 text-[#8B5CF6]" />
-                            <span>Trend</span>
+                            <span>Progress</span>
                           </div>
                           <div className={cn(
                             "font-medium text-sm",
-                            idea.trendAnalysis.trend === "up" ? "text-emerald-500" : 
-                            idea.trendAnalysis.trend === "down" ? "text-red-500" : "text-amber-500"
+                            project.trendAnalysis.trend === "up" ? "text-emerald-500" : 
+                            project.trendAnalysis.trend === "down" ? "text-red-500" : "text-amber-500"
                           )}>
-                            {idea.trendAnalysis.score}%
-                            {idea.trendAnalysis.trend === "up" && " ↑"}
-                            {idea.trendAnalysis.trend === "down" && " ↓"}
-                            {idea.trendAnalysis.trend === "stable" && " →"}
+                            {project.trendAnalysis.score}%
+                            {project.trendAnalysis.trend === "up" && " ↑"}
+                            {project.trendAnalysis.trend === "down" && " ↓"}
+                            {project.trendAnalysis.trend === "stable" && " →"}
                           </div>
                         </div>
                         
                         <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
                           <div className="flex items-center gap-1 text-muted-foreground mb-1">
                             <Users className="h-3 w-3 text-[#8B5CF6]" />
-                            <span>Demand</span>
+                            <span>Client</span>
                           </div>
                           <div className="font-medium text-sm">
-                            {idea.consumerDemandScore}%
+                            {project.clientSatisfaction}%
                           </div>
                         </div>
                         
                         <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
                           <div className="flex items-center gap-1 text-muted-foreground mb-1">
                             <Radio className="h-3 w-3 text-[#8B5CF6]" />
-                            <span>Relevance</span>
+                            <span>Complexity</span>
                           </div>
                           <div className="font-medium text-sm">
-                            {idea.industryRelevance}
+                            {project.projectComplexity}
                           </div>
                         </div>
                       </div>
                       
                       <div className="flex flex-wrap gap-2 mt-2">
-                        {idea.tags.map((tag, index) => (
+                        {project.tags.map((tag, index) => (
                           <span key={index} className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-2 py-1 rounded-full">
                             {tag}
                           </span>
@@ -253,7 +253,7 @@ const Dashboard = () => {
               <Card className="border border-border/40 bg-card/50 backdrop-blur h-full">
                 <div className="p-5 border-b border-border/40 flex items-center gap-2">
                   <Brain className="h-5 w-5 text-[#8B5CF6]" />
-                  <h3 className="font-semibold">FMCG Market Insights</h3>
+                  <h3 className="font-semibold">Development Insights</h3>
                 </div>
                 
                 <CardContent className="p-5">
@@ -261,25 +261,25 @@ const Dashboard = () => {
                     <div>
                       <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
                         <TrendingUp className="h-4 w-4 text-[#8B5CF6]" />
-                        Market Trends
+                        Technology Trends
                       </h4>
-                      <p className="text-xs text-muted-foreground">Sustainability in packaging is showing 32% growth in consumer preference, with 78% of shoppers considering eco-friendliness when making purchase decisions.</p>
+                      <p className="text-xs text-muted-foreground">React and Next.js continue to dominate frontend development, with 85% of new projects choosing these frameworks for better performance and SEO.</p>
                     </div>
                     
                     <div>
                       <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
                         <BarChart3 className="h-4 w-4 text-[#8B5CF6]" />
-                        Competitive Analysis
+                        Performance Metrics
                       </h4>
-                      <p className="text-xs text-muted-foreground">Leading FMCG brands are investing heavily in digital experiences connected to physical products, creating unique differentiation opportunities.</p>
+                      <p className="text-xs text-muted-foreground">Mobile-first development has improved client satisfaction by 40%, with faster loading times and better user engagement across all devices.</p>
                     </div>
                     
                     <div>
                       <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
                         <BookOpen className="h-4 w-4 text-[#8B5CF6]" />
-                        Research Insights
+                        Best Practices
                       </h4>
-                      <p className="text-xs text-muted-foreground">91% of consumers indicate interest in personalized nutrition recommendations for food and beverage products they regularly purchase.</p>
+                      <p className="text-xs text-muted-foreground">Progressive Web Apps (PWAs) are becoming essential for client projects, offering native app experiences with web accessibility.</p>
                     </div>
                     
                     <div className="pt-2 border-t border-border/40">
@@ -287,15 +287,15 @@ const Dashboard = () => {
                       <ul className="space-y-2">
                         <li className="flex gap-2 items-center text-xs">
                           <span className="bg-[#8B5CF6]/10 text-[#8B5CF6] p-1 rounded-full">
-                            <Lightbulb className="h-3 w-3" />
+                            <Code className="h-3 w-3" />
                           </span>
-                          <span>Develop sustainable packaging pilot program</span>
+                          <span>Implement TypeScript for better code quality</span>
                         </li>
                         <li className="flex gap-2 items-center text-xs">
                           <span className="bg-[#8B5CF6]/10 text-[#8B5CF6] p-1 rounded-full">
-                            <Lightbulb className="h-3 w-3" />
+                            <Code className="h-3 w-3" />
                           </span>
-                          <span>Partner with AR developers for interactive packaging solutions</span>
+                          <span>Adopt headless CMS for flexible content management</span>
                         </li>
                       </ul>
                     </div>
@@ -307,28 +307,28 @@ const Dashboard = () => {
 
           <div className="mt-8">
             <Card className="p-6 border border-border/40 bg-card/50 backdrop-blur">
-              <h2 className="text-xl font-semibold mb-4">FMCG Innovation Pipeline</h2>
+              <h2 className="text-xl font-semibold mb-4">Development Pipeline</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="p-4 bg-background rounded-lg border border-border/60">
                   <div className="flex justify-between items-center mb-2">
-                    <h3 className="font-medium">Research Phase</h3>
-                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-[#8B5CF6] text-white">2 Projects</span>
+                    <h3 className="font-medium">Planning & Design</h3>
+                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-[#8B5CF6] text-white">3 Projects</span>
                   </div>
-                  <p className="text-sm text-muted-foreground">Consumer research and concept development</p>
+                  <p className="text-sm text-muted-foreground">Requirements gathering and UI/UX design phase</p>
                 </div>
                 <div className="p-4 bg-background rounded-lg border border-border/60">
                   <div className="flex justify-between items-center mb-2">
-                    <h3 className="font-medium">Product Development</h3>
-                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-emerald-500 text-white">1 Project</span>
+                    <h3 className="font-medium">Development</h3>
+                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-emerald-500 text-white">4 Projects</span>
                   </div>
-                  <p className="text-sm text-muted-foreground">Creating and testing prototypes with focus groups</p>
+                  <p className="text-sm text-muted-foreground">Active coding and feature implementation</p>
                 </div>
                 <div className="p-4 bg-background rounded-lg border border-border/60">
                   <div className="flex justify-between items-center mb-2">
-                    <h3 className="font-medium">Market Introduction</h3>
-                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-amber-500 text-white">0 Projects</span>
+                    <h3 className="font-medium">Testing & Deployment</h3>
+                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-amber-500 text-white">2 Projects</span>
                   </div>
-                  <p className="text-sm text-muted-foreground">Final preparations for retail channel distribution</p>
+                  <p className="text-sm text-muted-foreground">Quality assurance and production deployment</p>
                 </div>
               </div>
             </Card>

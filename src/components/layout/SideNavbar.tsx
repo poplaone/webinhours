@@ -14,7 +14,8 @@ import {
   X,
   Minimize2,
   Maximize2,
-  ClipboardCheck
+  ClipboardCheck,
+  Code
 } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";

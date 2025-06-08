@@ -65,8 +65,8 @@ export default {
 				}
 			},
 			fontFamily: {
-				sans: ['Inter var', 'sans-serif'],
-				display: ['SF Pro Display', 'Inter var', 'sans-serif'],
+				sans: ['Poppins', 'sans-serif'],
+				display: ['Poppins', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -74,7 +74,7 @@ export default {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			skew: {
-				'20': '20deg'  // Add custom 20 degree skew
+				'20': '20deg'
 			},
 			keyframes: {
 				'accordion-down': {
