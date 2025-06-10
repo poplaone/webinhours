@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -10,7 +11,6 @@ import {
   Award,
   ArrowRight,
   CheckCircle,
-  Star,
   MessageSquare,
   Clock,
   Target
@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import AnimatedGridBackground from '@/components/animations/AnimatedGridBackground';
 import AnimatedServiceCard from '@/components/animations/AnimatedServiceCard';
+import { PremiumTestimonials } from '@/components/ui/premium-testimonials';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -61,21 +62,6 @@ const Index = () => {
     "Fast Turnaround Times",
     "Modern Technology Stack",
     "Unlimited Revisions"
-  ];
-
-  const testimonials = [
-    {
-      name: "Sarah Johnson",
-      company: "TechStart Inc.",
-      text: "WebInHours delivered our project in record time with exceptional quality. Highly recommended!",
-      rating: 5
-    },
-    {
-      name: "Michael Chen",
-      company: "Digital Solutions",
-      text: "The team's expertise and attention to detail exceeded our expectations. Outstanding work!",
-      rating: 5
-    }
   ];
 
   return (
@@ -295,60 +281,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 px-4 bg-card/30 backdrop-blur relative z-10">
-        <div className="container mx-auto">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl font-bold mb-4">What Our Clients Say</h2>
-            <p className="text-xl text-muted-foreground">
-              Don't just take our word for it - hear from our satisfied clients
-            </p>
-          </motion.div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                viewport={{ once: true }}
-              >
-                <Card className="p-6 border-border/40 bg-card/50 backdrop-blur hover:shadow-xl hover:scale-105 transition-all duration-500 group">
-                  <CardContent className="p-0">
-                    <div className="flex items-center mb-4">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <motion.div
-                          key={i}
-                          initial={{ opacity: 0, scale: 0 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.3, delay: i * 0.1 }}
-                          viewport={{ once: true }}
-                        >
-                          <Star className="h-5 w-5 text-yellow-400 fill-current" />
-                        </motion.div>
-                      ))}
-                    </div>
-                    <p className="text-muted-foreground mb-4 group-hover:text-foreground transition-colors duration-300">
-                      "{testimonial.text}"
-                    </p>
-                    <div>
-                      <p className="font-semibold">{testimonial.name}</p>
-                      <p className="text-sm text-muted-foreground">{testimonial.company}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Testimonials Section - Using Premium Component */}
+      <PremiumTestimonials />
 
       {/* CTA Section */}
       <section className="py-20 px-4 relative z-10">
