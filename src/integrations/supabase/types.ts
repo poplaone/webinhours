@@ -252,12 +252,96 @@ export type Database = {
           },
         ]
       }
+      websites: {
+        Row: {
+          approved_at: string | null
+          category: string
+          created_at: string
+          demo_url: string | null
+          description: string | null
+          download_url: string | null
+          downloads_count: number
+          featured_at: string | null
+          features: string[] | null
+          id: string
+          images: string[] | null
+          is_featured: boolean
+          preview_url: string
+          price: number
+          rating_average: number | null
+          rating_count: number
+          status: string
+          tags: string[] | null
+          technologies: string[] | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          user_id: string
+          views_count: number
+        }
+        Insert: {
+          approved_at?: string | null
+          category: string
+          created_at?: string
+          demo_url?: string | null
+          description?: string | null
+          download_url?: string | null
+          downloads_count?: number
+          featured_at?: string | null
+          features?: string[] | null
+          id?: string
+          images?: string[] | null
+          is_featured?: boolean
+          preview_url: string
+          price?: number
+          rating_average?: number | null
+          rating_count?: number
+          status?: string
+          tags?: string[] | null
+          technologies?: string[] | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+          views_count?: number
+        }
+        Update: {
+          approved_at?: string | null
+          category?: string
+          created_at?: string
+          demo_url?: string | null
+          description?: string | null
+          download_url?: string | null
+          downloads_count?: number
+          featured_at?: string | null
+          features?: string[] | null
+          id?: string
+          images?: string[] | null
+          is_featured?: boolean
+          preview_url?: string
+          price?: number
+          rating_average?: number | null
+          rating_count?: number
+          status?: string
+          tags?: string[] | null
+          technologies?: string[] | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+          views_count?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      increment_website_views: {
+        Args: { website_uuid: string }
+        Returns: undefined
+      }
     }
     Enums: {
       concept_status: "draft" | "testing" | "completed" | "archived"

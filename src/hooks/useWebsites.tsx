@@ -208,7 +208,7 @@ export const useDeleteWebsite = () => {
 export const useIncrementViews = () => {
   return useMutation({
     mutationFn: async (websiteId: string) => {
-      const { error } = await supabase.rpc('increment_website_views', {
+      const { error } = await (supabase as any).rpc('increment_website_views', {
         website_uuid: websiteId
       });
 
