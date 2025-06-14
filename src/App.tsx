@@ -21,8 +21,6 @@ import IdeaDetail from "./pages/IdeaDetail";
 import IdeaCreation from "./pages/IdeaCreation";
 import ConceptDetail from "./pages/ConceptDetail";
 import ConceptDetailsView from './pages/ConceptDetailsView';
-import ConceptTestingResults from './pages/ConceptTestingResults';
-import ConceptTestingDashboard from './pages/ConceptTestingDashboard';
 import Auth from "./pages/Auth";
 import Settings from "./pages/Settings";
 import Notifications from "./pages/Notifications";
@@ -79,16 +77,6 @@ function App() {
               <Route path="/concept-details/:conceptId" element={
                 <ProtectedRoute>
                   <ConceptDetailsView />
-                </ProtectedRoute>
-              } />
-              <Route path="/concept-testing/:id" element={
-                <ProtectedRoute>
-                  <ConceptTestingResults />
-                </ProtectedRoute>
-              } />
-              <Route path="/concept-testing" element={
-                <ProtectedRoute>
-                  <ConceptTestingDashboard />
                 </ProtectedRoute>
               } />
               <Route path="/settings" element={
