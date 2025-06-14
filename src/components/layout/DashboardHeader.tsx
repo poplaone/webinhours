@@ -34,6 +34,10 @@ export function DashboardHeader({ searchValue = "", onSearchChange }: DashboardH
     navigate('/auth');
   };
 
+  const handleProfile = () => {
+    navigate('/profile');
+  };
+
   const handleNotifications = () => {
     navigate('/notifications');
   };
@@ -90,6 +94,10 @@ export function DashboardHeader({ searchValue = "", onSearchChange }: DashboardH
                     {profile?.full_name || user?.email || 'My Account'}
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleProfile}>
+                    <User className="mr-2 h-4 w-4" />
+                    Profile
+                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleSettings}>
                     <Settings className="mr-2 h-4 w-4" />
                     Settings

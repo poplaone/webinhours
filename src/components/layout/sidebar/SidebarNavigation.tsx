@@ -5,11 +5,15 @@ import {
   LayoutDashboard, 
   Lightbulb, 
   BarChart3, 
-  ClipboardCheck
+  ClipboardCheck,
+  User,
+  Settings
 } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useAuth } from '@/hooks/useAuth';
+import { useUserRole } from '@/hooks/useProfiles';
 
 interface SidebarNavigationProps {
   isExpanded: boolean;
@@ -18,41 +22,61 @@ interface SidebarNavigationProps {
 const SidebarNavigation = ({ isExpanded }: SidebarNavigationProps) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuth();
+  const userRole = useUserRole();
 
   const navItems = [
     { 
       icon: LayoutDashboard, 
       label: 'Dashboard', 
       path: '/dashboard',
-      active: false,
-      description: 'View all product ideas'
+      active: location.pathname === '/dashboard',
+      description: 'View marketplace dashboard'
     },
     { 
-      icon: Lightbulb, 
-      label: 'Product Ideas', 
-      path: '/dashboard',
-      active: location.pathname === '/dashboard',
-      description: 'View product ideas dashboard'
+      icon: User, 
+      label: 'Profile', 
+      path: '/profile',
+      active: location.pathname === '/profile',
+      description: 'Manage your profile',
+      requireAuth: true
     },
     { 
       icon: ClipboardCheck, 
       label: 'Concept Testing', 
       path: '/concept-testing',
       active: location.pathname.includes('/concept-testing'),
-      description: 'Launch and review surveys'
+      description: 'Launch and review surveys',
+      requireAuth: true
     },
     { 
       icon: BarChart3, 
       label: 'Analytics', 
       path: '/concept-details/1',
       active: location.pathname.includes('/concept-details'),
-      description: 'View detailed analytics'
+      description: 'View detailed analytics',
+      requireAuth: true
+    },
+    { 
+      icon: Settings, 
+      label: 'Admin Panel', 
+      path: '/admin-panel',
+      active: location.pathname === '/admin-panel',
+      description: 'Manage listings and users',
+      requireAuth: true,
+      requireSeller: true
     }
   ];
 
+  const filteredItems = navItems.filter(item => {
+    if (item.requireAuth && !user) return false;
+    if (item.requireSeller && userRole !== 'seller') return false;
+    return true;
+  });
+
   return (
     <nav className="flex flex-col py-4 flex-1 overflow-y-auto">
-      {navItems.map((item) => (
+      {filteredItems.map((item) => (
         <TooltipProvider key={item.label}>
           <Tooltip>
             <TooltipTrigger asChild>
