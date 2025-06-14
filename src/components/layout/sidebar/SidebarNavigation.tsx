@@ -3,8 +3,6 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, 
-  Lightbulb, 
-  BarChart3, 
   User,
   Settings
 } from 'lucide-react';
@@ -36,22 +34,6 @@ const SidebarNavigation = ({ isExpanded }: SidebarNavigationProps) => {
       path: '/profile',
       active: location.pathname === '/profile',
       description: 'Manage your profile',
-      requireAuth: true
-    },
-    { 
-      icon: Lightbulb, 
-      label: 'Ideas', 
-      path: '/idea/new',
-      active: location.pathname.includes('/idea'),
-      description: 'Create and manage ideas',
-      requireAuth: true
-    },
-    { 
-      icon: BarChart3, 
-      label: 'Analytics', 
-      path: '/concept-details/1',
-      active: location.pathname.includes('/concept-details'),
-      description: 'View detailed analytics',
       requireAuth: true
     },
     { 

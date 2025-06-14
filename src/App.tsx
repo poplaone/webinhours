@@ -17,10 +17,6 @@ import Contact from "./pages/Contact";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import Blog from "./pages/Blog";
-import IdeaDetail from "./pages/IdeaDetail";
-import IdeaCreation from "./pages/IdeaCreation";
-import ConceptDetail from "./pages/ConceptDetail";
-import ConceptDetailsView from './pages/ConceptDetailsView';
 import Auth from "./pages/Auth";
 import Settings from "./pages/Settings";
 import Notifications from "./pages/Notifications";
@@ -53,30 +49,10 @@ function App() {
               {/* Public browsing routes - no auth required */}
               <Route path="/dashboard" element={<Dashboard />} />
               
-              {/* Protected Routes - require auth for creation/editing */}
+              {/* Protected Routes - require auth */}
               <Route path="/profile" element={
                 <ProtectedRoute>
                   <Profile />
-                </ProtectedRoute>
-              } />
-              <Route path="/idea/new" element={
-                <ProtectedRoute>
-                  <IdeaCreation />
-                </ProtectedRoute>
-              } />
-              <Route path="/idea/:id" element={
-                <ProtectedRoute>
-                  <IdeaDetail />
-                </ProtectedRoute>
-              } />
-              <Route path="/concept/:id" element={
-                <ProtectedRoute>
-                  <ConceptDetail />
-                </ProtectedRoute>
-              } />
-              <Route path="/concept-details/:conceptId" element={
-                <ProtectedRoute>
-                  <ConceptDetailsView />
                 </ProtectedRoute>
               } />
               <Route path="/settings" element={
