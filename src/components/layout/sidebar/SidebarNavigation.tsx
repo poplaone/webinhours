@@ -3,7 +3,6 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, 
-  User,
   Settings
 } from 'lucide-react';
 import { cn } from "@/lib/utils";
@@ -27,14 +26,6 @@ const SidebarNavigation = ({ isExpanded }: SidebarNavigationProps) => {
       path: '/dashboard',
       active: location.pathname === '/dashboard',
       description: 'View marketplace dashboard'
-    },
-    { 
-      icon: User, 
-      label: 'Profile', 
-      path: '/profile',
-      active: location.pathname === '/profile',
-      description: 'Manage your profile',
-      requireAuth: true
     },
     { 
       icon: Settings, 
