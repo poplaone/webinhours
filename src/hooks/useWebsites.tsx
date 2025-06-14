@@ -80,7 +80,7 @@ export const useWebsites = (filters?: {
   return useQuery({
     queryKey: ['websites', filters],
     queryFn: async () => {
-      let query = supabase
+      let query = (supabase as any)
         .from('websites')
         .select(`
           *,
@@ -127,7 +127,7 @@ export const useUserWebsites = () => {
     queryFn: async () => {
       if (!user) return [];
       
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('websites')
         .select('*')
         .eq('user_id', user.id)
@@ -148,7 +148,7 @@ export const useCreateWebsite = () => {
     mutationFn: async (website: WebsiteInsert) => {
       if (!user) throw new Error('User not authenticated');
 
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('websites')
         .insert({ ...website, user_id: user.id })
         .select()
@@ -169,7 +169,7 @@ export const useUpdateWebsite = () => {
 
   return useMutation({
     mutationFn: async ({ id, updates }: { id: string; updates: WebsiteUpdate }) => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('websites')
         .update(updates)
         .eq('id', id)
@@ -191,7 +191,7 @@ export const useDeleteWebsite = () => {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('websites')
         .delete()
         .eq('id', id);
