@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Plus, Settings, Edit3, Save, X, Globe, DollarSign, Star, Upload, ShoppingBag } from 'lucide-react';
@@ -242,7 +241,7 @@ const Profile = () => {
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <Button 
-                      onClick={() => setIsAddingListing(true)}
+                      onClick={() => navigate('/admin-panel')}
                       className="h-24 flex flex-col gap-2 bg-[#8B5CF6] hover:bg-[#7C3AED]"
                     >
                       <Upload className="h-6 w-6" />
@@ -273,7 +272,7 @@ const Profile = () => {
               <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold">My Listings</h2>
                 <Button 
-                  onClick={() => setIsAddingListing(true)}
+                  onClick={() => navigate('/admin-panel')}
                   className="bg-[#8B5CF6] hover:bg-[#7C3AED]"
                 >
                   <Plus className="h-4 w-4 mr-2" />
