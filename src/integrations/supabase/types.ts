@@ -9,7 +9,249 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      concept_tests: {
+        Row: {
+          completed_at: string | null
+          concept_id: string
+          created_at: string | null
+          id: string
+          insights: string | null
+          recommendations: string | null
+          results: Json | null
+          sample_size: number | null
+          started_at: string | null
+          status: Database["public"]["Enums"]["test_status"] | null
+          target_audience: string | null
+          test_name: string
+          test_type: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          concept_id: string
+          created_at?: string | null
+          id?: string
+          insights?: string | null
+          recommendations?: string | null
+          results?: Json | null
+          sample_size?: number | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["test_status"] | null
+          target_audience?: string | null
+          test_name: string
+          test_type: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          concept_id?: string
+          created_at?: string | null
+          id?: string
+          insights?: string | null
+          recommendations?: string | null
+          results?: Json | null
+          sample_size?: number | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["test_status"] | null
+          target_audience?: string | null
+          test_name?: string
+          test_type?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "concept_tests_concept_id_fkey"
+            columns: ["concept_id"]
+            isOneToOne: false
+            referencedRelation: "concepts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      concepts: {
+        Row: {
+          ai_generated: boolean | null
+          ai_prompt: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          idea_id: string
+          key_features: string[] | null
+          name: string
+          status: Database["public"]["Enums"]["concept_status"] | null
+          target_market: string | null
+          updated_at: string | null
+          user_id: string
+          value_proposition: string | null
+        }
+        Insert: {
+          ai_generated?: boolean | null
+          ai_prompt?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          idea_id: string
+          key_features?: string[] | null
+          name: string
+          status?: Database["public"]["Enums"]["concept_status"] | null
+          target_market?: string | null
+          updated_at?: string | null
+          user_id: string
+          value_proposition?: string | null
+        }
+        Update: {
+          ai_generated?: boolean | null
+          ai_prompt?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          idea_id?: string
+          key_features?: string[] | null
+          name?: string
+          status?: Database["public"]["Enums"]["concept_status"] | null
+          target_market?: string | null
+          updated_at?: string | null
+          user_id?: string
+          value_proposition?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "concepts_idea_id_fkey"
+            columns: ["idea_id"]
+            isOneToOne: false
+            referencedRelation: "ideas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ideas: {
+        Row: {
+          category: string | null
+          competition_level: string | null
+          created_at: string | null
+          description: string | null
+          feasibility_score: number | null
+          id: string
+          market_potential: number | null
+          status: Database["public"]["Enums"]["idea_status"] | null
+          tags: string[] | null
+          target_audience: string | null
+          title: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          competition_level?: string | null
+          created_at?: string | null
+          description?: string | null
+          feasibility_score?: number | null
+          id?: string
+          market_potential?: number | null
+          status?: Database["public"]["Enums"]["idea_status"] | null
+          tags?: string[] | null
+          target_audience?: string | null
+          title: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          category?: string | null
+          competition_level?: string | null
+          created_at?: string | null
+          description?: string | null
+          feasibility_score?: number | null
+          id?: string
+          market_potential?: number | null
+          status?: Database["public"]["Enums"]["idea_status"] | null
+          tags?: string[] | null
+          target_audience?: string | null
+          title?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          company: string | null
+          created_at: string | null
+          email: string | null
+          full_name: string | null
+          id: string
+          role: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          company?: string | null
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id: string
+          role?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          company?: string | null
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          role?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      test_responses: {
+        Row: {
+          completion_time: number | null
+          created_at: string | null
+          demographic_data: Json | null
+          id: string
+          ip_address: unknown | null
+          respondent_id: string | null
+          responses: Json
+          test_id: string
+          user_agent: string | null
+        }
+        Insert: {
+          completion_time?: number | null
+          created_at?: string | null
+          demographic_data?: Json | null
+          id?: string
+          ip_address?: unknown | null
+          respondent_id?: string | null
+          responses: Json
+          test_id: string
+          user_agent?: string | null
+        }
+        Update: {
+          completion_time?: number | null
+          created_at?: string | null
+          demographic_data?: Json | null
+          id?: string
+          ip_address?: unknown | null
+          respondent_id?: string | null
+          responses?: Json
+          test_id?: string
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_responses_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "concept_tests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +260,9 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      concept_status: "draft" | "testing" | "completed" | "archived"
+      idea_status: "draft" | "in_review" | "approved" | "rejected"
+      test_status: "pending" | "running" | "completed" | "failed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -133,6 +377,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      concept_status: ["draft", "testing", "completed", "archived"],
+      idea_status: ["draft", "in_review", "approved", "rejected"],
+      test_status: ["pending", "running", "completed", "failed"],
+    },
   },
 } as const
