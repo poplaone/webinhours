@@ -5,7 +5,6 @@ import {
   LayoutDashboard, 
   Lightbulb, 
   BarChart3, 
-  ClipboardCheck,
   User,
   Settings
 } from 'lucide-react';
@@ -40,11 +39,11 @@ const SidebarNavigation = ({ isExpanded }: SidebarNavigationProps) => {
       requireAuth: true
     },
     { 
-      icon: ClipboardCheck, 
-      label: 'Concept Testing', 
-      path: '/concept-testing',
-      active: location.pathname.includes('/concept-testing'),
-      description: 'Launch and review surveys',
+      icon: Lightbulb, 
+      label: 'Ideas', 
+      path: '/idea/new',
+      active: location.pathname.includes('/idea'),
+      description: 'Create and manage ideas',
       requireAuth: true
     },
     { 
