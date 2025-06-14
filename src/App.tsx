@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -22,6 +23,8 @@ import ConceptDetailsView from './pages/ConceptDetailsView';
 import ConceptTestingResults from './pages/ConceptTestingResults';
 import ConceptTestingDashboard from './pages/ConceptTestingDashboard';
 import Auth from "./pages/Auth";
+import Settings from "./pages/Settings";
+import Notifications from "./pages/Notifications";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -82,10 +85,12 @@ function App() {
               } />
               <Route path="/settings" element={
                 <ProtectedRoute>
-                  <div className="p-6">
-                    <h1 className="text-2xl font-bold">Settings Page</h1>
-                    <p className="mt-2">Settings content will appear here.</p>
-                  </div>
+                  <Settings />
+                </ProtectedRoute>
+              } />
+              <Route path="/notifications" element={
+                <ProtectedRoute>
+                  <Notifications />
                 </ProtectedRoute>
               } />
               

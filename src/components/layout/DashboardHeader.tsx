@@ -34,6 +34,14 @@ export function DashboardHeader({ searchValue = "", onSearchChange }: DashboardH
     navigate('/auth');
   };
 
+  const handleNotifications = () => {
+    navigate('/notifications');
+  };
+
+  const handleSettings = () => {
+    navigate('/settings');
+  };
+
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
@@ -57,7 +65,7 @@ export function DashboardHeader({ searchValue = "", onSearchChange }: DashboardH
                 variant="ghost" 
                 size="icon" 
                 className="text-muted-foreground hover:text-foreground"
-                onClick={() => navigate('/settings')}
+                onClick={handleSettings}
               >
                 <Settings className="h-5 w-5" />
               </Button>
@@ -65,6 +73,7 @@ export function DashboardHeader({ searchValue = "", onSearchChange }: DashboardH
                 variant="ghost" 
                 size="icon" 
                 className="text-muted-foreground hover:text-foreground relative"
+                onClick={handleNotifications}
               >
                 <Bell className="h-5 w-5" />
                 <div className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full animate-pulse" />
@@ -81,9 +90,13 @@ export function DashboardHeader({ searchValue = "", onSearchChange }: DashboardH
                     {profile?.full_name || user?.email || 'My Account'}
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => navigate('/settings')}>
+                  <DropdownMenuItem onClick={handleSettings}>
                     <Settings className="mr-2 h-4 w-4" />
                     Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleNotifications}>
+                    <Bell className="mr-2 h-4 w-4" />
+                    Notifications
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleSignOut}>
