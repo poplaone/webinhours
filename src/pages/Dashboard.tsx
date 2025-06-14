@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Bell, User, Sparkles, TrendingUp, Code, Users, Radio, BookOpen, BarChart3, Brain, ExternalLink, Settings, ShoppingCart, DollarSign, Eye } from 'lucide-react';
@@ -8,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import SideNavbar from '@/components/layout/SideNavbar';
+import { DashboardHeader } from '@/components/layout/DashboardHeader';
 import CategoryFilter from '@/components/filters/CategoryFilter';
 
 const websiteTemplates = [
@@ -94,6 +94,7 @@ const websiteTemplates = [
 const Dashboard = () => {
   const navigate = useNavigate();
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [searchValue, setSearchValue] = useState('');
 
   const viewTemplateDetail = (templateId: number) => {
     navigate(`/idea/${templateId}`);
@@ -104,45 +105,27 @@ const Dashboard = () => {
   };
 
   const filteredTemplates = selectedCategories.length === 0
-    ? websiteTemplates
-    : websiteTemplates.filter(template => selectedCategories.includes(template.category));
+    ? websiteTemplates.filter(template => 
+        template.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+        template.description.toLowerCase().includes(searchValue.toLowerCase()) ||
+        template.category.toLowerCase().includes(searchValue.toLowerCase())
+      )
+    : websiteTemplates.filter(template => 
+        selectedCategories.includes(template.category) &&
+        (template.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+         template.description.toLowerCase().includes(searchValue.toLowerCase()) ||
+         template.category.toLowerCase().includes(searchValue.toLowerCase()))
+      );
 
   return (
     <div className="flex h-screen overflow-hidden bg-gradient-to-br from-background to-background/80">
       <SideNavbar />
       
       <div className="flex-1 flex flex-col overflow-hidden">
-        <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="container flex h-16 items-center justify-between">
-            <div className="flex-1 items-center justify-center px-4">
-              <div className="w-full max-w-sm relative">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="search"
-                  placeholder="Search templates, categories..."
-                  className="w-full bg-background pl-8 rounded-full border-muted-foreground/20"
-                />
-              </div>
-            </div>
-            
-            <div className="flex items-center gap-4">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="text-muted-foreground hover:text-foreground"
-                onClick={() => navigate('/settings')}
-              >
-                <Settings className="h-5 w-5" />
-              </Button>
-              <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
-                <Bell className="h-5 w-5" />
-              </Button>
-              <Button variant="ghost" size="icon" className="rounded-full overflow-hidden">
-                <User className="h-5 w-5" />
-              </Button>
-            </div>
-          </div>
-        </header>
+        <DashboardHeader 
+          searchValue={searchValue}
+          onSearchChange={setSearchValue}
+        />
 
         <main className="flex-1 overflow-y-auto p-6 lg:container">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
@@ -155,9 +138,9 @@ const Dashboard = () => {
                 selectedCategories={selectedCategories}
                 onCategoryChange={setSelectedCategories}
               />
-              <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED] ml-4" onClick={() => navigate('/idea/new')}>
+              <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED] ml-4" onClick={() => navigate('/profile')}>
                 <Code className="mr-2 h-4 w-4" />
-                Custom Order
+                Upload Website
               </Button>
             </div>
           </div>
@@ -304,9 +287,16 @@ const Dashboard = () => {
                     <div>
                       <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
                         <BookOpen className="h-4 w-4 text-[#8B5CF6]" />
-                        Custom Orders
+                        Upload Your Website
                       </h4>
-                      <p className="text-xs text-muted-foreground">Need something unique? Our custom development service delivers tailored solutions in 24-48 hours.</p>
+                      <p className="text-xs text-muted-foreground">Ready to sell your website? Upload your template and start earning from your designs.</p>
+                      <Button 
+                        size="sm" 
+                        className="mt-2 w-full bg-[#8B5CF6] hover:bg-[#7C3AED]"
+                        onClick={() => navigate('/profile')}
+                      >
+                        Upload Now
+                      </Button>
                     </div>
                     
                     <div className="pt-2 border-t border-border/40">
