@@ -16,10 +16,10 @@ const WelcomeStep: React.FC = () => {
           </svg>
         </div>
         <h1 className="text-2xl md:text-3xl font-display font-semibold mb-2">
-          Welcome to <span className="text-gradient-blue">NPD Platform</span>
+          Welcome to <span className="text-gradient-blue">Web in Hours</span>
         </h1>
         <p className="text-gray-600 mb-4">
-          Let's set up your account to streamline your product development process.
+          Let's set up your account to streamline your web development process.
         </p>
       </motion.div>
 
@@ -29,7 +29,7 @@ const WelcomeStep: React.FC = () => {
         transition={{ delay: 0.2, duration: 0.5 }}
         className="space-y-4"
       >
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="glass-card p-4 rounded-xl flex flex-col items-center text-center">
             <div className="w-10 h-10 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center mb-3">
               <svg className="w-5 h-5 text-[#8B5CF6]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -46,18 +46,8 @@ const WelcomeStep: React.FC = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
               </svg>
             </div>
-            <h3 className="text-sm font-medium">Concept Creation</h3>
-            <p className="text-xs text-gray-500 mt-1">Visual prototyping tools</p>
-          </div>
-
-          <div className="glass-card p-4 rounded-xl flex flex-col items-center text-center">
-            <div className="w-10 h-10 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center mb-3">
-              <svg className="w-5 h-5 text-[#8B5CF6]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-              </svg>
-            </div>
-            <h3 className="text-sm font-medium">Concept Testing</h3>
-            <p className="text-xs text-gray-500 mt-1">User feedback analysis</p>
+            <h3 className="text-sm font-medium">Website Creation</h3>
+            <p className="text-xs text-gray-500 mt-1">Visual design and development tools</p>
           </div>
         </div>
       </motion.div>
