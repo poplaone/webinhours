@@ -3,20 +3,28 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Loader2 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
+  requireAuth?: boolean;
 }
 
-const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+const ProtectedRoute = ({ children, requireAuth = true }: ProtectedRouteProps) => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   useEffect(() => {
-    if (!loading && !user) {
+    if (!loading && !user && requireAuth) {
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in to access this feature.",
+        variant: "destructive",
+      });
       navigate('/auth');
     }
-  }, [user, loading, navigate]);
+  }, [user, loading, navigate, requireAuth, toast]);
 
   if (loading) {
     return (
@@ -26,7 +34,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     );
   }
 
-  if (!user) {
+  if (!user && requireAuth) {
     return null;
   }
 

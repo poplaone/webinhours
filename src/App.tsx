@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -47,12 +46,10 @@ function App() {
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/blog" element={<Blog />} />
               
-              {/* Protected Routes */}
-              <Route path="/dashboard" element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              } />
+              {/* Public browsing routes - no auth required */}
+              <Route path="/dashboard" element={<Dashboard />} />
+              
+              {/* Protected Routes - require auth for creation/editing */}
               <Route path="/idea/new" element={
                 <ProtectedRoute>
                   <IdeaCreation />
