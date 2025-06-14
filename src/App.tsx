@@ -25,6 +25,8 @@ import ConceptTestingDashboard from './pages/ConceptTestingDashboard';
 import Auth from "./pages/Auth";
 import Settings from "./pages/Settings";
 import Notifications from "./pages/Notifications";
+import AdminPanel from "./pages/AdminPanel";
+import Marketplace from "./pages/Marketplace";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
