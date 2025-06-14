@@ -1,9 +1,19 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Bell, User, Settings } from 'lucide-react';
+import { Search, Bell, User, Settings, LogOut } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuLabel, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
+import { useAuth } from '@/hooks/useAuth';
+import { useProfile } from '@/hooks/useProfiles';
 
 interface DashboardHeaderProps {
   searchValue?: string;
@@ -12,6 +22,13 @@ interface DashboardHeaderProps {
 
 export function DashboardHeader({ searchValue = "", onSearchChange }: DashboardHeaderProps) {
   const navigate = useNavigate();
+  const { user, signOut } = useAuth();
+  const { data: profile } = useProfile();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -46,9 +63,29 @@ export function DashboardHeader({ searchValue = "", onSearchChange }: DashboardH
             <Bell className="h-5 w-5" />
             <div className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full animate-pulse" />
           </Button>
-          <Button variant="ghost" size="icon" className="rounded-full overflow-hidden">
-            <User className="h-5 w-5" />
-          </Button>
+          
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="rounded-full overflow-hidden">
+                <User className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>
+                {profile?.full_name || user?.email || 'My Account'}
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => navigate('/settings')}>
+                <Settings className="mr-2 h-4 w-4" />
+                Settings
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleSignOut}>
+                <LogOut className="mr-2 h-4 w-4" />
+                Sign Out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>

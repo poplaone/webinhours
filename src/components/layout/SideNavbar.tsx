@@ -15,18 +15,21 @@ import {
   Minimize2,
   Maximize2,
   ClipboardCheck,
-  Code
+  Code,
+  LogOut
 } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetClose } from "@/components/ui/sheet";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useAuth } from '@/hooks/useAuth';
 import ChatSidebar from '@/components/ai/ChatSidebar';
 
 const SideNavbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { signOut } = useAuth();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isAIChatMaximized, setIsAIChatMaximized] = useState(false);
   const [isAIChatOpen, setIsAIChatOpen] = useState(true);
@@ -74,6 +77,11 @@ const SideNavbar = () => {
     setIsAIChatMaximized(!isAIChatMaximized);
   };
 
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
+
   return (
     <div className="h-screen flex">
       <div 
@@ -100,7 +108,7 @@ const SideNavbar = () => {
         </div>
 
         {/* Navigation Items */}
-        <nav className="flex flex-col py-4 shrink-0 overflow-y-auto">
+        <nav className="flex flex-col py-4 flex-1 overflow-y-auto">
           {navItems.map((item) => (
             <TooltipProvider key={item.label}>
               <Tooltip>
@@ -142,9 +150,41 @@ const SideNavbar = () => {
 
         <Separator className="shrink-0 bg-[#1A1F2C]" />
         
+        {/* Sign Out Button */}
+        <div className="p-4">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  className={cn(
+                    "w-full justify-start text-red-400 hover:bg-red-500/10 overflow-hidden transition-all duration-200",
+                    !isExpanded && "justify-center px-2"
+                  )}
+                  onClick={handleSignOut}
+                >
+                  <LogOut className="h-5 w-5 flex-shrink-0" />
+                  <span className={cn(
+                    "ml-2 transition-all duration-300 whitespace-nowrap",
+                    isExpanded ? "opacity-100 translate-x-0 w-auto" : "opacity-0 -translate-x-4 w-0 pointer-events-none"
+                  )}>
+                    Sign Out
+                  </span>
+                </Button>
+              </TooltipTrigger>
+              
+              {!isExpanded && (
+                <TooltipContent side="right" className="ml-2">
+                  <p>Sign Out</p>
+                </TooltipContent>
+              )}
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+        
         {/* AI Chat Button */}
         {(!isAIChatOpen || !isExpanded) && (
-          <div className="p-4 mt-auto">
+          <div className="p-4">
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
