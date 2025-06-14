@@ -1,50 +1,49 @@
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Search, User, LogOut, LogIn, Settings, Bell } from 'lucide-react';
+import { Search, Filter } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuLabel, 
-  DropdownMenuSeparator, 
-  DropdownMenuTrigger 
-} from "@/components/ui/dropdown-menu";
-import { useAuth } from '@/hooks/useAuth';
-import { useProfile } from '@/hooks/useProfiles';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 interface DashboardHeaderProps {
   searchValue?: string;
   onSearchChange?: (value: string) => void;
+  selectedCategory?: string;
+  onCategoryChange?: (category: string) => void;
+  priceRange?: [number, number];
+  onPriceRangeChange?: (range: [number, number]) => void;
 }
 
-export function DashboardHeader({ searchValue = "", onSearchChange }: DashboardHeaderProps) {
-  const navigate = useNavigate();
-  const { user, signOut } = useAuth();
-  const { data: profile } = useProfile();
+const categories = [
+  { value: 'all', label: 'All Categories' },
+  { value: 'E-commerce', label: 'E-commerce' },
+  { value: 'Corporate', label: 'Corporate' },
+  { value: 'SaaS', label: 'SaaS' },
+  { value: 'Portfolio', label: 'Portfolio' },
+  { value: 'Restaurant', label: 'Restaurant' },
+  { value: 'Real Estate', label: 'Real Estate' },
+];
 
-  const handleSignOut = async () => {
-    await signOut();
-    navigate('/');
-  };
-
-  const handleSignIn = () => {
-    navigate('/auth');
-  };
-
-  const handleProfile = () => {
-    navigate('/profile');
-  };
-
-  const handleNotifications = () => {
-    navigate('/notifications');
-  };
-
-  const handleSettings = () => {
-    navigate('/settings');
-  };
+export function DashboardHeader({ 
+  searchValue = "", 
+  onSearchChange,
+  selectedCategory = "all",
+  onCategoryChange,
+  priceRange = [0, 500],
+  onPriceRangeChange
+}: DashboardHeaderProps) {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -63,43 +62,50 @@ export function DashboardHeader({ searchValue = "", onSearchChange }: DashboardH
         </div>
         
         <div className="flex items-center gap-4">
-          {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full overflow-hidden">
-                  <User className="h-5 w-5" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>
-                  {profile?.full_name || user?.email || 'My Account'}
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleProfile}>
-                  <User className="mr-2 h-4 w-4" />
-                  Profile
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleSettings}>
-                  <Settings className="mr-2 h-4 w-4" />
-                  Settings
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleNotifications}>
-                  <Bell className="mr-2 h-4 w-4" />
-                  Notifications
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleSignOut}>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Sign Out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <Button onClick={handleSignIn} className="bg-[#8B5CF6] hover:bg-[#8B5CF6]/90">
-              <LogIn className="mr-2 h-4 w-4" />
-              Sign In
-            </Button>
-          )}
+          {/* Category Filter */}
+          <Select value={selectedCategory} onValueChange={onCategoryChange}>
+            <SelectTrigger className="w-48">
+              <SelectValue placeholder="Select category" />
+            </SelectTrigger>
+            <SelectContent className="bg-background border border-border shadow-lg">
+              {categories.map((category) => (
+                <SelectItem key={category.value} value={category.value}>
+                  {category.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          {/* Price Range Filter */}
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="flex items-center gap-2">
+                <Filter className="h-4 w-4" />
+                ${priceRange[0]} - ${priceRange[1]}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80 bg-background border border-border shadow-lg" align="end">
+              <div className="space-y-4">
+                <div>
+                  <h4 className="font-medium mb-3">Price Range</h4>
+                  <div className="px-3">
+                    <Slider
+                      min={0}
+                      max={500}
+                      step={10}
+                      value={priceRange}
+                      onValueChange={(value) => onPriceRangeChange?.(value as [number, number])}
+                      className="w-full"
+                    />
+                  </div>
+                  <div className="flex justify-between text-sm text-muted-foreground mt-2">
+                    <span>${priceRange[0]}</span>
+                    <span>${priceRange[1]}</span>
+                  </div>
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
     </header>

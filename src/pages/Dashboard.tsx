@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import SideNavbar from '@/components/layout/SideNavbar';
 import { DashboardHeader } from '@/components/layout/DashboardHeader';
-import CategoryFilter from '@/components/filters/CategoryFilter';
 
 const websiteTemplates = [
   {
@@ -93,8 +92,9 @@ const websiteTemplates = [
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchValue, setSearchValue] = useState('');
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
 
   const viewTemplateDetail = (templateId: number) => {
     navigate(`/idea/${templateId}`);
@@ -104,18 +104,20 @@ const Dashboard = () => {
     navigate(`/concept-testing/${templateId}`);
   };
 
-  const filteredTemplates = selectedCategories.length === 0
-    ? websiteTemplates.filter(template => 
-        template.title.toLowerCase().includes(searchValue.toLowerCase()) ||
-        template.description.toLowerCase().includes(searchValue.toLowerCase()) ||
-        template.category.toLowerCase().includes(searchValue.toLowerCase())
-      )
-    : websiteTemplates.filter(template => 
-        selectedCategories.includes(template.category) &&
-        (template.title.toLowerCase().includes(searchValue.toLowerCase()) ||
-         template.description.toLowerCase().includes(searchValue.toLowerCase()) ||
-         template.category.toLowerCase().includes(searchValue.toLowerCase()))
-      );
+  const filteredTemplates = websiteTemplates.filter(template => {
+    // Category filter
+    const categoryMatch = selectedCategory === 'all' || template.category === selectedCategory;
+    
+    // Search filter
+    const searchMatch = template.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+                       template.description.toLowerCase().includes(searchValue.toLowerCase()) ||
+                       template.category.toLowerCase().includes(searchValue.toLowerCase());
+    
+    // Price filter
+    const priceMatch = template.price >= priceRange[0] && template.price <= priceRange[1];
+    
+    return categoryMatch && searchMatch && priceMatch;
+  });
 
   return (
     <div className="flex h-screen overflow-hidden bg-gradient-to-br from-background to-background/80">
@@ -125,6 +127,10 @@ const Dashboard = () => {
         <DashboardHeader 
           searchValue={searchValue}
           onSearchChange={setSearchValue}
+          selectedCategory={selectedCategory}
+          onCategoryChange={setSelectedCategory}
+          priceRange={priceRange}
+          onPriceRangeChange={setPriceRange}
         />
 
         <main className="flex-1 overflow-y-auto p-6 lg:container">
@@ -134,11 +140,7 @@ const Dashboard = () => {
               <p className="text-muted-foreground mt-1">Professional website templates ready to buy and customize for your business</p>
             </div>
             <div className="flex items-center">
-              <CategoryFilter 
-                selectedCategories={selectedCategories}
-                onCategoryChange={setSelectedCategories}
-              />
-              <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED] ml-4" onClick={() => navigate('/profile')}>
+              <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]" onClick={() => navigate('/profile')}>
                 <Code className="mr-2 h-4 w-4" />
                 Upload Website
               </Button>
