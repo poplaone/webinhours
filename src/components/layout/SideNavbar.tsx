@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   Sparkles, 
@@ -27,7 +27,7 @@ import ChatSidebar from '@/components/ai/ChatSidebar';
 const SideNavbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [isHovered, setIsHovered] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [isAIChatMaximized, setIsAIChatMaximized] = useState(false);
   const [isAIChatOpen, setIsAIChatOpen] = useState(true);
 
@@ -62,6 +62,14 @@ const SideNavbar = () => {
     }
   ];
 
+  const handleMouseEnter = useCallback(() => {
+    setIsExpanded(true);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setIsExpanded(false);
+  }, []);
+
   const toggleAIChatMaximize = () => {
     setIsAIChatMaximized(!isAIChatMaximized);
   };
@@ -70,86 +78,110 @@ const SideNavbar = () => {
     <div className="h-screen flex">
       <div 
         className={cn(
-          "h-full transition-all duration-300 ease-in-out flex flex-col bg-[#121212] border-r border-[#1A1F2C] z-20 relative",
-          isHovered ? "w-72" : "w-16"
+          "h-full transition-all duration-300 ease-out flex flex-col bg-[#121212] border-r border-[#1A1F2C] z-20 relative",
+          isExpanded ? "w-72" : "w-16"
         )}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
+        {/* Logo Section */}
         <div className="flex items-center justify-between p-4 h-16 shrink-0 border-b border-[#1A1F2C]">
-          <div className={cn("flex items-center overflow-hidden", !isHovered && "justify-center w-full")}>
+          <div className={cn("flex items-center overflow-hidden", !isExpanded && "justify-center w-full")}>
             <div className="bg-[#9b87f5] rounded-md p-1 flex-shrink-0">
               <span className="text-white font-bold text-sm">AI</span>
             </div>
             <div className={cn(
               "ml-2 transition-all duration-300 whitespace-nowrap",
-              isHovered ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4 pointer-events-none"
+              isExpanded ? "opacity-100 translate-x-0 w-auto" : "opacity-0 -translate-x-4 w-0 pointer-events-none"
             )}>
               <span className="font-semibold text-white">Pulse Vision.AI</span>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col py-4 shrink-0 overflow-y-auto">
+        {/* Navigation Items */}
+        <nav className="flex flex-col py-4 shrink-0 overflow-y-auto">
           {navItems.map((item) => (
-            <div key={item.label} className="relative group">
-              <Button
-                variant={item.active ? "secondary" : "ghost"}
-                className={cn(
-                  "mb-1 w-full justify-start relative overflow-hidden",
-                  item.active && "bg-[#8B5CF6]/10 text-[#8B5CF6]",
-                  !isHovered && "justify-center px-2",
-                  "text-white hover:bg-[#8B5CF6]/20"
+            <TooltipProvider key={item.label}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant={item.active ? "secondary" : "ghost"}
+                    className={cn(
+                      "mb-1 w-full justify-start relative overflow-hidden group",
+                      item.active && "bg-[#8B5CF6]/10 text-[#8B5CF6]",
+                      !isExpanded && "justify-center px-2",
+                      "text-white hover:bg-[#8B5CF6]/20 transition-all duration-200"
+                    )}
+                    onClick={() => navigate(item.path)}
+                  >
+                    <item.icon className="h-5 w-5 flex-shrink-0" />
+                    <span className={cn(
+                      "ml-2 transition-all duration-300 whitespace-nowrap",
+                      isExpanded ? "opacity-100 translate-x-0 w-auto" : "opacity-0 -translate-x-4 w-0 pointer-events-none"
+                    )}>
+                      {item.label}
+                    </span>
+                    
+                    {/* Active indicator */}
+                    {item.active && (
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#8B5CF6] rounded-r-full" />
+                    )}
+                  </Button>
+                </TooltipTrigger>
+                
+                {!isExpanded && (
+                  <TooltipContent side="right" className="ml-2">
+                    <p>{item.label}</p>
+                  </TooltipContent>
                 )}
-                onClick={() => navigate(item.path)}
-              >
-                <item.icon className="h-5 w-5 flex-shrink-0" />
-                <span className={cn(
-                  "ml-2 transition-all duration-300 whitespace-nowrap",
-                  isHovered ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4 pointer-events-none"
-                )}>
-                  {item.label}
-                </span>
-              </Button>
-
-              {!isHovered && (
-                <div className="absolute left-full top-0 ml-2 px-2 py-1 bg-[#1A1F2C] text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50 whitespace-nowrap">
-                  {item.label}
-                </div>
-              )}
-            </div>
+              </Tooltip>
+            </TooltipProvider>
           ))}
-        </div>
+        </nav>
 
         <Separator className="shrink-0 bg-[#1A1F2C]" />
         
-        {(!isAIChatOpen || !isHovered) && (
+        {/* AI Chat Button */}
+        {(!isAIChatOpen || !isExpanded) && (
           <div className="p-4 mt-auto">
-            <Button 
-              variant="outline" 
-              className={cn(
-                "w-full justify-start border border-[#8B5CF6]/30 bg-[#8B5CF6]/5 text-[#8B5CF6] hover:bg-[#8B5CF6]/10 overflow-hidden",
-                !isHovered && "justify-center px-2"
-              )}
-              onClick={() => setIsAIChatOpen(true)}
-            >
-              <Sparkles className="h-5 w-5 flex-shrink-0" />
-              <span className={cn(
-                "ml-2 transition-all duration-300 whitespace-nowrap",
-                isHovered ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4 pointer-events-none"
-              )}>
-                AI Ideation Chat
-              </span>
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    className={cn(
+                      "w-full justify-start border border-[#8B5CF6]/30 bg-[#8B5CF6]/5 text-[#8B5CF6] hover:bg-[#8B5CF6]/10 overflow-hidden transition-all duration-200",
+                      !isExpanded && "justify-center px-2"
+                    )}
+                    onClick={() => setIsAIChatOpen(true)}
+                  >
+                    <Sparkles className="h-5 w-5 flex-shrink-0" />
+                    <span className={cn(
+                      "ml-2 transition-all duration-300 whitespace-nowrap",
+                      isExpanded ? "opacity-100 translate-x-0 w-auto" : "opacity-0 -translate-x-4 w-0 pointer-events-none"
+                    )}>
+                      AI Ideation Chat
+                    </span>
+                  </Button>
+                </TooltipTrigger>
+                
+                {!isExpanded && (
+                  <TooltipContent side="right" className="ml-2">
+                    <p>AI Ideation Chat</p>
+                  </TooltipContent>
+                )}
+              </Tooltip>
+            </TooltipProvider>
           </div>
         )}
       </div>
 
+      {/* AI Chat Sidebar */}
       {isAIChatOpen && !isAIChatMaximized && (
         <div className={cn(
-          "fixed bottom-0 left-0 z-30 border-t border-[#8B5CF6]/10 h-[400px] bg-[#121212]",
-          isHovered ? "w-72" : "w-16",
-          "transition-all duration-300"
+          "fixed bottom-0 left-0 z-30 border-t border-[#8B5CF6]/10 h-[400px] bg-[#121212] transition-all duration-300",
+          isExpanded ? "w-72" : "w-16"
         )}>
           <ChatSidebar 
             isMaximized={false} 
@@ -159,6 +191,7 @@ const SideNavbar = () => {
         </div>
       )}
 
+      {/* Maximized Chat Sheet */}
       <Sheet open={isAIChatMaximized} onOpenChange={setIsAIChatMaximized}>
         <SheetContent side="bottom" className="h-[80vh] p-0 border-t rounded-t-xl">
           <div className="h-full">
