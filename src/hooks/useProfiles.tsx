@@ -64,9 +64,3 @@ export const useUpdateProfile = () => {
     },
   });
 };
-
-// Hook to get user role from profile
-export const useUserRole = () => {
-  const { data: profile } = useProfile();
-  return profile?.role || 'buyer';
-};

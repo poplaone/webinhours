@@ -13,7 +13,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useAuth } from '@/hooks/useAuth';
-import { useUserRole } from '@/hooks/useProfiles';
 
 interface SidebarNavigationProps {
   isExpanded: boolean;
@@ -23,7 +22,6 @@ const SidebarNavigation = ({ isExpanded }: SidebarNavigationProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
-  const userRole = useUserRole();
 
   const navItems = [
     { 
@@ -59,18 +57,16 @@ const SidebarNavigation = ({ isExpanded }: SidebarNavigationProps) => {
     },
     { 
       icon: Settings, 
-      label: 'Admin Panel', 
-      path: '/admin-panel',
-      active: location.pathname === '/admin-panel',
-      description: 'Manage listings and users',
-      requireAuth: true,
-      requireSeller: true
+      label: 'Settings', 
+      path: '/settings',
+      active: location.pathname === '/settings',
+      description: 'Manage your settings',
+      requireAuth: true
     }
   ];
 
   const filteredItems = navItems.filter(item => {
     if (item.requireAuth && !user) return false;
-    if (item.requireSeller && userRole !== 'seller') return false;
     return true;
   });
 

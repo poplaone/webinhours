@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
@@ -7,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Sparkles, Shield, Zap, ShoppingBag, Store } from 'lucide-react';
+import { Loader2, Sparkles, Shield, Zap } from 'lucide-react';
 import AnimatedGridBackground from '@/components/animations/AnimatedGridBackground';
 import PixelCanvas from '@/components/animations/PixelCanvas';
 
@@ -17,7 +18,6 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [activeTab, setActiveTab] = useState('signin');
-  const [userRole, setUserRole] = useState<'buyer' | 'seller'>('buyer');
   const { signIn, signUp, signInWithGoogle } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ const Auth = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    const { error } = await signUp(email, password, fullName, userRole);
+    const { error } = await signUp(email, password, fullName);
 
     if (error) {
       toast({
@@ -168,31 +168,6 @@ const Auth = () => {
                   </TabsList>
 
                   <TabsContent value="signin" className="animate-fade-in">
-                    {/* Role Selection for Sign In */}
-                    <div className="mb-6">
-                      <Label className="text-sm font-medium mb-3 block">Sign in as:</Label>
-                      <div className="grid grid-cols-2 gap-3">
-                        <Button
-                          type="button"
-                          variant={userRole === 'buyer' ? 'default' : 'outline'}
-                          onClick={() => setUserRole('buyer')}
-                          className="h-16 flex flex-col gap-1 bg-background/50 backdrop-blur border-border/40"
-                        >
-                          <ShoppingBag className="h-5 w-5" />
-                          <span className="text-xs">Buyer</span>
-                        </Button>
-                        <Button
-                          type="button"
-                          variant={userRole === 'seller' ? 'default' : 'outline'}
-                          onClick={() => setUserRole('seller')}
-                          className="h-16 flex flex-col gap-1 bg-background/50 backdrop-blur border-border/40"
-                        >
-                          <Store className="h-5 w-5" />
-                          <span className="text-xs">Seller</span>
-                        </Button>
-                      </div>
-                    </div>
-
                     <form onSubmit={handleSignIn} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="signin-email">Email</Label>
@@ -224,7 +199,7 @@ const Auth = () => {
                         disabled={isLoading}
                       >
                         {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                        Sign In as {userRole === 'buyer' ? 'Buyer' : 'Seller'}
+                        Sign In
                       </Button>
                     </form>
                     
@@ -270,31 +245,6 @@ const Auth = () => {
                   </TabsContent>
 
                   <TabsContent value="signup" className="animate-fade-in">
-                    {/* Role Selection for Sign Up */}
-                    <div className="mb-6">
-                      <Label className="text-sm font-medium mb-3 block">I want to:</Label>
-                      <div className="grid grid-cols-2 gap-3">
-                        <Button
-                          type="button"
-                          variant={userRole === 'buyer' ? 'default' : 'outline'}
-                          onClick={() => setUserRole('buyer')}
-                          className="h-16 flex flex-col gap-1 bg-background/50 backdrop-blur border-border/40"
-                        >
-                          <ShoppingBag className="h-5 w-5" />
-                          <span className="text-xs">Buy Websites</span>
-                        </Button>
-                        <Button
-                          type="button"
-                          variant={userRole === 'seller' ? 'default' : 'outline'}
-                          onClick={() => setUserRole('seller')}
-                          className="h-16 flex flex-col gap-1 bg-background/50 backdrop-blur border-border/40"
-                        >
-                          <Store className="h-5 w-5" />
-                          <span className="text-xs">Sell Websites</span>
-                        </Button>
-                      </div>
-                    </div>
-
                     <form onSubmit={handleSignUp} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="signup-name">Full Name</Label>
@@ -339,7 +289,7 @@ const Auth = () => {
                         disabled={isLoading}
                       >
                         {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                        Create {userRole === 'buyer' ? 'Buyer' : 'Seller'} Account
+                        Create Account
                       </Button>
                     </form>
                     

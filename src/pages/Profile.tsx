@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Store, ShoppingBag, Plus, Settings, Edit3, Save, X, Upload, Globe, DollarSign, Tag, Image, Code, Star } from 'lucide-react';
+import { User, Plus, Settings, Edit3, Save, X, Globe, DollarSign, Star, Upload, ShoppingBag } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -51,9 +51,6 @@ const Profile = () => {
       });
     }
   }, [profile]);
-
-  const userRole = profile?.role || 'buyer';
-  const isSeller = userRole === 'seller';
 
   const handleProfileUpdate = async () => {
     try {
@@ -126,16 +123,7 @@ const Profile = () => {
               <div className="flex items-center gap-4">
                 <div className="relative">
                   <div className="w-20 h-20 bg-gradient-to-br from-[#8B5CF6] to-[#7C3AED] rounded-full flex items-center justify-center">
-                    {isSeller ? (
-                      <Store className="h-10 w-10 text-white" />
-                    ) : (
-                      <ShoppingBag className="h-10 w-10 text-white" />
-                    )}
-                  </div>
-                  <div className="absolute -bottom-1 -right-1 bg-background border-2 border-background rounded-full p-1">
-                    <Badge variant={isSeller ? "default" : "secondary"} className="text-xs">
-                      {isSeller ? "Seller" : "Buyer"}
-                    </Badge>
+                    <User className="h-10 w-10 text-white" />
                   </div>
                 </div>
                 
@@ -198,112 +186,106 @@ const Profile = () => {
           </div>
 
           {/* Profile Content */}
-          <Tabs defaultValue={isSeller ? "listings" : "dashboard"} className="w-full">
+          <Tabs defaultValue="dashboard" className="w-full">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-              <TabsTrigger value="listings">{isSeller ? 'My Listings' : 'Purchases'}</TabsTrigger>
-              <TabsTrigger value="settings">Settings</TabsTrigger>
+              <TabsTrigger value="my-listings">My Listings</TabsTrigger>
+              <TabsTrigger value="purchases">My Purchases</TabsTrigger>
             </TabsList>
 
             <TabsContent value="dashboard" className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      {isSeller ? 'Total Listings' : 'Total Purchases'}
-                    </CardTitle>
-                    {isSeller ? <Store className="h-4 w-4 text-muted-foreground" /> : <ShoppingBag className="h-4 w-4 text-muted-foreground" />}
+                    <CardTitle className="text-sm font-medium">My Listings</CardTitle>
+                    <Upload className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">{userWebsites?.length || 0}</div>
                     <p className="text-xs text-muted-foreground">
-                      {isSeller ? '+2 from last month' : '+1 this month'}
+                      Sites uploaded for sale
                     </p>
                   </CardContent>
                 </Card>
                 
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      {isSeller ? 'Total Sales' : 'Total Spent'}
-                    </CardTitle>
+                    <CardTitle className="text-sm font-medium">Total Sales</CardTitle>
                     <DollarSign className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">
-                      ${isSeller ? '1,234' : '567'}
-                    </div>
+                    <div className="text-2xl font-bold">$1,234</div>
                     <p className="text-xs text-muted-foreground">
-                      {isSeller ? '+15% from last month' : '+5% this month'}
+                      +15% from last month
                     </p>
                   </CardContent>
                 </Card>
 
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Rating</CardTitle>
-                    <Star className="h-4 w-4 text-muted-foreground" />
+                    <CardTitle className="text-sm font-medium">My Purchases</CardTitle>
+                    <ShoppingBag className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">4.8</div>
+                    <div className="text-2xl font-bold">5</div>
                     <p className="text-xs text-muted-foreground">
-                      Based on {isSeller ? '45 reviews' : '12 reviews'}
+                      Sites purchased
                     </p>
                   </CardContent>
                 </Card>
               </div>
 
-              {isSeller && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Quick Actions</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                      <Button 
-                        onClick={() => setIsAddingListing(true)}
-                        className="h-24 flex flex-col gap-2 bg-[#8B5CF6] hover:bg-[#7C3AED]"
-                      >
-                        <Plus className="h-6 w-6" />
-                        Add New Listing
-                      </Button>
-                      <Button variant="outline" className="h-24 flex flex-col gap-2">
-                        <Globe className="h-6 w-6" />
-                        Visit Store
-                      </Button>
-                      <Button variant="outline" className="h-24 flex flex-col gap-2">
-                        <Settings className="h-6 w-6" />
-                        Manage Store
-                      </Button>
-                      <Button variant="outline" className="h-24 flex flex-col gap-2">
-                        <Star className="h-6 w-6" />
-                        View Analytics
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Quick Actions</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <Button 
+                      onClick={() => setIsAddingListing(true)}
+                      className="h-24 flex flex-col gap-2 bg-[#8B5CF6] hover:bg-[#7C3AED]"
+                    >
+                      <Upload className="h-6 w-6" />
+                      Upload Site for Sale
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      className="h-24 flex flex-col gap-2"
+                      onClick={() => navigate('/dashboard')}
+                    >
+                      <ShoppingBag className="h-6 w-6" />
+                      Browse Marketplace
+                    </Button>
+                    <Button variant="outline" className="h-24 flex flex-col gap-2">
+                      <Globe className="h-6 w-6" />
+                      Visit My Store
+                    </Button>
+                    <Button variant="outline" className="h-24 flex flex-col gap-2">
+                      <Star className="h-6 w-6" />
+                      View Analytics
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             </TabsContent>
 
-            <TabsContent value="listings" className="space-y-6">
-              {isSeller && (
-                <div className="flex justify-between items-center">
-                  <h2 className="text-2xl font-bold">My Listings</h2>
-                  <Button 
-                    onClick={() => setIsAddingListing(true)}
-                    className="bg-[#8B5CF6] hover:bg-[#7C3AED]"
-                  >
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add New Listing
-                  </Button>
-                </div>
-              )}
+            <TabsContent value="my-listings" className="space-y-6">
+              <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-bold">My Listings</h2>
+                <Button 
+                  onClick={() => setIsAddingListing(true)}
+                  className="bg-[#8B5CF6] hover:bg-[#7C3AED]"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add New Listing
+                </Button>
+              </div>
 
               {/* Add Listing Form */}
-              {isAddingListing && isSeller && (
+              {isAddingListing && (
                 <Card>
                   <CardHeader>
-                    <CardTitle>Add New Website Listing</CardTitle>
+                    <CardTitle>Upload Website for Sale</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <form onSubmit={handleListingSubmit} className="space-y-4">
@@ -451,15 +433,15 @@ const Profile = () => {
               </div>
             </TabsContent>
 
-            <TabsContent value="settings">
+            <TabsContent value="purchases">
               <Card>
                 <CardHeader>
-                  <CardTitle>Account Settings</CardTitle>
+                  <CardTitle>My Purchases</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <p className="text-muted-foreground">Settings panel coming soon...</p>
-                  <Button onClick={() => navigate('/settings')}>
-                    Go to Full Settings
+                  <p className="text-muted-foreground">Your purchased websites will appear here.</p>
+                  <Button onClick={() => navigate('/dashboard')}>
+                    Browse Marketplace
                   </Button>
                 </CardContent>
               </Card>
