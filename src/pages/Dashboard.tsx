@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Code } from 'lucide-react';
@@ -105,13 +104,10 @@ const Dashboard = () => {
             </div>
             
             {/* Hide sidebar content on mobile, show only on lg+ */}
-            <div className="hidden lg:block lg:col-span-1">
+            <div className="hidden lg:block lg:col-span-1 space-y-4">
               <InsightsSidebar />
+              <CategoryCards websiteCount={websites.length} />
             </div>
-          </div>
-
-          <div className="mt-4 md:mt-6">
-            <CategoryCards websiteCount={websites.length} />
           </div>
         </main>
       </div>
