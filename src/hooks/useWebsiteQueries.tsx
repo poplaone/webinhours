@@ -1,3 +1,4 @@
+
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
@@ -15,7 +16,7 @@ export const useWebsites = (filters?: WebsiteFilters) => {
         .from('websites')
         .select(`
           *,
-          profiles!websites_user_id_fkey(
+          profiles(
             full_name,
             avatar_url
           )
@@ -84,7 +85,7 @@ export const useUserWebsites = () => {
         .from('websites')
         .select(`
           *,
-          profiles!websites_user_id_fkey(
+          profiles(
             full_name,
             avatar_url
           )
@@ -114,7 +115,7 @@ export const useWebsiteById = (id: string) => {
         .from('websites')
         .select(`
           *,
-          profiles!websites_user_id_fkey(
+          profiles(
             full_name,
             avatar_url
           )
