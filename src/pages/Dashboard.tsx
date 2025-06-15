@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Code } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import SideNavbar from '@/components/layout/SideNavbar';
 import MobileBottomNav from '@/components/layout/MobileBottomNav';
 import { DashboardHeader } from '@/components/layout/DashboardHeader';
@@ -126,7 +127,7 @@ const Dashboard = () => {
           isLoading={isLoading}
         />
 
-        <main className="flex-1 overflow-y-auto p-3 md:p-6 lg:container pb-20 md:pb-6">
+        <main className="flex-1 overflow-hidden p-3 md:p-6 lg:container pb-20 md:pb-6">
           <div className="flex flex-col gap-3 md:gap-4 mb-4 md:mb-6">
             <div>
               {selectedTag && (
@@ -142,17 +143,21 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-6">
-            <div className="lg:col-span-3">
-              <TemplateGrid 
-                templates={filteredTemplates} 
-                isLoading={isLoading} 
-                onRefresh={handleRefresh} 
-                onTagFilter={handleTagFilter} 
-              />
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-6 h-full">
+            <div className="lg:col-span-3 overflow-hidden">
+              <ScrollArea className="h-full">
+                <div className="pr-4">
+                  <TemplateGrid 
+                    templates={filteredTemplates} 
+                    isLoading={isLoading} 
+                    onRefresh={handleRefresh} 
+                    onTagFilter={handleTagFilter} 
+                  />
+                </div>
+              </ScrollArea>
             </div>
             
-            {/* Hide sidebar content on mobile, show only on lg+ */}
+            {/* Fixed sidebar content on lg+ */}
             <div className="hidden lg:block lg:col-span-1 space-y-4">
               <InsightsSidebar />
               <CategoryCards websiteCount={websites.length} />
