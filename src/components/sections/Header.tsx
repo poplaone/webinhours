@@ -11,6 +11,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 
 export const Header = () => {
@@ -36,6 +37,11 @@ export const Header = () => {
     { label: 'Blog', path: '/blog' },
     { label: 'Privacy Policy', path: '/privacy' },
     { label: 'Terms of Service', path: '/terms' },
+  ];
+
+  const allMobileItems = [
+    ...navItems,
+    ...moreItems
   ];
 
   const handleNavigation = (path: string) => {
@@ -102,12 +108,12 @@ export const Header = () => {
                 More <ChevronDown className="ml-1 h-3 w-3" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuContent align="end" className="w-48 bg-background border shadow-lg">
               {moreItems.map((item) => (
                 <DropdownMenuItem
                   key={item.label}
                   onClick={() => handleNavigation(item.path)}
-                  className="cursor-pointer"
+                  className="cursor-pointer hover:bg-accent"
                 >
                   {item.label}
                 </DropdownMenuItem>
@@ -154,26 +160,14 @@ export const Header = () => {
           transition={{ duration: 0.3 }}
         >
           <nav className="flex flex-col space-y-1 p-4 max-h-[70vh] overflow-y-auto">
-            {/* Main navigation items */}
-            {navItems.map((item) => (
+            {/* All navigation items for mobile */}
+            {allMobileItems.map((item, index) => (
               <button
                 key={item.label}
                 onClick={() => handleNavigation(item.path)}
-                className="text-muted-foreground hover:text-foreground transition-colors py-3 text-left text-base touch-manipulation hover:bg-accent/50 rounded-md px-2"
-              >
-                {item.label}
-              </button>
-            ))}
-            
-            {/* Separator */}
-            <div className="border-t border-border my-2"></div>
-            
-            {/* More items */}
-            {moreItems.map((item) => (
-              <button
-                key={item.label}
-                onClick={() => handleNavigation(item.path)}
-                className="text-muted-foreground hover:text-foreground transition-colors py-2 text-left text-sm touch-manipulation hover:bg-accent/50 rounded-md px-2"
+                className={`text-muted-foreground hover:text-foreground transition-colors py-3 text-left touch-manipulation hover:bg-accent/50 rounded-md px-2 ${
+                  index < navItems.length ? 'text-base font-medium' : 'text-sm'
+                }`}
               >
                 {item.label}
               </button>

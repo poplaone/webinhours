@@ -21,7 +21,7 @@ const MobileBottomNav = () => {
   // Show only on mobile devices
   if (!isMobile) return null;
 
-  // Fixed navigation items in the requested order
+  // Fixed navigation items in the requested order: Services, Marketplace, Contact, Login/Profile
   const navItems = [
     { path: '/services', icon: Wrench, label: 'Services' },
     { path: '/marketplace', icon: Store, label: 'Marketplace' },
