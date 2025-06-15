@@ -12,12 +12,9 @@ export const useWebsites = (filters?: WebsiteFilters) => {
     queryKey: ['websites', filters, isAdmin],
     queryFn: async () => {
       console.log('Fetching websites with filters:', filters);
-      let query = (supabase as any)
+      let query = supabase
         .from('websites')
-        .select(`
-          *,
-          profiles!websites_user_id_fkey(full_name, avatar_url)
-        `);
+        .select('*');
 
       if (filters?.category) {
         query = query.eq('category', filters.category);
@@ -72,12 +69,9 @@ export const useUserWebsites = () => {
       if (!user) return [];
       
       console.log('Fetching user websites for user:', user.id);
-      const { data, error } = await (supabase as any)
+      const { data, error } = await supabase
         .from('websites')
-        .select(`
-          *,
-          profiles!websites_user_id_fkey(full_name, avatar_url)
-        `)
+        .select('*')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Bell, User, Sparkles, TrendingUp, Code, Users, Radio, BookOpen, BarChart3, Brain, ExternalLink, Settings, ShoppingCart, DollarSign, Eye } from 'lucide-react';
@@ -17,11 +16,11 @@ const Dashboard = () => {
   const [searchValue, setSearchValue] = useState('');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
 
-  // Fetch real websites from database - show approved and featured for marketplace
+  // Fetch all websites for marketplace - don't filter by approval status to show uploaded sites
   const { data: websites = [], isLoading, refetch } = useWebsites({
     category: selectedCategory !== 'all' ? selectedCategory : undefined,
     search: searchValue || undefined,
-    // Don't set includeAll here - this shows marketplace view (approved/featured only)
+    includeAll: true, // Show all websites including uploaded ones
   });
 
   // Debug logging
@@ -50,7 +49,7 @@ const Dashboard = () => {
     
     // Search filter
     const searchMatch = template.title.toLowerCase().includes(searchValue.toLowerCase()) ||
-                       template.description.toLowerCase().includes(searchValue.toLowerCase()) ||
+                       template.description?.toLowerCase().includes(searchValue.toLowerCase()) ||
                        template.category.toLowerCase().includes(searchValue.toLowerCase());
     
     // Price filter
@@ -138,7 +137,7 @@ const Dashboard = () => {
                       />
                       <div className="absolute top-2 left-2">
                         <span className="bg-[#8B5CF6] text-white text-xs px-2 py-1 rounded-full font-medium">
-                          {template.is_featured ? "Featured" : template.status === 'approved' ? "New" : "Uploaded"}
+                          {template.is_featured ? "Featured" : template.status === 'approved' ? "Approved" : template.status}
                         </span>
                       </div>
                       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
