@@ -51,8 +51,8 @@ export function DashboardHeader({
 }: DashboardHeaderProps) {
   return <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between gap-4">
-        <div className="flex items-center justify-start px-4">
-          <div className="w-full max-w-sm relative">
+        <div className="flex items-center justify-start px-4 mx-[178px]">
+          <div className="w-full max-w-sm relative mx-0 px-0 py-0">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input type="search" placeholder="Search templates, categories..." className="w-full bg-background pl-8 rounded-full border-muted-foreground/20" value={searchValue} onChange={e => onSearchChange?.(e.target.value)} />
           </div>
@@ -60,7 +60,7 @@ export function DashboardHeader({
         
         {/* Template count and refresh button */}
         <div className="flex items-center gap-3">
-          <p className="text-sm text-blue-600 whitespace-nowrap">
+          <p className="text-sm text-blue-600 whitespace-nowrap mx-[6px]">
             Showing {templateCount} templates
           </p>
           
