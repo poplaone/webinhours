@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useCreateWebsite, useIsAdmin } from '@/hooks/useWebsites';
 import { useToast } from '@/hooks/use-toast';
+import { useArrayFields } from './useArrayFields';
+import { prepareWebsiteData } from '@/utils/websiteDataUtils';
 
 interface WebsiteFormData {
   title: string;
@@ -14,68 +16,14 @@ interface WebsiteFormData {
 }
 
 export function useWebsiteUploadForm(onClose: () => void) {
-  const [tags, setTags] = useState<string[]>([]);
-  const [tagInput, setTagInput] = useState('');
-  const [technologies, setTechnologies] = useState<string[]>([]);
-  const [techInput, setTechInput] = useState('');
-  const [features, setFeatures] = useState<string[]>([]);
-  const [featureInput, setFeatureInput] = useState('');
-  const [inclusions, setInclusions] = useState<string[]>([]);
-  const [inclusionInput, setInclusionInput] = useState('');
   const [thumbnailUrl, setThumbnailUrl] = useState('');
 
   const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<WebsiteFormData>();
   const createWebsite = useCreateWebsite();
   const isAdmin = useIsAdmin();
   const { toast } = useToast();
-
-  // Tag management
-  const addTag = () => {
-    if (tagInput.trim() && !tags.includes(tagInput.trim())) {
-      setTags([...tags, tagInput.trim()]);
-      setTagInput('');
-    }
-  };
-
-  const removeTag = (tag: string) => {
-    setTags(tags.filter(t => t !== tag));
-  };
-
-  // Technology management
-  const addTechnology = () => {
-    if (techInput.trim() && !technologies.includes(techInput.trim())) {
-      setTechnologies([...technologies, techInput.trim()]);
-      setTechInput('');
-    }
-  };
-
-  const removeTechnology = (tech: string) => {
-    setTechnologies(technologies.filter(t => t !== tech));
-  };
-
-  // Feature management
-  const addFeature = () => {
-    if (featureInput.trim() && !features.includes(featureInput.trim())) {
-      setFeatures([...features, featureInput.trim()]);
-      setFeatureInput('');
-    }
-  };
-
-  const removeFeature = (feature: string) => {
-    setFeatures(features.filter(f => f !== feature));
-  };
-
-  // Inclusion management
-  const addInclusion = () => {
-    if (inclusionInput.trim() && !inclusions.includes(inclusionInput.trim())) {
-      setInclusions([...inclusions, inclusionInput.trim()]);
-      setInclusionInput('');
-    }
-  };
-
-  const removeInclusion = (inclusion: string) => {
-    setInclusions(inclusions.filter(i => i !== inclusion));
-  };
+  
+  const arrayFields = useArrayFields();
 
   // Form submission
   const onSubmit = async (data: WebsiteFormData) => {
@@ -89,29 +37,15 @@ export function useWebsiteUploadForm(onClose: () => void) {
     }
 
     try {
-      // Determine status based on user role - EXPLICIT logic
-      const websiteStatus = isAdmin ? 'approved' as const : 'pending' as const;
-      
-      console.log('🔧 Creating website with status:', websiteStatus, 'for admin user:', isAdmin);
-
-      const websiteData = {
-        title: data.title,
-        description: data.description,
-        category: data.category,
-        price: data.price,
-        preview_url: data.preview_url,
-        demo_url: data.demo_url || null,
-        thumbnail_url: thumbnailUrl,
-        tags: tags.length > 0 ? tags : null,
-        technologies: technologies.length > 0 ? technologies : null,
-        features: features.length > 0 ? features : null,
-        inclusions: inclusions.length > 0 ? inclusions : null,
-        status: websiteStatus, // Explicitly set status with proper typing
-        // Only set approved_at if admin
-        ...(isAdmin && { approved_at: new Date().toISOString() })
-      };
-
-      console.log('🔧 Final website data before submission:', websiteData);
+      const websiteData = prepareWebsiteData({
+        data,
+        thumbnailUrl,
+        tags: arrayFields.tags,
+        technologies: arrayFields.technologies,
+        features: arrayFields.features,
+        inclusions: arrayFields.inclusions,
+        isAdmin,
+      });
 
       await createWebsite.mutateAsync(websiteData);
 
@@ -142,31 +76,12 @@ export function useWebsiteUploadForm(onClose: () => void) {
     watch,
     onSubmit,
     
-    // State
-    tags,
-    tagInput,
-    setTagInput,
-    technologies,
-    techInput,
-    setTechInput,
-    features,
-    featureInput,
-    setFeatureInput,
-    inclusions,
-    inclusionInput,
-    setInclusionInput,
+    // Basic state
     thumbnailUrl,
     setThumbnailUrl,
     
-    // Handlers
-    addTag,
-    removeTag,
-    addTechnology,
-    removeTechnology,
-    addFeature,
-    removeFeature,
-    addInclusion,
-    removeInclusion,
+    // Array fields
+    ...arrayFields,
     
     // Loading state
     isSubmitting: createWebsite.isPending,
