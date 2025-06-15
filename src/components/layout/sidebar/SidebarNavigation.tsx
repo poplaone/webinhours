@@ -1,88 +1,72 @@
 
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
-  Settings
+  Store, 
+  User, 
+  Settings, 
+  Code, 
+  Bell,
+  InfoIcon,
+  Phone,
+  HelpCircle,
+  DollarSign,
+  BookOpen,
+  Workflow
 } from 'lucide-react';
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { useAuth } from '@/hooks/useAuth';
 
 interface SidebarNavigationProps {
-  isExpanded: boolean;
+  currentPath: string;
+  isAuthenticated: boolean;
 }
 
-const SidebarNavigation = ({ isExpanded }: SidebarNavigationProps) => {
+export const SidebarNavigation = ({ currentPath, isAuthenticated }: SidebarNavigationProps) => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { user } = useAuth();
 
-  const navItems = [
-    { 
-      icon: LayoutDashboard, 
-      label: 'Dashboard', 
-      path: '/dashboard',
-      active: location.pathname === '/dashboard',
-      description: 'View marketplace dashboard'
-    },
-    { 
-      icon: Settings, 
-      label: 'Settings', 
-      path: '/settings',
-      active: location.pathname === '/settings',
-      description: 'Manage your settings',
-      requireAuth: true
-    }
+  const publicNavItems = [
+    { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+    { path: '/marketplace', icon: Store, label: 'Marketplace' },
+    { path: '/about', icon: InfoIcon, label: 'About' },
+    { path: '/how-it-works', icon: Workflow, label: 'How It Works' },
+    { path: '/pricing', icon: DollarSign, label: 'Pricing' },
+    { path: '/blog', icon: BookOpen, label: 'Blog' },
+    { path: '/contact', icon: Phone, label: 'Contact' },
+    { path: '/faq', icon: HelpCircle, label: 'FAQ' },
   ];
 
-  const filteredItems = navItems.filter(item => {
-    if (item.requireAuth && !user) return false;
-    return true;
-  });
+  const authenticatedNavItems = [
+    { path: '/profile', icon: User, label: 'Profile' },
+    { path: '/settings', icon: Settings, label: 'Settings' },
+    { path: '/admin-panel', icon: Code, label: 'Upload Website' },
+    { path: '/notifications', icon: Bell, label: 'Notifications' },
+  ];
+
+  const navItems = isAuthenticated ? [...publicNavItems, ...authenticatedNavItems] : publicNavItems;
 
   return (
-    <nav className="flex flex-col py-4 flex-1 overflow-y-auto">
-      {filteredItems.map((item) => (
-        <TooltipProvider key={item.label}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant={item.active ? "secondary" : "ghost"}
-                className={cn(
-                  "mb-1 w-full justify-start relative overflow-hidden group",
-                  item.active && "bg-[#8B5CF6]/10 text-[#8B5CF6]",
-                  !isExpanded && "justify-center px-2",
-                  "text-white hover:bg-[#8B5CF6]/20 transition-all duration-200"
-                )}
-                onClick={() => navigate(item.path)}
-              >
-                <item.icon className="h-5 w-5 flex-shrink-0" />
-                <span className={cn(
-                  "ml-2 transition-all duration-300 whitespace-nowrap",
-                  isExpanded ? "opacity-100 translate-x-0 w-auto" : "opacity-0 -translate-x-4 w-0 pointer-events-none"
-                )}>
-                  {item.label}
-                </span>
-                
-                {/* Active indicator */}
-                {item.active && (
-                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#8B5CF6] rounded-r-full" />
-                )}
-              </Button>
-            </TooltipTrigger>
-            
-            {!isExpanded && (
-              <TooltipContent side="right" className="ml-2">
-                <p>{item.label}</p>
-              </TooltipContent>
-            )}
-          </Tooltip>
-        </TooltipProvider>
-      ))}
+    <nav className="p-4 space-y-1">
+      {navItems.map((item) => {
+        const Icon = item.icon;
+        const isActive = currentPath === item.path;
+        
+        return (
+          <Button
+            key={item.path}
+            variant={isActive ? "default" : "ghost"}
+            className={`w-full justify-start gap-3 ${
+              isActive 
+                ? "bg-[#8B5CF6] hover:bg-[#7C3AED] text-white" 
+                : "hover:bg-accent hover:text-accent-foreground"
+            }`}
+            onClick={() => navigate(item.path)}
+          >
+            <Icon className="h-4 w-4" />
+            {item.label}
+          </Button>
+        );
+      })}
     </nav>
   );
 };
-
-export default SidebarNavigation;

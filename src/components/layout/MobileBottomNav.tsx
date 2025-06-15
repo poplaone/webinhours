@@ -1,71 +1,77 @@
 
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 import { 
   LayoutDashboard, 
-  Settings,
-  User,
-  Sparkles
+  Store, 
+  User, 
+  Code, 
+  LogIn,
+  InfoIcon,
+  Phone,
+  HelpCircle
 } from 'lucide-react';
-import { cn } from "@/lib/utils";
-import { useAuth } from '@/hooks/useAuth';
+import { Button } from "@/components/ui/button";
 
-interface MobileBottomNavProps {
-  onOpenAIChat: () => void;
-}
-
-const MobileBottomNav = ({ onOpenAIChat }: MobileBottomNavProps) => {
+const MobileBottomNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
 
-  if (!user) return null;
+  // Hide on desktop
+  const isDesktop = window.innerWidth >= 1024;
+  if (isDesktop) return null;
 
-  const navItems = [
-    { 
-      icon: LayoutDashboard, 
-      label: 'Dashboard', 
-      path: '/dashboard',
-      active: location.pathname === '/dashboard'
-    },
-    { 
-      icon: User, 
-      label: 'Profile', 
-      path: '/profile',
-      active: location.pathname === '/profile'
-    },
-    { 
-      icon: Sparkles, 
-      label: 'AI Chat', 
-      action: onOpenAIChat,
-      active: false
-    },
-    { 
-      icon: Settings, 
-      label: 'Settings', 
-      path: '/settings',
-      active: location.pathname === '/settings'
-    }
+  const publicNavItems = [
+    { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+    { path: '/marketplace', icon: Store, label: 'Marketplace' },
+    { path: '/about', icon: InfoIcon, label: 'About' },
+    { path: '/contact', icon: Phone, label: 'Contact' },
+    { path: '/faq', icon: HelpCircle, label: 'FAQ' },
   ];
 
+  const authenticatedNavItems = [
+    { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+    { path: '/marketplace', icon: Store, label: 'Marketplace' },
+    { path: '/admin-panel', icon: Code, label: 'Upload' },
+    { path: '/profile', icon: User, label: 'Profile' },
+  ];
+
+  // Show login button if not authenticated
+  const authNavItems = [
+    { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+    { path: '/marketplace', icon: Store, label: 'Marketplace' },
+    { path: '/about', icon: InfoIcon, label: 'About' },
+    { path: '/auth', icon: LogIn, label: 'Login' },
+  ];
+
+  const navItems = user ? authenticatedNavItems : authNavItems;
+
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#121212] border-t border-[#1A1F2C] px-2 py-2">
-      <div className="flex justify-around items-center">
-        {navItems.map((item) => (
-          <button
-            key={item.label}
-            onClick={() => item.action ? item.action() : navigate(item.path!)}
-            className={cn(
-              "flex flex-col items-center justify-center p-2 rounded-lg transition-all duration-200 min-w-[60px]",
-              item.active 
-                ? "bg-[#8B5CF6]/20 text-[#8B5CF6]" 
-                : "text-gray-400 hover:bg-[#8B5CF6]/10 hover:text-[#8B5CF6]"
-            )}
-          >
-            <item.icon className="h-5 w-5" />
-            <span className="text-xs mt-1 font-medium">{item.label}</span>
-          </button>
-        ))}
+    <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border/40 z-50 lg:hidden">
+      <div className="flex items-center justify-around py-2 px-4">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = location.pathname === item.path;
+          
+          return (
+            <Button
+              key={item.path}
+              variant="ghost"
+              size="sm"
+              className={`flex flex-col items-center gap-1 h-auto py-2 px-3 ${
+                isActive 
+                  ? "text-[#8B5CF6]" 
+                  : "text-muted-foreground"
+              }`}
+              onClick={() => navigate(item.path)}
+            >
+              <Icon className="h-5 w-5" />
+              <span className="text-xs">{item.label}</span>
+            </Button>
+          );
+        })}
       </div>
     </div>
   );

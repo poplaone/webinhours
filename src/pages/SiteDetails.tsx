@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Eye, Download, Star, User, Calendar, Tag, Globe, Code2, Palette, Smartphone, Shield } from 'lucide-react';
@@ -6,14 +5,36 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/use-toast';
 import { useWebsites } from '@/hooks/useWebsites';
 
 const SiteDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const { toast } = useToast();
   
   const { data: websites = [] } = useWebsites({ includeAll: true });
   const site = websites.find(w => w.id === id);
+
+  const handlePurchase = () => {
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in to purchase this template.",
+        variant: "destructive",
+      });
+      navigate('/auth');
+      return;
+    }
+    
+    // Handle purchase logic here for authenticated users
+    toast({
+      title: "Purchase Initiated",
+      description: "Redirecting to payment...",
+    });
+  };
 
   if (!site) {
     return (
@@ -52,9 +73,12 @@ const SiteDetails = () => {
               <Eye className="h-4 w-4" />
               Preview
             </Button>
-            <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED] flex items-center gap-2">
+            <Button 
+              onClick={handlePurchase}
+              className="bg-[#8B5CF6] hover:bg-[#7C3AED] flex items-center gap-2"
+            >
               <Download className="h-4 w-4" />
-              Purchase ${site.price}
+              {site.price === 0 ? 'Download Free' : `Purchase $${site.price}`}
             </Button>
           </div>
         </div>
@@ -148,10 +172,18 @@ const SiteDetails = () => {
                   </Badge>
                 </div>
                 <Separator />
-                <Button className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED]">
+                <Button 
+                  className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED]"
+                  onClick={handlePurchase}
+                >
                   <Download className="mr-2 h-4 w-4" />
-                  Purchase Now
+                  {site.price === 0 ? 'Download Now' : 'Purchase Now'}
                 </Button>
+                {!user && (
+                  <p className="text-xs text-center text-muted-foreground mt-2">
+                    Sign in required to purchase
+                  </p>
+                )}
               </CardContent>
             </Card>
 
