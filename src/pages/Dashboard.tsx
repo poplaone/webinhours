@@ -101,7 +101,7 @@ const Dashboard = () => {
               {isLoading ? (
                 Array.from({ length: 6 }).map((_, i) => (
                   <Card key={i} className="animate-pulse">
-                    <div className="h-40 bg-gray-200 rounded-t-lg"></div>
+                    <div className="h-64 bg-gray-200 rounded-t-lg"></div>
                     <CardContent className="p-4">
                       <div className="h-4 bg-gray-200 rounded mb-2"></div>
                       <div className="h-3 bg-gray-200 rounded mb-4"></div>
@@ -129,9 +129,9 @@ const Dashboard = () => {
                     key={template.id} 
                     className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg transition-shadow group relative h-full"
                   >
-                    <div className="h-40 overflow-hidden relative">
+                    <div className="h-64 overflow-hidden relative">
                       <img 
-                        src={template.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=300&h=170&q=80"} 
+                        src={template.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=300&h=256&q=80"} 
                         alt={template.title} 
                         className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-300"
                       />
