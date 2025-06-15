@@ -24,11 +24,19 @@ const MobileBottomNav = () => {
   // Show only on mobile devices
   if (!isMobile) return null;
 
-  const publicNavItems = [
+  const isHomepage = location.pathname === '/';
+
+  // Homepage navigation items
+  const homepageNavItems = [
     { path: '/marketplace', icon: Store, label: 'Marketplace' },
     { path: '/about', icon: InfoIcon, label: 'About' },
     { path: '/contact', icon: Phone, label: 'Contact' },
     { path: '/faq', icon: HelpCircle, label: 'FAQ' },
+  ];
+
+  // Non-homepage navigation items (for marketplace and other pages)
+  const defaultNavItems = [
+    { path: '/marketplace', icon: Store, label: 'Marketplace' },
   ];
 
   const authenticatedNavItems = [
@@ -37,14 +45,19 @@ const MobileBottomNav = () => {
     { path: '/profile', icon: User, label: 'Profile' },
   ];
 
-  // Show login button if not authenticated
+  // Show login button if not authenticated (only on non-homepage)
   const authNavItems = [
     { path: '/marketplace', icon: Store, label: 'Marketplace' },
-    { path: '/about', icon: InfoIcon, label: 'About' },
     { path: '/auth', icon: LogIn, label: 'Login' },
   ];
 
-  const navItems = user ? authenticatedNavItems : authNavItems;
+  // Determine navigation items based on authentication and current page
+  let navItems;
+  if (isHomepage) {
+    navItems = user ? [...homepageNavItems, { path: '/profile', icon: User, label: 'Profile' }] : [...homepageNavItems, { path: '/auth', icon: LogIn, label: 'Login' }];
+  } else {
+    navItems = user ? authenticatedNavItems : authNavItems;
+  }
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border/40 z-50 lg:hidden">

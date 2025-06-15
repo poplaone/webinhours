@@ -25,14 +25,19 @@ interface SidebarNavigationProps {
 export const SidebarNavigation = ({ currentPath, isAuthenticated }: SidebarNavigationProps) => {
   const navigate = useNavigate();
 
-  const publicNavItems = [
-    { path: '/marketplace', icon: Store, label: 'Marketplace' },
+  // Show these links only on homepage
+  const homepageOnlyItems = [
     { path: '/about', icon: InfoIcon, label: 'About' },
     { path: '/how-it-works', icon: Workflow, label: 'How It Works' },
     { path: '/pricing', icon: DollarSign, label: 'Pricing' },
     { path: '/blog', icon: BookOpen, label: 'Blog' },
     { path: '/contact', icon: Phone, label: 'Contact' },
     { path: '/faq', icon: HelpCircle, label: 'FAQ' },
+  ];
+
+  // Always show marketplace
+  const commonNavItems = [
+    { path: '/marketplace', icon: Store, label: 'Marketplace' },
   ];
 
   const authenticatedNavItems = [
@@ -42,6 +47,10 @@ export const SidebarNavigation = ({ currentPath, isAuthenticated }: SidebarNavig
     { path: '/notifications', icon: Bell, label: 'Notifications' },
   ];
 
+  // Determine which items to show based on current path
+  const isHomepage = currentPath === '/';
+  const publicNavItems = isHomepage ? [...commonNavItems, ...homepageOnlyItems] : commonNavItems;
+  
   const navItems = isAuthenticated ? [...publicNavItems, ...authenticatedNavItems] : publicNavItems;
 
   return (
