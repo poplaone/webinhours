@@ -55,10 +55,10 @@ export function DashboardHeader({
 }: DashboardHeaderProps) {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center gap-4">
-        {/* Search Bar - spans most of the width */}
-        <div className="flex-1 flex items-center gap-4">
-          <div className="relative flex-1 max-w-2xl">
+      <div className="container flex h-16 items-center justify-between gap-4">
+        {/* Search Bar on the left */}
+        <div className="flex-1 max-w-md">
+          <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search templates..."
@@ -67,7 +67,10 @@ export function DashboardHeader({
               className="pl-10 h-10"
             />
           </div>
-          
+        </div>
+        
+        {/* Right side - Template count, refresh, and filters */}
+        <div className="flex items-center gap-4">
           {/* Template count and refresh button */}
           <div className="flex items-center gap-3 whitespace-nowrap">
             <p className="text-sm text-blue-600">
@@ -83,10 +86,8 @@ export function DashboardHeader({
               <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
             </Button>
           </div>
-        </div>
-        
-        {/* Category Filter and Price Filter */}
-        <div className="flex items-center gap-4">
+
+          {/* Category Filter */}
           <Select value={selectedCategory} onValueChange={onCategoryChange}>
             <SelectTrigger className="w-48">
               <SelectValue placeholder="Select category" />
