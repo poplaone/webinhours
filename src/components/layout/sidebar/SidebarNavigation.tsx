@@ -15,6 +15,7 @@ import {
   Workflow
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { useIsAdmin } from '@/hooks/useAdmin';
 
 interface SidebarNavigationProps {
   currentPath: string;
@@ -23,6 +24,7 @@ interface SidebarNavigationProps {
 
 export const SidebarNavigation = ({ currentPath, isAuthenticated }: SidebarNavigationProps) => {
   const navigate = useNavigate();
+  const isAdmin = useIsAdmin();
 
   // Show these links only on homepage
   const homepageOnlyItems = [
@@ -41,7 +43,12 @@ export const SidebarNavigation = ({ currentPath, isAuthenticated }: SidebarNavig
 
   const authenticatedNavItems = [
     { path: '/profile', icon: User, label: 'Profile' },
-    { path: '/admin-panel', icon: Code, label: 'Upload Website' },
+    // Show different label based on admin status
+    { 
+      path: '/admin-panel', 
+      icon: Code, 
+      label: isAdmin ? 'Admin Panel' : 'My Dashboard'
+    },
     { path: '/notifications', icon: Bell, label: 'Notifications' },
   ];
 

@@ -24,21 +24,24 @@ export function AdminPanelHeader({
           {isAdmin ? 'Admin Panel' : 'My Dashboard'}
         </h1>
         <p className="text-muted-foreground mt-2">
-          {isAdmin ? 'Manage website templates and marketplace' : 'Manage your uploaded websites'}
+          {isAdmin ? 'Manage website templates and marketplace' : 'View your uploaded websites'}
         </p>
       </div>
       
-      <Dialog open={showUploadDialog} onOpenChange={setShowUploadDialog}>
-        <DialogTrigger asChild>
-          <Button className="bg-[#8B5CF6] hover:bg-[#8B5CF6]/90">
-            <Plus className="mr-2 h-4 w-4" />
-            Upload Website
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-          <WebsiteUploadForm onClose={() => setShowUploadDialog(false)} />
-        </DialogContent>
-      </Dialog>
+      {/* Only show upload button for admin users */}
+      {isAdmin && (
+        <Dialog open={showUploadDialog} onOpenChange={setShowUploadDialog}>
+          <DialogTrigger asChild>
+            <Button className="bg-[#8B5CF6] hover:bg-[#8B5CF6]/90">
+              <Plus className="mr-2 h-4 w-4" />
+              Upload Website
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <WebsiteUploadForm onClose={() => setShowUploadDialog(false)} />
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }

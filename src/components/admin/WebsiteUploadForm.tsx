@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Upload } from 'lucide-react';
+import { Upload, AlertTriangle } from 'lucide-react';
 import { BasicInfoSection } from './upload-form/BasicInfoSection';
 import { URLSection } from './upload-form/URLSection';
 import { TagsSection } from './upload-form/TagsSection';
@@ -55,6 +55,25 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
 
   console.log('🔧 WebsiteUploadForm - User is admin:', isAdmin);
 
+  // If user is not admin, show access denied message
+  if (!isAdmin) {
+    return (
+      <Card className="w-full max-w-4xl mx-auto">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-red-600">
+            <AlertTriangle className="h-5 w-5" />
+            Access Denied
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground">
+            Only administrators can upload website templates to the marketplace.
+          </p>
+        </CardContent>
+      </Card>
+    );
+  }
+
   const isFormValid = tags.length > 0 && !!thumbnailUrl;
 
   return (
@@ -63,11 +82,9 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
         <CardTitle className="flex items-center gap-2">
           <Upload className="h-5 w-5" />
           Upload Website Template
-          {isAdmin && (
-            <Badge className="bg-purple-100 text-purple-800">
-              Admin - Auto Approve
-            </Badge>
-          )}
+          <Badge className="bg-purple-100 text-purple-800">
+            Admin - Auto Approve
+          </Badge>
         </CardTitle>
       </CardHeader>
       <CardContent>
