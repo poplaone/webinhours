@@ -16,12 +16,12 @@ export const useWebsites = (filters?: WebsiteFilters) => {
         .from('websites')
         .select('*');
 
-      if (filters?.category) {
+      if (filters?.category && filters.category !== 'all') {
         query = query.eq('category', filters.category);
       }
 
       // Admin can see all websites, regular users only see approved/featured
-      if (filters?.status) {
+      if (filters?.status && filters.status !== 'all') {
         query = query.eq('status', filters.status);
       } else if (!filters?.includeAll) {
         // For marketplace/dashboard, show approved and featured websites
@@ -42,7 +42,7 @@ export const useWebsites = (filters?: WebsiteFilters) => {
         query = query.overlaps('tags', filters.tags);
       }
 
-      if (filters?.search) {
+      if (filters?.search && filters.search.trim()) {
         query = query.or(`title.ilike.%${filters.search}%,description.ilike.%${filters.search}%`);
       }
 
