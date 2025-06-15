@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Code } from 'lucide-react';
@@ -64,19 +65,22 @@ const Dashboard = () => {
       <SideNavbar />
       
       <div className="flex-1 flex flex-col overflow-hidden">
-        <DashboardHeader searchValue={searchValue} onSearchChange={setSearchValue} selectedCategory={selectedCategory} onCategoryChange={setSelectedCategory} priceRange={priceRange} onPriceRangeChange={setPriceRange} />
+        <DashboardHeader 
+          searchValue={searchValue} 
+          onSearchChange={setSearchValue} 
+          selectedCategory={selectedCategory} 
+          onCategoryChange={setSelectedCategory} 
+          priceRange={priceRange} 
+          onPriceRangeChange={setPriceRange}
+          templateCount={filteredTemplates.length}
+          onRefresh={refetch}
+          isLoading={isLoading}
+        />
 
         <main className="flex-1 overflow-y-auto p-3 md:p-6 lg:container pb-20 md:pb-6">
           <div className="flex flex-col gap-3 md:gap-4 mb-4 md:mb-6">
             <div>
-              
-              
-              <div className="flex items-center gap-2 mt-2">
-                <p className="text-sm text-blue-600">
-                  Showing {filteredTemplates.length} templates
-                </p>
-                {selectedTag && <div className="flex items-center gap-2">
-                    <span className="text-sm text-muted-foreground">•</span>
+              {selectedTag && <div className="flex items-center gap-2 mt-2">
                     <span className="text-sm bg-[#8B5CF6]/10 text-[#8B5CF6] px-2 py-1 rounded-full">
                       Tag: {selectedTag}
                     </span>
@@ -84,13 +88,6 @@ const Dashboard = () => {
                       Clear
                     </Button>
                   </div>}
-              </div>
-            </div>
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-              <Button variant="outline" onClick={() => refetch()} disabled={isLoading} size="sm" className="w-full sm:w-auto">
-                {isLoading ? 'Refreshing...' : 'Refresh'}
-              </Button>
-              
             </div>
           </div>
 

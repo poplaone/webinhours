@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Search, Filter } from 'lucide-react';
+import { Search, Filter, RefreshCw } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { 
@@ -24,6 +24,9 @@ interface DashboardHeaderProps {
   onCategoryChange?: (category: string) => void;
   priceRange?: [number, number];
   onPriceRangeChange?: (range: [number, number]) => void;
+  templateCount?: number;
+  onRefresh?: () => void;
+  isLoading?: boolean;
 }
 
 const categories = [
@@ -42,12 +45,15 @@ export function DashboardHeader({
   selectedCategory = "all",
   onCategoryChange,
   priceRange = [0, 500],
-  onPriceRangeChange
+  onPriceRangeChange,
+  templateCount = 0,
+  onRefresh,
+  isLoading = false
 }: DashboardHeaderProps) {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
+      <div className="container flex h-16 items-center justify-between gap-4">
         <div className="flex-1 items-center justify-center px-4">
           <div className="w-full max-w-sm relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -59,6 +65,23 @@ export function DashboardHeader({
               onChange={(e) => onSearchChange?.(e.target.value)}
             />
           </div>
+        </div>
+        
+        {/* Template count and refresh button */}
+        <div className="flex items-center gap-3">
+          <p className="text-sm text-blue-600 whitespace-nowrap">
+            Showing {templateCount} templates
+          </p>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={onRefresh} 
+            disabled={isLoading}
+            className="flex items-center gap-2"
+          >
+            <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+            {isLoading ? 'Refreshing...' : 'Refresh'}
+          </Button>
         </div>
         
         <div className="flex items-center gap-4">
