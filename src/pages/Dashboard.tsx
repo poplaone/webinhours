@@ -127,7 +127,7 @@ const Dashboard = () => {
           isLoading={isLoading}
         />
 
-        <main className="flex-1 overflow-hidden p-3 md:p-6 lg:container pb-20 md:pb-6">
+        <main className="flex-1 overflow-hidden p-3 md:p-6 lg:p-8 xl:p-10 pb-20 md:pb-6">
           <div className="flex flex-col gap-3 md:gap-4 mb-4 md:mb-6">
             <div>
               {selectedTag && (
@@ -143,8 +143,10 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-6 h-full">
-            <div className="lg:col-span-3 overflow-hidden">
+          {/* Responsive grid layout optimized for larger screens */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 md:gap-6 lg:gap-8 h-full">
+            {/* Main content area - takes up more space on larger screens */}
+            <div className="lg:col-span-2 xl:col-span-3 2xl:col-span-4 overflow-hidden">
               <ScrollArea className="h-full">
                 <div className="pr-4">
                   <TemplateGrid 
@@ -157,8 +159,8 @@ const Dashboard = () => {
               </ScrollArea>
             </div>
             
-            {/* Fixed sidebar content on lg+ */}
-            <div className="hidden lg:block lg:col-span-1 space-y-4">
+            {/* Fixed sidebar content - responsive width */}
+            <div className="hidden lg:block lg:col-span-1 xl:col-span-1 2xl:col-span-1 space-y-4 lg:space-y-6">
               <InsightsSidebar />
               <CategoryCards websiteCount={websites.length} />
             </div>
