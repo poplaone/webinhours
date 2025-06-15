@@ -10,6 +10,7 @@ import {
 import { useWebsites, useUserWebsites, useUpdateWebsite, useDeleteWebsite, useIsAdmin } from '@/hooks/useWebsites';
 import { useAuth } from '@/hooks/useAuth';
 import { WebsiteUploadForm } from '@/components/admin/WebsiteUploadForm';
+import { WebsiteEditForm } from '@/components/admin/WebsiteEditForm';
 import { WebsiteReviewModal } from '@/components/admin/WebsiteReviewModal';
 import { AdminStats } from '@/components/admin/AdminStats';
 import { AdminFilters } from '@/components/admin/AdminFilters';
@@ -25,8 +26,10 @@ const AdminPanel = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [showUploadDialog, setShowUploadDialog] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
   const [activeTab, setActiveTab] = useState(isAdmin ? 'review' : 'my-websites');
   const [reviewingWebsite, setReviewingWebsite] = useState(null);
+  const [editingWebsite, setEditingWebsite] = useState(null);
 
   const { toast } = useToast();
   const updateWebsite = useUpdateWebsite();
@@ -54,12 +57,12 @@ const AdminPanel = () => {
   }, [activeTab, refetchAllWebsites, refetchUserWebsites]);
 
   React.useEffect(() => {
-    if (!showUploadDialog) {
-      // Refresh data when upload dialog closes
+    if (!showUploadDialog && !showEditDialog) {
+      // Refresh data when dialogs close
       refetchAllWebsites();
       refetchUserWebsites();
     }
-  }, [showUploadDialog, refetchAllWebsites, refetchUserWebsites]);
+  }, [showUploadDialog, showEditDialog, refetchAllWebsites, refetchUserWebsites]);
 
   const handleWebsiteUpdate = async (websiteId: string, updates: any) => {
     try {
@@ -120,6 +123,11 @@ const AdminPanel = () => {
         });
       }
     }
+  };
+
+  const handleEditWebsite = (website: any) => {
+    setEditingWebsite(website);
+    setShowEditDialog(true);
   };
 
   const getStatusColor = (status: string) => {
@@ -203,6 +211,7 @@ const AdminPanel = () => {
               websites={allWebsites}
               isLoading={allWebsitesLoading}
               onReviewWebsite={setReviewingWebsite}
+              onEditWebsite={handleEditWebsite}
               onDeleteWebsite={handleDelete}
               formatPrice={formatPrice}
               getStatusColor={getStatusColor}
@@ -214,6 +223,7 @@ const AdminPanel = () => {
         <TabsContent value="my-websites" className="space-y-6">
           <MyWebsitesTable
             websites={userWebsites}
+            onEditWebsite={handleEditWebsite}
             onDeleteWebsite={handleDelete}
             formatPrice={formatPrice}
             getStatusColor={getStatusColor}
@@ -239,6 +249,22 @@ const AdminPanel = () => {
         onClose={() => setReviewingWebsite(null)}
         onUpdate={handleWebsiteUpdate}
       />
+
+      {/* Edit Modal */}
+      <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          {editingWebsite && (
+            <WebsiteEditForm
+              website={editingWebsite}
+              onClose={() => {
+                setShowEditDialog(false);
+                setEditingWebsite(null);
+              }}
+              onUpdate={handleWebsiteUpdate}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

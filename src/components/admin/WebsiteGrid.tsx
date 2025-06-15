@@ -10,6 +10,7 @@ interface WebsiteGridProps {
   websites: Website[];
   isLoading: boolean;
   onReviewWebsite: (website: Website) => void;
+  onEditWebsite: (website: Website) => void;
   onDeleteWebsite: (websiteId: string) => void;
   formatPrice: (price: number) => string;
   getStatusColor: (status: string) => string;
@@ -19,6 +20,7 @@ export function WebsiteGrid({
   websites,
   isLoading,
   onReviewWebsite,
+  onEditWebsite,
   onDeleteWebsite,
   formatPrice,
   getStatusColor
@@ -88,10 +90,17 @@ export function WebsiteGrid({
               <Button 
                 size="sm" 
                 variant="outline"
-                onClick={() => onReviewWebsite(website)}
+                onClick={() => onEditWebsite(website)}
               >
                 <Edit className="h-4 w-4 mr-1" />
                 Edit
+              </Button>
+              <Button 
+                size="sm" 
+                variant="outline"
+                onClick={() => onReviewWebsite(website)}
+              >
+                Review
               </Button>
               <Button 
                 size="sm" 

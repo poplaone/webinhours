@@ -4,11 +4,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Edit, Trash, RefreshCw } from 'lucide-react';
+import { Edit, Trash } from 'lucide-react';
 import { Website } from '@/hooks/useWebsites';
 
 interface MyWebsitesTableProps {
   websites: Website[];
+  onEditWebsite: (website: Website) => void;
   onDeleteWebsite: (websiteId: string) => void;
   formatPrice: (price: number) => string;
   getStatusColor: (status: string) => string;
@@ -16,6 +17,7 @@ interface MyWebsitesTableProps {
 
 export function MyWebsitesTable({
   websites,
+  onEditWebsite,
   onDeleteWebsite,
   formatPrice,
   getStatusColor
@@ -69,7 +71,11 @@ export function MyWebsitesTable({
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-2">
-                      <Button size="sm" variant="outline">
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => onEditWebsite(website)}
+                      >
                         <Edit className="h-4 w-4" />
                       </Button>
                       <Button 
