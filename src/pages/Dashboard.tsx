@@ -73,37 +73,43 @@ const Dashboard = () => {
           onPriceRangeChange={setPriceRange}
         />
 
-        <main className="flex-1 overflow-y-auto p-6 lg:container">
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+        <main className="flex-1 overflow-y-auto p-3 md:p-6 lg:container pb-20 md:pb-6">
+          <div className="flex flex-col gap-3 md:gap-4 mb-4 md:mb-6">
             <div>
-              <h1 className="text-3xl font-bold">Website Templates Marketplace</h1>
-              <p className="text-muted-foreground mt-1">Professional website templates ready to buy and customize for your business</p>
+              <h1 className="text-2xl md:text-3xl font-bold">Website Templates Marketplace</h1>
+              <p className="text-muted-foreground mt-1 text-sm md:text-base">Professional website templates ready to buy and customize for your business</p>
               <p className="text-sm text-blue-600 mt-2">
                 Showing {filteredTemplates.length} templates
               </p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
               <Button 
                 variant="outline" 
                 onClick={() => refetch()}
                 disabled={isLoading}
+                size="sm"
+                className="w-full sm:w-auto"
               >
                 {isLoading ? 'Refreshing...' : 'Refresh'}
               </Button>
-              <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]" onClick={() => navigate('/admin-panel')}>
+              <Button 
+                className="bg-[#8B5CF6] hover:bg-[#7C3AED] w-full sm:w-auto" 
+                onClick={() => navigate('/admin-panel')}
+                size="sm"
+              >
                 <Code className="mr-2 h-4 w-4" />
                 Upload Website
               </Button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
               {isLoading ? (
                 Array.from({ length: 6 }).map((_, i) => (
                   <Card key={i} className="animate-pulse">
-                    <div className="h-64 bg-gray-200 rounded-t-lg"></div>
-                    <CardContent className="p-4">
+                    <div className="h-48 md:h-64 bg-gray-200 rounded-t-lg"></div>
+                    <CardContent className="p-3 md:p-4">
                       <div className="h-4 bg-gray-200 rounded mb-2"></div>
                       <div className="h-3 bg-gray-200 rounded mb-4"></div>
                       <div className="flex justify-between">
@@ -114,12 +120,13 @@ const Dashboard = () => {
                   </Card>
                 ))
               ) : filteredTemplates.length === 0 ? (
-                <div className="col-span-full text-center py-12">
-                  <p className="text-xl text-muted-foreground mb-4">No templates found</p>
-                  <p className="text-muted-foreground">Upload your first website template to get started</p>
+                <div className="col-span-full text-center py-8 md:py-12">
+                  <p className="text-lg md:text-xl text-muted-foreground mb-4">No templates found</p>
+                  <p className="text-muted-foreground text-sm md:text-base">Upload your first website template to get started</p>
                   <Button 
                     className="mt-4 bg-[#8B5CF6] hover:bg-[#7C3AED]"
                     onClick={() => navigate('/admin-panel')}
+                    size="sm"
                   >
                     Upload Website
                   </Button>
@@ -131,7 +138,7 @@ const Dashboard = () => {
                     className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg transition-shadow group relative h-full cursor-pointer"
                     onClick={() => viewTemplateDetail(template.id)}
                   >
-                    <div className="h-64 overflow-hidden relative">
+                    <div className="h-48 md:h-64 overflow-hidden relative">
                       <img 
                         src={template.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=300&h=256&q=80"} 
                         alt={template.title} 
@@ -142,7 +149,7 @@ const Dashboard = () => {
                           {template.is_featured ? "Featured" : template.status === 'approved' ? "Approved" : template.status}
                         </span>
                       </div>
-                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 md:gap-3">
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger asChild>
@@ -155,8 +162,8 @@ const Dashboard = () => {
                                 className="bg-white/20 text-white backdrop-blur-sm hover:bg-white/30"
                                 size="sm"
                               >
-                                <Eye className="mr-2 h-4 w-4" />
-                                Preview
+                                <Eye className="mr-1 md:mr-2 h-4 w-4" />
+                                <span className="hidden sm:inline">Preview</span>
                               </Button>
                             </TooltipTrigger>
                             <TooltipContent>
@@ -176,8 +183,8 @@ const Dashboard = () => {
                                 className="bg-[#8B5CF6]/80 text-white backdrop-blur-sm hover:bg-[#8B5CF6]"
                                 size="sm"
                               >
-                                <ShoppingCart className="mr-2 h-4 w-4" />
-                                Buy
+                                <ShoppingCart className="mr-1 md:mr-2 h-4 w-4" />
+                                <span className="hidden sm:inline">Buy</span>
                               </Button>
                             </TooltipTrigger>
                             <TooltipContent>
@@ -188,51 +195,51 @@ const Dashboard = () => {
                       </div>
                     </div>
                     
-                    <CardContent className="p-3 flex flex-col flex-grow">
+                    <CardContent className="p-2 md:p-3 flex flex-col flex-grow">
                       <div className="flex justify-between items-start mb-2">
-                        <h3 className="font-semibold text-lg cursor-pointer hover:text-[#8B5CF6] transition-colors" onClick={() => viewTemplateDetail(template.id)}>{template.title}</h3>
-                        <div className="flex items-center gap-1 text-[#8B5CF6] font-bold">
-                          <DollarSign className="h-4 w-4" />
+                        <h3 className="font-semibold text-base md:text-lg cursor-pointer hover:text-[#8B5CF6] transition-colors line-clamp-1" onClick={() => viewTemplateDetail(template.id)}>{template.title}</h3>
+                        <div className="flex items-center gap-1 text-[#8B5CF6] font-bold text-sm md:text-base">
+                          <DollarSign className="h-3 w-3 md:h-4 md:w-4" />
                           <span>{Number(template.price) === 0 ? 'Free' : Number(template.price)}</span>
                         </div>
                       </div>
-                      <p className="text-sm text-muted-foreground mb-2 line-clamp-2">{template.description || "No description available"}</p>
+                      <p className="text-xs md:text-sm text-muted-foreground mb-2 line-clamp-2">{template.description || "No description available"}</p>
                       
-                      <div className="grid grid-cols-3 gap-2 text-xs border-t border-border/40 pt-2 mb-2">
-                        <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
+                      <div className="grid grid-cols-3 gap-1 md:gap-2 text-xs border-t border-border/40 pt-2 mb-2">
+                        <div className="flex flex-col bg-[#8B5CF6]/5 p-1 md:p-2 rounded-md">
                           <div className="flex items-center gap-1 text-muted-foreground mb-1">
-                            <TrendingUp className="h-3 w-3 text-[#8B5CF6]" />
-                            <span>Sales</span>
+                            <TrendingUp className="h-2 w-2 md:h-3 md:w-3 text-[#8B5CF6]" />
+                            <span className="text-xs">Sales</span>
                           </div>
-                          <div className="font-medium text-sm text-emerald-500">
-                            {template.downloads_count || 0} sold
+                          <div className="font-medium text-xs md:text-sm text-emerald-500">
+                            {template.downloads_count || 0}
                           </div>
                         </div>
                         
-                        <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
+                        <div className="flex flex-col bg-[#8B5CF6]/5 p-1 md:p-2 rounded-md">
                           <div className="flex items-center gap-1 text-muted-foreground mb-1">
-                            <Users className="h-3 w-3 text-[#8B5CF6]" />
-                            <span>Rating</span>
+                            <Users className="h-2 w-2 md:h-3 md:w-3 text-[#8B5CF6]" />
+                            <span className="text-xs">Rating</span>
                           </div>
-                          <div className="font-medium text-sm">
+                          <div className="font-medium text-xs md:text-sm">
                             ⭐ {template.rating_average?.toFixed(1) || '0.0'}
                           </div>
                         </div>
                         
-                        <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
+                        <div className="flex flex-col bg-[#8B5CF6]/5 p-1 md:p-2 rounded-md">
                           <div className="flex items-center gap-1 text-muted-foreground mb-1">
-                            <Radio className="h-3 w-3 text-[#8B5CF6]" />
-                            <span>Views</span>
+                            <Radio className="h-2 w-2 md:h-3 md:w-3 text-[#8B5CF6]" />
+                            <span className="text-xs">Views</span>
                           </div>
-                          <div className="font-medium text-sm text-emerald-500">
+                          <div className="font-medium text-xs md:text-sm text-emerald-500">
                             {template.views_count || 0}
                           </div>
                         </div>
                       </div>
                       
-                      <div className="flex flex-wrap gap-2">
-                        {template.tags?.slice(0, 3).map((tag, index) => (
-                          <span key={index} className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-2 py-1 rounded-full">
+                      <div className="flex flex-wrap gap-1">
+                        {template.tags?.slice(0, 2).map((tag, index) => (
+                          <span key={index} className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-1 md:px-2 py-1 rounded-full">
                             {tag}
                           </span>
                         ))}
@@ -243,7 +250,8 @@ const Dashboard = () => {
               )}
             </div>
             
-            <div className="lg:col-span-1">
+            {/* Hide sidebar content on mobile, show only on lg+ */}
+            <div className="hidden lg:block lg:col-span-1">
               <Card className="border border-border/40 bg-card/50 backdrop-blur h-fit">
                 <div className="p-4 border-b border-border/40 flex items-center gap-2">
                   <Brain className="h-5 w-5 text-[#8B5CF6]" />
@@ -306,30 +314,30 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="mt-6">
-            <Card className="p-4 border border-border/40 bg-card/50 backdrop-blur">
-              <h2 className="text-xl font-semibold mb-3">Template Categories</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="mt-4 md:mt-6">
+            <Card className="p-3 md:p-4 border border-border/40 bg-card/50 backdrop-blur">
+              <h2 className="text-lg md:text-xl font-semibold mb-3">Template Categories</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
                 <div className="p-3 bg-background rounded-lg border border-border/60">
                   <div className="flex justify-between items-center mb-2">
-                    <h3 className="font-medium">Ready-to-Use Templates</h3>
+                    <h3 className="font-medium text-sm md:text-base">Ready-to-Use Templates</h3>
                     <span className="text-xs font-medium px-2 py-1 rounded-full bg-[#8B5CF6] text-white">{websites.length}+ Available</span>
                   </div>
-                  <p className="text-sm text-muted-foreground">Pre-built websites ready for immediate deployment and customization</p>
+                  <p className="text-xs md:text-sm text-muted-foreground">Pre-built websites ready for immediate deployment and customization</p>
                 </div>
                 <div className="p-3 bg-background rounded-lg border border-border/60">
                   <div className="flex justify-between items-center mb-2">
-                    <h3 className="font-medium">Custom Development</h3>
+                    <h3 className="font-medium text-sm md:text-base">Custom Development</h3>
                     <span className="text-xs font-medium px-2 py-1 rounded-full bg-emerald-500 text-white">24-48h Delivery</span>
                   </div>
-                  <p className="text-sm text-muted-foreground">Bespoke websites built according to your specific requirements</p>
+                  <p className="text-xs md:text-sm text-muted-foreground">Bespoke websites built according to your specific requirements</p>
                 </div>
                 <div className="p-3 bg-background rounded-lg border border-border/60">
                   <div className="flex justify-between items-center mb-2">
-                    <h3 className="font-medium">Premium Support</h3>
+                    <h3 className="font-medium text-sm md:text-base">Premium Support</h3>
                     <span className="text-xs font-medium px-2 py-1 rounded-full bg-amber-500 text-white">Included</span>
                   </div>
-                  <p className="text-sm text-muted-foreground">30-day support and customization assistance with every purchase</p>
+                  <p className="text-xs md:text-sm text-muted-foreground">30-day support and customization assistance with every purchase</p>
                 </div>
               </div>
             </Card>

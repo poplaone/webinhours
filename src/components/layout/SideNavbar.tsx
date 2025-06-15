@@ -6,6 +6,7 @@ import SidebarLogo from './sidebar/SidebarLogo';
 import SidebarNavigation from './sidebar/SidebarNavigation';
 import SidebarActions from './sidebar/SidebarActions';
 import AIChatSidebar from './sidebar/AIChatSidebar';
+import MobileBottomNav from './MobileBottomNav';
 
 const SideNavbar = () => {
   const { user } = useAuth();
@@ -25,37 +26,61 @@ const SideNavbar = () => {
     setIsAIChatMaximized(!isAIChatMaximized);
   };
 
+  const handleOpenAIChat = () => {
+    setIsAIChatOpen(true);
+  };
+
   return (
-    <div className="h-screen flex">
-      <div 
-        className={cn(
-          "h-full transition-all duration-300 ease-out flex flex-col bg-[#121212] border-r border-[#1A1F2C] z-20 relative",
-          isExpanded ? "w-72" : "w-16"
+    <>
+      {/* Desktop Sidebar - hidden on mobile */}
+      <div className="h-screen hidden md:flex">
+        <div 
+          className={cn(
+            "h-full transition-all duration-300 ease-out flex flex-col bg-[#121212] border-r border-[#1A1F2C] z-20 relative",
+            isExpanded ? "w-72" : "w-16"
+          )}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <SidebarLogo isExpanded={isExpanded} />
+          <SidebarNavigation isExpanded={isExpanded} />
+          <SidebarActions 
+            isExpanded={isExpanded}
+            isAIChatOpen={isAIChatOpen}
+            onOpenAIChat={handleOpenAIChat}
+          />
+        </div>
+
+        {/* Only show AI Chat if user is authenticated */}
+        {user && (
+          <AIChatSidebar
+            isExpanded={isExpanded}
+            isAIChatOpen={isAIChatOpen}
+            isAIChatMaximized={isAIChatMaximized}
+            onToggleMaximize={toggleAIChatMaximize}
+            onClose={() => setIsAIChatOpen(false)}
+            setIsAIChatMaximized={setIsAIChatMaximized}
+          />
         )}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        <SidebarLogo isExpanded={isExpanded} />
-        <SidebarNavigation isExpanded={isExpanded} />
-        <SidebarActions 
-          isExpanded={isExpanded}
-          isAIChatOpen={isAIChatOpen}
-          onOpenAIChat={() => setIsAIChatOpen(true)}
-        />
       </div>
 
-      {/* Only show AI Chat if user is authenticated */}
+      {/* Mobile Bottom Navigation */}
+      <MobileBottomNav onOpenAIChat={handleOpenAIChat} />
+
+      {/* Mobile AI Chat Sidebar */}
       {user && (
-        <AIChatSidebar
-          isExpanded={isExpanded}
-          isAIChatOpen={isAIChatOpen}
-          isAIChatMaximized={isAIChatMaximized}
-          onToggleMaximize={toggleAIChatMaximize}
-          onClose={() => setIsAIChatOpen(false)}
-          setIsAIChatMaximized={setIsAIChatMaximized}
-        />
+        <div className="md:hidden">
+          <AIChatSidebar
+            isExpanded={false}
+            isAIChatOpen={isAIChatOpen}
+            isAIChatMaximized={isAIChatMaximized}
+            onToggleMaximize={toggleAIChatMaximize}
+            onClose={() => setIsAIChatOpen(false)}
+            setIsAIChatMaximized={setIsAIChatMaximized}
+          />
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
