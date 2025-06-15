@@ -1,22 +1,13 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, LayoutGroup } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { TextRotate } from "@/components/ui/text-rotate";
 
 export const Hero = () => {
   const navigate = useNavigate();
-  const [currentText, setCurrentText] = useState(0);
-  const texts = ["In Hours", "Not Weeks"];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentText((prev) => (prev + 1) % texts.length);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <section className="py-20 px-4 relative z-10">
@@ -26,46 +17,35 @@ export const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <motion.h1 
-            className="text-5xl md:text-7xl font-bold mb-6"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
-          >
-            Web Development
-            <div className="text-gradient-blue block h-20 md:h-24 flex items-center justify-center">
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={currentText}
-                  initial={{ 
-                    opacity: 0, 
-                    rotateX: -90,
-                    scale: 0.8
-                  }}
-                  animate={{ 
-                    opacity: 1, 
-                    rotateX: 0,
-                    scale: 1
-                  }}
-                  exit={{ 
-                    opacity: 0, 
-                    rotateX: 90,
-                    scale: 0.8
-                  }}
-                  transition={{ 
-                    duration: 0.6,
-                    ease: "easeInOut"
-                  }}
-                  style={{
-                    transformStyle: "preserve-3d",
-                    transformOrigin: "center center"
-                  }}
-                >
-                  {texts[currentText]}
-                </motion.span>
-              </AnimatePresence>
-            </div>
-          </motion.h1>
+          <LayoutGroup>
+            <motion.h1 
+              className="text-5xl md:text-7xl font-bold mb-6 flex items-center justify-center whitespace-pre"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.2 }}
+              layout
+            >
+              <motion.span
+                className="pt-0.5 sm:pt-1 md:pt-2"
+                layout
+                transition={{ type: "spring", damping: 30, stiffness: 400 }}
+              >
+                Web Development{" "}
+              </motion.span>
+              <TextRotate
+                texts={["In Hours", "Not Weeks", "work!", "fancy ✽", "right", "fast", "fun", "rock"]}
+                mainClassName="text-white px-2 sm:px-2 md:px-3 bg-[#8B5CF6] overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-lg"
+                staggerFrom="last"
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                exit={{ y: "-120%" }}
+                staggerDuration={0.025}
+                splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
+                transition={{ type: "spring", damping: 30, stiffness: 400 }}
+                rotationInterval={2000}
+              />
+            </motion.h1>
+          </LayoutGroup>
           
           <motion.p 
             className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto"
