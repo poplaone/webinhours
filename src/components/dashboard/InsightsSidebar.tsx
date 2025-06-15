@@ -1,15 +1,11 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Brain, TrendingUp, BarChart3, BookOpen, Code, DollarSign } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-
 export const InsightsSidebar = () => {
   const navigate = useNavigate();
-
-  return (
-    <Card className="border border-border/40 bg-card/50 backdrop-blur h-fit">
+  return <Card className="border border-border/40 bg-card/50 backdrop-blur h-fit">
       <div className="p-4 border-b border-border/40 flex items-center gap-2">
         <Brain className="h-5 w-5 text-[#8B5CF6]" />
         <h3 className="font-semibold">Marketplace Insights</h3>
@@ -33,20 +29,7 @@ export const InsightsSidebar = () => {
             <p className="text-xs text-muted-foreground">Portfolio and landing page templates show consistent high demand with excellent ratings from customers.</p>
           </div>
           
-          <div>
-            <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
-              <BookOpen className="h-4 w-4 text-[#8B5CF6]" />
-              Upload Your Website
-            </h4>
-            <p className="text-xs text-muted-foreground">Ready to sell your website? Upload your template and start earning from your designs.</p>
-            <Button 
-              size="sm" 
-              className="mt-2 w-full bg-[#8B5CF6] hover:bg-[#7C3AED]"
-              onClick={() => navigate('/admin-panel')}
-            >
-              Upload Now
-            </Button>
-          </div>
+          
           
           <div className="pt-2 border-t border-border/40">
             <h4 className="text-sm font-medium mb-2">Featured This Week</h4>
@@ -67,6 +50,5 @@ export const InsightsSidebar = () => {
           </div>
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>;
 };
