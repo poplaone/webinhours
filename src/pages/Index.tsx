@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -23,7 +24,7 @@ import { PremiumTestimonials } from '@/components/ui/premium-testimonials';
 const Index = () => {
   const navigate = useNavigate();
   const [currentText, setCurrentText] = useState(0);
-  const texts = ["In Hours", "In Days"];
+  const texts = ["In Hours", "Not Weeks"];
 
   useEffect(() => {
     const interval = setInterval(() => {
