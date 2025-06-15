@@ -2,22 +2,29 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useProfile } from '@/hooks/useProfiles';
+import { useUserWebsites } from '@/hooks/useWebsites';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, User, Bell, Shield, CreditCard } from 'lucide-react';
+import { Loader2, User, Bell, Shield, CreditCard, Globe, Eye } from 'lucide-react';
 
 const Settings = () => {
   const { user } = useAuth();
   const { data: profile } = useProfile();
+  const { data: userWebsites = [], isLoading: websitesLoading, refetch } = useUserWebsites();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [fullName, setFullName] = useState(profile?.full_name || '');
   const [company, setCompany] = useState(profile?.company || '');
+
+  React.useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   const handleProfileUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,6 +40,16 @@ const Settings = () => {
     }, 1000);
   };
 
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'approved': return 'bg-green-100 text-green-800';
+      case 'featured': return 'bg-purple-100 text-purple-800';
+      case 'pending': return 'bg-yellow-100 text-yellow-800';
+      case 'rejected': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
   return (
     <div className="container mx-auto py-8 px-4 max-w-4xl">
       <div className="mb-8">
@@ -43,10 +60,14 @@ const Settings = () => {
       </div>
 
       <Tabs defaultValue="profile" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="profile" className="flex items-center gap-2">
             <User className="h-4 w-4" />
             Profile
+          </TabsTrigger>
+          <TabsTrigger value="websites" className="flex items-center gap-2">
+            <Globe className="h-4 w-4" />
+            My Websites
           </TabsTrigger>
           <TabsTrigger value="notifications" className="flex items-center gap-2">
             <Bell className="h-4 w-4" />
@@ -123,6 +144,65 @@ const Settings = () => {
                   Save Changes
                 </Button>
               </form>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="websites">
+          <Card>
+            <CardHeader>
+              <CardTitle>My Uploaded Websites</CardTitle>
+              <CardDescription>
+                Manage your uploaded website templates
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {websitesLoading ? (
+                <div className="flex items-center justify-center py-8">
+                  <Loader2 className="h-6 w-6 animate-spin" />
+                  <span className="ml-2">Loading your websites...</span>
+                </div>
+              ) : userWebsites.length === 0 ? (
+                <div className="text-center py-8">
+                  <Globe className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <p className="text-muted-foreground">No websites uploaded yet</p>
+                  <p className="text-sm text-muted-foreground mt-2">Upload your first website template to get started</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {userWebsites.map((website) => (
+                    <div key={website.id} className="border rounded-lg p-4 flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        {website.thumbnail_url && (
+                          <img 
+                            src={website.thumbnail_url} 
+                            alt={website.title}
+                            className="w-16 h-16 object-cover rounded"
+                          />
+                        )}
+                        <div>
+                          <h3 className="font-semibold">{website.title}</h3>
+                          <p className="text-sm text-muted-foreground">
+                            {website.description || 'No description'}
+                          </p>
+                          <div className="flex items-center gap-2 mt-2">
+                            <Badge className={getStatusColor(website.status)}>
+                              {website.status}
+                            </Badge>
+                            <span className="text-sm text-muted-foreground">
+                              Created: {new Date(website.created_at).toLocaleDateString()}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Eye className="h-4 w-4" />
+                        <span>{website.views_count} views</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>

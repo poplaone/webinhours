@@ -37,11 +37,29 @@ const AdminPanel = () => {
     category: selectedCategory !== 'all' ? selectedCategory : undefined,
     search: searchTerm || undefined,
     status: selectedStatus !== 'all' ? selectedStatus : undefined,
-    includeAll: isAdmin, // Admin sees all websites
+    includeAll: true, // Always show all websites in admin panel
   };
 
-  const { data: allWebsites = [], isLoading: allWebsitesLoading } = useWebsites(adminFilters);
-  const { data: userWebsites = [], isLoading: userLoading } = useUserWebsites();
+  const { data: allWebsites = [], isLoading: allWebsitesLoading, refetch: refetchAllWebsites } = useWebsites(adminFilters);
+  const { data: userWebsites = [], isLoading: userLoading, refetch: refetchUserWebsites } = useUserWebsites();
+
+  // Add refresh effect when tab changes or dialog closes
+  React.useEffect(() => {
+    if (activeTab === 'all-websites' || activeTab === 'review') {
+      refetchAllWebsites();
+    }
+    if (activeTab === 'my-websites') {
+      refetchUserWebsites();
+    }
+  }, [activeTab, refetchAllWebsites, refetchUserWebsites]);
+
+  React.useEffect(() => {
+    if (!showUploadDialog) {
+      // Refresh data when upload dialog closes
+      refetchAllWebsites();
+      refetchUserWebsites();
+    }
+  }, [showUploadDialog, refetchAllWebsites, refetchUserWebsites]);
 
   const handleWebsiteUpdate = async (websiteId: string, updates: any) => {
     try {
@@ -54,6 +72,10 @@ const AdminPanel = () => {
         title: "Success",
         description: "Website updated successfully",
       });
+      
+      // Refresh data after update
+      refetchAllWebsites();
+      refetchUserWebsites();
     } catch (error) {
       toast({
         title: "Error",
@@ -86,6 +108,10 @@ const AdminPanel = () => {
           title: "Success",
           description: "Website deleted successfully",
         });
+        
+        // Refresh data after delete
+        refetchAllWebsites();
+        refetchUserWebsites();
       } catch (error) {
         toast({
           title: "Error",
@@ -143,8 +169,8 @@ const AdminPanel = () => {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList className={`grid w-full ${isAdmin ? 'grid-cols-4' : 'grid-cols-3'}`}>
           {isAdmin && <TabsTrigger value="review">Review Submissions ({pendingCount})</TabsTrigger>}
-          {isAdmin && <TabsTrigger value="all-websites">All Websites</TabsTrigger>}
-          <TabsTrigger value="my-websites">My Websites</TabsTrigger>
+          {isAdmin && <TabsTrigger value="all-websites">All Websites ({allWebsites.length})</TabsTrigger>}
+          <TabsTrigger value="my-websites">My Websites ({userWebsites.length})</TabsTrigger>
           <TabsTrigger value="analytics">Analytics</TabsTrigger>
         </TabsList>
 

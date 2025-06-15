@@ -116,11 +116,11 @@ const Dashboard = () => {
   const [searchValue, setSearchValue] = useState('');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
 
-  // Fetch real websites from database with better filtering
+  // Fetch real websites from database - show approved and featured for marketplace
   const { data: uploadedWebsites = [], isLoading, refetch } = useWebsites({
     category: selectedCategory !== 'all' ? selectedCategory : undefined,
     search: searchValue || undefined,
-    // Don't filter by status here - let all approved/featured websites show
+    // Don't set includeAll here - this shows marketplace view (approved/featured only)
   });
 
   // Debug logging
@@ -150,7 +150,7 @@ const Dashboard = () => {
       title: website.title,
       description: website.description || "No description available",
       tags: website.tags || [],
-      timestamp: website.is_featured ? "Featured" : "New",
+      timestamp: website.is_featured ? "Featured" : website.status === 'approved' ? "New" : "Uploaded",
       price: Number(website.price),
       sales: 0, // New uploads start with 0 sales
       rating: website.rating_average || 0,

@@ -9,7 +9,7 @@ export const useWebsites = (filters?: WebsiteFilters) => {
   const isAdmin = useIsAdmin();
   
   return useQuery({
-    queryKey: ['websites', filters],
+    queryKey: ['websites', filters, isAdmin],
     queryFn: async () => {
       console.log('Fetching websites with filters:', filters);
       let query = (supabase as any)
@@ -26,8 +26,15 @@ export const useWebsites = (filters?: WebsiteFilters) => {
       // Admin can see all websites, regular users only see approved/featured
       if (filters?.status) {
         query = query.eq('status', filters.status);
-      } else if (!filters?.includeAll || !isAdmin) {
-        query = query.in('status', ['approved', 'featured']);
+      } else if (!filters?.includeAll) {
+        // For marketplace/dashboard, show approved and featured websites
+        // For admin panel, show all when includeAll is true
+        if (isAdmin && filters?.includeAll) {
+          // Admin sees all websites when includeAll is true
+        } else {
+          // Regular users and marketplace see only approved/featured
+          query = query.in('status', ['approved', 'featured']);
+        }
       }
 
       if (filters?.featured !== undefined) {
@@ -67,7 +74,10 @@ export const useUserWebsites = () => {
       console.log('Fetching user websites for user:', user.id);
       const { data, error } = await (supabase as any)
         .from('websites')
-        .select('*')
+        .select(`
+          *,
+          profiles!websites_user_id_fkey(full_name, avatar_url)
+        `)
         .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
