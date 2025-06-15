@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
 interface DashboardHeaderProps {
   searchValue?: string;
   onSearchChange?: (value: string) => void;
@@ -51,8 +52,8 @@ export function DashboardHeader({
 }: DashboardHeaderProps) {
   return <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between gap-4">
-        <div className="flex items-center justify-start px-4 mx-[178px]">
-          <div className="w-full max-w-sm relative mx-0 px-0 py-0">
+        <div className="flex items-center justify-start flex-1">
+          <div className="w-full max-w-sm relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input type="search" placeholder="Search templates, categories..." className="w-full bg-background pl-8 rounded-full border-muted-foreground/20" value={searchValue} onChange={e => onSearchChange?.(e.target.value)} />
           </div>
@@ -60,10 +61,18 @@ export function DashboardHeader({
         
         {/* Template count and refresh button */}
         <div className="flex items-center gap-3">
-          <p className="text-sm text-blue-600 whitespace-nowrap mx-[6px]">
+          <p className="text-sm text-blue-600 whitespace-nowrap">
             Showing {templateCount} templates
           </p>
-          
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onRefresh}
+            disabled={isLoading}
+            className="h-8 w-8 p-0"
+          >
+            <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+          </Button>
         </div>
         
         <div className="flex items-center gap-4">
