@@ -1,0 +1,38 @@
+
+import React from 'react';
+import { Card } from "@/components/ui/card";
+
+interface CategoryCardsProps {
+  websiteCount: number;
+}
+
+export const CategoryCards = ({ websiteCount }: CategoryCardsProps) => {
+  return (
+    <Card className="p-3 md:p-4 border border-border/40 bg-card/50 backdrop-blur">
+      <h2 className="text-lg md:text-xl font-semibold mb-3">Template Categories</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+        <div className="p-3 bg-background rounded-lg border border-border/60">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="font-medium text-sm md:text-base">Ready-to-Use Templates</h3>
+            <span className="text-xs font-medium px-2 py-1 rounded-full bg-[#8B5CF6] text-white">{websiteCount}+ Available</span>
+          </div>
+          <p className="text-xs md:text-sm text-muted-foreground">Pre-built websites ready for immediate deployment and customization</p>
+        </div>
+        <div className="p-3 bg-background rounded-lg border border-border/60">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="font-medium text-sm md:text-base">Custom Development</h3>
+            <span className="text-xs font-medium px-2 py-1 rounded-full bg-emerald-500 text-white">24-48h Delivery</span>
+          </div>
+          <p className="text-xs md:text-sm text-muted-foreground">Bespoke websites built according to your specific requirements</p>
+        </div>
+        <div className="p-3 bg-background rounded-lg border border-border/60">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="font-medium text-sm md:text-base">Premium Support</h3>
+            <span className="text-xs font-medium px-2 py-1 rounded-full bg-amber-500 text-white">Included</span>
+          </div>
+          <p className="text-xs md:text-sm text-muted-foreground">30-day support and customization assistance with every purchase</p>
+        </div>
+      </div>
+    </Card>
+  );
+};
