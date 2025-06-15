@@ -9,7 +9,6 @@ import { TemplateGrid } from '@/components/dashboard/TemplateGrid';
 import { InsightsSidebar } from '@/components/dashboard/InsightsSidebar';
 import { CategoryCards } from '@/components/dashboard/CategoryCards';
 import { useWebsites } from '@/hooks/useWebsites';
-
 const Dashboard = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -71,7 +70,7 @@ const Dashboard = () => {
           <div className="flex flex-col gap-3 md:gap-4 mb-4 md:mb-6">
             <div>
               
-              <p className="text-muted-foreground mt-1 text-sm md:text-base">Professional website templates ready to buy and customize for your business</p>
+              
               <div className="flex items-center gap-2 mt-2">
                 <p className="text-sm text-blue-600">
                   Showing {filteredTemplates.length} templates
