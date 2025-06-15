@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
@@ -38,6 +37,8 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
   const createWebsite = useCreateWebsite();
   const isAdmin = useIsAdmin();
   const { toast } = useToast();
+
+  console.log('🔧 WebsiteUploadForm - User is admin:', isAdmin);
 
   const addTag = () => {
     if (tagInput.trim() && !tags.includes(tagInput.trim())) {
@@ -94,6 +95,11 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
     }
 
     try {
+      // Determine status based on user role - EXPLICIT logic
+      const websiteStatus = isAdmin ? 'approved' : 'pending';
+      
+      console.log('🔧 Creating website with status:', websiteStatus, 'for admin user:', isAdmin);
+
       const websiteData = {
         title: data.title,
         description: data.description,
@@ -106,9 +112,12 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
         technologies: technologies.length > 0 ? technologies : null,
         features: features.length > 0 ? features : null,
         inclusions: inclusions.length > 0 ? inclusions : null,
-        status: isAdmin ? 'approved' as const : 'pending' as const,
+        status: websiteStatus, // Explicitly set status
+        // Only set approved_at if admin
         ...(isAdmin && { approved_at: new Date().toISOString() })
       };
+
+      console.log('🔧 Final website data before submission:', websiteData);
 
       await createWebsite.mutateAsync(websiteData);
 
@@ -121,6 +130,7 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
       
       onClose();
     } catch (error) {
+      console.error('🔧 Error creating website:', error);
       toast({
         title: "Error",
         description: "Failed to upload website. Please try again.",

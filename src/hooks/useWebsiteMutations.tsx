@@ -1,4 +1,3 @@
-
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
@@ -12,7 +11,9 @@ export const useCreateWebsite = () => {
     mutationFn: async (website: WebsiteInsert) => {
       if (!user) throw new Error('User not authenticated');
 
-      console.log('Creating website:', website);
+      console.log('🔧 Creating website with data:', website);
+      console.log('🔧 User creating website:', user.id, user.email);
+
       const { data, error } = await supabase
         .from('websites')
         .insert({ ...website, user_id: user.id })
@@ -20,15 +21,21 @@ export const useCreateWebsite = () => {
         .single();
 
       if (error) {
-        console.error('Error creating website:', error);
+        console.error('🔧 Error creating website:', error);
         throw error;
       }
-      console.log('Created website:', data);
+      
+      console.log('🔧 Successfully created website:', data);
+      console.log('🔧 Website status set to:', data.status);
       return data as Website;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log('🔧 Website creation successful, invalidating queries...');
       queryClient.invalidateQueries({ queryKey: ['websites'] });
       queryClient.invalidateQueries({ queryKey: ['user-websites'] });
+    },
+    onError: (error) => {
+      console.error('🔧 Website creation failed:', error);
     },
   });
 };
