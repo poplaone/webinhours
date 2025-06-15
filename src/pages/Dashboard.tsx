@@ -20,7 +20,7 @@ const Dashboard = () => {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
   const [selectedTag, setSelectedTag] = useState<string>('');
 
-  // Fetch websites - include all statuses for debugging
+  // Fetch websites - only show approved/featured for marketplace visitors
   const {
     data: websites = [],
     isLoading,
@@ -29,7 +29,8 @@ const Dashboard = () => {
   } = useWebsites({
     category: selectedCategory !== 'all' ? selectedCategory : undefined,
     search: searchValue || undefined,
-    includeAll: true // Show all websites including pending ones for debugging
+    // Don't include pending websites in the public marketplace
+    includeAll: false
   });
 
   // Enhanced error handling and logging

@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Clock, Edit, CheckCircle, Star, XCircle, RefreshCw } from 'lucide-react';
+import { Clock, Edit, CheckCircle, Star, XCircle, RefreshCw, AlertCircle } from 'lucide-react';
 import { Website } from '@/hooks/useWebsites';
 
 interface PendingReviewsTabProps {
@@ -26,7 +26,8 @@ export function PendingReviewsTab({
   
   console.log('🔍 PendingReviewsTab - All websites:', websites.length);
   console.log('🔍 PendingReviewsTab - Pending websites:', pendingWebsites.length);
-  console.log('🔍 PendingReviewsTab - Website statuses:', websites.map(w => ({ title: w.title, status: w.status, created_at: w.created_at })));
+  console.log('🔍 PendingReviewsTab - Website statuses:', websites.map(w => ({ title: w.title, status: w.status, created_at: w.created_at, user_id: w.user_id })));
+  console.log('🟡 PendingReviewsTab - Filtered pending websites:', pendingWebsites.map(w => ({ title: w.title, id: w.id, user_id: w.user_id, created_at: w.created_at })));
 
   const handleRefresh = () => {
     console.log('🔄 Refreshing pending reviews...');
@@ -41,10 +42,18 @@ export function PendingReviewsTab({
             <Clock className="h-5 w-5" />
             Pending Reviews ({pendingWebsites.length})
           </CardTitle>
-          <Button variant="outline" size="sm" onClick={handleRefresh}>
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Refresh
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm" onClick={handleRefresh}>
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Refresh
+            </Button>
+            {pendingWebsites.length === 0 && websites.length > 0 && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <AlertCircle className="h-4 w-4" />
+                No pending submissions found
+              </div>
+            )}
+          </div>
         </div>
       </CardHeader>
       <CardContent>
@@ -70,7 +79,7 @@ export function PendingReviewsTab({
                         <span className="text-green-600 font-medium">{formatPrice(website.price)}</span>
                       </div>
                       <p className="text-xs text-gray-500 mt-1">
-                        Submitted: {new Date(website.created_at).toLocaleDateString()}
+                        Submitted: {new Date(website.created_at).toLocaleDateString()} by User ID: {website.user_id.slice(0, 8)}...
                       </p>
                     </div>
                   </div>
@@ -120,7 +129,11 @@ export function PendingReviewsTab({
             <div className="text-center py-8 text-gray-500">
               <Clock className="h-12 w-12 mx-auto mb-4 text-gray-300" />
               <h3 className="text-lg font-medium mb-2">No pending submissions</h3>
-              <p className="text-sm">All websites have been reviewed or no new submissions yet.</p>
+              {websites.length === 0 ? (
+                <p className="text-sm">No websites found in the database. Try uploading a test website.</p>
+              ) : (
+                <p className="text-sm">All {websites.length} websites have been reviewed. New submissions will appear here.</p>
+              )}
               <Button variant="outline" className="mt-4" onClick={handleRefresh}>
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Refresh to check for new submissions

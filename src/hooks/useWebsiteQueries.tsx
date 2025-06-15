@@ -60,7 +60,7 @@ export const useWebsites = (filters?: WebsiteFilters) => {
         console.log('🔍 Executing websites query...');
         const { data: websitesData, error: websitesError } = await query
           .order('created_at', { ascending: false }) // Order by creation date to show newest first
-          .order('is_featured', { ascending: false });
+          .order('status', { ascending: true }); // Show pending first, then approved, then featured
 
         if (websitesError) {
           console.error('❌ Error fetching websites:', websitesError);
@@ -68,7 +68,11 @@ export const useWebsites = (filters?: WebsiteFilters) => {
         }
 
         console.log('✅ Websites query successful:', websitesData?.length || 0, 'websites');
-        console.log('📋 Website statuses found:', websitesData?.map(w => ({ id: w.id, title: w.title, status: w.status })));
+        console.log('📋 Website statuses found:', websitesData?.map(w => ({ id: w.id, title: w.title, status: w.status, created_at: w.created_at })));
+
+        // Log specifically for pending websites
+        const pendingWebsites = websitesData?.filter(w => w.status === 'pending') || [];
+        console.log('🟡 Pending websites found:', pendingWebsites.length, pendingWebsites.map(w => ({ title: w.title, id: w.id, user_id: w.user_id })));
 
         // Now fetch profiles separately and merge
         if (websitesData && websitesData.length > 0) {
