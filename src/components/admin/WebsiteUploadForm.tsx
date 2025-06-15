@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
@@ -96,7 +97,7 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
 
     try {
       // Determine status based on user role - EXPLICIT logic
-      const websiteStatus = isAdmin ? 'approved' : 'pending';
+      const websiteStatus = isAdmin ? 'approved' as const : 'pending' as const;
       
       console.log('🔧 Creating website with status:', websiteStatus, 'for admin user:', isAdmin);
 
@@ -112,7 +113,7 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
         technologies: technologies.length > 0 ? technologies : null,
         features: features.length > 0 ? features : null,
         inclusions: inclusions.length > 0 ? inclusions : null,
-        status: websiteStatus, // Explicitly set status
+        status: websiteStatus, // Explicitly set status with proper typing
         // Only set approved_at if admin
         ...(isAdmin && { approved_at: new Date().toISOString() })
       };
