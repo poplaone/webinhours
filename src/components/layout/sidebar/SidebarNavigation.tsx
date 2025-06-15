@@ -5,7 +5,6 @@ import {
   LayoutDashboard, 
   Store, 
   User, 
-  Settings, 
   Code, 
   Bell,
   InfoIcon,
@@ -42,7 +41,6 @@ export const SidebarNavigation = ({ currentPath, isAuthenticated }: SidebarNavig
 
   const authenticatedNavItems = [
     { path: '/profile', icon: User, label: 'Profile' },
-    { path: '/settings', icon: Settings, label: 'Settings' },
     { path: '/admin-panel', icon: Code, label: 'Upload Website' },
     { path: '/notifications', icon: Bell, label: 'Notifications' },
   ];

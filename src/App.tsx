@@ -10,7 +10,6 @@ import Dashboard from "./pages/Dashboard";
 import SiteDetails from "./pages/SiteDetails";
 import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
-import Settings from "./pages/Settings";
 import AdminPanel from "./pages/AdminPanel";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -54,14 +53,6 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Profile />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/settings"
-              element={
-                <ProtectedRoute>
-                  <Settings />
                 </ProtectedRoute>
               }
             />
