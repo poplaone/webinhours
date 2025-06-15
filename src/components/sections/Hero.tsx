@@ -2,7 +2,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, LayoutGroup } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Star, Clock, Shield } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { TextRotate } from "@/components/ui/text-rotate";
 
@@ -17,6 +17,27 @@ export const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
+          {/* Trust badges */}
+          <motion.div 
+            className="flex justify-center items-center gap-6 mb-6 text-sm text-muted-foreground"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <div className="flex items-center gap-1">
+              <Star className="h-4 w-4 text-yellow-500 fill-current" />
+              <span className="font-medium">4.9/5 Rating</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <Clock className="h-4 w-4 text-green-500" />
+              <span className="font-medium">24hr Delivery</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <Shield className="h-4 w-4 text-blue-500" />
+              <span className="font-medium">Money-Back Guarantee</span>
+            </div>
+          </motion.div>
+
           <LayoutGroup>
             <motion.h1 
               className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-0 whitespace-pre-wrap sm:whitespace-pre leading-tight"
@@ -30,10 +51,10 @@ export const Hero = () => {
                 layout
                 transition={{ type: "spring", damping: 30, stiffness: 400 }}
               >
-                Web Development{" "}
+                Professional Websites{" "}
               </motion.span>
               <TextRotate
-                texts={["In Hours", "Not Weeks", "work!", "fancy ✽", "right", "fast", "fun", "rock"]}
+                texts={["In Hours", "Not Weeks", "Lightning Fast", "Same Day", "Premium Quality", "Mobile First"]}
                 mainClassName="text-white px-3 sm:px-2 md:px-3 bg-[#8B5CF6] overflow-hidden py-1 sm:py-0.5 md:py-2 justify-center rounded-lg text-center min-w-fit"
                 staggerFrom="last"
                 initial={{ y: "100%" }}
@@ -48,14 +69,33 @@ export const Hero = () => {
           </LayoutGroup>
           
           <motion.p 
-            className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-6 sm:mb-8 max-w-3xl mx-auto px-2 sm:px-0 leading-relaxed"
+            className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-6 sm:mb-8 max-w-4xl mx-auto px-2 sm:px-0 leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
           >
-            Transform your ideas into stunning websites with our rapid development process. 
-            Professional web solutions delivered faster than ever before.
+            Skip the 6-week wait. Get a stunning, mobile-responsive website built by expert developers 
+            in just <span className="text-[#8B5CF6] font-semibold">24 hours</span>. From e-commerce stores to business sites, 
+            we deliver results that convert visitors into customers.
           </motion.p>
+
+          {/* Value propositions */}
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 max-w-3xl mx-auto text-sm"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+          >
+            <div className="bg-card/50 backdrop-blur border border-border/40 rounded-lg p-3">
+              <span className="font-semibold text-green-600">✓ 500+ Websites Delivered</span>
+            </div>
+            <div className="bg-card/50 backdrop-blur border border-border/40 rounded-lg p-3">
+              <span className="font-semibold text-blue-600">✓ SEO & Performance Optimized</span>
+            </div>
+            <div className="bg-card/50 backdrop-blur border border-border/40 rounded-lg p-3">
+              <span className="font-semibold text-purple-600">✓ Unlimited Revisions</span>
+            </div>
+          </motion.div>
           
           <motion.div 
             className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 sm:px-0"
@@ -68,17 +108,28 @@ export const Hero = () => {
               className="bg-[#8B5CF6] hover:bg-[#7C3AED] text-lg px-8 py-3 sm:py-2 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#8B5CF6]/25 group w-full sm:w-auto min-h-[48px] touch-manipulation"
               onClick={() => navigate('/marketplace')}
             >
-              Start Your Project
+              Get Your Website in 24hrs
               <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
             </Button>
             <Button 
               size="lg" 
               variant="outline" 
               className="text-lg px-8 py-3 sm:py-2 hover:bg-[#8B5CF6] hover:text-white hover:border-[#8B5CF6] transition-all duration-300 hover:scale-105 w-full sm:w-auto min-h-[48px] touch-manipulation"
+              onClick={() => navigate('/contact')}
             >
-              View Portfolio
+              Free Consultation
             </Button>
           </motion.div>
+
+          {/* Social proof */}
+          <motion.p 
+            className="text-sm text-muted-foreground mt-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1.1 }}
+          >
+            Trusted by 500+ businesses • No upfront payment • 100% satisfaction guarantee
+          </motion.p>
         </motion.div>
       </div>
     </section>
