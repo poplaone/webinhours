@@ -2,6 +2,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { useIsMobile } from '@/hooks/use-mobile';
 import SidebarLogo from './sidebar/SidebarLogo';
 import { SidebarNavigation } from './sidebar/SidebarNavigation';
 import { SidebarActions } from './sidebar/SidebarActions';
@@ -9,9 +10,9 @@ import { SidebarActions } from './sidebar/SidebarActions';
 const SideNavbar = () => {
   const location = useLocation();
   const { user } = useAuth();
+  const isMobile = useIsMobile();
 
   // Hide sidebar on mobile (handled by MobileBottomNav)
-  const isMobile = window.innerWidth < 1024;
   if (isMobile) return null;
 
   return (

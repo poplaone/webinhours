@@ -2,6 +2,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { 
   LayoutDashboard, 
   Store, 
@@ -18,10 +19,10 @@ const MobileBottomNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
+  const isMobile = useIsMobile();
 
-  // Hide on desktop
-  const isDesktop = window.innerWidth >= 1024;
-  if (isDesktop) return null;
+  // Show only on mobile devices
+  if (!isMobile) return null;
 
   const publicNavItems = [
     { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
