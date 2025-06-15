@@ -180,7 +180,7 @@ const Dashboard = () => {
                       </div>
                     </div>
                     
-                    <CardContent className="p-4 flex-grow flex flex-col">
+                    <CardContent className="p-4 flex flex-col flex-grow">
                       <div className="flex justify-between items-start mb-2">
                         <h3 className="font-semibold text-lg cursor-pointer hover:text-[#8B5CF6] transition-colors" onClick={() => viewTemplateDetail(template.id)}>{template.title}</h3>
                         <div className="flex items-center gap-1 text-[#8B5CF6] font-bold">
@@ -190,46 +190,44 @@ const Dashboard = () => {
                       </div>
                       <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{template.description || "No description available"}</p>
                       
-                      <div className="mt-auto">
-                        <div className="grid grid-cols-3 gap-2 text-xs border-t border-border/40 pt-2 mb-2">
-                          <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
-                            <div className="flex items-center gap-1 text-muted-foreground mb-1">
-                              <TrendingUp className="h-3 w-3 text-[#8B5CF6]" />
-                              <span>Sales</span>
-                            </div>
-                            <div className="font-medium text-sm text-emerald-500">
-                              {template.downloads_count || 0} sold
-                            </div>
+                      <div className="grid grid-cols-3 gap-2 text-xs border-t border-border/40 pt-3 mb-3">
+                        <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
+                          <div className="flex items-center gap-1 text-muted-foreground mb-1">
+                            <TrendingUp className="h-3 w-3 text-[#8B5CF6]" />
+                            <span>Sales</span>
                           </div>
-                          
-                          <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
-                            <div className="flex items-center gap-1 text-muted-foreground mb-1">
-                              <Users className="h-3 w-3 text-[#8B5CF6]" />
-                              <span>Rating</span>
-                            </div>
-                            <div className="font-medium text-sm">
-                              ⭐ {template.rating_average?.toFixed(1) || '0.0'}
-                            </div>
-                          </div>
-                          
-                          <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
-                            <div className="flex items-center gap-1 text-muted-foreground mb-1">
-                              <Radio className="h-3 w-3 text-[#8B5CF6]" />
-                              <span>Views</span>
-                            </div>
-                            <div className="font-medium text-sm text-emerald-500">
-                              {template.views_count || 0}
-                            </div>
+                          <div className="font-medium text-sm text-emerald-500">
+                            {template.downloads_count || 0} sold
                           </div>
                         </div>
                         
-                        <div className="flex flex-wrap gap-2 mt-2">
-                          {template.tags?.slice(0, 3).map((tag, index) => (
-                            <span key={index} className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-2 py-1 rounded-full">
-                              {tag}
-                            </span>
-                          ))}
+                        <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
+                          <div className="flex items-center gap-1 text-muted-foreground mb-1">
+                            <Users className="h-3 w-3 text-[#8B5CF6]" />
+                            <span>Rating</span>
+                          </div>
+                          <div className="font-medium text-sm">
+                            ⭐ {template.rating_average?.toFixed(1) || '0.0'}
+                          </div>
                         </div>
+                        
+                        <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
+                          <div className="flex items-center gap-1 text-muted-foreground mb-1">
+                            <Radio className="h-3 w-3 text-[#8B5CF6]" />
+                            <span>Views</span>
+                          </div>
+                          <div className="font-medium text-sm text-emerald-500">
+                            {template.views_count || 0}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex flex-wrap gap-2">
+                        {template.tags?.slice(0, 3).map((tag, index) => (
+                          <span key={index} className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-2 py-1 rounded-full">
+                            {tag}
+                          </span>
+                        ))}
                       </div>
                     </CardContent>
                   </Card>
