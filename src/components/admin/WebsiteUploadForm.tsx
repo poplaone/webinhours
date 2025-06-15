@@ -108,10 +108,10 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
         preview_url: data.preview_url,
         demo_url: data.demo_url || null,
         thumbnail_url: data.thumbnail_url || null,
-        tags,
-        technologies,
-        features,
-        inclusions,
+        tags: tags.length > 0 ? tags : null,
+        technologies: technologies.length > 0 ? technologies : null,
+        features: features.length > 0 ? features : null,
+        inclusions: inclusions.length > 0 ? inclusions : null,
         // Auto-approve if admin, otherwise set to pending
         status: isAdmin ? 'approved' as const : 'pending' as const,
         ...(isAdmin && { approved_at: new Date().toISOString() })

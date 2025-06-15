@@ -1,4 +1,3 @@
-
 export interface Website {
   id: string;
   user_id: string;
@@ -9,7 +8,6 @@ export interface Website {
   price: number;
   preview_url: string;
   demo_url?: string;
-  download_url?: string;
   thumbnail_url?: string;
   images?: string[];
   technologies?: string[];
@@ -39,7 +37,6 @@ export interface WebsiteInsert {
   price: number;
   preview_url: string;
   demo_url?: string;
-  download_url?: string;
   thumbnail_url?: string;
   images?: string[];
   technologies?: string[];
@@ -58,7 +55,6 @@ export interface WebsiteUpdate {
   price?: number;
   preview_url?: string;
   demo_url?: string;
-  download_url?: string;
   thumbnail_url?: string;
   images?: string[];
   technologies?: string[];

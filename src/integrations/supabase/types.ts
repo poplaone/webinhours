@@ -259,12 +259,12 @@ export type Database = {
           created_at: string
           demo_url: string | null
           description: string | null
-          download_url: string | null
           downloads_count: number
           featured_at: string | null
           features: string[] | null
           id: string
           images: string[] | null
+          inclusions: string[] | null
           is_featured: boolean
           preview_url: string
           price: number
@@ -285,12 +285,12 @@ export type Database = {
           created_at?: string
           demo_url?: string | null
           description?: string | null
-          download_url?: string | null
           downloads_count?: number
           featured_at?: string | null
           features?: string[] | null
           id?: string
           images?: string[] | null
+          inclusions?: string[] | null
           is_featured?: boolean
           preview_url: string
           price?: number
@@ -311,12 +311,12 @@ export type Database = {
           created_at?: string
           demo_url?: string | null
           description?: string | null
-          download_url?: string | null
           downloads_count?: number
           featured_at?: string | null
           features?: string[] | null
           id?: string
           images?: string[] | null
+          inclusions?: string[] | null
           is_featured?: boolean
           preview_url?: string
           price?: number

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -20,7 +19,6 @@ const websiteSchema = z.object({
   price: z.number().min(0, 'Price must be non-negative'),
   preview_url: z.string().url('Must be a valid URL'),
   demo_url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
-  download_url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
   thumbnail_url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
 });
 
@@ -49,7 +47,6 @@ export function WebsiteEditForm({ website, onClose, onUpdate }: WebsiteEditFormP
       price: website.price,
       preview_url: website.preview_url,
       demo_url: website.demo_url || '',
-      download_url: website.download_url || '',
       thumbnail_url: website.thumbnail_url || '',
     },
   });
@@ -107,7 +104,6 @@ export function WebsiteEditForm({ website, onClose, onUpdate }: WebsiteEditFormP
       features: features.length > 0 ? features : null,
       inclusions: inclusions.length > 0 ? inclusions : null,
       demo_url: data.demo_url || null,
-      download_url: data.download_url || null,
       thumbnail_url: data.thumbnail_url || null,
       description: data.description || null,
     };
@@ -231,35 +227,19 @@ export function WebsiteEditForm({ website, onClose, onUpdate }: WebsiteEditFormP
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormField
-              control={form.control}
-              name="download_url"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Download URL</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="thumbnail_url"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Thumbnail URL</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+          <FormField
+            control={form.control}
+            name="thumbnail_url"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Thumbnail URL</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           {/* Tags Section */}
           <div>
