@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Search, Filter, RefreshCw } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -5,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
 interface DashboardHeaderProps {
   searchValue?: string;
   onSearchChange?: (value: string) => void;
@@ -16,6 +18,7 @@ interface DashboardHeaderProps {
   onRefresh?: () => void;
   isLoading?: boolean;
 }
+
 const categories = [{
   value: 'all',
   label: 'All Categories'
@@ -38,6 +41,7 @@ const categories = [{
   value: 'Real Estate',
   label: 'Real Estate'
 }];
+
 export function DashboardHeader({
   searchValue = "",
   onSearchChange,
@@ -49,35 +53,50 @@ export function DashboardHeader({
   onRefresh,
   isLoading = false
 }: DashboardHeaderProps) {
-  return <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between gap-4">
-        <div className="flex items-center justify-start flex-1">
-          <div className="w-full max-w-sm relative">
-            
-            
+  return (
+    <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center gap-4">
+        {/* Search Bar - spans most of the width */}
+        <div className="flex-1 flex items-center gap-4">
+          <div className="relative flex-1 max-w-2xl">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search templates..."
+              value={searchValue}
+              onChange={(e) => onSearchChange?.(e.target.value)}
+              className="pl-10 h-10"
+            />
+          </div>
+          
+          {/* Template count and refresh button */}
+          <div className="flex items-center gap-3 whitespace-nowrap">
+            <p className="text-sm text-blue-600">
+              Showing {templateCount} templates
+            </p>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={onRefresh} 
+              disabled={isLoading} 
+              className="h-8 w-8 p-0"
+            >
+              <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+            </Button>
           </div>
         </div>
         
-        {/* Template count and refresh button */}
-        <div className="flex items-center gap-3">
-          <p className="text-sm text-blue-600 whitespace-nowrap">
-            Showing {templateCount} templates
-          </p>
-          <Button variant="ghost" size="sm" onClick={onRefresh} disabled={isLoading} className="h-8 w-8 p-0">
-            <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
-          </Button>
-        </div>
-        
+        {/* Category Filter and Price Filter */}
         <div className="flex items-center gap-4">
-          {/* Category Filter */}
           <Select value={selectedCategory} onValueChange={onCategoryChange}>
             <SelectTrigger className="w-48">
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent className="bg-background border border-border shadow-lg">
-              {categories.map(category => <SelectItem key={category.value} value={category.value}>
+              {categories.map(category => (
+                <SelectItem key={category.value} value={category.value}>
                   {category.label}
-                </SelectItem>)}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
 
@@ -94,7 +113,14 @@ export function DashboardHeader({
                 <div>
                   <h4 className="font-medium mb-3">Price Range</h4>
                   <div className="px-3">
-                    <Slider min={0} max={500} step={10} value={priceRange} onValueChange={value => onPriceRangeChange?.(value as [number, number])} className="w-full" />
+                    <Slider 
+                      min={0} 
+                      max={500} 
+                      step={10} 
+                      value={priceRange} 
+                      onValueChange={value => onPriceRangeChange?.(value as [number, number])} 
+                      className="w-full" 
+                    />
                   </div>
                   <div className="flex justify-between text-sm text-muted-foreground mt-2">
                     <span>${priceRange[0]}</span>
@@ -106,5 +132,6 @@ export function DashboardHeader({
           </Popover>
         </div>
       </div>
-    </header>;
+    </header>
+  );
 }
