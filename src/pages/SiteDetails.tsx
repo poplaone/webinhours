@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Eye, Download, Star, User, Calendar, Tag, Globe, Code2, Palette, Smartphone, Shield } from 'lucide-react';
@@ -9,34 +8,42 @@ import { Separator } from "@/components/ui/separator";
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { useWebsites } from '@/hooks/useWebsites';
-
 const SiteDetails = () => {
-  const { id } = useParams<{ id: string }>();
+  const {
+    id
+  } = useParams<{
+    id: string;
+  }>();
   const navigate = useNavigate();
-  const { user } = useAuth();
-  const { toast } = useToast();
-  
-  const { data: websites = [] } = useWebsites({ includeAll: true });
+  const {
+    user
+  } = useAuth();
+  const {
+    toast
+  } = useToast();
+  const {
+    data: websites = []
+  } = useWebsites({
+    includeAll: true
+  });
   const site = websites.find(w => w.id === id);
-
   const handlePurchase = () => {
     if (!user) {
       toast({
         title: "Authentication Required",
         description: "Please sign in to purchase this template.",
-        variant: "destructive",
+        variant: "destructive"
       });
       navigate('/auth');
       return;
     }
-    
+
     // Handle purchase logic here for authenticated users
     toast({
       title: "Purchase Initiated",
-      description: "Redirecting to payment...",
+      description: "Redirecting to payment..."
     });
   };
-
   const handlePreview = () => {
     if (site?.preview_url) {
       window.open(site.preview_url, '_blank', 'noopener,noreferrer');
@@ -44,14 +51,12 @@ const SiteDetails = () => {
       toast({
         title: "Preview Not Available",
         description: "Preview URL is not available for this template.",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
-
   if (!site) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex items-center justify-center">
+    return <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex items-center justify-center">
         <Card className="p-8 text-center">
           <h2 className="text-2xl font-bold mb-4">Site Not Found</h2>
           <p className="text-muted-foreground mb-4">The requested site could not be found.</p>
@@ -60,40 +65,26 @@ const SiteDetails = () => {
             Back to Dashboard
           </Button>
         </Card>
-      </div>
-    );
+      </div>;
   }
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-background/80">
+  return <div className="min-h-screen bg-gradient-to-br from-background to-background/80">
       <div className="container mx-auto p-6">
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
-          <Button 
-            variant="outline" 
-            onClick={() => navigate('/dashboard')}
-            className="flex items-center gap-2"
-          >
+          <Button variant="outline" onClick={() => navigate('/dashboard')} className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />
             Back to Dashboard
           </Button>
           <div className="flex-1">
             <h1 className="text-3xl font-bold">{site.title}</h1>
-            <p className="text-muted-foreground">{site.description}</p>
+            
           </div>
           <div className="flex items-center gap-2">
-            <Button 
-              variant="outline" 
-              className="flex items-center gap-2"
-              onClick={handlePreview}
-            >
+            <Button variant="outline" className="flex items-center gap-2" onClick={handlePreview}>
               <Eye className="h-4 w-4" />
               Preview
             </Button>
-            <Button 
-              onClick={handlePurchase}
-              className="bg-[#8B5CF6] hover:bg-[#7C3AED] flex items-center gap-2"
-            >
+            <Button onClick={handlePurchase} className="bg-[#8B5CF6] hover:bg-[#7C3AED] flex items-center gap-2">
               <Download className="h-4 w-4" />
               {site.price === 0 ? 'Download Free' : `Purchase $${site.price}`}
             </Button>
@@ -107,11 +98,7 @@ const SiteDetails = () => {
             <Card>
               <CardContent className="p-0">
                 <div className="aspect-video overflow-hidden rounded-lg">
-                  <img 
-                    src={site.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&h=450&q=80"} 
-                    alt={site.title}
-                    className="w-full h-full object-cover"
-                  />
+                  <img src={site.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&h=450&q=80"} alt={site.title} className="w-full h-full object-cover" />
                 </div>
               </CardContent>
             </Card>
@@ -135,12 +122,10 @@ const SiteDetails = () => {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {(site.features || ['Responsive Design', 'Modern UI', 'Fast Loading', 'SEO Optimized']).map((feature, index) => (
-                    <div key={index} className="flex items-center gap-2">
+                  {(site.features || ['Responsive Design', 'Modern UI', 'Fast Loading', 'SEO Optimized']).map((feature, index) => <div key={index} className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-[#8B5CF6] rounded-full"></div>
                       <span>{feature}</span>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
               </CardContent>
             </Card>
@@ -152,12 +137,10 @@ const SiteDetails = () => {
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
-                  {(site.technologies || ['HTML', 'CSS', 'JavaScript', 'React']).map((tech, index) => (
-                    <Badge key={index} variant="secondary" className="flex items-center gap-1">
+                  {(site.technologies || ['HTML', 'CSS', 'JavaScript', 'React']).map((tech, index) => <Badge key={index} variant="secondary" className="flex items-center gap-1">
                       <Code2 className="h-3 w-3" />
                       {tech}
-                    </Badge>
-                  ))}
+                    </Badge>)}
                 </div>
               </CardContent>
             </Card>
@@ -189,18 +172,13 @@ const SiteDetails = () => {
                   </Badge>
                 </div>
                 <Separator />
-                <Button 
-                  className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED]"
-                  onClick={handlePurchase}
-                >
+                <Button className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED]" onClick={handlePurchase}>
                   <Download className="mr-2 h-4 w-4" />
                   {site.price === 0 ? 'Download Now' : 'Purchase Now'}
                 </Button>
-                {!user && (
-                  <p className="text-xs text-center text-muted-foreground mt-2">
+                {!user && <p className="text-xs text-center text-muted-foreground mt-2">
                     Sign in required to purchase
-                  </p>
-                )}
+                  </p>}
               </CardContent>
             </Card>
 
@@ -243,12 +221,10 @@ const SiteDetails = () => {
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
-                  {(site.tags || ['web', 'template', 'responsive']).map((tag, index) => (
-                    <Badge key={index} variant="outline" className="flex items-center gap-1">
+                  {(site.tags || ['web', 'template', 'responsive']).map((tag, index) => <Badge key={index} variant="outline" className="flex items-center gap-1">
                       <Tag className="h-3 w-3" />
                       {tag}
-                    </Badge>
-                  ))}
+                    </Badge>)}
                 </div>
               </CardContent>
             </Card>
@@ -259,15 +235,10 @@ const SiteDetails = () => {
                 <CardTitle>What's Included</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                {(site.inclusions && site.inclusions.length > 0) ? (
-                  site.inclusions.map((inclusion, index) => (
-                    <div key={index} className="flex items-center gap-2">
+                {site.inclusions && site.inclusions.length > 0 ? site.inclusions.map((inclusion, index) => <div key={index} className="flex items-center gap-2">
                       <Shield className="h-4 w-4 text-green-500" />
                       <span className="text-sm">{inclusion}</span>
-                    </div>
-                  ))
-                ) : (
-                  <>
+                    </div>) : <>
                     <div className="flex items-center gap-2">
                       <Shield className="h-4 w-4 text-green-500" />
                       <span className="text-sm">Source code files</span>
@@ -284,15 +255,12 @@ const SiteDetails = () => {
                       <Shield className="h-4 w-4 text-green-500" />
                       <span className="text-sm">Future updates</span>
                     </div>
-                  </>
-                )}
+                  </>}
               </CardContent>
             </Card>
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default SiteDetails;
