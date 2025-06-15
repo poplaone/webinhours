@@ -16,6 +16,7 @@ const Dashboard = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchValue, setSearchValue] = useState('');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
+  const [selectedTag, setSelectedTag] = useState<string>('');
 
   // Fetch all websites for marketplace - don't filter by approval status to show uploaded sites
   const { data: websites = [], isLoading, refetch } = useWebsites({
@@ -48,8 +49,22 @@ const Dashboard = () => {
     // Price filter
     const priceMatch = Number(template.price) >= priceRange[0] && Number(template.price) <= priceRange[1];
     
-    return categoryMatch && searchMatch && priceMatch;
+    // Tag filter
+    const tagMatch = !selectedTag || (template.tags && template.tags.some(tag => 
+      tag.toLowerCase().includes(selectedTag.toLowerCase())
+    ));
+    
+    return categoryMatch && searchMatch && priceMatch && tagMatch;
   });
+
+  const handleTagFilter = (tag: string) => {
+    setSelectedTag(tag);
+    setSearchValue(''); // Clear search when filtering by tag
+  };
+
+  const clearTagFilter = () => {
+    setSelectedTag('');
+  };
 
   return (
     <div className="flex h-screen overflow-hidden bg-gradient-to-br from-background to-background/80">
@@ -70,9 +85,27 @@ const Dashboard = () => {
             <div>
               <h1 className="text-2xl md:text-3xl font-bold">Website Templates Marketplace</h1>
               <p className="text-muted-foreground mt-1 text-sm md:text-base">Professional website templates ready to buy and customize for your business</p>
-              <p className="text-sm text-blue-600 mt-2">
-                Showing {filteredTemplates.length} templates
-              </p>
+              <div className="flex items-center gap-2 mt-2">
+                <p className="text-sm text-blue-600">
+                  Showing {filteredTemplates.length} templates
+                </p>
+                {selectedTag && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-muted-foreground">•</span>
+                    <span className="text-sm bg-[#8B5CF6]/10 text-[#8B5CF6] px-2 py-1 rounded-full">
+                      Tag: {selectedTag}
+                    </span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={clearTagFilter}
+                      className="h-6 px-2 text-xs"
+                    >
+                      Clear
+                    </Button>
+                  </div>
+                )}
+              </div>
             </div>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
               <Button 
@@ -100,7 +133,8 @@ const Dashboard = () => {
               <TemplateGrid 
                 templates={filteredTemplates} 
                 isLoading={isLoading} 
-                onRefresh={refetch} 
+                onRefresh={refetch}
+                onTagFilter={handleTagFilter}
               />
             </div>
             

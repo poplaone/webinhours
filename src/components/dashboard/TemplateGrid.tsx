@@ -1,27 +1,30 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, ShoppingCart, DollarSign, TrendingUp, Users, Radio } from 'lucide-react';
+import { DollarSign, TrendingUp, Users, Radio } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Website } from '@/types/website';
 
 interface TemplateGridProps {
   templates: Website[];
   isLoading: boolean;
   onRefresh: () => void;
+  onTagFilter?: (tag: string) => void;
 }
 
-export const TemplateGrid = ({ templates, isLoading, onRefresh }: TemplateGridProps) => {
+export const TemplateGrid = ({ templates, isLoading, onRefresh, onTagFilter }: TemplateGridProps) => {
   const navigate = useNavigate();
 
   const viewTemplateDetail = (templateId: string) => {
     navigate(`/site-details/${templateId}`);
   };
 
-  const viewTemplateDemo = (templateId: string) => {
-    navigate(`/concept-testing/${templateId}`);
+  const handleTagClick = (e: React.MouseEvent, tag: string) => {
+    e.stopPropagation(); // Prevent card click
+    if (onTagFilter) {
+      onTagFilter(tag);
+    }
   };
 
   if (isLoading) {
@@ -65,7 +68,7 @@ export const TemplateGrid = ({ templates, isLoading, onRefresh }: TemplateGridPr
       {templates.map((template) => (
         <Card 
           key={template.id} 
-          className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg transition-shadow group relative h-full cursor-pointer"
+          className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg transition-all duration-300 group relative h-full cursor-pointer hover:scale-[1.02]"
           onClick={() => viewTemplateDetail(template.id)}
         >
           <div className="h-48 md:h-64 overflow-hidden relative">
@@ -79,55 +82,11 @@ export const TemplateGrid = ({ templates, isLoading, onRefresh }: TemplateGridPr
                 {template.is_featured ? "Featured" : template.status === 'approved' ? "Approved" : template.status}
               </span>
             </div>
-            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 md:gap-3">
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        viewTemplateDemo(template.id);
-                      }} 
-                      variant="secondary" 
-                      className="bg-white/20 text-white backdrop-blur-sm hover:bg-white/30"
-                      size="sm"
-                    >
-                      <Eye className="mr-1 md:mr-2 h-4 w-4" />
-                      <span className="hidden sm:inline">Preview</span>
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>View live demo</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        viewTemplateDetail(template.id);
-                      }} 
-                      variant="secondary" 
-                      className="bg-[#8B5CF6]/80 text-white backdrop-blur-sm hover:bg-[#8B5CF6]"
-                      size="sm"
-                    >
-                      <ShoppingCart className="mr-1 md:mr-2 h-4 w-4" />
-                      <span className="hidden sm:inline">Buy</span>
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Purchase template</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
           </div>
           
           <CardContent className="p-2 md:p-3 flex flex-col flex-grow">
             <div className="flex justify-between items-start mb-2">
-              <h3 className="font-semibold text-base md:text-lg cursor-pointer hover:text-[#8B5CF6] transition-colors line-clamp-1" onClick={() => viewTemplateDetail(template.id)}>{template.title}</h3>
+              <h3 className="font-semibold text-base md:text-lg hover:text-[#8B5CF6] transition-colors line-clamp-1">{template.title}</h3>
               <div className="flex items-center gap-1 text-[#8B5CF6] font-bold text-sm md:text-base">
                 <DollarSign className="h-3 w-3 md:h-4 md:w-4" />
                 <span>{Number(template.price) === 0 ? 'Free' : Number(template.price)}</span>
@@ -169,9 +128,13 @@ export const TemplateGrid = ({ templates, isLoading, onRefresh }: TemplateGridPr
             
             <div className="flex flex-wrap gap-1">
               {template.tags?.slice(0, 2).map((tag, index) => (
-                <span key={index} className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-1 md:px-2 py-1 rounded-full">
+                <button
+                  key={index}
+                  onClick={(e) => handleTagClick(e, tag)}
+                  className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-1 md:px-2 py-1 rounded-full hover:bg-[#8B5CF6]/20 transition-colors cursor-pointer"
+                >
                   {tag}
-                </span>
+                </button>
               ))}
             </div>
           </CardContent>
