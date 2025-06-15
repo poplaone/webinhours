@@ -70,6 +70,7 @@ export const TemplateGrid = ({ templates, isLoading, onRefresh, onTagFilter }: T
           key={template.id} 
           className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg transition-all duration-300 group relative h-full cursor-pointer hover:scale-[1.02]"
           onClick={() => viewTemplateDetail(template.id)}
+          title={`View ${template.title}`}
         >
           <div className="h-48 md:h-64 overflow-hidden relative">
             <img 

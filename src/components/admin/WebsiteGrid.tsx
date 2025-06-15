@@ -48,7 +48,7 @@ export function WebsiteGrid({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {websites.map((website) => (
-        <Card key={website.id} className="group hover:shadow-lg transition-shadow">
+        <Card key={website.id} className="group hover:shadow-lg transition-shadow" title={website.title}>
           <div className="relative">
             {website.thumbnail_url && (
               <img 
@@ -65,7 +65,7 @@ export function WebsiteGrid({
             )}
           </div>
           <CardContent className="p-4">
-            <h3 className="font-semibold mb-2 line-clamp-1">{website.title}</h3>
+            <h3 className="font-semibold mb-2 line-clamp-1" title={website.title}>{website.title}</h3>
             <p className="text-sm text-gray-600 mb-3 line-clamp-2">
               {website.description}
             </p>
@@ -91,6 +91,7 @@ export function WebsiteGrid({
                 size="sm" 
                 variant="outline"
                 onClick={() => onEditWebsite(website)}
+                title={`Edit ${website.title}`}
               >
                 <Edit className="h-4 w-4 mr-1" />
                 Edit
@@ -99,6 +100,7 @@ export function WebsiteGrid({
                 size="sm" 
                 variant="outline"
                 onClick={() => onReviewWebsite(website)}
+                title={`Review ${website.title}`}
               >
                 Review
               </Button>
@@ -106,6 +108,7 @@ export function WebsiteGrid({
                 size="sm" 
                 variant="outline"
                 onClick={() => onDeleteWebsite(website.id)}
+                title={`Delete ${website.title}`}
               >
                 <Trash className="h-4 w-4" />
               </Button>

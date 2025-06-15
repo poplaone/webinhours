@@ -53,7 +53,7 @@ export function MyWebsitesTable({
             <TableBody>
               {websites.map((website) => (
                 <TableRow key={website.id}>
-                  <TableCell className="font-medium">{website.title}</TableCell>
+                  <TableCell className="font-medium" title={website.title}>{website.title}</TableCell>
                   <TableCell>{website.category}</TableCell>
                   <TableCell>{formatPrice(website.price)}</TableCell>
                   <TableCell>
@@ -75,6 +75,7 @@ export function MyWebsitesTable({
                         size="sm" 
                         variant="outline"
                         onClick={() => onEditWebsite(website)}
+                        title={`Edit ${website.title}`}
                       >
                         <Edit className="h-4 w-4" />
                       </Button>
@@ -82,6 +83,7 @@ export function MyWebsitesTable({
                         size="sm" 
                         variant="outline"
                         onClick={() => onDeleteWebsite(website.id)}
+                        title={`Delete ${website.title}`}
                       >
                         <Trash className="h-4 w-4" />
                       </Button>

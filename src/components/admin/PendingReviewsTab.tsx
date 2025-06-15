@@ -34,7 +34,7 @@ export function PendingReviewsTab({
       <CardContent>
         <div className="space-y-4">
           {pendingWebsites.map((website) => (
-            <div key={website.id} className="border rounded-lg p-4 space-y-3">
+            <div key={website.id} className="border rounded-lg p-4 space-y-3" title={website.title}>
               <div className="flex items-start justify-between">
                 <div className="flex gap-4">
                   {website.thumbnail_url && (
@@ -45,7 +45,7 @@ export function PendingReviewsTab({
                     />
                   )}
                   <div>
-                    <h3 className="font-semibold">{website.title}</h3>
+                    <h3 className="font-semibold" title={website.title}>{website.title}</h3>
                     <p className="text-sm text-gray-600 line-clamp-2">{website.description}</p>
                     <div className="flex items-center gap-2 mt-2">
                       <Badge variant="outline">{website.category}</Badge>
@@ -59,6 +59,7 @@ export function PendingReviewsTab({
                     size="sm" 
                     variant="outline"
                     onClick={() => onReviewWebsite(website)}
+                    title={`Review ${website.title}`}
                   >
                     <Edit className="h-4 w-4 mr-1" />
                     Review
@@ -67,6 +68,7 @@ export function PendingReviewsTab({
                     size="sm" 
                     className="bg-green-600 hover:bg-green-700"
                     onClick={() => onQuickAction(website.id, 'approved')}
+                    title={`Approve ${website.title}`}
                   >
                     <CheckCircle className="h-4 w-4 mr-1" />
                     Approve
@@ -75,6 +77,7 @@ export function PendingReviewsTab({
                     size="sm" 
                     className="bg-purple-600 hover:bg-purple-700"
                     onClick={() => onQuickAction(website.id, 'featured')}
+                    title={`Feature ${website.title}`}
                   >
                     <Star className="h-4 w-4 mr-1" />
                     Feature
@@ -83,6 +86,7 @@ export function PendingReviewsTab({
                     size="sm" 
                     variant="destructive"
                     onClick={() => onQuickAction(website.id, 'rejected')}
+                    title={`Reject ${website.title}`}
                   >
                     <XCircle className="h-4 w-4 mr-1" />
                     Reject
