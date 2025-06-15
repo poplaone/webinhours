@@ -1,7 +1,6 @@
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Code, 
   Smartphone, 
@@ -23,6 +22,16 @@ import { PremiumTestimonials } from '@/components/ui/premium-testimonials';
 
 const Index = () => {
   const navigate = useNavigate();
+  const [currentText, setCurrentText] = useState(0);
+  const texts = ["In Hours", "In Days"];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentText((prev) => (prev + 1) % texts.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const services = [
     {
@@ -131,14 +140,38 @@ const Index = () => {
               transition={{ duration: 1, delay: 0.2 }}
             >
               Web Development
-              <motion.span 
-                className="text-gradient-blue block"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-              >
-                In Hours
-              </motion.span>
+              <div className="text-gradient-blue block h-20 md:h-24 flex items-center justify-center">
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={currentText}
+                    initial={{ 
+                      opacity: 0, 
+                      rotateX: -90,
+                      scale: 0.8
+                    }}
+                    animate={{ 
+                      opacity: 1, 
+                      rotateX: 0,
+                      scale: 1
+                    }}
+                    exit={{ 
+                      opacity: 0, 
+                      rotateX: 90,
+                      scale: 0.8
+                    }}
+                    transition={{ 
+                      duration: 0.6,
+                      ease: "easeInOut"
+                    }}
+                    style={{
+                      transformStyle: "preserve-3d",
+                      transformOrigin: "center center"
+                    }}
+                  >
+                    {texts[currentText]}
+                  </motion.span>
+                </AnimatePresence>
+              </div>
             </motion.h1>
             
             <motion.p 
