@@ -4,80 +4,111 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "@/hooks/useAuth";
-import ProtectedRoute from "@/components/ProtectedRoute";
+import { HelmetProvider } from "react-helmet-async";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
-import Profile from "./pages/Profile";
-import About from "./pages/About";
-import HowItWorks from "./pages/HowItWorks";
-import Pricing from "./pages/Pricing";
-import FAQ from "./pages/FAQ";
-import Contact from "./pages/Contact";
-import Terms from "./pages/Terms";
-import Privacy from "./pages/Privacy";
-import Blog from "./pages/Blog";
+import SiteDetails from "./pages/SiteDetails";
 import Auth from "./pages/Auth";
+import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
-import Notifications from "./pages/Notifications";
 import AdminPanel from "./pages/AdminPanel";
 import Marketplace from "./pages/Marketplace";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import FAQ from "./pages/FAQ";
+import Pricing from "./pages/Pricing";
+import Blog from "./pages/Blog";
+import HowItWorks from "./pages/HowItWorks";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
+import Notifications from "./pages/Notifications";
+import ConceptTestingResults from "./pages/ConceptTestingResults";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
-function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/how-it-works" element={<HowItWorks />} />
-              <Route path="/pricing" element={<Pricing />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/terms" element={<Terms />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="/blog" element={<Blog />} />
-              
-              {/* Public browsing routes - no auth required */}
-              <Route path="/dashboard" element={<Dashboard />} />
-              
-              {/* Protected Routes - require auth */}
-              <Route path="/profile" element={
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <HelmetProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/how-it-works" element={<HowItWorks />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/marketplace" element={<Marketplace />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/site-details/:id"
+              element={
+                <ProtectedRoute>
+                  <SiteDetails />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
                 <ProtectedRoute>
                   <Profile />
                 </ProtectedRoute>
-              } />
-              <Route path="/settings" element={
+              }
+            />
+            <Route
+              path="/settings"
+              element={
                 <ProtectedRoute>
                   <Settings />
                 </ProtectedRoute>
-              } />
-              <Route path="/notifications" element={
-                <ProtectedRoute>
-                  <Notifications />
-                </ProtectedRoute>
-              } />
-              <Route path="/admin-panel" element={
+              }
+            />
+            <Route
+              path="/admin-panel"
+              element={
                 <ProtectedRoute>
                   <AdminPanel />
                 </ProtectedRoute>
-              } />
-              
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
-      </AuthProvider>
-    </QueryClientProvider>
-  );
-}
+              }
+            />
+            <Route
+              path="/notifications"
+              element={
+                <ProtectedRoute>
+                  <Notifications />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/concept-testing/:id"
+              element={
+                <ProtectedRoute>
+                  <ConceptTestingResults />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </HelmetProvider>
+  </QueryClientProvider>
+);
 
 export default App;

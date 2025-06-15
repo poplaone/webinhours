@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Bell, User, Sparkles, TrendingUp, Code, Users, Radio, BookOpen, BarChart3, Brain, ExternalLink, Settings, ShoppingCart, DollarSign, Eye } from 'lucide-react';
@@ -35,7 +36,7 @@ const Dashboard = () => {
   }, [refetch]);
 
   const viewTemplateDetail = (templateId: string) => {
-    navigate(`/idea/${templateId}`);
+    navigate(`/site-details/${templateId}`);
   };
 
   const viewTemplateDemo = (templateId: string) => {
@@ -73,7 +74,7 @@ const Dashboard = () => {
         />
 
         <main className="flex-1 overflow-y-auto p-6 lg:container">
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
             <div>
               <h1 className="text-3xl font-bold">Website Templates Marketplace</h1>
               <p className="text-muted-foreground mt-1">Professional website templates ready to buy and customize for your business</p>
@@ -127,7 +128,8 @@ const Dashboard = () => {
                 filteredTemplates.map((template) => (
                   <Card 
                     key={template.id} 
-                    className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg transition-shadow group relative h-full"
+                    className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg transition-shadow group relative h-full cursor-pointer"
+                    onClick={() => viewTemplateDetail(template.id)}
                   >
                     <div className="h-64 overflow-hidden relative">
                       <img 
@@ -145,7 +147,10 @@ const Dashboard = () => {
                           <Tooltip>
                             <TooltipTrigger asChild>
                               <Button 
-                                onClick={() => viewTemplateDemo(template.id)} 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  viewTemplateDemo(template.id);
+                                }} 
                                 variant="secondary" 
                                 className="bg-white/20 text-white backdrop-blur-sm hover:bg-white/30"
                                 size="sm"
@@ -163,7 +168,10 @@ const Dashboard = () => {
                           <Tooltip>
                             <TooltipTrigger asChild>
                               <Button 
-                                onClick={() => viewTemplateDetail(template.id)} 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  viewTemplateDetail(template.id);
+                                }} 
                                 variant="secondary" 
                                 className="bg-[#8B5CF6]/80 text-white backdrop-blur-sm hover:bg-[#8B5CF6]"
                                 size="sm"
@@ -180,7 +188,7 @@ const Dashboard = () => {
                       </div>
                     </div>
                     
-                    <CardContent className="p-4 flex flex-col flex-grow">
+                    <CardContent className="p-3 flex flex-col flex-grow">
                       <div className="flex justify-between items-start mb-2">
                         <h3 className="font-semibold text-lg cursor-pointer hover:text-[#8B5CF6] transition-colors" onClick={() => viewTemplateDetail(template.id)}>{template.title}</h3>
                         <div className="flex items-center gap-1 text-[#8B5CF6] font-bold">
@@ -188,9 +196,9 @@ const Dashboard = () => {
                           <span>{Number(template.price) === 0 ? 'Free' : Number(template.price)}</span>
                         </div>
                       </div>
-                      <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{template.description || "No description available"}</p>
+                      <p className="text-sm text-muted-foreground mb-2 line-clamp-2">{template.description || "No description available"}</p>
                       
-                      <div className="grid grid-cols-3 gap-2 text-xs border-t border-border/40 pt-3 mb-3">
+                      <div className="grid grid-cols-3 gap-2 text-xs border-t border-border/40 pt-2 mb-2">
                         <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
                           <div className="flex items-center gap-1 text-muted-foreground mb-1">
                             <TrendingUp className="h-3 w-3 text-[#8B5CF6]" />
@@ -236,14 +244,14 @@ const Dashboard = () => {
             </div>
             
             <div className="lg:col-span-1">
-              <Card className="border border-border/40 bg-card/50 backdrop-blur h-full">
-                <div className="p-5 border-b border-border/40 flex items-center gap-2">
+              <Card className="border border-border/40 bg-card/50 backdrop-blur h-fit">
+                <div className="p-4 border-b border-border/40 flex items-center gap-2">
                   <Brain className="h-5 w-5 text-[#8B5CF6]" />
                   <h3 className="font-semibold">Marketplace Insights</h3>
                 </div>
                 
-                <CardContent className="p-5">
-                  <div className="space-y-4">
+                <CardContent className="p-4">
+                  <div className="space-y-3">
                     <div>
                       <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
                         <TrendingUp className="h-4 w-4 text-[#8B5CF6]" />
@@ -298,25 +306,25 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="mt-8">
-            <Card className="p-6 border border-border/40 bg-card/50 backdrop-blur">
-              <h2 className="text-xl font-semibold mb-4">Template Categories</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="p-4 bg-background rounded-lg border border-border/60">
+          <div className="mt-6">
+            <Card className="p-4 border border-border/40 bg-card/50 backdrop-blur">
+              <h2 className="text-xl font-semibold mb-3">Template Categories</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="p-3 bg-background rounded-lg border border-border/60">
                   <div className="flex justify-between items-center mb-2">
                     <h3 className="font-medium">Ready-to-Use Templates</h3>
                     <span className="text-xs font-medium px-2 py-1 rounded-full bg-[#8B5CF6] text-white">{websites.length}+ Available</span>
                   </div>
                   <p className="text-sm text-muted-foreground">Pre-built websites ready for immediate deployment and customization</p>
                 </div>
-                <div className="p-4 bg-background rounded-lg border border-border/60">
+                <div className="p-3 bg-background rounded-lg border border-border/60">
                   <div className="flex justify-between items-center mb-2">
                     <h3 className="font-medium">Custom Development</h3>
                     <span className="text-xs font-medium px-2 py-1 rounded-full bg-emerald-500 text-white">24-48h Delivery</span>
                   </div>
                   <p className="text-sm text-muted-foreground">Bespoke websites built according to your specific requirements</p>
                 </div>
-                <div className="p-4 bg-background rounded-lg border border-border/60">
+                <div className="p-3 bg-background rounded-lg border border-border/60">
                   <div className="flex justify-between items-center mb-2">
                     <h3 className="font-medium">Premium Support</h3>
                     <span className="text-xs font-medium px-2 py-1 rounded-full bg-amber-500 text-white">Included</span>
