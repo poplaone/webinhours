@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { SideNavbar } from '@/components/layout/SideNavbar';
+import SideNavbar from '@/components/layout/SideNavbar';
 import { DashboardHeader } from '@/components/layout/DashboardHeader';
 import { TemplateGrid } from '@/components/dashboard/TemplateGrid';
 import { InsightsSidebar } from '@/components/dashboard/InsightsSidebar';
@@ -54,8 +54,8 @@ const Dashboard = () => {
           isLoading={isLoading}
         />
         
-        <main className="container mx-auto p-3 md:p-4">
-          <div className="flex gap-3 md:gap-4">
+        <main className="container mx-auto p-2 md:p-3">
+          <div className="flex gap-2 md:gap-3">
             <div className="flex-1">
               <TemplateGrid 
                 templates={filteredWebsites}
