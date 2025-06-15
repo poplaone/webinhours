@@ -1,4 +1,3 @@
-
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
@@ -68,7 +67,17 @@ export interface WebsiteUpdate {
   is_featured?: boolean;
   featured_at?: string;
   approved_at?: string;
+  views_count?: number;
+  downloads_count?: number;
+  rating_average?: number;
+  rating_count?: number;
 }
+
+// Check if user is admin
+export const useIsAdmin = () => {
+  const { user } = useAuth();
+  return user?.email === 'aaushpapta1010@gmail.com';
+};
 
 export const useWebsites = (filters?: {
   category?: string;
@@ -76,7 +85,10 @@ export const useWebsites = (filters?: {
   status?: string;
   featured?: boolean;
   search?: string;
+  includeAll?: boolean; // For admin to see all websites
 }) => {
+  const isAdmin = useIsAdmin();
+  
   return useQuery({
     queryKey: ['websites', filters],
     queryFn: async () => {
@@ -91,10 +103,10 @@ export const useWebsites = (filters?: {
         query = query.eq('category', filters.category);
       }
 
+      // Admin can see all websites, regular users only see approved/featured
       if (filters?.status) {
         query = query.eq('status', filters.status);
-      } else {
-        // Default to showing only approved and featured websites for public view
+      } else if (!filters?.includeAll || !isAdmin) {
         query = query.in('status', ['approved', 'featured']);
       }
 
