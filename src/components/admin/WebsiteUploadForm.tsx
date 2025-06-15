@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { X, Plus, Upload, DollarSign } from 'lucide-react';
+import { ImageUpload } from '@/components/ui/image-upload';
 import { useCreateWebsite, useIsAdmin } from '@/hooks/useWebsites';
 import { useToast } from '@/hooks/use-toast';
 
@@ -18,7 +19,6 @@ interface WebsiteFormData {
   price: number;
   preview_url: string;
   demo_url?: string;
-  thumbnail_url?: string;
 }
 
 const categories = [
@@ -46,6 +46,7 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
   const [featureInput, setFeatureInput] = useState('');
   const [inclusions, setInclusions] = useState<string[]>([]);
   const [inclusionInput, setInclusionInput] = useState('');
+  const [thumbnailUrl, setThumbnailUrl] = useState('');
 
   const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<WebsiteFormData>();
   const createWebsite = useCreateWebsite();
@@ -99,6 +100,15 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
   };
 
   const onSubmit = async (data: WebsiteFormData) => {
+    if (!thumbnailUrl) {
+      toast({
+        title: "Error",
+        description: "Please upload a thumbnail image.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
       const websiteData = {
         title: data.title,
@@ -107,12 +117,11 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
         price: data.price,
         preview_url: data.preview_url,
         demo_url: data.demo_url || null,
-        thumbnail_url: data.thumbnail_url || null,
+        thumbnail_url: thumbnailUrl,
         tags: tags.length > 0 ? tags : null,
         technologies: technologies.length > 0 ? technologies : null,
         features: features.length > 0 ? features : null,
         inclusions: inclusions.length > 0 ? inclusions : null,
-        // Auto-approve if admin, otherwise set to pending
         status: isAdmin ? 'approved' as const : 'pending' as const,
         ...(isAdmin && { approved_at: new Date().toISOString() })
       };
@@ -222,15 +231,12 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="thumbnail_url">Thumbnail Image URL *</Label>
-              <Input
-                id="thumbnail_url"
-                {...register('thumbnail_url', { required: 'Thumbnail URL is required' })}
-                placeholder="https://example.com/image.jpg"
+              <ImageUpload
+                value={thumbnailUrl}
+                onChange={setThumbnailUrl}
+                label="Thumbnail Image"
+                required
               />
-              {errors.thumbnail_url && (
-                <p className="text-sm text-red-500">{errors.thumbnail_url.message}</p>
-              )}
             </div>
           </div>
 
@@ -377,7 +383,7 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
             </Button>
             <Button 
               type="submit" 
-              disabled={createWebsite.isPending || tags.length === 0}
+              disabled={createWebsite.isPending || tags.length === 0 || !thumbnailUrl}
               className="bg-[#8B5CF6] hover:bg-[#8B5CF6]/90"
             >
               {createWebsite.isPending ? 'Uploading...' : `Upload Website${isAdmin ? ' (Auto-Approve)' : ''}`}

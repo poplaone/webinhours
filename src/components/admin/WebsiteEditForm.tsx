@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Badge } from '@/components/ui/badge';
 import { Plus, X } from 'lucide-react';
+import { ImageUpload } from '@/components/ui/image-upload';
 import { Website } from '@/types/website';
 import { DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
@@ -19,7 +20,6 @@ const websiteSchema = z.object({
   price: z.number().min(0, 'Price must be non-negative'),
   preview_url: z.string().url('Must be a valid URL'),
   demo_url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
-  thumbnail_url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
 });
 
 interface WebsiteEditFormProps {
@@ -37,6 +37,7 @@ export function WebsiteEditForm({ website, onClose, onUpdate }: WebsiteEditFormP
   const [newFeature, setNewFeature] = useState('');
   const [inclusions, setInclusions] = useState<string[]>(website.inclusions || []);
   const [newInclusion, setNewInclusion] = useState('');
+  const [thumbnailUrl, setThumbnailUrl] = useState(website.thumbnail_url || '');
 
   const form = useForm({
     resolver: zodResolver(websiteSchema),
@@ -47,7 +48,6 @@ export function WebsiteEditForm({ website, onClose, onUpdate }: WebsiteEditFormP
       price: website.price,
       preview_url: website.preview_url,
       demo_url: website.demo_url || '',
-      thumbnail_url: website.thumbnail_url || '',
     },
   });
 
@@ -104,7 +104,7 @@ export function WebsiteEditForm({ website, onClose, onUpdate }: WebsiteEditFormP
       features: features.length > 0 ? features : null,
       inclusions: inclusions.length > 0 ? inclusions : null,
       demo_url: data.demo_url || null,
-      thumbnail_url: data.thumbnail_url || null,
+      thumbnail_url: thumbnailUrl || null,
       description: data.description || null,
     };
 
@@ -227,19 +227,13 @@ export function WebsiteEditForm({ website, onClose, onUpdate }: WebsiteEditFormP
             />
           </div>
 
-          <FormField
-            control={form.control}
-            name="thumbnail_url"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Thumbnail URL</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div>
+            <ImageUpload
+              value={thumbnailUrl}
+              onChange={setThumbnailUrl}
+              label="Thumbnail Image"
+            />
+          </div>
 
           {/* Tags Section */}
           <div>
