@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Code } from 'lucide-react';
@@ -10,7 +9,6 @@ import { TemplateGrid } from '@/components/dashboard/TemplateGrid';
 import { InsightsSidebar } from '@/components/dashboard/InsightsSidebar';
 import { CategoryCards } from '@/components/dashboard/CategoryCards';
 import { useWebsites } from '@/hooks/useWebsites';
-
 const Dashboard = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -19,10 +17,14 @@ const Dashboard = () => {
   const [selectedTag, setSelectedTag] = useState<string>('');
 
   // Fetch all websites for marketplace - don't filter by approval status to show uploaded sites
-  const { data: websites = [], isLoading, refetch } = useWebsites({
+  const {
+    data: websites = [],
+    isLoading,
+    refetch
+  } = useWebsites({
     category: selectedCategory !== 'all' ? selectedCategory : undefined,
     search: searchValue || undefined,
-    includeAll: true, // Show all websites including uploaded ones
+    includeAll: true // Show all websites including uploaded ones
   });
 
   // Debug logging
@@ -40,88 +42,55 @@ const Dashboard = () => {
   const filteredTemplates = websites.filter(template => {
     // Category filter
     const categoryMatch = selectedCategory === 'all' || template.category.toLowerCase() === selectedCategory.toLowerCase();
-    
+
     // Search filter
-    const searchMatch = template.title.toLowerCase().includes(searchValue.toLowerCase()) ||
-                       template.description?.toLowerCase().includes(searchValue.toLowerCase()) ||
-                       template.category.toLowerCase().includes(searchValue.toLowerCase());
-    
+    const searchMatch = template.title.toLowerCase().includes(searchValue.toLowerCase()) || template.description?.toLowerCase().includes(searchValue.toLowerCase()) || template.category.toLowerCase().includes(searchValue.toLowerCase());
+
     // Price filter
     const priceMatch = Number(template.price) >= priceRange[0] && Number(template.price) <= priceRange[1];
-    
+
     // Tag filter
-    const tagMatch = !selectedTag || (template.tags && template.tags.some(tag => 
-      tag.toLowerCase().includes(selectedTag.toLowerCase())
-    ));
-    
+    const tagMatch = !selectedTag || template.tags && template.tags.some(tag => tag.toLowerCase().includes(selectedTag.toLowerCase()));
     return categoryMatch && searchMatch && priceMatch && tagMatch;
   });
-
   const handleTagFilter = (tag: string) => {
     setSelectedTag(tag);
     setSearchValue(''); // Clear search when filtering by tag
   };
-
   const clearTagFilter = () => {
     setSelectedTag('');
   };
-
-  return (
-    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-background to-background/80">
+  return <div className="flex h-screen overflow-hidden bg-gradient-to-br from-background to-background/80">
       <SideNavbar />
       
       <div className="flex-1 flex flex-col overflow-hidden">
-        <DashboardHeader 
-          searchValue={searchValue}
-          onSearchChange={setSearchValue}
-          selectedCategory={selectedCategory}
-          onCategoryChange={setSelectedCategory}
-          priceRange={priceRange}
-          onPriceRangeChange={setPriceRange}
-        />
+        <DashboardHeader searchValue={searchValue} onSearchChange={setSearchValue} selectedCategory={selectedCategory} onCategoryChange={setSelectedCategory} priceRange={priceRange} onPriceRangeChange={setPriceRange} />
 
         <main className="flex-1 overflow-y-auto p-3 md:p-6 lg:container pb-20 md:pb-6">
           <div className="flex flex-col gap-3 md:gap-4 mb-4 md:mb-6">
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold">Website Templates Marketplace</h1>
+              
               <p className="text-muted-foreground mt-1 text-sm md:text-base">Professional website templates ready to buy and customize for your business</p>
               <div className="flex items-center gap-2 mt-2">
                 <p className="text-sm text-blue-600">
                   Showing {filteredTemplates.length} templates
                 </p>
-                {selectedTag && (
-                  <div className="flex items-center gap-2">
+                {selectedTag && <div className="flex items-center gap-2">
                     <span className="text-sm text-muted-foreground">•</span>
                     <span className="text-sm bg-[#8B5CF6]/10 text-[#8B5CF6] px-2 py-1 rounded-full">
                       Tag: {selectedTag}
                     </span>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={clearTagFilter}
-                      className="h-6 px-2 text-xs"
-                    >
+                    <Button variant="ghost" size="sm" onClick={clearTagFilter} className="h-6 px-2 text-xs">
                       Clear
                     </Button>
-                  </div>
-                )}
+                  </div>}
               </div>
             </div>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-              <Button 
-                variant="outline" 
-                onClick={() => refetch()}
-                disabled={isLoading}
-                size="sm"
-                className="w-full sm:w-auto"
-              >
+              <Button variant="outline" onClick={() => refetch()} disabled={isLoading} size="sm" className="w-full sm:w-auto">
                 {isLoading ? 'Refreshing...' : 'Refresh'}
               </Button>
-              <Button 
-                className="bg-[#8B5CF6] hover:bg-[#7C3AED] w-full sm:w-auto" 
-                onClick={() => navigate('/admin-panel')}
-                size="sm"
-              >
+              <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED] w-full sm:w-auto" onClick={() => navigate('/admin-panel')} size="sm">
                 <Code className="mr-2 h-4 w-4" />
                 Upload Website
               </Button>
@@ -130,12 +99,7 @@ const Dashboard = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-6">
             <div className="lg:col-span-3">
-              <TemplateGrid 
-                templates={filteredTemplates} 
-                isLoading={isLoading} 
-                onRefresh={refetch}
-                onTagFilter={handleTagFilter}
-              />
+              <TemplateGrid templates={filteredTemplates} isLoading={isLoading} onRefresh={refetch} onTagFilter={handleTagFilter} />
             </div>
             
             {/* Hide sidebar content on mobile, show only on lg+ */}
@@ -152,8 +116,6 @@ const Dashboard = () => {
       
       {/* Mobile Bottom Navigation */}
       <MobileBottomNav />
-    </div>
-  );
+    </div>;
 };
-
 export default Dashboard;
