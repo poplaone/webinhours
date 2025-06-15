@@ -1,4 +1,3 @@
-
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
@@ -31,7 +30,7 @@ export const useWebsites = (filters?: WebsiteFilters) => {
           console.log('🔍 Applying status filter:', filters.status);
           query = query.eq('status', filters.status);
         } else if (filters?.includeAll) {
-          console.log('🔍 Including all websites regardless of status');
+          console.log('🔍 Including all websites regardless of status (admin mode)');
           // When includeAll is true, don't filter by status - show all websites
         } else {
           console.log('🔍 Applying default status filter: approved, featured');
@@ -58,17 +57,18 @@ export const useWebsites = (filters?: WebsiteFilters) => {
           query = query.or(`title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%,category.ilike.%${searchTerm}%`);
         }
 
-        console.log('🔍 Executing basic websites query...');
+        console.log('🔍 Executing websites query...');
         const { data: websitesData, error: websitesError } = await query
-          .order('is_featured', { ascending: false })
-          .order('created_at', { ascending: false });
+          .order('created_at', { ascending: false }) // Order by creation date to show newest first
+          .order('is_featured', { ascending: false });
 
         if (websitesError) {
           console.error('❌ Error fetching websites:', websitesError);
           throw new Error(`Database error: ${websitesError.message}`);
         }
 
-        console.log('✅ Basic websites query successful:', websitesData?.length || 0, 'websites');
+        console.log('✅ Websites query successful:', websitesData?.length || 0, 'websites');
+        console.log('📋 Website statuses found:', websitesData?.map(w => ({ id: w.id, title: w.title, status: w.status })));
 
         // Now fetch profiles separately and merge
         if (websitesData && websitesData.length > 0) {
