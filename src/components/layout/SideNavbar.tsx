@@ -2,7 +2,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
-import { SidebarLogo } from './sidebar/SidebarLogo';
+import SidebarLogo from './sidebar/SidebarLogo';
 import { SidebarNavigation } from './sidebar/SidebarNavigation';
 import { SidebarActions } from './sidebar/SidebarActions';
 
@@ -16,7 +16,7 @@ const SideNavbar = () => {
 
   return (
     <div className="w-64 bg-card border-r border-border/40 h-full flex flex-col">
-      <SidebarLogo />
+      <SidebarLogo isExpanded={true} />
       <div className="flex-1 overflow-y-auto">
         <SidebarNavigation currentPath={location.pathname} isAuthenticated={!!user} />
       </div>
