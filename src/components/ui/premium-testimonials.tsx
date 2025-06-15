@@ -95,7 +95,7 @@ export function PremiumTestimonials() {
       y: 0,
       transition: { 
         duration: 0.8, 
-        ease: [0.23, 0.86, 0.39, 0.96] 
+        ease: "easeOut"
       }
     }
   };
