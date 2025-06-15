@@ -20,7 +20,7 @@ const Dashboard = () => {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
   const [selectedTag, setSelectedTag] = useState<string>('');
 
-  // Fetch websites - include all statuses to show all listings
+  // Fetch websites - include all statuses for debugging
   const {
     data: websites = [],
     isLoading,
@@ -32,20 +32,34 @@ const Dashboard = () => {
     includeAll: true // Show all websites including pending ones for debugging
   });
 
-  // Debug logging
+  // Enhanced error handling and logging
   React.useEffect(() => {
-    console.log('Dashboard: websites loaded', websites.length);
-    console.log('Dashboard: complete websites data:', websites);
-    console.log('Dashboard: isLoading', isLoading);
-    console.log('Dashboard: error', error);
+    console.log('📊 Dashboard state update:');
+    console.log('  - Websites loaded:', websites.length);
+    console.log('  - Is loading:', isLoading);
+    console.log('  - Has error:', !!error);
     
     if (error) {
-      console.error('Dashboard: error loading websites', error);
+      console.error('💥 Dashboard error details:', {
+        message: error.message,
+        name: error.name,
+        stack: error.stack
+      });
+      
       toast({
         title: "Error loading websites",
         description: error.message || "There was an error loading the marketplace. Please try again.",
         variant: "destructive",
       });
+    } else if (!isLoading && websites.length === 0) {
+      console.warn('⚠️ No websites found in database');
+      toast({
+        title: "No websites found",
+        description: "The marketplace appears to be empty. Try refreshing or check back later.",
+        variant: "default",
+      });
+    } else if (!isLoading && websites.length > 0) {
+      console.log('✅ Websites loaded successfully:', websites.map(w => ({ id: w.id, title: w.title, status: w.status })));
     }
   }, [websites, isLoading, error, toast]);
 
@@ -73,16 +87,18 @@ const Dashboard = () => {
   });
 
   const handleTagFilter = (tag: string) => {
+    console.log('🔖 Tag filter applied:', tag);
     setSelectedTag(tag);
     setSearchValue(''); // Clear search when filtering by tag
   };
 
   const clearTagFilter = () => {
+    console.log('🔖 Tag filter cleared');
     setSelectedTag('');
   };
 
   const handleRefresh = () => {
-    console.log('Manual refresh triggered');
+    console.log('🔄 Manual refresh triggered');
     refetch();
     toast({
       title: "Refreshed",
@@ -90,7 +106,7 @@ const Dashboard = () => {
     });
   };
 
-  console.log('Dashboard render - filteredTemplates:', filteredTemplates.length);
+  console.log('🎨 Dashboard render - filteredTemplates:', filteredTemplates.length);
 
   return (
     <div className="flex h-screen overflow-hidden bg-gradient-to-br from-background to-background/80">
