@@ -20,7 +20,7 @@ const Dashboard = () => {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
   const [selectedTag, setSelectedTag] = useState<string>('');
 
-  // Fetch websites - include all statuses to show the listings we just added
+  // Fetch websites - include all statuses to show all listings
   const {
     data: websites = [],
     isLoading,
@@ -35,13 +35,15 @@ const Dashboard = () => {
   // Debug logging
   React.useEffect(() => {
     console.log('Dashboard: websites loaded', websites.length);
-    console.log('Dashboard: websites data:', websites);
+    console.log('Dashboard: complete websites data:', websites);
     console.log('Dashboard: isLoading', isLoading);
+    console.log('Dashboard: error', error);
+    
     if (error) {
       console.error('Dashboard: error loading websites', error);
       toast({
         title: "Error loading websites",
-        description: "There was an error loading the marketplace. Please try again.",
+        description: error.message || "There was an error loading the marketplace. Please try again.",
         variant: "destructive",
       });
     }
@@ -80,12 +82,15 @@ const Dashboard = () => {
   };
 
   const handleRefresh = () => {
+    console.log('Manual refresh triggered');
     refetch();
     toast({
       title: "Refreshed",
       description: "Marketplace data has been refreshed.",
     });
   };
+
+  console.log('Dashboard render - filteredTemplates:', filteredTemplates.length);
 
   return (
     <div className="flex h-screen overflow-hidden bg-gradient-to-br from-background to-background/80">

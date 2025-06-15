@@ -12,60 +12,66 @@ export const useWebsites = (filters?: WebsiteFilters) => {
     queryKey: ['websites', filters, isAdmin],
     queryFn: async () => {
       console.log('Fetching websites with filters:', filters);
-      let query = supabase
-        .from('websites')
-        .select(`
-          *,
-          profiles(
-            full_name,
-            avatar_url
-          )
-        `);
+      
+      try {
+        let query = supabase
+          .from('websites')
+          .select(`
+            *,
+            profiles!websites_user_id_fkey(
+              full_name,
+              avatar_url
+            )
+          `);
 
-      // Apply category filter
-      if (filters?.category && filters.category !== 'all') {
-        query = query.eq('category', filters.category);
-      }
+        // Apply category filter
+        if (filters?.category && filters.category !== 'all') {
+          query = query.eq('category', filters.category);
+        }
 
-      // Apply status filter based on user role and context
-      if (filters?.status && filters.status !== 'all') {
-        query = query.eq('status', filters.status);
-      } else if (filters?.includeAll) {
-        // When includeAll is true, don't filter by status - show all websites
-        console.log('Including all websites regardless of status');
-      } else {
-        // Default behavior: show only approved/featured for marketplace
-        query = query.in('status', ['approved', 'featured']);
-      }
+        // Apply status filter based on user role and context
+        if (filters?.status && filters.status !== 'all') {
+          query = query.eq('status', filters.status);
+        } else if (filters?.includeAll) {
+          // When includeAll is true, don't filter by status - show all websites
+          console.log('Including all websites regardless of status');
+        } else {
+          // Default behavior: show only approved/featured for marketplace
+          query = query.in('status', ['approved', 'featured']);
+        }
 
-      // Apply featured filter
-      if (filters?.featured !== undefined) {
-        query = query.eq('is_featured', filters.featured);
-      }
+        // Apply featured filter
+        if (filters?.featured !== undefined) {
+          query = query.eq('is_featured', filters.featured);
+        }
 
-      // Apply tags filter
-      if (filters?.tags && filters.tags.length > 0) {
-        query = query.overlaps('tags', filters.tags);
-      }
+        // Apply tags filter
+        if (filters?.tags && filters.tags.length > 0) {
+          query = query.overlaps('tags', filters.tags);
+        }
 
-      // Apply search filter
-      if (filters?.search && filters.search.trim()) {
-        const searchTerm = filters.search.trim();
-        query = query.or(`title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%,category.ilike.%${searchTerm}%`);
-      }
+        // Apply search filter
+        if (filters?.search && filters.search.trim()) {
+          const searchTerm = filters.search.trim();
+          query = query.or(`title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%,category.ilike.%${searchTerm}%`);
+        }
 
-      const { data, error } = await query
-        .order('is_featured', { ascending: false })
-        .order('created_at', { ascending: false });
+        const { data, error } = await query
+          .order('is_featured', { ascending: false })
+          .order('created_at', { ascending: false });
 
-      if (error) {
-        console.error('Error fetching websites:', error);
+        if (error) {
+          console.error('Error fetching websites:', error);
+          throw error;
+        }
+        
+        console.log('Successfully fetched websites:', data?.length || 0, 'websites');
+        console.log('Website data sample:', data?.slice(0, 2));
+        return data as Website[];
+      } catch (error) {
+        console.error('Query failed:', error);
         throw error;
       }
-      
-      console.log('Successfully fetched websites:', data?.length || 0, 'websites');
-      console.log('Website data:', data);
-      return data as Website[];
     },
     staleTime: 1000 * 60 * 5, // 5 minutes
     gcTime: 1000 * 60 * 10, // 10 minutes
@@ -85,7 +91,7 @@ export const useUserWebsites = () => {
         .from('websites')
         .select(`
           *,
-          profiles(
+          profiles!websites_user_id_fkey(
             full_name,
             avatar_url
           )
@@ -115,7 +121,7 @@ export const useWebsiteById = (id: string) => {
         .from('websites')
         .select(`
           *,
-          profiles(
+          profiles!websites_user_id_fkey(
             full_name,
             avatar_url
           )
