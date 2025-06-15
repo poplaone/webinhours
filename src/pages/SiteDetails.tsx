@@ -210,22 +210,33 @@ const SiteDetails = () => {
                 <CardTitle>What's Included</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <Shield className="h-4 w-4 text-green-500" />
-                  <span className="text-sm">Source code files</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Shield className="h-4 w-4 text-green-500" />
-                  <span className="text-sm">Documentation</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Shield className="h-4 w-4 text-green-500" />
-                  <span className="text-sm">30-day support</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Shield className="h-4 w-4 text-green-500" />
-                  <span className="text-sm">Future updates</span>
-                </div>
+                {(site.inclusions && site.inclusions.length > 0) ? (
+                  site.inclusions.map((inclusion, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <Shield className="h-4 w-4 text-green-500" />
+                      <span className="text-sm">{inclusion}</span>
+                    </div>
+                  ))
+                ) : (
+                  <>
+                    <div className="flex items-center gap-2">
+                      <Shield className="h-4 w-4 text-green-500" />
+                      <span className="text-sm">Source code files</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Shield className="h-4 w-4 text-green-500" />
+                      <span className="text-sm">Documentation</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Shield className="h-4 w-4 text-green-500" />
+                      <span className="text-sm">30-day support</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Shield className="h-4 w-4 text-green-500" />
+                      <span className="text-sm">Future updates</span>
+                    </div>
+                  </>
+                )}
               </CardContent>
             </Card>
           </div>

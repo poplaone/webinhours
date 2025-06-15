@@ -44,6 +44,8 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
   const [techInput, setTechInput] = useState('');
   const [features, setFeatures] = useState<string[]>([]);
   const [featureInput, setFeatureInput] = useState('');
+  const [inclusions, setInclusions] = useState<string[]>([]);
+  const [inclusionInput, setInclusionInput] = useState('');
 
   const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<WebsiteFormData>();
   const createWebsite = useCreateWebsite();
@@ -85,6 +87,17 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
     setFeatures(features.filter(f => f !== feature));
   };
 
+  const addInclusion = () => {
+    if (inclusionInput.trim() && !inclusions.includes(inclusionInput.trim())) {
+      setInclusions([...inclusions, inclusionInput.trim()]);
+      setInclusionInput('');
+    }
+  };
+
+  const removeInclusion = (inclusion: string) => {
+    setInclusions(inclusions.filter(i => i !== inclusion));
+  };
+
   const onSubmit = async (data: WebsiteFormData) => {
     try {
       const websiteData = {
@@ -98,6 +111,7 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
         tags,
         technologies,
         features,
+        inclusions,
         // Auto-approve if admin, otherwise set to pending
         status: isAdmin ? 'approved' as const : 'pending' as const,
         ...(isAdmin && { approved_at: new Date().toISOString() })
@@ -325,6 +339,36 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
                 </Badge>
               ))}
             </div>
+          </div>
+
+          {/* Inclusions Section */}
+          <div className="space-y-2">
+            <Label>What's Included</Label>
+            <div className="flex gap-2">
+              <Input
+                value={inclusionInput}
+                onChange={(e) => setInclusionInput(e.target.value)}
+                placeholder="e.g., Source files, Documentation, 30-day support"
+                onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addInclusion())}
+              />
+              <Button type="button" onClick={addInclusion} variant="outline" size="icon">
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {inclusions.map((inclusion) => (
+                <Badge key={inclusion} variant="outline" className="flex items-center gap-1 bg-green-50 border-green-200 text-green-800">
+                  {inclusion}
+                  <X 
+                    className="h-3 w-3 cursor-pointer" 
+                    onClick={() => removeInclusion(inclusion)}
+                  />
+                </Badge>
+              ))}
+            </div>
+            {inclusions.length === 0 && (
+              <p className="text-sm text-muted-foreground">Add items that are included with this template</p>
+            )}
           </div>
 
           <div className="flex justify-end gap-4 pt-4">

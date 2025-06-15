@@ -1,3 +1,4 @@
+
 export interface Website {
   id: string;
   user_id: string;
@@ -13,6 +14,7 @@ export interface Website {
   images?: string[];
   technologies?: string[];
   features?: string[];
+  inclusions?: string[];
   status: 'pending' | 'approved' | 'rejected' | 'featured' | 'archived';
   is_featured: boolean;
   views_count: number;
@@ -42,6 +44,7 @@ export interface WebsiteInsert {
   images?: string[];
   technologies?: string[];
   features?: string[];
+  inclusions?: string[];
   status?: 'pending' | 'approved' | 'rejected' | 'featured' | 'archived';
   approved_at?: string;
   user_id?: string;
@@ -60,6 +63,7 @@ export interface WebsiteUpdate {
   images?: string[];
   technologies?: string[];
   features?: string[];
+  inclusions?: string[];
   status?: 'pending' | 'approved' | 'rejected' | 'featured' | 'archived';
   is_featured?: boolean;
   featured_at?: string;
