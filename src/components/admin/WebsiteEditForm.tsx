@@ -1,17 +1,18 @@
+
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Badge } from '@/components/ui/badge';
-import { Plus, X } from 'lucide-react';
-import { ImageUpload } from '@/components/ui/image-upload';
+import { Form } from '@/components/ui/form';
 import { Website } from '@/types/website';
 import { DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { EditBasicInfoSection } from './edit-form/EditBasicInfoSection';
+import { EditURLSection } from './edit-form/EditURLSection';
+import { EditTagsSection } from './edit-form/EditTagsSection';
+import { EditTechnologiesSection } from './edit-form/EditTechnologiesSection';
+import { EditFeaturesSection } from './edit-form/EditFeaturesSection';
+import { EditInclusionsSection } from './edit-form/EditInclusionsSection';
 
 const websiteSchema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -120,228 +121,49 @@ export function WebsiteEditForm({ website, onClose, onUpdate }: WebsiteEditFormP
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Title *</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Category *</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="business">Business</SelectItem>
-                      <SelectItem value="portfolio">Portfolio</SelectItem>
-                      <SelectItem value="ecommerce">E-commerce</SelectItem>
-                      <SelectItem value="blog">Blog</SelectItem>
-                      <SelectItem value="landing">Landing Page</SelectItem>
-                      <SelectItem value="dashboard">Dashboard</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          <FormField
+          <EditBasicInfoSection 
             control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Description</FormLabel>
-                <FormControl>
-                  <Textarea {...field} rows={3} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            errors={form.formState.errors}
+            thumbnailUrl={thumbnailUrl}
+            setThumbnailUrl={setThumbnailUrl}
           />
 
-          <FormField
+          <EditURLSection 
             control={form.control}
-            name="price"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Price (USD) *</FormLabel>
-                <FormControl>
-                  <Input 
-                    type="number" 
-                    step="0.01" 
-                    min="0"
-                    {...field} 
-                    onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            errors={form.formState.errors}
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormField
-              control={form.control}
-              name="preview_url"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Preview URL *</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <EditTagsSection 
+            tags={tags}
+            newTag={newTag}
+            setNewTag={setNewTag}
+            addTag={addTag}
+            removeTag={removeTag}
+          />
 
-            <FormField
-              control={form.control}
-              name="demo_url"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Demo URL</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+          <EditTechnologiesSection 
+            technologies={technologies}
+            newTech={newTech}
+            setNewTech={setNewTech}
+            addTech={addTech}
+            removeTech={removeTech}
+          />
 
-          <div>
-            <ImageUpload
-              value={thumbnailUrl}
-              onChange={setThumbnailUrl}
-              label="Thumbnail Image"
-            />
-          </div>
+          <EditFeaturesSection 
+            features={features}
+            newFeature={newFeature}
+            setNewFeature={setNewFeature}
+            addFeature={addFeature}
+            removeFeature={removeFeature}
+          />
 
-          {/* Tags Section */}
-          <div>
-            <FormLabel>Tags</FormLabel>
-            <div className="flex gap-2 mb-2">
-              <Input
-                value={newTag}
-                onChange={(e) => setNewTag(e.target.value)}
-                placeholder="Add a tag"
-                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
-              />
-              <Button type="button" onClick={addTag} size="sm">
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {tags.map((tag) => (
-                <Badge key={tag} variant="secondary" className="flex items-center gap-1">
-                  {tag}
-                  <X 
-                    className="h-3 w-3 cursor-pointer" 
-                    onClick={() => removeTag(tag)}
-                  />
-                </Badge>
-              ))}
-            </div>
-          </div>
-
-          {/* Technologies Section */}
-          <div>
-            <FormLabel>Technologies</FormLabel>
-            <div className="flex gap-2 mb-2">
-              <Input
-                value={newTech}
-                onChange={(e) => setNewTech(e.target.value)}
-                placeholder="Add a technology"
-                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addTech())}
-              />
-              <Button type="button" onClick={addTech} size="sm">
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {technologies.map((tech) => (
-                <Badge key={tech} variant="outline" className="flex items-center gap-1">
-                  {tech}
-                  <X 
-                    className="h-3 w-3 cursor-pointer" 
-                    onClick={() => removeTech(tech)}
-                  />
-                </Badge>
-              ))}
-            </div>
-          </div>
-
-          {/* Features Section */}
-          <div>
-            <FormLabel>Features</FormLabel>
-            <div className="flex gap-2 mb-2">
-              <Input
-                value={newFeature}
-                onChange={(e) => setNewFeature(e.target.value)}
-                placeholder="Add a feature"
-                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addFeature())}
-              />
-              <Button type="button" onClick={addFeature} size="sm">
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {features.map((feature) => (
-                <Badge key={feature} variant="default" className="flex items-center gap-1">
-                  {feature}
-                  <X 
-                    className="h-3 w-3 cursor-pointer" 
-                    onClick={() => removeFeature(feature)}
-                  />
-                </Badge>
-              ))}
-            </div>
-          </div>
-
-          {/* Inclusions Section */}
-          <div>
-            <FormLabel>What's Included</FormLabel>
-            <div className="flex gap-2 mb-2">
-              <Input
-                value={newInclusion}
-                onChange={(e) => setNewInclusion(e.target.value)}
-                placeholder="Add an inclusion"
-                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addInclusion())}
-              />
-              <Button type="button" onClick={addInclusion} size="sm">
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {inclusions.map((inclusion) => (
-                <Badge key={inclusion} variant="secondary" className="flex items-center gap-1 bg-green-100 text-green-800">
-                  {inclusion}
-                  <X 
-                    className="h-3 w-3 cursor-pointer" 
-                    onClick={() => removeInclusion(inclusion)}
-                  />
-                </Badge>
-              ))}
-            </div>
-          </div>
+          <EditInclusionsSection 
+            inclusions={inclusions}
+            newInclusion={newInclusion}
+            setNewInclusion={setNewInclusion}
+            addInclusion={addInclusion}
+            removeInclusion={removeInclusion}
+          />
 
           <div className="flex justify-end gap-4">
             <Button type="button" variant="outline" onClick={onClose}>
