@@ -1,4 +1,3 @@
-
 export interface Website {
   id: string;
   user_id: string;
@@ -43,6 +42,8 @@ export interface WebsiteInsert {
   images?: string[];
   technologies?: string[];
   features?: string[];
+  status?: 'pending' | 'approved' | 'rejected' | 'featured' | 'archived';
+  approved_at?: string;
   user_id?: string;
 }
 

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
@@ -9,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { X, Plus, Upload, DollarSign } from 'lucide-react';
-import { useCreateWebsite } from '@/hooks/useWebsites';
+import { useCreateWebsite, useIsAdmin } from '@/hooks/useWebsites';
 import { useToast } from '@/hooks/use-toast';
 
 interface WebsiteFormData {
@@ -48,6 +47,7 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
 
   const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<WebsiteFormData>();
   const createWebsite = useCreateWebsite();
+  const isAdmin = useIsAdmin();
   const { toast } = useToast();
 
   const selectedCategory = watch('category');
@@ -87,7 +87,7 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
 
   const onSubmit = async (data: WebsiteFormData) => {
     try {
-      await createWebsite.mutateAsync({
+      const websiteData = {
         title: data.title,
         description: data.description,
         category: data.category,
@@ -98,11 +98,18 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
         tags,
         technologies,
         features,
-      });
+        // Auto-approve if admin, otherwise set to pending
+        status: isAdmin ? 'approved' as const : 'pending' as const,
+        ...(isAdmin && { approved_at: new Date().toISOString() })
+      };
+
+      await createWebsite.mutateAsync(websiteData);
 
       toast({
         title: "Success",
-        description: "Website uploaded successfully! It will be reviewed before being published.",
+        description: isAdmin 
+          ? "Website uploaded and automatically approved!" 
+          : "Website uploaded successfully! It will be reviewed before being published.",
       });
       
       onClose();
@@ -121,6 +128,11 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
         <CardTitle className="flex items-center gap-2">
           <Upload className="h-5 w-5" />
           Upload Website Template
+          {isAdmin && (
+            <Badge className="bg-purple-100 text-purple-800">
+              Admin - Auto Approve
+            </Badge>
+          )}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -324,7 +336,7 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
               disabled={createWebsite.isPending || tags.length === 0}
               className="bg-[#8B5CF6] hover:bg-[#8B5CF6]/90"
             >
-              {createWebsite.isPending ? 'Uploading...' : 'Upload Website'}
+              {createWebsite.isPending ? 'Uploading...' : `Upload Website${isAdmin ? ' (Auto-Approve)' : ''}`}
             </Button>
           </div>
         </form>
