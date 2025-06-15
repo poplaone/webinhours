@@ -57,11 +57,11 @@ export function AdminPanelTabs({
 }: AdminPanelTabsProps) {
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-      <TabsList className={`grid w-full ${isAdmin ? 'grid-cols-4' : 'grid-cols-3'}`}>
+      <TabsList className={`grid w-full ${isAdmin ? 'grid-cols-4' : 'grid-cols-1'}`}>
         {isAdmin && <TabsTrigger value="review">Review Submissions ({pendingCount})</TabsTrigger>}
         {isAdmin && <TabsTrigger value="all-websites">All Websites ({allWebsites.length})</TabsTrigger>}
-        <TabsTrigger value="my-websites">My Websites ({userWebsites.length})</TabsTrigger>
-        <TabsTrigger value="analytics">Analytics</TabsTrigger>
+        {isAdmin && <TabsTrigger value="my-websites">My Websites ({userWebsites.length})</TabsTrigger>}
+        <TabsTrigger value="analytics">{isAdmin ? 'Analytics' : 'Dashboard'}</TabsTrigger>
       </TabsList>
 
       {/* Admin Review Tab */}
@@ -101,18 +101,20 @@ export function AdminPanelTabs({
         </TabsContent>
       )}
 
-      {/* My Websites Tab */}
-      <TabsContent value="my-websites" className="space-y-6">
-        <MyWebsitesTable
-          websites={userWebsites}
-          onEditWebsite={handleEditWebsite}
-          onDeleteWebsite={handleDelete}
-          formatPrice={formatPrice}
-          getStatusColor={getStatusColor}
-        />
-      </TabsContent>
+      {/* My Websites Tab (Admin Only) */}
+      {isAdmin && (
+        <TabsContent value="my-websites" className="space-y-6">
+          <MyWebsitesTable
+            websites={userWebsites}
+            onEditWebsite={handleEditWebsite}
+            onDeleteWebsite={handleDelete}
+            formatPrice={formatPrice}
+            getStatusColor={getStatusColor}
+          />
+        </TabsContent>
+      )}
 
-      {/* Analytics Tab */}
+      {/* Analytics/Dashboard Tab */}
       <TabsContent value="analytics" className="space-y-6">
         <AdminStats
           pendingCount={pendingCount}

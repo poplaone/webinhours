@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useWebsites, useUserWebsites, useUpdateWebsite, useDeleteWebsite, useIsAdmin } from '@/hooks/useWebsites';
 import { useAuth } from '@/hooks/useAuth';
@@ -13,7 +12,7 @@ export const useAdminPanel = () => {
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [showUploadDialog, setShowUploadDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
-  const [activeTab, setActiveTab] = useState(isAdmin ? 'review' : 'my-websites');
+  const [activeTab, setActiveTab] = useState(isAdmin ? 'review' : 'analytics');
   const [reviewingWebsite, setReviewingWebsite] = useState<Website | null>(null);
   const [editingWebsite, setEditingWebsite] = useState<Website | null>(null);
 
