@@ -116,12 +116,23 @@ const Dashboard = () => {
   const [searchValue, setSearchValue] = useState('');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
 
-  // Fetch real websites from database
-  const { data: uploadedWebsites = [], isLoading } = useWebsites({
+  // Fetch real websites from database with better filtering
+  const { data: uploadedWebsites = [], isLoading, refetch } = useWebsites({
     category: selectedCategory !== 'all' ? selectedCategory : undefined,
     search: searchValue || undefined,
-    status: 'approved' // Only show approved websites
+    // Don't filter by status here - let all approved/featured websites show
   });
+
+  // Debug logging
+  React.useEffect(() => {
+    console.log('Dashboard: uploadedWebsites', uploadedWebsites);
+    console.log('Dashboard: isLoading', isLoading);
+  }, [uploadedWebsites, isLoading]);
+
+  // Refetch data when component mounts to ensure fresh data
+  React.useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   const viewTemplateDetail = (templateId: string) => {
     navigate(`/idea/${templateId}`);
@@ -187,8 +198,18 @@ const Dashboard = () => {
             <div>
               <h1 className="text-3xl font-bold">Website Templates Marketplace</h1>
               <p className="text-muted-foreground mt-1">Professional website templates ready to buy and customize for your business</p>
+              <p className="text-sm text-blue-600 mt-2">
+                Showing {filteredTemplates.length} templates ({uploadedWebsites.length} uploaded + {demoWebsiteTemplates.length} demo)
+              </p>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center gap-2">
+              <Button 
+                variant="outline" 
+                onClick={() => refetch()}
+                disabled={isLoading}
+              >
+                {isLoading ? 'Refreshing...' : 'Refresh'}
+              </Button>
               <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]" onClick={() => navigate('/admin-panel')}>
                 <Code className="mr-2 h-4 w-4" />
                 Upload Website

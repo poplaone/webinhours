@@ -11,6 +11,7 @@ export const useWebsites = (filters?: WebsiteFilters) => {
   return useQuery({
     queryKey: ['websites', filters],
     queryFn: async () => {
+      console.log('Fetching websites with filters:', filters);
       let query = (supabase as any)
         .from('websites')
         .select(`
@@ -44,7 +45,12 @@ export const useWebsites = (filters?: WebsiteFilters) => {
       const { data, error } = await query
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching websites:', error);
+        throw error;
+      }
+      
+      console.log('Fetched websites:', data);
       return data as Website[];
     },
   });
@@ -58,13 +64,19 @@ export const useUserWebsites = () => {
     queryFn: async () => {
       if (!user) return [];
       
+      console.log('Fetching user websites for user:', user.id);
       const { data, error } = await (supabase as any)
         .from('websites')
         .select('*')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching user websites:', error);
+        throw error;
+      }
+      
+      console.log('Fetched user websites:', data);
       return data as Website[];
     },
     enabled: !!user,
