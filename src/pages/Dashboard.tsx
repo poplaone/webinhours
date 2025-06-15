@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Code } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import SideNavbar from '@/components/layout/SideNavbar';
+import MobileBottomNav from '@/components/layout/MobileBottomNav';
 import { DashboardHeader } from '@/components/layout/DashboardHeader';
 import { TemplateGrid } from '@/components/dashboard/TemplateGrid';
 import { InsightsSidebar } from '@/components/dashboard/InsightsSidebar';
@@ -114,6 +115,9 @@ const Dashboard = () => {
           </div>
         </main>
       </div>
+      
+      {/* Mobile Bottom Navigation */}
+      <MobileBottomNav />
     </div>
   );
 };
