@@ -21,7 +21,6 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 import Notifications from "./pages/Notifications";
-import ConceptTestingResults from "./pages/ConceptTestingResults";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -69,14 +68,6 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Notifications />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/concept-testing/:id"
-              element={
-                <ProtectedRoute>
-                  <ConceptTestingResults />
                 </ProtectedRoute>
               }
             />
