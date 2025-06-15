@@ -1,15 +1,13 @@
-
 import React from 'react';
 import { Card } from "@/components/ui/card";
-
 interface CategoryCardsProps {
   websiteCount: number;
 }
-
-export const CategoryCards = ({ websiteCount }: CategoryCardsProps) => {
-  return (
-    <Card className="p-3 md:p-4 border border-border/40 bg-card/50 backdrop-blur">
-      <h2 className="text-lg md:text-xl font-semibold mb-3">Template Categories</h2>
+export const CategoryCards = ({
+  websiteCount
+}: CategoryCardsProps) => {
+  return <Card className="p-3 md:p-4 border border-border/40 bg-card/50 backdrop-blur">
+      
       <div className="space-y-3">
         <div className="p-3 bg-background rounded-lg border border-border/60">
           <div className="flex justify-between items-center mb-2">
@@ -33,6 +31,5 @@ export const CategoryCards = ({ websiteCount }: CategoryCardsProps) => {
           <p className="text-xs md:text-sm text-muted-foreground">30-day support and customization assistance with every purchase</p>
         </div>
       </div>
-    </Card>
-  );
+    </Card>;
 };
