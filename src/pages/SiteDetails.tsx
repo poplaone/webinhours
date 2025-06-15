@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Eye, Download, Star, User, Calendar, Tag, Globe, Code2, Palette, Smartphone, Shield } from 'lucide-react';
@@ -36,6 +37,18 @@ const SiteDetails = () => {
     });
   };
 
+  const handlePreview = () => {
+    if (site?.preview_url) {
+      window.open(site.preview_url, '_blank', 'noopener,noreferrer');
+    } else {
+      toast({
+        title: "Preview Not Available",
+        description: "Preview URL is not available for this template.",
+        variant: "destructive",
+      });
+    }
+  };
+
   if (!site) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex items-center justify-center">
@@ -69,7 +82,11 @@ const SiteDetails = () => {
             <p className="text-muted-foreground">{site.description}</p>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" className="flex items-center gap-2">
+            <Button 
+              variant="outline" 
+              className="flex items-center gap-2"
+              onClick={handlePreview}
+            >
               <Eye className="h-4 w-4" />
               Preview
             </Button>
