@@ -31,7 +31,7 @@ const specialTags = [
 ];
 
 export function WebsiteReviewModal({ website, isOpen, onClose, onUpdate }: WebsiteReviewModalProps) {
-  const [status, setStatus] = useState(website?.status || 'pending');
+  const [status, setStatus] = useState<'pending' | 'approved' | 'featured' | 'rejected' | 'archived'>(website?.status || 'pending');
   const [viewsCount, setViewsCount] = useState(website?.views_count || 0);
   const [downloadsCount, setDownloadsCount] = useState(website?.downloads_count || 0);
   const [ratingAverage, setRatingAverage] = useState(website?.rating_average || 0);
@@ -72,6 +72,10 @@ export function WebsiteReviewModal({ website, isOpen, onClose, onUpdate }: Websi
 
   const removeTag = (tagToRemove: string) => {
     setTags(tags.filter(tag => tag !== tagToRemove));
+  };
+
+  const handleStatusChange = (value: string) => {
+    setStatus(value as 'pending' | 'approved' | 'featured' | 'rejected' | 'archived');
   };
 
   return (
@@ -135,7 +139,7 @@ export function WebsiteReviewModal({ website, isOpen, onClose, onUpdate }: Websi
           <div className="space-y-4">
             <div>
               <Label htmlFor="status">Status</Label>
-              <Select value={status} onValueChange={setStatus}>
+              <Select value={status} onValueChange={handleStatusChange}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
