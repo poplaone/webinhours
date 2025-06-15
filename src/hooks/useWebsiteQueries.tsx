@@ -1,4 +1,3 @@
-
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
@@ -30,15 +29,12 @@ export const useWebsites = (filters?: WebsiteFilters) => {
       // Apply status filter based on user role and context
       if (filters?.status && filters.status !== 'all') {
         query = query.eq('status', filters.status);
-      } else if (!filters?.includeAll) {
-        // For marketplace/dashboard, show approved and featured websites
-        // For admin panel, show all when includeAll is true
-        if (isAdmin && filters?.includeAll) {
-          // Admin sees all websites when includeAll is true
-        } else {
-          // Regular users and marketplace see only approved/featured
-          query = query.in('status', ['approved', 'featured']);
-        }
+      } else if (filters?.includeAll) {
+        // When includeAll is true, don't filter by status - show all websites
+        console.log('Including all websites regardless of status');
+      } else {
+        // Default behavior: show only approved/featured for marketplace
+        query = query.in('status', ['approved', 'featured']);
       }
 
       // Apply featured filter
@@ -67,6 +63,7 @@ export const useWebsites = (filters?: WebsiteFilters) => {
       }
       
       console.log('Successfully fetched websites:', data?.length || 0, 'websites');
+      console.log('Website data:', data);
       return data as Website[];
     },
     staleTime: 1000 * 60 * 5, // 5 minutes

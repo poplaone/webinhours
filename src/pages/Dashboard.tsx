@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Code } from 'lucide-react';
@@ -19,7 +20,7 @@ const Dashboard = () => {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
   const [selectedTag, setSelectedTag] = useState<string>('');
 
-  // Fetch all websites for marketplace - don't filter by approval status to show uploaded sites
+  // Fetch websites - include all statuses to show the listings we just added
   const {
     data: websites = [],
     isLoading,
@@ -28,12 +29,13 @@ const Dashboard = () => {
   } = useWebsites({
     category: selectedCategory !== 'all' ? selectedCategory : undefined,
     search: searchValue || undefined,
-    includeAll: false // Show only approved/featured for marketplace
+    includeAll: true // Show all websites including pending ones for debugging
   });
 
   // Debug logging
   React.useEffect(() => {
     console.log('Dashboard: websites loaded', websites.length);
+    console.log('Dashboard: websites data:', websites);
     console.log('Dashboard: isLoading', isLoading);
     if (error) {
       console.error('Dashboard: error loading websites', error);
