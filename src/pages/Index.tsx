@@ -107,7 +107,7 @@ const Index = () => {
             transition={{ duration: 0.6 }}
           >
             <Button 
-              onClick={() => navigate('/dashboard')} 
+              onClick={() => navigate('/marketplace')} 
               className="bg-[#8B5CF6] hover:bg-[#7C3AED] transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#8B5CF6]/25"
             >
               Get Started
@@ -160,7 +160,7 @@ const Index = () => {
               <Button 
                 size="lg" 
                 className="bg-[#8B5CF6] hover:bg-[#7C3AED] text-lg px-8 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#8B5CF6]/25 group"
-                onClick={() => navigate('/dashboard')}
+                onClick={() => navigate('/marketplace')}
               >
                 Start Your Project
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
@@ -306,7 +306,7 @@ const Index = () => {
                   <Button 
                     size="lg" 
                     className="bg-[#8B5CF6] hover:bg-[#7C3AED] text-lg px-8 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#8B5CF6]/25 group"
-                    onClick={() => navigate('/dashboard')}
+                    onClick={() => navigate('/marketplace')}
                   >
                     Start Your Project
                     <MessageSquare className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:rotate-12" />
