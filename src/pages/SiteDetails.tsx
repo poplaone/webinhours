@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { useWebsites } from '@/hooks/useWebsites';
+
 const SiteDetails = () => {
   const {
     id
@@ -27,6 +28,7 @@ const SiteDetails = () => {
     includeAll: true
   });
   const site = websites.find(w => w.id === id);
+
   const handlePurchase = () => {
     if (!user) {
       toast({
@@ -55,14 +57,15 @@ const SiteDetails = () => {
       });
     }
   };
+
   if (!site) {
     return <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex items-center justify-center">
         <Card className="p-8 text-center">
           <h2 className="text-2xl font-bold mb-4">Site Not Found</h2>
           <p className="text-muted-foreground mb-4">The requested site could not be found.</p>
-          <Button onClick={() => navigate('/dashboard')}>
+          <Button onClick={() => navigate('/marketplace')}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Dashboard
+            Back to Marketplace
           </Button>
         </Card>
       </div>;
@@ -71,9 +74,9 @@ const SiteDetails = () => {
       <div className="container mx-auto p-6">
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
-          <Button variant="outline" onClick={() => navigate('/dashboard')} className="flex items-center gap-2">
+          <Button variant="outline" onClick={() => navigate('/marketplace')} className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />
-            Back to Dashboard
+            Back to Marketplace
           </Button>
           <div className="flex-1">
             <h1 className="text-3xl font-bold">{site.title}</h1>
