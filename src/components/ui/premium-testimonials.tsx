@@ -91,8 +91,7 @@ export function PremiumTestimonials() {
           }}
           transition={{
             duration: 25,
-            repeat: Infinity,
-            ease: "linear"
+            repeat: Infinity
           }}
           style={{
             backgroundSize: '400% 400%'
@@ -109,8 +108,7 @@ export function PremiumTestimonials() {
           }}
           transition={{
             duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut"
+            repeat: Infinity
           }}
         />
         <motion.div
@@ -122,8 +120,7 @@ export function PremiumTestimonials() {
           }}
           transition={{
             duration: 22,
-            repeat: Infinity,
-            ease: "easeInOut"
+            repeat: Infinity
           }}
         />
 
@@ -144,7 +141,6 @@ export function PremiumTestimonials() {
             transition={{
               duration: 3 + i * 0.5,
               repeat: Infinity,
-              ease: "easeInOut",
               delay: i * 0.3,
             }}
           />
@@ -170,7 +166,7 @@ export function PremiumTestimonials() {
           >
             <motion.div
               animate={{ rotate: 360 }}
-              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              transition={{ duration: 3, repeat: Infinity }}
             >
               <Sparkles className="h-4 w-4 text-[#8B5CF6]" />
             </motion.div>
