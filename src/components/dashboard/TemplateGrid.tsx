@@ -1,9 +1,10 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DollarSign, TrendingUp, Users, Radio } from 'lucide-react';
+import { DollarSign, TrendingUp, Users, Radio, Star } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Website } from '@/types/website';
 
 interface TemplateGridProps {
@@ -50,15 +51,31 @@ export const TemplateGrid = ({ templates, isLoading, onRefresh, onTagFilter }: T
   if (templates.length === 0) {
     return (
       <div className="col-span-full text-center py-8 md:py-12">
-        <p className="text-lg md:text-xl text-muted-foreground mb-4">No templates found</p>
-        <p className="text-muted-foreground text-sm md:text-base">Upload your first website template to get started</p>
-        <Button 
-          className="mt-4 bg-[#8B5CF6] hover:bg-[#7C3AED]"
-          onClick={() => navigate('/admin-panel')}
-          size="sm"
-        >
-          Upload Website
-        </Button>
+        <div className="max-w-md mx-auto">
+          <div className="w-16 h-16 mx-auto mb-4 bg-[#8B5CF6]/10 rounded-full flex items-center justify-center">
+            <Star className="w-8 h-8 text-[#8B5CF6]" />
+          </div>
+          <p className="text-lg md:text-xl text-muted-foreground mb-2">No templates found</p>
+          <p className="text-muted-foreground text-sm md:text-base mb-6">
+            Try adjusting your search or filters to find what you're looking for
+          </p>
+          <div className="flex gap-3 justify-center">
+            <Button 
+              variant="outline"
+              onClick={onRefresh}
+              size="sm"
+            >
+              Refresh
+            </Button>
+            <Button 
+              className="bg-[#8B5CF6] hover:bg-[#7C3AED]"
+              onClick={() => navigate('/admin-panel')}
+              size="sm"
+            >
+              Upload Website
+            </Button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -77,23 +94,56 @@ export const TemplateGrid = ({ templates, isLoading, onRefresh, onTagFilter }: T
               src={template.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=300&h=256&q=80"} 
               alt={template.title} 
               className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-300"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=300&h=256&q=80";
+              }}
             />
-            <div className="absolute top-2 left-2">
-              <span className="bg-[#8B5CF6] text-white text-xs px-2 py-1 rounded-full font-medium">
-                {template.is_featured ? "Featured" : template.status === 'approved' ? "Approved" : template.status}
-              </span>
+            <div className="absolute top-2 left-2 flex gap-2">
+              {template.is_featured && (
+                <Badge className="bg-[#8B5CF6] text-white text-xs px-2 py-1 rounded-full font-medium">
+                  <Star className="w-3 h-3 mr-1" />
+                  Featured
+                </Badge>
+              )}
+              <Badge 
+                variant="secondary" 
+                className="text-xs px-2 py-1 rounded-full font-medium capitalize"
+              >
+                {template.status}
+              </Badge>
             </div>
+            {template.profiles?.avatar_url && (
+              <div className="absolute bottom-2 right-2">
+                <img 
+                  src={template.profiles.avatar_url} 
+                  alt={template.profiles.full_name || 'Author'}
+                  className="w-6 h-6 rounded-full border-2 border-white shadow-sm"
+                />
+              </div>
+            )}
           </div>
           
           <CardContent className="p-2 md:p-3 flex flex-col flex-grow">
             <div className="flex justify-between items-start mb-2">
-              <h3 className="font-semibold text-base md:text-lg hover:text-[#8B5CF6] transition-colors line-clamp-1">{template.title}</h3>
+              <h3 className="font-semibold text-base md:text-lg hover:text-[#8B5CF6] transition-colors line-clamp-1">
+                {template.title}
+              </h3>
               <div className="flex items-center gap-1 text-[#8B5CF6] font-bold text-sm md:text-base">
                 <DollarSign className="h-3 w-3 md:h-4 md:w-4" />
                 <span>{Number(template.price) === 0 ? 'Free' : Number(template.price)}</span>
               </div>
             </div>
-            <p className="text-xs md:text-sm text-muted-foreground mb-2 line-clamp-2">{template.description || "No description available"}</p>
+            
+            <p className="text-xs md:text-sm text-muted-foreground mb-2 line-clamp-2">
+              {template.description || "No description available"}
+            </p>
+
+            {template.profiles?.full_name && (
+              <p className="text-xs text-muted-foreground mb-2">
+                by {template.profiles.full_name}
+              </p>
+            )}
             
             <div className="grid grid-cols-3 gap-1 md:gap-2 text-xs border-t border-border/40 pt-2 mb-2">
               <div className="flex flex-col bg-[#8B5CF6]/5 p-1 md:p-2 rounded-md">
@@ -133,10 +183,16 @@ export const TemplateGrid = ({ templates, isLoading, onRefresh, onTagFilter }: T
                   key={index}
                   onClick={(e) => handleTagClick(e, tag)}
                   className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-1 md:px-2 py-1 rounded-full hover:bg-[#8B5CF6]/20 transition-colors cursor-pointer"
+                  title={`Filter by ${tag}`}
                 >
                   {tag}
                 </button>
               ))}
+              {template.tags && template.tags.length > 2 && (
+                <span className="text-xs text-muted-foreground px-1 py-1">
+                  +{template.tags.length - 2} more
+                </span>
+              )}
             </div>
           </CardContent>
         </Card>
