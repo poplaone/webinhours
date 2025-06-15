@@ -1,17 +1,18 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Plus, Settings, Edit3, Save, X, Globe, DollarSign, Star, Upload, ShoppingBag } from 'lucide-react';
+import { User, Edit3, Save, X, Globe, DollarSign, Star, ShoppingBag } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from '@/hooks/useAuth';
 import { useProfile, useUpdateProfile } from '@/hooks/useProfiles';
-import { useUserWebsites, useCreateWebsite } from '@/hooks/useWebsites';
+import { useUserWebsites } from '@/hooks/useWebsiteQueries';
 import { useToast } from '@/hooks/use-toast';
+import { useIsAdmin } from '@/hooks/useAdmin';
 import SideNavbar from '@/components/layout/SideNavbar';
 import { DashboardHeader } from '@/components/layout/DashboardHeader';
 
@@ -21,25 +22,13 @@ const Profile = () => {
   const { data: profile, isLoading: profileLoading } = useProfile();
   const { data: userWebsites } = useUserWebsites();
   const updateProfile = useUpdateProfile();
-  const createWebsite = useCreateWebsite();
   const { toast } = useToast();
+  const isAdmin = useIsAdmin();
 
   const [isEditingProfile, setIsEditingProfile] = useState(false);
-  const [isAddingListing, setIsAddingListing] = useState(false);
   const [profileForm, setProfileForm] = useState({
     full_name: '',
     company: ''
-  });
-  const [listingForm, setListingForm] = useState({
-    title: '',
-    description: '',
-    category: '',
-    price: '',
-    preview_url: '',
-    demo_url: '',
-    tags: '',
-    technologies: '',
-    features: ''
   });
 
   React.useEffect(() => {
@@ -57,43 +46,6 @@ const Profile = () => {
       setIsEditingProfile(false);
     } catch (error) {
       console.error('Profile update error:', error);
-    }
-  };
-
-  const handleListingSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      await createWebsite.mutateAsync({
-        title: listingForm.title,
-        description: listingForm.description,
-        category: listingForm.category,
-        price: parseFloat(listingForm.price) || 0,
-        preview_url: listingForm.preview_url,
-        demo_url: listingForm.demo_url || undefined,
-        tags: listingForm.tags.split(',').map(tag => tag.trim()).filter(Boolean),
-        technologies: listingForm.technologies.split(',').map(tech => tech.trim()).filter(Boolean),
-        features: listingForm.features.split(',').map(feature => feature.trim()).filter(Boolean)
-      });
-      
-      setIsAddingListing(false);
-      setListingForm({
-        title: '',
-        description: '',
-        category: '',
-        price: '',
-        preview_url: '',
-        demo_url: '',
-        tags: '',
-        technologies: '',
-        features: ''
-      });
-      
-      toast({
-        title: "Success",
-        description: "Listing created successfully! It's pending approval.",
-      });
-    } catch (error) {
-      console.error('Listing creation error:', error);
     }
   };
 
@@ -130,6 +82,11 @@ const Profile = () => {
                   <h1 className="text-3xl font-bold">{profile?.full_name || user?.email}</h1>
                   <p className="text-muted-foreground">{profile?.company || 'No company set'}</p>
                   <p className="text-sm text-muted-foreground">{user?.email}</p>
+                  {isAdmin && (
+                    <Badge className="mt-1 bg-purple-100 text-purple-800">
+                      Administrator
+                    </Badge>
+                  )}
                 </div>
               </div>
               
@@ -186,9 +143,8 @@ const Profile = () => {
 
           {/* Profile Content */}
           <Tabs defaultValue="dashboard" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-              <TabsTrigger value="my-listings">My Listings</TabsTrigger>
               <TabsTrigger value="purchases">My Purchases</TabsTrigger>
             </TabsList>
 
@@ -196,39 +152,39 @@ const Profile = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">My Listings</CardTitle>
-                    <Upload className="h-4 w-4 text-muted-foreground" />
+                    <CardTitle className="text-sm font-medium">Total Purchases</CardTitle>
+                    <ShoppingBag className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{userWebsites?.length || 0}</div>
+                    <div className="text-2xl font-bold">5</div>
                     <p className="text-xs text-muted-foreground">
-                      Sites uploaded for sale
+                      Websites purchased
                     </p>
                   </CardContent>
                 </Card>
                 
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Total Sales</CardTitle>
+                    <CardTitle className="text-sm font-medium">Total Spent</CardTitle>
                     <DollarSign className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">$1,234</div>
                     <p className="text-xs text-muted-foreground">
-                      +15% from last month
+                      Lifetime purchases
                     </p>
                   </CardContent>
                 </Card>
 
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">My Purchases</CardTitle>
-                    <ShoppingBag className="h-4 w-4 text-muted-foreground" />
+                    <CardTitle className="text-sm font-medium">Favorites</CardTitle>
+                    <Star className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">5</div>
+                    <div className="text-2xl font-bold">12</div>
                     <p className="text-xs text-muted-foreground">
-                      Sites purchased
+                      Saved websites
                     </p>
                   </CardContent>
                 </Card>
@@ -239,209 +195,124 @@ const Profile = () => {
                   <CardTitle>Quick Actions</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <Button 
-                      onClick={() => navigate('/admin-panel')}
-                      className="h-24 flex flex-col gap-2 bg-[#8B5CF6] hover:bg-[#7C3AED]"
-                    >
-                      <Upload className="h-6 w-6" />
-                      Upload Site for Sale
-                    </Button>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <Button 
                       variant="outline" 
                       className="h-24 flex flex-col gap-2"
-                      onClick={() => navigate('/dashboard')}
+                      onClick={() => navigate('/marketplace')}
                     >
                       <ShoppingBag className="h-6 w-6" />
                       Browse Marketplace
                     </Button>
                     <Button variant="outline" className="h-24 flex flex-col gap-2">
                       <Globe className="h-6 w-6" />
-                      Visit My Store
+                      Download Center
                     </Button>
                     <Button variant="outline" className="h-24 flex flex-col gap-2">
                       <Star className="h-6 w-6" />
-                      View Analytics
+                      My Favorites
                     </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Recent Purchases */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Recent Purchases</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between p-4 border rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-gradient-to-br from-[#8B5CF6]/20 to-[#7C3AED]/20 rounded-lg flex items-center justify-center">
+                          <Globe className="h-6 w-6 text-[#8B5CF6]" />
+                        </div>
+                        <div>
+                          <h4 className="font-medium">E-commerce Template</h4>
+                          <p className="text-sm text-muted-foreground">Purchased 2 days ago</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-[#8B5CF6]">$299</p>
+                        <Button size="sm" variant="outline">Download</Button>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between p-4 border rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-gradient-to-br from-[#8B5CF6]/20 to-[#7C3AED]/20 rounded-lg flex items-center justify-center">
+                          <Globe className="h-6 w-6 text-[#8B5CF6]" />
+                        </div>
+                        <div>
+                          <h4 className="font-medium">Blog Template</h4>
+                          <p className="text-sm text-muted-foreground">Purchased 1 week ago</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-[#8B5CF6]">$149</p>
+                        <Button size="sm" variant="outline">Download</Button>
+                      </div>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
             </TabsContent>
 
-            <TabsContent value="my-listings" className="space-y-6">
-              <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold">My Listings</h2>
-                <Button 
-                  onClick={() => navigate('/admin-panel')}
-                  className="bg-[#8B5CF6] hover:bg-[#7C3AED]"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add New Listing
-                </Button>
-              </div>
-
-              {/* Add Listing Form */}
-              {isAddingListing && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Upload Website for Sale</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <form onSubmit={handleListingSubmit} className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <Label htmlFor="title">Website Title *</Label>
-                          <Input
-                            id="title"
-                            value={listingForm.title}
-                            onChange={(e) => setListingForm(prev => ({ ...prev, title: e.target.value }))}
-                            placeholder="E-commerce Store Template"
-                            required
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="category">Category *</Label>
-                          <Input
-                            id="category"
-                            value={listingForm.category}
-                            onChange={(e) => setListingForm(prev => ({ ...prev, category: e.target.value }))}
-                            placeholder="E-commerce"
-                            required
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <Label htmlFor="description">Description</Label>
-                        <Textarea
-                          id="description"
-                          value={listingForm.description}
-                          onChange={(e) => setListingForm(prev => ({ ...prev, description: e.target.value }))}
-                          placeholder="Describe your website template..."
-                          rows={3}
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <Label htmlFor="price">Price ($) *</Label>
-                          <Input
-                            id="price"
-                            type="number"
-                            value={listingForm.price}
-                            onChange={(e) => setListingForm(prev => ({ ...prev, price: e.target.value }))}
-                            placeholder="299"
-                            required
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="preview_url">Preview URL *</Label>
-                          <Input
-                            id="preview_url"
-                            value={listingForm.preview_url}
-                            onChange={(e) => setListingForm(prev => ({ ...prev, preview_url: e.target.value }))}
-                            placeholder="https://example.com/preview"
-                            required
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <Label htmlFor="demo_url">Demo URL (optional)</Label>
-                        <Input
-                          id="demo_url"
-                          value={listingForm.demo_url}
-                          onChange={(e) => setListingForm(prev => ({ ...prev, demo_url: e.target.value }))}
-                          placeholder="https://example.com/demo"
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                          <Label htmlFor="tags">Tags (comma separated)</Label>
-                          <Input
-                            id="tags"
-                            value={listingForm.tags}
-                            onChange={(e) => setListingForm(prev => ({ ...prev, tags: e.target.value }))}
-                            placeholder="E-commerce, Stripe, Admin Panel"
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="technologies">Technologies</Label>
-                          <Input
-                            id="technologies"
-                            value={listingForm.technologies}
-                            onChange={(e) => setListingForm(prev => ({ ...prev, technologies: e.target.value }))}
-                            placeholder="React, Node.js, MongoDB"
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="features">Features</Label>
-                          <Input
-                            id="features"
-                            value={listingForm.features}
-                            onChange={(e) => setListingForm(prev => ({ ...prev, features: e.target.value }))}
-                            placeholder="Responsive, SEO, Admin Dashboard"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="flex gap-2">
-                        <Button type="submit" disabled={createWebsite.isPending}>
-                          {createWebsite.isPending ? 'Creating...' : 'Create Listing'}
-                        </Button>
-                        <Button type="button" variant="outline" onClick={() => setIsAddingListing(false)}>
-                          Cancel
-                        </Button>
-                      </div>
-                    </form>
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* Listings Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {userWebsites?.map((website) => (
-                  <Card key={website.id} className="overflow-hidden">
-                    <div className="h-40 bg-gradient-to-br from-[#8B5CF6]/20 to-[#7C3AED]/20 flex items-center justify-center">
-                      <Globe className="h-16 w-16 text-[#8B5CF6]" />
-                    </div>
-                    <CardContent className="p-4">
-                      <div className="flex justify-between items-start mb-2">
-                        <h3 className="font-semibold line-clamp-1">{website.title}</h3>
-                        <Badge 
-                          variant={website.status === 'approved' ? 'default' : 'secondary'}
-                          className="ml-2"
-                        >
-                          {website.status}
-                        </Badge>
-                      </div>
-                      <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
-                        {website.description}
-                      </p>
-                      <div className="flex justify-between items-center">
-                        <span className="font-bold text-[#8B5CF6]">${website.price}</span>
-                        <div className="flex gap-1">
-                          <Button size="sm" variant="outline">Edit</Button>
-                          <Button size="sm" variant="outline">View</Button>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </TabsContent>
-
             <TabsContent value="purchases">
               <Card>
                 <CardHeader>
-                  <CardTitle>My Purchases</CardTitle>
+                  <CardTitle>Purchase History</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <p className="text-muted-foreground">Your purchased websites will appear here.</p>
-                  <Button onClick={() => navigate('/dashboard')}>
-                    Browse Marketplace
-                  </Button>
+                  <div className="space-y-4">
+                    {/* Purchase history items */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      <Card className="overflow-hidden">
+                        <div className="h-40 bg-gradient-to-br from-[#8B5CF6]/20 to-[#7C3AED]/20 flex items-center justify-center">
+                          <Globe className="h-16 w-16 text-[#8B5CF6]" />
+                        </div>
+                        <CardContent className="p-4">
+                          <h3 className="font-semibold mb-2">E-commerce Template</h3>
+                          <p className="text-sm text-muted-foreground mb-3">
+                            Full-featured online store with admin panel
+                          </p>
+                          <div className="flex justify-between items-center">
+                            <span className="font-bold text-[#8B5CF6]">$299</span>
+                            <div className="flex gap-1">
+                              <Button size="sm" variant="outline">Download</Button>
+                              <Button size="sm" variant="outline">View</Button>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="overflow-hidden">
+                        <div className="h-40 bg-gradient-to-br from-[#8B5CF6]/20 to-[#7C3AED]/20 flex items-center justify-center">
+                          <Globe className="h-16 w-16 text-[#8B5CF6]" />
+                        </div>
+                        <CardContent className="p-4">
+                          <h3 className="font-semibold mb-2">Blog Template</h3>
+                          <p className="text-sm text-muted-foreground mb-3">
+                            Modern blog with CMS integration
+                          </p>
+                          <div className="flex justify-between items-center">
+                            <span className="font-bold text-[#8B5CF6]">$149</span>
+                            <div className="flex gap-1">
+                              <Button size="sm" variant="outline">Download</Button>
+                              <Button size="sm" variant="outline">View</Button>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </div>
+                  
+                  <div className="text-center py-8">
+                    <Button onClick={() => navigate('/marketplace')}>
+                      Browse More Templates
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>
