@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Bell, User, Sparkles, TrendingUp, Code, Users, Radio, BookOpen, BarChart3, Brain, ExternalLink, Settings, ShoppingCart, DollarSign, Eye } from 'lucide-react';
@@ -10,106 +11,6 @@ import SideNavbar from '@/components/layout/SideNavbar';
 import { DashboardHeader } from '@/components/layout/DashboardHeader';
 import { useWebsites } from '@/hooks/useWebsites';
 
-// Demo data - will be mixed with real uploaded websites
-const demoWebsiteTemplates = [
-  {
-    id: 'demo-1',
-    title: "E-commerce Store Template",
-    description: "Complete e-commerce solution with shopping cart, payment integration, and admin dashboard. Perfect for online stores.",
-    tags: ["E-commerce", "Stripe", "Admin Panel"],
-    timestamp: "New",
-    price: 299,
-    sales: 45,
-    rating: 4.8,
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=300&h=170&q=80",
-    category: "E-commerce",
-    status: "Available",
-    views_count: 245,
-    rating_average: 4.8,
-    is_featured: false
-  },
-  {
-    id: 'demo-2',
-    title: "Corporate Business Website",
-    description: "Professional corporate website with CMS, contact forms, and SEO optimization. Ideal for businesses and agencies.",
-    tags: ["Corporate", "CMS", "SEO"],
-    timestamp: "Featured",
-    price: 199,
-    sales: 32,
-    rating: 4.9,
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=300&h=170&q=80",
-    category: "Corporate",
-    status: "Available",
-    views_count: 189,
-    rating_average: 4.9,
-    is_featured: true
-  },
-  {
-    id: 'demo-3',
-    title: "SaaS Landing Page",
-    description: "High-converting SaaS landing page with pricing tables, testimonials, and lead capture forms. Ready to launch.",
-    tags: ["SaaS", "Landing Page", "Conversion"],
-    timestamp: "Hot",
-    price: 149,
-    sales: 78,
-    rating: 4.7,
-    image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=300&h=170&q=80",
-    category: "SaaS",
-    status: "Available",
-    views_count: 423,
-    rating_average: 4.7,
-    is_featured: false
-  },
-  {
-    id: 'demo-4',
-    title: "Restaurant Website Template",
-    description: "Beautiful restaurant website with menu display, online reservations, and food gallery. Mobile optimized.",
-    tags: ["Restaurant", "Reservations", "Mobile"],
-    timestamp: "Popular",
-    price: 179,
-    sales: 56,
-    rating: 4.6,
-    image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=300&h=170&q=80",
-    category: "Restaurant",
-    status: "Available",
-    views_count: 312,
-    rating_average: 4.6,
-    is_featured: false
-  },
-  {
-    id: 'demo-5',
-    title: "Portfolio Website Builder",
-    description: "Creative portfolio template for designers, photographers, and artists. Showcase your work beautifully.",
-    tags: ["Portfolio", "Creative", "Gallery"],
-    timestamp: "Trending",
-    price: 129,
-    sales: 89,
-    rating: 4.9,
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=300&h=170&q=80",
-    category: "Portfolio",
-    status: "Available",
-    views_count: 567,
-    rating_average: 4.9,
-    is_featured: false
-  },
-  {
-    id: 'demo-6',
-    title: "Real Estate Platform",
-    description: "Complete real estate website with property listings, search filters, and agent profiles. Database included.",
-    tags: ["Real Estate", "Listings", "Search"],
-    timestamp: "Premium",
-    price: 399,
-    sales: 23,
-    rating: 4.8,
-    image: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?auto=format&fit=crop&w=300&h=170&q=80",
-    category: "Real Estate",
-    status: "Available",
-    views_count: 156,
-    rating_average: 4.8,
-    is_featured: false
-  }
-];
-
 const Dashboard = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -117,7 +18,7 @@ const Dashboard = () => {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
 
   // Fetch real websites from database - show approved and featured for marketplace
-  const { data: uploadedWebsites = [], isLoading, refetch } = useWebsites({
+  const { data: websites = [], isLoading, refetch } = useWebsites({
     category: selectedCategory !== 'all' ? selectedCategory : undefined,
     search: searchValue || undefined,
     // Don't set includeAll here - this shows marketplace view (approved/featured only)
@@ -125,9 +26,9 @@ const Dashboard = () => {
 
   // Debug logging
   React.useEffect(() => {
-    console.log('Dashboard: uploadedWebsites', uploadedWebsites);
+    console.log('Dashboard: websites', websites);
     console.log('Dashboard: isLoading', isLoading);
-  }, [uploadedWebsites, isLoading]);
+  }, [websites, isLoading]);
 
   // Refetch data when component mounts to ensure fresh data
   React.useEffect(() => {
@@ -142,29 +43,8 @@ const Dashboard = () => {
     navigate(`/concept-testing/${templateId}`);
   };
 
-  // Combine demo data with real uploaded websites
-  const allWebsites = [
-    ...demoWebsiteTemplates,
-    ...uploadedWebsites.map(website => ({
-      id: website.id,
-      title: website.title,
-      description: website.description || "No description available",
-      tags: website.tags || [],
-      timestamp: website.is_featured ? "Featured" : website.status === 'approved' ? "New" : "Uploaded",
-      price: Number(website.price),
-      sales: 0, // New uploads start with 0 sales
-      rating: website.rating_average || 0,
-      image: website.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=300&h=170&q=80",
-      category: website.category,
-      status: "Available",
-      views_count: website.views_count,
-      rating_average: website.rating_average || 0,
-      is_featured: website.is_featured
-    }))
-  ];
-
-  // Apply filters to combined data
-  const filteredTemplates = allWebsites.filter(template => {
+  // Apply filters to website data
+  const filteredTemplates = websites.filter(template => {
     // Category filter
     const categoryMatch = selectedCategory === 'all' || template.category.toLowerCase() === selectedCategory.toLowerCase();
     
@@ -174,7 +54,7 @@ const Dashboard = () => {
                        template.category.toLowerCase().includes(searchValue.toLowerCase());
     
     // Price filter
-    const priceMatch = template.price >= priceRange[0] && template.price <= priceRange[1];
+    const priceMatch = Number(template.price) >= priceRange[0] && Number(template.price) <= priceRange[1];
     
     return categoryMatch && searchMatch && priceMatch;
   });
@@ -199,7 +79,7 @@ const Dashboard = () => {
               <h1 className="text-3xl font-bold">Website Templates Marketplace</h1>
               <p className="text-muted-foreground mt-1">Professional website templates ready to buy and customize for your business</p>
               <p className="text-sm text-blue-600 mt-2">
-                Showing {filteredTemplates.length} templates ({uploadedWebsites.length} uploaded + {demoWebsiteTemplates.length} demo)
+                Showing {filteredTemplates.length} templates
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -233,6 +113,17 @@ const Dashboard = () => {
                     </CardContent>
                   </Card>
                 ))
+              ) : filteredTemplates.length === 0 ? (
+                <div className="col-span-full text-center py-12">
+                  <p className="text-xl text-muted-foreground mb-4">No templates found</p>
+                  <p className="text-muted-foreground">Upload your first website template to get started</p>
+                  <Button 
+                    className="mt-4 bg-[#8B5CF6] hover:bg-[#7C3AED]"
+                    onClick={() => navigate('/admin-panel')}
+                  >
+                    Upload Website
+                  </Button>
+                </div>
               ) : (
                 filteredTemplates.map((template) => (
                   <Card 
@@ -241,13 +132,13 @@ const Dashboard = () => {
                   >
                     <div className="h-40 overflow-hidden relative">
                       <img 
-                        src={template.image} 
+                        src={template.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=300&h=170&q=80"} 
                         alt={template.title} 
                         className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-300"
                       />
                       <div className="absolute top-2 left-2">
                         <span className="bg-[#8B5CF6] text-white text-xs px-2 py-1 rounded-full font-medium">
-                          {template.timestamp}
+                          {template.is_featured ? "Featured" : template.status === 'approved' ? "New" : "Uploaded"}
                         </span>
                       </div>
                       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
@@ -295,10 +186,10 @@ const Dashboard = () => {
                         <h3 className="font-semibold text-lg cursor-pointer hover:text-[#8B5CF6] transition-colors" onClick={() => viewTemplateDetail(template.id)}>{template.title}</h3>
                         <div className="flex items-center gap-1 text-[#8B5CF6] font-bold">
                           <DollarSign className="h-4 w-4" />
-                          <span>{template.price}</span>
+                          <span>{Number(template.price) === 0 ? 'Free' : Number(template.price)}</span>
                         </div>
                       </div>
-                      <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{template.description}</p>
+                      <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{template.description || "No description available"}</p>
                       
                       <div className="mt-auto">
                         <div className="grid grid-cols-3 gap-2 text-xs border-t border-border/40 pt-2 mb-2">
@@ -308,7 +199,7 @@ const Dashboard = () => {
                               <span>Sales</span>
                             </div>
                             <div className="font-medium text-sm text-emerald-500">
-                              {template.sales || 0} sold
+                              {template.downloads_count || 0} sold
                             </div>
                           </div>
                           
@@ -361,7 +252,7 @@ const Dashboard = () => {
                         <TrendingUp className="h-4 w-4 text-[#8B5CF6]" />
                         Popular Categories
                       </h4>
-                      <p className="text-xs text-muted-foreground">E-commerce and SaaS templates are trending this month, with 85% higher sales compared to last quarter.</p>
+                      <p className="text-xs text-muted-foreground">E-commerce and SaaS templates are trending this month, with high demand from customers.</p>
                     </div>
                     
                     <div>
@@ -369,7 +260,7 @@ const Dashboard = () => {
                         <BarChart3 className="h-4 w-4 text-[#8B5CF6]" />
                         Best Sellers
                       </h4>
-                      <p className="text-xs text-muted-foreground">Portfolio and landing page templates show consistent high demand with 4.8+ average ratings from customers.</p>
+                      <p className="text-xs text-muted-foreground">Portfolio and landing page templates show consistent high demand with excellent ratings from customers.</p>
                     </div>
                     
                     <div>
@@ -394,7 +285,7 @@ const Dashboard = () => {
                           <span className="bg-[#8B5CF6]/10 text-[#8B5CF6] p-1 rounded-full">
                             <Code className="h-3 w-3" />
                           </span>
-                          <span>New AI-powered chatbot templates</span>
+                          <span>New AI-powered templates</span>
                         </li>
                         <li className="flex gap-2 items-center text-xs">
                           <span className="bg-[#8B5CF6]/10 text-[#8B5CF6] p-1 rounded-full">
@@ -417,7 +308,7 @@ const Dashboard = () => {
                 <div className="p-4 bg-background rounded-lg border border-border/60">
                   <div className="flex justify-between items-center mb-2">
                     <h3 className="font-medium">Ready-to-Use Templates</h3>
-                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-[#8B5CF6] text-white">12+ Available</span>
+                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-[#8B5CF6] text-white">{websites.length}+ Available</span>
                   </div>
                   <p className="text-sm text-muted-foreground">Pre-built websites ready for immediate deployment and customization</p>
                 </div>
