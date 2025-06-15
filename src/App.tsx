@@ -12,7 +12,6 @@ import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import AdminPanel from "./pages/AdminPanel";
-import Marketplace from "./pages/Marketplace";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
@@ -46,9 +45,8 @@ const App = () => (
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
-            <Route path="/marketplace" element={<Marketplace />} />
-            {/* Public dashboard - no authentication required */}
-            <Route path="/dashboard" element={<Dashboard />} />
+            {/* Renamed dashboard route to marketplace - no authentication required */}
+            <Route path="/marketplace" element={<Dashboard />} />
             {/* Public site details - no authentication required */}
             <Route path="/site-details/:id" element={<SiteDetails />} />
             <Route

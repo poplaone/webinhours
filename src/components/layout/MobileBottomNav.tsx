@@ -25,7 +25,6 @@ const MobileBottomNav = () => {
   if (!isMobile) return null;
 
   const publicNavItems = [
-    { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { path: '/marketplace', icon: Store, label: 'Marketplace' },
     { path: '/about', icon: InfoIcon, label: 'About' },
     { path: '/contact', icon: Phone, label: 'Contact' },
@@ -33,7 +32,6 @@ const MobileBottomNav = () => {
   ];
 
   const authenticatedNavItems = [
-    { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { path: '/marketplace', icon: Store, label: 'Marketplace' },
     { path: '/admin-panel', icon: Code, label: 'Upload' },
     { path: '/profile', icon: User, label: 'Profile' },
@@ -41,7 +39,6 @@ const MobileBottomNav = () => {
 
   // Show login button if not authenticated
   const authNavItems = [
-    { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { path: '/marketplace', icon: Store, label: 'Marketplace' },
     { path: '/about', icon: InfoIcon, label: 'About' },
     { path: '/auth', icon: LogIn, label: 'Login' },

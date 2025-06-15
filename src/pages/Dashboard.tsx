@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Code } from 'lucide-react';
@@ -9,6 +10,7 @@ import { TemplateGrid } from '@/components/dashboard/TemplateGrid';
 import { InsightsSidebar } from '@/components/dashboard/InsightsSidebar';
 import { CategoryCards } from '@/components/dashboard/CategoryCards';
 import { useWebsites } from '@/hooks/useWebsites';
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('all');

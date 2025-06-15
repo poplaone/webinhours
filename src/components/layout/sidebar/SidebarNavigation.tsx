@@ -26,7 +26,6 @@ export const SidebarNavigation = ({ currentPath, isAuthenticated }: SidebarNavig
   const navigate = useNavigate();
 
   const publicNavItems = [
-    { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { path: '/marketplace', icon: Store, label: 'Marketplace' },
     { path: '/about', icon: InfoIcon, label: 'About' },
     { path: '/how-it-works', icon: Workflow, label: 'How It Works' },
