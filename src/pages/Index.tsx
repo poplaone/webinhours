@@ -1,4 +1,3 @@
-
 import React from 'react';
 import AnimatedGridBackground from '@/components/animations/AnimatedGridBackground';
 import { PremiumTestimonials } from '@/components/ui/premium-testimonials';
@@ -10,6 +9,10 @@ import { CTASection } from '@/components/sections/CTASection';
 import { Footer } from '@/components/sections/Footer';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
+import { Portfolio } from '@/components/sections/Portfolio';
+import { LeadCaptureForm } from '@/components/forms/LeadCaptureForm';
+import { ConsultationBooking } from '@/components/booking/ConsultationBooking';
+import { ClientLogos } from '@/components/ui/ClientLogos';
 
 const Index = () => {
   return (
@@ -30,11 +33,43 @@ const Index = () => {
       </section>
       
       <Services />
+      
+      {/* Client Logos Section */}
+      <ClientLogos />
+      
       <Features />
+      
+      {/* Portfolio Section */}
+      <Portfolio />
+      
+      {/* Lead Capture Section */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto">
+          <LeadCaptureForm 
+            variant="inline"
+            incentive="Free Website Audit + $200 Bonus Package"
+            className="max-w-4xl mx-auto"
+          />
+        </div>
+      </section>
       
       <div id="testimonials">
         <PremiumTestimonials />
       </div>
+      
+      {/* Consultation Booking Section */}
+      <section className="py-20 px-4 bg-muted/30">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4">Ready to Get Started?</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Book a free consultation to discuss your project and get a custom strategy. 
+              No sales pressure, just expert advice tailored to your needs.
+            </p>
+          </div>
+          <ConsultationBooking />
+        </div>
+      </section>
       
       <CTASection />
       <Footer />
