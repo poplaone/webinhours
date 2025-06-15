@@ -1,112 +1,78 @@
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Code } from 'lucide-react';
-import { Button } from "@/components/ui/button";
-import SideNavbar from '@/components/layout/SideNavbar';
-import MobileBottomNav from '@/components/layout/MobileBottomNav';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { SideNavbar } from '@/components/layout/SideNavbar';
 import { DashboardHeader } from '@/components/layout/DashboardHeader';
 import { TemplateGrid } from '@/components/dashboard/TemplateGrid';
 import { InsightsSidebar } from '@/components/dashboard/InsightsSidebar';
-import { CategoryCards } from '@/components/dashboard/CategoryCards';
 import { useWebsites } from '@/hooks/useWebsites';
+
 const Dashboard = () => {
-  const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [searchValue, setSearchValue] = useState('');
+  const location = useLocation();
+  const [searchValue, setSearchValue] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
-  const [selectedTag, setSelectedTag] = useState<string>('');
+  
+  const { data: websites = [], isLoading, refetch } = useWebsites();
 
-  // Fetch all websites for marketplace - don't filter by approval status to show uploaded sites
-  const {
-    data: websites = [],
-    isLoading,
-    refetch
-  } = useWebsites({
-    category: selectedCategory !== 'all' ? selectedCategory : undefined,
-    search: searchValue || undefined,
-    includeAll: true // Show all websites including uploaded ones
+  // Filter websites based on search, category, and price
+  const filteredWebsites = websites.filter(website => {
+    const matchesSearch = website.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+                         website.description?.toLowerCase().includes(searchValue.toLowerCase()) ||
+                         website.tags?.some(tag => tag.toLowerCase().includes(searchValue.toLowerCase()));
+    
+    const matchesCategory = selectedCategory === "all" || website.category === selectedCategory;
+    
+    const price = Number(website.price) || 0;
+    const matchesPrice = price >= priceRange[0] && price <= priceRange[1];
+    
+    return matchesSearch && matchesCategory && matchesPrice && website.status === 'approved';
   });
 
-  // Debug logging
-  React.useEffect(() => {
-    console.log('Dashboard: websites', websites);
-    console.log('Dashboard: isLoading', isLoading);
-  }, [websites, isLoading]);
-
-  // Refetch data when component mounts to ensure fresh data
-  React.useEffect(() => {
+  const handleRefresh = () => {
     refetch();
-  }, [refetch]);
+  };
 
-  // Apply filters to website data
-  const filteredTemplates = websites.filter(template => {
-    // Category filter
-    const categoryMatch = selectedCategory === 'all' || template.category.toLowerCase() === selectedCategory.toLowerCase();
-
-    // Search filter
-    const searchMatch = template.title.toLowerCase().includes(searchValue.toLowerCase()) || template.description?.toLowerCase().includes(searchValue.toLowerCase()) || template.category.toLowerCase().includes(searchValue.toLowerCase());
-
-    // Price filter
-    const priceMatch = Number(template.price) >= priceRange[0] && Number(template.price) <= priceRange[1];
-
-    // Tag filter
-    const tagMatch = !selectedTag || template.tags && template.tags.some(tag => tag.toLowerCase().includes(selectedTag.toLowerCase()));
-    return categoryMatch && searchMatch && priceMatch && tagMatch;
-  });
   const handleTagFilter = (tag: string) => {
-    setSelectedTag(tag);
-    setSearchValue(''); // Clear search when filtering by tag
+    setSearchValue(tag);
   };
-  const clearTagFilter = () => {
-    setSelectedTag('');
-  };
-  return <div className="flex h-screen overflow-hidden bg-gradient-to-br from-background to-background/80">
+
+  return (
+    <div className="min-h-screen bg-background">
       <SideNavbar />
       
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <DashboardHeader 
-          searchValue={searchValue} 
-          onSearchChange={setSearchValue} 
-          selectedCategory={selectedCategory} 
-          onCategoryChange={setSelectedCategory} 
-          priceRange={priceRange} 
+      <div className="lg:pl-72">
+        <DashboardHeader
+          searchValue={searchValue}
+          onSearchChange={setSearchValue}
+          selectedCategory={selectedCategory}
+          onCategoryChange={setSelectedCategory}
+          priceRange={priceRange}
           onPriceRangeChange={setPriceRange}
-          templateCount={filteredTemplates.length}
-          onRefresh={refetch}
+          templateCount={filteredWebsites.length}
+          onRefresh={handleRefresh}
           isLoading={isLoading}
         />
-
-        <main className="flex-1 overflow-y-auto p-3 md:p-6 lg:container pb-20 md:pb-6">
-          <div className="flex flex-col gap-3 md:gap-4 mb-4 md:mb-6">
-            <div>
-              {selectedTag && <div className="flex items-center gap-2 mt-2">
-                    <span className="text-sm bg-[#8B5CF6]/10 text-[#8B5CF6] px-2 py-1 rounded-full">
-                      Tag: {selectedTag}
-                    </span>
-                    <Button variant="ghost" size="sm" onClick={clearTagFilter} className="h-6 px-2 text-xs">
-                      Clear
-                    </Button>
-                  </div>}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-6">
-            <div className="lg:col-span-3">
-              <TemplateGrid templates={filteredTemplates} isLoading={isLoading} onRefresh={refetch} onTagFilter={handleTagFilter} />
+        
+        <main className="container mx-auto p-3 md:p-4">
+          <div className="flex gap-3 md:gap-4">
+            <div className="flex-1">
+              <TemplateGrid 
+                templates={filteredWebsites}
+                isLoading={isLoading}
+                onRefresh={handleRefresh}
+                onTagFilter={handleTagFilter}
+              />
             </div>
             
-            {/* Hide sidebar content on mobile, show only on lg+ */}
-            <div className="hidden lg:block lg:col-span-1 space-y-4">
+            <div className="hidden lg:block w-80 flex-shrink-0">
               <InsightsSidebar />
-              <CategoryCards websiteCount={websites.length} />
             </div>
           </div>
         </main>
       </div>
-      
-      {/* Mobile Bottom Navigation */}
-      <MobileBottomNav />
-    </div>;
+    </div>
+  );
 };
+
 export default Dashboard;
