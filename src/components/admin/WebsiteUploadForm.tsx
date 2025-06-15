@@ -1,16 +1,18 @@
+
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { X, Plus, Upload, DollarSign } from 'lucide-react';
-import { ImageUpload } from '@/components/ui/image-upload';
+import { Upload } from 'lucide-react';
 import { useCreateWebsite, useIsAdmin } from '@/hooks/useWebsites';
 import { useToast } from '@/hooks/use-toast';
+import { BasicInfoSection } from './upload-form/BasicInfoSection';
+import { URLSection } from './upload-form/URLSection';
+import { TagsSection } from './upload-form/TagsSection';
+import { TechnologiesSection } from './upload-form/TechnologiesSection';
+import { FeaturesSection } from './upload-form/FeaturesSection';
+import { InclusionsSection } from './upload-form/InclusionsSection';
 
 interface WebsiteFormData {
   title: string;
@@ -20,22 +22,6 @@ interface WebsiteFormData {
   preview_url: string;
   demo_url?: string;
 }
-
-const categories = [
-  { value: 'E-commerce', label: 'E-commerce' },
-  { value: 'Corporate', label: 'Corporate' },
-  { value: 'SaaS', label: 'SaaS' },
-  { value: 'Portfolio', label: 'Portfolio' },
-  { value: 'Restaurant', label: 'Restaurant' },
-  { value: 'Real Estate', label: 'Real Estate' },
-  { value: 'Landing Page', label: 'Landing Page' },
-  { value: 'Blog', label: 'Blog' },
-  { value: 'Creative', label: 'Creative' },
-  { value: 'Healthcare', label: 'Healthcare' },
-  { value: 'Education', label: 'Education' },
-  { value: 'Non-Profit', label: 'Non-Profit' },
-  { value: 'Other', label: 'Other' },
-];
 
 export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
   const [tags, setTags] = useState<string[]>([]);
@@ -52,8 +38,6 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
   const createWebsite = useCreateWebsite();
   const isAdmin = useIsAdmin();
   const { toast } = useToast();
-
-  const selectedCategory = watch('category');
 
   const addTag = () => {
     if (tagInput.trim() && !tags.includes(tagInput.trim())) {
@@ -160,222 +144,48 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <Label htmlFor="title">Title *</Label>
-              <Input
-                id="title"
-                {...register('title', { required: 'Title is required' })}
-                placeholder="E-commerce Store Template"
-              />
-              {errors.title && (
-                <p className="text-sm text-red-500">{errors.title.message}</p>
-              )}
-            </div>
+          <BasicInfoSection
+            register={register}
+            errors={errors}
+            setValue={setValue}
+            watch={watch}
+            thumbnailUrl={thumbnailUrl}
+            setThumbnailUrl={setThumbnailUrl}
+          />
 
-            <div className="space-y-2">
-              <Label htmlFor="category">Category *</Label>
-              <Select onValueChange={(value) => setValue('category', value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map((cat) => (
-                    <SelectItem key={cat.value} value={cat.value}>
-                      {cat.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {errors.category && (
-                <p className="text-sm text-red-500">Category is required</p>
-              )}
-            </div>
-          </div>
+          <URLSection register={register} errors={errors} />
 
-          <div className="space-y-2">
-            <Label htmlFor="description">Description *</Label>
-            <Textarea
-              id="description"
-              {...register('description', { required: 'Description is required' })}
-              placeholder="Complete e-commerce solution with shopping cart, payment integration, and admin dashboard. Perfect for online stores."
-              rows={4}
-            />
-            {errors.description && (
-              <p className="text-sm text-red-500">{errors.description.message}</p>
-            )}
-          </div>
+          <TagsSection
+            tags={tags}
+            tagInput={tagInput}
+            setTagInput={setTagInput}
+            onAddTag={addTag}
+            onRemoveTag={removeTag}
+          />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <Label htmlFor="price">Price ($) *</Label>
-              <div className="relative">
-                <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
-                  id="price"
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  className="pl-10"
-                  {...register('price', { 
-                    required: 'Price is required',
-                    min: { value: 0, message: 'Price must be non-negative' },
-                    valueAsNumber: true
-                  })}
-                  placeholder="299"
-                />
-              </div>
-              {errors.price && (
-                <p className="text-sm text-red-500">{errors.price.message}</p>
-              )}
-            </div>
+          <TechnologiesSection
+            technologies={technologies}
+            techInput={techInput}
+            setTechInput={setTechInput}
+            onAddTechnology={addTechnology}
+            onRemoveTechnology={removeTechnology}
+          />
 
-            <div className="space-y-2">
-              <ImageUpload
-                value={thumbnailUrl}
-                onChange={setThumbnailUrl}
-                label="Thumbnail Image"
-                required
-              />
-            </div>
-          </div>
+          <FeaturesSection
+            features={features}
+            featureInput={featureInput}
+            setFeatureInput={setFeatureInput}
+            onAddFeature={addFeature}
+            onRemoveFeature={removeFeature}
+          />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <Label htmlFor="preview_url">Preview URL *</Label>
-              <Input
-                id="preview_url"
-                {...register('preview_url', { required: 'Preview URL is required' })}
-                placeholder="https://your-website.com"
-              />
-              {errors.preview_url && (
-                <p className="text-sm text-red-500">{errors.preview_url.message}</p>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="demo_url">Demo URL (optional)</Label>
-              <Input
-                id="demo_url"
-                {...register('demo_url')}
-                placeholder="https://demo.example.com"
-              />
-            </div>
-          </div>
-
-          {/* Tags Section */}
-          <div className="space-y-2">
-            <Label>Tags *</Label>
-            <div className="flex gap-2">
-              <Input
-                value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
-                placeholder="Add a tag (e.g., E-commerce, Stripe, Admin Panel)"
-                onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
-              />
-              <Button type="button" onClick={addTag} variant="outline" size="icon">
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {tags.map((tag) => (
-                <Badge key={tag} variant="secondary" className="flex items-center gap-1">
-                  {tag}
-                  <X 
-                    className="h-3 w-3 cursor-pointer" 
-                    onClick={() => removeTag(tag)}
-                  />
-                </Badge>
-              ))}
-            </div>
-            {tags.length === 0 && (
-              <p className="text-sm text-red-500">At least one tag is required</p>
-            )}
-          </div>
-
-          {/* Technologies Section */}
-          <div className="space-y-2">
-            <Label>Technologies Used</Label>
-            <div className="flex gap-2">
-              <Input
-                value={techInput}
-                onChange={(e) => setTechInput(e.target.value)}
-                placeholder="e.g., React, Tailwind CSS, Node.js"
-                onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTechnology())}
-              />
-              <Button type="button" onClick={addTechnology} variant="outline" size="icon">
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {technologies.map((tech) => (
-                <Badge key={tech} variant="outline" className="flex items-center gap-1">
-                  {tech}
-                  <X 
-                    className="h-3 w-3 cursor-pointer" 
-                    onClick={() => removeTechnology(tech)}
-                  />
-                </Badge>
-              ))}
-            </div>
-          </div>
-
-          {/* Features Section */}
-          <div className="space-y-2">
-            <Label>Key Features</Label>
-            <div className="flex gap-2">
-              <Input
-                value={featureInput}
-                onChange={(e) => setFeatureInput(e.target.value)}
-                placeholder="e.g., Responsive Design, SEO Optimized, Payment Integration"
-                onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addFeature())}
-              />
-              <Button type="button" onClick={addFeature} variant="outline" size="icon">
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {features.map((feature) => (
-                <Badge key={feature} variant="default" className="flex items-center gap-1">
-                  {feature}
-                  <X 
-                    className="h-3 w-3 cursor-pointer" 
-                    onClick={() => removeFeature(feature)}
-                  />
-                </Badge>
-              ))}
-            </div>
-          </div>
-
-          {/* Inclusions Section */}
-          <div className="space-y-2">
-            <Label>What's Included</Label>
-            <div className="flex gap-2">
-              <Input
-                value={inclusionInput}
-                onChange={(e) => setInclusionInput(e.target.value)}
-                placeholder="e.g., Source files, Documentation, 30-day support"
-                onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addInclusion())}
-              />
-              <Button type="button" onClick={addInclusion} variant="outline" size="icon">
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {inclusions.map((inclusion) => (
-                <Badge key={inclusion} variant="outline" className="flex items-center gap-1 bg-green-50 border-green-200 text-green-800">
-                  {inclusion}
-                  <X 
-                    className="h-3 w-3 cursor-pointer" 
-                    onClick={() => removeInclusion(inclusion)}
-                  />
-                </Badge>
-              ))}
-            </div>
-            {inclusions.length === 0 && (
-              <p className="text-sm text-muted-foreground">Add items that are included with this template</p>
-            )}
-          </div>
+          <InclusionsSection
+            inclusions={inclusions}
+            inclusionInput={inclusionInput}
+            setInclusionInput={setInclusionInput}
+            onAddInclusion={addInclusion}
+            onRemoveInclusion={removeInclusion}
+          />
 
           <div className="flex justify-end gap-4 pt-4">
             <Button type="button" variant="outline" onClick={onClose}>
