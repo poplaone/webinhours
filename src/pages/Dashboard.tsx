@@ -90,10 +90,7 @@ const Dashboard = () => {
               <Button variant="outline" onClick={() => refetch()} disabled={isLoading} size="sm" className="w-full sm:w-auto">
                 {isLoading ? 'Refreshing...' : 'Refresh'}
               </Button>
-              <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED] w-full sm:w-auto" onClick={() => navigate('/admin-panel')} size="sm">
-                <Code className="mr-2 h-4 w-4" />
-                Upload Website
-              </Button>
+              
             </div>
           </div>
 
