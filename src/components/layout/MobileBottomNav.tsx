@@ -26,6 +26,7 @@ const MobileBottomNav = () => {
     { path: '/services', icon: Wrench, label: 'Services' },
     { path: '/marketplace', icon: Store, label: 'Marketplace' },
     { path: '/contact', icon: Phone, label: 'Contact' },
+    // Show Profile icon when logged in, Login icon when not logged in
     user 
       ? { path: '/profile', icon: User, label: 'Profile' }
       : { path: '/auth', icon: LogIn, label: 'Login' }
