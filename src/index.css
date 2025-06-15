@@ -53,15 +53,40 @@
     @apply bg-background text-foreground antialiased overflow-x-hidden;
     font-family: 'Poppins', sans-serif;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
+    /* Prevent zoom on iOS when focusing inputs */
+    -webkit-text-size-adjust: 100%;
+    /* Enable smooth scrolling with momentum on iOS */
+    -webkit-overflow-scrolling: touch;
   }
 
   html {
     @apply scroll-smooth;
+    /* Prevent horizontal overflow */
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
+  }
+
+  /* Mobile-specific optimizations */
+  @media (max-width: 768px) {
+    /* Ensure consistent touch targets */
+    button, a, input, textarea, select {
+      min-height: 44px;
+    }
+    
+    /* Prevent text from being too small */
+    body {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    
+    /* Optimize form inputs for mobile */
+    input, textarea, select {
+      font-size: 16px; /* Prevents zoom on iOS */
+    }
   }
 }
 
@@ -103,6 +128,29 @@
       linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
   }
+
+  /* Mobile-specific component classes */
+  .touch-manipulation {
+    touch-action: manipulation;
+  }
+  
+  .safe-area-pb {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .safe-area-pt {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  /* Mobile-optimized button styles */
+  .mobile-button {
+    @apply min-h-[48px] touch-manipulation transition-all duration-200 active:scale-95;
+  }
+  
+  /* Mobile-optimized card styles */
+  .mobile-card {
+    @apply p-4 rounded-xl shadow-sm border border-border/40 transition-all duration-200 active:scale-[0.98];
+  }
 }
 
 @layer utilities {
@@ -113,5 +161,35 @@
   
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Mobile-specific utilities */
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .tap-highlight-none {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Responsive text utilities */
+  .text-responsive-sm {
+    @apply text-sm sm:text-base;
+  }
+  
+  .text-responsive-base {
+    @apply text-base sm:text-lg;
+  }
+  
+  .text-responsive-lg {
+    @apply text-lg sm:text-xl md:text-2xl;
+  }
+  
+  .text-responsive-xl {
+    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl;
+  }
+  
+  .text-responsive-2xl {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl;
   }
 }

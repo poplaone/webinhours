@@ -10,7 +10,7 @@ export const Hero = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="py-20 px-4 relative z-10">
+    <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 relative z-10">
       <div className="container mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -19,14 +19,14 @@ export const Hero = () => {
         >
           <LayoutGroup>
             <motion.h1 
-              className="text-5xl md:text-7xl font-bold mb-6 flex items-center justify-center whitespace-pre"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-0 whitespace-pre-wrap sm:whitespace-pre leading-tight"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.2 }}
               layout
             >
               <motion.span
-                className="pt-0.5 sm:pt-1 md:pt-2"
+                className="pt-0.5 sm:pt-1 md:pt-2 text-center sm:text-left"
                 layout
                 transition={{ type: "spring", damping: 30, stiffness: 400 }}
               >
@@ -34,7 +34,7 @@ export const Hero = () => {
               </motion.span>
               <TextRotate
                 texts={["In Hours", "Not Weeks", "work!", "fancy ✽", "right", "fast", "fun", "rock"]}
-                mainClassName="text-white px-2 sm:px-2 md:px-3 bg-[#8B5CF6] overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-lg"
+                mainClassName="text-white px-3 sm:px-2 md:px-3 bg-[#8B5CF6] overflow-hidden py-1 sm:py-0.5 md:py-2 justify-center rounded-lg text-center min-w-fit"
                 staggerFrom="last"
                 initial={{ y: "100%" }}
                 animate={{ y: 0 }}
@@ -48,7 +48,7 @@ export const Hero = () => {
           </LayoutGroup>
           
           <motion.p 
-            className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto"
+            className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-6 sm:mb-8 max-w-3xl mx-auto px-2 sm:px-0 leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
@@ -58,14 +58,14 @@ export const Hero = () => {
           </motion.p>
           
           <motion.div 
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 sm:px-0"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.9 }}
           >
             <Button 
               size="lg" 
-              className="bg-[#8B5CF6] hover:bg-[#7C3AED] text-lg px-8 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#8B5CF6]/25 group"
+              className="bg-[#8B5CF6] hover:bg-[#7C3AED] text-lg px-8 py-3 sm:py-2 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#8B5CF6]/25 group w-full sm:w-auto min-h-[48px] touch-manipulation"
               onClick={() => navigate('/marketplace')}
             >
               Start Your Project
@@ -74,7 +74,7 @@ export const Hero = () => {
             <Button 
               size="lg" 
               variant="outline" 
-              className="text-lg px-8 hover:bg-[#8B5CF6] hover:text-white hover:border-[#8B5CF6] transition-all duration-300 hover:scale-105"
+              className="text-lg px-8 py-3 sm:py-2 hover:bg-[#8B5CF6] hover:text-white hover:border-[#8B5CF6] transition-all duration-300 hover:scale-105 w-full sm:w-auto min-h-[48px] touch-manipulation"
             >
               View Portfolio
             </Button>

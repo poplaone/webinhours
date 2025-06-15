@@ -8,6 +8,7 @@ import { Services } from '@/components/sections/Services';
 import { Features } from '@/components/sections/Features';
 import { CTASection } from '@/components/sections/CTASection';
 import { Footer } from '@/components/sections/Footer';
+import MobileBottomNav from '@/components/layout/MobileBottomNav';
 
 const Index = () => {
   return (
@@ -20,6 +21,7 @@ const Index = () => {
       <PremiumTestimonials />
       <CTASection />
       <Footer />
+      <MobileBottomNav />
     </div>
   );
 };
