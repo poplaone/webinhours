@@ -10,7 +10,7 @@ export const CategoryCards = ({ websiteCount }: CategoryCardsProps) => {
   return (
     <Card className="p-3 md:p-4 border border-border/40 bg-card/50 backdrop-blur">
       <h2 className="text-lg md:text-xl font-semibold mb-3">Template Categories</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+      <div className="space-y-3">
         <div className="p-3 bg-background rounded-lg border border-border/60">
           <div className="flex justify-between items-center mb-2">
             <h3 className="font-medium text-sm md:text-base">Ready-to-Use Templates</h3>
