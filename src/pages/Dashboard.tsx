@@ -8,10 +8,12 @@ import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import SideNavbar from '@/components/layout/SideNavbar';
 import { DashboardHeader } from '@/components/layout/DashboardHeader';
+import { useWebsites } from '@/hooks/useWebsites';
 
-const websiteTemplates = [
+// Demo data - will be mixed with real uploaded websites
+const demoWebsiteTemplates = [
   {
-    id: 1,
+    id: 'demo-1',
     title: "E-commerce Store Template",
     description: "Complete e-commerce solution with shopping cart, payment integration, and admin dashboard. Perfect for online stores.",
     tags: ["E-commerce", "Stripe", "Admin Panel"],
@@ -21,10 +23,13 @@ const websiteTemplates = [
     rating: 4.8,
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=300&h=170&q=80",
     category: "E-commerce",
-    status: "Available"
+    status: "Available",
+    views_count: 245,
+    rating_average: 4.8,
+    is_featured: false
   },
   {
-    id: 9,
+    id: 'demo-2',
     title: "Corporate Business Website",
     description: "Professional corporate website with CMS, contact forms, and SEO optimization. Ideal for businesses and agencies.",
     tags: ["Corporate", "CMS", "SEO"],
@@ -34,10 +39,13 @@ const websiteTemplates = [
     rating: 4.9,
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=300&h=170&q=80",
     category: "Corporate",
-    status: "Available"
+    status: "Available",
+    views_count: 189,
+    rating_average: 4.9,
+    is_featured: true
   },
   {
-    id: 10,
+    id: 'demo-3',
     title: "SaaS Landing Page",
     description: "High-converting SaaS landing page with pricing tables, testimonials, and lead capture forms. Ready to launch.",
     tags: ["SaaS", "Landing Page", "Conversion"],
@@ -47,10 +55,13 @@ const websiteTemplates = [
     rating: 4.7,
     image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=300&h=170&q=80",
     category: "SaaS",
-    status: "Available"
+    status: "Available",
+    views_count: 423,
+    rating_average: 4.7,
+    is_featured: false
   },
   {
-    id: 11,
+    id: 'demo-4',
     title: "Restaurant Website Template",
     description: "Beautiful restaurant website with menu display, online reservations, and food gallery. Mobile optimized.",
     tags: ["Restaurant", "Reservations", "Mobile"],
@@ -60,10 +71,13 @@ const websiteTemplates = [
     rating: 4.6,
     image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=300&h=170&q=80",
     category: "Restaurant",
-    status: "Available"
+    status: "Available",
+    views_count: 312,
+    rating_average: 4.6,
+    is_featured: false
   },
   {
-    id: 12,
+    id: 'demo-5',
     title: "Portfolio Website Builder",
     description: "Creative portfolio template for designers, photographers, and artists. Showcase your work beautifully.",
     tags: ["Portfolio", "Creative", "Gallery"],
@@ -73,10 +87,13 @@ const websiteTemplates = [
     rating: 4.9,
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=300&h=170&q=80",
     category: "Portfolio",
-    status: "Available"
+    status: "Available",
+    views_count: 567,
+    rating_average: 4.9,
+    is_featured: false
   },
   {
-    id: 13,
+    id: 'demo-6',
     title: "Real Estate Platform",
     description: "Complete real estate website with property listings, search filters, and agent profiles. Database included.",
     tags: ["Real Estate", "Listings", "Search"],
@@ -86,7 +103,10 @@ const websiteTemplates = [
     rating: 4.8,
     image: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?auto=format&fit=crop&w=300&h=170&q=80",
     category: "Real Estate",
-    status: "Available"
+    status: "Available",
+    views_count: 156,
+    rating_average: 4.8,
+    is_featured: false
   }
 ];
 
@@ -96,17 +116,46 @@ const Dashboard = () => {
   const [searchValue, setSearchValue] = useState('');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
 
-  const viewTemplateDetail = (templateId: number) => {
+  // Fetch real websites from database
+  const { data: uploadedWebsites = [], isLoading } = useWebsites({
+    category: selectedCategory !== 'all' ? selectedCategory : undefined,
+    search: searchValue || undefined,
+    status: 'approved' // Only show approved websites
+  });
+
+  const viewTemplateDetail = (templateId: string) => {
     navigate(`/idea/${templateId}`);
   };
 
-  const viewTemplateDemo = (templateId: number) => {
+  const viewTemplateDemo = (templateId: string) => {
     navigate(`/concept-testing/${templateId}`);
   };
 
-  const filteredTemplates = websiteTemplates.filter(template => {
+  // Combine demo data with real uploaded websites
+  const allWebsites = [
+    ...demoWebsiteTemplates,
+    ...uploadedWebsites.map(website => ({
+      id: website.id,
+      title: website.title,
+      description: website.description || "No description available",
+      tags: website.tags || [],
+      timestamp: website.is_featured ? "Featured" : "New",
+      price: Number(website.price),
+      sales: 0, // New uploads start with 0 sales
+      rating: website.rating_average || 0,
+      image: website.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=300&h=170&q=80",
+      category: website.category,
+      status: "Available",
+      views_count: website.views_count,
+      rating_average: website.rating_average || 0,
+      is_featured: website.is_featured
+    }))
+  ];
+
+  // Apply filters to combined data
+  const filteredTemplates = allWebsites.filter(template => {
     // Category filter
-    const categoryMatch = selectedCategory === 'all' || template.category === selectedCategory;
+    const categoryMatch = selectedCategory === 'all' || template.category.toLowerCase() === selectedCategory.toLowerCase();
     
     // Search filter
     const searchMatch = template.title.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -140,7 +189,7 @@ const Dashboard = () => {
               <p className="text-muted-foreground mt-1">Professional website templates ready to buy and customize for your business</p>
             </div>
             <div className="flex items-center">
-              <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]" onClick={() => navigate('/profile')}>
+              <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED]" onClick={() => navigate('/admin-panel')}>
                 <Code className="mr-2 h-4 w-4" />
                 Upload Website
               </Button>
@@ -149,116 +198,132 @@ const Dashboard = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {filteredTemplates.map((template) => (
-                <Card 
-                  key={template.id} 
-                  className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg transition-shadow group relative h-full"
-                >
-                  <div className="h-40 overflow-hidden relative">
-                    <img 
-                      src={template.image} 
-                      alt={template.title} 
-                      className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-300"
-                    />
-                    <div className="absolute top-2 left-2">
-                      <span className="bg-[#8B5CF6] text-white text-xs px-2 py-1 rounded-full font-medium">
-                        {template.timestamp}
-                      </span>
-                    </div>
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button 
-                              onClick={() => viewTemplateDemo(template.id)} 
-                              variant="secondary" 
-                              className="bg-white/20 text-white backdrop-blur-sm hover:bg-white/30"
-                              size="sm"
-                            >
-                              <Eye className="mr-2 h-4 w-4" />
-                              Preview
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>View live demo</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button 
-                              onClick={() => viewTemplateDetail(template.id)} 
-                              variant="secondary" 
-                              className="bg-[#8B5CF6]/80 text-white backdrop-blur-sm hover:bg-[#8B5CF6]"
-                              size="sm"
-                            >
-                              <ShoppingCart className="mr-2 h-4 w-4" />
-                              Buy
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Purchase template</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    </div>
-                  </div>
-                  
-                  <CardContent className="p-4 flex-grow flex flex-col">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-semibold text-lg cursor-pointer hover:text-[#8B5CF6] transition-colors" onClick={() => viewTemplateDetail(template.id)}>{template.title}</h3>
-                      <div className="flex items-center gap-1 text-[#8B5CF6] font-bold">
-                        <DollarSign className="h-4 w-4" />
-                        <span>{template.price}</span>
+              {isLoading ? (
+                Array.from({ length: 6 }).map((_, i) => (
+                  <Card key={i} className="animate-pulse">
+                    <div className="h-40 bg-gray-200 rounded-t-lg"></div>
+                    <CardContent className="p-4">
+                      <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                      <div className="h-3 bg-gray-200 rounded mb-4"></div>
+                      <div className="flex justify-between">
+                        <div className="h-6 bg-gray-200 rounded w-16"></div>
+                        <div className="h-6 bg-gray-200 rounded w-20"></div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))
+              ) : (
+                filteredTemplates.map((template) => (
+                  <Card 
+                    key={template.id} 
+                    className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg transition-shadow group relative h-full"
+                  >
+                    <div className="h-40 overflow-hidden relative">
+                      <img 
+                        src={template.image} 
+                        alt={template.title} 
+                        className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-300"
+                      />
+                      <div className="absolute top-2 left-2">
+                        <span className="bg-[#8B5CF6] text-white text-xs px-2 py-1 rounded-full font-medium">
+                          {template.timestamp}
+                        </span>
+                      </div>
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button 
+                                onClick={() => viewTemplateDemo(template.id)} 
+                                variant="secondary" 
+                                className="bg-white/20 text-white backdrop-blur-sm hover:bg-white/30"
+                                size="sm"
+                              >
+                                <Eye className="mr-2 h-4 w-4" />
+                                Preview
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>View live demo</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button 
+                                onClick={() => viewTemplateDetail(template.id)} 
+                                variant="secondary" 
+                                className="bg-[#8B5CF6]/80 text-white backdrop-blur-sm hover:bg-[#8B5CF6]"
+                                size="sm"
+                              >
+                                <ShoppingCart className="mr-2 h-4 w-4" />
+                                Buy
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Purchase template</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
                       </div>
                     </div>
-                    <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{template.description}</p>
                     
-                    <div className="mt-auto">
-                      <div className="grid grid-cols-3 gap-2 text-xs border-t border-border/40 pt-2 mb-2">
-                        <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
-                          <div className="flex items-center gap-1 text-muted-foreground mb-1">
-                            <TrendingUp className="h-3 w-3 text-[#8B5CF6]" />
-                            <span>Sales</span>
-                          </div>
-                          <div className="font-medium text-sm text-emerald-500">
-                            {template.sales} sold
-                          </div>
-                        </div>
-                        
-                        <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
-                          <div className="flex items-center gap-1 text-muted-foreground mb-1">
-                            <Users className="h-3 w-3 text-[#8B5CF6]" />
-                            <span>Rating</span>
-                          </div>
-                          <div className="font-medium text-sm">
-                            ⭐ {template.rating}
-                          </div>
-                        </div>
-                        
-                        <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
-                          <div className="flex items-center gap-1 text-muted-foreground mb-1">
-                            <Radio className="h-3 w-3 text-[#8B5CF6]" />
-                            <span>Status</span>
-                          </div>
-                          <div className="font-medium text-sm text-emerald-500">
-                            {template.status}
-                          </div>
+                    <CardContent className="p-4 flex-grow flex flex-col">
+                      <div className="flex justify-between items-start mb-2">
+                        <h3 className="font-semibold text-lg cursor-pointer hover:text-[#8B5CF6] transition-colors" onClick={() => viewTemplateDetail(template.id)}>{template.title}</h3>
+                        <div className="flex items-center gap-1 text-[#8B5CF6] font-bold">
+                          <DollarSign className="h-4 w-4" />
+                          <span>{template.price}</span>
                         </div>
                       </div>
+                      <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{template.description}</p>
                       
-                      <div className="flex flex-wrap gap-2 mt-2">
-                        {template.tags.map((tag, index) => (
-                          <span key={index} className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-2 py-1 rounded-full">
-                            {tag}
-                          </span>
-                        ))}
+                      <div className="mt-auto">
+                        <div className="grid grid-cols-3 gap-2 text-xs border-t border-border/40 pt-2 mb-2">
+                          <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
+                            <div className="flex items-center gap-1 text-muted-foreground mb-1">
+                              <TrendingUp className="h-3 w-3 text-[#8B5CF6]" />
+                              <span>Sales</span>
+                            </div>
+                            <div className="font-medium text-sm text-emerald-500">
+                              {template.sales || 0} sold
+                            </div>
+                          </div>
+                          
+                          <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
+                            <div className="flex items-center gap-1 text-muted-foreground mb-1">
+                              <Users className="h-3 w-3 text-[#8B5CF6]" />
+                              <span>Rating</span>
+                            </div>
+                            <div className="font-medium text-sm">
+                              ⭐ {template.rating_average?.toFixed(1) || '0.0'}
+                            </div>
+                          </div>
+                          
+                          <div className="flex flex-col bg-[#8B5CF6]/5 p-2 rounded-md">
+                            <div className="flex items-center gap-1 text-muted-foreground mb-1">
+                              <Radio className="h-3 w-3 text-[#8B5CF6]" />
+                              <span>Views</span>
+                            </div>
+                            <div className="font-medium text-sm text-emerald-500">
+                              {template.views_count || 0}
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {template.tags?.slice(0, 3).map((tag, index) => (
+                            <span key={index} className="bg-[#8B5CF6]/10 text-[#8B5CF6] text-xs px-2 py-1 rounded-full">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                    </CardContent>
+                  </Card>
+                ))
+              )}
             </div>
             
             <div className="lg:col-span-1">
@@ -295,7 +360,7 @@ const Dashboard = () => {
                       <Button 
                         size="sm" 
                         className="mt-2 w-full bg-[#8B5CF6] hover:bg-[#7C3AED]"
-                        onClick={() => navigate('/profile')}
+                        onClick={() => navigate('/admin-panel')}
                       >
                         Upload Now
                       </Button>

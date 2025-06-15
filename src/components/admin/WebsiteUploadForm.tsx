@@ -23,19 +23,19 @@ interface WebsiteFormData {
 }
 
 const categories = [
-  { value: 'business', label: 'Business' },
-  { value: 'ecommerce', label: 'E-Commerce' },
-  { value: 'portfolio', label: 'Portfolio' },
-  { value: 'blog', label: 'Blog' },
-  { value: 'landing_page', label: 'Landing Page' },
-  { value: 'saas', label: 'SaaS' },
-  { value: 'nonprofit', label: 'Non-Profit' },
-  { value: 'education', label: 'Education' },
-  { value: 'healthcare', label: 'Healthcare' },
-  { value: 'real_estate', label: 'Real Estate' },
-  { value: 'restaurant', label: 'Restaurant' },
-  { value: 'creative', label: 'Creative' },
-  { value: 'other', label: 'Other' },
+  { value: 'E-commerce', label: 'E-commerce' },
+  { value: 'Corporate', label: 'Corporate' },
+  { value: 'SaaS', label: 'SaaS' },
+  { value: 'Portfolio', label: 'Portfolio' },
+  { value: 'Restaurant', label: 'Restaurant' },
+  { value: 'Real Estate', label: 'Real Estate' },
+  { value: 'Landing Page', label: 'Landing Page' },
+  { value: 'Blog', label: 'Blog' },
+  { value: 'Creative', label: 'Creative' },
+  { value: 'Healthcare', label: 'Healthcare' },
+  { value: 'Education', label: 'Education' },
+  { value: 'Non-Profit', label: 'Non-Profit' },
+  { value: 'Other', label: 'Other' },
 ];
 
 export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
@@ -90,7 +90,7 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
       await createWebsite.mutateAsync({
         title: data.title,
         description: data.description,
-        category: data.category as any,
+        category: data.category,
         price: data.price,
         preview_url: data.preview_url,
         demo_url: data.demo_url || null,
@@ -131,7 +131,7 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
               <Input
                 id="title"
                 {...register('title', { required: 'Title is required' })}
-                placeholder="Enter website title"
+                placeholder="E-commerce Store Template"
               />
               {errors.title && (
                 <p className="text-sm text-red-500">{errors.title.message}</p>
@@ -159,13 +159,16 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">Description *</Label>
             <Textarea
               id="description"
-              {...register('description')}
-              placeholder="Describe your website template"
+              {...register('description', { required: 'Description is required' })}
+              placeholder="Complete e-commerce solution with shopping cart, payment integration, and admin dashboard. Perfect for online stores."
               rows={4}
             />
+            {errors.description && (
+              <p className="text-sm text-red-500">{errors.description.message}</p>
+            )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -181,9 +184,10 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
                   className="pl-10"
                   {...register('price', { 
                     required: 'Price is required',
-                    min: { value: 0, message: 'Price must be non-negative' }
+                    min: { value: 0, message: 'Price must be non-negative' },
+                    valueAsNumber: true
                   })}
-                  placeholder="0.00"
+                  placeholder="299"
                 />
               </div>
               {errors.price && (
@@ -192,46 +196,49 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="preview_url">Preview URL *</Label>
+              <Label htmlFor="thumbnail_url">Thumbnail Image URL *</Label>
               <Input
-                id="preview_url"
-                {...register('preview_url', { required: 'Preview URL is required' })}
-                placeholder="https://your-preview-site.com"
+                id="thumbnail_url"
+                {...register('thumbnail_url', { required: 'Thumbnail URL is required' })}
+                placeholder="https://example.com/image.jpg"
               />
-              {errors.preview_url && (
-                <p className="text-sm text-red-500">{errors.preview_url.message}</p>
+              {errors.thumbnail_url && (
+                <p className="text-sm text-red-500">{errors.thumbnail_url.message}</p>
               )}
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="demo_url">Demo URL</Label>
+              <Label htmlFor="preview_url">Preview URL *</Label>
+              <Input
+                id="preview_url"
+                {...register('preview_url', { required: 'Preview URL is required' })}
+                placeholder="https://your-website.com"
+              />
+              {errors.preview_url && (
+                <p className="text-sm text-red-500">{errors.preview_url.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="demo_url">Demo URL (optional)</Label>
               <Input
                 id="demo_url"
                 {...register('demo_url')}
                 placeholder="https://demo.example.com"
               />
             </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="thumbnail_url">Thumbnail URL</Label>
-              <Input
-                id="thumbnail_url"
-                {...register('thumbnail_url')}
-                placeholder="https://image.example.com/thumbnail.jpg"
-              />
-            </div>
           </div>
 
           {/* Tags Section */}
           <div className="space-y-2">
-            <Label>Tags</Label>
+            <Label>Tags *</Label>
             <div className="flex gap-2">
               <Input
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
-                placeholder="Add a tag"
+                placeholder="Add a tag (e.g., E-commerce, Stripe, Admin Panel)"
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
               />
               <Button type="button" onClick={addTag} variant="outline" size="icon">
@@ -249,6 +256,9 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
                 </Badge>
               ))}
             </div>
+            {tags.length === 0 && (
+              <p className="text-sm text-red-500">At least one tag is required</p>
+            )}
           </div>
 
           {/* Technologies Section */}
@@ -258,7 +268,7 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
               <Input
                 value={techInput}
                 onChange={(e) => setTechInput(e.target.value)}
-                placeholder="e.g., React, Tailwind CSS"
+                placeholder="e.g., React, Tailwind CSS, Node.js"
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTechnology())}
               />
               <Button type="button" onClick={addTechnology} variant="outline" size="icon">
@@ -285,7 +295,7 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
               <Input
                 value={featureInput}
                 onChange={(e) => setFeatureInput(e.target.value)}
-                placeholder="e.g., Responsive Design, SEO Optimized"
+                placeholder="e.g., Responsive Design, SEO Optimized, Payment Integration"
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addFeature())}
               />
               <Button type="button" onClick={addFeature} variant="outline" size="icon">
@@ -311,7 +321,7 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
             </Button>
             <Button 
               type="submit" 
-              disabled={createWebsite.isPending}
+              disabled={createWebsite.isPending || tags.length === 0}
               className="bg-[#8B5CF6] hover:bg-[#8B5CF6]/90"
             >
               {createWebsite.isPending ? 'Uploading...' : 'Upload Website'}
