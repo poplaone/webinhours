@@ -13,15 +13,9 @@ import { Portfolio } from '@/components/sections/Portfolio';
 import { LeadCaptureForm } from '@/components/forms/LeadCaptureForm';
 import { ConsultationBooking } from '@/components/booking/ConsultationBooking';
 import { ClientLogos } from '@/components/ui/ClientLogos';
-
 const Index = () => {
-  return (
-    <AppLayout>
-      <SEOHead 
-        title="WebInHours - Professional Websites Delivered in 24 Hours"
-        description="Get professional, mobile-responsive websites built in 24 hours, not weeks. Custom development, e-commerce, SEO optimization. 500+ successful projects. Money-back guarantee."
-        keywords="website development, 24 hour website, fast web design, professional websites, custom development, e-commerce, mobile responsive, SEO optimization"
-      />
+  return <AppLayout>
+      <SEOHead title="WebInHours - Professional Websites Delivered in 24 Hours" description="Get professional, mobile-responsive websites built in 24 hours, not weeks. Custom development, e-commerce, SEO optimization. 500+ successful projects. Money-back guarantee." keywords="website development, 24 hour website, fast web design, professional websites, custom development, e-commerce, mobile responsive, SEO optimization" />
       <AnimatedGridBackground />
       <Hero />
       
@@ -45,11 +39,7 @@ const Index = () => {
       {/* Lead Capture Section */}
       <section className="py-20 px-4">
         <div className="container mx-auto">
-          <LeadCaptureForm 
-            variant="inline"
-            incentive="Free Website Audit + $200 Bonus Package"
-            className="max-w-4xl mx-auto"
-          />
+          <LeadCaptureForm variant="inline" incentive="Free Website Audit + $200 Bonus Package" className="max-w-4xl mx-auto" />
         </div>
       </section>
       
@@ -62,7 +52,7 @@ const Index = () => {
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">Ready to Get Started?</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-muted-foreground max-w-3xl mx-auto text-sm">
               Book a free consultation to discuss your project and get a custom strategy. 
               No sales pressure, just expert advice tailored to your needs.
             </p>
@@ -73,8 +63,6 @@ const Index = () => {
       
       <CTASection />
       <Footer />
-    </AppLayout>
-  );
+    </AppLayout>;
 };
-
 export default Index;
