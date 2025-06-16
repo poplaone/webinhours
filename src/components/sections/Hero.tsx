@@ -38,7 +38,7 @@ export const Hero = () => {
             }}>
                 Professional Websites{" "}
               </motion.span>
-              <TextRotate texts={["In Hours", "Not Weeks", "Lightning Fast", "Same Day", "Premium Quality", "Mobile First"]} mainClassName="text-white px-3 sm:px-2 md:px-3 bg-[#8B5CF6] overflow-hidden py-1 sm:py-0.5 md:py-2 justify-center rounded-lg text-center min-w-fit" staggerFrom="last" initial={{
+              <TextRotate texts={["In Hours", "Not Weeks", "Lightning Fast", "Mobile First"]} mainClassName="text-white px-3 sm:px-2 md:px-3 bg-[#8B5CF6] overflow-hidden py-1 sm:py-0.5 md:py-2 justify-center rounded-lg text-center min-w-fit" staggerFrom="last" initial={{
               y: "100%"
             }} animate={{
               y: 0
