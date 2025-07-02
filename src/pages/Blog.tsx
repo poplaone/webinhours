@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { DashboardHeader } from '@/components/layout/DashboardHeader';
+import AppLayout from '@/components/layout/AppLayout';
+import SEOHead from '@/components/seo/SEOHead';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -72,10 +73,15 @@ export default function Blog() {
   const categories = ["All", "Technology", "Business", "Design", "SEO", "Success Stories"];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
-      <DashboardHeader />
+    <AppLayout>
+      <SEOHead 
+        title="Blog - WebInHours | Web Development Insights & Tips"
+        description="Stay updated with the latest trends, tips, and success stories in rapid web development."
+        keywords="web development blog, website tips, development insights"
+      />
       
-      <div className="container mx-auto px-6 py-12">
+      <div className="pt-24 pb-20 px-4">
+        <div className="container mx-auto">
         {/* Hero Section */}
         <div className="text-center mb-16">
           <Badge variant="secondary" className="mb-4">Blog & Insights</Badge>
@@ -183,7 +189,8 @@ export default function Blog() {
             </div>
           </CardContent>
         </Card>
+        </div>
       </div>
-    </div>
+    </AppLayout>
   );
 }

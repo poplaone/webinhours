@@ -1,16 +1,22 @@
 
 import React from 'react';
-import { DashboardHeader } from '@/components/layout/DashboardHeader';
+import AppLayout from '@/components/layout/AppLayout';
+import SEOHead from '@/components/seo/SEOHead';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 
 export default function Privacy() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
-      <DashboardHeader />
+    <AppLayout>
+      <SEOHead 
+        title="Privacy Policy - WebInHours | Your Privacy Matters"
+        description="Learn how WebInHours protects your privacy and handles your personal information."
+        keywords="privacy policy, data protection, user privacy"
+      />
       
-      <div className="container mx-auto px-6 py-12 max-w-4xl">
+      <div className="pt-24 pb-20 px-4">
+        <div className="container mx-auto max-w-4xl">
         {/* Hero Section */}
         <div className="text-center mb-16">
           <Badge variant="secondary" className="mb-4">Privacy</Badge>
@@ -182,7 +188,8 @@ export default function Privacy() {
             </div>
           </CardContent>
         </Card>
+        </div>
       </div>
-    </div>
+    </AppLayout>
   );
 }

@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { DashboardHeader } from '@/components/layout/DashboardHeader';
+import AppLayout from '@/components/layout/AppLayout';
+import SEOHead from '@/components/seo/SEOHead';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -77,10 +78,15 @@ export default function Pricing() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
-      <DashboardHeader />
+    <AppLayout>
+      <SEOHead 
+        title="Pricing - WebInHours | Transparent Website Development Pricing"
+        description="No hidden fees, no monthly subscriptions. Pay once and get a professional website that's yours forever."
+        keywords="website pricing, web development cost, template pricing"
+      />
       
-      <div className="container mx-auto px-6 py-12">
+      <div className="pt-24 pb-20 px-4">
+        <div className="container mx-auto">
         {/* Hero Section */}
         <div className="text-center mb-16">
           <Badge variant="secondary" className="mb-4">Transparent Pricing</Badge>
@@ -226,7 +232,8 @@ export default function Pricing() {
             </div>
           </CardContent>
         </Card>
+        </div>
       </div>
-    </div>
+    </AppLayout>
   );
 }

@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { DashboardHeader } from '@/components/layout/DashboardHeader';
+import AppLayout from '@/components/layout/AppLayout';
+import SEOHead from '@/components/seo/SEOHead';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -79,10 +80,15 @@ export default function FAQ() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
-      <DashboardHeader />
+    <AppLayout>
+      <SEOHead 
+        title="FAQ - WebInHours | Frequently Asked Questions"
+        description="Find answers to the most common questions about WebInHours, our services, and how we can help you get your website up and running quickly."
+        keywords="FAQ, frequently asked questions, website development, support"
+      />
       
-      <div className="container mx-auto px-6 py-12">
+      <div className="pt-24 pb-20 px-4">
+        <div className="container mx-auto">
         {/* Hero Section */}
         <div className="text-center mb-16">
           <Badge variant="secondary" className="mb-4">Frequently Asked Questions</Badge>
@@ -134,7 +140,8 @@ export default function FAQ() {
             </Badge>
           </CardContent>
         </Card>
+        </div>
       </div>
-    </div>
+    </AppLayout>
   );
 }

@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { DashboardHeader } from '@/components/layout/DashboardHeader';
+import AppLayout from '@/components/layout/AppLayout';
+import SEOHead from '@/components/seo/SEOHead';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -38,10 +39,15 @@ export default function HowItWorks() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
-      <DashboardHeader />
+    <AppLayout>
+      <SEOHead 
+        title="How It Works - WebInHours | From Idea to Website in Hours"
+        description="Our streamlined 4-step process makes getting a professional website faster and easier than ever before."
+        keywords="how it works, website development process, rapid web development"
+      />
       
-      <div className="container mx-auto px-6 py-12">
+      <div className="pt-24 pb-20 px-4">
+        <div className="container mx-auto">
         {/* Hero Section */}
         <div className="text-center mb-16">
           <Badge variant="secondary" className="mb-4">How It Works</Badge>
@@ -178,7 +184,8 @@ export default function HowItWorks() {
             </Button>
           </div>
         </div>
+        </div>
       </div>
-    </div>
+    </AppLayout>
   );
 }
