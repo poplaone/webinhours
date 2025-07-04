@@ -8,6 +8,10 @@ interface AdminStatsProps {
   approvedCount: number;
   featuredCount: number;
   userWebsitesCount: number;
+  aiAgentsPendingCount?: number;
+  aiAgentsApprovedCount?: number;
+  aiAgentsFeaturedCount?: number;
+  userAIAgentsCount?: number;
   isAdmin: boolean;
 }
 

@@ -1,9 +1,10 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Search, Filter } from 'lucide-react';
+import { Search, Filter, Globe, Bot } from 'lucide-react';
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Category {
   id: string;
@@ -19,6 +20,8 @@ interface MarketplaceFiltersProps {
   sortBy: string;
   setSortBy: (sort: string) => void;
   categories: Category[];
+  activeTab: 'all' | 'websites' | 'ai-agents';
+  setActiveTab: (tab: 'all' | 'websites' | 'ai-agents') => void;
 }
 
 export const MarketplaceFilters = ({
@@ -28,7 +31,9 @@ export const MarketplaceFilters = ({
   setSelectedCategory,
   sortBy,
   setSortBy,
-  categories
+  categories,
+  activeTab,
+  setActiveTab
 }: MarketplaceFiltersProps) => {
   return (
     <motion.div
@@ -37,11 +42,31 @@ export const MarketplaceFilters = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.2 }}
     >
+      {/* Toggle between all, websites, and AI agents */}
+      <div className="mb-4">
+        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'all' | 'websites' | 'ai-agents')}>
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="all" className="flex items-center gap-2">
+              <Globe className="h-4 w-4" />
+              All
+            </TabsTrigger>
+            <TabsTrigger value="websites" className="flex items-center gap-2">
+              <Globe className="h-4 w-4" />
+              Websites
+            </TabsTrigger>
+            <TabsTrigger value="ai-agents" className="flex items-center gap-2">
+              <Bot className="h-4 w-4" />
+              AI Agents
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
       <div className="flex flex-col lg:flex-row gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search templates..."
+            placeholder={`Search ${activeTab === 'all' ? 'items' : activeTab}...`}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10"

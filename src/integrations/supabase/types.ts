@@ -9,6 +9,96 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      ai_agents: {
+        Row: {
+          agent_type: string
+          approved_at: string | null
+          category: string
+          created_at: string
+          demo_url: string | null
+          description: string | null
+          featured_at: string | null
+          features: string[] | null
+          id: string
+          images: string[] | null
+          inclusions: string[] | null
+          is_featured: boolean
+          model_info: Json | null
+          preview_url: string
+          price: number
+          rating_average: number | null
+          rating_count: number
+          status: string
+          tags: string[] | null
+          technologies: string[] | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          usage_count: number
+          use_cases: string[] | null
+          user_id: string
+          views_count: number
+        }
+        Insert: {
+          agent_type?: string
+          approved_at?: string | null
+          category: string
+          created_at?: string
+          demo_url?: string | null
+          description?: string | null
+          featured_at?: string | null
+          features?: string[] | null
+          id?: string
+          images?: string[] | null
+          inclusions?: string[] | null
+          is_featured?: boolean
+          model_info?: Json | null
+          preview_url: string
+          price?: number
+          rating_average?: number | null
+          rating_count?: number
+          status?: string
+          tags?: string[] | null
+          technologies?: string[] | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+          usage_count?: number
+          use_cases?: string[] | null
+          user_id: string
+          views_count?: number
+        }
+        Update: {
+          agent_type?: string
+          approved_at?: string | null
+          category?: string
+          created_at?: string
+          demo_url?: string | null
+          description?: string | null
+          featured_at?: string | null
+          features?: string[] | null
+          id?: string
+          images?: string[] | null
+          inclusions?: string[] | null
+          is_featured?: boolean
+          model_info?: Json | null
+          preview_url?: string
+          price?: number
+          rating_average?: number | null
+          rating_count?: number
+          status?: string
+          tags?: string[] | null
+          technologies?: string[] | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          usage_count?: number
+          use_cases?: string[] | null
+          user_id?: string
+          views_count?: number
+        }
+        Relationships: []
+      }
       concept_tests: {
         Row: {
           completed_at: string | null
@@ -338,6 +428,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      increment_agent_usage: {
+        Args: { agent_uuid: string }
+        Returns: undefined
+      }
       increment_website_views: {
         Args: { website_uuid: string }
         Returns: undefined
