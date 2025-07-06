@@ -15,7 +15,7 @@ const Marketplace = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('popular');
-  const [activeTab, setActiveTab] = useState<'all' | 'websites' | 'ai-agents'>('all');
+  const [activeTab, setActiveTab] = useState<'websites' | 'ai-agents'>('websites');
 
   // Fetch approved and featured websites only for marketplace
   const { data: websites = [], isLoading: websitesLoading, refetch: refetchWebsites } = useWebsites({
@@ -55,12 +55,9 @@ const Marketplace = () => {
   if (activeTab === 'websites') {
     displayItems = allMarketplaceWebsites;
     isLoading = websitesLoading;
-  } else if (activeTab === 'ai-agents') {
+  } else {
     displayItems = allMarketplaceAIAgents;
     isLoading = aiAgentsLoading;
-  } else {
-    displayItems = [...allMarketplaceWebsites, ...allMarketplaceAIAgents];
-    isLoading = websitesLoading || aiAgentsLoading;
   }
 
   // Sort items based on sortBy criteria
@@ -85,7 +82,7 @@ const Marketplace = () => {
 
   // Get unique categories from the active items
   const categories = [
-    { id: 'all', name: `All ${activeTab === 'websites' ? 'Templates' : activeTab === 'ai-agents' ? 'Agents' : 'Items'}`, count: displayItems.length },
+    { id: 'all', name: `All ${activeTab === 'websites' ? 'Templates' : 'Agents'}`, count: displayItems.length },
     ...Array.from(new Set(displayItems.map(item => item.category))).map(category => ({
       id: category,
       name: category.charAt(0).toUpperCase() + category.slice(1),
@@ -116,8 +113,8 @@ const Marketplace = () => {
         keywords="website templates, web design marketplace, professional websites, e-commerce templates, business websites"
       />
       
-      <div className="pt-24 pb-20 px-4">
-        <div className="container mx-auto">
+      <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto max-w-7xl">
           <MarketplaceHeader 
             totalWebsites={totalWebsites}
             totalDownloads={totalDownloads}
@@ -169,36 +166,12 @@ const Marketplace = () => {
                 onTagFilter={handleTagFilter}
               />
             ) : (
-              <div className="space-y-8">
-                {/* Mixed view for 'all' tab */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {isLoading ? (
-                    Array.from({ length: 8 }).map((_, i) => (
-                      <div key={i} className="h-80 bg-gray-200 animate-pulse rounded-lg" />
-                    ))
-                  ) : (
-                    sortedItems.map((item) => (
-                      item.agent_type ? (
-                        <AIAgentCard 
-                          key={item.id} 
-                          agent={item}
-                          onUse={(agent) => console.log('Use agent:', agent)}
-                          onView={(agent) => console.log('View agent:', agent)}
-                        />
-                      ) : (
-                        <div key={item.id} className="h-80 bg-gray-100 rounded-lg p-4 flex flex-col">
-                          <div className="text-sm text-gray-500 mb-2">Website Template</div>
-                          <h3 className="font-semibold mb-2">{item.title}</h3>
-                          <p className="text-sm text-gray-600 flex-1">{item.description}</p>
-                          <div className="mt-auto pt-4">
-                            <div className="text-lg font-bold">{item.price === 0 ? 'Free' : `$${item.price}`}</div>
-                          </div>
-                        </div>
-                      )
-                    ))
-                  )}
-                </div>
-              </div>
+              <TemplateGrid 
+                templates={sortedItems} 
+                isLoading={isLoading} 
+                onRefresh={handleRefresh}
+                onTagFilter={handleTagFilter}
+              />
             )}
           </motion.div>
 

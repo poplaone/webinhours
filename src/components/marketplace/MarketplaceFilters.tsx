@@ -20,8 +20,8 @@ interface MarketplaceFiltersProps {
   sortBy: string;
   setSortBy: (sort: string) => void;
   categories: Category[];
-  activeTab: 'all' | 'websites' | 'ai-agents';
-  setActiveTab: (tab: 'all' | 'websites' | 'ai-agents') => void;
+  activeTab: 'websites' | 'ai-agents';
+  setActiveTab: (tab: 'websites' | 'ai-agents') => void;
 }
 
 export const MarketplaceFilters = ({
@@ -42,14 +42,10 @@ export const MarketplaceFilters = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.2 }}
     >
-      {/* Toggle between all, websites, and AI agents */}
+      {/* Toggle between websites and AI agents */}
       <div className="mb-4">
-        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'all' | 'websites' | 'ai-agents')}>
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="all" className="flex items-center gap-2">
-              <Globe className="h-4 w-4" />
-              All
-            </TabsTrigger>
+        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'websites' | 'ai-agents')}>
+          <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="websites" className="flex items-center gap-2">
               <Globe className="h-4 w-4" />
               Websites
@@ -66,7 +62,7 @@ export const MarketplaceFilters = ({
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder={`Search ${activeTab === 'all' ? 'items' : activeTab}...`}
+            placeholder={`Search ${activeTab}...`}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10"
