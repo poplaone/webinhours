@@ -5,8 +5,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useProfile, useUpdateProfile } from '@/hooks/useProfiles';
 import { useUserWebsites } from '@/hooks/useWebsiteQueries';
 import { useIsAdmin } from '@/hooks/useAdmin';
-import SideNavbar from '@/components/layout/SideNavbar';
-import { DashboardHeader } from '@/components/layout/DashboardHeader';
+import AppLayout from '@/components/layout/AppLayout';
 import { ProfileHeader } from '@/components/profile/ProfileHeader';
 import { ProfileEditForm } from '@/components/profile/ProfileEditForm';
 import { ProfileStats } from '@/components/profile/ProfileStats';
@@ -47,23 +46,18 @@ const Profile = () => {
 
   if (profileLoading) {
     return (
-      <div className="flex h-screen overflow-hidden bg-gradient-to-br from-background to-background/80">
-        <SideNavbar />
-        <div className="flex-1 flex items-center justify-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#8B5CF6]"></div>
+      <AppLayout>
+        <div className="min-h-screen flex items-center justify-center pt-24">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
         </div>
-      </div>
+      </AppLayout>
     );
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-background to-background/80">
-      <SideNavbar />
-      
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <DashboardHeader />
-
-        <main className="flex-1 overflow-y-auto p-6 lg:container">
+    <AppLayout>
+      <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto max-w-7xl">
           <ProfileHeader
             profile={profile}
             user={user}
@@ -98,9 +92,9 @@ const Profile = () => {
               <PurchaseHistoryTab />
             </TabsContent>
           </Tabs>
-        </main>
+        </div>
       </div>
-    </div>
+    </AppLayout>
   );
 };
 

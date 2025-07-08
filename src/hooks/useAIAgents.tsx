@@ -15,6 +15,7 @@ export const useAIAgents = (filters?: AIAgentFilters) => {
         `)
         .order('created_at', { ascending: false });
 
+      // For marketplace, only show approved and featured agents
       if (!filters?.includeAll) {
         query = query.in('status', ['approved', 'featured']);
       }

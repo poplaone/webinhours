@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
-import { useWebsites } from '@/hooks/useWebsites';
+import { useWebsiteById } from '@/hooks/queries/useWebsiteByIdQuery';
 
 const SiteDetails = () => {
   const {
@@ -22,12 +22,7 @@ const SiteDetails = () => {
   const {
     toast
   } = useToast();
-  const {
-    data: websites = []
-  } = useWebsites({
-    includeAll: true
-  });
-  const site = websites.find(w => w.id === id);
+  const { data: site, isLoading } = useWebsiteById(id || '');
 
   const handlePurchase = () => {
     if (!user) {
@@ -57,6 +52,12 @@ const SiteDetails = () => {
       });
     }
   };
+
+  if (isLoading) {
+    return <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      </div>;
+  }
 
   if (!site) {
     return <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex items-center justify-center">

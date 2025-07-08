@@ -119,7 +119,7 @@ const Auth = () => {
               </div>
             </div>
             <h2 className="text-3xl font-bold text-gradient-blue animate-slide-in-up">
-              Welcome to Pulse Vision.AI
+              Welcome to WebInHours
             </h2>
             <p className="mt-4 text-muted-foreground animate-slide-in-up delay-100">
               Join thousands of innovators transforming ideas into reality
