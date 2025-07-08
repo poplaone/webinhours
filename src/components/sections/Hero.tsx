@@ -109,16 +109,7 @@ export const Hero = () => {
           </motion.div>
 
           {/* Social proof */}
-          <motion.p className="text-sm text-muted-foreground mt-6" initial={{
-          opacity: 0
-        }} animate={{
-          opacity: 1
-        }} transition={{
-          duration: 0.8,
-          delay: 1.1
-        }}>
-            Trusted by 500+ businesses • No upfront payment • 100% satisfaction guarantee
-          </motion.p>
+          
         </motion.div>
       </div>
     </section>;
