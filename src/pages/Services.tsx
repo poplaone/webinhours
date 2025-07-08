@@ -81,26 +81,10 @@ const Services = () => {
           duration: 0.8
         }}>
             
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-              From e-commerce stores to business websites, we deliver professional, 
-              mobile-optimized websites in 24-48 hours, not weeks.
-            </p>
+            
             
             {/* Quick stats */}
-            <div className="flex flex-wrap justify-center gap-8 text-sm">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-green-500" />
-                <span>500+ Websites Delivered</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                <span>4.9/5 Customer Rating</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Zap className="h-4 w-4 text-blue-500" />
-                <span>24-48 Hour Delivery</span>
-              </div>
-            </div>
+            
           </motion.div>
 
           {/* Services Grid */}
