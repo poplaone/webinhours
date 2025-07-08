@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { X, Plus } from 'lucide-react';
 import { useCreateAIAgent } from '@/hooks/useAIAgents';
+import { useIsAdmin } from '@/hooks/useWebsites';
 import { useToast } from '@/hooks/use-toast';
 
 const formSchema = z.object({
@@ -40,6 +41,7 @@ export const AIAgentUploadForm = ({ onClose }: AIAgentUploadFormProps) => {
 
   const { toast } = useToast();
   const createAIAgent = useCreateAIAgent();
+  const isAdmin = useIsAdmin();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -89,7 +91,7 @@ export const AIAgentUploadForm = ({ onClose }: AIAgentUploadFormProps) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await createAIAgent.mutateAsync({
+      const agentData = {
         title: values.title,
         description: values.description,
         category: values.category,
@@ -101,12 +103,19 @@ export const AIAgentUploadForm = ({ onClose }: AIAgentUploadFormProps) => {
         tags: tags.length > 0 ? tags : undefined,
         features: features.length > 0 ? features : undefined,
         technologies: technologies.length > 0 ? technologies : undefined,
-        use_cases: useCases.length > 0 ? useCases : undefined
-      });
+        use_cases: useCases.length > 0 ? useCases : undefined,
+        // Auto-approve for admin users
+        status: isAdmin ? 'approved' as const : 'pending' as const,
+        ...(isAdmin && { approved_at: new Date().toISOString() })
+      };
+      
+      await createAIAgent.mutateAsync(agentData);
 
       toast({
         title: "Success",
-        description: "AI Agent uploaded successfully and is pending review",
+        description: isAdmin 
+          ? "AI Agent uploaded and automatically approved!" 
+          : "AI Agent uploaded successfully and is pending review",
       });
 
       onClose();

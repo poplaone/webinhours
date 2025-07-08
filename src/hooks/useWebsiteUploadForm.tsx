@@ -13,6 +13,7 @@ interface WebsiteFormData {
   price: number;
   preview_url: string;
   demo_url?: string;
+  slug?: string;
 }
 
 export function useWebsiteUploadForm(onClose: () => void) {
@@ -24,6 +25,16 @@ export function useWebsiteUploadForm(onClose: () => void) {
   const { toast } = useToast();
   
   const arrayFields = useArrayFields();
+
+  // Generate slug function
+  const generateSlug = (title: string) => {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim();
+  };
 
   // Form submission
   const onSubmit = async (data: WebsiteFormData) => {
@@ -75,6 +86,7 @@ export function useWebsiteUploadForm(onClose: () => void) {
     setValue,
     watch,
     onSubmit,
+    generateSlug,
     
     // Basic state
     thumbnailUrl,

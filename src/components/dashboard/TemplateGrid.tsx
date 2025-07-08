@@ -17,8 +17,9 @@ interface TemplateGridProps {
 export const TemplateGrid = ({ templates, isLoading, onRefresh, onTagFilter }: TemplateGridProps) => {
   const navigate = useNavigate();
 
-  const viewTemplateDetail = (templateId: string) => {
-    navigate(`/site-details/${templateId}`);
+  const viewTemplateDetail = (template: Website) => {
+    const slug = template.slug || template.id;
+    navigate(`/site/${slug}`);
   };
 
   const handleTagClick = (e: React.MouseEvent, tag: string) => {
@@ -87,7 +88,7 @@ export const TemplateGrid = ({ templates, isLoading, onRefresh, onTagFilter }: T
         <Card 
           key={template.id} 
           className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg hover:shadow-[#8B5CF6]/10 transition-all duration-300 group relative h-full cursor-pointer hover:scale-[1.02] lg:hover:scale-[1.03]"
-          onClick={() => viewTemplateDetail(template.id)}
+          onClick={() => viewTemplateDetail(template)}
           title={`View ${template.title}`}
         >
           <div className="h-48 md:h-56 lg:h-64 xl:h-72 overflow-hidden relative">

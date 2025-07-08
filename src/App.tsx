@@ -62,7 +62,8 @@ function App() {
               <Route path="/privacy" element={<Privacy />} />
               {/* Renamed dashboard route to marketplace - no authentication required */}
               <Route path="/marketplace" element={<Dashboard />} />
-              {/* Public site details - no authentication required */}
+              {/* Public site details - supports both slug and ID */}
+              <Route path="/site/:slugOrId" element={<SiteDetails />} />
               <Route path="/site-details/:id" element={<SiteDetails />} />
               <Route
                 path="/profile"

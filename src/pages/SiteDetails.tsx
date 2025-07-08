@@ -10,11 +10,9 @@ import { useToast } from '@/hooks/use-toast';
 import { useWebsiteById } from '@/hooks/queries/useWebsiteByIdQuery';
 
 const SiteDetails = () => {
-  const {
-    id
-  } = useParams<{
-    id: string;
-  }>();
+  const { id, slugOrId } = useParams<{ id?: string; slugOrId?: string }>();
+  const websiteId = id || slugOrId || '';
+  
   const navigate = useNavigate();
   const {
     user
@@ -22,7 +20,7 @@ const SiteDetails = () => {
   const {
     toast
   } = useToast();
-  const { data: site, isLoading } = useWebsiteById(id || '');
+  const { data: site, isLoading } = useWebsiteById(websiteId);
 
   const handlePurchase = () => {
     if (!user) {

@@ -19,6 +19,7 @@ export interface Website {
   downloads_count: number;
   rating_average?: number;
   rating_count: number;
+  slug?: string;
   created_at: string;
   updated_at: string;
   featured_at?: string;
@@ -42,6 +43,7 @@ export interface WebsiteInsert {
   technologies?: string[];
   features?: string[];
   inclusions?: string[];
+  slug?: string;
   status?: 'pending' | 'approved' | 'rejected' | 'featured' | 'archived';
   approved_at?: string;
   user_id?: string;
@@ -60,6 +62,7 @@ export interface WebsiteUpdate {
   technologies?: string[];
   features?: string[];
   inclusions?: string[];
+  slug?: string;
   status?: 'pending' | 'approved' | 'rejected' | 'featured' | 'archived';
   is_featured?: boolean;
   featured_at?: string;

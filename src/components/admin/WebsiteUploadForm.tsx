@@ -51,6 +51,7 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
     // Loading state
     isSubmitting,
     isAdmin,
+    generateSlug,
   } = useWebsiteUploadForm(onClose);
 
   console.log('🔧 WebsiteUploadForm - User is admin:', isAdmin);
@@ -96,6 +97,7 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
             watch={watch}
             thumbnailUrl={thumbnailUrl}
             setThumbnailUrl={setThumbnailUrl}
+            generateSlug={generateSlug}
           />
 
           <URLSection register={register} errors={errors} />

@@ -15,6 +15,7 @@ interface WebsiteFormData {
   price: number;
   preview_url: string;
   demo_url?: string;
+  slug?: string;
 }
 
 interface BasicInfoSectionProps {
@@ -22,6 +23,7 @@ interface BasicInfoSectionProps {
   errors: FieldErrors<WebsiteFormData>;
   setValue: UseFormSetValue<WebsiteFormData>;
   watch: UseFormWatch<WebsiteFormData>;
+  generateSlug?: (title: string) => string;
   thumbnailUrl: string;
   setThumbnailUrl: (url: string) => void;
 }
@@ -46,9 +48,20 @@ export function BasicInfoSection({
   register, 
   errors, 
   setValue, 
+  watch,
   thumbnailUrl, 
-  setThumbnailUrl 
+  setThumbnailUrl,
+  generateSlug 
 }: BasicInfoSectionProps) {
+  const title = watch('title');
+  
+  // Auto-generate slug when title changes
+  React.useEffect(() => {
+    if (title && generateSlug) {
+      const newSlug = generateSlug(title);
+      setValue('slug', newSlug);
+    }
+  }, [title, generateSlug, setValue]);
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -82,6 +95,20 @@ export function BasicInfoSection({
             <p className="text-sm text-red-500">Category is required</p>
           )}
         </div>
+      </div>
+      
+      <div className="space-y-2">
+        <Label htmlFor="slug">SEO URL Slug</Label>
+        <Input
+          id="slug"
+          {...register('slug')}
+          placeholder="e-commerce-store-template"
+          disabled
+          className="bg-muted"
+        />
+        <p className="text-xs text-muted-foreground">
+          Auto-generated from title. URL will be: /site/your-slug-here
+        </p>
       </div>
 
       <div className="space-y-2">

@@ -365,6 +365,7 @@ export type Database = {
           price: number
           rating_average: number | null
           rating_count: number
+          slug: string | null
           status: string
           tags: string[] | null
           technologies: string[] | null
@@ -391,6 +392,7 @@ export type Database = {
           price?: number
           rating_average?: number | null
           rating_count?: number
+          slug?: string | null
           status?: string
           tags?: string[] | null
           technologies?: string[] | null
@@ -417,6 +419,7 @@ export type Database = {
           price?: number
           rating_average?: number | null
           rating_count?: number
+          slug?: string | null
           status?: string
           tags?: string[] | null
           technologies?: string[] | null
@@ -433,6 +436,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_slug: {
+        Args: { title: string }
+        Returns: string
+      }
       increment_agent_usage: {
         Args: { agent_uuid: string }
         Returns: undefined
