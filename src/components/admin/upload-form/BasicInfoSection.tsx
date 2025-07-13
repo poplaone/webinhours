@@ -54,14 +54,16 @@ export function BasicInfoSection({
   generateSlug 
 }: BasicInfoSectionProps) {
   const title = watch('title');
+  const slug = watch('slug');
   
-  // Auto-generate slug when title changes
+  // Auto-generate slug when title changes only if slug is empty
   React.useEffect(() => {
-    if (title && generateSlug) {
+    if (title && generateSlug && !slug) {
       const newSlug = generateSlug(title);
       setValue('slug', newSlug);
     }
-  }, [title, generateSlug, setValue]);
+  }, [title, generateSlug, setValue, slug]);
+
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -98,16 +100,26 @@ export function BasicInfoSection({
       </div>
       
       <div className="space-y-2">
-        <Label htmlFor="slug">SEO URL Slug</Label>
+        <Label htmlFor="slug">Custom URL Slug *</Label>
         <Input
           id="slug"
-          {...register('slug')}
+          {...register('slug', { required: 'URL slug is required' })}
           placeholder="e-commerce-store-template"
-          disabled
-          className="bg-muted"
+          onChange={(e) => {
+            const cleanSlug = e.target.value
+              .toLowerCase()
+              .replace(/[^a-z0-9\s-]/g, '')
+              .replace(/\s+/g, '-')
+              .replace(/-+/g, '-')
+              .trim();
+            setValue('slug', cleanSlug);
+          }}
         />
+        {errors.slug && (
+          <p className="text-sm text-red-500">{errors.slug.message}</p>
+        )}
         <p className="text-xs text-muted-foreground">
-          Auto-generated from title. URL will be: /site/your-slug-here
+          This will be your SEO-friendly URL: /site/{slug || 'your-custom-url'}
         </p>
       </div>
 

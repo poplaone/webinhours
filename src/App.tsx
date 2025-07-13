@@ -1,33 +1,35 @@
+
+import { Suspense, lazy, useEffect } from 'react';
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
-import { AuthProvider } from "./hooks/useAuth";
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Index from "./pages/Index";
-import Dashboard from "./pages/Dashboard";
-import SiteDetails from "./pages/SiteDetails";
-import Auth from "./pages/Auth";
-import Profile from "./pages/Profile";
-import AdminPanel from "./pages/AdminPanel";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import FAQ from "./pages/FAQ";
-import Pricing from "./pages/Pricing";
-import Blog from "./pages/Blog";
-import HowItWorks from "./pages/HowItWorks";
-import Terms from "./pages/Terms";
-import Privacy from "./pages/Privacy";
-import NotFound from "./pages/NotFound";
-import Notifications from "./pages/Notifications";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Marketplace from "./pages/Marketplace";
-import Services from "./pages/Services";
+
+// Lazy load components
+const About = lazy(() => import("./pages/About"));
+const Services = lazy(() => import("./pages/Services"));
+const Contact = lazy(() => import("./pages/Contact"));
+const FAQ = lazy(() => import("./pages/FAQ"));
+const HowItWorks = lazy(() => import("./pages/HowItWorks"));
+const Pricing = lazy(() => import("./pages/Pricing"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const Terms = lazy(() => import("./pages/Terms"));
+const Blog = lazy(() => import("./pages/Blog"));
+const Auth = lazy(() => import("./pages/Auth"));
+const Profile = lazy(() => import("./pages/Profile"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const AdminPanel = lazy(() => import("./pages/AdminPanel"));
+const Marketplace = lazy(() => import("./pages/Marketplace"));
+const SiteDetails = lazy(() => import("./pages/SiteDetails"));
+const Notifications = lazy(() => import("./pages/Notifications"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
-// Component to scroll to top on route change
+// Component to handle scroll to top on route change
 function ScrollToTop() {
   const { pathname } = useLocation();
 
@@ -40,61 +42,60 @@ function ScrollToTop() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
         <TooltipProvider>
-          <Toaster />
-          <Sonner />
           <BrowserRouter>
             <ScrollToTop />
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/marketplace" element={<Marketplace />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/pricing" element={<Pricing />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/how-it-works" element={<HowItWorks />} />
-              <Route path="/terms" element={<Terms />} />
-              <Route path="/privacy" element={<Privacy />} />
-              {/* Renamed dashboard route to marketplace - no authentication required */}
-              <Route path="/marketplace" element={<Dashboard />} />
-              {/* Public site details - supports both slug and ID */}
-              <Route path="/site/:slugOrId" element={<SiteDetails />} />
-              <Route path="/site-details/:id" element={<SiteDetails />} />
-              <Route
-                path="/profile"
-                element={
-                  <ProtectedRoute>
-                    <Profile />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin-panel"
-                element={
-                  <ProtectedRoute>
-                    <AdminPanel />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/notifications"
-                element={
-                  <ProtectedRoute>
-                    <Notifications />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <Helmet>
+              <title>WebInHours - Professional Website Solutions</title>
+              <meta name="description" content="Get your professional website ready in 24 hours. Choose from our marketplace of premium templates or get a custom design." />
+            </Helmet>
+            <div className="min-h-screen bg-background text-foreground">
+              <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/services" element={<Services />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/faq" element={<FAQ />} />
+                  <Route path="/how-it-works" element={<HowItWorks />} />
+                  <Route path="/pricing" element={<Pricing />} />
+                  <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/terms" element={<Terms />} />
+                  <Route path="/blog" element={<Blog />} />
+                  <Route path="/auth" element={<Auth />} />
+                  <Route path="/marketplace" element={<Marketplace />} />
+                  <Route path="/site/:slugOrId" element={<SiteDetails />} />
+                  <Route path="/profile" element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/dashboard" element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/admin-panel" element={
+                    <ProtectedRoute>
+                      <AdminPanel />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/notifications" element={
+                    <ProtectedRoute>
+                      <Notifications />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </div>
+            <Toaster />
           </BrowserRouter>
         </TooltipProvider>
-      </AuthProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 }
 

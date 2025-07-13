@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from "@/components/ui/card";
@@ -46,16 +47,10 @@ export const AIAgentCard = ({ agent, onUse, onView }: AIAgentCardProps) => {
           
           {agent.is_featured && (
             <Badge className="absolute top-2 left-2 bg-gradient-to-r from-purple-600 to-blue-600">
+              <Star className="w-3 h-3 mr-1" />
               Featured
             </Badge>
           )}
-          
-          <Badge 
-            variant="secondary" 
-            className="absolute top-2 right-2"
-          >
-            {agent.agent_type}
-          </Badge>
         </div>
 
         <CardContent className="p-4">
@@ -67,45 +62,27 @@ export const AIAgentCard = ({ agent, onUse, onView }: AIAgentCardProps) => {
               </p>
             </div>
 
-            <div className="flex items-center justify-between text-sm text-muted-foreground">
-              <div className="flex items-center gap-1">
-                <Eye className="h-4 w-4" />
-                <span>{agent.views_count}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Play className="h-4 w-4" />
-                <span>{agent.usage_count}</span>
-              </div>
-              {agent.rating_average && (
-                <div className="flex items-center gap-1">
-                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <span>{agent.rating_average.toFixed(1)}</span>
-                </div>
-              )}
-            </div>
-
-            <div className="flex flex-wrap gap-1">
-              {agent.tags?.slice(0, 3).map((tag, index) => (
-                <Badge key={index} variant="outline" className="text-xs">
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-
             <div className="flex items-center justify-between">
-              <div className="text-lg font-bold">
+              <Badge 
+                variant="secondary" 
+                className="text-xs px-2 py-1 rounded-full font-medium capitalize"
+              >
+                {agent.category}
+              </Badge>
+              <div className="text-lg font-bold text-purple-600">
                 {agent.price === 0 ? 'Free' : `$${agent.price}`}
               </div>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={handleView}>
-                  <Eye className="h-4 w-4 mr-1" />
-                  View
-                </Button>
-                <Button size="sm" onClick={handleUse} className="bg-gradient-to-r from-purple-600 to-blue-600">
-                  <Play className="h-4 w-4 mr-1" />
-                  Use
-                </Button>
-              </div>
+            </div>
+
+            <div className="flex gap-2 mt-4">
+              <Button variant="outline" size="sm" onClick={handleView} className="flex-1">
+                <Eye className="h-4 w-4 mr-1" />
+                View
+              </Button>
+              <Button size="sm" onClick={handleUse} className="bg-gradient-to-r from-purple-600 to-blue-600 flex-1">
+                <Play className="h-4 w-4 mr-1" />
+                Use
+              </Button>
             </div>
           </div>
         </CardContent>
