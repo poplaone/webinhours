@@ -17,36 +17,22 @@ const Marketplace = () => {
   const [sortBy, setSortBy] = useState('popular');
   const [activeTab, setActiveTab] = useState<'websites' | 'ai-agents'>('websites');
 
-  // Fetch approved and featured websites only for marketplace
-  const { data: websites = [], isLoading: websitesLoading, refetch: refetchWebsites } = useWebsites({
+
+  // Fetch all approved and featured websites in one query
+  const { data: allMarketplaceWebsites = [], isLoading: websitesLoading, refetch: refetchWebsites } = useWebsites({
     search: searchTerm || undefined,
     category: selectedCategory !== 'all' ? selectedCategory : undefined,
-    status: 'approved', // Only show approved websites in marketplace
+    status: undefined, // We'll use status filter in the query builder
+    includeAll: false // Only show approved/featured for marketplace
   });
 
-  // Filter to include featured websites as well
-  const { data: featuredWebsites = [] } = useWebsites({
+  // Fetch all approved and featured AI agents in one query
+  const { data: allMarketplaceAIAgents = [], isLoading: aiAgentsLoading, refetch: refetchAIAgents } = useAIAgents({
     search: searchTerm || undefined,
     category: selectedCategory !== 'all' ? selectedCategory : undefined,
-    status: 'featured',
+    status: undefined,
+    includeAll: false
   });
-
-  // Fetch AI agents
-  const { data: aiAgents = [], isLoading: aiAgentsLoading, refetch: refetchAIAgents } = useAIAgents({
-    search: searchTerm || undefined,
-    category: selectedCategory !== 'all' ? selectedCategory : undefined,
-    status: 'approved',
-  });
-
-  const { data: featuredAIAgents = [] } = useAIAgents({
-    search: searchTerm || undefined,
-    category: selectedCategory !== 'all' ? selectedCategory : undefined,
-    status: 'featured',
-  });
-
-  // Combine approved and featured items
-  const allMarketplaceWebsites = [...websites, ...featuredWebsites];
-  const allMarketplaceAIAgents = [...aiAgents, ...featuredAIAgents];
 
   // Determine what to show based on active tab
   let displayItems: any[] = [];

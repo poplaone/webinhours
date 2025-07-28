@@ -1,5 +1,8 @@
 
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import Masonry from 'react-masonry-css';
+import './masonry.css';
+import ColorThief from 'color-thief-browser';
 import { useNavigate } from 'react-router-dom';
 import { DollarSign, Star } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -14,6 +17,68 @@ interface TemplateGridProps {
   onTagFilter?: (tag: string) => void;
 }
 
+
+const TemplateCard: React.FC<{template: Website; onClick: (t: Website) => void;}> = ({ template, onClick }) => {
+  const imgRef = useRef<HTMLImageElement>(null);
+  // Use a soft purpleish white background, matching the theme
+  // Use a more purpleish white background
+  const cardBg = 'bg-[#f6f0ff] dark:bg-[#232136]';
+
+  return (
+    <Card
+      key={template.id}
+      className={`border-2 border-transparent ${cardBg} overflow-hidden flex flex-col group relative h-full cursor-pointer rounded-2xl shadow-sm hover:shadow-2xl hover:border-[#8B5CF6] hover:scale-[1.025] transition-all duration-300`}
+      onClick={() => onClick(template)}
+      title={`View ${template.title}`}
+    >
+      <div className="aspect-[16/10] w-full overflow-hidden relative">
+        <img
+          ref={imgRef}
+          crossOrigin="anonymous"
+          src={template.thumbnail_url || 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=600&q=80'}
+          alt={template.title}
+          className="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500"
+          loading="lazy"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=600&q=80';
+          }}
+        />
+        <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
+          <span className="bg-white/80 dark:bg-[#181825]/80 text-xs font-semibold px-2 py-0.5 rounded-full shadow border border-border/30 capitalize w-fit mb-1">
+            {template.category}
+          </span>
+          {template.is_featured && (
+            <Badge className="bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED] text-white text-xs xl:text-sm px-3 py-1 rounded-full font-semibold shadow-lg">
+              <Star className="w-4 h-4 mr-1" />
+              Featured
+            </Badge>
+          )}
+        </div>
+      </div>
+      <CardContent className="p-5 xl:p-6 flex flex-col flex-grow bg-transparent min-h-[110px]">
+        <h3 className="font-semibold text-base xl:text-lg text-[#8B5CF6] dark:text-[#a78bfa] hover:text-[#7C3AED] transition-colors line-clamp-2 mb-2">
+          {template.title}
+        </h3>
+        {template.description && (
+          <p className="text-gray-800 dark:text-gray-200 text-xs xl:text-sm mb-2 line-clamp-2">{template.description}</p>
+        )}
+        <div className="flex flex-wrap gap-2 mb-2">
+          {template.tags && template.tags.slice(0, 3).map((tag: string) => (
+            <Badge key={tag} variant="secondary" className="text-xs px-2 py-0.5 rounded-full capitalize">
+              {tag}
+            </Badge>
+          ))}
+        </div>
+        <div className="flex items-center gap-1 text-[#8B5CF6] font-bold text-sm xl:text-base mt-auto pt-2">
+          <DollarSign className="h-4 w-4 xl:h-5 xl:w-5" />
+          <span>{Number(template.price) === 0 ? 'Free' : Number(template.price)}</span>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
 export const TemplateGrid = ({ templates, isLoading, onRefresh, onTagFilter }: TemplateGridProps) => {
   const navigate = useNavigate();
 
@@ -24,21 +89,25 @@ export const TemplateGrid = ({ templates, isLoading, onRefresh, onTagFilter }: T
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-3 md:gap-5 lg:gap-6 xl:gap-8">
-        {Array.from({ length: 12 }).map((_, i) => (
-          <Card key={i} className="animate-pulse">
-            <div className="h-48 md:h-56 lg:h-64 bg-gray-200 rounded-t-lg"></div>
-            <CardContent className="p-3 md:p-4 lg:p-5">
-              <div className="h-4 bg-gray-200 rounded mb-2"></div>
-              <div className="h-3 bg-gray-200 rounded mb-4"></div>
+      <Masonry
+        breakpointCols={{ default: 4, 1600: 3, 1200: 2, 700: 1 }}
+        className="masonry-grid"
+        columnClassName="masonry-col"
+      >
+        {Array.from({ length: 8 }).map((_, i) => (
+          <Card key={i} className="mb-5 animate-pulse rounded-2xl border-2 border-transparent bg-gradient-to-br from-[#f5f3ff] to-[#e0e7ff] break-inside-avoid">
+            <div className="h-52 md:h-64 bg-gray-200 rounded-t-2xl"></div>
+            <CardContent className="p-5">
+              <div className="h-5 bg-gray-200 rounded mb-3"></div>
+              <div className="h-4 bg-gray-200 rounded mb-5"></div>
               <div className="flex justify-between">
-                <div className="h-6 bg-gray-200 rounded w-16"></div>
                 <div className="h-6 bg-gray-200 rounded w-20"></div>
+                <div className="h-6 bg-gray-200 rounded w-24"></div>
               </div>
             </CardContent>
           </Card>
         ))}
-      </div>
+      </Masonry>
     );
   }
 
@@ -76,56 +145,16 @@ export const TemplateGrid = ({ templates, isLoading, onRefresh, onTagFilter }: T
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-3 md:gap-5 lg:gap-6 xl:gap-8">
+    <Masonry
+      breakpointCols={{ default: 4, 1600: 3, 1200: 2, 700: 1 }}
+      className="masonry-grid"
+      columnClassName="masonry-col"
+    >
       {templates.map((template) => (
-        <Card 
-          key={template.id} 
-          className="border border-border/40 bg-card/50 backdrop-blur overflow-hidden flex flex-col hover:shadow-lg hover:shadow-[#8B5CF6]/10 transition-all duration-300 group relative h-full cursor-pointer hover:scale-[1.02] lg:hover:scale-[1.03]"
-          onClick={() => viewTemplateDetail(template)}
-          title={`View ${template.title}`}
-        >
-          <div className="h-48 md:h-56 lg:h-64 xl:h-72 overflow-hidden relative">
-            <img 
-              src={template.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=300&h=256&q=80"} 
-              alt={template.title} 
-              className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-300"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=300&h=256&q=80";
-              }}
-            />
-            <div className="absolute top-2 left-2 lg:top-3 lg:left-3 flex gap-2">
-              {template.is_featured && (
-                <Badge className="bg-[#8B5CF6] text-white text-xs lg:text-sm px-2 py-1 rounded-full font-medium">
-                  <Star className="w-3 h-3 lg:w-4 lg:h-4 mr-1" />
-                  Featured
-                </Badge>
-              )}
-            </div>
-          </div>
-          
-          <CardContent className="p-3 md:p-4 lg:p-5 xl:p-6 flex flex-col flex-grow">
-            <div className="flex justify-between items-start mb-2 lg:mb-3">
-              <h3 className="font-semibold text-base md:text-lg lg:text-xl hover:text-[#8B5CF6] transition-colors line-clamp-2 flex-1 mr-2">
-                {template.title}
-              </h3>
-              <div className="flex items-center gap-1 text-[#8B5CF6] font-bold text-sm md:text-base lg:text-lg flex-shrink-0">
-                <DollarSign className="h-3 w-3 md:h-4 md:w-4 lg:h-5 lg:w-5" />
-                <span>{Number(template.price) === 0 ? 'Free' : Number(template.price)}</span>
-              </div>
-            </div>
-            
-            <div className="mt-auto">
-              <Badge 
-                variant="secondary" 
-                className="text-xs lg:text-sm px-2 py-1 rounded-full font-medium capitalize"
-              >
-                {template.category}
-              </Badge>
-            </div>
-          </CardContent>
-        </Card>
+        <div key={template.id} className="mb-5 break-inside-avoid">
+          <TemplateCard template={template} onClick={viewTemplateDetail} />
+        </div>
       ))}
-    </div>
+    </Masonry>
   );
 };
