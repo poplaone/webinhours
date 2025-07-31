@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import AppLayout from '@/components/layout/AppLayout';
+import AnimatedGridBackground from '@/components/animations/AnimatedGridBackground';
 import SEOHead from '@/components/seo/SEOHead';
 import { useWebsites } from '@/hooks/useWebsites';
 import { useAIAgents } from '@/hooks/useAIAgents';
@@ -10,8 +11,19 @@ import { MarketplaceHeader } from '@/components/marketplace/MarketplaceHeader';
 import { MarketplaceFilters } from '@/components/marketplace/MarketplaceFilters';
 import { MarketplaceCTA } from '@/components/marketplace/MarketplaceCTA';
 import { AIAgentCard } from '@/components/ai-agents/AIAgentCard';
+import { FeaturedSidebar } from '@/components/dashboard/FeaturedSidebar';
+import { AIChatbot } from '@/components/dashboard/AIChatbot';
 
 const Marketplace = () => {
+  // Ref for main scrollable content
+  const mainContentRef = React.useRef<HTMLDivElement>(null);
+
+  // Scroll to top on mount
+  React.useEffect(() => {
+    if (mainContentRef.current) {
+      mainContentRef.current.scrollTop = 0;
+    }
+  }, []);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('popular');
@@ -92,76 +104,90 @@ const Marketplace = () => {
   const totalUsage = allMarketplaceAIAgents.reduce((sum, a) => sum + (a.usage_count || 0), 0);
 
   return (
-    <AppLayout>
+    <AppLayout className="bg-home-glow relative">
+      <AnimatedGridBackground />
       <SEOHead 
         title="Website Template Marketplace - Choose Your Perfect Design"
         description="Browse our collection of professional website templates. E-commerce, business, portfolio designs ready in 24 hours. All templates include hosting, SSL, and mobile optimization."
         keywords="website templates, web design marketplace, professional websites, e-commerce templates, business websites"
       />
-      
-      <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="container mx-auto max-w-7xl">
-          <MarketplaceHeader 
-            totalWebsites={totalWebsites}
-            totalDownloads={totalDownloads}
-            totalAIAgents={totalAIAgents}
-            totalUsage={totalUsage}
-            activeTab={activeTab}
-          />
-
-          <MarketplaceFilters
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-            sortBy={sortBy}
-            setSortBy={setSortBy}
-            categories={categories}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-          />
-
-          {/* Items Grid */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            {activeTab === 'ai-agents' ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {isLoading ? (
-                  Array.from({ length: 8 }).map((_, i) => (
-                    <div key={i} className="h-80 bg-gray-200 animate-pulse rounded-lg" />
-                  ))
-                ) : (
-                  sortedItems.map((agent) => (
-                    <AIAgentCard 
-                      key={agent.id} 
-                      agent={agent}
-                      onUse={(agent) => console.log('Use agent:', agent)}
-                      onView={(agent) => console.log('View agent:', agent)}
-                    />
-                  ))
-                )}
+      <div className="pt-0 pb-20 px-2 sm:px-4 lg:px-6">
+        <div className="container mx-auto max-w-[1800px]">
+          <div className="flex gap-6 items-start">
+            {/* Left Sidebar: AI Chatbot */}
+            <div className="hidden xl:block w-[340px] shrink-0">
+              <AIChatbot />
+            </div>
+            {/* Main Content: Scrollable Cards Section */}
+            <div ref={mainContentRef} className="flex-1 min-w-0 h-[calc(100vh-8rem)] overflow-y-auto sticky top-32 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="hide-scrollbar">
+                <div className="space-y-0">
+                  {/* Remove any margin-bottom from MarketplaceHeader and margin-top from MarketplaceFilters if present */}
+                  <MarketplaceHeader 
+                    totalWebsites={totalWebsites}
+                    totalDownloads={totalDownloads}
+                    totalAIAgents={totalAIAgents}
+                    totalUsage={totalUsage}
+                    activeTab={activeTab}
+                  />
+                  <MarketplaceFilters
+                    searchTerm={searchTerm}
+                    setSearchTerm={setSearchTerm}
+                    selectedCategory={selectedCategory}
+                    setSelectedCategory={setSelectedCategory}
+                    sortBy={sortBy}
+                    setSortBy={setSortBy}
+                    categories={categories}
+                    activeTab={activeTab}
+                    setActiveTab={setActiveTab}
+                  />
+                </div>
               </div>
-            ) : activeTab === 'websites' ? (
-              <TemplateGrid 
-                templates={sortedItems} 
-                isLoading={isLoading} 
-                onRefresh={handleRefresh}
-                onTagFilter={handleTagFilter}
-              />
-            ) : (
-              <TemplateGrid 
-                templates={sortedItems} 
-                isLoading={isLoading} 
-                onRefresh={handleRefresh}
-                onTagFilter={handleTagFilter}
-              />
-            )}
-          </motion.div>
-
-          <MarketplaceCTA />
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                {activeTab === 'ai-agents' ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {isLoading ? (
+                      Array.from({ length: 8 }).map((_, i) => (
+                        <div key={i} className="h-80 bg-gray-200 animate-pulse rounded-lg" />
+                      ))
+                    ) : (
+                      sortedItems.map((agent) => (
+                        <AIAgentCard 
+                          key={agent.id} 
+                          agent={agent}
+                          onUse={(agent) => console.log('Use agent:', agent)}
+                          onView={(agent) => console.log('View agent:', agent)}
+                        />
+                      ))
+                    )}
+                  </div>
+                ) : activeTab === 'websites' ? (
+                  <TemplateGrid 
+                    templates={sortedItems} 
+                    isLoading={isLoading} 
+                    onRefresh={handleRefresh}
+                    onTagFilter={handleTagFilter}
+                  />
+                ) : (
+                  <TemplateGrid 
+                    templates={sortedItems} 
+                    isLoading={isLoading} 
+                    onRefresh={handleRefresh}
+                    onTagFilter={handleTagFilter}
+                  />
+                )}
+              </motion.div>
+              <MarketplaceCTA />
+            </div>
+            {/* Right Sidebar: Featured, Trending, Quick Links */}
+            <div className="hidden xl:block w-[340px] shrink-0">
+              <FeaturedSidebar />
+            </div>
+          </div>
         </div>
       </div>
     </AppLayout>
