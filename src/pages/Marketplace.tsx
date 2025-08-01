@@ -13,10 +13,16 @@ import { MarketplaceCTA } from '@/components/marketplace/MarketplaceCTA';
 import { AIAgentCard } from '@/components/ai-agents/AIAgentCard';
 import { FeaturedSidebar } from '@/components/dashboard/FeaturedSidebar';
 import { AIChatbot } from '@/components/dashboard/AIChatbot';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { MessageSquare, X } from 'lucide-react';
 
 const Marketplace = () => {
   // Ref for main scrollable content
   const mainContentRef = React.useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
+  const [isAIDialogOpen, setIsAIDialogOpen] = useState(false);
 
   // Scroll to top on mount
   React.useEffect(() => {
@@ -24,6 +30,7 @@ const Marketplace = () => {
       mainContentRef.current.scrollTop = 0;
     }
   }, []);
+  
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('popular');
@@ -113,38 +120,39 @@ const Marketplace = () => {
       />
       <div className="pt-6 pb-20 px-2 sm:px-4 lg:px-6">
         <div className="container mx-auto max-w-[1800px]">
+          {/* Header and Filters Section */}
+          <div className="space-y-0 mb-6">
+            <MarketplaceHeader 
+              totalWebsites={totalWebsites}
+              totalDownloads={totalDownloads}
+              totalAIAgents={totalAIAgents}
+              totalUsage={totalUsage}
+              activeTab={activeTab}
+            />
+            <MarketplaceFilters
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+              categories={categories}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+            />
+          </div>
+
+          {/* Main Layout */}
           <div className="flex gap-4 xl:gap-6 items-start">
-            {/* Left Sidebar: AI Chatbot */}
+            {/* Left Sidebar: AI Chatbot - Only on XL screens */}
             <div className="hidden xl:block w-[300px] shrink-0">
-              <div className="sticky top-24">
+              <div className="sticky top-6">
                 <AIChatbot />
               </div>
             </div>
-            {/* Main Content: Scrollable Cards Section */}
-            <div ref={mainContentRef} className="flex-1 min-w-0 max-w-none xl:max-w-[calc(100%-640px)]">
-              <div className="hide-scrollbar">
-                <div className="space-y-0">
-                  {/* Remove any margin-bottom from MarketplaceHeader and margin-top from MarketplaceFilters if present */}
-                  <MarketplaceHeader 
-                    totalWebsites={totalWebsites}
-                    totalDownloads={totalDownloads}
-                    totalAIAgents={totalAIAgents}
-                    totalUsage={totalUsage}
-                    activeTab={activeTab}
-                  />
-                  <MarketplaceFilters
-                    searchTerm={searchTerm}
-                    setSearchTerm={setSearchTerm}
-                    selectedCategory={selectedCategory}
-                    setSelectedCategory={setSelectedCategory}
-                    sortBy={sortBy}
-                    setSortBy={setSortBy}
-                    categories={categories}
-                    activeTab={activeTab}
-                    setActiveTab={setActiveTab}
-                  />
-                </div>
-              </div>
+            
+            {/* Main Content */}
+            <div ref={mainContentRef} className="flex-1 min-w-0 max-w-none xl:max-w-[calc(100%-640px)] lg:max-w-[calc(100%-320px)]">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -185,13 +193,42 @@ const Marketplace = () => {
               </motion.div>
               <MarketplaceCTA />
             </div>
-            {/* Right Sidebar: Featured, Trending, Quick Links */}
-            <div className="hidden xl:block w-[300px] shrink-0">
-              <div className="sticky top-24">
-                <FeaturedSidebar />
+
+            {/* Right Sidebar: Different layouts for different screen sizes */}
+            {!isMobile && (
+              <div className="hidden lg:block w-[300px] shrink-0">
+                <div className="sticky top-6 space-y-4">
+                  {/* AI Assistant for tablet/small screens - show on right */}
+                  <div className="block xl:hidden">
+                    <AIChatbot />
+                  </div>
+                  {/* Featured sidebar - always on right for non-mobile */}
+                  <FeaturedSidebar />
+                </div>
               </div>
-            </div>
+            )}
           </div>
+
+          {/* Mobile AI Assistant - Floating button and popup */}
+          {isMobile && (
+            <>
+              <Dialog open={isAIDialogOpen} onOpenChange={setIsAIDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button
+                    size="lg"
+                    className="fixed bottom-20 right-4 z-50 rounded-full w-14 h-14 shadow-lg bg-primary hover:bg-primary/90"
+                  >
+                    <MessageSquare className="h-6 w-6" />
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md w-[90vw] h-[70vh] p-0 rounded-2xl">
+                  <div className="h-full">
+                    <AIChatbot />
+                  </div>
+                </DialogContent>
+              </Dialog>
+            </>
+          )}
         </div>
       </div>
     </AppLayout>
