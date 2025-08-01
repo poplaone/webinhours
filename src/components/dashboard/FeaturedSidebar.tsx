@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Star, TrendingUp, Clock, Users, ArrowRight, Zap, Flame, Crown, Search, ExternalLink } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -85,57 +84,46 @@ export const FeaturedSidebar: React.FC = () => {
     <motion.div
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
-      className="h-[calc(100vh-4rem)] sticky top-[9.5rem] mt-4 px-4 z-10"
+      className="w-full"
     >
-      <ScrollArea className="h-full pr-2">
-        <div className="flex flex-col items-center space-y-6">
+      <div className="flex flex-col items-center space-y-6 pb-6">
           {/* Featured Templates */}
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
-            <Card className="border-0 bg-white/90 shadow-md rounded-2xl w-full max-w-[340px]">
+            <Card className="bg-transparent border-0 shadow-none rounded-2xl w-full max-w-[340px]">
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center text-lg text-[#6c63ff]">
                   <Crown className="w-5 h-5 mr-2 text-[#6c63ff]" />
                   Featured Templates
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
+              <CardContent className="space-y-2">
                 {featuredTemplates.map((template, index) => (
-                  <motion.div key={template.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 * index }} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-[#ececff] cursor-pointer group transition-colors">
-                    <div className="w-12 h-12 bg-gradient-to-br from-[#6c63ff] to-[#8b7fff] rounded-lg flex items-center justify-center">
-                      <span className="text-white text-xs font-bold">{template.title.charAt(0)}</span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center space-x-1">
-                        <p className="font-medium text-sm truncate">{template.title}</p>
-                        {template.isFeatured && <Crown className="w-3 h-3 text-yellow-500" />}
-                        {template.isTrending && <TrendingUp className="w-3 h-3 text-green-500" />}
-                        {template.isNew && <Flame className="w-3 h-3 text-red-500" />}
+                  <motion.div key={template.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 * index }} className="flex items-center justify-between p-2 rounded-lg hover:bg-[#ececff] cursor-pointer group transition-colors">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-8 h-8 bg-gradient-to-br from-[#6c63ff] to-[#8b7fff] rounded-lg flex items-center justify-center">
+                        <span className="text-white text-xs font-bold">{template.title.charAt(0)}</span>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <Badge variant="secondary" className="text-xs px-1 py-0 h-4 bg-[#e0e0ff] text-[#6c63ff]">{template.category}</Badge>
+                      <div className="flex flex-col">
+                        <span className="text-sm group-hover:text-[#6c63ff] transition-colors font-medium">{template.title}</span>
                         <div className="flex items-center space-x-1">
                           <Star className="w-3 h-3 text-yellow-400 fill-current" />
                           <span className="text-xs text-gray-600">{template.rating}</span>
                         </div>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className="text-sm font-bold text-[#6c63ff]">${template.price}</p>
-                      <p className="text-xs text-gray-400">{template.downloads} downloads</p>
+                    <div className="flex items-center space-x-2">
+                      <Badge variant="secondary" className="text-xs px-2 py-0 h-5 bg-[#e0e0ff] text-[#6c63ff]">${template.price}</Badge>
+                      <span className="text-xs text-gray-400">{template.downloads}</span>
                     </div>
                   </motion.div>
                 ))}
-                <Button variant="outline" className="w-full mt-3 text-sm h-8 border-[#6c63ff] text-[#6c63ff]">
-                  View All Featured
-                  <ArrowRight className="w-3 h-3 ml-1" />
-                </Button>
               </CardContent>
             </Card>
           </motion.div>
 
           {/* Trending Searches */}
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
-            <Card className="border-0 bg-white/90 shadow-md rounded-2xl w-full max-w-[340px]">
+            <Card className="bg-transparent border-0 shadow-none rounded-2xl w-full max-w-[340px]">
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center text-lg text-[#6c63ff]">
                   <TrendingUp className="w-5 h-5 mr-2 text-[#6c63ff]" />
@@ -161,7 +149,7 @@ export const FeaturedSidebar: React.FC = () => {
 
           {/* Quick Links */}
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}>
-            <Card className="border-0 bg-white/90 shadow-md rounded-2xl w-full max-w-[340px]">
+            <Card className="bg-transparent border-0 shadow-none rounded-2xl w-full max-w-[340px]">
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center text-lg text-[#6c63ff]">
                   <Zap className="w-5 h-5 mr-2 text-[#6c63ff]" />
@@ -187,7 +175,6 @@ export const FeaturedSidebar: React.FC = () => {
             </Card>
           </motion.div>
         </div>
-      </ScrollArea>
     </motion.div>
   );
 };

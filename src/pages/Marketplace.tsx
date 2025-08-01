@@ -118,8 +118,8 @@ const Marketplace = () => {
         description="Browse our collection of professional website templates. E-commerce, business, portfolio designs ready in 24 hours. All templates include hosting, SSL, and mobile optimization."
         keywords="website templates, web design marketplace, professional websites, e-commerce templates, business websites"
       />
-      <div className="pt-6 pb-20 px-2 sm:px-4 lg:px-6">
-        <div className="container mx-auto max-w-[1800px]">
+<div className="pt-6 pb-20 px-2 sm:px-4 lg:px-6 h-screen">
+<div className="container mx-auto max-w-[1800px] h-full flex flex-col">
           {/* Header and Filters Section */}
           <div className="space-y-0 mb-6">
             <MarketplaceHeader 
@@ -143,16 +143,14 @@ const Marketplace = () => {
           </div>
 
           {/* Main Layout */}
-          <div className="flex gap-4 xl:gap-6 items-start">
+<div className="flex gap-4 xl:gap-6 items-start flex-1 overflow-hidden">
             {/* Left Sidebar: AI Chatbot - Only on XL screens */}
-            <div className="hidden xl:block w-[300px] shrink-0">
-              <div className="sticky top-6">
-                <AIChatbot />
-              </div>
-            </div>
+<div className="hidden xl:block w-[300px] shrink-0 h-full overflow-y-auto scrollbar-hide">
+  <AIChatbot />
+</div>
             
             {/* Main Content */}
-            <div ref={mainContentRef} className="flex-1 min-w-0 max-w-none xl:max-w-[calc(100%-640px)] lg:max-w-[calc(100%-320px)]">
+<div ref={mainContentRef} className="flex-1 min-w-0 max-w-none xl:max-w-[calc(100%-640px)] lg:max-w-[calc(100%-320px)] h-full overflow-y-auto scrollbar-hide">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -196,16 +194,14 @@ const Marketplace = () => {
 
             {/* Right Sidebar: Different layouts for different screen sizes */}
             {!isMobile && (
-              <div className="hidden lg:block w-[300px] shrink-0">
-                <div className="sticky top-6 space-y-4">
-                  {/* AI Assistant for tablet/small screens - show on right */}
-                  <div className="block xl:hidden">
-                    <AIChatbot />
-                  </div>
-                  {/* Featured sidebar - always on right for non-mobile */}
-                  <FeaturedSidebar />
-                </div>
-              </div>
+<div className="hidden lg:block w-[300px] shrink-0 h-full overflow-y-auto scrollbar-hide">
+  {/* AI Assistant for tablet/small screens - show on right */}
+  <div className="block xl:hidden">
+    <AIChatbot />
+  </div>
+  {/* Featured sidebar - always on right for non-mobile */}
+  <FeaturedSidebar />
+</div>
             )}
           </div>
 

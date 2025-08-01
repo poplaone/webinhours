@@ -173,9 +173,9 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({ onTemplateRecommend }) => 
     <motion.div
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
-      className={`${isExpanded ? 'fixed inset-4 z-50' : 'h-[calc(100vh-8rem)] sticky top-40 px-4 z-50'}`}
+      className={`${isExpanded ? 'fixed inset-4 z-50' : 'w-full'}`}
     >
-      <Card className={`${isExpanded ? 'h-full' : 'h-full'} flex flex-col bg-transparent border-0 shadow-none`}>
+      <Card className={`${isExpanded ? 'h-full' : 'min-h-[600px]'} flex flex-col bg-transparent border-0 shadow-none`}>
         <CardHeader className="pb-3 border-b border-purple-200/20">
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center text-lg">

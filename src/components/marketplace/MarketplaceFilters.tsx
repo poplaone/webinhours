@@ -42,24 +42,21 @@ export const MarketplaceFilters = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.2 }}
     >
-      {/* Toggle between websites and AI agents */}
-      <div className="mb-4">
-        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'websites' | 'ai-agents')}>
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="websites" className="flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row gap-4 items-center flex-wrap">
+        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'websites' | 'ai-agents')} className="w-auto">
+          <TabsList className="grid grid-cols-2">
+            <TabsTrigger value="websites" className="flex items-center gap-2 px-3 py-1.5">
               <Globe className="h-4 w-4" />
-              Websites
+              <span className="hidden md:inline">Websites</span>
             </TabsTrigger>
-            <TabsTrigger value="ai-agents" className="flex items-center gap-2">
+            <TabsTrigger value="ai-agents" className="flex items-center gap-2 px-3 py-1.5">
               <Bot className="h-4 w-4" />
-              AI Agents
+              <span className="hidden md:inline">AI Agents</span>
             </TabsTrigger>
           </TabsList>
         </Tabs>
-      </div>
 
-      <div className="flex flex-col lg:flex-row gap-4">
-        <div className="relative flex-1">
+        <div className="relative flex-1 min-w-[240px]">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder={`Search ${activeTab}...`}
@@ -69,32 +66,36 @@ export const MarketplaceFilters = ({
           />
         </div>
         
-        <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-          <SelectTrigger className="w-full lg:w-48">
-            <Filter className="h-4 w-4 mr-2" />
-            <SelectValue placeholder="Category" />
-          </SelectTrigger>
-          <SelectContent>
-            {categories.map((category) => (
-              <SelectItem key={category.id} value={category.id}>
-                {category.name} ({category.count})
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="w-full lg:w-48">
+          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+            <SelectTrigger className="w-full min-w-[160px]">
+              <Filter className="h-4 w-4 mr-2" />
+              <SelectValue placeholder="Category" />
+            </SelectTrigger>
+            <SelectContent>
+              {categories.map((category) => (
+                <SelectItem key={category.id} value={category.id}>
+                  {category.name} ({category.count})
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
         
-        <Select value={sortBy} onValueChange={setSortBy}>
-          <SelectTrigger className="w-full lg:w-48">
-            <SelectValue placeholder="Sort by" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="popular">Most Popular</SelectItem>
-            <SelectItem value="newest">Newest</SelectItem>
-            <SelectItem value="rating">Highest Rated</SelectItem>
-            <SelectItem value="price-low">Price: Low to High</SelectItem>
-            <SelectItem value="price-high">Price: High to Low</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="w-full lg:w-48">
+          <Select value={sortBy} onValueChange={setSortBy}>
+            <SelectTrigger className="w-full min-w-[160px]">
+              <SelectValue placeholder="Sort by" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="popular">Most Popular</SelectItem>
+              <SelectItem value="newest">Newest</SelectItem>
+              <SelectItem value="rating">Highest Rated</SelectItem>
+              <SelectItem value="price-low">Price: Low to High</SelectItem>
+              <SelectItem value="price-high">Price: High to Low</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
     </motion.div>
   );

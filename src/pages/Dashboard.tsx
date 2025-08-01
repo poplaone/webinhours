@@ -1,15 +1,18 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Code } from 'lucide-react';
+import { Code, MessageSquare } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import SideNavbar from '@/components/layout/SideNavbar';
 import MobileBottomNav from '@/components/layout/MobileBottomNav';
 import { DashboardHeader } from '@/components/layout/DashboardHeader';
 import { TemplateGrid } from '@/components/dashboard/TemplateGrid';
 import { InsightsSidebar } from '@/components/dashboard/InsightsSidebar';
 import { CategoryCards } from '@/components/dashboard/CategoryCards';
+import { FeaturedSidebar } from '@/components/dashboard/FeaturedSidebar';
+import { AIChatbot } from '@/components/dashboard/AIChatbot';
 import { useWebsites } from '@/hooks/useWebsiteQueries';
 import { useToast } from '@/hooks/use-toast';
 
@@ -20,6 +23,7 @@ const Dashboard = () => {
   const [searchValue, setSearchValue] = useState('');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
   const [selectedTag, setSelectedTag] = useState<string>('');
+  const [isAIDialogOpen, setIsAIDialogOpen] = useState(false);
 
   // Fetch websites - only show approved/featured for marketplace visitors
   const {
@@ -128,41 +132,69 @@ const Dashboard = () => {
         />
 
         <main className="flex-1 overflow-hidden p-3 md:p-6 lg:p-8 xl:p-10 pb-20 md:pb-6">
-          <div className="flex flex-col gap-3 md:gap-4 mb-4 md:mb-6">
-            <div>
-              {selectedTag && (
-                <div className="flex items-center gap-2 mt-2">
-                  <span className="text-sm bg-[#8B5CF6]/10 text-[#8B5CF6] px-2 py-1 rounded-full">
-                    Tag: {selectedTag}
-                  </span>
-                  <Button variant="ghost" size="sm" onClick={clearTagFilter} className="h-6 px-2 text-xs">
-                    Clear
-                  </Button>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Responsive grid layout optimized for larger screens */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 md:gap-6 lg:gap-8 h-full">
-            {/* Main content area - takes up more space on larger screens */}
-            <div className="lg:col-span-2 xl:col-span-3 2xl:col-span-4 overflow-hidden">
-              <ScrollArea className="h-full">
-                <div className="pr-4">
-                  <TemplateGrid 
-                    templates={filteredTemplates} 
-                    isLoading={isLoading} 
-                    onRefresh={handleRefresh} 
-                    onTagFilter={handleTagFilter} 
-                  />
-                </div>
-              </ScrollArea>
+          {/* Main Layout with independent scrollable sections */}
+          <div className="flex gap-4 xl:gap-6 h-full">
+            {/* Left Sidebar: AI Chatbot - Independently scrollable */}
+            <div className="hidden xl:block w-[300px] shrink-0">
+              <div className="h-full overflow-hidden">
+                <ScrollArea className="h-full">
+                  <div className="pr-2">
+                    <AIChatbot />
+                  </div>
+                </ScrollArea>
+              </div>
             </div>
             
-            {/* Fixed sidebar content - responsive width */}
-            <div className="hidden lg:block lg:col-span-1 xl:col-span-1 2xl:col-span-1 space-y-4 lg:space-y-6">
-              <InsightsSidebar />
-              <CategoryCards websiteCount={websites.length} />
+            {/* Main Content - Independently scrollable */}
+            <div className="flex-1 min-w-0 max-w-none xl:max-w-[calc(100%-640px)] lg:max-w-[calc(100%-320px)] flex flex-col">
+              {/* Header section with filters - stays fixed */}
+              <div className="flex flex-col gap-3 md:gap-4 mb-4 md:mb-6 flex-shrink-0">
+                <div>
+                  {selectedTag && (
+                    <div className="flex items-center gap-2 mt-2">
+                      <span className="text-sm bg-[#8B5CF6]/10 text-[#8B5CF6] px-2 py-1 rounded-full">
+                        Tag: {selectedTag}
+                      </span>
+                      <Button variant="ghost" size="sm" onClick={clearTagFilter} className="h-6 px-2 text-xs">
+                        Clear
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              {/* Scrollable website cards section */}
+              <div className="flex-1 overflow-hidden">
+                <ScrollArea className="h-full">
+                  <div className="pr-4">
+                    <TemplateGrid 
+                      templates={filteredTemplates} 
+                      isLoading={isLoading} 
+                      onRefresh={handleRefresh} 
+                      onTagFilter={handleTagFilter} 
+                    />
+                  </div>
+                </ScrollArea>
+              </div>
+            </div>
+            
+            {/* Right Sidebar: Featured content and insights - Independently scrollable */}
+            <div className="hidden lg:block w-[300px] shrink-0">
+              <div className="h-full overflow-hidden">
+                <ScrollArea className="h-full">
+                  <div className="pr-2 space-y-4">
+                    {/* AI Assistant for tablet/small screens - show on right */}
+                    <div className="block xl:hidden">
+                      <AIChatbot />
+                    </div>
+                    {/* Featured sidebar */}
+                    <FeaturedSidebar />
+                    {/* Insights and category cards */}
+                    <InsightsSidebar />
+                    <CategoryCards websiteCount={websites.length} />
+                  </div>
+                </ScrollArea>
+              </div>
             </div>
           </div>
         </main>
@@ -170,6 +202,23 @@ const Dashboard = () => {
       
       {/* Mobile Bottom Navigation */}
       <MobileBottomNav />
+      
+      {/* Mobile AI Assistant - Floating button and popup */}
+      <Dialog open={isAIDialogOpen} onOpenChange={setIsAIDialogOpen}>
+        <DialogTrigger asChild>
+          <Button
+            size="lg"
+            className="fixed bottom-20 right-4 z-50 rounded-full w-14 h-14 shadow-lg bg-primary hover:bg-primary/90 lg:hidden"
+          >
+            <MessageSquare className="h-6 w-6" />
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-md w-[90vw] h-[70vh] p-0 rounded-2xl">
+          <div className="h-full">
+            <AIChatbot />
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
