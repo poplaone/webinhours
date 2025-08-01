@@ -90,11 +90,11 @@ export const TemplateGrid = ({ templates, isLoading, onRefresh, onTagFilter }: T
   if (isLoading) {
     return (
       <Masonry
-        breakpointCols={{ default: 4, 1600: 3, 1200: 2, 700: 1 }}
+        breakpointCols={{ default: 3, 1400: 2, 1024: 2, 768: 1 }}
         className="masonry-grid"
         columnClassName="masonry-col"
       >
-        {Array.from({ length: 8 }).map((_, i) => (
+        {Array.from({ length: 6 }).map((_, i) => (
           <Card key={i} className="mb-5 animate-pulse rounded-2xl border-2 border-transparent bg-gradient-to-br from-[#f5f3ff] to-[#e0e7ff] break-inside-avoid">
             <div className="h-52 md:h-64 bg-gray-200 rounded-t-2xl"></div>
             <CardContent className="p-5">
@@ -146,7 +146,7 @@ export const TemplateGrid = ({ templates, isLoading, onRefresh, onTagFilter }: T
 
   return (
     <Masonry
-      breakpointCols={{ default: 4, 1600: 3, 1200: 2, 700: 1 }}
+      breakpointCols={{ default: 3, 1400: 2, 1024: 2, 768: 1 }}
       className="masonry-grid"
       columnClassName="masonry-col"
     >

@@ -111,15 +111,17 @@ const Marketplace = () => {
         description="Browse our collection of professional website templates. E-commerce, business, portfolio designs ready in 24 hours. All templates include hosting, SSL, and mobile optimization."
         keywords="website templates, web design marketplace, professional websites, e-commerce templates, business websites"
       />
-      <div className="pt-0 pb-20 px-2 sm:px-4 lg:px-6">
+      <div className="pt-6 pb-20 px-2 sm:px-4 lg:px-6">
         <div className="container mx-auto max-w-[1800px]">
-          <div className="flex gap-6 items-start">
+          <div className="flex gap-4 xl:gap-6 items-start">
             {/* Left Sidebar: AI Chatbot */}
-            <div className="hidden xl:block w-[340px] shrink-0">
-              <AIChatbot />
+            <div className="hidden xl:block w-[300px] shrink-0">
+              <div className="sticky top-24">
+                <AIChatbot />
+              </div>
             </div>
             {/* Main Content: Scrollable Cards Section */}
-            <div ref={mainContentRef} className="flex-1 min-w-0 h-[calc(100vh-8rem)] overflow-y-auto sticky top-32 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div ref={mainContentRef} className="flex-1 min-w-0 max-w-none xl:max-w-[calc(100%-640px)]">
               <div className="hide-scrollbar">
                 <div className="space-y-0">
                   {/* Remove any margin-bottom from MarketplaceHeader and margin-top from MarketplaceFilters if present */}
@@ -149,9 +151,9 @@ const Marketplace = () => {
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
                 {activeTab === 'ai-agents' ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
                     {isLoading ? (
-                      Array.from({ length: 8 }).map((_, i) => (
+                      Array.from({ length: 6 }).map((_, i) => (
                         <div key={i} className="h-80 bg-gray-200 animate-pulse rounded-lg" />
                       ))
                     ) : (
@@ -184,8 +186,10 @@ const Marketplace = () => {
               <MarketplaceCTA />
             </div>
             {/* Right Sidebar: Featured, Trending, Quick Links */}
-            <div className="hidden xl:block w-[340px] shrink-0">
-              <FeaturedSidebar />
+            <div className="hidden xl:block w-[300px] shrink-0">
+              <div className="sticky top-24">
+                <FeaturedSidebar />
+              </div>
             </div>
           </div>
         </div>
