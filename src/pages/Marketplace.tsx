@@ -38,8 +38,9 @@ const Marketplace: React.FC = () => {
   const isMobile = useIsMobile();
   const [isAIDialogOpen, setIsAIDialogOpen] = useState(false);
 
-  const { data: allMarketplaceWebsites = [], isLoading: isLoadingWebsites, refetch: refetchWebsites, error: websitesError } = useWebsites();
-  const { data: allMarketplaceAIAgents = [], isLoading: isLoadingAIAgents, refetch: refetchAIAgents, error: aiAgentsError } = useAIAgents();
+  // Explicitly request only public marketplace data (approved/featured only)
+  const { data: allMarketplaceWebsites = [], isLoading: isLoadingWebsites, refetch: refetchWebsites, error: websitesError } = useWebsites({ includeAll: false });
+  const { data: allMarketplaceAIAgents = [], isLoading: isLoadingAIAgents, refetch: refetchAIAgents, error: aiAgentsError } = useAIAgents({ includeAll: false });
 
   // Debug logging
   console.log('Marketplace data:', {
