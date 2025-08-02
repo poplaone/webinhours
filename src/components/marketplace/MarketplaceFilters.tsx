@@ -53,7 +53,7 @@ export const MarketplaceFilters = ({
   }} transition={{
     duration: 0.8,
     delay: 0.2
-  }} className="bg-card/50 backdrop-blur rounded-xl border border-border/40 p-4 px-[41px]">
+  }} className="bg-card/50 backdrop-blur rounded-xl border border-border/40 p-4 px-[23px] py-[10px] mx-[3px]">
       {/* Desktop Layout */}
       <div className="hidden sm:flex gap-4 items-center flex-wrap">
         <Tabs value={activeTab} onValueChange={value => setActiveTab(value as 'websites' | 'ai-agents')} className="w-auto">
