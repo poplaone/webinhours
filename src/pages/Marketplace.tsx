@@ -22,7 +22,7 @@ import AnimatedGridBackground from '@/components/animations/AnimatedGridBackgrou
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { MessageSquare } from 'lucide-react';
+import { Bot } from 'lucide-react';
 
 type Website = Tables<'websites'>;
 type AIAgent = Tables<'ai_agents'>;
@@ -37,10 +37,15 @@ const Marketplace: React.FC = () => {
   const mainContentRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
   const [isAIDialogOpen, setIsAIDialogOpen] = useState(false);
+  const [floatingButtonPos, setFloatingButtonPos] = useState({ x: typeof window !== 'undefined' ? window.innerWidth - 80 : 0, y: typeof window !== 'undefined' ? window.innerHeight - 120 : 0 });
 
   // Explicitly request only public marketplace data (approved/featured only)
   const { data: allMarketplaceWebsites = [], isLoading: isLoadingWebsites, refetch: refetchWebsites, error: websitesError } = useWebsites({ includeAll: false });
   const { data: allMarketplaceAIAgents = [], isLoading: isLoadingAIAgents, refetch: refetchAIAgents, error: aiAgentsError } = useAIAgents({ includeAll: false });
+
+  const handleDrag = (e: React.DragEvent) => {
+    setFloatingButtonPos({ x: e.clientX - 28, y: e.clientY - 28 });
+  };
 
   // Debug logging
   console.log('Marketplace data:', {
@@ -112,7 +117,7 @@ const Marketplace: React.FC = () => {
       />
       <div className="pt-6 pb-8 px-2 sm:px-4 lg:px-6 h-screen flex flex-col">
         <div className="container mx-auto max-w-[1800px] flex flex-col flex-1">
-          <div className="sticky top-0 z-30 py-4 bg-background/90 backdrop-blur-lg -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 mb-4">
+          <div className="sticky top-16 z-30 py-6 mb-6">
             <MarketplaceFilters
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
@@ -188,10 +193,13 @@ const Marketplace: React.FC = () => {
           <Dialog open={isAIDialogOpen} onOpenChange={setIsAIDialogOpen}>
             <DialogTrigger asChild>
               <Button
+                draggable
+                onDrag={handleDrag}
                 size="lg"
-                className="fixed bottom-4 right-4 z-50 rounded-full w-14 h-14 shadow-lg bg-primary hover:bg-primary/90"
+                style={{ left: floatingButtonPos.x, top: floatingButtonPos.y }}
+                className="fixed z-50 rounded-full w-16 h-16 shadow-xl bg-gradient-to-br from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 border-2 border-white/20 cursor-move"
               >
-                <MessageSquare className="h-6 w-6" />
+                <Bot className="h-8 w-8 text-white" />
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md w-[90vw] h-[70vh] p-0 rounded-2xl">
