@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
-import { MarketplaceHeader } from '@/components/marketplace/MarketplaceHeader';
+
 import { MarketplaceFilters } from '@/components/marketplace/MarketplaceFilters';
 
 interface Category {
@@ -112,13 +112,6 @@ const Marketplace: React.FC = () => {
       />
       <div className="pt-6 pb-8 px-2 sm:px-4 lg:px-6 h-screen flex flex-col">
         <div className="container mx-auto max-w-[1800px] flex flex-col flex-1">
-          <MarketplaceHeader 
-            totalWebsites={totalWebsites}
-            totalDownloads={totalDownloads}
-            totalAIAgents={totalAIAgents}
-            totalUsage={totalUsage}
-            activeTab={activeTab}
-          />
           <div className="sticky top-0 z-30 py-4 bg-background/90 backdrop-blur-lg -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 mb-4">
             <MarketplaceFilters
               searchTerm={searchTerm}
