@@ -14,7 +14,10 @@ export const useWebsites = (filters?: WebsiteFilters) => {
       console.log('🔍 User is admin:', isAdmin);
       
       try {
-        const query = buildWebsitesQuery(filters);
+        // For marketplace, always show only approved/featured websites regardless of admin status
+        // Only use admin privileges when explicitly requested via includeAll filter
+        const marketplaceFilters = filters?.includeAll ? filters : { ...filters, includeAll: false };
+        const query = buildWebsitesQuery(marketplaceFilters);
 
         console.log('🔍 Executing websites query...');
         const { data: websitesData, error: websitesError } = await query
