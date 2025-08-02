@@ -27,7 +27,7 @@ import { MessageSquare } from 'lucide-react';
 type Website = Tables<'websites'>;
 type AIAgent = Tables<'ai_agents'>;
 
-export const Marketplace: React.FC = () => {
+const Marketplace: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('popular');
@@ -211,3 +211,5 @@ export const Marketplace: React.FC = () => {
     </AppLayout>
   );
 };
+
+export default Marketplace;
