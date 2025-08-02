@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { ErrorBoundary } from "@/components/ui/error-boundary";
 import Index from "./pages/Index";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -65,7 +66,11 @@ function App() {
                   <Route path="/terms" element={<Terms />} />
                   <Route path="/blog" element={<Blog />} />
                   <Route path="/auth" element={<Auth />} />
-                  <Route path="/marketplace" element={<Marketplace />} />
+                  <Route path="/marketplace" element={
+                    <ErrorBoundary>
+                      <Marketplace />
+                    </ErrorBoundary>
+                  } />
                   <Route path="/site/:slugOrId" element={<SiteDetails />} />
                   <Route path="/profile" element={
                     <ProtectedRoute>
