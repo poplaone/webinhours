@@ -20,18 +20,19 @@ interface TemplateGridProps {
 
 const TemplateCard: React.FC<{template: Website; onClick: (t: Website) => void;}> = ({ template, onClick }) => {
   const imgRef = useRef<HTMLImageElement>(null);
-  // Use a soft purpleish white background, matching the theme
-  // Use a more purpleish white background
-  const cardBg = 'bg-[#f6f0ff] dark:bg-[#232136]';
+  
+  // Glassmorphism effect styles
+  const glassEffect = 'bg-transparent border border-white/20 dark:border-white/10 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/40 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300';
 
   return (
     <Card
       key={template.id}
-      className={`border-2 border-transparent ${cardBg} overflow-hidden flex flex-col group relative h-full cursor-pointer rounded-2xl shadow-sm hover:shadow-2xl hover:border-[#8B5CF6] hover:scale-[1.025] transition-all duration-300`}
+      className={`${glassEffect} overflow-hidden flex flex-col group relative h-full cursor-pointer rounded-2xl hover:scale-[1.02] transition-all duration-300`}
       onClick={() => onClick(template)}
       title={`View ${template.title}`}
     >
-      <div className="aspect-[16/10] w-full overflow-hidden relative">
+      <div className="aspect-[16/10] w-full overflow-hidden relative group">
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-purple-500/5 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         <img
           ref={imgRef}
           crossOrigin="anonymous"
@@ -56,23 +57,25 @@ const TemplateCard: React.FC<{template: Website; onClick: (t: Website) => void;}
           )}
         </div>
       </div>
-      <CardContent className="p-5 xl:p-6 flex flex-col flex-grow bg-transparent min-h-[110px]">
-        <h3 className="font-semibold text-base xl:text-lg text-[#8B5CF6] dark:text-[#a78bfa] hover:text-[#7C3AED] transition-colors line-clamp-2 mb-2">
-          {template.title}
-        </h3>
-        {template.description && (
-          <p className="text-gray-800 dark:text-gray-200 text-xs xl:text-sm mb-2 line-clamp-2">{template.description}</p>
-        )}
-        <div className="flex flex-wrap gap-2 mb-2">
+      <CardContent className="p-5 xl:p-6 flex flex-col flex-grow bg-transparent min-h-[110px] relative z-10">
+        <div className="flex justify-between items-start mb-3">
+          <h3 className="font-semibold text-base xl:text-lg text-white dark:text-white/90 group-hover:text-purple-200 transition-colors line-clamp-2 pr-2">
+            {template.title}
+          </h3>
+          <div className="flex items-center gap-1 text-white/90 font-bold text-sm xl:text-base bg-white/10 backdrop-blur-sm border border-white/20 px-3 py-1.5 rounded-full hover:bg-white/20 transition-colors duration-200">
+            <DollarSign className="h-3.5 w-3.5" />
+            <span>{Number(template.price) === 0 ? 'Free' : Number(template.price)}</span>
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-1.5 mb-3">
           {template.tags && template.tags.slice(0, 3).map((tag: string) => (
-            <Badge key={tag} variant="secondary" className="text-xs px-2 py-0.5 rounded-full capitalize">
+            <Badge 
+              key={tag} 
+              className="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-white/80 hover:bg-white/20 transition-colors border border-white/10 backdrop-blur-sm"
+            >
               {tag}
             </Badge>
           ))}
-        </div>
-        <div className="flex items-center gap-1 text-[#8B5CF6] font-bold text-sm xl:text-base mt-auto pt-2">
-          <DollarSign className="h-4 w-4 xl:h-5 xl:w-5" />
-          <span>{Number(template.price) === 0 ? 'Free' : Number(template.price)}</span>
         </div>
       </CardContent>
     </Card>

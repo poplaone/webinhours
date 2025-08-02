@@ -13,10 +13,10 @@ export interface AIAgent {
   technologies?: string[];
   features?: string[];
   inclusions?: string[];
-  agent_type: 'chatbot' | 'assistant' | 'automation' | 'analytics' | 'content' | 'other';
+  agent_type: string;
   model_info?: any;
   use_cases?: string[];
-  status: 'pending' | 'approved' | 'rejected' | 'featured' | 'archived';
+  status: string;
   is_featured: boolean;
   views_count: number;
   usage_count: number;
@@ -45,10 +45,10 @@ export interface AIAgentInsert {
   technologies?: string[];
   features?: string[];
   inclusions?: string[];
-  agent_type?: 'chatbot' | 'assistant' | 'automation' | 'analytics' | 'content' | 'other';
+  agent_type?: string;
   model_info?: any;
   use_cases?: string[];
-  status?: 'pending' | 'approved' | 'rejected' | 'featured' | 'archived';
+  status?: string;
   approved_at?: string;
   user_id?: string;
 }
@@ -66,10 +66,10 @@ export interface AIAgentUpdate {
   technologies?: string[];
   features?: string[];
   inclusions?: string[];
-  agent_type?: 'chatbot' | 'assistant' | 'automation' | 'analytics' | 'content' | 'other';
+  agent_type?: string;
   model_info?: any;
   use_cases?: string[];
-  status?: 'pending' | 'approved' | 'rejected' | 'featured' | 'archived';
+  status?: string;
   is_featured?: boolean;
   featured_at?: string;
   approved_at?: string;

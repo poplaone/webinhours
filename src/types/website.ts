@@ -13,7 +13,7 @@ export interface Website {
   technologies?: string[];
   features?: string[];
   inclusions?: string[];
-  status: 'pending' | 'approved' | 'rejected' | 'featured' | 'archived';
+  status: string;
   is_featured: boolean;
   views_count: number;
   downloads_count: number;
@@ -44,7 +44,7 @@ export interface WebsiteInsert {
   features?: string[];
   inclusions?: string[];
   slug?: string;
-  status?: 'pending' | 'approved' | 'rejected' | 'featured' | 'archived';
+  status?: string;
   approved_at?: string;
   user_id?: string;
 }
@@ -63,7 +63,7 @@ export interface WebsiteUpdate {
   features?: string[];
   inclusions?: string[];
   slug?: string;
-  status?: 'pending' | 'approved' | 'rejected' | 'featured' | 'archived';
+  status?: string;
   is_featured?: boolean;
   featured_at?: string;
   approved_at?: string;

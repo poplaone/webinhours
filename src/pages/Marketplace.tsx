@@ -1,134 +1,124 @@
-
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useRef } from 'react';
 import AppLayout from '@/components/layout/AppLayout';
-import AnimatedGridBackground from '@/components/animations/AnimatedGridBackground';
 import SEOHead from '@/components/seo/SEOHead';
-import { useWebsites } from '@/hooks/useWebsites';
-import { useAIAgents } from '@/hooks/useAIAgents';
-import { TemplateGrid } from '@/components/dashboard/TemplateGrid';
 import { MarketplaceHeader } from '@/components/marketplace/MarketplaceHeader';
 import { MarketplaceFilters } from '@/components/marketplace/MarketplaceFilters';
-import { MarketplaceCTA } from '@/components/marketplace/MarketplaceCTA';
+
+interface Category {
+  id: string;
+  name: string;
+  count: number;
+}
+import { TemplateGrid } from '@/components/dashboard/TemplateGrid';
 import { AIAgentCard } from '@/components/ai-agents/AIAgentCard';
-import { FeaturedSidebar } from '@/components/dashboard/FeaturedSidebar';
+import { MarketplaceCTA } from '@/components/marketplace/MarketplaceCTA';
 import { AIChatbot } from '@/components/dashboard/AIChatbot';
+import { FeaturedSidebar } from '@/components/dashboard/FeaturedSidebar';
+import { useWebsites } from '@/hooks/useWebsites';
+import { useAIAgents } from '@/hooks/useAIAgents';
+import { Tables } from '@/integrations/supabase/types';
+import { motion } from 'framer-motion';
+import AnimatedGridBackground from '@/components/animations/AnimatedGridBackground';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import { MessageSquare, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { MessageSquare } from 'lucide-react';
 
-const Marketplace = () => {
-  // Ref for main scrollable content
-  const mainContentRef = React.useRef<HTMLDivElement>(null);
-  const isMobile = useIsMobile();
-  const [isAIDialogOpen, setIsAIDialogOpen] = useState(false);
+type Website = Tables<'websites'>;
+type AIAgent = Tables<'ai_agents'>;
 
-  // Scroll to top on mount
-  React.useEffect(() => {
-    if (mainContentRef.current) {
-      mainContentRef.current.scrollTop = 0;
-    }
-  }, []);
-  
+export const Marketplace: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('popular');
   const [activeTab, setActiveTab] = useState<'websites' | 'ai-agents'>('websites');
+  const [tagFilter, setTagFilter] = useState<string | null>(null);
 
+  const mainContentRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
+  const [isAIDialogOpen, setIsAIDialogOpen] = useState(false);
 
-  // Fetch all approved and featured websites in one query
-  const { data: allMarketplaceWebsites = [], isLoading: websitesLoading, refetch: refetchWebsites } = useWebsites({
-    search: searchTerm || undefined,
-    category: selectedCategory !== 'all' ? selectedCategory : undefined,
-    status: undefined, // We'll use status filter in the query builder
-    includeAll: false // Only show approved/featured for marketplace
+  const { data: allMarketplaceWebsites = [], isLoading: isLoadingWebsites, refetch: refetchWebsites, error: websitesError } = useWebsites();
+  const { data: allMarketplaceAIAgents = [], isLoading: isLoadingAIAgents, refetch: refetchAIAgents, error: aiAgentsError } = useAIAgents();
+
+  // Debug logging
+  console.log('Marketplace data:', {
+    websites: allMarketplaceWebsites.length,
+    aiAgents: allMarketplaceAIAgents.length,
+    websitesError,
+    aiAgentsError
   });
 
-  // Fetch all approved and featured AI agents in one query
-  const { data: allMarketplaceAIAgents = [], isLoading: aiAgentsLoading, refetch: refetchAIAgents } = useAIAgents({
-    search: searchTerm || undefined,
-    category: selectedCategory !== 'all' ? selectedCategory : undefined,
-    status: undefined,
-    includeAll: false
-  });
+  const isLoading = activeTab === 'websites' ? isLoadingWebsites : isLoadingAIAgents;
 
-  // Determine what to show based on active tab
-  let displayItems: any[] = [];
-  let isLoading = false;
-  
-  if (activeTab === 'websites') {
-    displayItems = allMarketplaceWebsites;
-    isLoading = websitesLoading;
-  } else {
-    displayItems = allMarketplaceAIAgents;
-    isLoading = aiAgentsLoading;
-  }
-
-  // Sort items based on sortBy criteria
-  const sortedItems = [...displayItems].sort((a, b) => {
-    switch (sortBy) {
-      case 'popular':
-        const aViews = a.views_count || a.usage_count || 0;
-        const bViews = b.views_count || b.usage_count || 0;
-        return bViews - aViews;
-      case 'newest':
-        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-      case 'rating':
-        return (b.rating_average || 0) - (a.rating_average || 0);
-      case 'price-low':
-        return (a.price || 0) - (b.price || 0);
-      case 'price-high':
-        return (b.price || 0) - (a.price || 0);
-      default:
-        return 0;
+  const handleRefresh = () => {
+    if (activeTab === 'websites') {
+      refetchWebsites();
+    } else {
+      refetchAIAgents();
     }
+  };
+
+  const handleTagFilter = (tag: string | null) => {
+    setTagFilter(tag);
+  };
+
+    const allItems = (activeTab === 'websites' ? allMarketplaceWebsites : allMarketplaceAIAgents) as (Website | AIAgent)[];
+
+  const filteredItems = allItems.filter(item => {
+    if (!item) return false;
+    const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
+    const matchesSearch = searchTerm === '' || 
+      item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (item.description && item.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (item.tags && item.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase())));
+    const matchesTag = !tagFilter || (item.tags && item.tags.includes(tagFilter));
+    return matchesCategory && matchesSearch && matchesTag;
   });
 
-  // Get unique categories from the active items
-  const categories = [
-    { id: 'all', name: `All ${activeTab === 'websites' ? 'Templates' : 'Agents'}`, count: displayItems.length },
-    ...Array.from(new Set(displayItems.map(item => item.category))).map(category => ({
-      id: category,
-      name: category.charAt(0).toUpperCase() + category.slice(1),
-      count: displayItems.filter(item => item.category === category).length
+  const sortedItems = [...filteredItems].sort((a, b) => {
+    if (sortBy === 'popular') {
+      const aPopularity = 'downloads_count' in a ? a.downloads_count : ('usage_count' in a ? a.usage_count : 0);
+      const bPopularity = 'downloads_count' in b ? b.downloads_count : ('usage_count' in b ? b.usage_count : 0);
+      return bPopularity - aPopularity;
+    }
+    if (sortBy === 'newest') {
+      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+    }
+    return 0;
+  });
+
+  const categories: Category[] = [
+    { id: 'all', name: 'All', count: allMarketplaceWebsites.length },
+    ...Array.from(new Set(allMarketplaceWebsites.map(t => t.category))).map((cat, index) => ({
+      id: cat,
+      name: cat,
+      count: allMarketplaceWebsites.filter(t => t.category === cat).length
     }))
   ];
 
-  const handleTagFilter = (tag: string) => {
-    setSearchTerm(tag);
-  };
-
-  const handleRefresh = () => {
-    refetchWebsites();
-    refetchAIAgents();
-  };
-
-  // Calculate total downloads/usage for header
   const totalWebsites = allMarketplaceWebsites.length;
-  const totalAIAgents = allMarketplaceAIAgents.length;
   const totalDownloads = allMarketplaceWebsites.reduce((sum, w) => sum + (w.downloads_count || 0), 0);
+  const totalAIAgents = allMarketplaceAIAgents.length;
   const totalUsage = allMarketplaceAIAgents.reduce((sum, a) => sum + (a.usage_count || 0), 0);
 
   return (
-    <AppLayout className="bg-home-glow relative">
-      <AnimatedGridBackground />
+    <AppLayout className="bg-home-glow">
       <SEOHead 
         title="Website Template Marketplace - Choose Your Perfect Design"
         description="Browse our collection of professional website templates. E-commerce, business, portfolio designs ready in 24 hours. All templates include hosting, SSL, and mobile optimization."
         keywords="website templates, web design marketplace, professional websites, e-commerce templates, business websites"
       />
-<div className="pt-6 pb-20 px-2 sm:px-4 lg:px-6 h-screen">
-<div className="container mx-auto max-w-[1800px] h-full flex flex-col">
-          {/* Header and Filters Section */}
-          <div className="space-y-0 mb-6">
-            <MarketplaceHeader 
-              totalWebsites={totalWebsites}
-              totalDownloads={totalDownloads}
-              totalAIAgents={totalAIAgents}
-              totalUsage={totalUsage}
-              activeTab={activeTab}
-            />
+      <div className="pt-6 pb-8 px-2 sm:px-4 lg:px-6 h-screen flex flex-col">
+        <div className="container mx-auto max-w-[1800px] flex flex-col flex-1">
+          <MarketplaceHeader 
+            totalWebsites={totalWebsites}
+            totalDownloads={totalDownloads}
+            totalAIAgents={totalAIAgents}
+            totalUsage={totalUsage}
+            activeTab={activeTab}
+          />
+          <div className="sticky top-0 z-30 py-4 bg-background/90 backdrop-blur-lg -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 mb-4">
             <MarketplaceFilters
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
@@ -142,93 +132,82 @@ const Marketplace = () => {
             />
           </div>
 
-          {/* Main Layout */}
-<div className="flex gap-4 xl:gap-6 items-start flex-1 overflow-hidden">
-            {/* Left Sidebar: AI Chatbot - Only on XL screens */}
-<div className="hidden xl:block w-[300px] shrink-0 h-full overflow-y-auto scrollbar-hide">
-  <AIChatbot />
-</div>
+          <div className="flex gap-4 xl:gap-6 items-start flex-1 overflow-hidden">
+            {/* Left Sidebar */}
+            <div className="hidden xl:block w-[300px] shrink-0 h-full overflow-y-auto scrollbar-hide">
+              <AIChatbot />
+            </div>
             
             {/* Main Content */}
-<div ref={mainContentRef} className="flex-1 min-w-0 max-w-none xl:max-w-[calc(100%-640px)] lg:max-w-[calc(100%-320px)] h-full overflow-y-auto scrollbar-hide">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
-                {activeTab === 'ai-agents' ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
-                    {isLoading ? (
-                      Array.from({ length: 6 }).map((_, i) => (
-                        <div key={i} className="h-80 bg-gray-200 animate-pulse rounded-lg" />
-                      ))
-                    ) : (
-                      sortedItems.map((agent) => (
-                        <AIAgentCard 
-                          key={agent.id} 
-                          agent={agent}
-                          onUse={(agent) => console.log('Use agent:', agent)}
-                          onView={(agent) => console.log('View agent:', agent)}
-                        />
-                      ))
-                    )}
-                  </div>
-                ) : activeTab === 'websites' ? (
-                  <TemplateGrid 
-                    templates={sortedItems} 
-                    isLoading={isLoading} 
-                    onRefresh={handleRefresh}
-                    onTagFilter={handleTagFilter}
-                  />
-                ) : (
-                  <TemplateGrid 
-                    templates={sortedItems} 
-                    isLoading={isLoading} 
-                    onRefresh={handleRefresh}
-                    onTagFilter={handleTagFilter}
-                  />
-                )}
-              </motion.div>
-              <MarketplaceCTA />
+            <div className="flex-1 min-w-0 h-full relative">
+              <div className="absolute inset-0">
+                <AnimatedGridBackground />
+              </div>
+              <div ref={mainContentRef} className="relative z-10 h-full overflow-y-auto scrollbar-hide p-1">
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {activeTab === 'websites' ? (
+                    <TemplateGrid 
+                      templates={sortedItems as Website[]} 
+                      isLoading={isLoading} 
+                      onRefresh={handleRefresh}
+                      onTagFilter={handleTagFilter}
+                    />
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+                      {isLoading ? (
+                        Array.from({ length: 6 }).map((_, i) => (
+                          <div key={i} className="h-80 bg-gray-200 animate-pulse rounded-lg" />
+                        ))
+                      ) : (
+                        (sortedItems as AIAgent[]).map((agent) => (
+                          <AIAgentCard 
+                            key={agent.id} 
+                            agent={agent}
+                            onUse={(agent) => console.log('Use agent:', agent)}
+                            onView={(agent) => console.log('View agent:', agent)}
+                          />
+                        ))
+                      )}
+                    </div>
+                  )}
+                </motion.div>
+                <MarketplaceCTA />
+              </div>
             </div>
 
-            {/* Right Sidebar: Different layouts for different screen sizes */}
-            {!isMobile && (
-<div className="hidden lg:block w-[300px] shrink-0 h-full overflow-y-auto scrollbar-hide">
-  {/* AI Assistant for tablet/small screens - show on right */}
-  <div className="block xl:hidden">
-    <AIChatbot />
-  </div>
-  {/* Featured sidebar - always on right for non-mobile */}
-  <FeaturedSidebar />
-</div>
-            )}
+            {/* Right Sidebar */}
+            <div className="hidden lg:block w-[300px] shrink-0 h-full overflow-y-auto scrollbar-hide">
+              <div className="block xl:hidden">
+                <AIChatbot />
+              </div>
+              <FeaturedSidebar />
+            </div>
           </div>
-
-          {/* Mobile AI Assistant - Floating button and popup */}
-          {isMobile && (
-            <>
-              <Dialog open={isAIDialogOpen} onOpenChange={setIsAIDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button
-                    size="lg"
-                    className="fixed bottom-20 right-4 z-50 rounded-full w-14 h-14 shadow-lg bg-primary hover:bg-primary/90"
-                  >
-                    <MessageSquare className="h-6 w-6" />
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-md w-[90vw] h-[70vh] p-0 rounded-2xl">
-                  <div className="h-full">
-                    <AIChatbot />
-                  </div>
-                </DialogContent>
-              </Dialog>
-            </>
-          )}
         </div>
+
+        {isMobile && (
+          <Dialog open={isAIDialogOpen} onOpenChange={setIsAIDialogOpen}>
+            <DialogTrigger asChild>
+              <Button
+                size="lg"
+                className="fixed bottom-4 right-4 z-50 rounded-full w-14 h-14 shadow-lg bg-primary hover:bg-primary/90"
+              >
+                <MessageSquare className="h-6 w-6" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md w-[90vw] h-[70vh] p-0 rounded-2xl">
+              <div className="h-full">
+                <AIChatbot />
+              </div>
+            </DialogContent>
+          </Dialog>
+        )}
       </div>
     </AppLayout>
   );
 };
-
-export default Marketplace;
