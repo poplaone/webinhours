@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo, useCallback } from 'react';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
 
@@ -17,17 +17,21 @@ import { FeaturedSidebar } from '@/components/dashboard/FeaturedSidebar';
 import { useWebsites } from '@/hooks/useWebsites';
 import { useAIAgents } from '@/hooks/useAIAgents';
 import { Tables } from '@/integrations/supabase/types';
-import { motion } from 'framer-motion';
 import AnimatedGridBackground from '@/components/animations/AnimatedGridBackground';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Bot } from 'lucide-react';
+// import { usePerformanceMonitor, useRenderPerformance } from '@/hooks/usePerformanceMonitor';
 
 type Website = Tables<'websites'>;
 type AIAgent = Tables<'ai_agents'>;
 
 const Marketplace: React.FC = () => {
+  // Performance monitoring - temporarily disabled
+  // usePerformanceMonitor('Marketplace');
+  // useRenderPerformance('Marketplace');
+
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('popular');
@@ -43,9 +47,9 @@ const Marketplace: React.FC = () => {
   const { data: allMarketplaceWebsites = [], isLoading: isLoadingWebsites, refetch: refetchWebsites, error: websitesError } = useWebsites({ includeAll: false });
   const { data: allMarketplaceAIAgents = [], isLoading: isLoadingAIAgents, refetch: refetchAIAgents, error: aiAgentsError } = useAIAgents({ includeAll: false });
 
-  const handleDrag = (e: React.DragEvent) => {
+  const handleDrag = useCallback((e: React.DragEvent) => {
     setFloatingButtonPos({ x: e.clientX - 28, y: e.clientY - 28 });
-  };
+  }, []);
 
   // Debug logging
   console.log('Marketplace data:', {
@@ -57,56 +61,64 @@ const Marketplace: React.FC = () => {
 
   const isLoading = activeTab === 'websites' ? isLoadingWebsites : isLoadingAIAgents;
 
-  const handleRefresh = () => {
+  const handleRefresh = useCallback(() => {
     if (activeTab === 'websites') {
       refetchWebsites();
     } else {
       refetchAIAgents();
     }
-  };
+  }, [activeTab, refetchWebsites, refetchAIAgents]);
 
-  const handleTagFilter = (tag: string | null) => {
+  const handleTagFilter = useCallback((tag: string | null) => {
     setTagFilter(tag);
-  };
+  }, []);
 
+  // Memoized data processing
+  const { allItems, filteredItems, sortedItems, categories } = useMemo(() => {
     const allItems = (activeTab === 'websites' ? allMarketplaceWebsites : allMarketplaceAIAgents) as (Website | AIAgent)[];
 
-  const filteredItems = allItems.filter(item => {
-    if (!item) return false;
-    const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
-    const matchesSearch = searchTerm === '' || 
-      item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (item.description && item.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (item.tags && item.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase())));
-    const matchesTag = !tagFilter || (item.tags && item.tags.includes(tagFilter));
-    return matchesCategory && matchesSearch && matchesTag;
-  });
+    const filteredItems = allItems.filter(item => {
+      if (!item) return false;
+      const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
+      const matchesSearch = searchTerm === '' || 
+        item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (item.description && item.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (item.tags && item.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase())));
+      const matchesTag = !tagFilter || (item.tags && item.tags.includes(tagFilter));
+      return matchesCategory && matchesSearch && matchesTag;
+    });
 
-  const sortedItems = [...filteredItems].sort((a, b) => {
-    if (sortBy === 'popular') {
-      const aPopularity = 'downloads_count' in a ? a.downloads_count : ('usage_count' in a ? a.usage_count : 0);
-      const bPopularity = 'downloads_count' in b ? b.downloads_count : ('usage_count' in b ? b.usage_count : 0);
-      return bPopularity - aPopularity;
-    }
-    if (sortBy === 'newest') {
-      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-    }
-    return 0;
-  });
+    const sortedItems = [...filteredItems].sort((a, b) => {
+      if (sortBy === 'popular') {
+        const aPopularity = 'downloads_count' in a ? a.downloads_count : ('usage_count' in a ? a.usage_count : 0);
+        const bPopularity = 'downloads_count' in b ? b.downloads_count : ('usage_count' in b ? b.usage_count : 0);
+        return bPopularity - aPopularity;
+      }
+      if (sortBy === 'newest') {
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      }
+      return 0;
+    });
 
-  const categories: Category[] = [
-    { id: 'all', name: 'All', count: allMarketplaceWebsites.length },
-    ...Array.from(new Set(allMarketplaceWebsites.map(t => t.category))).map((cat, index) => ({
-      id: cat,
-      name: cat,
-      count: allMarketplaceWebsites.filter(t => t.category === cat).length
-    }))
-  ];
+    const categories: Category[] = [
+      { id: 'all', name: 'All', count: allMarketplaceWebsites.length },
+      ...Array.from(new Set(allMarketplaceWebsites.map(t => t.category))).map((cat, index) => ({
+        id: cat,
+        name: cat,
+        count: allMarketplaceWebsites.filter(t => t.category === cat).length
+      }))
+    ];
 
-  const totalWebsites = allMarketplaceWebsites.length;
-  const totalDownloads = allMarketplaceWebsites.reduce((sum, w) => sum + (w.downloads_count || 0), 0);
-  const totalAIAgents = allMarketplaceAIAgents.length;
-  const totalUsage = allMarketplaceAIAgents.reduce((sum, a) => sum + (a.usage_count || 0), 0);
+    return { allItems, filteredItems, sortedItems, categories };
+  }, [activeTab, allMarketplaceWebsites, allMarketplaceAIAgents, selectedCategory, searchTerm, tagFilter, sortBy]);
+
+  // Memoized stats
+  const { totalWebsites, totalDownloads, totalAIAgents, totalUsage } = useMemo(() => ({
+    totalWebsites: allMarketplaceWebsites.length,
+    totalDownloads: allMarketplaceWebsites.reduce((sum, w) => sum + (w.downloads_count || 0), 0),
+    totalAIAgents: allMarketplaceAIAgents.length,
+    totalUsage: allMarketplaceAIAgents.reduce((sum, a) => sum + (a.usage_count || 0), 0)
+  }), [allMarketplaceWebsites, allMarketplaceAIAgents]);
 
   return (
     <AppLayout className="bg-home-glow">
@@ -143,12 +155,7 @@ const Marketplace: React.FC = () => {
                 <AnimatedGridBackground />
               </div>
               <div ref={mainContentRef} className="relative z-10 h-full overflow-y-auto scrollbar-hide p-1">
-                <motion.div
-                  key={activeTab}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5 }}
-                >
+                <div>
                   {activeTab === 'websites' ? (
                     <TemplateGrid 
                       templates={sortedItems as Website[]} 
@@ -174,7 +181,7 @@ const Marketplace: React.FC = () => {
                       )}
                     </div>
                   )}
-                </motion.div>
+                </div>
                 <MarketplaceCTA />
               </div>
             </div>

@@ -53,7 +53,10 @@ export const useWebsiteById = (slugOrId: string) => {
       }
     },
     enabled: !!slugOrId,
-    staleTime: 1000 * 60 * 10, // 10 minutes
+    staleTime: 1000 * 60 * 15, // Increased to 15 minutes
+    gcTime: 1000 * 60 * 60, // Increased to 1 hour
     retry: 1,
+    refetchOnWindowFocus: false, // Prevent refetch on window focus
+    refetchOnMount: false, // Prevent refetch on mount if data exists
   });
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Eye, Download, Star, User, Calendar, Tag, Globe, Code2, Palette, Smartphone, Shield } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -14,15 +14,11 @@ const SiteDetails = () => {
   const websiteId = id || slugOrId || '';
   
   const navigate = useNavigate();
-  const {
-    user
-  } = useAuth();
-  const {
-    toast
-  } = useToast();
+  const { user } = useAuth();
+  const { toast } = useToast();
   const { data: site, isLoading } = useWebsiteById(websiteId);
 
-  const handlePurchase = () => {
+  const handlePurchase = useCallback(() => {
     if (!user) {
       toast({
         title: "Authentication Required",
@@ -38,8 +34,9 @@ const SiteDetails = () => {
       title: "Purchase Initiated",
       description: "Redirecting to payment..."
     });
-  };
-  const handlePreview = () => {
+  }, [user, toast, navigate]);
+
+  const handlePreview = useCallback(() => {
     if (site?.preview_url) {
       window.open(site.preview_url, '_blank', 'noopener,noreferrer');
     } else {
@@ -49,7 +46,22 @@ const SiteDetails = () => {
         variant: "destructive"
       });
     }
-  };
+  }, [site?.preview_url, toast]);
+
+  const handleBackToMarketplace = useCallback(() => {
+    navigate('/marketplace');
+  }, [navigate]);
+
+  // Memoized default values
+  const defaultFeatures = useMemo(() => ['Responsive Design', 'Modern UI', 'Fast Loading', 'SEO Optimized'], []);
+  const defaultTechnologies = useMemo(() => ['HTML', 'CSS', 'JavaScript', 'React'], []);
+  const defaultTags = useMemo(() => ['web', 'template', 'responsive'], []);
+  const defaultInclusions = useMemo(() => [
+    'Source code files',
+    'Documentation',
+    '30-day support',
+    'Future updates'
+  ], []);
 
   if (isLoading) {
     return <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex items-center justify-center">
@@ -62,18 +74,19 @@ const SiteDetails = () => {
         <Card className="p-8 text-center">
           <h2 className="text-2xl font-bold mb-4">Site Not Found</h2>
           <p className="text-muted-foreground mb-4">The requested site could not be found.</p>
-          <Button onClick={() => navigate('/marketplace')}>
+          <Button onClick={handleBackToMarketplace}>
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Marketplace
           </Button>
         </Card>
       </div>;
   }
+
   return <div className="min-h-screen bg-gradient-to-br from-background to-background/80">
       <div className="container mx-auto p-6">
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
-          <Button variant="outline" onClick={() => navigate('/marketplace')} className="flex items-center gap-2">
+          <Button variant="outline" onClick={handleBackToMarketplace} className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />
             Back to Marketplace
           </Button>
@@ -100,7 +113,12 @@ const SiteDetails = () => {
             <Card>
               <CardContent className="p-0">
                 <div className="aspect-video overflow-hidden rounded-lg">
-                  <img src={site.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&h=450&q=80"} alt={site.title} className="w-full h-full object-cover" />
+                  <img 
+                    src={site.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&h=450&q=80"} 
+                    alt={site.title} 
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
                 </div>
               </CardContent>
             </Card>
@@ -124,7 +142,7 @@ const SiteDetails = () => {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {(site.features || ['Responsive Design', 'Modern UI', 'Fast Loading', 'SEO Optimized']).map((feature, index) => <div key={index} className="flex items-center gap-2">
+                  {(site.features || defaultFeatures).map((feature, index) => <div key={index} className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-[#8B5CF6] rounded-full"></div>
                       <span>{feature}</span>
                     </div>)}
@@ -139,7 +157,7 @@ const SiteDetails = () => {
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
-                  {(site.technologies || ['HTML', 'CSS', 'JavaScript', 'React']).map((tech, index) => <Badge key={index} variant="secondary" className="flex items-center gap-1">
+                  {(site.technologies || defaultTechnologies).map((tech, index) => <Badge key={index} variant="secondary" className="flex items-center gap-1">
                       <Code2 className="h-3 w-3" />
                       {tech}
                     </Badge>)}
@@ -223,7 +241,7 @@ const SiteDetails = () => {
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
-                  {(site.tags || ['web', 'template', 'responsive']).map((tag, index) => <Badge key={index} variant="outline" className="flex items-center gap-1">
+                  {(site.tags || defaultTags).map((tag, index) => <Badge key={index} variant="outline" className="flex items-center gap-1">
                       <Tag className="h-3 w-3" />
                       {tag}
                     </Badge>)}
@@ -237,27 +255,10 @@ const SiteDetails = () => {
                 <CardTitle>What's Included</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                {site.inclusions && site.inclusions.length > 0 ? site.inclusions.map((inclusion, index) => <div key={index} className="flex items-center gap-2">
+                {(site.inclusions && site.inclusions.length > 0 ? site.inclusions : defaultInclusions).map((inclusion, index) => <div key={index} className="flex items-center gap-2">
                       <Shield className="h-4 w-4 text-green-500" />
                       <span className="text-sm">{inclusion}</span>
-                    </div>) : <>
-                    <div className="flex items-center gap-2">
-                      <Shield className="h-4 w-4 text-green-500" />
-                      <span className="text-sm">Source code files</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Shield className="h-4 w-4 text-green-500" />
-                      <span className="text-sm">Documentation</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Shield className="h-4 w-4 text-green-500" />
-                      <span className="text-sm">30-day support</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Shield className="h-4 w-4 text-green-500" />
-                      <span className="text-sm">Future updates</span>
-                    </div>
-                  </>}
+                    </div>)}
               </CardContent>
             </Card>
           </div>
@@ -265,4 +266,5 @@ const SiteDetails = () => {
       </div>
     </div>;
 };
+
 export default SiteDetails;

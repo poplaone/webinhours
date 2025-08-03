@@ -30,14 +30,12 @@ export const useWebsites = (filters?: WebsiteFilters) => {
         }
 
         console.log('✅ Websites query successful:', websitesData?.length || 0, 'websites');
-        console.log('📋 Website statuses found:', websitesData?.map(w => ({ id: w.id, title: w.title, status: w.status, created_at: w.created_at })));
 
-        // Log specifically for pending websites
-        const pendingWebsites = websitesData?.filter(w => w.status === 'pending') || [];
-        console.log('🟡 Pending websites found:', pendingWebsites.length, pendingWebsites.map(w => ({ title: w.title, id: w.id, user_id: w.user_id })));
-
-        // Fetch and merge profiles
-        const mergedData = await fetchProfilesForWebsites(websitesData || []);
+        // Only fetch profiles if we have websites and not in a hurry
+        let mergedData = websitesData || [];
+        if (mergedData.length > 0 && mergedData.length < 50) { // Only fetch profiles for reasonable amounts of data
+          mergedData = await fetchProfilesForWebsites(mergedData);
+        }
         
         console.log('✅ Data merged successfully');
         return mergedData as Website[];
@@ -50,9 +48,11 @@ export const useWebsites = (filters?: WebsiteFilters) => {
         throw error;
       }
     },
-    staleTime: 1000 * 60 * 5, // 5 minutes
-    gcTime: 1000 * 60 * 10, // 10 minutes
+    staleTime: 1000 * 60 * 10, // Increased to 10 minutes
+    gcTime: 1000 * 60 * 30, // Increased to 30 minutes
     retry: 1, // Only retry once to avoid infinite loops
     retryDelay: 1000, // Wait 1 second before retry
+    refetchOnWindowFocus: false, // Prevent refetch on window focus
+    refetchOnMount: false, // Prevent refetch on mount if data exists
   });
 };

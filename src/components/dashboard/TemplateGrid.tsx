@@ -1,5 +1,5 @@
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, memo, useCallback } from 'react';
 import Masonry from 'react-masonry-css';
 import './masonry.css';
 import ColorThief from 'color-thief-browser';
@@ -17,33 +17,49 @@ interface TemplateGridProps {
   onTagFilter?: (tag: string) => void;
 }
 
-
-const TemplateCard: React.FC<{template: Website; onClick: (t: Website) => void;}> = ({ template, onClick }) => {
+// Memoized template card component
+const TemplateCard = memo<{template: Website; onClick: (t: Website) => void;}>(({ template, onClick }) => {
   const imgRef = useRef<HTMLImageElement>(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
   
-  // Glassmorphism effect styles
+  // Glassmorphism effect styles - keeping the shimmer glass effect
   const glassEffect = 'bg-transparent border border-white/20 dark:border-white/10 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/40 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300';
+
+  const handleImageLoad = useCallback(() => {
+    setImageLoaded(true);
+  }, []);
+
+  const handleImageError = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
+    const target = e.target as HTMLImageElement;
+    target.src = 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=600&q=80';
+    setImageLoaded(true);
+  }, []);
+
+  const handleClick = useCallback(() => {
+    onClick(template);
+  }, [onClick, template]);
 
   return (
     <Card
       key={template.id}
       className={`${glassEffect} overflow-hidden flex flex-col group relative h-full cursor-pointer rounded-2xl hover:scale-[1.02] transition-all duration-300`}
-      onClick={() => onClick(template)}
+      onClick={handleClick}
       title={`View ${template.title}`}
     >
       <div className="aspect-[16/10] w-full overflow-hidden relative group">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-purple-500/5 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        {!imageLoaded && (
+          <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+        )}
         <img
           ref={imgRef}
           crossOrigin="anonymous"
           src={template.thumbnail_url || 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=600&q=80'}
           alt={template.title}
-          className="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500"
+          className={`w-full h-full object-cover transition-transform group-hover:scale-110 duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
           loading="lazy"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.src = 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=600&q=80';
-          }}
+          onLoad={handleImageLoad}
+          onError={handleImageError}
         />
         <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
           <span className="bg-white/80 dark:bg-[#181825]/80 text-xs font-semibold px-2 py-0.5 rounded-full shadow border border-border/30 capitalize w-fit mb-1">
@@ -80,71 +96,87 @@ const TemplateCard: React.FC<{template: Website; onClick: (t: Website) => void;}
       </CardContent>
     </Card>
   );
-};
+});
 
-export const TemplateGrid = ({ templates, isLoading, onRefresh, onTagFilter }: TemplateGridProps) => {
+TemplateCard.displayName = 'TemplateCard';
+
+// Memoized loading skeleton
+const LoadingSkeleton = memo(() => (
+  <Masonry
+    breakpointCols={{ default: 3, 1400: 2, 1024: 2, 768: 1 }}
+    className="masonry-grid"
+    columnClassName="masonry-col"
+  >
+    {Array.from({ length: 6 }).map((_, i) => (
+      <Card key={i} className="mb-5 animate-pulse rounded-2xl border-2 border-transparent bg-gradient-to-br from-[#f5f3ff] to-[#e0e7ff] break-inside-avoid">
+        <div className="h-52 md:h-64 bg-gray-200 rounded-t-2xl"></div>
+        <CardContent className="p-5">
+          <div className="h-5 bg-gray-200 rounded mb-3"></div>
+          <div className="h-4 bg-gray-200 rounded mb-5"></div>
+          <div className="flex justify-between">
+            <div className="h-6 bg-gray-200 rounded w-20"></div>
+            <div className="h-6 bg-gray-200 rounded w-24"></div>
+          </div>
+        </CardContent>
+      </Card>
+    ))}
+  </Masonry>
+));
+
+LoadingSkeleton.displayName = 'LoadingSkeleton';
+
+// Memoized empty state
+const EmptyState = memo<{onRefresh: () => void; onNavigate: () => void}>(({ onRefresh, onNavigate }) => (
+  <div className="col-span-full text-center py-8 md:py-12 lg:py-16">
+    <div className="max-w-md mx-auto">
+      <div className="w-16 h-16 lg:w-20 lg:h-20 mx-auto mb-4 bg-[#8B5CF6]/10 rounded-full flex items-center justify-center">
+        <Star className="w-8 h-8 lg:w-10 lg:h-10 text-[#8B5CF6]" />
+      </div>
+      <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground mb-2">No templates found</p>
+      <p className="text-muted-foreground text-sm md:text-base lg:text-lg mb-6">
+        Try adjusting your search or filters to find what you're looking for
+      </p>
+      <div className="flex gap-3 justify-center">
+        <Button 
+          variant="outline"
+          onClick={onRefresh}
+          size="sm"
+          className="lg:px-6 lg:py-3"
+        >
+          Refresh
+        </Button>
+        <Button 
+          className="bg-[#8B5CF6] hover:bg-[#7C3AED] lg:px-6 lg:py-3"
+          onClick={onNavigate}
+          size="sm"
+        >
+          Upload Website
+        </Button>
+      </div>
+    </div>
+  </div>
+));
+
+EmptyState.displayName = 'EmptyState';
+
+export const TemplateGrid = memo(({ templates, isLoading, onRefresh, onTagFilter }: TemplateGridProps) => {
   const navigate = useNavigate();
 
-  const viewTemplateDetail = (template: Website) => {
+  const viewTemplateDetail = useCallback((template: Website) => {
     const slug = template.slug || template.id;
     navigate(`/site/${slug}`);
-  };
+  }, [navigate]);
+
+  const handleNavigateToAdmin = useCallback(() => {
+    navigate('/admin-panel');
+  }, [navigate]);
 
   if (isLoading) {
-    return (
-      <Masonry
-        breakpointCols={{ default: 3, 1400: 2, 1024: 2, 768: 1 }}
-        className="masonry-grid"
-        columnClassName="masonry-col"
-      >
-        {Array.from({ length: 6 }).map((_, i) => (
-          <Card key={i} className="mb-5 animate-pulse rounded-2xl border-2 border-transparent bg-gradient-to-br from-[#f5f3ff] to-[#e0e7ff] break-inside-avoid">
-            <div className="h-52 md:h-64 bg-gray-200 rounded-t-2xl"></div>
-            <CardContent className="p-5">
-              <div className="h-5 bg-gray-200 rounded mb-3"></div>
-              <div className="h-4 bg-gray-200 rounded mb-5"></div>
-              <div className="flex justify-between">
-                <div className="h-6 bg-gray-200 rounded w-20"></div>
-                <div className="h-6 bg-gray-200 rounded w-24"></div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </Masonry>
-    );
+    return <LoadingSkeleton />;
   }
 
   if (templates.length === 0) {
-    return (
-      <div className="col-span-full text-center py-8 md:py-12 lg:py-16">
-        <div className="max-w-md mx-auto">
-          <div className="w-16 h-16 lg:w-20 lg:h-20 mx-auto mb-4 bg-[#8B5CF6]/10 rounded-full flex items-center justify-center">
-            <Star className="w-8 h-8 lg:w-10 lg:h-10 text-[#8B5CF6]" />
-          </div>
-          <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground mb-2">No templates found</p>
-          <p className="text-muted-foreground text-sm md:text-base lg:text-lg mb-6">
-            Try adjusting your search or filters to find what you're looking for
-          </p>
-          <div className="flex gap-3 justify-center">
-            <Button 
-              variant="outline"
-              onClick={onRefresh}
-              size="sm"
-              className="lg:px-6 lg:py-3"
-            >
-              Refresh
-            </Button>
-            <Button 
-              className="bg-[#8B5CF6] hover:bg-[#7C3AED] lg:px-6 lg:py-3"
-              onClick={() => navigate('/admin-panel')}
-              size="sm"
-            >
-              Upload Website
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
+    return <EmptyState onRefresh={onRefresh} onNavigate={handleNavigateToAdmin} />;
   }
 
   return (
@@ -160,4 +192,6 @@ export const TemplateGrid = ({ templates, isLoading, onRefresh, onTagFilter }: T
       ))}
     </Masonry>
   );
-};
+});
+
+TemplateGrid.displayName = 'TemplateGrid';
