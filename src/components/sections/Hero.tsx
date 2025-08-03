@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { TextRotate } from "@/components/ui/text-rotate";
 export const Hero = () => {
   const navigate = useNavigate();
-  return <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 relative z-10">
+  return <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 relative z-10 my-0">
       <div className="container mx-auto text-center">
         <motion.div initial={{
         opacity: 0,
@@ -16,7 +16,7 @@ export const Hero = () => {
         y: 0
       }} transition={{
         duration: 0.8
-      }} className="my-0">
+      }} className="my-[4px]">
           {/* Trust badges */}
           
 

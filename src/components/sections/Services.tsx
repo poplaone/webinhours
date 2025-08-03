@@ -52,7 +52,7 @@ export const Services = () => {
     colors: ["#D1FAE5", "#6EE7B7", "#059669"],
     price: "From $149"
   }];
-  return <section id="services" className="py-20 px-4 bg-card/30 backdrop-blur relative z-10">
+  return <section id="services" className="py-20 px-4 bg-card/30 backdrop-blur relative z-10 my-0">
       <div className="container mx-auto">
         <motion.div className="text-center mb-16" initial={{
         opacity: 0,
