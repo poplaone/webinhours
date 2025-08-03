@@ -24,11 +24,7 @@ const Index = () => {
       <MarketplacePreview />
       
       {/* Trust signals after hero */}
-      <section className="py-8 px-4 border-b border-border/20">
-        <div className="container mx-auto">
-          <TrustSignals variant="compact" className="justify-center" />
-        </div>
-      </section>
+      
       
       <div className="pt-0">
         <Services />

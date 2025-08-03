@@ -142,20 +142,7 @@ export const Services = () => {
       }} viewport={{
         once: true
       }}>
-          <div className="bg-gradient-to-r from-[#8B5CF6]/10 to-[#A78BFA]/10 border border-[#8B5CF6]/20 rounded-xl p-8">
-            <h3 className="text-2xl font-bold mb-4">Need a Custom Solution?</h3>
-            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Every business is unique. Tell us about your specific requirements and we'll create a custom package 
-              tailored to your needs and budget.
-            </p>
-            <motion.button className="bg-[#8B5CF6] hover:bg-[#7C3AED] text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105" whileHover={{
-            scale: 1.05
-          }} whileTap={{
-            scale: 0.95
-          }}>
-              Get Custom Quote
-            </motion.button>
-          </div>
+          
         </motion.div>
       </div>
     </section>;
