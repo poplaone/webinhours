@@ -3,6 +3,7 @@ import AnimatedGridBackground from '@/components/animations/AnimatedGridBackgrou
 import { PremiumTestimonials } from '@/components/ui/premium-testimonials';
 import { TrustSignals } from '@/components/ui/trust-signals';
 import { Hero } from '@/components/sections/Hero';
+import { MarketplacePreview } from '@/components/sections/MarketplacePreview';
 import { Services } from '@/components/sections/Services';
 import { Features } from '@/components/sections/Features';
 import { CTASection } from '@/components/sections/CTASection';
@@ -18,6 +19,9 @@ const Index = () => {
       <SEOHead title="WebInHours - Professional Websites Delivered in 24 Hours" description="Get professional, mobile-responsive websites built in 24 hours, not weeks. Custom development, e-commerce, SEO optimization. 500+ successful projects. Money-back guarantee." keywords="website development, 24 hour website, fast web design, professional websites, custom development, e-commerce, mobile responsive, SEO optimization" />
       <AnimatedGridBackground />
       <Hero />
+      
+      {/* Marketplace Preview */}
+      <MarketplacePreview />
       
       {/* Trust signals after hero */}
       <section className="py-8 px-4 border-b border-border/20">
