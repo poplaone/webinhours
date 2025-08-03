@@ -16,7 +16,7 @@ export const Hero = () => {
         y: 0
       }} transition={{
         duration: 0.8
-      }}>
+      }} className="my-0">
           {/* Trust badges */}
           
 
@@ -68,26 +68,7 @@ export const Hero = () => {
           </motion.p>
 
           {/* Value propositions */}
-          <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 max-w-3xl mx-auto text-sm" initial={{
-          opacity: 0,
-          y: 20
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          duration: 0.8,
-          delay: 0.8
-        }}>
-            <div className="bg-card/50 backdrop-blur border border-border/40 rounded-lg p-3">
-              <span className="font-semibold text-green-600">✓ 500+ Websites Delivered</span>
-            </div>
-            <div className="bg-card/50 backdrop-blur border border-border/40 rounded-lg p-3">
-              <span className="font-semibold text-blue-600">✓ SEO & Performance Optimized</span>
-            </div>
-            <div className="bg-card/50 backdrop-blur border border-border/40 rounded-lg p-3">
-              <span className="font-semibold text-purple-600">✓ Unlimited Revisions</span>
-            </div>
-          </motion.div>
+          
           
           <motion.div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 sm:px-0" initial={{
           opacity: 0,
