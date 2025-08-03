@@ -1,14 +1,26 @@
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { Bot, Code, Globe, Zap, Database, Smartphone } from 'lucide-react';
 
 export const MarketplacePreview = () => {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 800], [0, -200]);
   const opacity = useTransform(scrollY, [0, 400, 800], [1, 0.8, 0.3]);
+  
+  // Floating icons animation based on scroll
+  const leftIcon1X = useTransform(scrollY, [200, 600], [-100, 50]);
+  const leftIcon2X = useTransform(scrollY, [250, 650], [-120, 30]);
+  const leftIcon3X = useTransform(scrollY, [300, 700], [-80, 70]);
+  
+  const rightIcon1X = useTransform(scrollY, [200, 600], [100, -50]);
+  const rightIcon2X = useTransform(scrollY, [250, 650], [120, -30]);
+  const rightIcon3X = useTransform(scrollY, [300, 700], [80, -70]);
+  
+  const iconsOpacity = useTransform(scrollY, [200, 400, 800], [0, 1, 0]);
 
   return (
     <motion.section 
-      className="relative py-12 sm:py-16 md:py-20 px-4 sm:px-6 overflow-hidden"
+      className="relative py-4 sm:py-6 md:py-8 px-4 sm:px-6 overflow-hidden"
       style={{ y, opacity }}
     >
       {/* Background glow effects */}
@@ -52,32 +64,85 @@ export const MarketplacePreview = () => {
             </div>
           </div>
 
-          {/* Additional floating elements */}
+          {/* Floating Icons - Left Side */}
           <motion.div
-            className="absolute -top-4 -right-4 w-8 h-8 bg-primary/20 rounded-full blur-xl"
-            animate={{ 
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.6, 0.3]
-            }}
-            transition={{ 
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
+            className="absolute left-0 top-1/4 z-20"
+            style={{ x: leftIcon1X, opacity: iconsOpacity }}
+          >
+            <motion.div
+              className="p-3 bg-primary/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-lg"
+              animate={{ rotate: [0, 5, -5, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <Bot className="w-6 h-6 text-primary" />
+            </motion.div>
+          </motion.div>
+          
           <motion.div
-            className="absolute -bottom-6 -left-6 w-12 h-12 bg-purple-500/20 rounded-full blur-xl"
-            animate={{ 
-              scale: [1.2, 1, 1.2],
-              opacity: [0.2, 0.4, 0.2]
-            }}
-            transition={{ 
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 1
-            }}
-          />
+            className="absolute left-0 top-1/2 z-20"
+            style={{ x: leftIcon2X, opacity: iconsOpacity }}
+          >
+            <motion.div
+              className="p-3 bg-purple-500/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-lg"
+              animate={{ rotate: [0, -5, 5, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            >
+              <Code className="w-6 h-6 text-purple-500" />
+            </motion.div>
+          </motion.div>
+          
+          <motion.div
+            className="absolute left-0 top-3/4 z-20"
+            style={{ x: leftIcon3X, opacity: iconsOpacity }}
+          >
+            <motion.div
+              className="p-3 bg-blue-500/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-lg"
+              animate={{ rotate: [0, 3, -3, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            >
+              <Globe className="w-6 h-6 text-blue-500" />
+            </motion.div>
+          </motion.div>
+
+          {/* Floating Icons - Right Side */}
+          <motion.div
+            className="absolute right-0 top-1/4 z-20"
+            style={{ x: rightIcon1X, opacity: iconsOpacity }}
+          >
+            <motion.div
+              className="p-3 bg-green-500/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-lg"
+              animate={{ rotate: [0, -5, 5, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+            >
+              <Zap className="w-6 h-6 text-green-500" />
+            </motion.div>
+          </motion.div>
+          
+          <motion.div
+            className="absolute right-0 top-1/2 z-20"
+            style={{ x: rightIcon2X, opacity: iconsOpacity }}
+          >
+            <motion.div
+              className="p-3 bg-orange-500/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-lg"
+              animate={{ rotate: [0, 5, -5, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+            >
+              <Database className="w-6 h-6 text-orange-500" />
+            </motion.div>
+          </motion.div>
+          
+          <motion.div
+            className="absolute right-0 top-3/4 z-20"
+            style={{ x: rightIcon3X, opacity: iconsOpacity }}
+          >
+            <motion.div
+              className="p-3 bg-cyan-500/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-lg"
+              animate={{ rotate: [0, -3, 3, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2.5 }}
+            >
+              <Smartphone className="w-6 h-6 text-cyan-500" />
+            </motion.div>
+          </motion.div>
         </motion.div>
       </div>
     </motion.section>
