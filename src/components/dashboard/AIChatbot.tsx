@@ -199,11 +199,23 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({
             </div>
           </ScrollArea>
 
-          <div className="pt-4 pb-2 border-t border-muted flex items-center w-full max-w-[340px] mx-auto my-[369px]">
-            <input value={inputValue} onChange={e => setInputValue(e.target.value)} placeholder="Ask me anything..." onKeyPress={e => e.key === 'Enter' && handleSendMessage()} className="flex-1 bg-transparent border border-primary rounded-full px-4 py-2 text-primary placeholder:text-muted-foreground focus:outline-none" />
-            <button onClick={handleSendMessage} disabled={!inputValue.trim() || isTyping} className="ml-2 bg-primary text-white rounded-full p-3 shadow-md hover:bg-primary/80 transition">
-              <Send className="w-4 h-4" />
-            </button>
+          <div className="p-4 border-t border-muted">
+            <div className="relative max-w-[340px] mx-auto">
+              <input 
+                value={inputValue} 
+                onChange={e => setInputValue(e.target.value)} 
+                placeholder="Ask me anything..." 
+                onKeyPress={e => e.key === 'Enter' && handleSendMessage()} 
+                className="w-full bg-transparent border border-primary rounded-full px-4 py-3 pr-12 text-primary placeholder:text-muted-foreground focus:outline-none" 
+              />
+              <button 
+                onClick={handleSendMessage} 
+                disabled={!inputValue.trim() || isTyping} 
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-primary text-white rounded-full p-2 shadow-md hover:bg-primary/80 transition disabled:opacity-50"
+              >
+                <Send className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </CardContent>
       </Card>

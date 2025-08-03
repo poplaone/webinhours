@@ -50,7 +50,7 @@ export const usePerformanceMonitor = (pageName: string) => {
       const clsObserver = new PerformanceObserver((list) => {
         let clsValue = 0;
         for (const entry of list.getEntries()) {
-          if (!entry.hadRecentInput) {
+          if (!(entry as any).hadRecentInput) {
             clsValue += (entry as any).value;
           }
         }
@@ -63,7 +63,7 @@ export const usePerformanceMonitor = (pageName: string) => {
       const fidObserver = new PerformanceObserver((list) => {
         const entries = list.getEntries();
         const fid = entries[entries.length - 1];
-        metricsRef.current.firstInputDelay = fid.processingStart - fid.startTime;
+        metricsRef.current.firstInputDelay = (fid as any).processingStart - fid.startTime;
         console.log(`⚡ FID for ${pageName}: ${metricsRef.current.firstInputDelay.toFixed(2)}ms`);
       });
       fidObserver.observe({ entryTypes: ['first-input'] });
