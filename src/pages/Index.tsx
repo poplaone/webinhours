@@ -30,7 +30,7 @@ const Index = () => {
         </div>
       </section>
       
-      <div className="pt-4">
+      <div className="pt-0">
         <Services />
       </div>
       

@@ -7,16 +7,16 @@ export const MarketplacePreview = () => {
   const y = useTransform(scrollY, [0, 800], [0, -200]);
   const opacity = useTransform(scrollY, [0, 400, 800], [1, 0.8, 0.3]);
   
-  // Floating icons animation based on scroll
-  const leftIcon1X = useTransform(scrollY, [200, 600], [-100, 50]);
-  const leftIcon2X = useTransform(scrollY, [250, 650], [-120, 30]);
-  const leftIcon3X = useTransform(scrollY, [300, 700], [-80, 70]);
+  // Floating icons animation based on scroll - coming from behind the image
+  const leftIcon1X = useTransform(scrollY, [0, 300, 600], [0, -80, -150]);
+  const leftIcon2X = useTransform(scrollY, [50, 350, 650], [0, -60, -120]);
+  const leftIcon3X = useTransform(scrollY, [100, 400, 700], [0, -100, -180]);
   
-  const rightIcon1X = useTransform(scrollY, [200, 600], [100, -50]);
-  const rightIcon2X = useTransform(scrollY, [250, 650], [120, -30]);
-  const rightIcon3X = useTransform(scrollY, [300, 700], [80, -70]);
+  const rightIcon1X = useTransform(scrollY, [0, 300, 600], [0, 80, 150]);
+  const rightIcon2X = useTransform(scrollY, [50, 350, 650], [0, 60, 120]);
+  const rightIcon3X = useTransform(scrollY, [100, 400, 700], [0, 100, 180]);
   
-  const iconsOpacity = useTransform(scrollY, [200, 400, 800], [0, 1, 0]);
+  const iconsOpacity = useTransform(scrollY, [0, 200, 500, 800], [0, 0.8, 1, 0.3]);
 
   return (
     <motion.section 
@@ -64,83 +64,125 @@ export const MarketplacePreview = () => {
             </div>
           </div>
 
-          {/* Floating Icons - Left Side */}
+          {/* Floating Icons - Left Side (Behind Image) */}
           <motion.div
-            className="absolute left-0 top-1/4 z-20"
+            className="absolute left-1/2 top-1/4 z-0"
             style={{ x: leftIcon1X, opacity: iconsOpacity }}
           >
             <motion.div
-              className="p-3 bg-primary/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-lg"
-              animate={{ rotate: [0, 5, -5, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
+              animate={{ rotate: [0, 2, -2, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             >
-              <Bot className="w-6 h-6 text-primary" />
+              {/* Starry background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-purple-500/10 to-blue-500/15">
+                <div className="absolute top-1 left-2 w-0.5 h-0.5 bg-white/60 rounded-full animate-pulse" />
+                <div className="absolute top-3 right-3 w-0.5 h-0.5 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
+                <div className="absolute bottom-2 left-1 w-0.5 h-0.5 bg-white/50 rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
+                <div className="absolute bottom-1 right-1 w-0.5 h-0.5 bg-white/30 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
+              </div>
+              <Bot className="w-7 h-7 text-primary relative z-10" />
             </motion.div>
           </motion.div>
           
           <motion.div
-            className="absolute left-0 top-1/2 z-20"
+            className="absolute left-1/2 top-1/2 z-0"
             style={{ x: leftIcon2X, opacity: iconsOpacity }}
           >
             <motion.div
-              className="p-3 bg-purple-500/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-lg"
-              animate={{ rotate: [0, -5, 5, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+              className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
+              animate={{ rotate: [0, -2, 2, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             >
-              <Code className="w-6 h-6 text-purple-500" />
+              {/* Starry background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-pink-500/10 to-primary/15">
+                <div className="absolute top-2 left-1 w-0.5 h-0.5 bg-white/50 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
+                <div className="absolute top-1 right-2 w-0.5 h-0.5 bg-white/60 rounded-full animate-pulse" style={{ animationDelay: '1.5s' }} />
+                <div className="absolute bottom-3 left-3 w-0.5 h-0.5 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '2.5s' }} />
+                <div className="absolute bottom-1 right-1 w-0.5 h-0.5 bg-white/35 rounded-full animate-pulse" />
+              </div>
+              <Code className="w-7 h-7 text-purple-500 relative z-10" />
             </motion.div>
           </motion.div>
           
           <motion.div
-            className="absolute left-0 top-3/4 z-20"
+            className="absolute left-1/2 top-3/4 z-0"
             style={{ x: leftIcon3X, opacity: iconsOpacity }}
           >
             <motion.div
-              className="p-3 bg-blue-500/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-lg"
-              animate={{ rotate: [0, 3, -3, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+              className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
+              animate={{ rotate: [0, 1.5, -1.5, 0] }}
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 2 }}
             >
-              <Globe className="w-6 h-6 text-blue-500" />
+              {/* Starry background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-cyan-500/10 to-primary/15">
+                <div className="absolute top-3 left-1 w-0.5 h-0.5 bg-white/45 rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
+                <div className="absolute top-1 right-3 w-0.5 h-0.5 bg-white/55 rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
+                <div className="absolute bottom-1 left-2 w-0.5 h-0.5 bg-white/50 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
+                <div className="absolute bottom-2 right-1 w-0.5 h-0.5 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '1.5s' }} />
+              </div>
+              <Globe className="w-7 h-7 text-blue-500 relative z-10" />
             </motion.div>
           </motion.div>
 
-          {/* Floating Icons - Right Side */}
+          {/* Floating Icons - Right Side (Behind Image) */}
           <motion.div
-            className="absolute right-0 top-1/4 z-20"
+            className="absolute right-1/2 top-1/4 z-0"
             style={{ x: rightIcon1X, opacity: iconsOpacity }}
           >
             <motion.div
-              className="p-3 bg-green-500/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-lg"
-              animate={{ rotate: [0, -5, 5, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+              className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
+              animate={{ rotate: [0, -2, 2, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
             >
-              <Zap className="w-6 h-6 text-green-500" />
+              {/* Starry background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 via-emerald-500/10 to-primary/15">
+                <div className="absolute top-1 left-3 w-0.5 h-0.5 bg-white/50 rounded-full animate-pulse" style={{ animationDelay: '0.8s' }} />
+                <div className="absolute top-2 right-1 w-0.5 h-0.5 bg-white/60 rounded-full animate-pulse" style={{ animationDelay: '1.8s' }} />
+                <div className="absolute bottom-2 left-1 w-0.5 h-0.5 bg-white/45 rounded-full animate-pulse" style={{ animationDelay: '2.8s' }} />
+                <div className="absolute bottom-3 right-2 w-0.5 h-0.5 bg-white/35 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }} />
+              </div>
+              <Zap className="w-7 h-7 text-green-500 relative z-10" />
             </motion.div>
           </motion.div>
           
           <motion.div
-            className="absolute right-0 top-1/2 z-20"
+            className="absolute right-1/2 top-1/2 z-0"
             style={{ x: rightIcon2X, opacity: iconsOpacity }}
           >
             <motion.div
-              className="p-3 bg-orange-500/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-lg"
-              animate={{ rotate: [0, 5, -5, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+              className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
+              animate={{ rotate: [0, 2, -2, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
             >
-              <Database className="w-6 h-6 text-orange-500" />
+              {/* Starry background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-red-500/10 to-primary/15">
+                <div className="absolute top-2 left-2 w-0.5 h-0.5 bg-white/55 rounded-full animate-pulse" style={{ animationDelay: '1.2s' }} />
+                <div className="absolute top-1 right-3 w-0.5 h-0.5 bg-white/45 rounded-full animate-pulse" style={{ animationDelay: '2.2s' }} />
+                <div className="absolute bottom-3 left-1 w-0.5 h-0.5 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '0.7s' }} />
+                <div className="absolute bottom-1 right-2 w-0.5 h-0.5 bg-white/50 rounded-full animate-pulse" style={{ animationDelay: '1.7s' }} />
+              </div>
+              <Database className="w-7 h-7 text-orange-500 relative z-10" />
             </motion.div>
           </motion.div>
           
           <motion.div
-            className="absolute right-0 top-3/4 z-20"
+            className="absolute right-1/2 top-3/4 z-0"
             style={{ x: rightIcon3X, opacity: iconsOpacity }}
           >
             <motion.div
-              className="p-3 bg-cyan-500/10 backdrop-blur-sm rounded-xl border border-white/20 shadow-lg"
-              animate={{ rotate: [0, -3, 3, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2.5 }}
+              className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
+              animate={{ rotate: [0, -1.5, 1.5, 0] }}
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 2.5 }}
             >
-              <Smartphone className="w-6 h-6 text-cyan-500" />
+              {/* Starry background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 via-blue-400/10 to-primary/15">
+                <div className="absolute top-3 left-2 w-0.5 h-0.5 bg-white/60 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }} />
+                <div className="absolute top-1 right-1 w-0.5 h-0.5 bg-white/50 rounded-full animate-pulse" style={{ animationDelay: '1.4s' }} />
+                <div className="absolute bottom-1 left-3 w-0.5 h-0.5 bg-white/45 rounded-full animate-pulse" style={{ animationDelay: '2.4s' }} />
+                <div className="absolute bottom-2 right-3 w-0.5 h-0.5 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '0.9s' }} />
+              </div>
+              <Smartphone className="w-7 h-7 text-cyan-500 relative z-10" />
             </motion.div>
           </motion.div>
         </motion.div>
