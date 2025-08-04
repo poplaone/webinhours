@@ -1,22 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Bot, Code, Globe, Zap, Database, Smartphone } from 'lucide-react';
 
 export const MarketplacePreview = () => {
   const { scrollY } = useScroll();
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const y = useTransform(scrollY, [0, 800], [0, -200]);
   const opacity = useTransform(scrollY, [0, 400, 800], [1, 0.8, 0.3]);
   
-  // Floating icons animation based on scroll - coming from behind the image
-  const leftIcon1X = useTransform(scrollY, [0, 300, 600], [0, -80, -150]);
-  const leftIcon2X = useTransform(scrollY, [50, 350, 650], [0, -60, -120]);
-  const leftIcon3X = useTransform(scrollY, [100, 400, 700], [0, -100, -180]);
+  // Fast icon animations that start immediately when scrolling
+  // Desktop: left and right sides
+  const leftIcon1X = useTransform(scrollY, [1, 60], [0, isMobile ? 0 : -120]);
+  const leftIcon2X = useTransform(scrollY, [5, 65], [0, isMobile ? 0 : -100]);
+  const leftIcon3X = useTransform(scrollY, [10, 70], [0, isMobile ? 0 : -140]);
   
-  const rightIcon1X = useTransform(scrollY, [0, 300, 600], [0, 80, 150]);
-  const rightIcon2X = useTransform(scrollY, [50, 350, 650], [0, 60, 120]);
-  const rightIcon3X = useTransform(scrollY, [100, 400, 700], [0, 100, 180]);
+  const rightIcon1X = useTransform(scrollY, [3, 63], [0, isMobile ? 0 : 120]);
+  const rightIcon2X = useTransform(scrollY, [7, 67], [0, isMobile ? 0 : 100]);
+  const rightIcon3X = useTransform(scrollY, [12, 72], [0, isMobile ? 0 : 140]);
+
+  // Mobile: top and bottom
+  const topIcon1Y = useTransform(scrollY, [1, 60], [0, isMobile ? -120 : 0]);
+  const topIcon2Y = useTransform(scrollY, [5, 65], [0, isMobile ? -100 : 0]);
+  const topIcon3Y = useTransform(scrollY, [10, 70], [0, isMobile ? -140 : 0]);
   
-  const iconsOpacity = useTransform(scrollY, [0, 200, 500, 800], [0, 0.8, 1, 0.3]);
+  const bottomIcon1Y = useTransform(scrollY, [3, 63], [0, isMobile ? 120 : 0]);
+  const bottomIcon2Y = useTransform(scrollY, [7, 67], [0, isMobile ? 100 : 0]);
+  const bottomIcon3Y = useTransform(scrollY, [12, 72], [0, isMobile ? 140 : 0]);
+
+  // Fast opacity transition
+  const iconsOpacity = useTransform(scrollY, [1, 40], [0, 1]);
 
   return (
     <motion.section 
@@ -64,10 +84,15 @@ export const MarketplacePreview = () => {
             </div>
           </div>
 
-          {/* Floating Icons - Left Side (Behind Image) */}
+          {/* Floating Icons - Responsive positioning */}
+          {/* Icon 1 - AI/Bot */}
           <motion.div
-            className="absolute left-1/2 top-1/4 z-0"
-            style={{ x: leftIcon1X, opacity: iconsOpacity }}
+            className={`absolute z-0 ${isMobile ? 'left-1/2 top-8 -translate-x-1/2' : 'left-8 top-1/4'}`}
+            style={{ 
+              x: isMobile ? 0 : leftIcon1X,
+              y: isMobile ? topIcon1Y : 0,
+              opacity: iconsOpacity
+            }}
           >
             <motion.div
               className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
@@ -85,9 +110,14 @@ export const MarketplacePreview = () => {
             </motion.div>
           </motion.div>
           
+          {/* Icon 2 - Code */}
           <motion.div
-            className="absolute left-1/2 top-1/2 z-0"
-            style={{ x: leftIcon2X, opacity: iconsOpacity }}
+            className={`absolute z-0 ${isMobile ? 'left-1/4 top-12' : 'left-12 top-1/2'}`}
+            style={{ 
+              x: isMobile ? 0 : leftIcon2X,
+              y: isMobile ? topIcon2Y : 0,
+              opacity: iconsOpacity
+            }}
           >
             <motion.div
               className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
@@ -105,9 +135,14 @@ export const MarketplacePreview = () => {
             </motion.div>
           </motion.div>
           
+          {/* Icon 3 - Globe */}
           <motion.div
-            className="absolute left-1/2 top-3/4 z-0"
-            style={{ x: leftIcon3X, opacity: iconsOpacity }}
+            className={`absolute z-0 ${isMobile ? 'right-1/4 top-6' : 'left-6 bottom-1/4'}`}
+            style={{ 
+              x: isMobile ? 0 : leftIcon3X,
+              y: isMobile ? topIcon3Y : 0,
+              opacity: iconsOpacity
+            }}
           >
             <motion.div
               className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
@@ -125,10 +160,14 @@ export const MarketplacePreview = () => {
             </motion.div>
           </motion.div>
 
-          {/* Floating Icons - Right Side (Behind Image) */}
+          {/* Icon 4 - Zap */}
           <motion.div
-            className="absolute right-1/2 top-1/4 z-0"
-            style={{ x: rightIcon1X, opacity: iconsOpacity }}
+            className={`absolute z-0 ${isMobile ? 'left-1/2 bottom-8 -translate-x-1/2' : 'right-8 top-1/3'}`}
+            style={{ 
+              x: isMobile ? 0 : rightIcon1X,
+              y: isMobile ? bottomIcon1Y : 0,
+              opacity: iconsOpacity
+            }}
           >
             <motion.div
               className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
@@ -146,9 +185,14 @@ export const MarketplacePreview = () => {
             </motion.div>
           </motion.div>
           
+          {/* Icon 5 - Database */}
           <motion.div
-            className="absolute right-1/2 top-1/2 z-0"
-            style={{ x: rightIcon2X, opacity: iconsOpacity }}
+            className={`absolute z-0 ${isMobile ? 'left-1/4 bottom-12' : 'right-12 top-2/3'}`}
+            style={{ 
+              x: isMobile ? 0 : rightIcon2X,
+              y: isMobile ? bottomIcon2Y : 0,
+              opacity: iconsOpacity
+            }}
           >
             <motion.div
               className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
@@ -166,9 +210,14 @@ export const MarketplacePreview = () => {
             </motion.div>
           </motion.div>
           
+          {/* Icon 6 - Smartphone */}
           <motion.div
-            className="absolute right-1/2 top-3/4 z-0"
-            style={{ x: rightIcon3X, opacity: iconsOpacity }}
+            className={`absolute z-0 ${isMobile ? 'right-1/4 bottom-6' : 'right-6 bottom-1/3'}`}
+            style={{ 
+              x: isMobile ? 0 : rightIcon3X,
+              y: isMobile ? bottomIcon3Y : 0,
+              opacity: iconsOpacity
+            }}
           >
             <motion.div
               className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
