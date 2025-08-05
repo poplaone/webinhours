@@ -18,12 +18,15 @@ const MobileBottomNav = () => {
   const location = useLocation();
   const { user } = useAuth();
   const isMobile = useIsMobile();
-  const [scrollY, setScrollY] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    // Start transparent, then slowly appear over 2 seconds
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 100);
+
+    return () => clearTimeout(timer);
   }, []);
 
   // Show only on mobile devices
@@ -42,8 +45,8 @@ const MobileBottomNav = () => {
   ];
 
   return (
-    <div className={`fixed bottom-4 left-4 right-4 rounded-2xl border shadow-2xl z-50 lg:hidden safe-area-pb transition-all duration-300 ${
-      scrollY > 10 
+    <div className={`fixed bottom-4 left-4 right-4 rounded-2xl border shadow-2xl z-50 lg:hidden safe-area-pb transition-all duration-[2000ms] ease-in-out ${
+      isVisible 
         ? 'bg-background/95 backdrop-blur-lg border-border/40' 
         : 'bg-transparent backdrop-blur-none border-transparent'
     }`}>

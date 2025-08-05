@@ -16,7 +16,7 @@ export const Header = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
-  const [mobileScrollY, setMobileScrollY] = useState(0);
+  const [mobileHeaderVisible, setMobileHeaderVisible] = useState(false);
 
   const { scrollY } = useScroll();
   
@@ -45,13 +45,22 @@ export const Header = () => {
 
   const allMobileItems = [...navItems, ...moreItems];
 
+  // Handle mobile header appearance
+  useEffect(() => {
+    if (isMobile) {
+      // Start transparent, then slowly appear over 2 seconds
+      const timer = setTimeout(() => {
+        setMobileHeaderVisible(true);
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isMobile]);
+
   // Handle scroll behavior
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
-      // Update mobile scroll state
-      setMobileScrollY(currentScrollY);
       
       // Show/hide scroll to top button
       setShowScrollTop(currentScrollY > 300);
@@ -98,8 +107,8 @@ export const Header = () => {
     return (
       <>
         <header className="fixed top-4 left-4 right-4 z-50 lg:hidden">
-          <div className={`rounded-2xl border shadow-2xl transition-all duration-300 ${
-            mobileScrollY > 10 
+          <div className={`rounded-2xl border shadow-2xl transition-all duration-[2000ms] ease-in-out ${
+            mobileHeaderVisible 
               ? 'bg-background/95 backdrop-blur-lg border-border/40' 
               : 'bg-transparent backdrop-blur-none border-transparent'
           }`}>
