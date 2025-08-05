@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { Bot, Code, Globe, Zap, Database, Smartphone } from 'lucide-react';
 
 export const MarketplacePreview = () => {
@@ -12,9 +12,28 @@ export const MarketplacePreview = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Add scroll animation for floating effect
+  const { scrollY } = useScroll();
+  
+  // Create different transform values for each icon to create varied floating effect
+  const floatY1 = useTransform(scrollY, [0, 1000], [0, 15]);
+  const floatY2 = useTransform(scrollY, [0, 1000], [0, -10]);
+  const floatY3 = useTransform(scrollY, [0, 1000], [0, 8]);
+  const floatY4 = useTransform(scrollY, [0, 1000], [0, -12]);
+  const floatY5 = useTransform(scrollY, [0, 1000], [0, 10]);
+  const floatY6 = useTransform(scrollY, [0, 1000], [0, -7]);
+  
+  // Add spring physics for more natural movement
+  const springY1 = useSpring(floatY1, { stiffness: 100, damping: 30 });
+  const springY2 = useSpring(floatY2, { stiffness: 80, damping: 25 });
+  const springY3 = useSpring(floatY3, { stiffness: 90, damping: 20 });
+  const springY4 = useSpring(floatY4, { stiffness: 70, damping: 35 });
+  const springY5 = useSpring(floatY5, { stiffness: 85, damping: 30 });
+  const springY6 = useSpring(floatY6, { stiffness: 95, damping: 25 });
+
   return (
     <motion.section 
-      className="relative py-4 sm:py-6 md:py-8 px-4 sm:px-6 overflow-hidden"
+      className="relative py-4 sm:py-6 md:py-8 px-4 sm:px-6 overflow-visible"
     >
       {/* Background glow effects */}
       <div className="absolute inset-0 overflow-hidden">
@@ -57,15 +76,16 @@ export const MarketplacePreview = () => {
             </div>
           </div>
 
-          {/* Floating Icons - Responsive positioning */}
+          {/* Floating Icons - Responsive positioning with EQUAL SPACING */}
           {/* Left Side Icons (PC) / Top Icons (Mobile) */}
           
           {/* Icon 1 - AI/Bot */}
-          <div
-            className={`absolute z-10 ${isMobile ? 'left-[10%] -top-12' : '-left-12 top-[25%]'}`}
+          <motion.div
+            style={{ y: springY1 }}
+            className={`absolute z-20 ${isMobile ? 'left-[10%] -top-16' : '-left-20 top-[20%]'}`}
           >
             <div
-              className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
+              className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
             >
               {/* Starry background */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-purple-500/10 to-blue-500/15">
@@ -74,16 +94,17 @@ export const MarketplacePreview = () => {
                 <div className="absolute bottom-2 left-1 w-0.5 h-0.5 bg-white/50 rounded-full" />
                 <div className="absolute bottom-1 right-1 w-0.5 h-0.5 bg-white/30 rounded-full" />
               </div>
-              <Bot className="w-7 h-7 text-primary relative z-10" />
+              <Bot className={`${isMobile ? 'w-5 h-5' : 'w-7 h-7'} text-primary relative z-10`} />
             </div>
-          </div>
+          </motion.div>
           
           {/* Icon 2 - Code */}
-          <div
-            className={`absolute z-10 ${isMobile ? 'left-[50%] -translate-x-1/2 -top-12' : '-left-12 top-[50%]'}`}
+          <motion.div
+            style={{ y: springY2 }}
+            className={`absolute z-20 ${isMobile ? 'left-[50%] -translate-x-1/2 -top-16' : '-left-20 top-[50%]'}`}
           >
             <div
-              className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
+              className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
             >
               {/* Starry background */}
               <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-pink-500/10 to-primary/15">
@@ -92,16 +113,17 @@ export const MarketplacePreview = () => {
                 <div className="absolute bottom-3 left-3 w-0.5 h-0.5 bg-white/40 rounded-full" />
                 <div className="absolute bottom-1 right-1 w-0.5 h-0.5 bg-white/35 rounded-full" />
               </div>
-              <Code className="w-7 h-7 text-purple-500 relative z-10" />
+              <Code className={`${isMobile ? 'w-5 h-5' : 'w-7 h-7'} text-purple-500 relative z-10`} />
             </div>
-          </div>
+          </motion.div>
           
           {/* Icon 3 - Globe */}
-          <div
-            className={`absolute z-10 ${isMobile ? 'right-[10%] -top-12' : '-left-12 bottom-[25%]'}`}
+          <motion.div
+            style={{ y: springY3 }}
+            className={`absolute z-20 ${isMobile ? 'right-[10%] -top-16' : '-left-20 top-[80%]'}`}
           >
             <div
-              className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
+              className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
             >
               {/* Starry background */}
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-cyan-500/10 to-primary/15">
@@ -110,18 +132,19 @@ export const MarketplacePreview = () => {
                 <div className="absolute bottom-1 left-2 w-0.5 h-0.5 bg-white/50 rounded-full" />
                 <div className="absolute bottom-2 right-1 w-0.5 h-0.5 bg-white/40 rounded-full" />
               </div>
-              <Globe className="w-7 h-7 text-blue-500 relative z-10" />
+              <Globe className={`${isMobile ? 'w-5 h-5' : 'w-7 h-7'} text-blue-500 relative z-10`} />
             </div>
-          </div>
+          </motion.div>
 
           {/* Right Side Icons (PC) / Bottom Icons (Mobile) */}
           
           {/* Icon 4 - Zap */}
-          <div
-            className={`absolute z-10 ${isMobile ? 'left-[10%] -bottom-12' : '-right-12 top-[25%]'}`}
+          <motion.div
+            style={{ y: springY4 }}
+            className={`absolute z-20 ${isMobile ? 'left-[10%] -bottom-16' : '-right-20 top-[20%]'}`}
           >
             <div
-              className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
+              className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
             >
               {/* Starry background */}
               <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 via-emerald-500/10 to-primary/15">
@@ -130,16 +153,17 @@ export const MarketplacePreview = () => {
                 <div className="absolute bottom-2 left-1 w-0.5 h-0.5 bg-white/45 rounded-full" />
                 <div className="absolute bottom-3 right-2 w-0.5 h-0.5 bg-white/35 rounded-full" />
               </div>
-              <Zap className="w-7 h-7 text-green-500 relative z-10" />
+              <Zap className={`${isMobile ? 'w-5 h-5' : 'w-7 h-7'} text-green-500 relative z-10`} />
             </div>
-          </div>
+          </motion.div>
           
           {/* Icon 5 - Database */}
-          <div
-            className={`absolute z-10 ${isMobile ? 'left-[50%] -translate-x-1/2 -bottom-12' : '-right-12 top-[50%]'}`}
+          <motion.div
+            style={{ y: springY5 }}
+            className={`absolute z-20 ${isMobile ? 'left-[50%] -translate-x-1/2 -bottom-16' : '-right-20 top-[50%]'}`}
           >
             <div
-              className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
+              className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
             >
               {/* Starry background */}
               <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-red-500/10 to-primary/15">
@@ -148,16 +172,17 @@ export const MarketplacePreview = () => {
                 <div className="absolute bottom-3 left-1 w-0.5 h-0.5 bg-white/40 rounded-full" />
                 <div className="absolute bottom-1 right-2 w-0.5 h-0.5 bg-white/50 rounded-full" />
               </div>
-              <Database className="w-7 h-7 text-orange-500 relative z-10" />
+              <Database className={`${isMobile ? 'w-5 h-5' : 'w-7 h-7'} text-orange-500 relative z-10`} />
             </div>
-          </div>
+          </motion.div>
           
           {/* Icon 6 - Smartphone */}
-          <div
-            className={`absolute z-10 ${isMobile ? 'right-[10%] -bottom-12' : '-right-12 bottom-[25%]'}`}
+          <motion.div
+            style={{ y: springY6 }}
+            className={`absolute z-20 ${isMobile ? 'right-[10%] -bottom-16' : '-right-20 top-[80%]'}`}
           >
             <div
-              className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
+              className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
             >
               {/* Starry background */}
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 via-blue-400/10 to-primary/15">
@@ -166,9 +191,9 @@ export const MarketplacePreview = () => {
                 <div className="absolute bottom-1 left-3 w-0.5 h-0.5 bg-white/45 rounded-full" />
                 <div className="absolute bottom-2 right-3 w-0.5 h-0.5 bg-white/40 rounded-full" />
               </div>
-              <Smartphone className="w-7 h-7 text-cyan-500 relative z-10" />
+              <Smartphone className={`${isMobile ? 'w-5 h-5' : 'w-7 h-7'} text-cyan-500 relative z-10`} />
             </div>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </motion.section>
