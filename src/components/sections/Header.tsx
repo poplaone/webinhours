@@ -16,6 +16,7 @@ export const Header = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
+  const [mobileScrollY, setMobileScrollY] = useState(0);
 
   const { scrollY } = useScroll();
   
@@ -48,6 +49,9 @@ export const Header = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      
+      // Update mobile scroll state
+      setMobileScrollY(currentScrollY);
       
       // Show/hide scroll to top button
       setShowScrollTop(currentScrollY > 300);
@@ -94,7 +98,11 @@ export const Header = () => {
     return (
       <>
         <header className="fixed top-4 left-4 right-4 z-50 lg:hidden">
-          <div className="bg-background/95 backdrop-blur-lg rounded-2xl border border-border/40 shadow-2xl">
+          <div className={`rounded-2xl border shadow-2xl transition-all duration-300 ${
+            mobileScrollY > 10 
+              ? 'bg-background/95 backdrop-blur-lg border-border/40' 
+              : 'bg-transparent backdrop-blur-none border-transparent'
+          }`}>
             <div className="flex items-center justify-between py-3 px-4">
               {/* Logo on left */}
               <div 

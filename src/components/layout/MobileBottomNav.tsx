@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -18,6 +18,13 @@ const MobileBottomNav = () => {
   const location = useLocation();
   const { user } = useAuth();
   const isMobile = useIsMobile();
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Show only on mobile devices
   if (!isMobile) return null;
@@ -35,7 +42,11 @@ const MobileBottomNav = () => {
   ];
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 bg-background/95 backdrop-blur-lg rounded-2xl border border-border/40 shadow-2xl z-50 lg:hidden safe-area-pb">
+    <div className={`fixed bottom-4 left-4 right-4 rounded-2xl border shadow-2xl z-50 lg:hidden safe-area-pb transition-all duration-300 ${
+      scrollY > 10 
+        ? 'bg-background/95 backdrop-blur-lg border-border/40' 
+        : 'bg-transparent backdrop-blur-none border-transparent'
+    }`}>
       <div className="flex items-center justify-around py-3 px-2">
         {navItems.map((item) => {
           const Icon = item.icon;
