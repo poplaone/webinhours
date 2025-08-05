@@ -38,7 +38,7 @@ export const Hero = () => {
             }}>
                 Professional Websites{" "}
               </motion.span>
-              <TextRotate texts={["In Hours", "Not Weeks", "Lightning Fast", "Mobile First"]} mainClassName="text-white px-3 sm:px-2 md:px-3 bg-[#8B5CF6] overflow-hidden py-1 sm:py-0.5 md:py-2 justify-center rounded-lg text-center min-w-fit" staggerFrom="last" initial={{
+              <TextRotate texts={["In Hours", "Lightning Fast", "Mobile First"]} mainClassName="text-white px-3 sm:px-2 md:px-3 bg-[#8B5CF6] overflow-hidden py-1 sm:py-0.5 md:py-2 justify-center rounded-lg text-center min-w-fit" staggerFrom="last" initial={{
               y: "100%"
             }} animate={{
               y: 0
@@ -62,9 +62,8 @@ export const Hero = () => {
           duration: 0.8,
           delay: 0.7
         }}>
-            Skip the 6-week wait. Get a stunning, mobile-responsive website built by expert developers 
-            in just <span className="text-[#8B5CF6] font-semibold">24 hours</span>. From e-commerce stores to business sites, 
-            we deliver results that convert visitors into customers.
+            Skip the 6-week wait.
+                Get an <span className="text-[#8B5CF6] font-semibold">AI-powered</span> stunning, mobile-responsive website delivered in just <span className="text-[#8B5CF6] font-semibold">24 hours</span>.
           </motion.p>
 
           {/* Value propositions */}
