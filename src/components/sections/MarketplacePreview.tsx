@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Bot, Code, Globe, Zap, Database, Smartphone } from 'lucide-react';
 
 export const MarketplacePreview = () => {
-  const { scrollY } = useScroll();
   const [isMobile, setIsMobile] = useState(false);
   
   useEffect(() => {
@@ -13,35 +12,9 @@ export const MarketplacePreview = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const y = useTransform(scrollY, [0, 800], [0, -200]);
-  const opacity = useTransform(scrollY, [0, 400, 800], [1, 0.8, 0.3]);
-  
-  // Fast icon animations that start immediately when scrolling
-  // Desktop: left and right sides
-  const leftIcon1X = useTransform(scrollY, [1, 60], [0, isMobile ? 0 : -120]);
-  const leftIcon2X = useTransform(scrollY, [5, 65], [0, isMobile ? 0 : -100]);
-  const leftIcon3X = useTransform(scrollY, [10, 70], [0, isMobile ? 0 : -140]);
-  
-  const rightIcon1X = useTransform(scrollY, [3, 63], [0, isMobile ? 0 : 120]);
-  const rightIcon2X = useTransform(scrollY, [7, 67], [0, isMobile ? 0 : 100]);
-  const rightIcon3X = useTransform(scrollY, [12, 72], [0, isMobile ? 0 : 140]);
-
-  // Mobile: top and bottom
-  const topIcon1Y = useTransform(scrollY, [1, 60], [0, isMobile ? -120 : 0]);
-  const topIcon2Y = useTransform(scrollY, [5, 65], [0, isMobile ? -100 : 0]);
-  const topIcon3Y = useTransform(scrollY, [10, 70], [0, isMobile ? -140 : 0]);
-  
-  const bottomIcon1Y = useTransform(scrollY, [3, 63], [0, isMobile ? 120 : 0]);
-  const bottomIcon2Y = useTransform(scrollY, [7, 67], [0, isMobile ? 100 : 0]);
-  const bottomIcon3Y = useTransform(scrollY, [12, 72], [0, isMobile ? 140 : 0]);
-
-  // Fast opacity transition
-  const iconsOpacity = useTransform(scrollY, [1, 40], [0, 1]);
-
   return (
     <motion.section 
       className="relative py-4 sm:py-6 md:py-8 px-4 sm:px-6 overflow-hidden"
-      style={{ y, opacity }}
     >
       {/* Background glow effects */}
       <div className="absolute inset-0 overflow-hidden">
@@ -85,155 +58,117 @@ export const MarketplacePreview = () => {
           </div>
 
           {/* Floating Icons - Responsive positioning */}
+          {/* Left Side Icons (PC) / Top Icons (Mobile) */}
+          
           {/* Icon 1 - AI/Bot */}
-          <motion.div
-            className={`absolute z-0 ${isMobile ? 'left-1/2 top-8 -translate-x-1/2' : 'left-8 top-1/4'}`}
-            style={{ 
-              x: isMobile ? 0 : leftIcon1X,
-              y: isMobile ? topIcon1Y : 0,
-              opacity: iconsOpacity
-            }}
+          <div
+            className={`absolute z-10 ${isMobile ? 'left-[10%] -top-12' : '-left-12 top-[25%]'}`}
           >
-            <motion.div
+            <div
               className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
-              animate={{ rotate: [0, 2, -2, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             >
               {/* Starry background */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-purple-500/10 to-blue-500/15">
-                <div className="absolute top-1 left-2 w-0.5 h-0.5 bg-white/60 rounded-full animate-pulse" />
-                <div className="absolute top-3 right-3 w-0.5 h-0.5 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
-                <div className="absolute bottom-2 left-1 w-0.5 h-0.5 bg-white/50 rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
-                <div className="absolute bottom-1 right-1 w-0.5 h-0.5 bg-white/30 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
+                <div className="absolute top-1 left-2 w-0.5 h-0.5 bg-white/60 rounded-full" />
+                <div className="absolute top-3 right-3 w-0.5 h-0.5 bg-white/40 rounded-full" />
+                <div className="absolute bottom-2 left-1 w-0.5 h-0.5 bg-white/50 rounded-full" />
+                <div className="absolute bottom-1 right-1 w-0.5 h-0.5 bg-white/30 rounded-full" />
               </div>
               <Bot className="w-7 h-7 text-primary relative z-10" />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
           
           {/* Icon 2 - Code */}
-          <motion.div
-            className={`absolute z-0 ${isMobile ? 'left-1/4 top-12' : 'left-12 top-1/2'}`}
-            style={{ 
-              x: isMobile ? 0 : leftIcon2X,
-              y: isMobile ? topIcon2Y : 0,
-              opacity: iconsOpacity
-            }}
+          <div
+            className={`absolute z-10 ${isMobile ? 'left-[50%] -translate-x-1/2 -top-12' : '-left-12 top-[50%]'}`}
           >
-            <motion.div
+            <div
               className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
-              animate={{ rotate: [0, -2, 2, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             >
               {/* Starry background */}
               <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-pink-500/10 to-primary/15">
-                <div className="absolute top-2 left-1 w-0.5 h-0.5 bg-white/50 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
-                <div className="absolute top-1 right-2 w-0.5 h-0.5 bg-white/60 rounded-full animate-pulse" style={{ animationDelay: '1.5s' }} />
-                <div className="absolute bottom-3 left-3 w-0.5 h-0.5 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '2.5s' }} />
-                <div className="absolute bottom-1 right-1 w-0.5 h-0.5 bg-white/35 rounded-full animate-pulse" />
+                <div className="absolute top-2 left-1 w-0.5 h-0.5 bg-white/50 rounded-full" />
+                <div className="absolute top-1 right-2 w-0.5 h-0.5 bg-white/60 rounded-full" />
+                <div className="absolute bottom-3 left-3 w-0.5 h-0.5 bg-white/40 rounded-full" />
+                <div className="absolute bottom-1 right-1 w-0.5 h-0.5 bg-white/35 rounded-full" />
               </div>
               <Code className="w-7 h-7 text-purple-500 relative z-10" />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
           
           {/* Icon 3 - Globe */}
-          <motion.div
-            className={`absolute z-0 ${isMobile ? 'right-1/4 top-6' : 'left-6 bottom-1/4'}`}
-            style={{ 
-              x: isMobile ? 0 : leftIcon3X,
-              y: isMobile ? topIcon3Y : 0,
-              opacity: iconsOpacity
-            }}
+          <div
+            className={`absolute z-10 ${isMobile ? 'right-[10%] -top-12' : '-left-12 bottom-[25%]'}`}
           >
-            <motion.div
+            <div
               className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
-              animate={{ rotate: [0, 1.5, -1.5, 0] }}
-              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 2 }}
             >
               {/* Starry background */}
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-cyan-500/10 to-primary/15">
-                <div className="absolute top-3 left-1 w-0.5 h-0.5 bg-white/45 rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
-                <div className="absolute top-1 right-3 w-0.5 h-0.5 bg-white/55 rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
-                <div className="absolute bottom-1 left-2 w-0.5 h-0.5 bg-white/50 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
-                <div className="absolute bottom-2 right-1 w-0.5 h-0.5 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '1.5s' }} />
+                <div className="absolute top-3 left-1 w-0.5 h-0.5 bg-white/45 rounded-full" />
+                <div className="absolute top-1 right-3 w-0.5 h-0.5 bg-white/55 rounded-full" />
+                <div className="absolute bottom-1 left-2 w-0.5 h-0.5 bg-white/50 rounded-full" />
+                <div className="absolute bottom-2 right-1 w-0.5 h-0.5 bg-white/40 rounded-full" />
               </div>
               <Globe className="w-7 h-7 text-blue-500 relative z-10" />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
+          {/* Right Side Icons (PC) / Bottom Icons (Mobile) */}
+          
           {/* Icon 4 - Zap */}
-          <motion.div
-            className={`absolute z-0 ${isMobile ? 'left-1/2 bottom-8 -translate-x-1/2' : 'right-8 top-1/3'}`}
-            style={{ 
-              x: isMobile ? 0 : rightIcon1X,
-              y: isMobile ? bottomIcon1Y : 0,
-              opacity: iconsOpacity
-            }}
+          <div
+            className={`absolute z-10 ${isMobile ? 'left-[10%] -bottom-12' : '-right-12 top-[25%]'}`}
           >
-            <motion.div
+            <div
               className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
-              animate={{ rotate: [0, -2, 2, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
             >
               {/* Starry background */}
               <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 via-emerald-500/10 to-primary/15">
-                <div className="absolute top-1 left-3 w-0.5 h-0.5 bg-white/50 rounded-full animate-pulse" style={{ animationDelay: '0.8s' }} />
-                <div className="absolute top-2 right-1 w-0.5 h-0.5 bg-white/60 rounded-full animate-pulse" style={{ animationDelay: '1.8s' }} />
-                <div className="absolute bottom-2 left-1 w-0.5 h-0.5 bg-white/45 rounded-full animate-pulse" style={{ animationDelay: '2.8s' }} />
-                <div className="absolute bottom-3 right-2 w-0.5 h-0.5 bg-white/35 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }} />
+                <div className="absolute top-1 left-3 w-0.5 h-0.5 bg-white/50 rounded-full" />
+                <div className="absolute top-2 right-1 w-0.5 h-0.5 bg-white/60 rounded-full" />
+                <div className="absolute bottom-2 left-1 w-0.5 h-0.5 bg-white/45 rounded-full" />
+                <div className="absolute bottom-3 right-2 w-0.5 h-0.5 bg-white/35 rounded-full" />
               </div>
               <Zap className="w-7 h-7 text-green-500 relative z-10" />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
           
           {/* Icon 5 - Database */}
-          <motion.div
-            className={`absolute z-0 ${isMobile ? 'left-1/4 bottom-12' : 'right-12 top-2/3'}`}
-            style={{ 
-              x: isMobile ? 0 : rightIcon2X,
-              y: isMobile ? bottomIcon2Y : 0,
-              opacity: iconsOpacity
-            }}
+          <div
+            className={`absolute z-10 ${isMobile ? 'left-[50%] -translate-x-1/2 -bottom-12' : '-right-12 top-[50%]'}`}
           >
-            <motion.div
+            <div
               className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
-              animate={{ rotate: [0, 2, -2, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
             >
               {/* Starry background */}
               <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-red-500/10 to-primary/15">
-                <div className="absolute top-2 left-2 w-0.5 h-0.5 bg-white/55 rounded-full animate-pulse" style={{ animationDelay: '1.2s' }} />
-                <div className="absolute top-1 right-3 w-0.5 h-0.5 bg-white/45 rounded-full animate-pulse" style={{ animationDelay: '2.2s' }} />
-                <div className="absolute bottom-3 left-1 w-0.5 h-0.5 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '0.7s' }} />
-                <div className="absolute bottom-1 right-2 w-0.5 h-0.5 bg-white/50 rounded-full animate-pulse" style={{ animationDelay: '1.7s' }} />
+                <div className="absolute top-2 left-2 w-0.5 h-0.5 bg-white/55 rounded-full" />
+                <div className="absolute top-1 right-3 w-0.5 h-0.5 bg-white/45 rounded-full" />
+                <div className="absolute bottom-3 left-1 w-0.5 h-0.5 bg-white/40 rounded-full" />
+                <div className="absolute bottom-1 right-2 w-0.5 h-0.5 bg-white/50 rounded-full" />
               </div>
               <Database className="w-7 h-7 text-orange-500 relative z-10" />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
           
           {/* Icon 6 - Smartphone */}
-          <motion.div
-            className={`absolute z-0 ${isMobile ? 'right-1/4 bottom-6' : 'right-6 bottom-1/3'}`}
-            style={{ 
-              x: isMobile ? 0 : rightIcon3X,
-              y: isMobile ? bottomIcon3Y : 0,
-              opacity: iconsOpacity
-            }}
+          <div
+            className={`absolute z-10 ${isMobile ? 'right-[10%] -bottom-12' : '-right-12 bottom-[25%]'}`}
           >
-            <motion.div
+            <div
               className="relative p-4 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden"
-              animate={{ rotate: [0, -1.5, 1.5, 0] }}
-              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 2.5 }}
             >
               {/* Starry background */}
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 via-blue-400/10 to-primary/15">
-                <div className="absolute top-3 left-2 w-0.5 h-0.5 bg-white/60 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }} />
-                <div className="absolute top-1 right-1 w-0.5 h-0.5 bg-white/50 rounded-full animate-pulse" style={{ animationDelay: '1.4s' }} />
-                <div className="absolute bottom-1 left-3 w-0.5 h-0.5 bg-white/45 rounded-full animate-pulse" style={{ animationDelay: '2.4s' }} />
-                <div className="absolute bottom-2 right-3 w-0.5 h-0.5 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '0.9s' }} />
+                <div className="absolute top-3 left-2 w-0.5 h-0.5 bg-white/60 rounded-full" />
+                <div className="absolute top-1 right-1 w-0.5 h-0.5 bg-white/50 rounded-full" />
+                <div className="absolute bottom-1 left-3 w-0.5 h-0.5 bg-white/45 rounded-full" />
+                <div className="absolute bottom-2 right-3 w-0.5 h-0.5 bg-white/40 rounded-full" />
               </div>
               <Smartphone className="w-7 h-7 text-cyan-500 relative z-10" />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </motion.div>
       </div>
     </motion.section>
