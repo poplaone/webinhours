@@ -82,7 +82,7 @@ export const MarketplacePreview = () => {
           {/* Icon 1 - AI/Bot */}
           <motion.div
             style={{ y: springY1 }}
-            className={`absolute z-20 ${isMobile ? 'left-[16%] -top-14' : '-left-20 top-[20%]'}`}
+            className={`absolute z-20 ${isMobile ? 'left-[10%] -top-14' : '-left-20 top-[20%]'}`}
           >
             <div
               className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
@@ -120,7 +120,7 @@ export const MarketplacePreview = () => {
           {/* Icon 3 - Globe */}
           <motion.div
             style={{ y: springY3 }}
-            className={`absolute z-20 ${isMobile ? 'right-[16%] -top-14' : '-left-20 top-[80%]'}`}
+            className={`absolute z-20 ${isMobile ? 'right-[10%] -top-14' : '-left-20 top-[80%]'}`}
           >
             <div
               className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
@@ -141,7 +141,7 @@ export const MarketplacePreview = () => {
           {/* Icon 4 - Zap */}
           <motion.div
             style={{ y: springY4 }}
-            className={`absolute z-20 ${isMobile ? 'left-[16%] -bottom-14' : '-right-20 top-[20%]'}`}
+            className={`absolute z-20 ${isMobile ? 'left-[10%] -bottom-14' : '-right-20 top-[20%]'}`}
           >
             <div
               className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
@@ -179,7 +179,7 @@ export const MarketplacePreview = () => {
           {/* Icon 6 - Smartphone */}
           <motion.div
             style={{ y: springY6 }}
-            className={`absolute z-20 ${isMobile ? 'right-[16%] -bottom-14' : '-right-20 top-[80%]'}`}
+            className={`absolute z-20 ${isMobile ? 'right-[10%] -bottom-14' : '-right-20 top-[80%]'}`}
           >
             <div
               className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
