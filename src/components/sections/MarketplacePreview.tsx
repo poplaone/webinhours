@@ -82,7 +82,7 @@ export const MarketplacePreview = () => {
           {/* Icon 1 - AI/Bot */}
           <motion.div
             style={{ y: springY1 }}
-            className={`absolute z-20 ${isMobile ? 'left-[10%] -top-16' : '-left-20 top-[20%]'}`}
+            className={`absolute z-20 ${isMobile ? 'left-[15%] -top-14' : '-left-20 top-[20%]'}`}
           >
             <div
               className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
@@ -101,7 +101,7 @@ export const MarketplacePreview = () => {
           {/* Icon 2 - Code */}
           <motion.div
             style={{ y: springY2 }}
-            className={`absolute z-20 ${isMobile ? 'left-[50%] -translate-x-1/2 -top-16' : '-left-20 top-[50%]'}`}
+            className={`absolute z-20 ${isMobile ? 'left-[50%] -translate-x-1/2 -top-14' : '-left-20 top-[50%]'}`}
           >
             <div
               className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
@@ -120,7 +120,7 @@ export const MarketplacePreview = () => {
           {/* Icon 3 - Globe */}
           <motion.div
             style={{ y: springY3 }}
-            className={`absolute z-20 ${isMobile ? 'right-[10%] -top-16' : '-left-20 top-[80%]'}`}
+            className={`absolute z-20 ${isMobile ? 'right-[15%] -top-14' : '-left-20 top-[80%]'}`}
           >
             <div
               className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
@@ -141,7 +141,7 @@ export const MarketplacePreview = () => {
           {/* Icon 4 - Zap */}
           <motion.div
             style={{ y: springY4 }}
-            className={`absolute z-20 ${isMobile ? 'left-[10%] -bottom-16' : '-right-20 top-[20%]'}`}
+            className={`absolute z-20 ${isMobile ? 'left-[15%] -bottom-14' : '-right-20 top-[20%]'}`}
           >
             <div
               className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
@@ -160,7 +160,7 @@ export const MarketplacePreview = () => {
           {/* Icon 5 - Database */}
           <motion.div
             style={{ y: springY5 }}
-            className={`absolute z-20 ${isMobile ? 'left-[50%] -translate-x-1/2 -bottom-16' : '-right-20 top-[50%]'}`}
+            className={`absolute z-20 ${isMobile ? 'left-[50%] -translate-x-1/2 -bottom-14' : '-right-20 top-[50%]'}`}
           >
             <div
               className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
@@ -179,7 +179,7 @@ export const MarketplacePreview = () => {
           {/* Icon 6 - Smartphone */}
           <motion.div
             style={{ y: springY6 }}
-            className={`absolute z-20 ${isMobile ? 'right-[10%] -bottom-16' : '-right-20 top-[80%]'}`}
+            className={`absolute z-20 ${isMobile ? 'right-[15%] -bottom-14' : '-right-20 top-[80%]'}`}
           >
             <div
               className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
