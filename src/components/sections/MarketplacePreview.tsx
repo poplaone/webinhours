@@ -4,12 +4,21 @@ import { Bot, Code, Globe, Zap, Database, Smartphone } from 'lucide-react';
 
 export const MarketplacePreview = () => {
   const [isMobile, setIsMobile] = useState(false);
+  const [animationsStarted, setAnimationsStarted] = useState(false);
   
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    // Start animations after component mounts
+    const timer = setTimeout(() => {
+      setAnimationsStarted(true);
+    }, 1000);
+    return () => clearTimeout(timer);
   }, []);
 
   // Add scroll animation for floating effect
@@ -76,124 +85,365 @@ export const MarketplacePreview = () => {
             </div>
           </div>
 
-          {/* Floating Icons - Responsive positioning with EQUAL SPACING */}
-          {/* Left Side Icons (PC) / Top Icons (Mobile) */}
-          
-          {/* Icon 1 - AI/Bot */}
-          <motion.div
-            style={{ y: springY1 }}
-            className={`absolute z-20 ${isMobile ? 'left-[10%] -top-14' : '-left-20 top-[20%]'}`}
-          >
-            <div
-              className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
+          {/* Circuit Animation SVG */}
+          {!isMobile && (
+            <svg 
+              className="absolute inset-0 w-full h-full pointer-events-none z-10" 
+              viewBox="0 0 1200 800"
+              style={{ overflow: 'visible' }}
             >
-              {/* Starry background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-purple-500/10 to-blue-500/15">
-                <div className="absolute top-1 left-2 w-0.5 h-0.5 bg-white/60 rounded-full" />
-                <div className="absolute top-3 right-3 w-0.5 h-0.5 bg-white/40 rounded-full" />
-                <div className="absolute bottom-2 left-1 w-0.5 h-0.5 bg-white/50 rounded-full" />
-                <div className="absolute bottom-1 right-1 w-0.5 h-0.5 bg-white/30 rounded-full" />
-              </div>
-              <Bot className={`${isMobile ? 'w-5 h-5' : 'w-7 h-7'} text-primary relative z-10`} />
-            </div>
-          </motion.div>
-          
-          {/* Icon 2 - Code */}
-          <motion.div
-            style={{ y: springY2 }}
-            className={`absolute z-20 ${isMobile ? 'left-[40%] -translate-x-1/2 -top-14' : '-left-20 top-[50%]'}`}
-          >
-            <div
-              className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
-            >
-              {/* Starry background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-pink-500/10 to-primary/15">
-                <div className="absolute top-2 left-1 w-0.5 h-0.5 bg-white/50 rounded-full" />
-                <div className="absolute top-1 right-2 w-0.5 h-0.5 bg-white/60 rounded-full" />
-                <div className="absolute bottom-3 left-3 w-0.5 h-0.5 bg-white/40 rounded-full" />
-                <div className="absolute bottom-1 right-1 w-0.5 h-0.5 bg-white/35 rounded-full" />
-              </div>
-              <Code className={`${isMobile ? 'w-5 h-5' : 'w-7 h-7'} text-purple-500 relative z-10`} />
-            </div>
-          </motion.div>
-          
-          {/* Icon 3 - Globe */}
-          <motion.div
-            style={{ y: springY3 }}
-            className={`absolute z-20 ${isMobile ? 'right-[10%] -top-14' : '-left-20 top-[80%]'}`}
-          >
-            <div
-              className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
-            >
-              {/* Starry background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-cyan-500/10 to-primary/15">
-                <div className="absolute top-3 left-1 w-0.5 h-0.5 bg-white/45 rounded-full" />
-                <div className="absolute top-1 right-3 w-0.5 h-0.5 bg-white/55 rounded-full" />
-                <div className="absolute bottom-1 left-2 w-0.5 h-0.5 bg-white/50 rounded-full" />
-                <div className="absolute bottom-2 right-1 w-0.5 h-0.5 bg-white/40 rounded-full" />
-              </div>
-              <Globe className={`${isMobile ? 'w-5 h-5' : 'w-7 h-7'} text-blue-500 relative z-10`} />
-            </div>
-          </motion.div>
+              <defs>
+                <linearGradient id="circuitGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0" />
+                  <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="1" />
+                </linearGradient>
+                <linearGradient id="circuitGradient2" x1="100%" y1="0%" x2="0%" y2="0%">
+                  <stop offset="0%" stopColor="rgb(168, 85, 247)" stopOpacity="0" />
+                  <stop offset="50%" stopColor="rgb(168, 85, 247)" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="rgb(168, 85, 247)" stopOpacity="1" />
+                </linearGradient>
+                <linearGradient id="circuitGradient3" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="rgb(59, 130, 246)" stopOpacity="0" />
+                  <stop offset="50%" stopColor="rgb(59, 130, 246)" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="rgb(59, 130, 246)" stopOpacity="1" />
+                </linearGradient>
+                <linearGradient id="circuitGradient4" x1="100%" y1="0%" x2="0%" y2="0%">
+                  <stop offset="0%" stopColor="rgb(34, 197, 94)" stopOpacity="0" />
+                  <stop offset="50%" stopColor="rgb(34, 197, 94)" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="rgb(34, 197, 94)" stopOpacity="1" />
+                </linearGradient>
+                <linearGradient id="circuitGradient5" x1="100%" y1="0%" x2="0%" y2="0%">
+                  <stop offset="0%" stopColor="rgb(249, 115, 22)" stopOpacity="0" />
+                  <stop offset="50%" stopColor="rgb(249, 115, 22)" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="rgb(249, 115, 22)" stopOpacity="1" />
+                </linearGradient>
+                <linearGradient id="circuitGradient6" x1="100%" y1="100%" x2="0%" y2="0%">
+                  <stop offset="0%" stopColor="rgb(6, 182, 212)" stopOpacity="0" />
+                  <stop offset="50%" stopColor="rgb(6, 182, 212)" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="rgb(6, 182, 212)" stopOpacity="1" />
+                </linearGradient>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                  <feMerge> 
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
 
-          {/* Right Side Icons (PC) / Bottom Icons (Mobile) */}
-          
-          {/* Icon 4 - Zap */}
-          <motion.div
-            style={{ y: springY4 }}
-            className={`absolute z-20 ${isMobile ? 'left-[10%] -bottom-14' : '-right-20 top-[20%]'}`}
-          >
-            <div
-              className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
-            >
-              {/* Starry background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 via-emerald-500/10 to-primary/15">
-                <div className="absolute top-1 left-3 w-0.5 h-0.5 bg-white/50 rounded-full" />
-                <div className="absolute top-2 right-1 w-0.5 h-0.5 bg-white/60 rounded-full" />
-                <div className="absolute bottom-2 left-1 w-0.5 h-0.5 bg-white/45 rounded-full" />
-                <div className="absolute bottom-3 right-2 w-0.5 h-0.5 bg-white/35 rounded-full" />
-              </div>
-              <Zap className={`${isMobile ? 'w-5 h-5' : 'w-7 h-7'} text-green-500 relative z-10`} />
-            </div>
-          </motion.div>
-          
-          {/* Icon 5 - Database */}
-          <motion.div
-            style={{ y: springY5 }}
-            className={`absolute z-20 ${isMobile ? 'left-[40%] -translate-x-1/2 -bottom-14' : '-right-20 top-[50%]'}`}
-          >
-            <div
-              className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
-            >
-              {/* Starry background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-red-500/10 to-primary/15">
-                <div className="absolute top-2 left-2 w-0.5 h-0.5 bg-white/55 rounded-full" />
-                <div className="absolute top-1 right-3 w-0.5 h-0.5 bg-white/45 rounded-full" />
-                <div className="absolute bottom-3 left-1 w-0.5 h-0.5 bg-white/40 rounded-full" />
-                <div className="absolute bottom-1 right-2 w-0.5 h-0.5 bg-white/50 rounded-full" />
-              </div>
-              <Database className={`${isMobile ? 'w-5 h-5' : 'w-7 h-7'} text-orange-500 relative z-10`} />
-            </div>
-          </motion.div>
-          
-          {/* Icon 6 - Smartphone */}
-          <motion.div
-            style={{ y: springY6 }}
-            className={`absolute z-20 ${isMobile ? 'right-[10%] -bottom-14' : '-right-20 top-[80%]'}`}
-          >
-            <div
-              className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
-            >
-              {/* Starry background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 via-blue-400/10 to-primary/15">
-                <div className="absolute top-3 left-2 w-0.5 h-0.5 bg-white/60 rounded-full" />
-                <div className="absolute top-1 right-1 w-0.5 h-0.5 bg-white/50 rounded-full" />
-                <div className="absolute bottom-1 left-3 w-0.5 h-0.5 bg-white/45 rounded-full" />
-                <div className="absolute bottom-2 right-3 w-0.5 h-0.5 bg-white/40 rounded-full" />
-              </div>
-              <Smartphone className={`${isMobile ? 'w-5 h-5' : 'w-7 h-7'} text-cyan-500 relative z-10`} />
-            </div>
-          </motion.div>
+              {/* Circuit paths for each icon */}
+              <path 
+                d="M -100 160 L 150 160 L 250 160" 
+                stroke="url(#circuitGradient1)" 
+                strokeWidth="2" 
+                fill="none" 
+                filter="url(#glow)"
+                strokeDasharray="400"
+                strokeDashoffset={animationsStarted ? "0" : "400"}
+                style={{ 
+                  transition: "stroke-dashoffset 2s ease-out",
+                  transitionDelay: "0.5s"
+                }}
+              />
+              <path 
+                d="M -100 400 L 150 400 L 220 400 L 250 400" 
+                stroke="url(#circuitGradient2)" 
+                strokeWidth="2" 
+                fill="none" 
+                filter="url(#glow)"
+                strokeDasharray="450"
+                strokeDashoffset={animationsStarted ? "0" : "450"}
+                style={{ 
+                  transition: "stroke-dashoffset 2s ease-out",
+                  transitionDelay: "1s"
+                }}
+              />
+              <path 
+                d="M -100 640 L 150 640 L 250 640" 
+                stroke="url(#circuitGradient3)" 
+                strokeWidth="2" 
+                fill="none" 
+                filter="url(#glow)"
+                strokeDasharray="400"
+                strokeDashoffset={animationsStarted ? "0" : "400"}
+                style={{ 
+                  transition: "stroke-dashoffset 2s ease-out",
+                  transitionDelay: "1.5s"
+                }}
+              />
+              <path 
+                d="M 1300 160 L 1050 160 L 950 160" 
+                stroke="url(#circuitGradient4)" 
+                strokeWidth="2" 
+                fill="none" 
+                filter="url(#glow)"
+                strokeDasharray="400"
+                strokeDashoffset={animationsStarted ? "0" : "400"}
+                style={{ 
+                  transition: "stroke-dashoffset 2s ease-out",
+                  transitionDelay: "2s"
+                }}
+              />
+              <path 
+                d="M 1300 400 L 1050 400 L 980 400 L 950 400" 
+                stroke="url(#circuitGradient5)" 
+                strokeWidth="2" 
+                fill="none" 
+                filter="url(#glow)"
+                strokeDasharray="450"
+                strokeDashoffset={animationsStarted ? "0" : "450"}
+                style={{ 
+                  transition: "stroke-dashoffset 2s ease-out",
+                  transitionDelay: "2.5s"
+                }}
+              />
+              <path 
+                d="M 1300 640 L 1050 640 L 950 640" 
+                stroke="url(#circuitGradient6)" 
+                strokeWidth="2" 
+                fill="none" 
+                filter="url(#glow)"
+                strokeDasharray="400"
+                strokeDashoffset={animationsStarted ? "0" : "400"}
+                style={{ 
+                  transition: "stroke-dashoffset 2s ease-out",
+                  transitionDelay: "3s"
+                }}
+              />
+
+              {/* Connection points (junction dots) */}
+              <circle 
+                cx="250" 
+                cy="160" 
+                r="3" 
+                fill="hsl(var(--primary))" 
+                opacity={animationsStarted ? "1" : "0"}
+                style={{ 
+                  transition: "opacity 0.5s ease-out",
+                  transitionDelay: "2.5s",
+                  filter: "drop-shadow(0 0 6px hsl(var(--primary)))"
+                }}
+              />
+              <circle 
+                cx="250" 
+                cy="400" 
+                r="3" 
+                fill="rgb(168, 85, 247)" 
+                opacity={animationsStarted ? "1" : "0"}
+                style={{ 
+                  transition: "opacity 0.5s ease-out",
+                  transitionDelay: "3s",
+                  filter: "drop-shadow(0 0 6px rgb(168, 85, 247))"
+                }}
+              />
+              <circle 
+                cx="250" 
+                cy="640" 
+                r="3" 
+                fill="rgb(59, 130, 246)" 
+                opacity={animationsStarted ? "1" : "0"}
+                style={{ 
+                  transition: "opacity 0.5s ease-out",
+                  transitionDelay: "3.5s",
+                  filter: "drop-shadow(0 0 6px rgb(59, 130, 246))"
+                }}
+              />
+              <circle 
+                cx="950" 
+                cy="160" 
+                r="3" 
+                fill="rgb(34, 197, 94)" 
+                opacity={animationsStarted ? "1" : "0"}
+                style={{ 
+                  transition: "opacity 0.5s ease-out",
+                  transitionDelay: "4s",
+                  filter: "drop-shadow(0 0 6px rgb(34, 197, 94))"
+                }}
+              />
+              <circle 
+                cx="950" 
+                cy="400" 
+                r="3" 
+                fill="rgb(249, 115, 22)" 
+                opacity={animationsStarted ? "1" : "0"}
+                style={{ 
+                  transition: "opacity 0.5s ease-out",
+                  transitionDelay: "4.5s",
+                  filter: "drop-shadow(0 0 6px rgb(249, 115, 22))"
+                }}
+              />
+              <circle 
+                cx="950" 
+                cy="640" 
+                r="3" 
+                fill="rgb(6, 182, 212)" 
+                opacity={animationsStarted ? "1" : "0"}
+                style={{ 
+                  transition: "opacity 0.5s ease-out",
+                  transitionDelay: "5s",
+                  filter: "drop-shadow(0 0 6px rgb(6, 182, 212))"
+                }}
+              />
+
+              {/* Data flow particles */}
+              {animationsStarted && (
+                <>
+                  <circle r="2" fill="hsl(var(--primary))" opacity="0.8">
+                    <animateMotion dur="3s" repeatCount="indefinite" begin="3s">
+                      <mpath href="#wire1"/>
+                    </animateMotion>
+                    <animate attributeName="opacity" values="0;1;1;0" dur="3s" repeatCount="indefinite" begin="3s"/>
+                  </circle>
+                  <circle r="2" fill="rgb(168, 85, 247)" opacity="0.8">
+                    <animateMotion dur="3s" repeatCount="indefinite" begin="3.5s">
+                      <mpath href="#wire2"/>
+                    </animateMotion>
+                    <animate attributeName="opacity" values="0;1;1;0" dur="3s" repeatCount="indefinite" begin="3.5s"/>
+                  </circle>
+                  <circle r="2" fill="rgb(59, 130, 246)" opacity="0.8">
+                    <animateMotion dur="3s" repeatCount="indefinite" begin="4s">
+                      <mpath href="#wire3"/>
+                    </animateMotion>
+                    <animate attributeName="opacity" values="0;1;1;0" dur="3s" repeatCount="indefinite" begin="4s"/>
+                  </circle>
+                  <circle r="2" fill="rgb(34, 197, 94)" opacity="0.8">
+                    <animateMotion dur="3s" repeatCount="indefinite" begin="4.5s">
+                      <mpath href="#wire4"/>
+                    </animateMotion>
+                    <animate attributeName="opacity" values="0;1;1;0" dur="3s" repeatCount="indefinite" begin="4.5s"/>
+                  </circle>
+                  <circle r="2" fill="rgb(249, 115, 22)" opacity="0.8">
+                    <animateMotion dur="3s" repeatCount="indefinite" begin="5s">
+                      <mpath href="#wire5"/>
+                    </animateMotion>
+                    <animate attributeName="opacity" values="0;1;1;0" dur="3s" repeatCount="indefinite" begin="5s"/>
+                  </circle>
+                  <circle r="2" fill="rgb(6, 182, 212)" opacity="0.8">
+                    <animateMotion dur="3s" repeatCount="indefinite" begin="5.5s">
+                      <mpath href="#wire6"/>
+                    </animateMotion>
+                    <animate attributeName="opacity" values="0;1;1;0" dur="3s" repeatCount="indefinite" begin="5.5s"/>
+                  </circle>
+                </>
+              )}
+
+              {/* Hidden paths for particles */}
+              <path id="wire1" d="M -100 160 L 250 160" fill="none" style={{ display: 'none' }} />
+              <path id="wire2" d="M -100 400 L 250 400" fill="none" style={{ display: 'none' }} />
+              <path id="wire3" d="M -100 640 L 250 640" fill="none" style={{ display: 'none' }} />
+              <path id="wire4" d="M 1300 160 L 950 160" fill="none" style={{ display: 'none' }} />
+              <path id="wire5" d="M 1300 400 L 950 400" fill="none" style={{ display: 'none' }} />
+              <path id="wire6" d="M 1300 640 L 950 640" fill="none" style={{ display: 'none' }} />
+            </svg>
+          )}
+
+          {/* Floating Icons - Desktop Only */}
+          {!isMobile && (
+            <>
+              {/* Icon 1 - AI/Bot */}
+              <motion.div
+                style={{ y: springY1 }}
+                className="absolute z-20 -left-20 top-[20%]"
+              >
+                <div className="relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden p-4">
+                  {/* Starry background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-purple-500/10 to-blue-500/15">
+                    <div className="absolute top-1 left-2 w-0.5 h-0.5 bg-white/60 rounded-full" />
+                    <div className="absolute top-3 right-3 w-0.5 h-0.5 bg-white/40 rounded-full" />
+                    <div className="absolute bottom-2 left-1 w-0.5 h-0.5 bg-white/50 rounded-full" />
+                    <div className="absolute bottom-1 right-1 w-0.5 h-0.5 bg-white/30 rounded-full" />
+                  </div>
+                  <Bot className="w-7 h-7 text-primary relative z-10" />
+                </div>
+              </motion.div>
+              
+              {/* Icon 2 - Code */}
+              <motion.div
+                style={{ y: springY2 }}
+                className="absolute z-20 -left-20 top-[50%]"
+              >
+                <div className="relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden p-4">
+                  {/* Starry background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-pink-500/10 to-primary/15">
+                    <div className="absolute top-2 left-1 w-0.5 h-0.5 bg-white/50 rounded-full" />
+                    <div className="absolute top-1 right-2 w-0.5 h-0.5 bg-white/60 rounded-full" />
+                    <div className="absolute bottom-3 left-3 w-0.5 h-0.5 bg-white/40 rounded-full" />
+                    <div className="absolute bottom-1 right-1 w-0.5 h-0.5 bg-white/35 rounded-full" />
+                  </div>
+                  <Code className="w-7 h-7 text-purple-500 relative z-10" />
+                </div>
+              </motion.div>
+              
+              {/* Icon 3 - Globe */}
+              <motion.div
+                style={{ y: springY3 }}
+                className="absolute z-20 -left-20 top-[80%]"
+              >
+                <div className="relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden p-4">
+                  {/* Starry background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-cyan-500/10 to-primary/15">
+                    <div className="absolute top-3 left-1 w-0.5 h-0.5 bg-white/45 rounded-full" />
+                    <div className="absolute top-1 right-3 w-0.5 h-0.5 bg-white/55 rounded-full" />
+                    <div className="absolute bottom-1 left-2 w-0.5 h-0.5 bg-white/50 rounded-full" />
+                    <div className="absolute bottom-2 right-1 w-0.5 h-0.5 bg-white/40 rounded-full" />
+                  </div>
+                  <Globe className="w-7 h-7 text-blue-500 relative z-10" />
+                </div>
+              </motion.div>
+
+              {/* Icon 4 - Zap */}
+              <motion.div
+                style={{ y: springY4 }}
+                className="absolute z-20 -right-20 top-[20%]"
+              >
+                <div className="relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden p-4">
+                  {/* Starry background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 via-emerald-500/10 to-primary/15">
+                    <div className="absolute top-1 left-3 w-0.5 h-0.5 bg-white/50 rounded-full" />
+                    <div className="absolute top-2 right-1 w-0.5 h-0.5 bg-white/60 rounded-full" />
+                    <div className="absolute bottom-2 left-1 w-0.5 h-0.5 bg-white/45 rounded-full" />
+                    <div className="absolute bottom-3 right-2 w-0.5 h-0.5 bg-white/35 rounded-full" />
+                  </div>
+                  <Zap className="w-7 h-7 text-green-500 relative z-10" />
+                </div>
+              </motion.div>
+              
+              {/* Icon 5 - Database */}
+              <motion.div
+                style={{ y: springY5 }}
+                className="absolute z-20 -right-20 top-[50%]"
+              >
+                <div className="relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden p-4">
+                  {/* Starry background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-red-500/10 to-primary/15">
+                    <div className="absolute top-2 left-2 w-0.5 h-0.5 bg-white/55 rounded-full" />
+                    <div className="absolute top-1 right-3 w-0.5 h-0.5 bg-white/45 rounded-full" />
+                    <div className="absolute bottom-3 left-1 w-0.5 h-0.5 bg-white/40 rounded-full" />
+                    <div className="absolute bottom-1 right-2 w-0.5 h-0.5 bg-white/50 rounded-full" />
+                  </div>
+                  <Database className="w-7 h-7 text-orange-500 relative z-10" />
+                </div>
+              </motion.div>
+              
+              {/* Icon 6 - Smartphone */}
+              <motion.div
+                style={{ y: springY6 }}
+                className="absolute z-20 -right-20 top-[80%]"
+              >
+                <div className="relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden p-4">
+                  {/* Starry background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 via-blue-400/10 to-primary/15">
+                    <div className="absolute top-3 left-2 w-0.5 h-0.5 bg-white/60 rounded-full" />
+                    <div className="absolute top-1 right-1 w-0.5 h-0.5 bg-white/50 rounded-full" />
+                    <div className="absolute bottom-1 left-3 w-0.5 h-0.5 bg-white/45 rounded-full" />
+                    <div className="absolute bottom-2 right-3 w-0.5 h-0.5 bg-white/40 rounded-full" />
+                  </div>
+                  <Smartphone className="w-7 h-7 text-cyan-500 relative z-10" />
+                </div>
+              </motion.div>
+            </>
+          )}
         </motion.div>
       </div>
     </motion.section>
