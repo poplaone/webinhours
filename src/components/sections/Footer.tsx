@@ -1,10 +1,28 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Code } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export const Footer = () => {
+  const isMobile = useIsMobile();
+  const [mobileFooterVisible, setMobileFooterVisible] = useState(false);
+
+  useEffect(() => {
+    if (isMobile) {
+      const timer = setTimeout(() => {
+        setMobileFooterVisible(true);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [isMobile]);
+
   return (
-    <footer className="py-12 px-4 border-t bg-card/30 backdrop-blur relative z-10">
+    <footer className={`py-12 px-4 border-t relative z-10 transition-all duration-[2000ms] ease-in-out ${
+      isMobile && !mobileFooterVisible 
+        ? 'bg-transparent backdrop-blur-none border-transparent' 
+        : 'bg-card/30 backdrop-blur'
+    }`}>
+
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>

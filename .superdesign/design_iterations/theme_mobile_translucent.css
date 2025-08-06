@@ -1,0 +1,15 @@
+:root {
+  --mobile-header-bg: transparent;
+  --mobile-footer-bg: transparent;
+}
+
+@media (max-width: 768px) {
+  .mobile-header, .mobile-footer {
+    background-color: transparent;
+    transition: background-color 0.5s ease-in-out;
+  }
+
+  .mobile-header.translucent, .mobile-footer.translucent {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+}

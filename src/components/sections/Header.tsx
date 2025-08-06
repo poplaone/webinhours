@@ -48,10 +48,10 @@ export const Header = () => {
   // Handle mobile header appearance
   useEffect(() => {
     if (isMobile) {
-      // Start transparent, then slowly appear over 2 seconds
+      // Start transparent, then appear after 2 seconds
       const timer = setTimeout(() => {
         setMobileHeaderVisible(true);
-      }, 100);
+      }, 2000);
 
       return () => clearTimeout(timer);
     }
