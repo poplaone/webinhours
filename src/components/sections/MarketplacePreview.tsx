@@ -101,7 +101,7 @@ export const MarketplacePreview = () => {
           {/* Icon 2 - Code */}
           <motion.div
             style={{ y: springY2 }}
-            className={`absolute z-20 ${isMobile ? 'left-[45%] -translate-x-1/2 -top-14' : '-left-20 top-[50%]'}`}
+            className={`absolute z-20 ${isMobile ? 'left-[40%] -translate-x-1/2 -top-14' : '-left-20 top-[50%]'}`}
           >
             <div
               className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
@@ -160,7 +160,7 @@ export const MarketplacePreview = () => {
           {/* Icon 5 - Database */}
           <motion.div
             style={{ y: springY5 }}
-            className={`absolute z-20 ${isMobile ? 'left-[45%] -translate-x-1/2 -bottom-14' : '-right-20 top-[50%]'}`}
+            className={`absolute z-20 ${isMobile ? 'left-[40%] -translate-x-1/2 -bottom-14' : '-right-20 top-[50%]'}`}
           >
             <div
               className={`relative backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden ${isMobile ? 'p-2' : 'p-4'}`}
