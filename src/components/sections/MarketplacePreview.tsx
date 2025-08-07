@@ -59,388 +59,389 @@ export const MarketplacePreview = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="relative max-w-6xl mx-auto"
         >
-          {/* Circuit lines behind icons - Left side */}
+          {/* Circuit lines in background - completely outside photo */}
           {!isMobile && (
-            <svg 
-              className="absolute -left-32 top-0 w-96 h-full pointer-events-none z-[5]" 
-              viewBox="0 0 400 800"
-              style={{ overflow: 'visible' }}
-            >
-              <defs>
-                <linearGradient id="leftCircuitGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0" />
-                  <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="1" />
-                </linearGradient>
-                <linearGradient id="leftCircuitGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="rgb(168, 85, 247)" stopOpacity="0" />
-                  <stop offset="50%" stopColor="rgb(168, 85, 247)" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="rgb(168, 85, 247)" stopOpacity="1" />
-                </linearGradient>
-                <linearGradient id="leftCircuitGradient3" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="rgb(59, 130, 246)" stopOpacity="0" />
-                  <stop offset="50%" stopColor="rgb(59, 130, 246)" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="rgb(59, 130, 246)" stopOpacity="1" />
-                </linearGradient>
-                <filter id="leftGlow">
-                  <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                  <feMerge> 
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
-                  </feMerge>
-                </filter>
-              </defs>
+            <>
+              {/* Left side circuit SVG - in background */}
+              <svg 
+                className="absolute -left-64 top-0 w-80 h-full pointer-events-none z-[1]" 
+                viewBox="0 0 400 800"
+                style={{ overflow: 'visible' }}
+              >
+                <defs>
+                  <linearGradient id="leftCircuitGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0" />
+                    <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="1" />
+                  </linearGradient>
+                  <linearGradient id="leftCircuitGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="rgb(168, 85, 247)" stopOpacity="0" />
+                    <stop offset="50%" stopColor="rgb(168, 85, 247)" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="rgb(168, 85, 247)" stopOpacity="1" />
+                  </linearGradient>
+                  <linearGradient id="leftCircuitGradient3" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="rgb(59, 130, 246)" stopOpacity="0" />
+                    <stop offset="50%" stopColor="rgb(59, 130, 246)" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="rgb(59, 130, 246)" stopOpacity="1" />
+                  </linearGradient>
+                  <filter id="leftGlow">
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                    <feMerge> 
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
 
-              {/* Main trunk from left edge */}
-              <path 
-                d="M -50 400 L 150 400" 
-                stroke="url(#leftCircuitGradient1)" 
-                strokeWidth="3" 
-                fill="none" 
-                filter="url(#leftGlow)"
-                strokeDasharray="200"
-                strokeDashoffset={animationsStarted ? "0" : "200"}
-                style={{ 
-                  transition: "stroke-dashoffset 2s ease-out",
-                  transitionDelay: "0.5s"
-                }}
-              />
-              
-              {/* Branch to top icon (Bot) */}
-              <path 
-                d="M 150 400 L 200 400 L 200 160 L 300 160" 
-                stroke="url(#leftCircuitGradient1)" 
-                strokeWidth="2" 
-                fill="none" 
-                filter="url(#leftGlow)"
-                strokeDasharray="290"
-                strokeDashoffset={animationsStarted ? "0" : "290"}
-                style={{ 
-                  transition: "stroke-dashoffset 2.5s ease-out",
-                  transitionDelay: "1s"
-                }}
-              />
-              
-              {/* Branch to middle icon (Code) */}
-              <path 
-                d="M 150 400 L 300 400" 
-                stroke="url(#leftCircuitGradient2)" 
-                strokeWidth="2" 
-                fill="none" 
-                filter="url(#leftGlow)"
-                strokeDasharray="150"
-                strokeDashoffset={animationsStarted ? "0" : "150"}
-                style={{ 
-                  transition: "stroke-dashoffset 2.5s ease-out",
-                  transitionDelay: "1.3s"
-                }}
-              />
-              
-              {/* Branch to bottom icon (Globe) */}
-              <path 
-                d="M 150 400 L 200 400 L 200 640 L 300 640" 
-                stroke="url(#leftCircuitGradient3)" 
-                strokeWidth="2" 
-                fill="none" 
-                filter="url(#leftGlow)"
-                strokeDasharray="290"
-                strokeDashoffset={animationsStarted ? "0" : "290"}
-                style={{ 
-                  transition: "stroke-dashoffset 2.5s ease-out",
-                  transitionDelay: "1.6s"
-                }}
-              />
+                {/* Main trunk from far left */}
+                <path 
+                  d="M -100 400 L 200 400" 
+                  stroke="url(#leftCircuitGradient1)" 
+                  strokeWidth="3" 
+                  fill="none" 
+                  filter="url(#leftGlow)"
+                  strokeDasharray="300"
+                  strokeDashoffset={animationsStarted ? "0" : "300"}
+                  style={{ 
+                    transition: "stroke-dashoffset 2s ease-out",
+                    transitionDelay: "0.5s"
+                  }}
+                />
+                
+                {/* Branch to top area */}
+                <path 
+                  d="M 200 400 L 280 400 L 280 160 L 400 160" 
+                  stroke="url(#leftCircuitGradient1)" 
+                  strokeWidth="2" 
+                  fill="none" 
+                  filter="url(#leftGlow)"
+                  strokeDasharray="340"
+                  strokeDashoffset={animationsStarted ? "0" : "340"}
+                  style={{ 
+                    transition: "stroke-dashoffset 2.5s ease-out",
+                    transitionDelay: "1s"
+                  }}
+                />
+                
+                {/* Branch to middle area */}
+                <path 
+                  d="M 200 400 L 400 400" 
+                  stroke="url(#leftCircuitGradient2)" 
+                  strokeWidth="2" 
+                  fill="none" 
+                  filter="url(#leftGlow)"
+                  strokeDasharray="200"
+                  strokeDashoffset={animationsStarted ? "0" : "200"}
+                  style={{ 
+                    transition: "stroke-dashoffset 2.5s ease-out",
+                    transitionDelay: "1.3s"
+                  }}
+                />
+                
+                {/* Branch to bottom area */}
+                <path 
+                  d="M 200 400 L 280 400 L 280 640 L 400 640" 
+                  stroke="url(#leftCircuitGradient3)" 
+                  strokeWidth="2" 
+                  fill="none" 
+                  filter="url(#leftGlow)"
+                  strokeDasharray="340"
+                  strokeDashoffset={animationsStarted ? "0" : "340"}
+                  style={{ 
+                    transition: "stroke-dashoffset 2.5s ease-out",
+                    transitionDelay: "1.6s"
+                  }}
+                />
 
-              {/* Secondary branches extending beyond */}
-              <path 
-                d="M 300 160 L 380 160 L 400 140" 
-                stroke="url(#leftCircuitGradient1)" 
-                strokeWidth="1.5" 
-                fill="none" 
-                filter="url(#leftGlow)"
-                opacity="0.6"
-                strokeDasharray="100"
-                strokeDashoffset={animationsStarted ? "0" : "100"}
-                style={{ 
-                  transition: "stroke-dashoffset 2s ease-out",
-                  transitionDelay: "3.5s"
-                }}
-              />
-              
-              <path 
-                d="M 300 400 L 380 400 L 400 380" 
-                stroke="url(#leftCircuitGradient2)" 
-                strokeWidth="1.5" 
-                fill="none" 
-                filter="url(#leftGlow)"
-                opacity="0.6"
-                strokeDasharray="100"
-                strokeDashoffset={animationsStarted ? "0" : "100"}
-                style={{ 
-                  transition: "stroke-dashoffset 2s ease-out",
-                  transitionDelay: "3.8s"
-                }}
-              />
-              
-              <path 
-                d="M 300 640 L 380 640 L 400 660" 
-                stroke="url(#leftCircuitGradient3)" 
-                strokeWidth="1.5" 
-                fill="none" 
-                filter="url(#leftGlow)"
-                opacity="0.6"
-                strokeDasharray="100"
-                strokeDashoffset={animationsStarted ? "0" : "100"}
-                style={{ 
-                  transition: "stroke-dashoffset 2s ease-out",
-                  transitionDelay: "4.1s"
-                }}
-              />
+                {/* Complex secondary branches */}
+                <path 
+                  d="M 400 160 L 500 160 L 520 140 L 600 140" 
+                  stroke="url(#leftCircuitGradient1)" 
+                  strokeWidth="1.5" 
+                  fill="none" 
+                  filter="url(#leftGlow)"
+                  opacity="0.6"
+                  strokeDasharray="220"
+                  strokeDashoffset={animationsStarted ? "0" : "220"}
+                  style={{ 
+                    transition: "stroke-dashoffset 2s ease-out",
+                    transitionDelay: "3.5s"
+                  }}
+                />
+                
+                <path 
+                  d="M 400 400 L 500 400 L 520 380 L 600 380" 
+                  stroke="url(#leftCircuitGradient2)" 
+                  strokeWidth="1.5" 
+                  fill="none" 
+                  filter="url(#leftGlow)"
+                  opacity="0.6"
+                  strokeDasharray="220"
+                  strokeDashoffset={animationsStarted ? "0" : "220"}
+                  style={{ 
+                    transition: "stroke-dashoffset 2s ease-out",
+                    transitionDelay: "3.8s"
+                  }}
+                />
+                
+                <path 
+                  d="M 400 640 L 500 640 L 520 660 L 600 660" 
+                  stroke="url(#leftCircuitGradient3)" 
+                  strokeWidth="1.5" 
+                  fill="none" 
+                  filter="url(#leftGlow)"
+                  opacity="0.6"
+                  strokeDasharray="220"
+                  strokeDashoffset={animationsStarted ? "0" : "220"}
+                  style={{ 
+                    transition: "stroke-dashoffset 2s ease-out",
+                    transitionDelay: "4.1s"
+                  }}
+                />
 
-              {/* Junction nodes */}
-              <circle 
-                cx="150" 
-                cy="400" 
-                r="4" 
-                fill="hsl(var(--primary))" 
-                opacity={animationsStarted ? "1" : "0"}
-                style={{ 
-                  transition: "opacity 0.5s ease-out",
-                  transitionDelay: "2.5s",
-                  filter: "drop-shadow(0 0 8px hsl(var(--primary)))"
-                }}
-              />
+                {/* Junction nodes */}
+                <circle 
+                  cx="200" 
+                  cy="400" 
+                  r="4" 
+                  fill="hsl(var(--primary))" 
+                  opacity={animationsStarted ? "1" : "0"}
+                  style={{ 
+                    transition: "opacity 0.5s ease-out",
+                    transitionDelay: "2.5s",
+                    filter: "drop-shadow(0 0 8px hsl(var(--primary)))"
+                  }}
+                />
 
-              {/* Connection points at icons */}
-              <circle 
-                cx="300" 
-                cy="160" 
-                r="3" 
-                fill="hsl(var(--primary))" 
-                opacity={animationsStarted ? "1" : "0"}
-                style={{ 
-                  transition: "opacity 0.5s ease-out",
-                  transitionDelay: "3.5s",
-                  filter: "drop-shadow(0 0 6px hsl(var(--primary)))"
-                }}
-              />
-              <circle 
-                cx="300" 
-                cy="400" 
-                r="3" 
-                fill="rgb(168, 85, 247)" 
-                opacity={animationsStarted ? "1" : "0"}
-                style={{ 
-                  transition: "opacity 0.5s ease-out",
-                  transitionDelay: "3.8s",
-                  filter: "drop-shadow(0 0 6px rgb(168, 85, 247))"
-                }}
-              />
-              <circle 
-                cx="300" 
-                cy="640" 
-                r="3" 
-                fill="rgb(59, 130, 246)" 
-                opacity={animationsStarted ? "1" : "0"}
-                style={{ 
-                  transition: "opacity 0.5s ease-out",
-                  transitionDelay: "4.1s",
-                  filter: "drop-shadow(0 0 6px rgb(59, 130, 246))"
-                }}
-              />
-            </svg>
-          )}
+                {/* Terminal points */}
+                <circle 
+                  cx="400" 
+                  cy="160" 
+                  r="3" 
+                  fill="hsl(var(--primary))" 
+                  opacity={animationsStarted ? "1" : "0"}
+                  style={{ 
+                    transition: "opacity 0.5s ease-out",
+                    transitionDelay: "3.5s",
+                    filter: "drop-shadow(0 0 6px hsl(var(--primary)))"
+                  }}
+                />
+                <circle 
+                  cx="400" 
+                  cy="400" 
+                  r="3" 
+                  fill="rgb(168, 85, 247)" 
+                  opacity={animationsStarted ? "1" : "0"}
+                  style={{ 
+                    transition: "opacity 0.5s ease-out",
+                    transitionDelay: "3.8s",
+                    filter: "drop-shadow(0 0 6px rgb(168, 85, 247))"
+                  }}
+                />
+                <circle 
+                  cx="400" 
+                  cy="640" 
+                  r="3" 
+                  fill="rgb(59, 130, 246)" 
+                  opacity={animationsStarted ? "1" : "0"}
+                  style={{ 
+                    transition: "opacity 0.5s ease-out",
+                    transitionDelay: "4.1s",
+                    filter: "drop-shadow(0 0 6px rgb(59, 130, 246))"
+                  }}
+                />
+              </svg>
 
-          {/* Circuit lines behind icons - Right side */}
-          {!isMobile && (
-            <svg 
-              className="absolute -right-32 top-0 w-96 h-full pointer-events-none z-[5]" 
-              viewBox="0 0 400 800"
-              style={{ overflow: 'visible', transform: 'scaleX(-1)' }}
-            >
-              <defs>
-                <linearGradient id="rightCircuitGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="rgb(34, 197, 94)" stopOpacity="0" />
-                  <stop offset="50%" stopColor="rgb(34, 197, 94)" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="rgb(34, 197, 94)" stopOpacity="1" />
-                </linearGradient>
-                <linearGradient id="rightCircuitGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="rgb(249, 115, 22)" stopOpacity="0" />
-                  <stop offset="50%" stopColor="rgb(249, 115, 22)" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="rgb(249, 115, 22)" stopOpacity="1" />
-                </linearGradient>
-                <linearGradient id="rightCircuitGradient3" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="rgb(6, 182, 212)" stopOpacity="0" />
-                  <stop offset="50%" stopColor="rgb(6, 182, 212)" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="rgb(6, 182, 212)" stopOpacity="1" />
-                </linearGradient>
-                <filter id="rightGlow">
-                  <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                  <feMerge> 
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
-                  </feMerge>
-                </filter>
-              </defs>
+              {/* Right side circuit SVG - in background */}
+              <svg 
+                className="absolute -right-64 top-0 w-80 h-full pointer-events-none z-[1]" 
+                viewBox="0 0 400 800"
+                style={{ overflow: 'visible', transform: 'scaleX(-1)' }}
+              >
+                <defs>
+                  <linearGradient id="rightCircuitGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="rgb(34, 197, 94)" stopOpacity="0" />
+                    <stop offset="50%" stopColor="rgb(34, 197, 94)" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="rgb(34, 197, 94)" stopOpacity="1" />
+                  </linearGradient>
+                  <linearGradient id="rightCircuitGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="rgb(249, 115, 22)" stopOpacity="0" />
+                    <stop offset="50%" stopColor="rgb(249, 115, 22)" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="rgb(249, 115, 22)" stopOpacity="1" />
+                  </linearGradient>
+                  <linearGradient id="rightCircuitGradient3" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="rgb(6, 182, 212)" stopOpacity="0" />
+                    <stop offset="50%" stopColor="rgb(6, 182, 212)" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="rgb(6, 182, 212)" stopOpacity="1" />
+                  </linearGradient>
+                  <filter id="rightGlow">
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                    <feMerge> 
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
 
-              {/* Main trunk from right edge */}
-              <path 
-                d="M -50 400 L 150 400" 
-                stroke="url(#rightCircuitGradient1)" 
-                strokeWidth="3" 
-                fill="none" 
-                filter="url(#rightGlow)"
-                strokeDasharray="200"
-                strokeDashoffset={animationsStarted ? "0" : "200"}
-                style={{ 
-                  transition: "stroke-dashoffset 2s ease-out",
-                  transitionDelay: "2s"
-                }}
-              />
-              
-              {/* Branch to top icon (Zap) */}
-              <path 
-                d="M 150 400 L 200 400 L 200 160 L 300 160" 
-                stroke="url(#rightCircuitGradient1)" 
-                strokeWidth="2" 
-                fill="none" 
-                filter="url(#rightGlow)"
-                strokeDasharray="290"
-                strokeDashoffset={animationsStarted ? "0" : "290"}
-                style={{ 
-                  transition: "stroke-dashoffset 2.5s ease-out",
-                  transitionDelay: "2.5s"
-                }}
-              />
-              
-              {/* Branch to middle icon (Database) */}
-              <path 
-                d="M 150 400 L 300 400" 
-                stroke="url(#rightCircuitGradient2)" 
-                strokeWidth="2" 
-                fill="none" 
-                filter="url(#rightGlow)"
-                strokeDasharray="150"
-                strokeDashoffset={animationsStarted ? "0" : "150"}
-                style={{ 
-                  transition: "stroke-dashoffset 2.5s ease-out",
-                  transitionDelay: "2.8s"
-                }}
-              />
-              
-              {/* Branch to bottom icon (Smartphone) */}
-              <path 
-                d="M 150 400 L 200 400 L 200 640 L 300 640" 
-                stroke="url(#rightCircuitGradient3)" 
-                strokeWidth="2" 
-                fill="none" 
-                filter="url(#rightGlow)"
-                strokeDasharray="290"
-                strokeDashoffset={animationsStarted ? "0" : "290"}
-                style={{ 
-                  transition: "stroke-dashoffset 2.5s ease-out",
-                  transitionDelay: "3.1s"
-                }}
-              />
+                {/* Main trunk from far right */}
+                <path 
+                  d="M -100 400 L 200 400" 
+                  stroke="url(#rightCircuitGradient1)" 
+                  strokeWidth="3" 
+                  fill="none" 
+                  filter="url(#rightGlow)"
+                  strokeDasharray="300"
+                  strokeDashoffset={animationsStarted ? "0" : "300"}
+                  style={{ 
+                    transition: "stroke-dashoffset 2s ease-out",
+                    transitionDelay: "2s"
+                  }}
+                />
+                
+                {/* Branch to top area */}
+                <path 
+                  d="M 200 400 L 280 400 L 280 160 L 400 160" 
+                  stroke="url(#rightCircuitGradient1)" 
+                  strokeWidth="2" 
+                  fill="none" 
+                  filter="url(#rightGlow)"
+                  strokeDasharray="340"
+                  strokeDashoffset={animationsStarted ? "0" : "340"}
+                  style={{ 
+                    transition: "stroke-dashoffset 2.5s ease-out",
+                    transitionDelay: "2.5s"
+                  }}
+                />
+                
+                {/* Branch to middle area */}
+                <path 
+                  d="M 200 400 L 400 400" 
+                  stroke="url(#rightCircuitGradient2)" 
+                  strokeWidth="2" 
+                  fill="none" 
+                  filter="url(#rightGlow)"
+                  strokeDasharray="200"
+                  strokeDashoffset={animationsStarted ? "0" : "200"}
+                  style={{ 
+                    transition: "stroke-dashoffset 2.5s ease-out",
+                    transitionDelay: "2.8s"
+                  }}
+                />
+                
+                {/* Branch to bottom area */}
+                <path 
+                  d="M 200 400 L 280 400 L 280 640 L 400 640" 
+                  stroke="url(#rightCircuitGradient3)" 
+                  strokeWidth="2" 
+                  fill="none" 
+                  filter="url(#rightGlow)"
+                  strokeDasharray="340"
+                  strokeDashoffset={animationsStarted ? "0" : "340"}
+                  style={{ 
+                    transition: "stroke-dashoffset 2.5s ease-out",
+                    transitionDelay: "3.1s"
+                  }}
+                />
 
-              {/* Secondary branches extending beyond */}
-              <path 
-                d="M 300 160 L 380 160 L 400 140" 
-                stroke="url(#rightCircuitGradient1)" 
-                strokeWidth="1.5" 
-                fill="none" 
-                filter="url(#rightGlow)"
-                opacity="0.6"
-                strokeDasharray="100"
-                strokeDashoffset={animationsStarted ? "0" : "100"}
-                style={{ 
-                  transition: "stroke-dashoffset 2s ease-out",
-                  transitionDelay: "4.5s"
-                }}
-              />
-              
-              <path 
-                d="M 300 400 L 380 400 L 400 380" 
-                stroke="url(#rightCircuitGradient2)" 
-                strokeWidth="1.5" 
-                fill="none" 
-                filter="url(#rightGlow)"
-                opacity="0.6"
-                strokeDasharray="100"
-                strokeDashoffset={animationsStarted ? "0" : "100"}
-                style={{ 
-                  transition: "stroke-dashoffset 2s ease-out",
-                  transitionDelay: "4.8s"
-                }}
-              />
-              
-              <path 
-                d="M 300 640 L 380 640 L 400 660" 
-                stroke="url(#rightCircuitGradient3)" 
-                strokeWidth="1.5" 
-                fill="none" 
-                filter="url(#rightGlow)"
-                opacity="0.6"
-                strokeDasharray="100"
-                strokeDashoffset={animationsStarted ? "0" : "100"}
-                style={{ 
-                  transition: "stroke-dashoffset 2s ease-out",
-                  transitionDelay: "5.1s"
-                }}
-              />
+                {/* Complex secondary branches */}
+                <path 
+                  d="M 400 160 L 500 160 L 520 140 L 600 140" 
+                  stroke="url(#rightCircuitGradient1)" 
+                  strokeWidth="1.5" 
+                  fill="none" 
+                  filter="url(#rightGlow)"
+                  opacity="0.6"
+                  strokeDasharray="220"
+                  strokeDashoffset={animationsStarted ? "0" : "220"}
+                  style={{ 
+                    transition: "stroke-dashoffset 2s ease-out",
+                    transitionDelay: "4.5s"
+                  }}
+                />
+                
+                <path 
+                  d="M 400 400 L 500 400 L 520 380 L 600 380" 
+                  stroke="url(#rightCircuitGradient2)" 
+                  strokeWidth="1.5" 
+                  fill="none" 
+                  filter="url(#rightGlow)"
+                  opacity="0.6"
+                  strokeDasharray="220"
+                  strokeDashoffset={animationsStarted ? "0" : "220"}
+                  style={{ 
+                    transition: "stroke-dashoffset 2s ease-out",
+                    transitionDelay: "4.8s"
+                  }}
+                />
+                
+                <path 
+                  d="M 400 640 L 500 640 L 520 660 L 600 660" 
+                  stroke="url(#rightCircuitGradient3)" 
+                  strokeWidth="1.5" 
+                  fill="none" 
+                  filter="url(#rightGlow)"
+                  opacity="0.6"
+                  strokeDasharray="220"
+                  strokeDashoffset={animationsStarted ? "0" : "220"}
+                  style={{ 
+                    transition: "stroke-dashoffset 2s ease-out",
+                    transitionDelay: "5.1s"
+                  }}
+                />
 
-              {/* Junction nodes */}
-              <circle 
-                cx="150" 
-                cy="400" 
-                r="4" 
-                fill="rgb(34, 197, 94)" 
-                opacity={animationsStarted ? "1" : "0"}
-                style={{ 
-                  transition: "opacity 0.5s ease-out",
-                  transitionDelay: "4s",
-                  filter: "drop-shadow(0 0 8px rgb(34, 197, 94))"
-                }}
-              />
+                {/* Junction nodes */}
+                <circle 
+                  cx="200" 
+                  cy="400" 
+                  r="4" 
+                  fill="rgb(34, 197, 94)" 
+                  opacity={animationsStarted ? "1" : "0"}
+                  style={{ 
+                    transition: "opacity 0.5s ease-out",
+                    transitionDelay: "4s",
+                    filter: "drop-shadow(0 0 8px rgb(34, 197, 94))"
+                  }}
+                />
 
-              {/* Connection points at icons */}
-              <circle 
-                cx="300" 
-                cy="160" 
-                r="3" 
-                fill="rgb(34, 197, 94)" 
-                opacity={animationsStarted ? "1" : "0"}
-                style={{ 
-                  transition: "opacity 0.5s ease-out",
-                  transitionDelay: "4.5s",
-                  filter: "drop-shadow(0 0 6px rgb(34, 197, 94))"
-                }}
-              />
-              <circle 
-                cx="300" 
-                cy="400" 
-                r="3" 
-                fill="rgb(249, 115, 22)" 
-                opacity={animationsStarted ? "1" : "0"}
-                style={{ 
-                  transition: "opacity 0.5s ease-out",
-                  transitionDelay: "4.8s",
-                  filter: "drop-shadow(0 0 6px rgb(249, 115, 22))"
-                }}
-              />
-              <circle 
-                cx="300" 
-                cy="640" 
-                r="3" 
-                fill="rgb(6, 182, 212)" 
-                opacity={animationsStarted ? "1" : "0"}
-                style={{ 
-                  transition: "opacity 0.5s ease-out",
-                  transitionDelay: "5.1s",
-                  filter: "drop-shadow(0 0 6px rgb(6, 182, 212))"
-                }}
-              />
-            </svg>
+                {/* Terminal points */}
+                <circle 
+                  cx="400" 
+                  cy="160" 
+                  r="3" 
+                  fill="rgb(34, 197, 94)" 
+                  opacity={animationsStarted ? "1" : "0"}
+                  style={{ 
+                    transition: "opacity 0.5s ease-out",
+                    transitionDelay: "4.5s",
+                    filter: "drop-shadow(0 0 6px rgb(34, 197, 94))"
+                  }}
+                />
+                <circle 
+                  cx="400" 
+                  cy="400" 
+                  r="3" 
+                  fill="rgb(249, 115, 22)" 
+                  opacity={animationsStarted ? "1" : "0"}
+                  style={{ 
+                    transition: "opacity 0.5s ease-out",
+                    transitionDelay: "4.8s",
+                    filter: "drop-shadow(0 0 6px rgb(249, 115, 22))"
+                  }}
+                />
+                <circle 
+                  cx="400" 
+                  cy="640" 
+                  r="3" 
+                  fill="rgb(6, 182, 212)" 
+                  opacity={animationsStarted ? "1" : "0"}
+                  style={{ 
+                    transition: "opacity 0.5s ease-out",
+                    transitionDelay: "5.1s",
+                    filter: "drop-shadow(0 0 6px rgb(6, 182, 212))"
+                  }}
+                />
+              </svg>
+            </>
           )}
 
           {/* Glass border container */}
