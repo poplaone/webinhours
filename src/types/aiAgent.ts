@@ -87,4 +87,5 @@ export interface AIAgentFilters {
   search?: string;
   agent_type?: string;
   includeAll?: boolean;
+  includeMine?: boolean;
 }

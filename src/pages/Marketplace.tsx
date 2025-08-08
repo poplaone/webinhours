@@ -10,7 +10,7 @@ interface Category {
   count: number;
 }
 import { TemplateGrid } from '@/components/dashboard/TemplateGrid';
-import { AIAgentCard } from '@/components/ai-agents/AIAgentCard';
+import { AIAgentInfographicCard } from '@/components/ai-agents/AIAgentInfographicCard';
 import { MarketplaceCTA } from '@/components/marketplace/MarketplaceCTA';
 import { AIChatbot } from '@/components/dashboard/AIChatbot';
 import { FeaturedSidebar } from '@/components/dashboard/FeaturedSidebar';
@@ -45,7 +45,7 @@ const Marketplace: React.FC = () => {
 
   // Explicitly request only public marketplace data (approved/featured only)
   const { data: allMarketplaceWebsites = [], isLoading: isLoadingWebsites, refetch: refetchWebsites, error: websitesError } = useWebsites({ includeAll: false });
-  const { data: allMarketplaceAIAgents = [], isLoading: isLoadingAIAgents, refetch: refetchAIAgents, error: aiAgentsError } = useAIAgents({ includeAll: false });
+  const { data: allMarketplaceAIAgents = [], isLoading: isLoadingAIAgents, refetch: refetchAIAgents, error: aiAgentsError } = useAIAgents({ includeAll: false, includeMine: true });
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     setFloatingButtonPos({ x: e.clientX - 28, y: e.clientY - 28 });
@@ -171,9 +171,9 @@ const Marketplace: React.FC = () => {
                         ))
                       ) : (
                         (sortedItems as AIAgent[]).map((agent) => (
-                          <AIAgentCard 
-                            key={agent.id} 
-                            agent={agent}
+                          <AIAgentInfographicCard 
+                            key={agent.id}
+                            agent={agent as any}
                             onUse={(agent) => console.log('Use agent:', agent)}
                             onView={(agent) => console.log('View agent:', agent)}
                           />

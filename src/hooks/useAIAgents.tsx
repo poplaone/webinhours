@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { AIAgent, AIAgentInsert, AIAgentUpdate, AIAgentFilters } from '@/types/aiAgent';
 
 export const useAIAgents = (filters?: AIAgentFilters) => {
+  const { user } = useAuth();
   return useQuery({
     queryKey: ['ai-agents', filters],
     queryFn: async () => {
@@ -15,9 +16,13 @@ export const useAIAgents = (filters?: AIAgentFilters) => {
         `)
         .order('created_at', { ascending: false });
 
-      // For marketplace, show approved and featured agents
+      // For marketplace, show approved and featured agents; include current user's own if requested
       if (!filters?.includeAll) {
-        query = query.in('status', ['approved', 'featured']);
+        if (filters?.includeMine && user?.id) {
+          query = query.or(`status.eq.approved,status.eq.featured,user_id.eq.${user.id}`);
+        } else {
+          query = query.in('status', ['approved', 'featured']);
+        }
       }
 
       if (filters?.search) {
