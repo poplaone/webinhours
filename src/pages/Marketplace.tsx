@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo, useCallback } from 'react';
+import React, { useState, useRef, useMemo, useCallback, useEffect } from 'react';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
 
@@ -39,9 +39,49 @@ const Marketplace: React.FC = () => {
   const [tagFilter, setTagFilter] = useState<string | null>(null);
 
   const mainContentRef = useRef<HTMLDivElement>(null);
+  const didInitialScrollReset = useRef(false);
   const isMobile = useIsMobile();
   const [isAIDialogOpen, setIsAIDialogOpen] = useState(false);
   const [floatingButtonPos, setFloatingButtonPos] = useState({ x: typeof window !== 'undefined' ? window.innerWidth - 80 : 0, y: typeof window !== 'undefined' ? window.innerHeight - 120 : 0 });
+
+  // Always start at top when entering Marketplace
+  useEffect(() => {
+    const prevRestoration = (typeof window !== 'undefined' && 'scrollRestoration' in window.history)
+      ? window.history.scrollRestoration
+      : undefined;
+
+    // Disable browser automatic scroll restoration
+    if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    const reset = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      if (mainContentRef.current) {
+        mainContentRef.current.scrollTop = 0;
+        mainContentRef.current.scrollLeft = 0;
+      }
+    };
+
+    // Reset immediately and after layout/paint to beat late content shifts
+    reset();
+    const raf = requestAnimationFrame(reset);
+    const t0 = setTimeout(reset, 0);
+    const t1 = setTimeout(reset, 100);
+
+    didInitialScrollReset.current = true;
+
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(t0);
+      clearTimeout(t1);
+      if (prevRestoration !== undefined && 'scrollRestoration' in window.history) {
+        window.history.scrollRestoration = prevRestoration as History['scrollRestoration'];
+      }
+    };
+  }, []);
+
+  // Note: post-data scroll reset is declared AFTER data hooks below
 
   // Explicitly request only public marketplace data (approved/featured only)
   const { data: allMarketplaceWebsites = [], isLoading: isLoadingWebsites, refetch: refetchWebsites, error: websitesError } = useWebsites({ includeAll: false });
@@ -60,6 +100,20 @@ const Marketplace: React.FC = () => {
   });
 
   const isLoading = activeTab === 'websites' ? isLoadingWebsites : isLoadingAIAgents;
+
+  // After data loads first time or tab changes, re-assert scroll to top once
+  useEffect(() => {
+    if (!isLoading && didInitialScrollReset.current) {
+      const t = setTimeout(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        if (mainContentRef.current) {
+          mainContentRef.current.scrollTop = 0;
+          mainContentRef.current.scrollLeft = 0;
+        }
+      }, 0);
+      return () => clearTimeout(t);
+    }
+  }, [isLoading, activeTab]);
 
   const handleRefresh = useCallback(() => {
     if (activeTab === 'websites') {
@@ -127,7 +181,7 @@ const Marketplace: React.FC = () => {
         description="Browse our collection of professional website templates. E-commerce, business, portfolio designs ready in 24 hours. All templates include hosting, SSL, and mobile optimization."
         keywords="website templates, web design marketplace, professional websites, e-commerce templates, business websites"
       />
-      <div className="pt-6 pb-8 px-2 sm:px-4 lg:px-6 h-screen flex flex-col">
+      <div className="pt-6 pb-8 px-2 sm:px-4 lg:px-6 min-h-screen flex flex-col">
         <div className="container mx-auto max-w-[1800px] flex flex-col flex-1">
           <div className="sticky top-16 z-30 py-6 mb-6">
             <MarketplaceFilters
@@ -143,18 +197,18 @@ const Marketplace: React.FC = () => {
             />
           </div>
 
-          <div className="flex gap-4 xl:gap-6 items-start flex-1 overflow-hidden">
+          <div className="flex gap-4 xl:gap-6 items-start flex-1">
             {/* Left Sidebar */}
             <div className="hidden xl:block w-[300px] shrink-0 h-full overflow-y-auto scrollbar-hide">
               <AIChatbot />
             </div>
             
             {/* Main Content */}
-            <div className="flex-1 min-w-0 h-full relative">
+            <div className="flex-1 min-w-0 relative">
               <div className="absolute inset-0">
                 <AnimatedGridBackground />
               </div>
-              <div ref={mainContentRef} className="relative z-10 h-full overflow-y-auto scrollbar-hide p-1">
+              <div ref={mainContentRef} className="relative z-10 p-1">
                 <div>
                   {activeTab === 'websites' ? (
                     <TemplateGrid 

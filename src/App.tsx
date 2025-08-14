@@ -1,5 +1,6 @@
 
 import { Suspense, lazy, useEffect } from 'react';
+import { MotionConfig } from 'framer-motion';
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -46,6 +47,7 @@ function App() {
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
+          <MotionConfig reducedMotion="always">
           <BrowserRouter>
             <ScrollToTop />
             <Helmet>
@@ -98,6 +100,7 @@ function App() {
             </div>
             <Toaster />
           </BrowserRouter>
+          </MotionConfig>
         </TooltipProvider>
       </QueryClientProvider>
     </HelmetProvider>
