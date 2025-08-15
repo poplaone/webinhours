@@ -327,39 +327,13 @@ const Marketplace: React.FC = () => {
           ) : (
             <div className="sticky top-16 z-30 mb-4">
               <div className="rounded-lg border bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1 border-r">
-                    <button
-                      className={`w-full flex items-center justify-between px-3 py-2 text-sm font-medium ${activeTab === 'websites' ? 'text-primary' : 'text-muted-foreground'}`}
-                      onClick={() => setActiveTab('websites')}
-                    >
-                      <span>Websites</span>
-                      {activeTab === 'websites' && <ChevronDown className="h-4 w-4 ml-1" />}
-                    </button>
-                  </div>
-                  <div className="flex-1">
-                    <button
-                      className={`w-full flex items-center justify-between px-3 py-2 text-sm font-medium ${activeTab === 'ai-agents' ? 'text-primary' : 'text-muted-foreground'}`}
-                      onClick={() => setActiveTab('ai-agents')}
-                    >
-                      <span>AI Agents</span>
-                      {activeTab === 'ai-agents' && <ChevronDown className="h-4 w-4 ml-1" />}
-                    </button>
-                  </div>
-                  <div className="border-l">
-                    <button
-                      className="flex items-center justify-center px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-                      onClick={() => setIsMobileFiltersOpen(prev => !prev)}
-                    >
-                      <div className="relative">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-muted-foreground group-hover:text-foreground">
-                          <path d="M3 6H21M6 12H18M9 18H15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                        <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-primary"></span>
-                      </div>
-                    </button>
-                  </div>
-                </div>
+                <button
+                  className="w-full flex items-center justify-between px-3 py-2 text-sm font-medium"
+                  onClick={() => setIsMobileFiltersOpen(prev => !prev)}
+                >
+                  <span className="text-muted-foreground">Filters</span>
+                  {isMobileFiltersOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                </button>
                 <Collapsible open={isMobileFiltersOpen} onOpenChange={setIsMobileFiltersOpen}>
                   <CollapsibleContent className="px-3 pb-3">
                     <Tabs defaultValue="search">

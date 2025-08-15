@@ -80,28 +80,21 @@ const SiteDetails = () => {
             Back to Marketplace
           </Button>
         </Card>
-      </div>
-    );
+      </div>;
   }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex flex-col">
-      <div className="container mx-auto p-4 pb-24 md:pb-6 flex-1">
-        {/* Back button - mobile only */}
-        <div className="md:hidden mb-4">
-          <Button variant="ghost" onClick={handleBackToMarketplace} className="pl-0">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
-          </Button>
-        </div>
-
-        {/* Desktop header - hidden on mobile */}
-        <div className="hidden md:flex items-center gap-4 mb-6">
+  return <div className="min-h-screen bg-gradient-to-br from-background to-background/80">
+      <div className="container mx-auto p-6">
+        {/* Header */}
+        <div className="flex items-center gap-4 mb-6">
           <Button variant="outline" onClick={handleBackToMarketplace} className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />
             Back to Marketplace
           </Button>
-          <div className="flex-1" />
+          <div className="flex-1">
+            <h1 className="text-3xl font-bold">{site.title}</h1>
+            
+          </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" className="flex items-center gap-2" onClick={handlePreview}>
               <Eye className="h-4 w-4" />
@@ -115,108 +108,38 @@ const SiteDetails = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main Content */}
+          {/* Main Content (keep image and description only) */}
           <div className="lg:col-span-2 space-y-6">
             {/* Site Preview */}
-            <Card className="overflow-hidden">
+            <Card>
               <CardContent className="p-0">
-                <div className="aspect-video overflow-hidden">
-                  <img
-                    src={site.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&h=450&q=80"}
-                    alt={site.title}
+                <div className="aspect-video overflow-hidden rounded-lg">
+                  <img 
+                    src={site.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&h=450&q=80"} 
+                    alt={site.title} 
                     className="w-full h-full object-cover"
                     loading="lazy"
                   />
                 </div>
-                {/* Mobile title below image */}
-                <div className="md:hidden p-4">
-                  <h1 className="text-2xl font-bold mb-2">{site.title}</h1>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold text-[#8B5CF6]">
-                      {site.price === 0 ? 'Free' : `$${site.price}`}
-                    </span>
-                    <Button variant="outline" size="sm" onClick={handlePreview} className="gap-2">
-                      <Eye className="h-4 w-4" />
-                      Preview
-                    </Button>
-                  </div>
-                </div>
               </CardContent>
             </Card>
 
-            {/* Combined About + Details Card - Mobile Only */}
-            <div className="lg:hidden">
-              <Card>
-                <CardHeader>
-                  <CardTitle>About This Template</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-muted-foreground leading-relaxed">
-                    {site.description || "This is a professional website template designed for modern businesses. It features a clean, responsive design that looks great on all devices."}
-                  </p>
-
-                  <Separator className="my-4" />
-
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium">Category</span>
-                      <Badge>{site.category}</Badge>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium">Status</span>
-                      <Badge variant={site.status === 'approved' ? 'default' : 'secondary'}>
-                        {site.status}
-                      </Badge>
-                    </div>
-                  </div>
-
-                  <Tabs defaultValue="features" className="mt-4">
-                    <TabsList className="w-full grid grid-cols-2">
-                      <TabsTrigger value="features">Features</TabsTrigger>
-                      <TabsTrigger value="inclusions">Inclusions</TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="features" className="mt-4">
-                      <div className="grid grid-cols-1 gap-3">
-                        {(site.features || defaultFeatures).map((feature, index) => (
-                          <div key={index} className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-[#8B5CF6] rounded-full"></div>
-                            <span>{feature}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </TabsContent>
-                    <TabsContent value="inclusions" className="mt-4">
-                      <div className="space-y-3">
-                        {(site.inclusions && site.inclusions.length > 0 ? site.inclusions : defaultInclusions).map((inc, index) => (
-                          <div key={index} className="flex items-center gap-2">
-                            <Shield className="h-4 w-4 text-green-500" />
-                            <span className="text-sm">{inc}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </TabsContent>
-                  </Tabs>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Desktop Description Only */}
-            <div className="hidden lg:block">
-              <Card>
-                <CardHeader>
-                  <CardTitle>About This Template</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {site.description || "This is a professional website template designed for modern businesses. It features a clean, responsive design that looks great on all devices."}
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
+            {/* Description */}
+            <Card>
+              <CardHeader>
+                <CardTitle>About This Template</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground leading-relaxed">
+                  {site.description || "This is a professional website template designed for modern businesses. It features a clean, responsive design that looks great on all devices."}
+                </p>
+              </CardContent>
+            </Card>
           </div>
 
-          {/* Sidebar - Desktop Only */}
-          <div className="hidden lg:block space-y-6">
+          {/* Sidebar (combined details + toggles) */}
+          <div className="space-y-6">
+            {/* Combined: Purchase Details + Details (with toggles) */}
             <Card>
               <CardHeader>
                 <CardTitle>Details</CardTitle>
@@ -323,31 +246,7 @@ const SiteDetails = () => {
           </div>
         </div>
       </div>
-
-      {/* Sticky Bottom Bar - Mobile Only */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-background border-t shadow-lg p-3 z-50">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-2 gap-3">
-            <Button 
-              size="lg"
-              className="bg-[#8B5CF6] hover:bg-[#7C3AED] w-full"
-              onClick={handlePurchase}
-            >
-              {site.price === 0 ? 'Download Free' : `Buy for $${site.price}`}
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="w-full"
-              onClick={() => navigate('/contact')}
-            >
-              Customize
-            </Button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+    </div>;
 };
 
 export default SiteDetails;
