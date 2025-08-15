@@ -1,9 +1,10 @@
 import React, { useMemo, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Eye, Download, Star, User, Calendar, Tag, Globe, Code2, Palette, Smartphone, Shield } from 'lucide-react';
+import { ArrowLeft, Eye, Download, Tag, Code2, Shield } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
@@ -107,7 +108,7 @@ const SiteDetails = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main Content */}
+          {/* Main Content (keep image and description only) */}
           <div className="lg:col-span-2 space-y-6">
             {/* Site Preview */}
             <Card>
@@ -134,44 +135,14 @@ const SiteDetails = () => {
                 </p>
               </CardContent>
             </Card>
-
-            {/* Features */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Features</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {(site.features || defaultFeatures).map((feature, index) => <div key={index} className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[#8B5CF6] rounded-full"></div>
-                      <span>{feature}</span>
-                    </div>)}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Technologies */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Technologies Used</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {(site.technologies || defaultTechnologies).map((tech, index) => <Badge key={index} variant="secondary" className="flex items-center gap-1">
-                      <Code2 className="h-3 w-3" />
-                      {tech}
-                    </Badge>)}
-                </div>
-              </CardContent>
-            </Card>
           </div>
 
-          {/* Sidebar */}
+          {/* Sidebar (combined details + toggles) */}
           <div className="space-y-6">
-            {/* Purchase Info */}
+            {/* Combined: Purchase Details + Details (with toggles) */}
             <Card>
               <CardHeader>
-                <CardTitle>Purchase Details</CardTitle>
+                <CardTitle>Details</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex justify-between items-center">
@@ -192,73 +163,84 @@ const SiteDetails = () => {
                   </Badge>
                 </div>
                 <Separator />
-                <Button className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED]" onClick={handlePurchase}>
-                  <Download className="mr-2 h-4 w-4" />
-                  {site.price === 0 ? 'Download Now' : 'Purchase Now'}
-                </Button>
-                {!user && <p className="text-xs text-center text-muted-foreground mt-2">
-                    Sign in required to purchase
-                  </p>}
+                <Tabs defaultValue="features">
+                  <TabsList className="w-full grid grid-cols-2">
+                    <TabsTrigger value="features">Features</TabsTrigger>
+                    <TabsTrigger value="inclusions">Inclusions</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="features" className="mt-4">
+                    <div className="grid grid-cols-1 gap-3">
+                      {(site.features || defaultFeatures).map((feature, index) => (
+                        <div key={index} className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-[#8B5CF6] rounded-full"></div>
+                          <span>{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="inclusions" className="mt-4">
+                    <div className="space-y-3">
+                      {(site.inclusions && site.inclusions.length > 0 ? site.inclusions : defaultInclusions).map((inc, index) => (
+                        <div key={index} className="flex items-center gap-2">
+                          <Shield className="h-4 w-4 text-green-500" />
+                          <span className="text-sm">{inc}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </TabsContent>
+                </Tabs>
               </CardContent>
             </Card>
 
-            {/* Stats */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Statistics</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-2">
-                    <Eye className="h-4 w-4 text-muted-foreground" />
-                    <span>Views</span>
-                  </div>
-                  <span className="font-medium">{site.views_count || 0}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-2">
-                    <Download className="h-4 w-4 text-muted-foreground" />
-                    <span>Downloads</span>
-                  </div>
-                  <span className="font-medium">{site.downloads_count || 0}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-2">
-                    <Star className="h-4 w-4 text-muted-foreground" />
-                    <span>Rating</span>
-                  </div>
-                  <span className="font-medium">
-                    ⭐ {site.rating_average?.toFixed(1) || '0.0'} ({site.rating_count || 0})
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
+            {/* Call-to-action buttons under the combined card */}
+            <div className="grid grid-cols-2 gap-3">
+              <Button
+                className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED]"
+                onClick={() => navigate(`/checkout?site=${websiteId}`)}
+              >
+                Buy Template
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => navigate('/contact')}
+              >
+                Customize
+              </Button>
+            </div>
 
-            {/* Tags */}
+            {/* Toggle: Tech Used / Tags */}
             <Card>
               <CardHeader>
-                <CardTitle>Tags</CardTitle>
+                <CardTitle>Tech & Tags</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {(site.tags || defaultTags).map((tag, index) => <Badge key={index} variant="outline" className="flex items-center gap-1">
-                      <Tag className="h-3 w-3" />
-                      {tag}
-                    </Badge>)}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* What's Included */}
-            <Card>
-              <CardHeader>
-                <CardTitle>What's Included</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {(site.inclusions && site.inclusions.length > 0 ? site.inclusions : defaultInclusions).map((inclusion, index) => <div key={index} className="flex items-center gap-2">
-                      <Shield className="h-4 w-4 text-green-500" />
-                      <span className="text-sm">{inclusion}</span>
-                    </div>)}
+                <Tabs defaultValue="tech">
+                  <TabsList className="w-full grid grid-cols-2">
+                    <TabsTrigger value="tech">Tech Used</TabsTrigger>
+                    <TabsTrigger value="tags">Tags</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="tech" className="mt-4">
+                    <div className="flex flex-wrap gap-2">
+                      {(site.technologies || defaultTechnologies).map((tech, index) => (
+                        <Badge key={index} variant="secondary" className="flex items-center gap-1">
+                          <Code2 className="h-3 w-3" />
+                          {tech}
+                        </Badge>
+                      ))}
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="tags" className="mt-4">
+                    <div className="flex flex-wrap gap-2">
+                      {(site.tags || defaultTags).map((tag, index) => (
+                        <Badge key={index} variant="outline" className="flex items-center gap-1">
+                          <Tag className="h-3 w-3" />
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </TabsContent>
+                </Tabs>
               </CardContent>
             </Card>
           </div>

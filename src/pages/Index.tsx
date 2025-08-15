@@ -10,7 +10,6 @@ import { CTASection } from '@/components/sections/CTASection';
 import { Footer } from '@/components/sections/Footer';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
-import { Portfolio } from '@/components/sections/Portfolio';
 import { LeadCaptureForm } from '@/components/forms/LeadCaptureForm';
 import { ConsultationBooking } from '@/components/booking/ConsultationBooking';
 import { ClientLogos } from '@/components/ui/ClientLogos';
@@ -34,9 +33,6 @@ const Index = () => {
       <ClientLogos />
       
       <Features />
-      
-      {/* Portfolio Section */}
-      <Portfolio />
       
       {/* Lead Capture Section */}
       <section className="py-20 px-4">

@@ -22,7 +22,9 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Bot } from 'lucide-react';
-// import { usePerformanceMonitor, useRenderPerformance } from '@/hooks/usePerformanceMonitor';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 type Website = Tables<'websites'>;
 type AIAgent = Tables<'ai_agents'>;
@@ -43,6 +45,8 @@ const Marketplace: React.FC = () => {
   const didInitialScrollReset = useRef(false);
   const isMobile = useIsMobile();
   const [isAIDialogOpen, setIsAIDialogOpen] = useState(false);
+  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+
   const [floatingButtonPos, setFloatingButtonPos] = useState({ x: typeof window !== 'undefined' ? window.innerWidth - 80 : 0, y: typeof window !== 'undefined' ? window.innerHeight - 120 : 0 });
 
   // Always start at top when entering Marketplace
@@ -58,7 +62,7 @@ const Marketplace: React.FC = () => {
 
     const reset = () => {
       window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-      if (mainContentRef.current) {
+      if (!isMobile && mainContentRef.current) {
         mainContentRef.current.scrollTop = 0;
         mainContentRef.current.scrollLeft = 0;
       }
@@ -80,11 +84,12 @@ const Marketplace: React.FC = () => {
         window.history.scrollRestoration = prevRestoration as History['scrollRestoration'];
       }
     };
-  }, []);
+  }, [isMobile]);
 
   // Calculate sticky offset for filters so assistant starts below it
   useEffect(() => {
-    if (!filtersWrapRef.current) return;
+    // Skip offset management on mobile since we use normal page scroll
+    if (isMobile || !filtersWrapRef.current) return;
     const root = document.documentElement;
     const STICKY_TOP_PX = 64; // matches top-16
 
@@ -104,7 +109,7 @@ const Marketplace: React.FC = () => {
       ro.disconnect();
       window.removeEventListener('resize', updateOffset);
     };
-  }, [filtersWrapRef]);
+  }, [filtersWrapRef, isMobile]);
 
   // Note: post-data scroll reset is declared AFTER data hooks below
 
@@ -131,14 +136,14 @@ const Marketplace: React.FC = () => {
     if (!isLoading && didInitialScrollReset.current) {
       const t = setTimeout(() => {
         window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-        if (mainContentRef.current) {
+        if (!isMobile && mainContentRef.current) {
           mainContentRef.current.scrollTop = 0;
           mainContentRef.current.scrollLeft = 0;
         }
       }, 0);
       return () => clearTimeout(t);
     }
-  }, [isLoading, activeTab]);
+  }, [isLoading, activeTab, isMobile]);
 
   const handleRefresh = useCallback(() => {
     if (activeTab === 'websites') {
@@ -304,20 +309,73 @@ const Marketplace: React.FC = () => {
       />
       <div className="pt-6 pb-8 px-2 sm:px-4 lg:px-6 min-h-screen flex flex-col">
         <div className="container mx-auto max-w-[1800px] flex flex-col flex-1">
-          <div ref={filtersWrapRef} className="sticky top-16 z-30 py-6 mb-6">
-            <MarketplaceFilters
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-              selectedCategory={selectedCategory}
-              setSelectedCategory={setSelectedCategory}
-              sortBy={sortBy}
-              setSortBy={setSortBy}
-              categories={categories}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-            />
-          </div>
-
+          {/* Filters header */}
+          {!isMobile ? (
+            <div ref={filtersWrapRef} className="sticky top-16 z-30 py-6 mb-6">
+              <MarketplaceFilters
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+                categories={categories}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+              />
+            </div>
+          ) : (
+            <div className="sticky top-16 z-30 mb-4">
+              <div className="rounded-lg border bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm">
+                <button
+                  className="w-full flex items-center justify-between px-3 py-2 text-sm font-medium"
+                  onClick={() => setIsMobileFiltersOpen(prev => !prev)}
+                >
+                  <span className="text-muted-foreground">Filters</span>
+                  {isMobileFiltersOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                </button>
+                <Collapsible open={isMobileFiltersOpen} onOpenChange={setIsMobileFiltersOpen}>
+                  <CollapsibleContent className="px-3 pb-3">
+                    <Tabs defaultValue="search">
+                      <TabsList className="w-full grid grid-cols-2">
+                        <TabsTrigger value="search">Search</TabsTrigger>
+                        <TabsTrigger value="assistant">AI Assistant</TabsTrigger>
+                      </TabsList>
+                      <TabsContent value="search" className="mt-3">
+                        <MarketplaceFilters
+                          searchTerm={searchTerm}
+                          setSearchTerm={setSearchTerm}
+                          selectedCategory={selectedCategory}
+                          setSelectedCategory={setSelectedCategory}
+                          sortBy={sortBy}
+                          setSortBy={setSortBy}
+                          categories={categories}
+                          activeTab={activeTab}
+                          setActiveTab={setActiveTab}
+                        />
+                      </TabsContent>
+                      <TabsContent value="assistant" className="mt-3">
+                        <div className="rounded-lg border bg-card p-3">
+                          <div className="flex items-center gap-2 mb-2 text-sm font-medium">
+                            <Bot className="h-4 w-4" />
+                            AI Chatbot
+                          </div>
+                          <div className="max-h-[60vh] overflow-y-auto">
+                            <AIChatbot onSearch={(q) => { 
+                              setActiveTab('websites');
+                              setSelectedCategory('all');
+                              setTagFilter(null);
+                              setSearchTerm(q);
+                            }} />
+                          </div>
+                        </div>
+                      </TabsContent>
+                    </Tabs>
+                  </CollapsibleContent>
+                </Collapsible>
+              </div>
+            </div>
+          )}
           <div className="flex gap-4 xl:gap-6 items-start flex-1">
             {/* Left Sidebar */}
             <div className="hidden xl:block w-[320px] shrink-0">
@@ -338,22 +396,13 @@ const Marketplace: React.FC = () => {
                 }} />
               </div>
             </div>
-            
-            {/* Main Content - scrollable cards area */}
+            {/* Main Content - desktop uses independent scroll; mobile uses page scroll */}
             <div className="flex-1 min-w-0 relative">
               <div className="absolute inset-0">
                 <AnimatedGridBackground />
               </div>
-              <div
-                ref={mainContentRef}
-                className="relative z-10 p-1 overflow-y-auto"
-                style={{
-                  // Use same measured offset as AI assistant so only cards scroll
-                  height: 'calc(100dvh - var(--filters-sticky-offset, 140px))',
-                  overscrollBehavior: 'contain'
-                }}
-              >
-                <div>
+              {isMobile ? (
+                <div className="relative z-10 p-1">
                   {activeTab === 'websites' ? (
                     <TemplateGrid 
                       templates={sortedItems as Website[]} 
@@ -379,16 +428,53 @@ const Marketplace: React.FC = () => {
                       )}
                     </div>
                   )}
+                  <MarketplaceCTA />
                 </div>
-                <MarketplaceCTA />
-              </div>
+              ) : (
+                <div
+                  ref={mainContentRef}
+                  className="relative z-10 p-1 overflow-y-auto"
+                  style={{
+                    height: 'calc(100dvh - var(--filters-sticky-offset, 140px))',
+                    overscrollBehavior: 'contain'
+                  }}
+                >
+                  <div>
+                    {activeTab === 'websites' ? (
+                      <TemplateGrid 
+                        templates={sortedItems as Website[]} 
+                        isLoading={isLoading} 
+                        onRefresh={handleRefresh}
+                        onTagFilter={handleTagFilter}
+                      />
+                    ) : (
+                      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-4">
+                        {isLoading ? (
+                          Array.from({ length: 6 }).map((_, i) => (
+                            <div key={i} className="h-80 bg-gray-200 animate-pulse rounded-lg" />
+                          ))
+                        ) : (
+                          ((sortedItems as AIAgent[]).length > 0 ? (sortedItems as AIAgent[]) : dummyAIAgents).map((agent) => (
+                            <AIAgentInfographicCard 
+                              key={agent.id}
+                              agent={agent as any}
+                              onUse={(agent) => console.log('Use agent:', agent)}
+                              onView={(agent) => console.log('View agent:', agent)}
+                            />
+                          ))
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  <MarketplaceCTA />
+                </div>
+              )}
             </div>
-
             {/* Right Sidebar removed per request: Featured/Trending/Quick Links */}
           </div>
         </div>
 
-        {isMobile && (
+        {!isMobile && (
           <Dialog open={isAIDialogOpen} onOpenChange={setIsAIDialogOpen}>
             <DialogTrigger asChild>
               <Button

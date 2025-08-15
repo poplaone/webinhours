@@ -110,9 +110,6 @@ export const Services = () => {
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold group-hover:text-[#8B5CF6] transition-colors">{service.title}</h3>
-                    <span className="text-sm font-medium" style={{
-                  color: service.activeColor
-                }}>{service.price}</span>
                   </div>
                 </div>
                 

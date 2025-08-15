@@ -22,11 +22,11 @@ const Terms = lazy(() => import("./pages/Terms"));
 const Blog = lazy(() => import("./pages/Blog"));
 const Auth = lazy(() => import("./pages/Auth"));
 const Profile = lazy(() => import("./pages/Profile"));
-const Dashboard = lazy(() => import("./pages/Dashboard"));
 const AdminPanel = lazy(() => import("./pages/AdminPanel"));
 const Marketplace = lazy(() => import("./pages/Marketplace"));
 const SiteDetails = lazy(() => import("./pages/SiteDetails"));
 const Notifications = lazy(() => import("./pages/Notifications"));
+const Checkout = lazy(() => import("./pages/Checkout"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -73,18 +73,14 @@ function App() {
                       <Marketplace />
                     </ErrorBoundary>
                   } />
+                  <Route path="/checkout" element={<Checkout />} />
                   <Route path="/site/:slugOrId" element={<SiteDetails />} />
                   <Route path="/profile" element={
                     <ProtectedRoute>
                       <Profile />
                     </ProtectedRoute>
                   } />
-                  <Route path="/dashboard" element={
-                    <ProtectedRoute>
-                      <Dashboard />
-                    </ProtectedRoute>
-                  } />
-                  <Route path="/admin-panel" element={
+<Route path="/admin-panel" element={
                     <ProtectedRoute>
                       <AdminPanel />
                     </ProtectedRoute>
