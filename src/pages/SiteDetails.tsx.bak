@@ -65,13 +65,16 @@ const SiteDetails = () => {
   ], []);
 
   if (isLoading) {
-    return <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex items-center justify-center">
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
-      </div>;
+      </div>
+    );
   }
 
   if (!site) {
-    return <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex items-center justify-center">
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex items-center justify-center">
         <Card className="p-8 text-center">
           <h2 className="text-2xl font-bold mb-4">Site Not Found</h2>
           <p className="text-muted-foreground mb-4">The requested site could not be found.</p>
@@ -121,9 +124,9 @@ const SiteDetails = () => {
             <Card className="overflow-hidden">
               <CardContent className="p-0">
                 <div className="aspect-video overflow-hidden">
-                  <img
-                    src={site.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&h=450&q=80"}
-                    alt={site.title}
+                  <img 
+                    src={site.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&h=450&q=80"} 
+                    alt={site.title} 
                     className="w-full h-full object-cover"
                     loading="lazy"
                   />
@@ -154,9 +157,9 @@ const SiteDetails = () => {
                   <p className="text-muted-foreground leading-relaxed">
                     {site.description || "This is a professional website template designed for modern businesses. It features a clean, responsive design that looks great on all devices."}
                   </p>
-
+                  
                   <Separator className="my-4" />
-
+                  
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">
                       <span className="font-medium">Category</span>
@@ -169,7 +172,7 @@ const SiteDetails = () => {
                       </Badge>
                     </div>
                   </div>
-
+                  
                   <Tabs defaultValue="features" className="mt-4">
                     <TabsList className="w-full grid grid-cols-2">
                       <TabsTrigger value="features">Features</TabsTrigger>
