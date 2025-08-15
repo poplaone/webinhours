@@ -103,7 +103,7 @@ TemplateCard.displayName = 'TemplateCard';
 // Memoized loading skeleton
 const LoadingSkeleton = memo(() => (
   <Masonry
-    breakpointCols={{ default: 3, 1400: 2, 1024: 2, 768: 1 }}
+    breakpointCols={{ default: 4, 1280: 3, 1024: 2, 640: 1 }}
     className="masonry-grid"
     columnClassName="masonry-col"
   >
@@ -181,7 +181,7 @@ export const TemplateGrid = memo(({ templates, isLoading, onRefresh, onTagFilter
 
   return (
     <Masonry
-      breakpointCols={{ default: 3, 1400: 2, 1024: 2, 768: 1 }}
+      breakpointCols={{ default: 4, 1280: 3, 1024: 2, 640: 1 }}
       className="masonry-grid"
       columnClassName="masonry-col"
     >

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Bot, Tag, Star, ExternalLink, Sparkles, Cpu } from 'lucide-react';
+import { Bot, Tag, Star, ExternalLink, Sparkles, Cpu, ShoppingBag, Briefcase, PenTool, Newspaper, Rocket, Brain, MessageSquare, BarChart3, Shield, Globe, Code, Wand2 } from 'lucide-react';
 import type { AIAgent } from '@/types/aiAgent';
 
 interface AIAgentInfographicCardProps {
@@ -16,9 +16,28 @@ export const AIAgentInfographicCard: React.FC<AIAgentInfographicCardProps> = ({ 
   const handleUse = (e: React.MouseEvent) => { e.stopPropagation(); onUse?.(agent); };
   const handleView = (e: React.MouseEvent) => { e.stopPropagation(); onView?.(agent); };
 
+  // Pick an icon based on agent category/title/tags
+  const pickIcon = (): React.ElementType => {
+    const t = `${agent.title} ${agent.category} ${agent.agent_type} ${(agent.tags||[]).join(' ')}`.toLowerCase();
+    if (/(e-?comm|shop|store|retail|cart)/.test(t)) return ShoppingBag;
+    if (/(portfolio|design|creative|brand|logo|ui)/.test(t)) return PenTool;
+    if (/(business|company|agency|sales|crm)/.test(t)) return Briefcase;
+    if (/(blog|news|content|article|copy)/.test(t)) return Newspaper;
+    if (/(launch|landing|saas|startup|growth|acquisition)/.test(t)) return Rocket;
+    if (/(ai|assistant|brain|ml|analysis|predict)/.test(t)) return Brain;
+    if (/(chat|support|inbox|message)/.test(t)) return MessageSquare;
+    if (/(analytics|report|chart|kpi|metric)/.test(t)) return BarChart3;
+    if (/(security|guard|shield|auth)/.test(t)) return Shield;
+    if (/(global|seo|traffic|international)/.test(t)) return Globe;
+    if (/(dev|code|developer|github|automation)/.test(t)) return Code;
+    if (/(magic|auto|wizard|optimize|enhance)/.test(t)) return Wand2;
+    return Bot;
+  };
+  const Icon = pickIcon();
+
   return (
     <motion.div
-      whileHover={{ y: -4 }}
+      whileHover={{ y: -3 }}
       transition={{ type: 'spring', stiffness: 300, damping: 25 }}
       className="h-full"
     >
@@ -28,105 +47,44 @@ export const AIAgentInfographicCard: React.FC<AIAgentInfographicCardProps> = ({ 
           <div className="absolute -top-24 -right-24 h-56 w-56 rounded-full bg-gradient-to-br from-primary/25 to-accent/20 blur-2xl" />
           <div className="absolute -bottom-24 -left-24 h-56 w-56 rounded-full bg-gradient-to-tr from-primary/15 to-accent/10 blur-2xl" />
           <div className="absolute inset-0 opacity-[0.08] bg-[radial-gradient(circle_at_1px_1px,hsl(var(--primary))/0.25_1px,transparent_1px)] [background-size:16px_16px]" />
+          {/* Glass shine */}
+          <div className="absolute inset-0 pointer-events-none [mask-image:linear-gradient(to-bottom,white,transparent_60%)]">
+            <div className="absolute -top-24 left-1/4 right-1/4 h-32 rotate-12 bg-white/10 blur-md rounded-full" />
+          </div>
         </div>
 
-        <CardContent className="relative p-4 sm:p-5 flex flex-col h-full">
+        <CardContent className="relative p-3 sm:p-3 flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-start gap-3">
-            <div className="shrink-0 grid place-items-center rounded-xl border border-border/60 bg-gradient-to-br from-primary/15 to-accent/15 p-3 text-primary shadow-sm">
-              <Bot className="h-5 w-5" />
+          <div className="flex items-start gap-2.5">
+            <div className="shrink-0 grid place-items-center rounded-lg border border-border/60 bg-gradient-to-br from-primary/15 to-accent/15 p-2.5 text-primary shadow-sm">
+              <Icon className="h-4 w-4" />
             </div>
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2">
-                <h3 className="truncate text-base font-semibold leading-tight">{agent.title}</h3>
+                <h3 className="truncate text-sm font-semibold leading-tight">{agent.title}</h3>
                 {agent.is_featured && (
                   <Badge variant="secondary" className="gap-1">
                     <Sparkles className="h-3.5 w-3.5 text-primary" /> Featured
                   </Badge>
                 )}
               </div>
-              <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-                <Badge variant="outline" className="border-border/60 text-foreground/80">
+              <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[11px] text-muted-foreground">
+                <Badge variant="outline" className="h-5 px-1.5 border-border/60 text-foreground/80">
                   {agent.agent_type}
                 </Badge>
-                <Badge variant="outline" className="border-border/60 text-foreground/80">
+                <Badge variant="outline" className="h-5 px-1.5 border-border/60 text-foreground/80">
                   {agent.category}
                 </Badge>
-                {typeof agent.price === 'number' && (
-                  <Badge variant="secondary" className="gap-1">
-                    <Star className="h-3 w-3 text-primary" /> {agent.price === 0 ? 'Free' : `$${Number(agent.price).toFixed(2)}`}
-                  </Badge>
-                )}
               </div>
             </div>
           </div>
 
-          {/* Preview / Thumbnail */}
-          <div className="mt-4 overflow-hidden rounded-lg border border-border/50">
-            <div className="aspect-[16/9] relative bg-muted/40">
-              {agent.thumbnail_url ? (
-                <img
-                  src={agent.thumbnail_url}
-                  alt={`${agent.title} thumbnail`}
-                  loading="lazy"
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <div className="absolute inset-0 grid place-items-center text-muted-foreground">
-                  <Cpu className="h-8 w-8" />
-                </div>
-              )}
-              {/* subtle overlay */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
-            </div>
-          </div>
-
-          {/* Description & highlights */}
-          <div className="mt-3 space-y-3">
-            {agent.description && (
-              <p className="line-clamp-2 text-sm text-muted-foreground">{agent.description}</p>
-            )}
-
-            <div className="grid grid-cols-2 gap-2">
-              <div className="flex items-center gap-2 rounded-md border border-border/50 bg-background/50 px-2.5 py-2 text-xs">
-                <Star className="h-4 w-4 text-primary" />
-                <span>Usage: {agent.usage_count ?? 0}</span>
-              </div>
-              <div className="flex items-center gap-2 rounded-md border border-border/50 bg-background/50 px-2.5 py-2 text-xs">
-                <ExternalLink className="h-4 w-4 text-primary" />
-                <a href={agent.preview_url} target="_blank" rel="noreferrer" className="truncate hover:underline">
-                  Preview
-                </a>
-              </div>
-            </div>
-
-            {agent.tags && agent.tags.length > 0 && (
-              <div className="flex flex-wrap items-center gap-1.5">
-                <Tag className="h-3.5 w-3.5 text-primary" />
-                {agent.tags.slice(0, 4).map((tag, i) => (
-                  <Badge key={i} variant="outline" className="border-border/50 text-foreground/80">
-                    {tag}
-                  </Badge>
-                ))}
-                {agent.tags.length > 4 && (
-                  <span className="text-xs text-muted-foreground">+{agent.tags.length - 4}</span>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* Actions */}
-          <div className="mt-4 flex items-center justify-between">
-            <div className="text-xs text-muted-foreground">
-              {agent.status && (
-                <span className="capitalize">{agent.status}</span>
-              )}
-            </div>
-            <div className="flex gap-2">
-              <Button size="sm" variant="secondary" onClick={handleView}>View</Button>
-              <Button size="sm" onClick={handleUse}>Use</Button>
-            </div>
-          </div>
+          {/* Description (subheading) */}
+          {agent.description && (
+            <p className="mt-2 line-clamp-2 text-[12px] text-muted-foreground">
+              {agent.description}
+            </p>
+          )}
         </CardContent>
       </Card>
     </motion.div>

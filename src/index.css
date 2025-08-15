@@ -101,6 +101,18 @@
       margin-right: 0 !important;
     }
   }
+
+  /* AI assistant chat scroll containment and sizing */
+  .ai-chat {
+    height: 100%;
+  }
+  .ai-chat [data-radix-scroll-area-viewport] {
+    height: 100% !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain; /* keep page stable while chat scrolls */
+    -ms-overflow-style: auto;
+    scrollbar-width: thin;
+  }
 }
 
 @layer components {

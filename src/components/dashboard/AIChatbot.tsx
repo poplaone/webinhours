@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
-import { Bot, Send, Sparkles, MessageCircle, X, Minimize2, Maximize2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Bot, Send, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
 interface Message {
   id: string;
   type: 'user' | 'bot';
@@ -15,9 +15,11 @@ interface Message {
 }
 interface AIChatbotProps {
   onTemplateRecommend?: (templateId: string) => void;
+  onSearch?: (query: string) => void;
 }
 export const AIChatbot: React.FC<AIChatbotProps> = ({
-  onTemplateRecommend
+  onTemplateRecommend,
+  onSearch
 }) => {
   const [messages, setMessages] = useState<Message[]>([{
     id: '1',
@@ -28,16 +30,19 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({
   }]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [isMinimized, setIsMinimized] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  // Fixed layout: no minimize/expand
+  const scrollAreaRootRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({
-      behavior: 'smooth'
-    });
+    // Scroll only the internal ScrollArea viewport to avoid page scroll
+    const viewport = scrollAreaRootRef.current?.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement | null;
+    if (viewport) {
+      viewport.scrollTo({ top: viewport.scrollHeight, behavior: 'auto' });
+    }
   };
   useEffect(() => {
-    scrollToBottom();
+    // Wait for DOM to paint before scrolling
+    const raf = requestAnimationFrame(scrollToBottom);
+    return () => cancelAnimationFrame(raf);
   }, [messages]);
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
@@ -48,6 +53,8 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({
       timestamp: new Date()
     };
     setMessages(prev => [...prev, userMessage]);
+    // Trigger marketplace search if provided
+    onSearch?.(inputValue);
     setInputValue('');
     setIsTyping(true);
 
@@ -106,28 +113,26 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({
   };
   const handleSuggestionClick = (suggestion: string) => {
     setInputValue(suggestion);
-    handleSendMessage();
+    // Immediately push as a message and trigger search
+    const msg: Message = { id: Date.now().toString(), type: 'user', content: suggestion, timestamp: new Date() };
+    setMessages(prev => [...prev, msg]);
+    onSearch?.(suggestion);
+    setIsTyping(true);
+    setTimeout(() => {
+      const botResponse = generateBotResponse(suggestion);
+      setMessages(prev => [...prev, botResponse]);
+      setIsTyping(false);
+    }, 800);
   };
-  if (isMinimized) {
-    return <motion.div initial={{
-      scale: 0
-    }} animate={{
-      scale: 1
-    }} className="fixed bottom-4 right-4 z-50">
-        <Button onClick={() => setIsMinimized(false)} className="w-14 h-14 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-lg">
-          <Bot className="w-6 h-6 text-white" />
-        </Button>
-      </motion.div>;
-  }
   return <motion.div initial={{
     opacity: 0,
     x: 20
   }} animate={{
     opacity: 1,
     x: 0
-  }} className={`${isExpanded ? 'fixed inset-4 z-50' : 'w-full'}`}>
-      <Card className={`${isExpanded ? 'h-full' : 'min-h-[600px]'} flex flex-col bg-transparent border-0 shadow-none`}>
-        <CardHeader className="pb-3 border-b border-purple-200/20">
+  }} className={`w-full h-full`}>
+      <Card className={`relative h-full flex flex-col bg-transparent border-0 shadow-none overflow-hidden`}>
+        <CardHeader className="pb-2 border-b border-purple-200/20">
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center text-lg">
               <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 flex items-center justify-center mr-3">
@@ -136,23 +141,14 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({
               AI Assistant
               <div className="w-2 h-2 bg-green-500 rounded-full ml-2 animate-pulse"></div>
             </CardTitle>
-            <div className="flex items-center gap-1">
-              <Button variant="ghost" size="sm" onClick={() => setIsExpanded(!isExpanded)} className="h-8 w-8 p-0">
-                {isExpanded ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
-              </Button>
-              <Button variant="ghost" size="sm" onClick={() => setIsMinimized(true)} className="h-8 w-8 p-0">
-                <X className="w-4 h-4" />
-              </Button>
-            </div>
+            <div className="h-8" />
           </div>
-          <p className="text-sm text-gray-500 flex items-center">
-            <Sparkles className="w-3 h-3 mr-1" />
-            Powered by AI • Always here to help
-          </p>
         </CardHeader>
 
-        <CardContent className="flex-1 flex flex-col p-0">
-          <ScrollArea className="flex-1 p-4">
+        <CardContent className="flex-1 flex flex-col p-0 min-h-0 overflow-hidden">
+          <div ref={scrollAreaRootRef} className="relative flex-1 min-h-0 ai-chat z-0">
+          <ScrollArea className="h-full w-full">
+            <div className="p-4 pb-24">
             <div className="flex flex-col items-center space-y-4">
               {messages.map(message => <motion.div key={message.id} initial={{
               opacity: 0,
@@ -195,12 +191,15 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({
                     </div>
                   </div>
                 </motion.div>}
-              <div ref={messagesEndRef} />
+              {/* end spacer for scroll */}
+              <div className="h-0" />
+            </div>
             </div>
           </ScrollArea>
+          </div>
 
-          <div className="p-4 border-t border-muted">
-            <div className="relative max-w-[340px] mx-auto">
+          <div className="h-20 p-4 border-t border-muted absolute bottom-0 left-0 right-0 bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/70 flex items-center z-10">
+            <div className="relative max-w-[340px] mx-auto w-full">
               <input 
                 value={inputValue} 
                 onChange={e => setInputValue(e.target.value)} 
