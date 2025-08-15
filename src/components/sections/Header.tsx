@@ -102,26 +102,26 @@ export const Header = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Mobile header styles - matching bottom nav
+  // Mobile header styles - matching bottom nav (thinner for more content space)
   if (isMobile) {
     return (
       <>
-        <header className="fixed top-4 left-4 right-4 z-50 lg:hidden">
-          <div className={`rounded-2xl border shadow-2xl transition-all duration-[2000ms] ease-in-out ${
+        <header className="fixed top-2 left-2 right-2 z-50 lg:hidden">
+          <div className={`rounded-xl border shadow-xl transition-all duration-[2000ms] ease-in-out ${
             mobileHeaderVisible 
               ? 'bg-background/95 backdrop-blur-lg border-border/40' 
               : 'bg-transparent backdrop-blur-none border-transparent'
           }`}>
-            <div className="flex items-center justify-between py-3 px-4">
+            <div className="flex items-center justify-between py-2 px-3">
               {/* Logo on left */}
               <div 
                 className="flex items-center space-x-2 cursor-pointer" 
                 onClick={() => navigate('/')}
               >
-                <div className="bg-[#8B5CF6] rounded-lg p-2">
-                  <Code className="h-5 w-5 text-white" />
+                <div className="bg-[#8B5CF6] rounded-lg p-1.5">
+                  <Code className="h-4 w-4 text-white" />
                 </div>
-                <span className="font-bold text-base bg-gradient-to-r from-[#8B5CF6] to-[#A78BFA] bg-clip-text text-transparent">
+                <span className="font-bold text-sm bg-gradient-to-r from-[#8B5CF6] to-[#A78BFA] bg-clip-text text-transparent">
                   WebInHours
                 </span>
               </div>
@@ -130,10 +130,10 @@ export const Header = () => {
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-12 w-12 rounded-xl touch-manipulation text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-all duration-200"
+                className="h-10 w-10 rounded-lg touch-manipulation text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-all duration-200"
                 onClick={toggleMenu}
               >
-                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </Button>
             </div>
 
@@ -146,12 +146,12 @@ export const Header = () => {
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <nav className="flex flex-col space-y-1 p-4 max-h-[60vh] overflow-y-auto">
+                <nav className="flex flex-col space-y-1 p-4 max-h-[55vh] overflow-y-auto">
                   {allMobileItems.map((item, index) => (
                     <button
                       key={item.label}
                       onClick={() => handleNavigation(item.path)}
-                      className={`text-muted-foreground hover:text-foreground transition-colors py-3 text-left touch-manipulation hover:bg-accent/50 rounded-md px-2 ${
+                      className={`text-muted-foreground hover:text-foreground transition-colors py-2 text-left touch-manipulation hover:bg-accent/50 rounded-md px-2 ${
                         index < navItems.length ? 'text-base font-medium' : 'text-sm'
                       }`}
                     >
@@ -165,11 +165,11 @@ export const Header = () => {
         </header>
 
         {/* Add padding to prevent content overlap */}
-        <div className="h-20 lg:hidden" />
+        <div className="h-14 lg:hidden" />
 
         {/* Scroll to top button */}
         <motion.button
-          className="fixed bottom-24 right-4 z-50 bg-[#8B5CF6] text-white p-3 rounded-full shadow-lg hover:bg-[#7C3AED] transition-all duration-300 hover:scale-110 lg:hidden"
+          className="fixed bottom-20 right-4 z-50 bg-[#8B5CF6] text-white p-3 rounded-full shadow-lg hover:bg-[#7C3AED] transition-all duration-300 hover:scale-110 lg:hidden"
           onClick={scrollToTop}
           initial={{ opacity: 0, scale: 0 }}
           animate={{ 
