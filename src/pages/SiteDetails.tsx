@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { useWebsiteById } from '@/hooks/queries/useWebsiteByIdQuery';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const SiteDetails = () => {
   const { id, slugOrId } = useParams<{ id?: string; slugOrId?: string }>();
@@ -18,6 +19,7 @@ const SiteDetails = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const { data: site, isLoading } = useWebsiteById(websiteId);
+  const isMobile = useIsMobile();
 
   const handlePurchase = useCallback(() => {
     if (!user) {
@@ -83,84 +85,80 @@ const SiteDetails = () => {
       </div>;
   }
 
-  return <div className="min-h-screen bg-gradient-to-br from-background to-background/80">
-      <div className="container mx-auto p-6">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-6">
-          <Button variant="outline" onClick={handleBackToMarketplace} className="flex items-center gap-2">
-            <ArrowLeft className="h-4 w-4" />
-            Back to Marketplace
-          </Button>
-          <div className="flex-1">
-            <h1 className="text-3xl font-bold">{site.title}</h1>
-            
-          </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" className="flex items-center gap-2" onClick={handlePreview}>
-              <Eye className="h-4 w-4" />
-              Preview
+  return <div className="min-h-screen bg-gradient-to-br from-background to-background/80 relative">
+      <div className="container mx-auto p-6 pb-20">
+        {/* Header - Only show on desktop */}
+        {!isMobile && (
+          <div className="flex items-center gap-4 mb-6">
+            <Button variant="outline" onClick={handleBackToMarketplace} className="flex items-center gap-2">
+              <ArrowLeft className="h-4 w-4" />
+              Back to Marketplace
             </Button>
-            <Button onClick={handlePurchase} className="bg-[#8B5CF6] hover:bg-[#7C3AED] flex items-center gap-2">
-              <Download className="h-4 w-4" />
-              {site.price === 0 ? 'Download Free' : `Purchase $${site.price}`}
-            </Button>
+            <div className="flex-1">
+              <h1 className="text-3xl font-bold">{site.title}</h1>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" className="flex items-center gap-2" onClick={handlePreview}>
+                <Eye className="h-4 w-4" />
+                Preview
+              </Button>
+              <Button onClick={handlePurchase} className="bg-[#8B5CF6] hover:bg-[#7C3AED] flex items-center gap-2">
+                <Download className="h-4 w-4" />
+                {site.price === 0 ? 'Download Free' : `Purchase $${site.price}`}
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main Content (keep image and description only) */}
-          <div className="lg:col-span-2 space-y-6">
+        <div className={`grid grid-cols-1 ${isMobile ? 'gap-4' : 'lg:grid-cols-3 gap-6'} min-h-[calc(100vh-200px)]`}>
+          {/* Main Content */}
+          <div className={isMobile ? '' : 'lg:col-span-2'}>
             {/* Site Preview */}
-            <Card>
-              <CardContent className="p-0">
-                <div className="aspect-video overflow-hidden rounded-lg">
+            <Card className="h-full relative">
+              <CardContent className="p-0 h-full">
+                <div className={`h-full ${isMobile ? 'min-h-[300px]' : 'min-h-[500px]'} overflow-hidden rounded-lg relative`}>
                   <img 
                     src={site.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&h=450&q=80"} 
                     alt={site.title} 
                     className="w-full h-full object-cover"
                     loading="lazy"
                   />
+                  {/* Translucent Preview Button Inside Image */}
+                  <Button 
+                    onClick={handlePreview}
+                    className="absolute top-4 right-4 bg-black/40 hover:bg-black/60 backdrop-blur-sm text-white border-white/20 flex items-center gap-2"
+                    variant="outline"
+                  >
+                    <Eye className="h-4 w-4" />
+                    Preview
+                  </Button>
                 </div>
               </CardContent>
             </Card>
+            
+            {/* Mobile: Title below image */}
+            {isMobile && (
+              <div className="mt-4">
+                <h1 className="text-2xl font-bold">{site.title}</h1>
+              </div>
+            )}
+          </div>
 
-            {/* Description */}
+          {/* Sidebar - Desktop or Mobile content */}
+          <div className="space-y-6">
+            {/* Combined: Details with About This Template */}
             <Card>
               <CardHeader>
                 <CardTitle>About This Template</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-4">
                 <p className="text-muted-foreground leading-relaxed">
                   {site.description || "This is a professional website template designed for modern businesses. It features a clean, responsive design that looks great on all devices."}
                 </p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Sidebar (combined details + toggles) */}
-          <div className="space-y-6">
-            {/* Combined: Purchase Details + Details (with toggles) */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Details</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">Price</span>
-                  <span className="text-2xl font-bold text-[#8B5CF6]">
-                    ${site.price === 0 ? 'Free' : site.price}
-                  </span>
-                </div>
                 <Separator />
                 <div className="flex justify-between items-center">
                   <span className="font-medium">Category</span>
                   <Badge>{site.category}</Badge>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">Status</span>
-                  <Badge variant={site.status === 'approved' ? 'default' : 'secondary'}>
-                    {site.status}
-                  </Badge>
                 </div>
                 <Separator />
                 <Tabs defaultValue="features">
@@ -192,22 +190,24 @@ const SiteDetails = () => {
               </CardContent>
             </Card>
 
-            {/* Call-to-action buttons under the combined card */}
-            <div className="grid grid-cols-2 gap-3">
-              <Button
-                className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED]"
-                onClick={() => navigate(`/checkout?site=${websiteId}`)}
-              >
-                Buy Template
-              </Button>
-              <Button
-                variant="outline"
-                className="w-full"
-                onClick={() => navigate('/contact')}
-              >
-                Customize
-              </Button>
-            </div>
+            {/* Desktop: Call-to-action buttons under the combined card */}
+            {!isMobile && (
+              <div className="grid grid-cols-2 gap-3">
+                <Button
+                  className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED]"
+                  onClick={() => navigate(`/checkout?site=${websiteId}`)}
+                >
+                  Buy Template
+                </Button>
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => navigate('/contact')}
+                >
+                  Customize
+                </Button>
+              </div>
+            )}
 
             {/* Toggle: Tech Used / Tags */}
             <Card>
@@ -245,6 +245,29 @@ const SiteDetails = () => {
             </Card>
           </div>
         </div>
+        
+        {/* Mobile: Sticky Footer with Action Buttons */}
+        {isMobile && (
+          <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t border-border p-4 z-50">
+            <div className="grid grid-cols-2 gap-3 max-w-md mx-auto">
+              <Button
+                className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED] flex items-center justify-center gap-2"
+                onClick={() => navigate(`/checkout?site=${websiteId}`)}
+              >
+                <Download className="h-4 w-4" />
+                Buy Template ${site.price === 0 ? 'Free' : site.price}
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full flex items-center justify-center gap-2"
+                onClick={() => navigate('/contact')}
+              >
+                <Code2 className="h-4 w-4" />
+                Customize
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </div>;
 };

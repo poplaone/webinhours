@@ -9,6 +9,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { ErrorBoundary } from "@/components/ui/error-boundary";
 import Index from "./pages/Index";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { preloadCriticalResources, optimizeRenderPerformance } from "@/utils/performanceOptimizer";
 
 // Lazy load components
 const About = lazy(() => import("./pages/About"));
@@ -29,7 +30,24 @@ const Notifications = lazy(() => import("./pages/Notifications"));
 const Checkout = lazy(() => import("./pages/Checkout"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // Reduce stale time for faster updates
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      // Enable background refetching
+      refetchOnWindowFocus: false,
+      // Reduce retry attempts for faster failure handling
+      retry: 1,
+      // Enable query deduplication
+      refetchOnMount: 'always'
+    },
+    mutations: {
+      // Faster mutation timeout
+      retry: 1
+    }
+  }
+});
 
 // Component to handle scroll to top on route change
 function ScrollToTop() {
@@ -43,6 +61,12 @@ function ScrollToTop() {
 }
 
 function App() {
+  // Initialize performance optimizations
+  useEffect(() => {
+    preloadCriticalResources();
+    optimizeRenderPerformance();
+  }, []);
+
   return (
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>

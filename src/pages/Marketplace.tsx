@@ -1,30 +1,28 @@
-import React, { useState, useRef, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useMemo, useCallback, useEffect, Suspense, lazy } from 'react';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
+import { useWebsites } from '@/hooks/useWebsites';
+import { useAIAgents } from '@/hooks/useAIAgents';
+import { Tables } from '@/integrations/supabase/types';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Bot } from 'lucide-react';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
-import { MarketplaceFilters } from '@/components/marketplace/MarketplaceFilters';
+// Lazy load heavy components
+const MarketplaceFilters = lazy(() => import('@/components/marketplace/MarketplaceFilters').then(m => ({ default: m.MarketplaceFilters })));
+const TemplateGrid = lazy(() => import('@/components/dashboard/TemplateGrid').then(m => ({ default: m.TemplateGrid })));
+const AIAgentInfographicCard = lazy(() => import('@/components/ai-agents/AIAgentInfographicCard').then(m => ({ default: m.AIAgentInfographicCard })));
+const MarketplaceCTA = lazy(() => import('@/components/marketplace/MarketplaceCTA').then(m => ({ default: m.MarketplaceCTA })));
+const AIChatbot = lazy(() => import('@/components/dashboard/AIChatbot').then(m => ({ default: m.AIChatbot })));
+const AnimatedGridBackground = lazy(() => import('@/components/animations/AnimatedGridBackground'));
 
 interface Category {
   id: string;
   name: string;
   count: number;
 }
-import { TemplateGrid } from '@/components/dashboard/TemplateGrid';
-import { AIAgentInfographicCard } from '@/components/ai-agents/AIAgentInfographicCard';
-import { MarketplaceCTA } from '@/components/marketplace/MarketplaceCTA';
-import { AIChatbot } from '@/components/dashboard/AIChatbot';
-import { FeaturedSidebar } from '@/components/dashboard/FeaturedSidebar';
-import { useWebsites } from '@/hooks/useWebsites';
-import { useAIAgents } from '@/hooks/useAIAgents';
-import { Tables } from '@/integrations/supabase/types';
-import AnimatedGridBackground from '@/components/animations/AnimatedGridBackground';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Bot } from 'lucide-react';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { ChevronDown, ChevronUp } from 'lucide-react';
 
 type Website = Tables<'websites'>;
 type AIAgent = Tables<'ai_agents'>;
@@ -44,10 +42,7 @@ const Marketplace: React.FC = () => {
   const filtersWrapRef = useRef<HTMLDivElement>(null);
   const didInitialScrollReset = useRef(false);
   const isMobile = useIsMobile();
-  const [isAIDialogOpen, setIsAIDialogOpen] = useState(false);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
-
-  const [floatingButtonPos, setFloatingButtonPos] = useState({ x: typeof window !== 'undefined' ? window.innerWidth - 80 : 0, y: typeof window !== 'undefined' ? window.innerHeight - 120 : 0 });
 
   // Always start at top when entering Marketplace
   useEffect(() => {
@@ -117,9 +112,7 @@ const Marketplace: React.FC = () => {
   const { data: allMarketplaceWebsites = [], isLoading: isLoadingWebsites, refetch: refetchWebsites, error: websitesError } = useWebsites({ includeAll: false });
   const { data: allMarketplaceAIAgents = [], isLoading: isLoadingAIAgents, refetch: refetchAIAgents, error: aiAgentsError } = useAIAgents({ includeAll: false, includeMine: true });
 
-  const handleDrag = useCallback((e: React.DragEvent) => {
-    setFloatingButtonPos({ x: e.clientX - 28, y: e.clientY - 28 });
-  }, []);
+
 
   // Debug logging
   console.log('Marketplace data:', {
@@ -312,17 +305,19 @@ const Marketplace: React.FC = () => {
           {/* Filters header */}
           {!isMobile ? (
             <div ref={filtersWrapRef} className="sticky top-16 z-30 py-6 mb-6">
-              <MarketplaceFilters
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
-                selectedCategory={selectedCategory}
-                setSelectedCategory={setSelectedCategory}
-                sortBy={sortBy}
-                setSortBy={setSortBy}
-                categories={categories}
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-              />
+              <Suspense fallback={<div className="h-16 bg-muted/20 animate-pulse rounded-lg" />}>
+                <MarketplaceFilters
+                  searchTerm={searchTerm}
+                  setSearchTerm={setSearchTerm}
+                  selectedCategory={selectedCategory}
+                  setSelectedCategory={setSelectedCategory}
+                  sortBy={sortBy}
+                  setSortBy={setSortBy}
+                  categories={categories}
+                  activeTab={activeTab}
+                  setActiveTab={setActiveTab}
+                />
+              </Suspense>
             </div>
           ) : (
             <div className="sticky top-16 z-30 mb-4">
@@ -342,17 +337,19 @@ const Marketplace: React.FC = () => {
                         <TabsTrigger value="assistant">AI Assistant</TabsTrigger>
                       </TabsList>
                       <TabsContent value="search" className="mt-3">
-                        <MarketplaceFilters
-                          searchTerm={searchTerm}
-                          setSearchTerm={setSearchTerm}
-                          selectedCategory={selectedCategory}
-                          setSelectedCategory={setSelectedCategory}
-                          sortBy={sortBy}
-                          setSortBy={setSortBy}
-                          categories={categories}
-                          activeTab={activeTab}
-                          setActiveTab={setActiveTab}
-                        />
+                        <Suspense fallback={<div className="h-32 bg-muted/10 animate-pulse rounded" />}>
+                          <MarketplaceFilters
+                            searchTerm={searchTerm}
+                            setSearchTerm={setSearchTerm}
+                            selectedCategory={selectedCategory}
+                            setSelectedCategory={setSelectedCategory}
+                            sortBy={sortBy}
+                            setSortBy={setSortBy}
+                            categories={categories}
+                            activeTab={activeTab}
+                            setActiveTab={setActiveTab}
+                          />
+                        </Suspense>
                       </TabsContent>
                       <TabsContent value="assistant" className="mt-3">
                         <div className="rounded-lg border bg-card p-3">
@@ -361,12 +358,14 @@ const Marketplace: React.FC = () => {
                             AI Chatbot
                           </div>
                           <div className="max-h-[60vh] overflow-y-auto">
-                            <AIChatbot onSearch={(q) => { 
-                              setActiveTab('websites');
-                              setSelectedCategory('all');
-                              setTagFilter(null);
-                              setSearchTerm(q);
-                            }} />
+                            <Suspense fallback={<div className="h-40 bg-muted/10 animate-pulse rounded" />}>
+                              <AIChatbot onSearch={(q) => { 
+                                setActiveTab('websites');
+                                setSelectedCategory('all');
+                                setTagFilter(null);
+                                setSearchTerm(q);
+                              }} />
+                            </Suspense>
                           </div>
                         </div>
                       </TabsContent>
@@ -474,26 +473,7 @@ const Marketplace: React.FC = () => {
           </div>
         </div>
 
-        {!isMobile && (
-          <Dialog open={isAIDialogOpen} onOpenChange={setIsAIDialogOpen}>
-            <DialogTrigger asChild>
-              <Button
-                draggable
-                onDrag={handleDrag}
-                size="lg"
-                style={{ left: floatingButtonPos.x, top: floatingButtonPos.y }}
-                className="fixed z-50 rounded-full w-16 h-16 shadow-xl bg-gradient-to-br from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 border-2 border-white/20 cursor-move"
-              >
-                <Bot className="h-8 w-8 text-white" />
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md w-[90vw] h-[70vh] p-0 rounded-2xl">
-              <div className="h-full">
-                <AIChatbot />
-              </div>
-            </DialogContent>
-          </Dialog>
-        )}
+
       </div>
     </AppLayout>
   );

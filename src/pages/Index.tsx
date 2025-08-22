@@ -1,26 +1,29 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import AnimatedGridBackground from '@/components/animations/AnimatedGridBackground';
-import { PremiumTestimonials } from '@/components/ui/premium-testimonials';
-import { TrustSignals } from '@/components/ui/trust-signals';
 import { Hero } from '@/components/sections/Hero';
-import { MarketplacePreview } from '@/components/sections/MarketplacePreview';
 import { Services } from '@/components/sections/Services';
-import { Features } from '@/components/sections/Features';
 import { CTASection } from '@/components/sections/CTASection';
 import { Footer } from '@/components/sections/Footer';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
-import { LeadCaptureForm } from '@/components/forms/LeadCaptureForm';
-import { ConsultationBooking } from '@/components/booking/ConsultationBooking';
-import { ClientLogos } from '@/components/ui/ClientLogos';
+
+// Lazy load heavy components to improve initial page load
+const PremiumTestimonials = lazy(() => import('@/components/ui/premium-testimonials').then(m => ({ default: m.PremiumTestimonials })));
+const MarketplacePreview = lazy(() => import('@/components/sections/MarketplacePreview').then(m => ({ default: m.MarketplacePreview })));
+const Features = lazy(() => import('@/components/sections/Features').then(m => ({ default: m.Features })));
+const LeadCaptureForm = lazy(() => import('@/components/forms/LeadCaptureForm').then(m => ({ default: m.LeadCaptureForm })));
+const ConsultationBooking = lazy(() => import('@/components/booking/ConsultationBooking').then(m => ({ default: m.ConsultationBooking })));
+const ClientLogos = lazy(() => import('@/components/ui/ClientLogos').then(m => ({ default: m.ClientLogos })));
 const Index = () => {
   return <AppLayout>
       <SEOHead title="WebInHours - Professional Websites Delivered in 24 Hours" description="Get professional, mobile-responsive websites built in 24 hours, not weeks. Custom development, e-commerce, SEO optimization. 500+ successful projects. Money-back guarantee." keywords="website development, 24 hour website, fast web design, professional websites, custom development, e-commerce, mobile responsive, SEO optimization" />
       <AnimatedGridBackground />
       <Hero />
       
-      {/* Marketplace Preview */}
-      <MarketplacePreview />
+      {/* Marketplace Preview - Lazy loaded */}
+      <Suspense fallback={<div className="h-32 bg-gradient-to-r from-muted/50 to-muted animate-pulse rounded-lg mx-4 my-8" />}>
+        <MarketplacePreview />
+      </Suspense>
       
       {/* Trust signals after hero */}
       
@@ -29,20 +32,30 @@ const Index = () => {
         <Services />
       </div>
       
-      {/* Client Logos Section */}
-      <ClientLogos />
+      {/* Client Logos Section - Lazy loaded */}
+      <Suspense fallback={<div className="h-20 bg-muted/30 animate-pulse mx-4 my-8" />}>
+        <ClientLogos />
+      </Suspense>
       
-      <Features />
+      {/* Features - Lazy loaded */}
+      <Suspense fallback={<div className="h-64 bg-gradient-to-r from-muted/30 to-muted/10 animate-pulse rounded-lg mx-4 my-8" />}>
+        <Features />
+      </Suspense>
       
-      {/* Lead Capture Section */}
+      {/* Lead Capture Section - Lazy loaded */}
       <section className="py-20 px-4">
         <div className="container mx-auto">
-          <LeadCaptureForm variant="inline" incentive="Free Website Audit + $200 Bonus Package" className="max-w-4xl mx-auto" />
+          <Suspense fallback={<div className="h-32 bg-muted/20 animate-pulse rounded-lg max-w-4xl mx-auto" />}>
+            <LeadCaptureForm variant="inline" incentive="Free Website Audit + $200 Bonus Package" className="max-w-4xl mx-auto" />
+          </Suspense>
         </div>
       </section>
       
+      {/* Testimonials - Lazy loaded */}
       <div id="testimonials">
-        <PremiumTestimonials />
+        <Suspense fallback={<div className="h-96 bg-gradient-to-b from-muted/20 to-transparent animate-pulse mx-4 my-8" />}>
+          <PremiumTestimonials />
+        </Suspense>
       </div>
       
       {/* Consultation Booking Section */}
@@ -55,7 +68,9 @@ const Index = () => {
               No sales pressure, just expert advice tailored to your needs.
             </p>
           </div>
-          <ConsultationBooking />
+          <Suspense fallback={<div className="h-40 bg-background/50 animate-pulse rounded-lg" />}>
+            <ConsultationBooking />
+          </Suspense>
         </div>
       </section>
       

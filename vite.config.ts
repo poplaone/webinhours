@@ -34,21 +34,73 @@ export default defineConfig(({ mode }) => ({
     },
     rollupOptions: {
       output: {
-        // Optimize chunk splitting
+        // Advanced chunk splitting for better performance
         manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          ui: ['@radix-ui/react-dialog', '@radix-ui/react-select', '@radix-ui/react-tabs'],
-          utils: ['framer-motion', 'lucide-react'],
-          supabase: ['@supabase/supabase-js'],
+          // Core React libraries
+          'react-vendor': ['react', 'react-dom'],
+          'react-router': ['react-router-dom'],
+          
+          // UI Library chunks
+          'radix-ui': [
+            '@radix-ui/react-dialog', 
+            '@radix-ui/react-select', 
+            '@radix-ui/react-tabs',
+            '@radix-ui/react-accordion',
+            '@radix-ui/react-avatar',
+            '@radix-ui/react-checkbox',
+            '@radix-ui/react-dropdown-menu',
+            '@radix-ui/react-popover',
+            '@radix-ui/react-toast'
+          ],
+          'ui-components': [
+            '@radix-ui/react-slot',
+            '@radix-ui/react-separator',
+            '@radix-ui/react-label',
+            '@radix-ui/react-progress',
+            '@radix-ui/react-scroll-area'
+          ],
+          
+          // Animation and visual libraries
+          'animations': ['framer-motion', 'motion'],
+          'icons': ['lucide-react'],
+          
+          // Backend and data
+          'supabase': ['@supabase/supabase-js'],
+          'query': ['@tanstack/react-query'],
+          
+          // Form and validation
+          'forms': ['react-hook-form', '@hookform/resolvers', 'zod'],
+          
+          // Utilities
+          'date-utils': ['date-fns'],
+          'utilities': ['clsx', 'tailwind-merge', 'class-variance-authority'],
+          
+          // Heavy components (lazy load these)
+          'admin-heavy': [
+            './src/components/admin/AdminPanelTabs',
+            './src/components/admin/WebsiteUploadForm',
+            './src/components/admin/WebsiteEditForm'
+          ]
         },
         // Optimize asset naming
-        chunkFileNames: 'assets/js/[name]-[hash].js',
+        chunkFileNames: (chunkInfo) => {
+          const facadeModuleId = chunkInfo.facadeModuleId
+            ? chunkInfo.facadeModuleId.split('/').pop().replace('.tsx', '').replace('.ts', '')
+            : 'chunk';
+          return `assets/js/${facadeModuleId}-[hash].js`;
+        },
         entryFileNames: 'assets/js/[name]-[hash].js',
         assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
       },
     },
     // Optimize chunk size warnings
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 500, // Reduced from 1000
+    // Enable tree shaking
+    treeshake: {
+      moduleSideEffects: false,
+      propertyReadSideEffects: false,
+      tryCatchDeoptimization: false
+    }
   },
   optimizeDeps: {
     // Pre-bundle dependencies for faster dev server
