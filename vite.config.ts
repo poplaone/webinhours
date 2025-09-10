@@ -85,7 +85,7 @@ export default defineConfig(({ mode }) => ({
         // Optimize asset naming
         chunkFileNames: (chunkInfo) => {
           const facadeModuleId = chunkInfo.facadeModuleId
-            ? chunkInfo.facadeModuleId.split('/').pop().replace('.tsx', '').replace('.ts', '')
+            ? chunkInfo.facadeModuleId.split('/').pop()?.replace('.tsx', '')?.replace('.ts', '') || 'chunk'
             : 'chunk';
           return `assets/js/${facadeModuleId}-[hash].js`;
         },
