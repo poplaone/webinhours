@@ -1,4 +1,3 @@
-
 import { Suspense, lazy, useEffect } from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -7,7 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { ErrorBoundary } from "@/components/ui/error-boundary";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { preloadCriticalResources, optimizeRenderPerformance } from "@/utils/performanceOptimizer";
+import { preloadCriticalResources, optimizeRenderPerformance, enableServiceWorker } from "@/utils/performanceOptimizer";
 
 // Lazy load all pages including Index for optimal code splitting
 const Index = lazy(() => import("./pages/Index"));
@@ -64,6 +63,7 @@ function App() {
   useEffect(() => {
     preloadCriticalResources();
     optimizeRenderPerformance();
+    enableServiceWorker(); // Enable aggressive caching
   }, []);
 
   return (

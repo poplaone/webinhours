@@ -1,18 +1,20 @@
 // Service Worker for aggressive caching and lightning-fast performance
-const CACHE_NAME = 'webinhours-v1';
-const STATIC_CACHE = 'webinhours-static-v1';
+const CACHE_VERSION = 'v2';
+const CACHE_NAME = `webinhours-${CACHE_VERSION}`;
+const STATIC_CACHE = `webinhours-static-${CACHE_VERSION}`;
+const RUNTIME_CACHE = `webinhours-runtime-${CACHE_VERSION}`;
+
+// Cache expiration times (in milliseconds)
+const CACHE_MAX_AGE = {
+  static: 365 * 24 * 60 * 60 * 1000, // 1 year for static assets with hash
+  runtime: 7 * 24 * 60 * 60 * 1000,   // 1 week for runtime cache
+  api: 5 * 60 * 1000,                  // 5 minutes for API responses
+};
 
 // Critical resources to cache immediately
 const CRITICAL_RESOURCES = [
   '/',
   '/index.html',
-  '/manifest.json',
-  // Add critical CSS and JS files here when available
-];
-
-// API endpoints to cache with network-first strategy
-const API_CACHE_PATTERNS = [
-  /^https:\/\/dcsnxieqnpcjqqiajtvh\.supabase\.co\/rest\/v1\//,
 ];
 
 // Install event - cache critical resources
@@ -36,7 +38,10 @@ self.addEventListener('activate', (event) => {
         return Promise.all(
           cacheNames
             .filter((cacheName) => {
-              return cacheName !== CACHE_NAME && cacheName !== STATIC_CACHE;
+              return cacheName.startsWith('webinhours-') && 
+                     cacheName !== CACHE_NAME && 
+                     cacheName !== STATIC_CACHE &&
+                     cacheName !== RUNTIME_CACHE;
             })
             .map((cacheName) => {
               return caches.delete(cacheName);
@@ -59,76 +64,108 @@ self.addEventListener('fetch', (event) => {
 
   // Handle different types of requests with appropriate strategies
   if (isStaticAsset(url)) {
-    // Static assets: Cache First strategy
-    event.respondWith(cacheFirst(request));
+    // Static assets with hash: Cache First with long expiration
+    event.respondWith(cacheFirstWithExpiration(request, STATIC_CACHE, CACHE_MAX_AGE.static));
   } else if (isAPIRequest(url)) {
-    // API requests: Network First strategy
-    event.respondWith(networkFirst(request));
+    // API requests: Network First with short cache
+    event.respondWith(networkFirstWithExpiration(request, RUNTIME_CACHE, CACHE_MAX_AGE.api));
   } else if (isPageRequest(url)) {
-    // Pages: Stale While Revalidate strategy
-    event.respondWith(staleWhileRevalidate(request));
+    // Pages: Network First with fallback
+    event.respondWith(networkFirstWithExpiration(request, RUNTIME_CACHE, CACHE_MAX_AGE.runtime));
   }
 });
 
 // Helper functions
 function isStaticAsset(url) {
-  return /\.(js|css|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|ico)$/i.test(url);
+  // Match hashed assets from Vite build and fonts
+  return /\/(assets|fonts)\/.*\.(js|css|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|ico|webp)(\?.*)?$/i.test(url) ||
+         /\.(woff2|woff)(\?.*)?$/i.test(url);
 }
 
 function isAPIRequest(url) {
-  return API_CACHE_PATTERNS.some(pattern => pattern.test(url));
+  return url.includes('.supabase.co') || 
+         url.includes('/api/') ||
+         url.includes('/rest/v1/');
 }
 
 function isPageRequest(url) {
   return !isStaticAsset(url) && !isAPIRequest(url);
 }
 
-// Caching strategies
-async function cacheFirst(request) {
-  const cachedResponse = await caches.match(request);
+// Enhanced caching strategies with expiration
+async function cacheFirstWithExpiration(request, cacheName, maxAge) {
+  const cache = await caches.open(cacheName);
+  const cachedResponse = await cache.match(request);
+  
+  // Check if cached response is still valid
   if (cachedResponse) {
-    return cachedResponse;
+    const cachedTime = new Date(cachedResponse.headers.get('sw-cache-time'));
+    const now = new Date();
+    
+    if (cachedTime && (now - cachedTime) < maxAge) {
+      return cachedResponse;
+    }
   }
 
   try {
     const networkResponse = await fetch(request);
     if (networkResponse.ok) {
-      const cache = await caches.open(CACHE_NAME);
-      cache.put(request, networkResponse.clone());
+      // Clone and add cache timestamp
+      const responseToCache = networkResponse.clone();
+      const headers = new Headers(responseToCache.headers);
+      headers.append('sw-cache-time', new Date().toISOString());
+      
+      const modifiedResponse = new Response(responseToCache.body, {
+        status: responseToCache.status,
+        statusText: responseToCache.statusText,
+        headers: headers
+      });
+      
+      cache.put(request, modifiedResponse);
     }
     return networkResponse;
   } catch (error) {
-    // Return fallback for offline scenarios
+    // Return stale cache if network fails
+    if (cachedResponse) {
+      return cachedResponse;
+    }
     return new Response('Offline', { status: 408 });
   }
 }
 
-async function networkFirst(request) {
+async function networkFirstWithExpiration(request, cacheName, maxAge) {
+  const cache = await caches.open(cacheName);
+  
   try {
     const networkResponse = await fetch(request);
     if (networkResponse.ok) {
-      const cache = await caches.open(CACHE_NAME);
-      cache.put(request, networkResponse.clone());
+      // Clone and add cache timestamp
+      const responseToCache = networkResponse.clone();
+      const headers = new Headers(responseToCache.headers);
+      headers.append('sw-cache-time', new Date().toISOString());
+      
+      const modifiedResponse = new Response(responseToCache.body, {
+        status: responseToCache.status,
+        statusText: responseToCache.statusText,
+        headers: headers
+      });
+      
+      cache.put(request, modifiedResponse);
     }
     return networkResponse;
   } catch (error) {
-    const cachedResponse = await caches.match(request);
+    const cachedResponse = await cache.match(request);
+    
+    // Check if cached response is still valid
+    if (cachedResponse) {
+      const cachedTime = new Date(cachedResponse.headers.get('sw-cache-time'));
+      const now = new Date();
+      
+      if (!cachedTime || (now - cachedTime) < maxAge) {
+        return cachedResponse;
+      }
+    }
+    
     return cachedResponse || new Response('Offline', { status: 408 });
   }
-}
-
-async function staleWhileRevalidate(request) {
-  const cachedResponse = await caches.match(request);
-  
-  // Background fetch to update cache
-  const fetchPromise = fetch(request).then(networkResponse => {
-    if (networkResponse.ok) {
-      const cache = caches.open(CACHE_NAME);
-      cache.then(c => c.put(request, networkResponse.clone()));
-    }
-    return networkResponse;
-  });
-
-  // Return cached version immediately, or wait for network
-  return cachedResponse || fetchPromise;
 }
