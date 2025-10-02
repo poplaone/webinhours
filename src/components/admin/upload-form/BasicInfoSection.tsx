@@ -71,7 +71,11 @@ export function BasicInfoSection({
           <Label htmlFor="title">Title *</Label>
           <Input
             id="title"
-            {...register('title', { required: 'Title is required' })}
+            maxLength={200}
+            {...register('title', { 
+              required: 'Title is required',
+              maxLength: { value: 200, message: 'Title must be less than 200 characters' }
+            })}
             placeholder="E-commerce Store Template"
           />
           {errors.title && (
@@ -127,7 +131,11 @@ export function BasicInfoSection({
         <Label htmlFor="description">Description *</Label>
         <Textarea
           id="description"
-          {...register('description', { required: 'Description is required' })}
+          maxLength={2000}
+          {...register('description', { 
+            required: 'Description is required',
+            maxLength: { value: 2000, message: 'Description must be less than 2000 characters' }
+          })}
           placeholder="Complete e-commerce solution with shopping cart, payment integration, and admin dashboard. Perfect for online stores."
           rows={4}
         />

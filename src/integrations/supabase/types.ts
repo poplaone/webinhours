@@ -278,7 +278,6 @@ export type Database = {
           email: string | null
           full_name: string | null
           id: string
-          role: string | null
           updated_at: string | null
         }
         Insert: {
@@ -288,7 +287,6 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id: string
-          role?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -298,7 +296,6 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id?: string
-          role?: string | null
           updated_at?: string | null
         }
         Relationships: []
@@ -346,6 +343,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
       }
       websites: {
         Row: {
@@ -440,6 +458,13 @@ export type Database = {
         Args: { title: string }
         Returns: string
       }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
       increment_agent_usage: {
         Args: { agent_uuid: string }
         Returns: undefined
@@ -450,6 +475,7 @@ export type Database = {
       }
     }
     Enums: {
+      app_role: "admin" | "moderator" | "user"
       concept_status: "draft" | "testing" | "completed" | "archived"
       idea_status: "draft" | "in_review" | "approved" | "rejected"
       test_status: "pending" | "running" | "completed" | "failed"
@@ -580,6 +606,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      app_role: ["admin", "moderator", "user"],
       concept_status: ["draft", "testing", "completed", "archived"],
       idea_status: ["draft", "in_review", "approved", "rejected"],
       test_status: ["pending", "running", "completed", "failed"],
