@@ -35,60 +35,66 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         // Advanced chunk splitting for better performance
-        manualChunks: {
+        manualChunks: (id) => {
           // Core React libraries
-          'react-vendor': ['react', 'react-dom'],
-          'react-router': ['react-router-dom'],
+          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
+            return 'react-vendor';
+          }
+          if (id.includes('node_modules/react-router-dom/')) {
+            return 'react-router';
+          }
           
-          // UI Library chunks
-          'radix-ui': [
-            '@radix-ui/react-dialog', 
-            '@radix-ui/react-select', 
-            '@radix-ui/react-tabs',
-            '@radix-ui/react-accordion',
-            '@radix-ui/react-avatar',
-            '@radix-ui/react-checkbox',
-            '@radix-ui/react-dropdown-menu',
-            '@radix-ui/react-popover',
-            '@radix-ui/react-toast'
-          ],
-          'ui-components': [
-            '@radix-ui/react-slot',
-            '@radix-ui/react-separator',
-            '@radix-ui/react-label',
-            '@radix-ui/react-progress',
-            '@radix-ui/react-scroll-area'
-          ],
+          // Split Radix UI into smaller chunks
+          if (id.includes('@radix-ui/')) {
+            if (id.includes('dialog') || id.includes('select') || id.includes('tabs')) {
+              return 'radix-core';
+            }
+            return 'radix-misc';
+          }
           
-          // Animation and visual libraries
-          'animations': ['framer-motion', 'motion'],
-          'icons': ['lucide-react'],
+          // Split animations - defer loading
+          if (id.includes('framer-motion') || id.includes('node_modules/motion/')) {
+            return 'animations';
+          }
+          
+          // Split icons into separate chunk for tree-shaking
+          if (id.includes('lucide-react')) {
+            return 'icons';
+          }
           
           // Backend and data
-          'supabase': ['@supabase/supabase-js'],
-          'query': ['@tanstack/react-query'],
+          if (id.includes('@supabase/supabase-js')) {
+            return 'supabase';
+          }
+          if (id.includes('@tanstack/react-query')) {
+            return 'query';
+          }
           
-          // Form and validation
-          'forms': ['react-hook-form', '@hookform/resolvers', 'zod'],
+          // Forms
+          if (id.includes('react-hook-form') || id.includes('@hookform/') || id.includes('zod')) {
+            return 'forms';
+          }
+          
+          // Charts (heavy, should be lazy loaded)
+          if (id.includes('recharts')) {
+            return 'charts';
+          }
           
           // Utilities
-          'date-utils': ['date-fns'],
-          'utilities': ['clsx', 'tailwind-merge', 'class-variance-authority'],
+          if (id.includes('date-fns')) {
+            return 'date-utils';
+          }
+          if (id.includes('clsx') || id.includes('tailwind-merge') || id.includes('class-variance-authority')) {
+            return 'utilities';
+          }
           
-          // Heavy components (lazy load these)
-          'admin-heavy': [
-            './src/components/admin/AdminPanelTabs',
-            './src/components/admin/WebsiteUploadForm',
-            './src/components/admin/WebsiteEditForm'
-          ]
+          // Keep other node_modules in vendor
+          if (id.includes('node_modules/')) {
+            return 'vendor-misc';
+          }
         },
         // Optimize asset naming
-        chunkFileNames: (chunkInfo) => {
-          const facadeModuleId = chunkInfo.facadeModuleId
-            ? chunkInfo.facadeModuleId.split('/').pop()?.replace('.tsx', '')?.replace('.ts', '') || 'chunk'
-            : 'chunk';
-          return `assets/js/${facadeModuleId}-[hash].js`;
-        },
+        chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
         assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
       },
@@ -103,16 +109,16 @@ export default defineConfig(({ mode }) => ({
     }
   },
   optimizeDeps: {
-    // Pre-bundle dependencies for faster dev server
+    // Pre-bundle essential dependencies only
     include: [
       'react',
       'react-dom',
       'react-router-dom',
-      'framer-motion',
-      'lucide-react',
       '@supabase/supabase-js',
       '@tanstack/react-query',
     ],
+    // Exclude heavy libraries for better tree-shaking
+    exclude: ['lucide-react', 'framer-motion', 'motion'],
   },
   // Optimize CSS
   css: {

@@ -1,5 +1,4 @@
 import React, { Suspense, lazy } from 'react';
-import AnimatedGridBackground from '@/components/animations/AnimatedGridBackground';
 import { Hero } from '@/components/sections/Hero';
 import { Services } from '@/components/sections/Services';
 import { CTASection } from '@/components/sections/CTASection';
@@ -8,6 +7,7 @@ import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
 
 // Lazy load heavy components to improve initial page load
+const AnimatedGridBackground = lazy(() => import('@/components/animations/AnimatedGridBackground'));
 const PremiumTestimonials = lazy(() => import('@/components/ui/premium-testimonials').then(m => ({ default: m.PremiumTestimonials })));
 const MarketplacePreview = lazy(() => import('@/components/sections/MarketplacePreview').then(m => ({ default: m.MarketplacePreview })));
 const Features = lazy(() => import('@/components/sections/Features').then(m => ({ default: m.Features })));
@@ -17,7 +17,9 @@ const ClientLogos = lazy(() => import('@/components/ui/ClientLogos').then(m => (
 const Index = () => {
   return <AppLayout>
       <SEOHead title="WebInHours - Professional Websites Delivered in 24 Hours" description="Get professional, mobile-responsive websites built in 24 hours, not weeks. Custom development, e-commerce, SEO optimization. 500+ successful projects. Money-back guarantee." keywords="website development, 24 hour website, fast web design, professional websites, custom development, e-commerce, mobile responsive, SEO optimization" />
-      <AnimatedGridBackground />
+      <Suspense fallback={<div className="h-screen bg-gradient-to-b from-background to-muted/20" />}>
+        <AnimatedGridBackground />
+      </Suspense>
       <Hero />
       
       {/* Marketplace Preview - Lazy loaded */}

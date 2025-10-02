@@ -1,17 +1,16 @@
 
 import { Suspense, lazy, useEffect } from 'react';
-import { MotionConfig } from 'framer-motion';
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { ErrorBoundary } from "@/components/ui/error-boundary";
-import Index from "./pages/Index";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { preloadCriticalResources, optimizeRenderPerformance } from "@/utils/performanceOptimizer";
 
-// Lazy load components
+// Lazy load all pages including Index for optimal code splitting
+const Index = lazy(() => import("./pages/Index"));
 const About = lazy(() => import("./pages/About"));
 const Services = lazy(() => import("./pages/Services"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -71,7 +70,6 @@ function App() {
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
-          <MotionConfig reducedMotion="always">
           <BrowserRouter>
             <ScrollToTop />
             <Helmet>
@@ -120,7 +118,6 @@ function App() {
             </div>
             <Toaster />
           </BrowserRouter>
-          </MotionConfig>
         </TooltipProvider>
       </QueryClientProvider>
     </HelmetProvider>
