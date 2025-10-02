@@ -36,7 +36,15 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({
     // Scroll only the internal ScrollArea viewport to avoid page scroll
     const viewport = scrollAreaRootRef.current?.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement | null;
     if (viewport) {
-      viewport.scrollTo({ top: viewport.scrollHeight, behavior: 'auto' });
+      // Batch layout read to prevent forced reflow
+      requestAnimationFrame(() => {
+        if (viewport) {
+          const scrollHeight = viewport.scrollHeight;
+          requestAnimationFrame(() => {
+            viewport.scrollTo({ top: scrollHeight, behavior: 'auto' });
+          });
+        }
+      });
     }
   };
   useEffect(() => {

@@ -90,10 +90,21 @@ const Marketplace: React.FC = () => {
 
     const updateOffset = () => {
       if (!filtersWrapRef.current) return;
-      const rect = filtersWrapRef.current.getBoundingClientRect();
-      const height = filtersWrapRef.current.offsetHeight || rect.height || 0;
-      const computedOffset = Math.max(0, STICKY_TOP_PX + height);
-      root.style.setProperty('--filters-sticky-offset', `${computedOffset}px`);
+      
+      // Batch read and write operations to prevent forced reflow
+      requestAnimationFrame(() => {
+        if (!filtersWrapRef.current) return;
+        
+        // Read layout properties
+        const rect = filtersWrapRef.current.getBoundingClientRect();
+        const height = filtersWrapRef.current.offsetHeight || rect.height || 0;
+        const computedOffset = Math.max(0, STICKY_TOP_PX + height);
+        
+        // Write to DOM in same frame after reads
+        requestAnimationFrame(() => {
+          root.style.setProperty('--filters-sticky-offset', `${computedOffset}px`);
+        });
+      });
     };
 
     updateOffset();
