@@ -1,6 +1,7 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,17 +12,25 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2, Sparkles, Shield, Zap } from 'lucide-react';
 import AnimatedGridBackground from '@/components/animations/AnimatedGridBackground';
 import PixelCanvas from '@/components/animations/PixelCanvas';
+import { signInSchema, signUpSchema, SignInFormData, SignUpFormData } from '@/utils/formValidation';
 
 const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [fullName, setFullName] = useState('');
   const [activeTab, setActiveTab] = useState('signin');
   const { signIn, signUp, signInWithGoogle, user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const signInForm = useForm<SignInFormData>({
+    resolver: zodResolver(signInSchema),
+    defaultValues: { email: '', password: '' }
+  });
+
+  const signUpForm = useForm<SignUpFormData>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: { email: '', password: '', fullName: '' }
+  });
 
   // Get the intended destination from state or default to marketplace
   const from = location.state?.from?.pathname || '/marketplace';
@@ -33,11 +42,10 @@ const Auth = () => {
     }
   }, [user, navigate, from]);
 
-  const handleSignIn = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSignIn = async (data: SignInFormData) => {
     setIsLoading(true);
 
-    const { error } = await signIn(email, password);
+    const { error } = await signIn(data.email, data.password);
 
     if (error) {
       toast({
@@ -56,11 +64,10 @@ const Auth = () => {
     setIsLoading(false);
   };
 
-  const handleSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSignUp = async (data: SignUpFormData) => {
     setIsLoading(true);
 
-    const { error } = await signUp(email, password, fullName);
+    const { error } = await signUp(data.email, data.password, data.fullName);
 
     if (error) {
       toast({
@@ -179,30 +186,32 @@ const Auth = () => {
                   </TabsList>
 
                   <TabsContent value="signin" className="animate-fade-in">
-                    <form onSubmit={handleSignIn} className="space-y-4">
+                    <form onSubmit={signInForm.handleSubmit(handleSignIn)} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="signin-email">Email</Label>
                         <Input
                           id="signin-email"
                           type="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          required
+                          {...signInForm.register('email')}
                           className="bg-background/50 backdrop-blur border-border/40 focus:border-primary transition-all duration-300"
                           placeholder="Enter your email"
                         />
+                        {signInForm.formState.errors.email && (
+                          <p className="text-sm text-destructive">{signInForm.formState.errors.email.message}</p>
+                        )}
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="signin-password">Password</Label>
                         <Input
                           id="signin-password"
                           type="password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          required
+                          {...signInForm.register('password')}
                           className="bg-background/50 backdrop-blur border-border/40 focus:border-primary transition-all duration-300"
                           placeholder="Enter your password"
                         />
+                        {signInForm.formState.errors.password && (
+                          <p className="text-sm text-destructive">{signInForm.formState.errors.password.message}</p>
+                        )}
                       </div>
                       <Button 
                         type="submit" 
@@ -256,43 +265,45 @@ const Auth = () => {
                   </TabsContent>
 
                   <TabsContent value="signup" className="animate-fade-in">
-                    <form onSubmit={handleSignUp} className="space-y-4">
+                    <form onSubmit={signUpForm.handleSubmit(handleSignUp)} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="signup-name">Full Name</Label>
                         <Input
                           id="signup-name"
                           type="text"
-                          value={fullName}
-                          onChange={(e) => setFullName(e.target.value)}
-                          required
+                          {...signUpForm.register('fullName')}
                           className="bg-background/50 backdrop-blur border-border/40 focus:border-primary transition-all duration-300"
                           placeholder="Enter your full name"
                         />
+                        {signUpForm.formState.errors.fullName && (
+                          <p className="text-sm text-destructive">{signUpForm.formState.errors.fullName.message}</p>
+                        )}
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="signup-email">Email</Label>
                         <Input
                           id="signup-email"
                           type="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          required
+                          {...signUpForm.register('email')}
                           className="bg-background/50 backdrop-blur border-border/40 focus:border-primary transition-all duration-300"
                           placeholder="Enter your email"
                         />
+                        {signUpForm.formState.errors.email && (
+                          <p className="text-sm text-destructive">{signUpForm.formState.errors.email.message}</p>
+                        )}
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="signup-password">Password</Label>
                         <Input
                           id="signup-password"
                           type="password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          required
-                          minLength={6}
+                          {...signUpForm.register('password')}
                           className="bg-background/50 backdrop-blur border-border/40 focus:border-primary transition-all duration-300"
-                          placeholder="Create a password (min 6 characters)"
+                          placeholder="Min 8 chars, uppercase, lowercase, number"
                         />
+                        {signUpForm.formState.errors.password && (
+                          <p className="text-sm text-destructive">{signUpForm.formState.errors.password.message}</p>
+                        )}
                       </div>
                       <Button 
                         type="submit" 
