@@ -54,8 +54,6 @@ export function WebsiteUploadForm({ onClose }: { onClose: () => void }) {
     generateSlug,
   } = useWebsiteUploadForm(onClose);
 
-  console.log('🔧 WebsiteUploadForm - User is admin:', isAdmin);
-
   // If user is not admin, show access denied message
   if (!isAdmin) {
     return (

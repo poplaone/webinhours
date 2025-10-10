@@ -15,11 +15,8 @@ export const useWebsiteById = (slugOrId: string) => {
     queryKey: ['website', slugOrId],
     queryFn: async () => {
       if (!slugOrId) {
-        console.warn('🔍 No website identifier provided');
         return null;
       }
-
-      console.log('🔍 Fetching website by identifier:', slugOrId);
       
       try {
         let query = supabase.from('websites').select('*');
@@ -34,21 +31,16 @@ export const useWebsiteById = (slugOrId: string) => {
         const { data, error } = await query.maybeSingle();
 
         if (error) {
-          console.error('❌ Error fetching website:', error);
           throw new Error(`Database error: ${error.message}`);
         }
         
         if (!data) {
-          console.warn('⚠️ Website not found:', slugOrId);
           return null;
         }
-
-        console.log('✅ Successfully fetched website:', data.title);
         
         // Fetch and merge profile
         return await fetchSingleWebsiteWithProfile(data);
       } catch (error) {
-        console.error('💥 Website by ID query failed:', error);
         throw error;
       }
     },

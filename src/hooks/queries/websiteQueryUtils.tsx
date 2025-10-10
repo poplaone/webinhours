@@ -12,39 +12,32 @@ export const buildWebsitesQuery = (filters?: WebsiteFilters) => {
 
   // Apply category filter
   if (filters?.category && filters.category !== 'all') {
-    console.log('🔍 Applying category filter:', filters.category);
     query = query.eq('category', filters.category);
   }
 
   // Apply status filter based on user role and context
   if (filters?.status && filters.status !== 'all') {
-    console.log('🔍 Applying status filter:', filters.status);
     query = query.eq('status', filters.status);
   } else if (filters?.includeAll) {
-    console.log('🔍 Including all websites regardless of status (admin mode)');
     // When includeAll is true, don't filter by status - show all websites
   } else {
-    console.log('🔍 Applying default status filter: approved, featured');
     // Default behavior: show only approved/featured for marketplace
     query = query.in('status', ['approved', 'featured']);
   }
 
   // Apply featured filter
   if (filters?.featured !== undefined) {
-    console.log('🔍 Applying featured filter:', filters.featured);
     query = query.eq('is_featured', filters.featured);
   }
 
   // Apply tags filter
   if (filters?.tags && filters.tags.length > 0) {
-    console.log('🔍 Applying tags filter:', filters.tags);
     query = query.overlaps('tags', filters.tags);
   }
 
   // Apply search filter
   if (filters?.search && filters.search.trim()) {
     const searchTerm = filters.search.trim();
-    console.log('🔍 Applying search filter:', searchTerm);
     query = query.or(`title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%,category.ilike.%${searchTerm}%`);
   }
 
@@ -63,8 +56,6 @@ export const fetchProfilesForWebsites = async (websites: any[]) => {
     return !timestamp || (now - timestamp) > profileCacheTimeout;
   });
 
-  console.log('🔍 Fetching profiles for user IDs:', uncachedUserIds.length, 'out of', userIds.length);
-
   if (uncachedUserIds.length === 0) {
     // All profiles are cached, use cached data
     return websites.map(website => ({
@@ -79,11 +70,8 @@ export const fetchProfilesForWebsites = async (websites: any[]) => {
     .in('id', uncachedUserIds);
 
   if (profilesError) {
-    console.warn('⚠️ Error fetching profiles (non-critical):', profilesError);
     return websites;
   }
-
-  console.log('✅ Profiles fetched successfully:', profilesData?.length || 0);
   
   // Update cache with new profiles
   profilesData?.forEach(profile => {

@@ -24,7 +24,7 @@ export const useIsAdmin = () => {
       return data === true;
     },
     enabled: !!user?.id,
-    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+    staleTime: 30 * 1000, // Cache for 30 seconds only
   });
 
   return isAdmin;
