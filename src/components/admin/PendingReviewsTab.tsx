@@ -18,24 +18,10 @@ export function PendingReviewsTab({
   onQuickAction,
   formatPrice
 }: PendingReviewsTabProps) {
-  // Filter for pending websites and log for debugging
+  // Filter for pending websites
   const pendingWebsites = websites.filter(w => w.status === 'pending');
-  console.log('🔍 PendingReviewsTab - All websites:', websites.length);
-  console.log('🔍 PendingReviewsTab - Pending websites:', pendingWebsites.length);
-  console.log('🔍 PendingReviewsTab - Website statuses:', websites.map(w => ({
-    title: w.title,
-    status: w.status,
-    created_at: w.created_at,
-    user_id: w.user_id
-  })));
-  console.log('🟡 PendingReviewsTab - Filtered pending websites:', pendingWebsites.map(w => ({
-    title: w.title,
-    id: w.id,
-    user_id: w.user_id,
-    created_at: w.created_at
-  })));
+  
   const handleRefresh = () => {
-    console.log('🔄 Refreshing pending reviews...');
     window.location.reload();
   };
   return <Card>

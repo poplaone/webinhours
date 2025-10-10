@@ -454,6 +454,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      bootstrap_admin: {
+        Args: { admin_email: string }
+        Returns: undefined
+      }
       generate_slug: {
         Args: { title: string }
         Returns: string

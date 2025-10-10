@@ -28,10 +28,8 @@ export const prepareWebsiteData = ({
   inclusions,
   isAdmin,
 }: WebsiteDataParams) => {
-  // Determine status based on user role - EXPLICIT logic
+  // Determine status based on user role
   const websiteStatus = isAdmin ? 'approved' as const : 'pending' as const;
-  
-  console.log('🔧 Creating website with status:', websiteStatus, 'for admin user:', isAdmin);
 
   const websiteData = {
     title: data.title,
@@ -51,6 +49,5 @@ export const prepareWebsiteData = ({
     ...(isAdmin && { approved_at: new Date().toISOString() })
   };
 
-  console.log('🔧 Final website data before submission:', websiteData);
   return websiteData;
 };
