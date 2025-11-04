@@ -48,10 +48,10 @@ export const Header = () => {
   // Handle mobile header appearance
   useEffect(() => {
     if (isMobile) {
-      // Start transparent, then appear after 2 seconds
+      // Start transparent, then appear after 500ms for better UX
       const timer = setTimeout(() => {
         setMobileHeaderVisible(true);
-      }, 2000);
+      }, 500);
 
       return () => clearTimeout(timer);
     }
@@ -107,7 +107,7 @@ export const Header = () => {
     return (
       <>
         <header className="fixed top-2 left-2 right-2 z-50 lg:hidden">
-          <div className={`rounded-xl border shadow-xl transition-all duration-[2000ms] ease-in-out ${
+          <div className={`rounded-xl border shadow-xl transition-all duration-700 ease-in-out ${
             mobileHeaderVisible 
               ? 'bg-background/95 backdrop-blur-lg border-border/40' 
               : 'bg-transparent backdrop-blur-none border-transparent'

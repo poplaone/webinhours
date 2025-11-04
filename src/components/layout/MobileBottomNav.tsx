@@ -21,10 +21,10 @@ const MobileBottomNav = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Start transparent, then slowly appear over 2 seconds
+    // Start transparent, then appear quickly
     const timer = setTimeout(() => {
       setIsVisible(true);
-    }, 100);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, []);
@@ -45,7 +45,7 @@ const MobileBottomNav = () => {
   ];
 
   return (
-    <div className={`fixed bottom-2 left-2 right-2 rounded-xl border shadow-xl z-50 lg:hidden safe-area-pb transition-all duration-[2000ms] ease-in-out ${
+    <div className={`fixed bottom-2 left-2 right-2 rounded-xl border shadow-xl z-50 lg:hidden safe-area-pb transition-all duration-700 ease-in-out ${
       isVisible 
         ? 'bg-background/95 backdrop-blur-lg border-border/40' 
         : 'bg-transparent backdrop-blur-none border-transparent'
