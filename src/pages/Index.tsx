@@ -15,9 +15,14 @@ const LeadCaptureForm = lazy(() => import('@/components/forms/LeadCaptureForm').
 const ConsultationBooking = lazy(() => import('@/components/booking/ConsultationBooking').then(m => ({ default: m.ConsultationBooking })));
 const ClientLogos = lazy(() => import('@/components/ui/ClientLogos').then(m => ({ default: m.ClientLogos })));
 const Index = () => {
-  return <AppLayout>
-      <SEOHead title="WebInHours - Professional Websites Delivered in 24 Hours" description="Get professional, mobile-responsive websites built in 24 hours, not weeks. Custom development, e-commerce, SEO optimization. 500+ successful projects. Money-back guarantee." keywords="website development, 24 hour website, fast web design, professional websites, custom development, e-commerce, mobile responsive, SEO optimization" />
-      <Suspense fallback={<div className="h-screen bg-gradient-to-b from-background to-muted/20" />}>
+  return (
+    <AppLayout>
+      <SEOHead 
+        title="WebInHours - Professional Websites Delivered in 24 Hours" 
+        description="Get professional, mobile-responsive websites built in 24 hours, not weeks. Custom development, e-commerce, SEO optimization. 500+ successful projects. Money-back guarantee." 
+        keywords="website development, 24 hour website, fast web design, professional websites, custom development, e-commerce, mobile responsive, SEO optimization" 
+      />
+      <Suspense fallback={<div className="h-screen w-full bg-background" />}>
         <AnimatedGridBackground />
       </Suspense>
       <Hero />
@@ -78,6 +83,7 @@ const Index = () => {
       
       <CTASection />
       <Footer />
-    </AppLayout>;
+    </AppLayout>
+  );
 };
 export default Index;

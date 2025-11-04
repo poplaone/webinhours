@@ -6,7 +6,13 @@ import { AuthProvider } from "./hooks/useAuth";
 import App from "./App.tsx";
 import "./index.css";
 
-createRoot(document.getElementById("root")!).render(
+const rootElement = document.getElementById("root");
+
+if (!rootElement) {
+  throw new Error("Failed to find root element");
+}
+
+createRoot(rootElement).render(
   <StrictMode>
     <HelmetProvider>
       <AuthProvider>
