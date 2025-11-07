@@ -49,7 +49,16 @@ export const useAIAgents = (filters?: AIAgentFilters) => {
 
       if (error) throw error;
       return data as AIAgent[];
-    }
+    },
+    // 🚀 AGGRESSIVE CACHING FOR MARKETPLACE SPEED
+    staleTime: 1000 * 60 * 10, // 10 minutes - data stays fresh
+    gcTime: 1000 * 60 * 60, // 1 hour - keep in cache for an hour
+    retry: 1,
+    retryDelay: 500,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    networkMode: 'online'
   });
 };
 

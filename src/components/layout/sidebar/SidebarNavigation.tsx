@@ -1,11 +1,11 @@
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  Store, 
-  User, 
-  Code, 
+import {
+  LayoutDashboard,
+  Store,
+  User,
+  Code,
   Bell,
   InfoIcon,
   Phone,
@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useIsAdmin } from '@/hooks/useAdmin';
+import { usePrefetchMarketplace } from '@/hooks/queries/usePrefetchMarketplace';
 
 interface SidebarNavigationProps {
   currentPath: string;
@@ -25,6 +26,7 @@ interface SidebarNavigationProps {
 export const SidebarNavigation = ({ currentPath, isAuthenticated }: SidebarNavigationProps) => {
   const navigate = useNavigate();
   const isAdmin = useIsAdmin();
+  const { prefetchOnHover } = usePrefetchMarketplace();
 
   // Show these links only on homepage
   const homepageOnlyItems = [
@@ -58,22 +60,37 @@ export const SidebarNavigation = ({ currentPath, isAuthenticated }: SidebarNavig
   
   const navItems = isAuthenticated ? [...publicNavItems, ...authenticatedNavItems] : publicNavItems;
 
+  // Handle navigation with preloading
+  const handleNavigate = useCallback((path: string) => {
+    // Prefetch marketplace data if navigating to marketplace
+    if (path === '/marketplace') {
+      prefetchOnHover();
+    }
+    navigate(path);
+  }, [navigate, prefetchOnHover]);
+
   return (
     <nav className="p-4 space-y-1">
       {navItems.map((item) => {
         const Icon = item.icon;
         const isActive = currentPath === item.path;
-        
+
         return (
           <Button
             key={item.path}
             variant={isActive ? "default" : "ghost"}
             className={`w-full justify-start gap-3 ${
-              isActive 
-                ? "bg-[#8B5CF6] hover:bg-[#7C3AED] text-white" 
+              isActive
+                ? "bg-[#8B5CF6] hover:bg-[#7C3AED] text-white"
                 : "hover:bg-accent hover:text-accent-foreground"
             }`}
-            onClick={() => navigate(item.path)}
+            onClick={() => handleNavigate(item.path)}
+            onMouseEnter={() => {
+              // Prefetch data when hovering over marketplace
+              if (item.path === '/marketplace') {
+                prefetchOnHover();
+              }
+            }}
           >
             <Icon className="h-4 w-4" />
             {item.label}

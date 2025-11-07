@@ -31,18 +31,23 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // Reduce stale time for faster updates
-      staleTime: 1000 * 60 * 5, // 5 minutes
-      // Enable background refetching
+      // 🚀 AGGRESSIVE CACHING - Data stays fresh for 10 minutes
+      staleTime: 1000 * 60 * 10, // 10 minutes
+      gcTime: 1000 * 60 * 60, // 1 hour (formerly cacheTime)
+      // Disable unnecessary refetches
       refetchOnWindowFocus: false,
-      // Reduce retry attempts for faster failure handling
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      // Fast failure handling
       retry: 1,
+      retryDelay: 500,
       // Enable query deduplication
-      refetchOnMount: 'always'
+      networkMode: 'online'
     },
     mutations: {
-      // Faster mutation timeout
-      retry: 1
+      // Faster mutation handling
+      retry: 1,
+      networkMode: 'online'
     }
   }
 });

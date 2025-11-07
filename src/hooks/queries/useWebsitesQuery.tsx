@@ -29,17 +29,20 @@ export const useWebsites = (filters?: WebsiteFilters) => {
         if (mergedData.length > 0 && mergedData.length < 50) { // Only fetch profiles for reasonable amounts of data
           mergedData = await fetchProfilesForWebsites(mergedData);
         }
-        
+
         return mergedData as Website[];
       } catch (error) {
         throw error;
       }
     },
-    staleTime: 1000 * 60 * 10, // Increased to 10 minutes
-    gcTime: 1000 * 60 * 30, // Increased to 30 minutes
-    retry: 1, // Only retry once to avoid infinite loops
-    retryDelay: 1000, // Wait 1 second before retry
-    refetchOnWindowFocus: false, // Prevent refetch on window focus
-    refetchOnMount: false, // Prevent refetch on mount if data exists
+    // 🚀 AGGRESSIVE CACHING FOR INSTANT MARKETPLACE LOADS
+    staleTime: 1000 * 60 * 10, // 10 minutes - data stays fresh for 10 min
+    gcTime: 1000 * 60 * 60, // 1 hour - keep in cache for an hour
+    retry: 1,
+    retryDelay: 500,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    networkMode: 'online'
   });
 };

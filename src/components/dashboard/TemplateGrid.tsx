@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Website } from '@/types/website';
+import { usePrefetchSiteDetails } from '@/hooks/queries/usePrefetchSiteDetails';
 
 interface TemplateGridProps {
   templates: Website[];
@@ -18,7 +19,7 @@ interface TemplateGridProps {
 }
 
 // Memoized template card component
-const TemplateCard = memo<{template: Website; onClick: (t: Website) => void;}>(({ template, onClick }) => {
+const TemplateCard = memo<{template: Website; onClick: (t: Website) => void; onHover?: (t: Website) => void; onTouchStart?: (t: Website) => void;}>(({ template, onClick, onHover, onTouchStart }) => {
   const imgRef = useRef<HTMLImageElement>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
   
@@ -44,6 +45,8 @@ const TemplateCard = memo<{template: Website; onClick: (t: Website) => void;}>((
       key={template.id}
       className={`${glassEffect} overflow-hidden flex flex-col group relative h-full cursor-pointer rounded-2xl hover:scale-[1.02] transition-all duration-300`}
       onClick={handleClick}
+      onMouseEnter={() => onHover?.(template)}
+      onTouchStart={() => onTouchStart?.(template)}
       title={`View ${template.title}`}
     >
       <div className="aspect-[16/10] w-full overflow-hidden relative group">
@@ -57,7 +60,9 @@ const TemplateCard = memo<{template: Website; onClick: (t: Website) => void;}>((
           src={template.thumbnail_url || 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=600&q=80'}
           alt={template.title}
           className={`w-full h-full object-cover transition-transform group-hover:scale-110 duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-          loading="lazy"
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
           onLoad={handleImageLoad}
           onError={handleImageError}
         />
@@ -161,11 +166,35 @@ EmptyState.displayName = 'EmptyState';
 
 export const TemplateGrid = memo(({ templates, isLoading, onRefresh, onTagFilter }: TemplateGridProps) => {
   const navigate = useNavigate();
+  const { prefetchSite } = usePrefetchSiteDetails();
 
-  const viewTemplateDetail = useCallback((template: Website) => {
+  // Prefetch on hover (desktop) or touch (mobile) for ultra-fast navigation
+  const handleCardHover = useCallback((template: Website) => {
+    // Desktop: hover preloading
     const slug = template.slug || template.id;
+    prefetchSite(slug).catch(() => {
+      // Silently fail - don't show errors on hover
+    });
+  }, [prefetchSite]);
+
+  // Mobile-specific: prefetch on touch start
+  const handleCardTouchStart = useCallback((template: Website) => {
+    // Mobile: start preloading immediately on touch
+    const slug = template.slug || template.id;
+    prefetchSite(slug).catch(() => {
+      // Silently fail
+    });
+  }, [prefetchSite]);
+
+  const viewTemplateDetail = useCallback(async (template: Website) => {
+    const slug = template.slug || template.id;
+
+    // Start prefetching in background before navigation
+    prefetchSite(slug).catch(console.error);
+
+    // Navigate immediately
     navigate(`/site/${slug}`);
-  }, [navigate]);
+  }, [navigate, prefetchSite]);
 
   const handleNavigateToAdmin = useCallback(() => {
     navigate('/admin-panel');
@@ -187,7 +216,12 @@ export const TemplateGrid = memo(({ templates, isLoading, onRefresh, onTagFilter
     >
       {templates.map((template) => (
         <div key={template.id} className="mb-5 break-inside-avoid">
-          <TemplateCard template={template} onClick={viewTemplateDetail} />
+          <TemplateCard
+            template={template}
+            onClick={viewTemplateDetail}
+            onHover={handleCardHover}
+            onTouchStart={handleCardTouchStart}
+          />
         </div>
       ))}
     </Masonry>

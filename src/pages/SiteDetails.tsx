@@ -10,16 +10,18 @@ import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { useWebsiteById } from '@/hooks/queries/useWebsiteByIdQuery';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { usePrefetchSiteDetails } from '@/hooks/queries/usePrefetchSiteDetails';
 
 const SiteDetails = () => {
   const { id, slugOrId } = useParams<{ id?: string; slugOrId?: string }>();
   const websiteId = id || slugOrId || '';
-  
+
   const navigate = useNavigate();
   const { user } = useAuth();
   const { toast } = useToast();
   const { data: site, isLoading } = useWebsiteById(websiteId);
   const isMobile = useIsMobile();
+  const { prefetchSite } = usePrefetchSiteDetails();
 
   const handlePurchase = useCallback(() => {
     if (!user) {
@@ -66,14 +68,68 @@ const SiteDetails = () => {
     'Future updates'
   ], []);
 
+  // Optimized skeleton loader - shows immediately without blocking
   if (isLoading) {
-    return <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
-      </div>;
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background to-background/80 relative">
+        <div className="container mx-auto p-6 pb-20">
+          {/* Mobile/Desktop header skeleton */}
+          <div className="flex items-center gap-4 mb-6">
+            <div className="h-10 w-40 bg-gray-800/30 rounded-lg animate-pulse" />
+            <div className="flex-1" />
+            <div className="h-10 w-32 bg-gray-800/30 rounded-lg animate-pulse" />
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 min-h-[calc(100vh-200px)]">
+            {/* Main content skeleton */}
+            <div className="lg:col-span-2">
+              <Card className="h-full">
+                <CardContent className="p-0 h-full">
+                  <div className="h-full min-h-[500px] bg-gray-800/20 animate-pulse rounded-lg" />
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Sidebar skeleton */}
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <div className="h-6 w-48 bg-gray-800/30 rounded animate-pulse" />
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="h-4 bg-gray-800/20 rounded animate-pulse" />
+                  <div className="h-4 bg-gray-800/20 rounded w-3/4 animate-pulse" />
+                  <Separator />
+                  <div className="space-y-3">
+                    {Array.from({ length: 4 }).map((_, i) => (
+                      <div key={i} className="h-4 bg-gray-800/20 rounded animate-pulse" />
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <div className="h-6 w-32 bg-gray-800/30 rounded animate-pulse" />
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-2">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                      <div key={i} className="h-8 w-20 bg-gray-800/20 rounded-full animate-pulse" />
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (!site) {
-    return <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex items-center justify-center">
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex items-center justify-center">
         <Card className="p-8 text-center">
           <h2 className="text-2xl font-bold mb-4">Site Not Found</h2>
           <p className="text-muted-foreground mb-4">The requested site could not be found.</p>
@@ -82,7 +138,8 @@ const SiteDetails = () => {
             Back to Marketplace
           </Button>
         </Card>
-      </div>;
+      </div>
+    );
   }
 
   return <div className="min-h-screen bg-gradient-to-br from-background to-background/80 relative">
@@ -117,11 +174,13 @@ const SiteDetails = () => {
             <Card className="h-full relative">
               <CardContent className="p-0 h-full">
                 <div className={`h-full ${isMobile ? 'min-h-[300px]' : 'min-h-[500px]'} overflow-hidden rounded-lg relative`}>
-                  <img 
-                    src={site.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&h=450&q=80"} 
-                    alt={site.title} 
+                  <img
+                    src={site.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&h=450&q=80"}
+                    alt={site.title}
                     className="w-full h-full object-cover"
-                    loading="lazy"
+                    loading="eager"
+                    decoding="async"
+                    fetchPriority="high"
                   />
                   {/* Translucent Preview Button Inside Image */}
                   <Button 
