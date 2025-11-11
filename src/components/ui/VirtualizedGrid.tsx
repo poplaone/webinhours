@@ -108,13 +108,21 @@ export function VirtualizedGrid<T>({
 }
 
 // Simplified masonry version for website cards
+interface VirtualizedMasonryProps<T> {
+  items: T[];
+  renderItem: (item: T, index: number) => React.ReactNode;
+  keyExtractor: (item: T, index: number) => string;
+  containerHeight?: number;
+  columnWidth?: number;
+}
+
 export function VirtualizedMasonry<T>({
   items,
   renderItem,
   keyExtractor,
   containerHeight = 600,
   columnWidth = 300
-}: VirtualizedGridProps<T>) {
+}: VirtualizedMasonryProps<T>) {
   const [scrollTop, setScrollTop] = useState(0);
   const scrollElementRef = useRef<HTMLDivElement>(null);
 

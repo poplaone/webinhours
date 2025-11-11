@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useIsMobile } from './use-mobile';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // Hook to detect and optimize for mobile performance
 export const useMobilePerformanceOptimizations = () => {

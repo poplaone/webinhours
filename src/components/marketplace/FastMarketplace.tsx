@@ -1,13 +1,15 @@
 import React, { useState, useRef, useEffect, Suspense, lazy } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useWebsites } from '@/hooks/queries/useWebsitesQuery';
-import { useAIAgents } from '@/hooks/queries/useAIAgentsQuery';
+import { useAIAgents } from '@/hooks/useAIAgents';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { VirtualizedGrid } from '@/components/ui/VirtualizedGrid';
 import { usePrefetchMarketplace } from '@/hooks/queries/usePrefetchMarketplace';
+import type { Website } from '@/types/website';
+import type { AIAgent } from '@/types/aiAgent';
 
 // Lazy load heavy components
-const MarketplaceFilters = lazy(() => import('./MarketplaceFilters'));
+const MarketplaceFilters = lazy(() => import('./MarketplaceFilters').then(m => ({ default: m.MarketplaceFilters })));
 const AIAgentInfographicCard = lazy(() => import('@/components/ai-agents/AIAgentInfographicCard'));
 
 interface FastMarketplaceProps {
@@ -37,7 +39,7 @@ export const FastMarketplace: React.FC<FastMarketplaceProps> = ({
   const isLoading = activeTab === 'websites' ? isLoadingWebsites : isLoadingAIAgents;
 
   // If data is cached, show immediately with loading states
-  const items = activeTab === 'websites' ? websites : aiAgents;
+  const items: (Website | AIAgent)[] = activeTab === 'websites' ? websites : aiAgents;
 
   // Fast loading skeleton - shows immediately while data loads
   const LoadingSkeleton = () => (
@@ -61,7 +63,7 @@ export const FastMarketplace: React.FC<FastMarketplaceProps> = ({
   );
 
   // Optimized Website Card with lazy image loading
-  const WebsiteCard = ({ template, index }: { template: any; index: number }) => (
+  const WebsiteCard = ({ template, index }: { template: Website; index: number }) => (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -92,7 +94,7 @@ export const FastMarketplace: React.FC<FastMarketplaceProps> = ({
   );
 
   // Optimized AI Agent Card
-  const AIAgentCard = ({ agent, index }: { agent: any; index: number }) => (
+  const AIAgentCard = ({ agent, index }: { agent: AIAgent; index: number }) => (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -140,8 +142,8 @@ export const FastMarketplace: React.FC<FastMarketplaceProps> = ({
             overscan={10}
             renderItem={(item, index) =>
               activeTab === 'websites'
-                ? <WebsiteCard template={item} index={index} />
-                : <AIAgentCard agent={item} index={index} />
+                ? <WebsiteCard template={item as Website} index={index} />
+                : <AIAgentCard agent={item as AIAgent} index={index} />
             }
             keyExtractor={(item, index) => `${activeTab}-${item.id}-${index}`}
             columns={4}
@@ -151,8 +153,8 @@ export const FastMarketplace: React.FC<FastMarketplaceProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {items.map((item, index) =>
               activeTab === 'websites'
-                ? <WebsiteCard template={item} index={index} key={item.id} />
-                : <AIAgentCard agent={item} index={index} key={item.id} />
+                ? <WebsiteCard template={item as Website} index={index} key={item.id} />
+                : <AIAgentCard agent={item as AIAgent} index={index} key={item.id} />
             )}
           </div>
         )}
