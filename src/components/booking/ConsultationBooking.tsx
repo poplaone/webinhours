@@ -128,36 +128,77 @@ export const ConsultationBooking = () => {
         {/* Step 1: Consultation Type */}
         {currentStep === 1 && (
           <Card>
-            <CardContent className="p-8">
-              <h3 className="text-2xl font-bold mb-2 text-center">Choose Your Consultation Type</h3>
-              <p className="text-muted-foreground text-center mb-8">
+            <CardContent className="p-4 md:p-6 lg:p-8">
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2 md:mb-3 lg:mb-4 text-center">Choose Your Consultation Type</h3>
+              <p className="text-muted-foreground text-center mb-4 md:mb-6 lg:mb-8 text-sm md:text-base lg:text-lg">
                 All consultations are completely free with no obligations
               </p>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {consultationTypes.map((type) => (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+                {consultationTypes.map((type, index) => (
                   <motion.div
                     key={type.id}
-                    className={`p-6 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
+                    className={`relative p-4 md:p-6 lg:p-8 rounded-xl border-2 cursor-pointer transition-all duration-300 group overflow-hidden ${
                       consultationType === type.id
-                        ? 'border-[#8B5CF6] bg-[#8B5CF6]/10'
-                        : 'border-border hover:border-[#8B5CF6]/50 hover:bg-[#8B5CF6]/5'
+                        ? 'border-[#8B5CF6] bg-[#8B5CF6]/10 shadow-xl shadow-[#8B5CF6]/20'
+                        : 'border-border hover:border-[#8B5CF6]/50 hover:bg-[#8B5CF6]/5 hover:shadow-lg'
                     }`}
                     onClick={() => setConsultationType(type.id)}
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ scale: 1.03, y: -5 }}
                     whileTap={{ scale: 0.98 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
                   >
-                    <type.icon className={`h-8 w-8 mb-4 ${
-                      consultationType === type.id ? 'text-[#8B5CF6]' : 'text-muted-foreground'
-                    }`} />
-                    <h4 className="font-semibold mb-2">{type.title}</h4>
-                    <div className="flex items-center gap-2 mb-3">
-                      <Badge variant="secondary">{type.duration}</Badge>
-                      <Badge variant="outline" className="text-green-600 border-green-600">
-                        {type.price}
-                      </Badge>
+                    {/* Background gradient effect */}
+                    <div className={`absolute inset-0 bg-gradient-to-br from-[#8B5CF6]/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+                      consultationType === type.id ? 'opacity-100' : ''
+                    }`}></div>
+                    
+                    {/* Popular badge for middle option */}
+                    {index === 1 && (
+                      <div className="absolute -top-2 lg:-top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-emerald-500 to-green-500 text-white text-xs font-bold px-2 md:px-3 py-1 rounded-full z-10">
+                        POPULAR
+                      </div>
+                    )}
+                    
+                    {/* Content */}
+                    <div className="relative z-10 text-center">
+                      <div className={`inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-full mb-3 md:mb-4 transition-all duration-300 ${
+                        consultationType === type.id 
+                          ? 'bg-[#8B5CF6] text-white shadow-lg' 
+                          : 'bg-muted text-muted-foreground group-hover:bg-[#8B5CF6] group-hover:text-white'
+                      }`}>
+                        <type.icon className="h-4 w-4 md:h-5 md:w-5 lg:h-6 lg:w-6" />
+                      </div>
+                      
+                      <h4 className="text-base md:text-lg font-bold mb-2">{type.title}</h4>
+                      
+                      <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
+                        <Badge variant="secondary" className="text-xs font-medium">
+                          <Clock className="h-3 w-3 mr-1" />
+                          {type.duration}
+                        </Badge>
+                        <Badge variant="outline" className="text-emerald-600 border-emerald-600 text-xs font-bold">
+                          {type.price}
+                        </Badge>
+                      </div>
+                      
+                      <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">{type.description}</p>
+                      
+                      {/* Selected indicator */}
+                      {consultationType === type.id && (
+                        <motion.div 
+                          className="mt-2 md:mt-3 flex items-center justify-center gap-2 text-[#8B5CF6] font-semibold"
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <div className="w-2 h-2 bg-[#8B5CF6] rounded-full animate-pulse"></div>
+                          <span className="text-xs">Selected</span>
+                        </motion.div>
+                      )}
                     </div>
-                    <p className="text-sm text-muted-foreground">{type.description}</p>
                   </motion.div>
                 ))}
               </div>

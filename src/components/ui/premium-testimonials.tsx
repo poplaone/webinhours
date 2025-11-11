@@ -224,44 +224,6 @@ export function PremiumTestimonials() {
         {/* Mobile: Carousel */}
         <TestimonialCarousel testimonials={testimonials} />
 
-        {/* Updated Stats Section */}
-        <motion.div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16" variants={staggerContainer}>
-          {[{
-          number: "500+",
-          label: "Websites Delivered",
-          detail: "Across 50+ industries"
-        }, {
-          number: "98.7%",
-          label: "Client Satisfaction",
-          detail: "Based on 200+ reviews"
-        }, {
-          number: "18hrs",
-          label: "Average Delivery",
-          detail: "Fastest: 12 hours"
-        }, {
-          number: "340%",
-          label: "Avg Growth Boost",
-          detail: "Traffic & conversions"
-        }].map((stat, index) => <motion.div key={index} className="text-center group" variants={fadeInUp} whileHover={{
-          scale: 1.05
-        }}>
-              <motion.div className="text-3xl md:text-4xl font-bold text-[#8B5CF6] mb-2" animate={{
-            opacity: [0.7, 1, 0.7]
-          }} transition={{
-            duration: 2,
-            repeat: Infinity,
-            delay: index * 0.5
-          }}>
-                {stat.number}
-              </motion.div>
-              <div className="text-foreground font-medium mb-1 group-hover:text-[#8B5CF6] transition-colors">
-                {stat.label}
-              </div>
-              <div className="text-xs text-muted-foreground">
-                {stat.detail}
-              </div>
-            </motion.div>)}
-        </motion.div>
       </motion.div>
     </section>;
 }

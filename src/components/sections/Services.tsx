@@ -87,44 +87,97 @@ export const Services = () => {
         </motion.div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => <motion.div key={index} initial={{
-          opacity: 0,
-          y: 50
-        }} whileInView={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          duration: 0.6,
-          delay: index * 0.1
-        }} viewport={{
-          once: true
-        }} className="group">
-              <div className="bg-card border border-border/40 rounded-xl p-6 h-full transition-all duration-300 hover:shadow-xl hover:border-[#8B5CF6]/30 hover:-translate-y-1">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center`} style={{
-                backgroundColor: `${service.activeColor}15`
-              }}>
-                    <service.icon className="h-6 w-6" style={{
-                  color: service.activeColor
-                }} />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold group-hover:text-[#8B5CF6] transition-colors">{service.title}</h3>
-                  </div>
-                </div>
+          {services.map((service, index) => (
+            <motion.div 
+              key={index} 
+              initial={{ opacity: 0, y: 50 }} 
+              whileInView={{ opacity: 1, y: 0 }} 
+              transition={{ duration: 0.6, delay: index * 0.1 }} 
+              viewport={{ once: true }} 
+              className="group relative"
+              whileHover={{ y: -8 }}
+            >
+              {/* Glowing background effect */}
+              <div 
+                className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-xl"
+                style={{ backgroundColor: service.activeColor }}
+              ></div>
+              
+              {/* Main card */}
+              <div className="relative bg-card/80 backdrop-blur-sm border border-border/40 rounded-xl p-6 h-full transition-all duration-500 hover:shadow-2xl hover:border-[#8B5CF6]/50 overflow-hidden">
                 
-                <p className="text-muted-foreground mb-4 leading-relaxed">{service.description}</p>
+                {/* Animated gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[#8B5CF6]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
-                <div className="space-y-2">
-                  {service.features.map((feature, idx) => <div key={idx} className="flex items-center gap-2 text-sm">
-                      <div className="w-1.5 h-1.5 rounded-full" style={{
-                  backgroundColor: service.activeColor
-                }}></div>
-                      <span>{feature}</span>
-                    </div>)}
+                {/* Content */}
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <motion.div 
+                        className="w-14 h-14 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300" 
+                        style={{ backgroundColor: `${service.activeColor}15` }}
+                        whileHover={{ scale: 1.1, rotate: 5 }}
+                      >
+                        <service.icon 
+                          className="h-7 w-7 transition-transform duration-300 group-hover:scale-110" 
+                          style={{ color: service.activeColor }} 
+                        />
+                      </motion.div>
+                      <div>
+                        <h3 className="text-xl font-bold group-hover:text-[#8B5CF6] transition-colors duration-300">{service.title}</h3>
+                        <div 
+                          className="text-sm font-semibold px-2 py-1 rounded-full mt-1"
+                          style={{ backgroundColor: `${service.activeColor}15`, color: service.activeColor }}
+                        >
+                          {service.price}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <p className="text-muted-foreground mb-6 leading-relaxed text-sm group-hover:text-foreground/80 transition-colors duration-300">
+                    {service.description}
+                  </p>
+                  
+                  <div className="space-y-3">
+                    {service.features.map((feature, idx) => (
+                      <motion.div 
+                        key={idx} 
+                        className="flex items-center gap-3 text-sm group-hover:transform group-hover:translate-x-1 transition-all duration-300"
+                        initial={{ opacity: 0.7 }}
+                        whileInView={{ opacity: 1 }}
+                        transition={{ delay: idx * 0.1 }}
+                      >
+                        <div 
+                          className="w-2 h-2 rounded-full shadow-sm transition-all duration-300 group-hover:w-2.5 group-hover:h-2.5" 
+                          style={{ backgroundColor: service.activeColor }}
+                        ></div>
+                        <span className="font-medium">{feature}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+                  
+                  {/* Hover action */}
+                  <motion.div 
+                    className="mt-6 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                    initial={{ y: 10 }}
+                    whileInView={{ y: 0 }}
+                  >
+                    <button 
+                      className="w-full py-2 px-4 rounded-lg text-sm font-medium transition-all duration-300 hover:shadow-lg"
+                      style={{ 
+                        backgroundColor: `${service.activeColor}15`, 
+                        color: service.activeColor,
+                        border: `1px solid ${service.activeColor}30`
+                      }}
+                    >
+                      Learn More →
+                    </button>
+                  </motion.div>
                 </div>
               </div>
-            </motion.div>)}
+            </motion.div>
+          ))}
         </div>
 
         {/* CTA Section */}
