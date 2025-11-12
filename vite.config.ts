@@ -40,7 +40,7 @@ export default defineConfig(({ mode }) => ({
       output: {
         // Advanced chunk splitting for better performance
         manualChunks: (id) => {
-          // Core React libraries
+          // Core React libraries - minimal bundle
           if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
             return 'react-vendor';
           }
@@ -48,25 +48,31 @@ export default defineConfig(({ mode }) => ({
             return 'react-router';
           }
           
-          // Split Radix UI into smaller chunks
+          // Split Radix UI by usage - load only what's needed per page
           if (id.includes('@radix-ui/')) {
-            if (id.includes('dialog') || id.includes('select') || id.includes('tabs')) {
+            // Core UI components used everywhere
+            if (id.includes('dialog') || id.includes('dropdown-menu')) {
               return 'radix-core';
             }
+            // Form components - defer until form pages
+            if (id.includes('select') || id.includes('checkbox') || id.includes('radio')) {
+              return 'radix-forms';
+            }
+            // Other components - defer until needed
             return 'radix-misc';
           }
           
-          // Split animations - defer loading
+          // Split animations - defer loading until page transition
           if (id.includes('framer-motion') || id.includes('node_modules/motion/')) {
             return 'animations';
           }
           
-          // Split icons into separate chunk for tree-shaking
+          // Split icons into separate chunk for aggressive tree-shaking
           if (id.includes('lucide-react')) {
             return 'icons';
           }
           
-          // Backend and data
+          // Backend and data - keep separate for caching
           if (id.includes('@supabase/supabase-js')) {
             return 'supabase';
           }
@@ -74,25 +80,32 @@ export default defineConfig(({ mode }) => ({
             return 'query';
           }
           
-          // Forms
+          // Forms - only load on form pages
           if (id.includes('react-hook-form') || id.includes('@hookform/') || id.includes('zod')) {
             return 'forms';
           }
           
-          // Charts (heavy, should be lazy loaded)
+          // Charts - heavy, lazy load only when needed
           if (id.includes('recharts')) {
             return 'charts';
           }
           
-          // Utilities
+          // Date utilities - defer until needed
           if (id.includes('date-fns')) {
             return 'date-utils';
           }
+          
+          // Utilities - small, can be bundled
           if (id.includes('clsx') || id.includes('tailwind-merge') || id.includes('class-variance-authority')) {
             return 'utilities';
           }
           
-          // Keep other node_modules in vendor
+          // Markdown and other heavy libs - defer
+          if (id.includes('react-markdown') || id.includes('react-masonry')) {
+            return 'content-libs';
+          }
+          
+          // Keep other node_modules in vendor-misc but enable tree-shaking
           if (id.includes('node_modules/')) {
             return 'vendor-misc';
           }
@@ -109,26 +122,35 @@ export default defineConfig(({ mode }) => ({
         },
       },
     },
-    // Optimize chunk size warnings
-    chunkSizeWarningLimit: 500, // Reduced from 1000
-    // Enable tree shaking
+    // Optimize chunk size warnings - we want smaller chunks
+    chunkSizeWarningLimit: 300, // Reduced from 500 for better splitting
+    // Enable aggressive tree shaking
     treeshake: {
       moduleSideEffects: false,
       propertyReadSideEffects: false,
-      tryCatchDeoptimization: false
+      tryCatchDeoptimization: false,
+      // Aggressively remove unused code
+      preset: 'smallest'
     }
   },
   optimizeDeps: {
-    // Pre-bundle essential dependencies only
+    // Pre-bundle only the most essential dependencies
     include: [
       'react',
       'react-dom',
       'react-router-dom',
-      '@supabase/supabase-js',
-      '@tanstack/react-query',
     ],
-    // Exclude heavy libraries for better tree-shaking
-    exclude: ['lucide-react', 'framer-motion', 'motion'],
+    // Exclude heavy libraries for better tree-shaking and lazy loading
+    exclude: [
+      'lucide-react', 
+      'framer-motion', 
+      'motion',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-dropdown-menu',
+      'react-markdown',
+      'recharts',
+      'date-fns'
+    ],
   },
   // Optimize CSS
   css: {
