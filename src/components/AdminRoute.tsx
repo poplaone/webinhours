@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
-import { useIsAdmin } from '@/hooks/useWebsites';
+import { useIsAdmin } from '@/hooks/useAdmin';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
