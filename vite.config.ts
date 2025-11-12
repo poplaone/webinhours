@@ -97,10 +97,16 @@ export default defineConfig(({ mode }) => ({
             return 'vendor-misc';
           }
         },
-        // Optimize asset naming
+        // Optimize asset naming and enable CSS splitting
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
-        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
+        assetFileNames: (assetInfo) => {
+          // Split CSS files by chunk for better caching and loading
+          if (assetInfo.name?.endsWith('.css')) {
+            return 'assets/css/[name]-[hash].[ext]';
+          }
+          return 'assets/[ext]/[name]-[hash].[ext]';
+        },
       },
     },
     // Optimize chunk size warnings
@@ -127,6 +133,8 @@ export default defineConfig(({ mode }) => ({
   // Optimize CSS
   css: {
     devSourcemap: mode === 'development',
+    // Enable CSS code splitting for better performance
+    codeSplit: true,
   },
   // Optimize preview server
   preview: {

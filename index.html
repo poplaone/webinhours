@@ -17,6 +17,15 @@
     <meta name="twitter:site" content="@webinhours" />
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
 
+    <!-- Critical CSS - Inline minimal critical styles -->
+    <style>
+      /* Minimal reset and loading state */
+      *, *::before, *::after { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; }
+      body { margin: 0; font-family: system-ui, -apple-system, sans-serif; }
+      #root { min-height: 100vh; }
+    </style>
+    
     <!-- Critical CSS - Inline font declarations to prevent render blocking -->
     <style>
       /* Preload critical Poppins font weights - inline to prevent blocking */
