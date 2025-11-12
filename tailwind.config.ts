@@ -76,6 +76,7 @@ export default {
 			fontFamily: {
 				sans: ['Poppins', 'sans-serif'],
 				display: ['Poppins', 'sans-serif'],
+				inter: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

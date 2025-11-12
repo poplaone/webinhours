@@ -28,9 +28,9 @@ export const Header = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const navItems = [
-    { label: 'Services', path: '/services' },
+    { label: 'Services', path: '/#services' },
+    { label: 'Calculator', path: '/calculator' },
     { label: 'About', path: '/about' },
-    { label: 'Testimonials', path: '/#testimonials' },
     { label: 'Contact', path: '/contact' }
   ];
 

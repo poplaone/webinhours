@@ -10,8 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Sparkles, Shield, Zap } from 'lucide-react';
-import AnimatedGridBackground from '@/components/animations/AnimatedGridBackground';
-import PixelCanvas from '@/components/animations/PixelCanvas';
+// Animation components removed for better performance
 import { signInSchema, signUpSchema, SignInFormData, SignUpFormData } from '@/utils/formValidation';
 
 const Auth = () => {
@@ -102,7 +101,7 @@ const Auth = () => {
   return (
     <main className="min-h-screen relative overflow-hidden bg-background">
       {/* Animated Grid Background */}
-      <AnimatedGridBackground />
+      {/* AnimatedGridBackground removed for better performance */}
       
       {/* Gradient Overlays */}
       <div className="absolute inset-0 bg-gradient-to-br from-background/50 via-transparent to-background/80" />
@@ -151,14 +150,7 @@ const Auth = () => {
 
           {/* Auth Card */}
           <Card className="relative overflow-hidden glass-card animate-scale-in delay-300 group">
-            {/* Pixel Canvas Background */}
-            <div className="absolute inset-0 opacity-30">
-              <PixelCanvas 
-                colors={['#8B5CF6', '#A78BFA', '#DDD6FE']}
-                gap={8}
-                speed={15}
-              />
-            </div>
+            {/* Background removed for better performance */}
             
             {/* Card Content */}
             <div className="relative z-10">

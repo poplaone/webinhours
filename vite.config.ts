@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { componentTagger } from "lovable-tagger";
+// import { componentTagger } from "lovable-tagger"; // Temporarily disabled to fix TSX output issue
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -15,21 +15,24 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    mode === 'development' && componentTagger(),
-  ].filter(Boolean),
+    // componentTagger temporarily disabled to fix TSX output issue
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
   build: {
-    // Optimize build performance
-    target: 'esnext',
+    // Optimize build performance with safer target
+    target: 'es2020',
     minify: 'terser',
     // Enable module preload for parallel loading
     modulePreload: {
       polyfill: true,
     },
+    // Ensure proper output format
+    outDir: 'dist',
+    emptyOutDir: true,
     terserOptions: {
       compress: {
         drop_console: mode === 'production',
@@ -38,76 +41,46 @@ export default defineConfig(({ mode }) => ({
     },
     rollupOptions: {
       output: {
-        // Advanced chunk splitting for better performance
+        // Simplified chunk splitting to prevent circular dependencies
         manualChunks: (id) => {
-          // Core React libraries - minimal bundle
-          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
-            return 'react-vendor';
-          }
-          if (id.includes('node_modules/react-router-dom/')) {
-            return 'react-router';
+          // Core React libraries - keep together to prevent dependency issues
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom') || id.includes('node_modules/react-router')) {
+            return 'react-core';
           }
           
-          // Split Radix UI by usage - load only what's needed per page
+          // All Radix UI components together to prevent import issues
           if (id.includes('@radix-ui/')) {
-            // Core UI components used everywhere
-            if (id.includes('dialog') || id.includes('dropdown-menu')) {
-              return 'radix-core';
-            }
-            // Form components - defer until form pages
-            if (id.includes('select') || id.includes('checkbox') || id.includes('radio')) {
-              return 'radix-forms';
-            }
-            // Other components - defer until needed
-            return 'radix-misc';
+            return 'ui-components';
           }
           
-          // Split animations - defer loading until page transition
-          if (id.includes('framer-motion') || id.includes('node_modules/motion/')) {
-            return 'animations';
+          // Animation libraries - excluded for performance
+          // if (id.includes('framer-motion') || id.includes('node_modules/motion/')) {
+          //   return 'animations';
+          // }
+          
+          // Data and backend
+          if (id.includes('@supabase/supabase-js') || id.includes('@tanstack/react-query')) {
+            return 'data-layer';
           }
           
-          // Split icons into separate chunk for aggressive tree-shaking
-          if (id.includes('lucide-react')) {
-            return 'icons';
-          }
-          
-          // Backend and data - keep separate for caching
-          if (id.includes('@supabase/supabase-js')) {
-            return 'supabase';
-          }
-          if (id.includes('@tanstack/react-query')) {
-            return 'query';
-          }
-          
-          // Forms - only load on form pages
+          // Form libraries
           if (id.includes('react-hook-form') || id.includes('@hookform/') || id.includes('zod')) {
             return 'forms';
           }
           
-          // Charts - heavy, lazy load only when needed
-          if (id.includes('recharts')) {
-            return 'charts';
-          }
-          
-          // Date utilities - defer until needed
-          if (id.includes('date-fns')) {
-            return 'date-utils';
-          }
-          
-          // Utilities - small, can be bundled
-          if (id.includes('clsx') || id.includes('tailwind-merge') || id.includes('class-variance-authority')) {
-            return 'utilities';
-          }
-          
-          // Markdown and other heavy libs - defer
-          if (id.includes('react-markdown') || id.includes('react-masonry')) {
+          // Heavy content libraries
+          if (id.includes('recharts') || id.includes('react-markdown') || id.includes('react-masonry')) {
             return 'content-libs';
           }
           
-          // Keep other node_modules in vendor-misc but enable tree-shaking
+          // Icons
+          if (id.includes('lucide-react')) {
+            return 'icons';
+          }
+          
+          // Other vendor libraries
           if (id.includes('node_modules/')) {
-            return 'vendor-misc';
+            return 'vendor';
           }
         },
         // Optimize asset naming and enable CSS splitting
@@ -118,33 +91,35 @@ export default defineConfig(({ mode }) => ({
           if (assetInfo.name?.endsWith('.css')) {
             return 'assets/css/[name]-[hash].[ext]';
           }
-          return 'assets/[ext]/[name]-[hash].[ext]';
+          // Ensure JS files go to js folder, not by extension
+          if (assetInfo.name?.endsWith('.js')) {
+            return 'assets/js/[name]-[hash].[ext]';
+          }
+          return 'assets/[name]-[hash].[ext]';
         },
       },
     },
     // Optimize chunk size warnings - we want smaller chunks
     chunkSizeWarningLimit: 500,
-    // Disable tree shaking to prevent TDZ errors
-    treeshake: false
+    // Enable tree shaking for better bundle optimization
+    treeshake: {
+      moduleSideEffects: false,
+      propertyReadSideEffects: false,
+      tryCatchDeoptimization: false
+    }
   },
   optimizeDeps: {
-    // Pre-bundle only the most essential dependencies
+    // Pre-bundle essential dependencies to prevent loading issues
     include: [
       'react',
       'react-dom',
       'react-router-dom',
+      'clsx',
+      'tailwind-merge',
+      'class-variance-authority'
     ],
-    // Exclude heavy libraries for better tree-shaking and lazy loading
-    exclude: [
-      'lucide-react', 
-      'framer-motion', 
-      'motion',
-      '@radix-ui/react-dialog',
-      '@radix-ui/react-dropdown-menu',
-      'react-markdown',
-      'recharts',
-      'date-fns'
-    ],
+    // Force pre-bundling of problematic dependencies
+    force: true,
   },
   // Optimize CSS
   css: {

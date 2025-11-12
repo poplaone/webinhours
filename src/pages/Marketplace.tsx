@@ -16,7 +16,7 @@ const TemplateGrid = lazy(() => import('@/components/dashboard/TemplateGrid').th
 const AIAgentInfographicCard = lazy(() => import('@/components/ai-agents/AIAgentInfographicCard').then(m => ({ default: m.AIAgentInfographicCard })));
 const MarketplaceCTA = lazy(() => import('@/components/marketplace/MarketplaceCTA').then(m => ({ default: m.MarketplaceCTA })));
 const AIChatbot = lazy(() => import('@/components/dashboard/AIChatbot').then(m => ({ default: m.AIChatbot })));
-const AnimatedGridBackground = lazy(() => import('@/components/animations/AnimatedGridBackground'));
+// AnimatedGridBackground removed for better performance
 
 interface Category {
   id: string;
@@ -409,7 +409,7 @@ const Marketplace: React.FC = () => {
             {/* Main Content - desktop uses independent scroll; mobile uses page scroll */}
             <div className="flex-1 min-w-0 relative">
               <div className="absolute inset-0">
-                <AnimatedGridBackground />
+                {/* AnimatedGridBackground removed for better performance */}
               </div>
               {isMobile ? (
                 <div className="relative z-10 p-1">

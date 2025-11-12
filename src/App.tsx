@@ -12,7 +12,7 @@ import { preloadCriticalResources, optimizeRenderPerformance, enableServiceWorke
 // Lazy load all pages including Index for optimal code splitting
 const Index = lazy(() => import("./pages/Index"));
 const About = lazy(() => import("./pages/About"));
-const Services = lazy(() => import("./pages/Services"));
+// Services page removed - now using homepage services section
 const Contact = lazy(() => import("./pages/Contact"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const HowItWorks = lazy(() => import("./pages/HowItWorks"));
@@ -27,6 +27,7 @@ const Marketplace = lazy(() => import("./pages/Marketplace"));
 const SiteDetails = lazy(() => import("./pages/SiteDetails"));
 const Notifications = lazy(() => import("./pages/Notifications"));
 const Checkout = lazy(() => import("./pages/Checkout"));
+const Calculator = lazy(() => import("./pages/Calculator"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
@@ -94,7 +95,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/about" element={<About />} />
-                  <Route path="/services" element={<Services />} />
+                  {/* Services route removed - now using homepage services section */}
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/faq" element={<FAQ />} />
                   <Route path="/how-it-works" element={<HowItWorks />} />
@@ -109,6 +110,7 @@ function App() {
                     </ErrorBoundary>
                   } />
                   <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/calculator" element={<Calculator />} />
                   <Route path="/site/:slugOrId" element={<SiteDetails />} />
                   <Route path="/profile" element={
                     <ProtectedRoute>

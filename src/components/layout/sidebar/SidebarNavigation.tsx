@@ -12,7 +12,8 @@ import {
   HelpCircle,
   DollarSign,
   BookOpen,
-  Workflow
+  Workflow,
+  Calculator
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useIsAdmin } from '@/hooks/useAdmin';
@@ -38,9 +39,10 @@ export const SidebarNavigation = ({ currentPath, isAuthenticated }: SidebarNavig
     { path: '/faq', icon: HelpCircle, label: 'FAQ' },
   ];
 
-  // Always show marketplace
+  // Always show marketplace and calculator
   const commonNavItems = [
     { path: '/marketplace', icon: Store, label: 'Marketplace' },
+    { path: '/calculator', icon: Calculator, label: 'Project Calculator' },
   ];
 
   const authenticatedNavItems = [

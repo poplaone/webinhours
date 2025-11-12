@@ -1,10 +1,12 @@
-# Cache static assets with versioned hashes for 1 year
+# Cache static assets with versioned hashes for 1 year and set correct MIME types
 # These files have content hashes in their names, so they can be cached indefinitely
 /assets/js/*
   Cache-Control: public, max-age=31536000, immutable
+  Content-Type: text/javascript; charset=utf-8
   
 /assets/css/*
   Cache-Control: public, max-age=31536000, immutable
+  Content-Type: text/css; charset=utf-8
 
 # Cache images for 30 days
 /assets/images/*
