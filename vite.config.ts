@@ -124,13 +124,14 @@ export default defineConfig(({ mode }) => ({
     },
     // Optimize chunk size warnings - we want smaller chunks
     chunkSizeWarningLimit: 300, // Reduced from 500 for better splitting
-    // Enable aggressive tree shaking
+    // Enable safe tree shaking (avoid TDZ errors)
     treeshake: {
-      moduleSideEffects: false,
+      // Allow side effects to prevent initialization errors
+      moduleSideEffects: 'no-external',
       propertyReadSideEffects: false,
       tryCatchDeoptimization: false,
-      // Aggressively remove unused code
-      preset: 'smallest'
+      // Use safer preset
+      preset: 'recommended'
     }
   },
   optimizeDeps: {
