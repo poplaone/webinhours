@@ -100,7 +100,7 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-background">
+    <main className="min-h-screen relative overflow-hidden bg-background">
       {/* Animated Grid Background */}
       <AnimatedGridBackground />
       
@@ -366,7 +366,7 @@ const Auth = () => {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

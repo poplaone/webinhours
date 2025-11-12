@@ -45,7 +45,7 @@ const Notifications = () => {
   };
 
   return (
-    <div className="container mx-auto py-8 px-4 max-w-4xl">
+    <main className="container mx-auto py-8 px-4 max-w-4xl">
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold flex items-center gap-2">
@@ -98,7 +98,7 @@ const Notifications = () => {
           </CardContent>
         </Card>
       )}
-    </div>
+    </main>
   );
 };
 

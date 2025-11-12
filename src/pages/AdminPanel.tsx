@@ -66,7 +66,7 @@ const AdminPanel = () => {
   }, [showUploadDialog, showEditDialog, refetchAllWebsites, refetchUserWebsites]);
 
   return (
-    <div className="container mx-auto py-8 px-4 max-w-7xl">
+    <main className="container mx-auto py-8 px-4 max-w-7xl">
       <AdminPanelHeader
         isAdmin={isAdmin}
         showUploadDialog={showUploadDialog}
@@ -106,7 +106,7 @@ const AdminPanel = () => {
         setEditingWebsite={setEditingWebsite}
         handleWebsiteUpdate={handleWebsiteUpdate}
       />
-    </div>
+    </main>
   );
 };
 

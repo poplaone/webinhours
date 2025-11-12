@@ -71,7 +71,7 @@ const SiteDetails = () => {
   // Optimized skeleton loader - shows immediately without blocking
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background to-background/80 relative">
+      <main className="min-h-screen bg-gradient-to-br from-background to-background/80 relative">
         <div className="container mx-auto p-6 pb-20">
           {/* Mobile/Desktop header skeleton */}
           <div className="flex items-center gap-4 mb-6">
@@ -123,26 +123,27 @@ const SiteDetails = () => {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     );
   }
 
   if (!site) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background to-background/80 flex items-center justify-center">
+      <main className="min-h-screen bg-gradient-to-br from-background to-background/80 flex items-center justify-center">
         <Card className="p-8 text-center">
           <h2 className="text-2xl font-bold mb-4">Site Not Found</h2>
           <p className="text-muted-foreground mb-4">The requested site could not be found.</p>
           <Button onClick={handleBackToMarketplace}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Marketplace
+          Back to Marketplace
           </Button>
         </Card>
-      </div>
+      </main>
     );
   }
 
-  return <div className="min-h-screen bg-gradient-to-br from-background to-background/80 relative">
+  return (
+    <main className="min-h-screen bg-gradient-to-br from-background to-background/80 relative">
       <div className="container mx-auto p-6 pb-20">
         {/* Header - Only show on desktop */}
         {!isMobile && (
@@ -328,7 +329,8 @@ const SiteDetails = () => {
           </div>
         )}
       </div>
-    </div>;
+    </main>
+  );
 };
 
 export default SiteDetails;

@@ -37,7 +37,7 @@ const Checkout: React.FC = () => {
   const total = Math.max(0, subtotal - discount);
 
   return (
-    <div className="container mx-auto px-4 py-6 lg:py-10">
+    <main className="container mx-auto px-4 py-6 lg:py-10">
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Checkout</h1>
@@ -257,7 +257,7 @@ const Checkout: React.FC = () => {
           </Card>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 
