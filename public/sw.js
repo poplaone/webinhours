@@ -1,5 +1,5 @@
 // Service Worker for aggressive caching and lightning-fast performance
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3'; // Bumped to clear broken TDZ error cache
 const CACHE_NAME = `webinhours-${CACHE_VERSION}`;
 const STATIC_CACHE = `webinhours-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `webinhours-runtime-${CACHE_VERSION}`;
