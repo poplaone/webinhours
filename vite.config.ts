@@ -26,6 +26,10 @@ export default defineConfig(({ mode }) => ({
     // Optimize build performance
     target: 'esnext',
     minify: 'terser',
+    // Enable module preload for parallel loading
+    modulePreload: {
+      polyfill: true,
+    },
     terserOptions: {
       compress: {
         drop_console: mode === 'production',
