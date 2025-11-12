@@ -17,7 +17,9 @@ export const useIsAdmin = () => {
         });
       
       if (error) {
-        console.error('Error checking admin role:', error);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Error checking admin role:', error);
+        }
         return false;
       }
       

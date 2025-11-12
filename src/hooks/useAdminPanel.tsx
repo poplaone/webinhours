@@ -32,7 +32,9 @@ export const useAdminPanel = () => {
   const { data: userWebsites = [], isLoading: userLoading, refetch: refetchUserWebsites } = useUserWebsites();
 
   const handleWebsiteUpdate = async (websiteId: string, updates: any) => {
-    console.log('handleWebsiteUpdate called with:', websiteId, updates);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('handleWebsiteUpdate called with:', websiteId, updates);
+    }
     try {
       await updateWebsite.mutateAsync({
         id: websiteId,
@@ -48,7 +50,9 @@ export const useAdminPanel = () => {
       refetchAllWebsites();
       refetchUserWebsites();
     } catch (error) {
-      console.error('Error in handleWebsiteUpdate:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error in handleWebsiteUpdate:', error);
+      }
       toast({
         title: "Error",
         description: error instanceof Error ? error.message : "Failed to update website",
@@ -58,7 +62,9 @@ export const useAdminPanel = () => {
   };
 
   const handleQuickAction = async (websiteId: string, action: string) => {
-    console.log('handleQuickAction called with:', websiteId, action);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('handleQuickAction called with:', websiteId, action);
+    }
     const updates: any = { status: action };
     
     if (action === 'approved') {
@@ -86,7 +92,9 @@ export const useAdminPanel = () => {
         refetchAllWebsites();
         refetchUserWebsites();
       } catch (error) {
-        console.error('Error in handleDelete:', error);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Error in handleDelete:', error);
+        }
         toast({
           title: "Error",
           description: error instanceof Error ? error.message : "Failed to delete website",
@@ -97,7 +105,9 @@ export const useAdminPanel = () => {
   };
 
   const handleEditWebsite = (website: Website) => {
-    console.log('handleEditWebsite called with:', website);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('handleEditWebsite called with:', website);
+    }
     setEditingWebsite(website);
     setShowEditDialog(true);
   };

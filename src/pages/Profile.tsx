@@ -40,7 +40,9 @@ const Profile = () => {
       await updateProfile.mutateAsync(profileForm);
       setIsEditingProfile(false);
     } catch (error) {
-      console.error('Profile update error:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Profile update error:', error);
+      }
     }
   };
 

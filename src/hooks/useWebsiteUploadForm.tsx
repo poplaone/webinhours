@@ -69,7 +69,9 @@ export function useWebsiteUploadForm(onClose: () => void) {
       
       onClose();
     } catch (error) {
-      console.error('🔧 Error creating website:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('🔧 Error creating website:', error);
+      }
       toast({
         title: "Error",
         description: "Failed to upload website. Please try again.",

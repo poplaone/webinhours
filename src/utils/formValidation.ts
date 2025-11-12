@@ -180,3 +180,60 @@ export type AIAgentUploadFormData = z.infer<typeof aiAgentUploadSchema>;
 export type SignInFormData = z.infer<typeof signInSchema>;
 export type SignUpFormData = z.infer<typeof signUpSchema>;
 export type ProfileUpdateFormData = z.infer<typeof profileUpdateSchema>;
+
+// Contact form validation schema
+export const contactSchema = z.object({
+  name: z.string()
+    .trim()
+    .min(1, { message: "Name is required" })
+    .max(100, { message: "Name must be less than 100 characters" }),
+  
+  email: z.string()
+    .trim()
+    .email({ message: "Please enter a valid email address" })
+    .max(255, { message: "Email must be less than 255 characters" }),
+  
+  subject: z.string()
+    .trim()
+    .min(1, { message: "Subject is required" })
+    .max(200, { message: "Subject must be less than 200 characters" }),
+  
+  message: z.string()
+    .trim()
+    .min(10, { message: "Message must be at least 10 characters" })
+    .max(2000, { message: "Message must be less than 2000 characters" }),
+  
+  type: z.string().optional(),
+});
+
+// Lead capture form validation schema
+export const leadCaptureSchema = z.object({
+  name: z.string()
+    .trim()
+    .min(1, { message: "Name is required" })
+    .max(100, { message: "Name must be less than 100 characters" }),
+  
+  email: z.string()
+    .trim()
+    .email({ message: "Please enter a valid email address" })
+    .max(255, { message: "Email must be less than 255 characters" }),
+  
+  website: z.union([
+    urlSchema,
+    z.literal(''),
+    z.undefined()
+  ]).optional(),
+  
+  projectType: z.string()
+    .trim()
+    .max(100, { message: "Project type must be less than 100 characters" })
+    .optional(),
+  
+  message: z.string()
+    .trim()
+    .max(2000, { message: "Message must be less than 2000 characters" })
+    .optional(),
+});
+
+export type ContactFormData = z.infer<typeof contactSchema>;
+export type LeadCaptureFormData = z.infer<typeof leadCaptureSchema>;

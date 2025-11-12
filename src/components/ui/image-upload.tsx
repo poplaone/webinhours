@@ -45,7 +45,9 @@ export function ImageUpload({ value, onChange, label, required = false }: ImageU
         description: "Image uploaded successfully!",
       });
     } catch (error) {
-      console.error('Error uploading image:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error uploading image:', error);
+      }
       toast({
         title: "Error",
         description: "Failed to upload image. Please try again.",

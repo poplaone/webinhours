@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { ErrorBoundary } from "@/components/ui/error-boundary";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
 import { preloadCriticalResources, optimizeRenderPerformance, enableServiceWorker } from "@/utils/performanceOptimizer";
 
 // Lazy load all pages including Index for optimal code splitting
@@ -114,10 +115,10 @@ function App() {
                       <Profile />
                     </ProtectedRoute>
                   } />
-<Route path="/admin-panel" element={
-                    <ProtectedRoute>
+                  <Route path="/admin-panel" element={
+                    <AdminRoute>
                       <AdminPanel />
-                    </ProtectedRoute>
+                    </AdminRoute>
                   } />
                   <Route path="/notifications" element={
                     <ProtectedRoute>

@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
+import { leadCaptureSchema } from "@/utils/formValidation";
 
 interface LeadCaptureFormProps {
   variant?: 'popup' | 'inline' | 'sidebar';
@@ -27,9 +29,22 @@ export const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
     message: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Client-side validation
+    const validation = leadCaptureSchema.safeParse(formData);
+    if (!validation.success) {
+      toast({
+        title: "Validation Error",
+        description: validation.error.errors[0].message,
+        variant: "destructive",
+      });
+      return;
+    }
+    
     // Handle form submission
     setIsSubmitted(true);
     setTimeout(() => setIsSubmitted(false), 3000);
