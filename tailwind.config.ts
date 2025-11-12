@@ -71,6 +71,20 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Full purple palette for additional flexibility
+				purple: {
+					50: 'hsl(250, 100%, 98%)',
+					100: 'hsl(251, 91%, 95%)',
+					200: 'hsl(251, 95%, 92%)',
+					300: 'hsl(252, 95%, 85%)',
+					400: 'hsl(255, 92%, 76%)',
+					500: 'hsl(258, 90%, 66%)',
+					600: 'hsl(262, 83%, 58%)',
+					700: 'hsl(263, 70%, 50%)',
+					800: 'hsl(263, 69%, 42%)',
+					900: 'hsl(264, 67%, 35%)',
+					950: 'hsl(261, 73%, 23%)'
 				}
 			},
 			fontFamily: {
