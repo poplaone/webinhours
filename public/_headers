@@ -1,0 +1,47 @@
+# Cache static assets with versioned hashes for 1 year
+# These files have content hashes in their names, so they can be cached indefinitely
+/assets/js/*
+  Cache-Control: public, max-age=31536000, immutable
+  
+/assets/css/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache images for 30 days
+/assets/images/*
+  Cache-Control: public, max-age=2592000
+
+# Cache fonts for 1 year
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache other image formats for 30 days  
+*.png
+  Cache-Control: public, max-age=2592000
+*.jpg
+  Cache-Control: public, max-age=2592000
+*.jpeg
+  Cache-Control: public, max-age=2592000
+*.gif
+  Cache-Control: public, max-age=2592000
+*.svg
+  Cache-Control: public, max-age=2592000
+*.webp
+  Cache-Control: public, max-age=2592000
+
+# Cache fonts for 1 year
+*.woff
+  Cache-Control: public, max-age=31536000, immutable
+*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+*.ttf
+  Cache-Control: public, max-age=31536000, immutable
+*.eot
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML pages - revalidate but allow short cache
+/*.html
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# Root path - short cache with revalidation
+/
+  Cache-Control: public, max-age=3600, must-revalidate
