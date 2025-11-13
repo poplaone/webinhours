@@ -1,6 +1,6 @@
 // Service Worker for aggressive caching and lightning-fast performance
 // IMPORTANT: Bump this version whenever you deploy critical fixes
-const CACHE_VERSION = 'v5'; // Force cache refresh for all users
+const CACHE_VERSION = 'v6'; // Force cache refresh for all users
 const CACHE_NAME = `webinhours-${CACHE_VERSION}`;
 const STATIC_CACHE = `webinhours-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `webinhours-runtime-${CACHE_VERSION}`;

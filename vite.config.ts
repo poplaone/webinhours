@@ -47,45 +47,12 @@ export default defineConfig(({ mode }) => ({
       },
     },
     rollupOptions: {
+      // Prevent TDZ errors by ensuring proper module initialization
+      preserveEntrySignatures: 'strict',
       output: {
-        // Simplified chunk splitting to prevent circular dependencies
+        // Ultra-simplified chunk splitting to prevent TDZ errors
         manualChunks: (id) => {
-          // Core React libraries - keep together to prevent dependency issues
-          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom') || id.includes('node_modules/react-router')) {
-            return 'react-core';
-          }
-          
-          // All Radix UI components together to prevent import issues
-          if (id.includes('@radix-ui/')) {
-            return 'ui-components';
-          }
-          
-          // Animation libraries - excluded for performance
-          // if (id.includes('framer-motion') || id.includes('node_modules/motion/')) {
-          //   return 'animations';
-          // }
-          
-          // Data and backend
-          if (id.includes('@supabase/supabase-js') || id.includes('@tanstack/react-query')) {
-            return 'data-layer';
-          }
-          
-          // Form libraries
-          if (id.includes('react-hook-form') || id.includes('@hookform/') || id.includes('zod')) {
-            return 'forms';
-          }
-          
-          // Heavy content libraries
-          if (id.includes('recharts') || id.includes('react-markdown') || id.includes('react-masonry')) {
-            return 'content-libs';
-          }
-          
-          // Icons
-          if (id.includes('lucide-react')) {
-            return 'icons';
-          }
-          
-          // Other vendor libraries
+          // Keep ALL node_modules together to prevent initialization issues
           if (id.includes('node_modules/')) {
             return 'vendor';
           }
@@ -106,10 +73,12 @@ export default defineConfig(({ mode }) => ({
         },
       },
     },
-    // Optimize chunk size warnings - we want smaller chunks
-    chunkSizeWarningLimit: 500,
-    // DISABLE tree shaking to prevent TDZ errors
-    treeshake: false
+    // Optimize chunk size warnings
+    chunkSizeWarningLimit: 1000,
+    // DISABLE tree shaking completely to prevent TDZ errors
+    treeshake: false,
+    // Ensure source maps for debugging (dev only)
+    sourcemap: mode === 'development'
   },
   optimizeDeps: {
     // Pre-bundle essential dependencies to prevent loading issues
