@@ -1,5 +1,5 @@
 {
-  "version": "4",
+  "version": "5",
   "timestamp": "2025-11-12T10:30:00Z",
   "note": "This file helps force cache invalidation on deployments"
 }

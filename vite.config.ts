@@ -101,12 +101,8 @@ export default defineConfig(({ mode }) => ({
     },
     // Optimize chunk size warnings - we want smaller chunks
     chunkSizeWarningLimit: 500,
-    // Enable tree shaking for better bundle optimization
-    treeshake: {
-      moduleSideEffects: false,
-      propertyReadSideEffects: false,
-      tryCatchDeoptimization: false
-    }
+    // DISABLE tree shaking to prevent TDZ errors
+    treeshake: false
   },
   optimizeDeps: {
     // Pre-bundle essential dependencies to prevent loading issues
