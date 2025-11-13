@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Code, Menu, X, ChevronDown, ArrowUp } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useAuth } from '@/hooks/useAuth';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -126,15 +127,18 @@ export const Header = () => {
                 </span>
               </div>
               
-              {/* Menu button on right */}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-10 w-10 rounded-lg touch-manipulation text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-all duration-200"
-                onClick={toggleMenu}
-              >
-                {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              </Button>
+              {/* Theme toggle and Menu button on right */}
+              <div className="flex items-center space-x-2">
+                <ThemeToggle />
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-10 w-10 rounded-lg touch-manipulation text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-all duration-200"
+                  onClick={toggleMenu}
+                >
+                  {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                </Button>
+              </div>
             </div>
 
             {/* Mobile Navigation Menu */}
@@ -258,12 +262,14 @@ export const Header = () => {
             </DropdownMenu>
           </nav>
 
-          {/* Desktop Get Started Button */}
+          {/* Desktop Theme Toggle and Get Started Button */}
           <motion.div
+            className="flex items-center space-x-3"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
+            <ThemeToggle />
             <Button 
               onClick={() => navigate('/marketplace')} 
               className="bg-[#8B5CF6] hover:bg-[#7C3AED] transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#8B5CF6]/25 text-sm px-6"

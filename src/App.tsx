@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { ErrorBoundary } from "@/components/ui/error-boundary";
+import { ThemeProvider } from "@/contexts/ThemeContext";
+import { GridBackground } from "@/components/ui/GridBackground";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 import { preloadCriticalResources, optimizeRenderPerformance, enableServiceWorker } from "@/utils/performanceOptimizer";
@@ -76,16 +78,17 @@ function App() {
   return (
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <BrowserRouter>
+        <ThemeProvider defaultTheme="dark" storageKey="webinhours-theme">
+          <TooltipProvider>
+            <BrowserRouter>
             <ScrollToTop />
             <Helmet>
               <title>WebInHours - Professional Website Solutions</title>
               <meta name="description" content="Get your professional website ready in 24 hours. Choose from our marketplace of premium templates or get a custom design." />
             </Helmet>
-            <div className="min-h-screen bg-background text-foreground">
+            <GridBackground className="min-h-screen text-foreground">
               <Suspense fallback={
-                <div className="flex items-center justify-center min-h-screen bg-background">
+                <div className="flex items-center justify-center min-h-screen">
                   <div className="text-center">
                     <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                     <p className="text-foreground">Loading...</p>
@@ -130,10 +133,11 @@ function App() {
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>
-            </div>
+            </GridBackground>
             <Toaster />
-          </BrowserRouter>
-        </TooltipProvider>
+            </BrowserRouter>
+          </TooltipProvider>
+        </ThemeProvider>
       </QueryClientProvider>
     </HelmetProvider>
   );
