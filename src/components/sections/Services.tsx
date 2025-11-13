@@ -51,7 +51,7 @@ export const Services = () => {
     colors: ["#CFFAFE", "#67E8F9", "#06B6D4"],
     price: "From $199"
   }];
-  return <section id="services" className="py-20 px-4 bg-card/30 backdrop-blur relative z-10 my-0">
+  return <section id="services" className="py-20 px-4 relative z-10 my-0">
       <div className="container mx-auto">
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 mb-6">

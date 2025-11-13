@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 export const CTASection = () => {
   const navigate = useNavigate();
   return (
-    <section className="py-20 px-4 bg-gradient-to-br from-primary/5 via-background to-primary/5">
+    <section className="py-20 px-4 relative">
       <div className="container mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
