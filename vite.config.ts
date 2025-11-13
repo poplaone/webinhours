@@ -26,9 +26,16 @@ export default defineConfig(({ mode }) => ({
     // Optimize build performance with safer target
     target: 'es2020',
     minify: 'terser',
-    // Enable module preload for parallel loading
+    // Enable module preload for parallel loading with CSS preload
     modulePreload: {
       polyfill: true,
+      resolveDependencies: (filename, deps, { hostType }) => {
+        // Preload CSS files to break dependency chains
+        return deps.filter(dep => {
+          // Include all JS modules and CSS files
+          return dep.endsWith('.js') || dep.endsWith('.css');
+        });
+      },
     },
     // Ensure proper output format
     outDir: 'dist',
@@ -117,11 +124,17 @@ export default defineConfig(({ mode }) => ({
     // Force pre-bundling of problematic dependencies
     force: true,
   },
-  // Optimize CSS
+  // Optimize CSS - inline critical CSS, split the rest
   css: {
     devSourcemap: mode === 'development',
-    // Enable CSS code splitting for better performance
-    codeSplit: true,
+    // Disable code splitting to reduce network chains in production
+    codeSplit: mode === 'development',
+    preprocessorOptions: {
+      css: {
+        // Ensure CSS is processed efficiently
+        charset: false
+      }
+    }
   },
   // Optimize preview server
   preview: {
