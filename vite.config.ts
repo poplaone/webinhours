@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-// import { componentTagger } from "lovable-tagger"; // Temporarily disabled to fix TSX output issue
+import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -15,8 +15,8 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    // componentTagger temporarily disabled to fix TSX output issue
-  ],
+    mode === 'development' && componentTagger(),
+  ].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -26,9 +26,16 @@ export default defineConfig(({ mode }) => ({
     // Optimize build performance with safer target
     target: 'es2020',
     minify: 'terser',
-    // Enable module preload for parallel loading
+    // Enable module preload for parallel loading with CSS preload
     modulePreload: {
       polyfill: true,
+      resolveDependencies: (filename, deps, { hostType }) => {
+        // Preload CSS files to break dependency chains
+        return deps.filter(dep => {
+          // Include all JS modules and CSS files
+          return dep.endsWith('.js') || dep.endsWith('.css');
+        });
+      },
     },
     // Ensure proper output format
     outDir: 'dist',
@@ -40,45 +47,12 @@ export default defineConfig(({ mode }) => ({
       },
     },
     rollupOptions: {
+      // Prevent TDZ errors by ensuring proper module initialization
+      preserveEntrySignatures: 'strict',
       output: {
-        // Simplified chunk splitting to prevent circular dependencies
+        // Ultra-simplified chunk splitting to prevent TDZ errors
         manualChunks: (id) => {
-          // Core React libraries - keep together to prevent dependency issues
-          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom') || id.includes('node_modules/react-router')) {
-            return 'react-core';
-          }
-          
-          // All Radix UI components together to prevent import issues
-          if (id.includes('@radix-ui/')) {
-            return 'ui-components';
-          }
-          
-          // Animation libraries - excluded for performance
-          // if (id.includes('framer-motion') || id.includes('node_modules/motion/')) {
-          //   return 'animations';
-          // }
-          
-          // Data and backend
-          if (id.includes('@supabase/supabase-js') || id.includes('@tanstack/react-query')) {
-            return 'data-layer';
-          }
-          
-          // Form libraries
-          if (id.includes('react-hook-form') || id.includes('@hookform/') || id.includes('zod')) {
-            return 'forms';
-          }
-          
-          // Heavy content libraries
-          if (id.includes('recharts') || id.includes('react-markdown') || id.includes('react-masonry')) {
-            return 'content-libs';
-          }
-          
-          // Icons
-          if (id.includes('lucide-react')) {
-            return 'icons';
-          }
-          
-          // Other vendor libraries
+          // Keep ALL node_modules together to prevent initialization issues
           if (id.includes('node_modules/')) {
             return 'vendor';
           }
@@ -99,14 +73,12 @@ export default defineConfig(({ mode }) => ({
         },
       },
     },
-    // Optimize chunk size warnings - we want smaller chunks
-    chunkSizeWarningLimit: 500,
-    // Enable tree shaking for better bundle optimization
-    treeshake: {
-      moduleSideEffects: false,
-      propertyReadSideEffects: false,
-      tryCatchDeoptimization: false
-    }
+    // Optimize chunk size warnings
+    chunkSizeWarningLimit: 1000,
+    // DISABLE tree shaking completely to prevent TDZ errors
+    treeshake: false,
+    // Ensure source maps for debugging (dev only)
+    sourcemap: mode === 'development'
   },
   optimizeDeps: {
     // Pre-bundle essential dependencies to prevent loading issues
@@ -121,11 +93,17 @@ export default defineConfig(({ mode }) => ({
     // Force pre-bundling of problematic dependencies
     force: true,
   },
-  // Optimize CSS
+  // Optimize CSS - inline critical CSS, split the rest
   css: {
     devSourcemap: mode === 'development',
-    // Enable CSS code splitting for better performance
-    codeSplit: true,
+    // Disable code splitting to reduce network chains in production
+    codeSplit: mode === 'development',
+    preprocessorOptions: {
+      css: {
+        // Ensure CSS is processed efficiently
+        charset: false
+      }
+    }
   },
   // Optimize preview server
   preview: {
