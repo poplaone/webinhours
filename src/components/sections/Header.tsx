@@ -110,7 +110,7 @@ export const Header = () => {
         <header className="fixed top-2 left-2 right-2 z-50 lg:hidden">
           <div className={`rounded-xl border shadow-xl transition-all duration-700 ease-in-out ${
             mobileHeaderVisible 
-              ? 'bg-background/95 backdrop-blur-lg border-border/40' 
+              ? 'bg-background/70 backdrop-blur-md border-border/30' 
               : 'bg-transparent backdrop-blur-none border-transparent'
           }`}>
             <div className="flex items-center justify-between py-2 px-3">

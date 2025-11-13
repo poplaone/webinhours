@@ -41,7 +41,7 @@ const InteractiveNeuralVortex = () => {
         vec2 sine_acc = vec2(0.);
         vec2 res = vec2(0.);
         float scale = 8.;
-        for (int j = 0; j < 15; j++) {
+        for (int j = 0; j < 12; j++) {
           uv = rotate(uv, 1.);
           sine_acc = rotate(sine_acc, 1.);
           vec2 layer = uv * scale + float(j) + sine_acc - t;
@@ -66,9 +66,14 @@ const InteractiveNeuralVortex = () => {
         noise += pow(noise, 10.);
         noise = max(.0, noise - .5);
         noise *= (1. - length(vUv - .5));
-        color = vec3(0.5, 0.15, 0.65);
-        color = mix(color, vec3(0.02, 0.7, 0.9), 0.32 + 0.16 * sin(2.0 * u_scroll_progress + 1.2));
-        color += vec3(0.15, 0.0, 0.6) * sin(2.0 * u_scroll_progress + 1.5);
+        // Color transitions from whitish/silverish to purple based on scroll
+        vec3 startColor = vec3(0.92, 0.92, 0.96); // Pure whitish silver at top
+        vec3 endColor = vec3(0.54, 0.20, 0.88); // Purple matching primary color
+        // Smooth transition based on scroll progress
+        float scrollMix = smoothstep(0.0, 1.0, u_scroll_progress);
+        color = mix(startColor, endColor, scrollMix);
+        // Add subtle purple accent glow that increases with scroll
+        color += vec3(0.3, 0.1, 0.5) * 0.15 * u_scroll_progress;
         color = color * noise;
         gl_FragColor = vec4(color, noise);
       }
@@ -121,7 +126,9 @@ const InteractiveNeuralVortex = () => {
     const uScrollProgress = gl.getUniformLocation(program, 'u_scroll_progress');
 
     const resizeCanvas = () => {
-      const devicePixelRatio = Math.min(window.devicePixelRatio, 2);
+      // Optimize resolution for mobile devices
+      const isMobile = window.innerWidth < 768;
+      const devicePixelRatio = isMobile ? Math.min(window.devicePixelRatio, 1.5) : Math.min(window.devicePixelRatio, 2);
       canvasEl.width = window.innerWidth * devicePixelRatio;
       canvasEl.height = window.innerHeight * devicePixelRatio;
       gl.viewport(0, 0, canvasEl.width, canvasEl.height);
@@ -182,7 +189,8 @@ const InteractiveNeuralVortex = () => {
     <canvas 
       ref={canvasRef} 
       id="neuro" 
-      className="fixed inset-0 w-full h-full pointer-events-none opacity-95 -z-10"
+      className="fixed inset-0 w-full h-full pointer-events-none opacity-90 -z-10"
+      style={{ willChange: 'transform' }}
     />
   );
 };
