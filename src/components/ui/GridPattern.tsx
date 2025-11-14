@@ -4,7 +4,7 @@ export const GridPattern: React.FC = () => {
   return (
     <div className="fixed inset-0 w-full h-full pointer-events-none z-0 flex items-center justify-center">
       <div className="w-full max-w-7xl px-2 sm:px-4 lg:px-0">
-        <div className="grid w-full border-0 border-b md:border relative grid-cols-10 opacity-40 sm:opacity-50">
+        <div className="grid w-full border-0 border-b md:border relative grid-cols-6 sm:grid-cols-8 md:grid-cols-10 opacity-40 sm:opacity-50">
           <div
             className="absolute inset-0 -z-20"
             style={{
@@ -24,18 +24,24 @@ export const GridPattern: React.FC = () => {
             {Array.from({ length: 10 }).map((_, idx) => (
               <div
                 key={idx}
-                className="border-b border-border/30 last:border-0 flex-1 aspect-square"
+                className="border-b border-black/40 dark:border-white/50 last:border-0 flex-1 aspect-square"
               />
             ))}
           </div>
           
           {/* Center columns */}
-          <div className="md:col-span-8 col-span-10">
-            <div className="md:flex hidden">
+          <div className="col-span-6 sm:col-span-8 md:col-span-8">
+            <div className="flex">
+              {Array.from({ length: 6 }).map((_, idx) => (
+                <div
+                  key={idx}
+                  className="sm:hidden border-l border-black/40 dark:border-white/50 last:border-r flex-1 aspect-square"
+                />
+              ))}
               {Array.from({ length: 8 }).map((_, idx) => (
                 <div
                   key={idx}
-                  className="border-l border-border/30 last:border-r flex-1 aspect-square"
+                  className="hidden sm:flex md:flex border-l border-black/40 dark:border-white/50 last:border-r flex-1 aspect-square"
                 />
               ))}
             </div>
@@ -43,10 +49,16 @@ export const GridPattern: React.FC = () => {
             {/* Main grid rows */}
             {Array.from({ length: 6 }).map((_, rowIdx) => (
               <div key={rowIdx} className="flex">
+                {Array.from({ length: 6 }).map((_, colIdx) => (
+                  <div
+                    key={colIdx}
+                    className="sm:hidden border-l border-b border-black/40 dark:border-white/50 last:border-r flex-1 aspect-square"
+                  />
+                ))}
                 {Array.from({ length: 8 }).map((_, colIdx) => (
                   <div
                     key={colIdx}
-                    className="border-l border-b border-border/30 last:border-r flex-1 aspect-square"
+                    className="hidden sm:flex border-l border-b border-black/40 dark:border-white/50 last:border-r flex-1 aspect-square"
                   />
                 ))}
               </div>
@@ -58,7 +70,7 @@ export const GridPattern: React.FC = () => {
             {Array.from({ length: 10 }).map((_, idx) => (
               <div
                 key={idx}
-                className="border-b border-border/30 last:border-b-0 flex-1 aspect-square"
+                className="border-b border-black/40 dark:border-white/50 last:border-b-0 flex-1 aspect-square"
               />
             ))}
           </div>
