@@ -19,11 +19,11 @@ export const Hero = () => {
                 <span className="bg-gradient-to-r from-foreground via-foreground/95 to-foreground/90 bg-clip-text text-transparent block">
                   Get Your
                 </span>
-                <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-indigo-600 bg-clip-text text-transparent block">
-                  FREE Website
-                </span>
-                <span className="bg-gradient-to-r from-foreground/95 via-foreground/90 to-foreground/85 bg-clip-text text-transparent text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-medium block mt-1">
-                  in 24 Hours
+                <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-indigo-600 bg-clip-text text-transparent block sm:block">
+                  FREE Website{' '}
+                  <span className="bg-gradient-to-r from-foreground/95 via-foreground/90 to-foreground/85 bg-clip-text text-transparent text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-medium sm:block sm:mt-1">
+                    in 24 Hours
+                  </span>
                 </span>
               </h1>
 
