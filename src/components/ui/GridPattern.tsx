@@ -25,8 +25,8 @@ export const GridPattern: React.FC = () => {
           className="absolute inset-0 w-full h-full"
           style={{
             backgroundImage: `
-              linear-gradient(to right, rgba(255, 255, 255, 0.15) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 1px, transparent 1px)
+              linear-gradient(to right, hsl(var(--foreground) / 0.15) 1px, transparent 1px),
+              linear-gradient(to bottom, hsl(var(--foreground) / 0.15) 1px, transparent 1px)
             `,
             backgroundSize: '80px 80px',
             opacity: 0.5,
@@ -52,7 +52,7 @@ export const GridPattern: React.FC = () => {
           className="absolute inset-0 w-full h-full hidden md:block"
           style={{
             backgroundImage: `
-              linear-gradient(to right, rgba(255, 255, 255, 0.2) 1px, transparent 1px)
+              linear-gradient(to right, hsl(var(--foreground) / 0.2) 1px, transparent 1px)
             `,
             backgroundSize: '160px 100%',
             backgroundPosition: '0 0',

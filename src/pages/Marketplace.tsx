@@ -1,6 +1,7 @@
 import React, { useState, useRef, useMemo, useCallback, useEffect, Suspense, lazy } from 'react';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
+import { GridPattern } from '@/components/ui/GridPattern';
 import { useWebsites } from '@/hooks/useWebsites';
 import { useAIAgents } from '@/hooks/useAIAgents';
 import { Tables } from '@/integrations/supabase/types';
@@ -311,7 +312,11 @@ const Marketplace: React.FC = () => {
         description="Browse our collection of professional website templates. E-commerce, business, portfolio designs ready in 24 hours. All templates include hosting, SSL, and mobile optimization."
         keywords="website templates, web design marketplace, professional websites, e-commerce templates, business websites"
       />
-      <div className="pt-6 pb-8 px-2 sm:px-4 lg:px-6 min-h-screen flex flex-col">
+      
+      {/* Grid Background */}
+      <GridPattern />
+
+      <div className="pt-6 pb-8 px-2 sm:px-4 lg:px-6 min-h-screen flex flex-col relative z-10">
         <div className="container mx-auto max-w-[1800px] flex flex-col flex-1">
           {/* Filters header */}
           {!isMobile ? (
