@@ -6,6 +6,7 @@ import { Footer } from '@/components/sections/Footer';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
 import InteractiveNeuralVortex from '@/components/ui/interactive-neural-vortex-background';
+import { GridPattern } from '@/components/ui/GridPattern';
 
 // Lazy load heavy components to improve initial page load
 const PremiumTestimonials = lazy(() => import('@/components/ui/premium-testimonials').then(m => ({ default: m.PremiumTestimonials })));
@@ -22,7 +23,8 @@ const Index = () => {
         keywords="website development, 24 hour website, fast web design, professional websites, custom development, e-commerce, mobile responsive, SEO optimization" 
       />
       
-      {/* Interactive Neural Vortex Background */}
+      {/* Background layers - Grid behind Neural Vortex */}
+      <GridPattern />
       <InteractiveNeuralVortex />
 
       {/* All sections now float over the unified background */}
