@@ -1,7 +1,7 @@
 import React from 'react';
-import { Code, Smartphone, Globe, Zap, ShoppingCart, Users } from 'lucide-react';
+import { Palette, Search, PenTool, ShoppingBag, Sparkles, Globe2 } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
-import { FeatureCard } from '@/components/ui/grid-feature-cards';
+import { AnimatedServiceCard } from '@/components/ui/animated-service-card';
 
 type ViewAnimationProps = {
 	delay?: number;
@@ -31,41 +31,65 @@ function AnimatedContainer({ className, delay = 0.1, children }: ViewAnimationPr
 
 export const Services = () => {
   const services = [{
-    icon: Globe,
+    icon: Globe2,
     title: "FREE Professional Website",
     description: "Get a complete, professional website with everything you need to start your online presence - completely FREE forever.",
     features: ["500+ Templates", "Mobile Responsive", "SSL Security", "Basic Support"],
-    price: "100% FREE"
+    price: "100% FREE",
+    images: [
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&auto=format&fit=crop&q=60",
+      "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=400&auto=format&fit=crop&q=60"
+    ]
   }, {
-    icon: Code,
+    icon: Palette,
     title: "Custom Design & Branding",
     description: "Make your website unique with custom colors, fonts, logos, and personalized design that matches your brand perfectly.",
     features: ["Custom Colors", "Logo Integration", "Brand Fonts", "Unlimited Revisions"],
-    price: "From $199"
+    price: "From $199",
+    images: [
+      "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&auto=format&fit=crop&q=60",
+      "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=400&auto=format&fit=crop&q=60"
+    ]
   }, {
-    icon: Zap,
+    icon: Search,
     title: "SEO Optimization",
     description: "Get found on Google with professional SEO setup, keyword optimization, and local business listing management.",
     features: ["Google Rankings", "Local Listings", "Keyword Research", "Analytics Setup"],
-    price: "From $149"
+    price: "From $149",
+    images: [
+      "https://images.unsplash.com/photo-1562577309-4932fdd64cd1?w=400&auto=format&fit=crop&q=60",
+      "https://images.unsplash.com/photo-1543286386-713bdd548da4?w=400&auto=format&fit=crop&q=60"
+    ]
   }, {
-    icon: Users,
+    icon: PenTool,
     title: "Content Creation",
     description: "Professional content for your website, blog, and social media to engage customers and grow your business online.",
     features: ["Blog Writing", "Social Media Posts", "Email Content", "Product Copy"],
-    price: "$99/month"
+    price: "$99/month",
+    images: [
+      "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&auto=format&fit=crop&q=60",
+      "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&auto=format&fit=crop&q=60"
+    ]
   }, {
-    icon: ShoppingCart,
+    icon: ShoppingBag,
     title: "E-commerce Setup",
     description: "Add online shopping to your free website with secure payment processing, inventory management, and order tracking.",
     features: ["Payment Processing", "Product Catalog", "Order Management", "Customer Accounts"],
-    price: "From $299"
+    price: "From $299",
+    images: [
+      "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=400&auto=format&fit=crop&q=60",
+      "https://images.unsplash.com/photo-1557821552-17105176677c?w=400&auto=format&fit=crop&q=60"
+    ]
   }, {
-    icon: Smartphone,
+    icon: Sparkles,
     title: "Advanced Features",
     description: "Add powerful functionality like appointment booking, member areas, live chat, and custom tools to grow your business.",
     features: ["Booking Systems", "Member Areas", "Live Chat", "Custom Forms"],
-    price: "From $199"
+    price: "From $199",
+    images: [
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&auto=format&fit=crop&q=60",
+      "https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&auto=format&fit=crop&q=60"
+    ]
   }];
   return (
     <section id="services" className="py-20 px-4 relative z-10 my-0">
@@ -86,10 +110,10 @@ export const Services = () => {
 
         <AnimatedContainer
           delay={0.4}
-          className="grid grid-cols-1 divide-x divide-y divide-dashed border border-dashed sm:grid-cols-2 md:grid-cols-3"
+          className="grid grid-cols-1 divide-x divide-y divide-border/50 border border-border/50 sm:grid-cols-2 md:grid-cols-3"
         >
           {services.map((service, i) => (
-            <FeatureCard key={i} feature={service} />
+            <AnimatedServiceCard key={i} service={service} index={i} />
           ))}
         </AnimatedContainer>
       </div>
