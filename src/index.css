@@ -273,3 +273,46 @@
   font-size: 16px !important;
   line-height: 1 !important;
 }
+
+/* Why Choose Section - Animated Flowing Lights */
+.why-light {
+  offset-anchor: 10px 0px;
+  animation: why-light-animation-path;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  animation-duration: 4s;
+  animation-delay: 1.5s;
+}
+
+.why-light-1 {
+  offset-path: path("M 20 10 v 15 q 0 5 5 5 h 55 q 5 0 5 5 v 20");
+}
+
+.why-light-2 {
+  offset-path: path("M 55 10 v 12 q 0 5 5 5 h 25 q 5 0 5 5 v 23");
+  animation-delay: 1.7s;
+}
+
+.why-light-3 {
+  offset-path: path("M 100 10 v 12 q 0 5 0 5 v 28");
+  animation-delay: 1.9s;
+}
+
+.why-light-4 {
+  offset-path: path("M 145 10 v 12 q 0 5 -5 5 h -25 q -5 0 -5 5 v 23");
+  animation-delay: 2.1s;
+}
+
+.why-light-5 {
+  offset-path: path("M 180 10 v 15 q 0 5 -5 5 h -55 q -5 0 -5 5 v 20");
+  animation-delay: 2.3s;
+}
+
+@keyframes why-light-animation-path {
+  0% {
+    offset-distance: 0%;
+  }
+  100% {
+    offset-distance: 100%;
+  }
+}
