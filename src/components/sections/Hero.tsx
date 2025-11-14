@@ -6,15 +6,15 @@ import { CardSlider } from "@/components/ui/CardSlider";
 export const Hero = () => {
   const navigate = useNavigate();
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-24 sm:pt-16">
+    <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 sm:pt-12">
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-[80vh]">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-[70vh]">
             
             {/* Left Column - Typography */}
             <div className="order-1 lg:order-1">
-              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-6">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-4">
                 <span className="bg-gradient-to-r from-foreground via-foreground/95 to-foreground/90 bg-clip-text text-transparent block text-sm font-sans">
                   Get Your
                 </span>
@@ -27,7 +27,7 @@ export const Hero = () => {
               </h1>
 
               {/* Subtitle */}
-              <p className="text-sm sm:text-lg md:text-xl text-foreground/75 mb-8 leading-relaxed font-light max-w-2xl">
+              <p className="text-sm sm:text-lg md:text-xl text-foreground/75 mb-6 leading-relaxed font-light max-w-2xl">
                 Choose from <span className="text-blue-600 dark:text-blue-400 font-semibold">500+ professional templates</span>. 
                 Upgrade to premium services only when you're ready to scale.
               </p>
