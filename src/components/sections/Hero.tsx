@@ -7,7 +7,7 @@ import { CardSlider } from "@/components/ui/CardSlider";
 export const Hero = () => {
   const navigate = useNavigate();
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-24 sm:pt-16">
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <div className="max-w-7xl mx-auto">
@@ -15,20 +15,20 @@ export const Hero = () => {
             
             {/* Left Column - Typography */}
             <div className="order-1 lg:order-1">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-6">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-6">
                 <span className="bg-gradient-to-r from-foreground via-foreground/95 to-foreground/90 bg-clip-text text-transparent block">
                   Get Your
                 </span>
                 <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-indigo-600 bg-clip-text text-transparent block">
                   FREE Website
                 </span>
-                <span className="bg-gradient-to-r from-foreground/95 via-foreground/90 to-foreground/85 bg-clip-text text-transparent text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-medium block mt-1">
+                <span className="bg-gradient-to-r from-foreground/95 via-foreground/90 to-foreground/85 bg-clip-text text-transparent text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-medium block mt-1">
                   in 24 Hours
                 </span>
               </h1>
 
               {/* Subtitle */}
-              <p className="text-base sm:text-lg md:text-xl text-foreground/75 mb-8 leading-relaxed font-light max-w-2xl">
+              <p className="text-sm sm:text-lg md:text-xl text-foreground/75 mb-8 leading-relaxed font-light max-w-2xl">
                 Choose from <span className="text-blue-600 dark:text-blue-400 font-semibold">500+ professional templates</span>. 
                 Upgrade to premium services only when you're ready to scale.
               </p>
@@ -37,11 +37,11 @@ export const Hero = () => {
               <div className="mb-6">
                 <Button 
                   size="lg" 
-                  className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 hover:from-blue-700 hover:via-purple-700 hover:to-indigo-700 text-white text-lg px-8 py-4 rounded-xl font-bold shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-300 w-full sm:w-auto transform hover:scale-[1.02]"
+                  className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 hover:from-blue-700 hover:via-purple-700 hover:to-indigo-700 text-white text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-300 w-full sm:w-auto transform hover:scale-[1.02]"
                   onClick={() => navigate('/marketplace')}
                 >
                   <span>Browse FREE Templates</span>
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  <ArrowRight className="ml-2 h-4 sm:h-5 w-4 sm:w-5" />
                 </Button>
               </div>
             </div>
