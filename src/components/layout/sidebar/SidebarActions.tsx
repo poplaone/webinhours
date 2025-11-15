@@ -4,9 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { LogOut, LogIn, UserPlus, MessageCircle, X, Send } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/hooks/useAuth';
+import { useProfile } from '@/hooks/useProfiles';
 import { useToast } from '@/hooks/use-toast';
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { UserDropdown } from "@/components/ui/user-dropdown";
 
 interface SidebarActionsProps {
   isAuthenticated: boolean;
@@ -15,6 +17,7 @@ interface SidebarActionsProps {
 export const SidebarActions = ({ isAuthenticated }: SidebarActionsProps) => {
   const navigate = useNavigate();
   const { signOut, user } = useAuth();
+  const { data: profile } = useProfile();
   const { toast } = useToast();
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [message, setMessage] = useState('');
@@ -141,14 +144,13 @@ export const SidebarActions = ({ isAuthenticated }: SidebarActionsProps) => {
         </div>
 
         {/* User Info and Sign Out */}
-        <div className="p-4">
-          <div className="mb-3 text-sm text-muted-foreground">
-            {user?.email}
-          </div>
+        <div className="p-4 flex items-center justify-between gap-3">
+          <UserDropdown profile={profile} />
           <Button
-            variant="outline"
-            className="w-full justify-start gap-3"
             onClick={handleSignOut}
+            variant="ghost"
+            size="sm"
+            className="gap-2"
           >
             <LogOut className="h-4 w-4" />
             Sign Out
