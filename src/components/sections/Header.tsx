@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useAuth } from '@/hooks/useAuth';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useProfile } from '@/hooks/useProfiles';
+import { UserDropdown } from "@/components/ui/user-dropdown";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 export const Header = () => {
@@ -13,6 +15,7 @@ export const Header = () => {
   const location = useLocation();
   const { user } = useAuth();
   const isMobile = useIsMobile();
+  const { data: profile } = useProfile();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -270,12 +273,16 @@ export const Header = () => {
             transition={{ duration: 0.6 }}
           >
             <ThemeToggle />
-            <Button 
-              onClick={() => navigate('/marketplace')} 
-              className="bg-[#8B5CF6] hover:bg-[#7C3AED] transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#8B5CF6]/25 text-sm px-6"
-            >
-              Sign in
-            </Button>
+            {user ? (
+              <UserDropdown profile={profile} />
+            ) : (
+              <Button 
+                onClick={() => navigate('/auth')} 
+                className="bg-[#8B5CF6] hover:bg-[#7C3AED] transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#8B5CF6]/25 text-sm px-6"
+              >
+                Sign in
+              </Button>
+            )}
           </motion.div>
         </div>
 
