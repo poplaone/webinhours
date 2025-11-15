@@ -1,15 +1,18 @@
 # WebInHours Codebase Index
+*Last Updated: January 2025*
 
 ## 📋 Overview
-**WebInHours** is a React-based marketplace platform for professional websites and AI agents, built with TypeScript, Vite, and Supabase. The application offers a comprehensive solution for users to browse, purchase, and manage websites and AI agents with admin capabilities.
+**WebInHours** is a comprehensive React-based marketplace platform for professional websites and AI agents, built with TypeScript, Vite, and Supabase. The application offers a full-stack solution for users to browse, purchase, and manage websites and AI agents with robust admin capabilities, performance optimization, and modern UI/UX.
 
 ### 🏗️ Architecture
-- **Frontend**: React 18 + TypeScript + Vite
-- **Styling**: Tailwind CSS + shadcn/ui components
-- **Backend**: Supabase (PostgreSQL + Auth + Storage)
-- **State Management**: TanStack React Query + React Context
-- **Routing**: React Router DOM v6
-- **Performance**: Aggressive caching, lazy loading, code splitting
+- **Frontend**: React 18 + TypeScript + Vite (SWC compiler)
+- **Styling**: Tailwind CSS + shadcn/ui components + Custom animations
+- **Backend**: Supabase (PostgreSQL + Auth + Storage + RLS)
+- **State Management**: TanStack React Query + React Context + Local state
+- **Routing**: React Router DOM v6 with lazy loading
+- **Performance**: Aggressive caching, code splitting, service worker, prefetching
+- **Build Tool**: Vite with optimized chunks and tree-shaking disabled for stability
+- **Type Safety**: Full TypeScript with strict configuration
 
 ## 📁 Project Structure
 
@@ -302,7 +305,15 @@ queries/
 ```
 src/types/
 ├── website.ts                     # Website type definitions
+│   ├── Website interface (main entity)
+│   ├── WebsiteInsert (creation payload)
+│   ├── WebsiteUpdate (update payload)
+│   └── WebsiteFilters (query filters)
 └── aiAgent.ts                     # AI agent type definitions
+    ├── AIAgent interface (main entity)
+    ├── AIAgentInsert (creation payload)
+    ├── AIAgentUpdate (update payload)
+    └── AIAgentFilters (query filters)
 ```
 
 #### 🔌 Integrations (`src/integrations/`)

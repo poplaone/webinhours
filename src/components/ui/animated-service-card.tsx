@@ -8,7 +8,7 @@ type ServiceCardType = {
   description: string;
   price?: string;
   features?: string[];
-  images: [string, string]; // Two images for the reveal effect
+  images: string[]; // Single or multiple images
 };
 
 type AnimatedServiceCardProps = React.ComponentProps<'div'> & {
@@ -54,7 +54,7 @@ export function AnimatedServiceCard({ service, index, className, ...props }: Ani
 
   const container = "absolute right-4 -top-2 z-40";
   const imageEffect = cn(
-    "relative shadow-none rounded-lg overflow-hidden transition-all duration-500",
+    "relative shadow-none rounded-sm overflow-hidden transition-all duration-500",
     showImages
       ? "w-24 h-24 sm:w-28 sm:h-28 scale-100 opacity-100 shadow-xl"
       : "w-12 h-12 scale-0 opacity-0"
@@ -117,29 +117,11 @@ export function AnimatedServiceCard({ service, index, className, ...props }: Ani
         </ul>
       )}
 
-      {/* Image 1 (Back image) */}
+      {/* Single Image */}
       <div className={container}>
         <div className={imageEffect}>
           <img 
-            alt={`${service.title} preview 1`} 
-            src={service.images[1]} 
-            className="h-full w-full object-cover"
-            loading="lazy"
-          />
-        </div>
-      </div>
-
-      {/* Image 2 (Front image with rotation) */}
-      <div
-        className={cn(
-          container,
-          "transition-all duration-500",
-          showImages && "translate-x-8 translate-y-8 rotate-12"
-        )}
-      >
-        <div className={cn(imageEffect, "delay-100")}>
-          <img 
-            alt={`${service.title} preview 2`} 
+            alt={`${service.title} preview`} 
             src={service.images[0]} 
             className="h-full w-full object-cover"
             loading="lazy"

@@ -18,7 +18,7 @@ export const Hero = () => {
                 <span className="bg-gradient-to-r from-foreground via-foreground/95 to-foreground/90 bg-clip-text text-transparent block text-sm font-sans">
                   Get Your
                 </span>
-                <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-indigo-600 bg-clip-text text-transparent block sm:block">
+                <span className="text-primary block sm:block">
                   FREE Website{' '}
                   <span className="bg-gradient-to-r from-foreground/95 via-foreground/90 to-foreground/85 bg-clip-text text-transparent text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-medium sm:block sm:mt-1">
                     in 24 Hours
@@ -34,7 +34,7 @@ export const Hero = () => {
 
               {/* CTA Button */}
               <div className="mb-6">
-                <Button size="lg" onClick={() => navigate('/marketplace')} className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 hover:from-blue-700 hover:via-purple-700 hover:to-indigo-700 sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-xl shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-300 w-full sm:w-auto transform hover:scale-[1.02] text-base bg-transparent text-white font-sans font-normal">
+                <Button size="lg" onClick={() => navigate('/marketplace')} className="bg-primary hover:bg-primary/90 sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-xl shadow-xl shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 w-full sm:w-auto transform hover:scale-[1.02] text-base text-primary-foreground font-sans font-normal">
                   <span>Browse FREE Templates</span>
                   <ArrowRight className="ml-2 h-4 sm:h-5 w-4 sm:w-5" />
                 </Button>
