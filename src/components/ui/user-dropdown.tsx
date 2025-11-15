@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Settings, LogOut, ShoppingBag, Heart, MessageSquare, LayoutDashboard, Shield } from 'lucide-react';
+import { User, LogOut, MessageSquare, Shield } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -80,29 +80,14 @@ export const UserDropdown: React.FC<UserDropdownProps> = ({ profile }) => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         
-        <DropdownMenuItem onClick={() => navigate('/marketplace')}>
-          <LayoutDashboard className="mr-2 h-4 w-4" />
-          <span>Dashboard</span>
-        </DropdownMenuItem>
-        
         <DropdownMenuItem onClick={() => navigate('/profile')}>
           <User className="mr-2 h-4 w-4" />
-          <span>Profile</span>
-        </DropdownMenuItem>
-        
-        <DropdownMenuItem onClick={() => navigate('/profile?tab=purchases')}>
-          <ShoppingBag className="mr-2 h-4 w-4" />
-          <span>My Purchases</span>
-        </DropdownMenuItem>
-        
-        <DropdownMenuItem onClick={() => navigate('/marketplace?filter=liked')}>
-          <Heart className="mr-2 h-4 w-4" />
-          <span>Liked Items</span>
+          <span>Profile & Dashboard</span>
         </DropdownMenuItem>
         
         <DropdownMenuItem onClick={() => navigate('/contact')}>
           <MessageSquare className="mr-2 h-4 w-4" />
-          <span>Support Chat</span>
+          <span>Chat Support</span>
         </DropdownMenuItem>
         
         {isAdmin && (
@@ -116,11 +101,6 @@ export const UserDropdown: React.FC<UserDropdownProps> = ({ profile }) => {
         )}
         
         <DropdownMenuSeparator />
-        
-        <DropdownMenuItem onClick={() => navigate('/profile?edit=true')}>
-          <Settings className="mr-2 h-4 w-4" />
-          <span>Settings</span>
-        </DropdownMenuItem>
         
         <DropdownMenuItem onClick={handleSignOut} className="text-destructive focus:text-destructive">
           <LogOut className="mr-2 h-4 w-4" />
