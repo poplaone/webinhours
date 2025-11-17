@@ -1,42 +1,32 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import ChatHeader from './ChatHeader';
 import MessagesList from './MessagesList';
 import ChatInput from './ChatInput';
 import QuickActions from './QuickActions';
-import { getAIResponse, getInitialMessage } from './chatUtils';
 import { Message, ChatSidebarProps } from './types';
+import { useAIAssistant } from '@/hooks/useAIAssistant';
 
 const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className }: ChatSidebarProps) => {
   const [inputMessage, setInputMessage] = useState('');
-  const [messages, setMessages] = useState<Message[]>([getInitialMessage()]);
-  const [isLoading, setIsLoading] = useState(false);
+  const { messages: aiMessages, isLoading, sendMessage } = useAIAssistant();
+  
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  useEffect(() => {
+    setMessages(aiMessages.map(msg => ({
+      content: msg.content,
+      isUser: msg.role === 'user',
+      timestamp: new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    })));
+  }, [aiMessages]);
 
   const handleSendMessage = async () => {
     if (!inputMessage.trim() || isLoading) return;
-    
-    const userMessage = {
-      content: inputMessage,
-      isUser: true,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    };
-    
-    setMessages(prev => [...prev, userMessage]);
+
+    const message = inputMessage;
     setInputMessage('');
-    setIsLoading(true);
-    
-    // Simulate AI thinking time
-    setTimeout(() => {
-      const aiResponse = {
-        content: getAIResponse(inputMessage),
-        isUser: false,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      };
-      
-      setMessages(prev => [...prev, aiResponse]);
-      setIsLoading(false);
-    }, 800 + Math.random() * 1200); // 0.8-2 seconds delay
+    await sendMessage(message);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -46,13 +36,8 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
     }
   };
 
-  const handleQuickAction = (action: string) => {
-    setInputMessage(action);
-    // Auto-send after a brief delay
-    setTimeout(() => {
-      const syntheticEvent = { key: 'Enter', shiftKey: false, preventDefault: () => {} };
-      handleKeyDown(syntheticEvent as any);
-    }, 100);
+  const handleQuickAction = async (action: string) => {
+    await sendMessage(action);
   };
 
   return (

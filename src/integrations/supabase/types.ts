@@ -104,6 +104,75 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_audit_logs: {
+        Row: {
+          action_type: Database["public"]["Enums"]["ai_action_type"]
+          ai_decision: Json
+          completed_at: string | null
+          created_at: string
+          error_message: string | null
+          execution_time_ms: number | null
+          id: string
+          input_data: Json
+          output_data: Json | null
+          status: Database["public"]["Enums"]["ai_action_status"]
+          user_id: string | null
+        }
+        Insert: {
+          action_type: Database["public"]["Enums"]["ai_action_type"]
+          ai_decision: Json
+          completed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          execution_time_ms?: number | null
+          id?: string
+          input_data: Json
+          output_data?: Json | null
+          status?: Database["public"]["Enums"]["ai_action_status"]
+          user_id?: string | null
+        }
+        Update: {
+          action_type?: Database["public"]["Enums"]["ai_action_type"]
+          ai_decision?: Json
+          completed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          execution_time_ms?: number | null
+          id?: string
+          input_data?: Json
+          output_data?: Json | null
+          status?: Database["public"]["Enums"]["ai_action_status"]
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      ai_rate_limits: {
+        Row: {
+          action_type: Database["public"]["Enums"]["ai_action_type"]
+          id: string
+          last_request_at: string
+          request_count: number
+          user_id: string
+          window_start: string
+        }
+        Insert: {
+          action_type: Database["public"]["Enums"]["ai_action_type"]
+          id?: string
+          last_request_at?: string
+          request_count?: number
+          user_id: string
+          window_start?: string
+        }
+        Update: {
+          action_type?: Database["public"]["Enums"]["ai_action_type"]
+          id?: string
+          last_request_at?: string
+          request_count?: number
+          user_id?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
       concept_tests: {
         Row: {
           completed_at: string | null
@@ -300,6 +369,51 @@ export type Database = {
         }
         Relationships: []
       }
+      support_tickets: {
+        Row: {
+          ai_generated: boolean
+          category: string | null
+          created_at: string
+          description: string
+          id: string
+          metadata: Json | null
+          priority: string
+          resolved_at: string | null
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          ai_generated?: boolean
+          category?: string | null
+          created_at?: string
+          description: string
+          id?: string
+          metadata?: Json | null
+          priority?: string
+          resolved_at?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          ai_generated?: boolean
+          category?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          metadata?: Json | null
+          priority?: string
+          resolved_at?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       test_responses: {
         Row: {
           completion_time: number | null
@@ -455,6 +569,15 @@ export type Database = {
     }
     Functions: {
       bootstrap_admin: { Args: { admin_email: string }; Returns: undefined }
+      check_ai_rate_limit: {
+        Args: {
+          _action_type: Database["public"]["Enums"]["ai_action_type"]
+          _max_requests?: number
+          _user_id: string
+          _window_minutes?: number
+        }
+        Returns: boolean
+      }
       generate_slug: { Args: { title: string }; Returns: string }
       has_role: {
         Args: {
@@ -473,6 +596,20 @@ export type Database = {
       }
     }
     Enums: {
+      ai_action_status:
+        | "pending"
+        | "executing"
+        | "completed"
+        | "failed"
+        | "cancelled"
+      ai_action_type:
+        | "create_ticket"
+        | "update_ticket"
+        | "recommend_content"
+        | "moderate_content"
+        | "send_notification"
+        | "read_data"
+        | "analyze_user"
       app_role: "admin" | "moderator" | "user"
       concept_status: "draft" | "testing" | "completed" | "archived"
       idea_status: "draft" | "in_review" | "approved" | "rejected"
@@ -604,6 +741,22 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      ai_action_status: [
+        "pending",
+        "executing",
+        "completed",
+        "failed",
+        "cancelled",
+      ],
+      ai_action_type: [
+        "create_ticket",
+        "update_ticket",
+        "recommend_content",
+        "moderate_content",
+        "send_notification",
+        "read_data",
+        "analyze_user",
+      ],
       app_role: ["admin", "moderator", "user"],
       concept_status: ["draft", "testing", "completed", "archived"],
       idea_status: ["draft", "in_review", "approved", "rejected"],
