@@ -85,9 +85,9 @@ export const UserDropdown: React.FC<UserDropdownProps> = ({ profile }) => {
           <span>Profile & Dashboard</span>
         </DropdownMenuItem>
         
-        <DropdownMenuItem onClick={() => navigate('/contact')}>
+        <DropdownMenuItem onClick={() => navigate('/support-tickets')}>
           <MessageSquare className="mr-2 h-4 w-4" />
-          <span>Chat Support</span>
+          <span>Support Tickets</span>
         </DropdownMenuItem>
         
         {isAdmin && (
