@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { 
   Clock, 
@@ -68,8 +68,54 @@ const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
     },
   ];
 
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const circleRef = useRef<HTMLDivElement | null>(null);
+  const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const [lines, setLines] = useState<Array<{ d: string; key: string }>>([]);
+
+  useEffect(() => {
+    const compute = () => {
+      if (typeof window !== "undefined" && window.innerWidth < 640) {
+        setLines([]);
+        return;
+      }
+      if (!sectionRef.current || !circleRef.current) return;
+      const sectionRect = sectionRef.current.getBoundingClientRect();
+      const circRect = circleRef.current.getBoundingClientRect();
+      const sx = circRect.left + circRect.width / 2 - sectionRect.left;
+      const radius = circRect.height / 2;
+      const sy = circRect.top - sectionRect.top + radius * 2 - 2;
+      const next: Array<{ d: string; key: string }> = [];
+      cardRefs.current.forEach((el, i) => {
+        if (!el) return;
+        const r = el.getBoundingClientRect();
+        const ex = r.left + r.width / 2 - sectionRect.left;
+        const ey = r.top - sectionRect.top + 4;
+        const drop = 12;
+        const curve = 60;
+        const dx = ex - sx;
+        const midY = sy + drop + curve;
+        const elbowX = sx + dx * 0.45;
+        const d = `M ${sx} ${sy} L ${sx} ${sy + drop} Q ${sx} ${midY} ${elbowX} ${midY} H ${ex} V ${ey}`;
+        next.push({ d, key: `line-${i}` });
+      });
+      setLines(next);
+    };
+    const ro = new ResizeObserver(() => compute());
+    if (sectionRef.current) ro.observe(sectionRef.current);
+    if (circleRef.current) ro.observe(circleRef.current);
+    cardRefs.current.forEach((el) => el && ro.observe(el));
+    const id = requestAnimationFrame(compute);
+    window.addEventListener("resize", compute);
+    return () => {
+      ro.disconnect();
+      cancelAnimationFrame(id);
+      window.removeEventListener("resize", compute);
+    };
+  }, []);
+
   return (
-    <section className={cn("py-20 px-4 relative z-10", className)}>
+    <section ref={sectionRef} className={cn("py-20 px-4 relative z-10", className)}>
       <div className="container mx-auto w-full max-w-7xl">
         {/* Header */}
         <motion.div
@@ -101,7 +147,7 @@ const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="relative flex justify-center mb-16"
         >
-          <div className="relative w-full max-w-[600px] h-[400px] sm:h-[450px]">
+          <div className="relative w-full max-w-[600px] h-[360px] sm:h-[450px]">
             {/* SVG Paths */}
             <svg
               className="absolute inset-0 w-full h-full text-muted-foreground/40"
@@ -155,14 +201,12 @@ const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
                   const xPos = 20 + (idx * 160 / 4);
                   return (
                     <g key={idx}>
-                      <rect
+                      <circle
                         fill="hsl(var(--primary))"
-                        x={xPos - 7}
-                        y="4"
-                        width="14"
-                        height="12"
-                        rx="6"
-                        opacity="0.9"
+                        cx={xPos}
+                        cy={10}
+                        r={6}
+                        opacity={0.9}
                       />
                     </g>
                   );
@@ -196,26 +240,25 @@ const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
             </svg>
 
             {/* Main Content Box */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[90%] max-w-[500px]">
+            <div className="relative mx-auto md:absolute md:bottom-0 md:left-1/2 md:-translate-x-1/2 w-[90%] max-w-[500px] mt-4">
               {/* Bottom shadow */}
-              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 h-[120px] w-[70%] rounded-xl bg-primary/10 blur-xl" />
+              <div className="hidden md:block absolute -bottom-6 left-1/2 -translate-x-1/2 h-[120px] w-[70%] rounded-xl bg-primary/10 blur-xl" />
               
               {/* Box title badge */}
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 flex items-center justify-center rounded-full border bg-background px-4 py-2 shadow-lg">
+              <div className="relative mb-3 mx-auto md:absolute md:-top-4 md:left-1/2 md:-translate-x-1/2 z-20 flex items-center justify-center rounded-full border bg-background px-4 py-2 shadow-lg">
                 <Award className="size-4 text-primary" />
                 <span className="ml-2 text-xs font-semibold">Industry Leading Performance</span>
               </div>
 
-              {/* Circle badge at bottom */}
-              <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 z-30 grid h-[70px] w-[70px] place-items-center rounded-full border-2 border-primary/50 bg-background font-bold text-sm shadow-xl">
+              <div ref={circleRef} className="relative mx-auto mt-4 md:absolute md:-bottom-10 md:left-1/2 md:-translate-x-1/2 z-30 grid h-[56px] w-[56px] md:h-[60px] md:w-[60px] lg:h-[64px] lg:w-[64px] place-items-center rounded-full border-2 border-primary/50 bg-background font-bold text-sm shadow-xl">
                 <div className="text-center">
-                  <div className="text-primary text-lg">24hr</div>
-                  <div className="text-[10px] text-muted-foreground">delivery</div>
+                  <div className="text-primary text-base md:text-md lg:text-lg">24hr</div>
+                  <div className="text-[9px] md:text-[9px] lg:text-[10px] text-muted-foreground">delivery</div>
                 </div>
               </div>
 
               {/* Main Box */}
-              <div className="relative z-10 overflow-hidden rounded-xl border-2 bg-background/95 backdrop-blur-sm shadow-2xl p-6">
+              <div className="relative z-10 overflow-hidden rounded-xl border-2 bg-background/95 backdrop-blur-sm shadow-2xl p-6 pb-20 md:pb-6">
                 {/* Animated Circles */}
                 <motion.div
                   className="absolute -bottom-16 left-1/2 -translate-x-1/2 h-[120px] w-[120px] rounded-full border border-primary/20 bg-primary/5"
@@ -234,7 +277,7 @@ const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
                 />
 
                 {/* Features Grid */}
-                <div className="relative z-10 grid grid-cols-2 gap-3 mb-6">
+                <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
                   {features.map((feature, idx) => {
                     const Icon = feature.icon;
                     return (
@@ -286,6 +329,7 @@ const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
                 transition={{ delay: 0.1 * idx }}
                 whileHover={{ y: -5 }}
                 className="relative group"
+                ref={(el) => (cardRefs.current[idx] = el)}
               >
                 <div className="h-full p-6 rounded-xl border-2 bg-background hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10">
                   <Icon className="size-8 text-primary mb-4 group-hover:scale-110 transition-transform" />
@@ -297,6 +341,63 @@ const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
             );
           })}
         </motion.div>
+
+        <svg className="absolute inset-0 pointer-events-none z-0 hidden sm:block" width="100%" height="100%">
+          <defs>
+            <filter id="neural-glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            <radialGradient id="energy-grad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.35" />
+              <stop offset="60%" stopColor="hsl(var(--primary))" stopOpacity="0.18" />
+              <stop offset="100%" stopColor="transparent" stopOpacity="0" />
+            </radialGradient>
+          </defs>
+          <motion.ellipse
+            cx="50%"
+            cy="42%"
+            rx="28%"
+            ry="18%"
+            fill="url(#energy-grad)"
+            filter="url(#neural-glow)"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 1.2, ease: [0.25, 0.1, 0.5, 1] }}
+          />
+          {lines.map((l, i) => (
+            <g key={l.key}>
+              <motion.path
+                d={l.d}
+                stroke="hsl(var(--primary))"
+                strokeWidth="1.6"
+                fill="none"
+                opacity="0.12"
+                filter="url(#neural-glow)"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                initial={{ pathLength: 1, strokeDasharray: "100 100", strokeDashoffset: 100 }}
+                whileInView={{ strokeDashoffset: 0 }}
+                transition={{ duration: 1.2, delay: 0.15 * i, ease: [0.25, 0.1, 0.5, 1] }}
+              />
+              <motion.path
+                d={l.d}
+                stroke="hsl(var(--primary))"
+                strokeWidth="0.8"
+                fill="none"
+                opacity="0.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                initial={{ pathLength: 1, strokeDasharray: "100 100", strokeDashoffset: 100 }}
+                whileInView={{ strokeDashoffset: 0 }}
+                transition={{ duration: 1.2, delay: 0.15 * i + 0.1, ease: [0.25, 0.1, 0.5, 1] }}
+              />
+            </g>
+          ))}
+        </svg>
       </div>
     </section>
   );

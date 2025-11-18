@@ -80,12 +80,12 @@ export const FastMarketplace: React.FC<FastMarketplaceProps> = ({
         className="group-hover:scale-110 transition-transform duration-500"
       />
       <div className="p-6">
-        <h3 className="font-semibold text-lg mb-2 group-hover:text-purple-300 transition-colors">
+        <h3 className="font-semibold text-lg mb-2 text-foreground group-hover:text-purple-300 transition-colors">
           {template.title}
         </h3>
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-400 capitalize">{template.category}</span>
-          <span className="text-lg font-bold text-white">
+          <span className="text-sm text-muted-foreground capitalize">{template.category}</span>
+          <span className="text-lg font-bold text-foreground">
             {Number(template.price) === 0 ? 'Free' : `$${template.price}`}
           </span>
         </div>

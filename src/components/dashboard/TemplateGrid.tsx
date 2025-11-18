@@ -80,10 +80,10 @@ const TemplateCard = memo<{template: Website; onClick: (t: Website) => void; onH
       </div>
       <CardContent className="p-5 xl:p-6 flex flex-col flex-grow bg-transparent min-h-[110px] relative z-10">
         <div className="flex justify-between items-start mb-3">
-          <h3 className="font-semibold text-base xl:text-lg text-white dark:text-white/90 group-hover:text-purple-200 transition-colors line-clamp-2 pr-2">
+          <h3 className="font-semibold text-base xl:text-lg text-foreground group-hover:text-purple-200 transition-colors line-clamp-2 pr-2">
             {template.title}
           </h3>
-          <div className="flex items-center gap-1 text-white/90 font-bold text-sm xl:text-base bg-white/10 backdrop-blur-sm border border-white/20 px-3 py-1.5 rounded-full hover:bg-white/20 transition-colors duration-200">
+          <div className="flex items-center gap-1 text-foreground/90 font-bold text-sm xl:text-base bg-background/10 backdrop-blur-sm border border-border/20 px-3 py-1.5 rounded-full hover:bg-background/20 transition-colors duration-200">
             <DollarSign className="h-3.5 w-3.5" />
             <span>{Number(template.price) === 0 ? 'Free' : Number(template.price)}</span>
           </div>
@@ -92,7 +92,7 @@ const TemplateCard = memo<{template: Website; onClick: (t: Website) => void; onH
           {template.tags && template.tags.slice(0, 3).map((tag: string) => (
             <Badge 
               key={tag} 
-              className="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-white/80 hover:bg-white/20 transition-colors border border-white/10 backdrop-blur-sm"
+              className="text-[10px] px-2 py-0.5 rounded-full bg-background/10 text-foreground/80 hover:bg-background/20 transition-colors border border-border/10 backdrop-blur-sm"
             >
               {tag}
             </Badge>
