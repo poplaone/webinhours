@@ -338,23 +338,7 @@ const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
                 <feMergeNode in="SourceGraphic" />
               </feMerge>
             </filter>
-            <radialGradient id="energy-grad" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.35" />
-              <stop offset="60%" stopColor="hsl(var(--primary))" stopOpacity="0.18" />
-              <stop offset="100%" stopColor="transparent" stopOpacity="0" />
-            </radialGradient>
           </defs>
-          <motion.ellipse
-            cx="50%"
-            cy="42%"
-            rx="28%"
-            ry="18%"
-            fill="url(#energy-grad)"
-            filter="url(#neural-glow)"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 1.2, ease: [0.25, 0.1, 0.5, 1] }}
-          />
           {lines.map((l, i) => (
             <g key={l.key}>
               <motion.path
