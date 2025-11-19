@@ -156,7 +156,7 @@ Always be helpful, professional, and concise. Include context from the user's hi
           .eq('id', auditLog.id);
       }
     } catch (error) {
-      executionError = error.message;
+      executionError = error instanceof Error ? error.message : 'Unknown error';
       
       // Update audit log with failure
       if (auditLog) {
@@ -184,7 +184,7 @@ Always be helpful, professional, and concise. Include context from the user's hi
   } catch (error) {
     console.error('Error in ai-assistant function:', error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }
