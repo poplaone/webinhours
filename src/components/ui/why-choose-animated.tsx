@@ -332,39 +332,68 @@ const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
         <svg className="absolute inset-0 pointer-events-none z-0 hidden sm:block" width="100%" height="100%">
           <defs>
             <filter id="neural-glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feGaussianBlur stdDeviation="3" result="blur" />
               <feMerge>
                 <feMergeNode in="blur" />
                 <feMergeNode in="SourceGraphic" />
               </feMerge>
             </filter>
+            <linearGradient id="line-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.6" />
+              <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.2" />
+            </linearGradient>
           </defs>
           {lines.map((l, i) => (
             <g key={l.key}>
+              {/* Base glow line */}
               <motion.path
                 d={l.d}
-                stroke="hsl(var(--primary))"
-                strokeWidth="1.6"
+                stroke="url(#line-gradient)"
+                strokeWidth="2.5"
                 fill="none"
-                opacity="0.12"
+                opacity="0.3"
                 filter="url(#neural-glow)"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                initial={{ pathLength: 1, strokeDasharray: "100 100", strokeDashoffset: 100 }}
-                whileInView={{ strokeDashoffset: 0 }}
-                transition={{ duration: 1.2, delay: 0.15 * i, ease: [0.25, 0.1, 0.5, 1] }}
+                initial={{ pathLength: 0 }}
+                whileInView={{ pathLength: 1 }}
+                transition={{ duration: 1.5, delay: 0.2 * i, ease: [0.25, 0.1, 0.5, 1] }}
               />
+              {/* Main line */}
               <motion.path
                 d={l.d}
                 stroke="hsl(var(--primary))"
-                strokeWidth="0.8"
+                strokeWidth="1.5"
                 fill="none"
-                opacity="0.5"
+                opacity="0.6"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                initial={{ pathLength: 1, strokeDasharray: "100 100", strokeDashoffset: 100 }}
-                whileInView={{ strokeDashoffset: 0 }}
-                transition={{ duration: 1.2, delay: 0.15 * i + 0.1, ease: [0.25, 0.1, 0.5, 1] }}
+                initial={{ pathLength: 0 }}
+                whileInView={{ pathLength: 1 }}
+                transition={{ duration: 1.5, delay: 0.2 * i + 0.1, ease: [0.25, 0.1, 0.5, 1] }}
+              />
+              {/* Animated flowing light */}
+              <motion.path
+                d={l.d}
+                stroke="hsl(var(--primary))"
+                strokeWidth="3"
+                fill="none"
+                opacity="0"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeDasharray="20 80"
+                initial={{ strokeDashoffset: 100, opacity: 0 }}
+                animate={{ 
+                  strokeDashoffset: [100, 0],
+                  opacity: [0, 0.8, 0]
+                }}
+                transition={{ 
+                  duration: 3,
+                  delay: 0.2 * i + 1.5,
+                  repeat: Infinity,
+                  repeatDelay: 2,
+                  ease: "easeInOut"
+                }}
               />
             </g>
           ))}
