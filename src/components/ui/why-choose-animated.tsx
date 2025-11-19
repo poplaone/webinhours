@@ -258,23 +258,10 @@ const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
               </div>
 
               {/* Main Box */}
-              <div className="relative z-10 overflow-hidden rounded-xl border-2 bg-background/95 backdrop-blur-sm shadow-2xl p-6 pb-20 md:pb-6">
-                {/* Animated Circles */}
-                <motion.div
-                  className="absolute -bottom-16 left-1/2 -translate-x-1/2 h-[120px] w-[120px] rounded-full border border-primary/20 bg-primary/5"
-                  animate={{ scale: [0.98, 1.02, 0.98] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                />
-                <motion.div
-                  className="absolute -bottom-24 left-1/2 -translate-x-1/2 h-[180px] w-[180px] rounded-full border border-primary/15 bg-primary/5"
-                  animate={{ scale: [1, 1.02, 1] }}
-                  transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
-                />
-                <motion.div
-                  className="absolute -bottom-32 left-1/2 -translate-x-1/2 h-[240px] w-[240px] rounded-full border border-primary/10 bg-primary/5"
-                  animate={{ scale: [1.02, 0.98, 1.02] }}
-                  transition={{ duration: 3, repeat: Infinity, delay: 1 }}
-                />
+              <div className="relative z-10 overflow-hidden rounded-2xl border-2 border-primary/20 bg-gradient-to-br from-background via-background to-primary/5 backdrop-blur-sm shadow-2xl p-6 pb-20 md:pb-6">
+                {/* Subtle corner accent */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-[100px] blur-2xl" />
+                <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-primary/10 to-transparent rounded-tr-[100px] blur-2xl" />
 
                 {/* Features Grid */}
                 <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
