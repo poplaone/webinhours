@@ -6,31 +6,33 @@ import { useHeroAnimation } from '@/hooks/useHeroAnimation';
 
 export const Hero = () => {
   const navigate = useNavigate();
-  const { currentState, refs } = useHeroAnimation();
+  const { refs } = useHeroAnimation();
 
   return (
     <section className="hero-animated min-h-screen flex items-center justify-center relative overflow-hidden pt-20 pb-10 px-4 sm:px-6">
-      <div className="hero-layout max-w-[1440px] mx-auto w-full grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-8 lg:gap-10 items-center">
+      <div className="hero-layout max-w-[1440px] mx-auto w-full grid grid-cols-1 lg:grid-cols-[500px_1fr] gap-8 lg:gap-16 items-center">
         
-        {/* LEFT COLUMN - Images */}
-        <div className="hero-column-left relative hidden lg:flex flex-col gap-5">
-          <img 
-            ref={el => refs.leftImages.current[0] = el}
-            src="/assets/card-3.png" 
-            alt="Wireframe example"
-            className={`hero-image ${currentState === 2 || currentState === 3 ? 'hero-image-visible' : ''}`}
-          />
-          <img 
-            src="/assets/card-1.png" 
-            alt="Design preview"
-            className="hero-image-offset hero-image-offset-left"
-          />
-          <img 
-            ref={el => refs.leftImages.current[1] = el}
-            src="/assets/card-2.png" 
-            alt="Interface mockup"
-            className={`hero-image ${currentState === 3 ? 'hero-image-visible' : ''}`}
-          />
+        {/* LEFT COLUMN - Semicircle Card Carousel */}
+        <div className="hero-semicircle-container relative hidden lg:block" style={{ height: '600px' }}>
+          <div className="hero-semicircle-cards">
+            {[
+              { src: '/assets/card-1.png', alt: 'Card 1', index: 0 },
+              { src: '/assets/card-2.png', alt: 'Card 2', index: 1 },
+              { src: '/assets/card-3.png', alt: 'Card 3', index: 2 },
+              { src: '/assets/card-4.png', alt: 'Card 4', index: 3 },
+              { src: '/assets/card-5.png', alt: 'Card 5', index: 4 },
+              { src: '/assets/card-6.png', alt: 'Card 6', index: 5 },
+            ].map((card) => (
+              <img
+                key={card.index}
+                ref={el => refs.cardElements.current[card.index] = el}
+                src={card.src}
+                alt={card.alt}
+                className="hero-semicircle-card"
+                data-card-index={card.index}
+              />
+            ))}
+          </div>
           
           {/* Jessica Cursor */}
           <img 
@@ -38,14 +40,14 @@ export const Hero = () => {
             src="/assets/cursor-jessica.png" 
             alt="Cursor indicator"
             width="82.5"
-            className={`hero-cursor hero-cursor-jessica ${currentState === 2 ? 'hero-cursor-state-2' : ''} ${currentState === 3 ? 'hero-cursor-state-3' : ''}`}
+            className="hero-cursor hero-cursor-jessica"
           />
         </div>
 
         {/* CENTER CONTENT */}
         <div 
           ref={refs.centerContent}
-          className={`hero-content-center text-center max-w-[800px] ${currentState === 2 ? 'hero-content-state-2' : ''} ${currentState === 3 ? 'hero-content-state-3' : ''}`}
+          className="hero-content-center text-center lg:text-left max-w-[800px]"
         >
           <div 
             ref={refs.badge}
@@ -58,7 +60,7 @@ export const Hero = () => {
 
           <h1 
             ref={refs.heading}
-            className={`hero-heading text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-4 ${currentState === 2 ? 'hero-heading-state-2' : ''} ${currentState === 3 ? 'hero-heading-state-3' : ''}`}
+            className="hero-heading text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-4"
           >
             <span className="text-foreground/90 block text-base sm:text-lg font-normal mb-2">
               Get Your
@@ -73,7 +75,7 @@ export const Hero = () => {
 
           <p 
             ref={refs.subheading}
-            className={`hero-subheading text-base sm:text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed font-normal max-w-2xl mx-auto ${currentState === 2 ? 'hero-subheading-state-2' : ''} ${currentState === 3 ? 'hero-subheading-state-3' : ''}`}
+            className="hero-subheading text-base sm:text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed font-normal max-w-2xl"
           >
             Choose from <span className="text-primary font-semibold">500+ professional templates</span>. 
             Upgrade to premium services only when you're ready to scale.
@@ -89,36 +91,6 @@ export const Hero = () => {
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
-        </div>
-
-        {/* RIGHT COLUMN - Images */}
-        <div className="hero-column-right relative hidden lg:flex flex-col gap-5">
-          <img 
-            ref={el => refs.rightImages.current[0] = el}
-            src="/assets/card-6.png" 
-            alt="Component preview"
-            className={`hero-image ${currentState === 2 || currentState === 3 ? 'hero-image-visible' : ''}`}
-          />
-          <img 
-            src="/assets/card-4.png" 
-            alt="Interface component"
-            className="hero-image-offset hero-image-offset-right"
-          />
-          <img 
-            ref={el => refs.rightImages.current[1] = el}
-            src="/assets/card-5.png" 
-            alt="Design system"
-            className={`hero-image ${currentState === 3 ? 'hero-image-visible' : ''}`}
-          />
-          
-          {/* Mario Cursor */}
-          <img 
-            ref={refs.mario}
-            src="/assets/cursor-mario.png" 
-            alt="Cursor indicator"
-            width="69.5"
-            className={`hero-cursor hero-cursor-mario ${currentState === 2 ? 'hero-cursor-state-2' : ''} ${currentState === 3 ? 'hero-cursor-state-3' : ''}`}
-          />
         </div>
       </div>
 
