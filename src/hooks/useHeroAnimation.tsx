@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 export const useHeroAnimation = () => {
-  const [currentState, setCurrentState] = useState(1);
+  const [currentState, setCurrentState] = useState(0);
   const centerContentRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const subheadingRef = useRef<HTMLParagraphElement>(null);
@@ -12,14 +12,14 @@ export const useHeroAnimation = () => {
   const rightImagesRef = useRef<(HTMLImageElement | null)[]>([]);
 
   useEffect(() => {
-    // Initial fade in
+    // Initial fade in animation
     setTimeout(() => {
       if (centerContentRef.current) {
         centerContentRef.current.style.opacity = '1';
         centerContentRef.current.style.transform = 'translate3d(0, 0, 0) rotateZ(0deg)';
       }
 
-      // Show cursors
+      // Animate cursors with stagger
       if (jessicaRef.current) {
         jessicaRef.current.style.display = 'block';
         setTimeout(() => {
@@ -39,14 +39,16 @@ export const useHeroAnimation = () => {
           }
         }, 200);
       }
-    }, 500);
+    }, 300);
 
-    // Start cycling through states
-    const cycleInterval = setInterval(() => {
-      setCurrentState(prev => (prev >= 3 ? 1 : prev + 1));
-    }, 4000);
+    // Start state cycling after initial animation
+    setTimeout(() => {
+      const cycleInterval = setInterval(() => {
+        setCurrentState(prev => (prev >= 3 ? 1 : prev + 1));
+      }, 4000);
 
-    return () => clearInterval(cycleInterval);
+      return () => clearInterval(cycleInterval);
+    }, 1500);
   }, []);
 
   return {
