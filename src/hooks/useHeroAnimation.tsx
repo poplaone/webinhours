@@ -44,42 +44,41 @@ export const useHeroAnimation = () => {
   }, []);
 
   const positionCardsInSemicircle = (rotationOffset: number) => {
-    const radius = 250; // Radius of the semicircle
     const totalCards = 6;
-    const angleStep = 180 / (totalCards - 1); // Spread cards across 180 degrees (semicircle)
+    const stackSpacing = 40; // Spacing between stacked cards
+    const rotationSpread = 25; // Degrees of rotation spread
 
     cardElementsRef.current.forEach((card, index) => {
       if (!card) return;
 
-      // Calculate angle for this card (including rotation offset)
-      const angle = (index * angleStep + rotationOffset) % 360;
+      // Calculate position in the rotation cycle
+      const position = (index - rotationOffset / 60 + totalCards) % totalCards;
       
-      // Convert to radians
-      const radian = (angle - 90) * (Math.PI / 180);
+      // Only show 3 cards (center and two on sides)
+      const isVisible = position >= 1.5 && position <= 4.5;
       
-      // Calculate position
-      const x = radius * Math.cos(radian);
-      const y = radius * Math.sin(radian);
-
-      // Determine if card should be visible (only show 3 cards at a time)
-      // Show cards between -90 and 90 degrees (front-facing semicircle)
-      const normalizedAngle = ((angle - 90 + 360) % 360);
-      const isVisible = normalizedAngle >= 0 && normalizedAngle <= 180;
+      // Calculate stacked position (cards overlap in center)
+      const centerOffset = position - 3; // -1.5 to 1.5 for visible cards
+      const x = centerOffset * stackSpacing;
+      const y = Math.abs(centerOffset) * 20; // Slight Y offset for depth
+      const rotateZ = centerOffset * (rotationSpread / 2);
       
-      // Calculate opacity based on position (center card is most visible)
+      // Calculate opacity and scale based on position
       let opacity = 0;
+      let scale = 0.6;
+      let zIndex = 0;
+      
       if (isVisible) {
-        const distanceFromCenter = Math.abs(90 - normalizedAngle);
-        opacity = Math.max(0, 1 - (distanceFromCenter / 90));
+        const distanceFromCenter = Math.abs(centerOffset);
+        opacity = Math.max(0, 1 - (distanceFromCenter / 2));
+        scale = 0.75 + (opacity * 0.25);
+        zIndex = Math.floor(opacity * 10);
       }
 
-      // Calculate scale (center cards are larger)
-      const scale = isVisible ? 0.7 + (opacity * 0.3) : 0.5;
-
-      // Apply transform
-      card.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
+      // Apply transform with 3D effect
+      card.style.transform = `translate3d(${x}px, ${y}px, ${-Math.abs(centerOffset) * 50}px) scale(${scale}) rotateY(${centerOffset * 5}deg) rotateZ(${rotateZ}deg)`;
       card.style.opacity = `${opacity}`;
-      card.style.zIndex = `${Math.floor(opacity * 10)}`;
+      card.style.zIndex = `${zIndex}`;
     });
   };
 
