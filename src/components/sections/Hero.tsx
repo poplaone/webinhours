@@ -7,147 +7,147 @@ export const Hero = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20 pb-10 px-4 sm:px-6">
-      <div className="max-w-[1440px] mx-auto w-full grid grid-cols-1 lg:grid-cols-[1fr_600px] gap-8 lg:gap-16 items-center">
+    <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20 pb-16 px-6">
+      <div className="max-w-[1440px] mx-auto w-full relative">
         
-        {/* LEFT SIDE - Scattered Image Grid */}
-        <div className="hero-image-grid relative hidden lg:block" style={{ height: '600px' }}>
-          {/* Large top-left image */}
+        {/* LEFT SIDE - Scattered Images */}
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 hidden lg:block" style={{ width: '340px' }}>
+          {/* Top pink card */}
           <img 
             src="/assets/card-1.png" 
-            alt="Featured design 1"
-            className="hero-grid-image hero-grid-large"
+            alt="Design preview"
+            className="absolute rounded-2xl shadow-xl"
             style={{ 
-              position: 'absolute',
-              top: '0',
+              width: '240px',
+              top: '-200px',
               left: '0',
-              width: '280px',
-              height: '320px',
-              objectFit: 'cover'
+              zIndex: 3
             }}
           />
           
-          {/* Small top-right image */}
+          {/* Middle left white card with phones */}
           <img 
             src="/assets/card-2.png" 
-            alt="Featured design 2"
-            className="hero-grid-image hero-grid-small"
+            alt="Mobile designs"
+            className="absolute rounded-2xl shadow-xl"
             style={{ 
-              position: 'absolute',
-              top: '20px',
-              right: '80px',
-              width: '180px',
-              height: '180px',
-              objectFit: 'cover'
+              width: '200px',
+              top: '0',
+              left: '-20px',
+              zIndex: 2
             }}
           />
           
-          {/* Medium center image */}
+          {/* Bottom dark card */}
           <img 
             src="/assets/card-3.png" 
-            alt="Featured design 3"
-            className="hero-grid-image hero-grid-medium"
+            alt="Agency website"
+            className="absolute rounded-2xl shadow-xl"
             style={{ 
-              position: 'absolute',
+              width: '280px',
               top: '140px',
-              left: '60px',
-              width: '220px',
-              height: '240px',
-              objectFit: 'cover'
+              left: '40px',
+              zIndex: 1
             }}
           />
           
-          {/* Small bottom-left image */}
+          {/* Jessica Cursor */}
           <img 
-            src="/assets/card-4.png" 
-            alt="Featured design 4"
-            className="hero-grid-image hero-grid-small"
+            src="/assets/cursor-jessica.png" 
+            alt=""
+            className="absolute"
             style={{ 
-              position: 'absolute',
-              bottom: '80px',
-              left: '20px',
-              width: '160px',
-              height: '160px',
-              objectFit: 'cover'
-            }}
-          />
-          
-          {/* Medium bottom-right image */}
-          <img 
-            src="/assets/card-5.png" 
-            alt="Featured design 5"
-            className="hero-grid-image hero-grid-medium"
-            style={{ 
-              position: 'absolute',
-              bottom: '40px',
-              right: '40px',
-              width: '200px',
-              height: '220px',
-              objectFit: 'cover'
-            }}
-          />
-          
-          {/* Accent small image */}
-          <img 
-            src="/assets/card-6.png" 
-            alt="Featured design 6"
-            className="hero-grid-image hero-grid-small"
-            style={{ 
-              position: 'absolute',
-              top: '260px',
-              right: '0',
-              width: '140px',
-              height: '140px',
-              objectFit: 'cover'
+              width: '80px',
+              top: '-80px',
+              left: '180px',
+              zIndex: 10
             }}
           />
         </div>
 
-        {/* RIGHT SIDE - Content */}
-        <div className="text-center lg:text-left max-w-[600px] mx-auto lg:mx-0">
-          <div className="inline-flex items-center gap-2 bg-primary/10 backdrop-blur-sm border border-primary/20 px-4 py-2 rounded-full shadow-sm mb-6">
-            <span className="text-sm font-semibold">
+        {/* CENTER CONTENT */}
+        <div className="text-center max-w-[900px] mx-auto relative z-20">
+          {/* Top Badge */}
+          <div className="mb-8">
+            <span className="text-base sm:text-lg">
               <span className="text-primary font-bold">500+</span> Professional Templates Available
             </span>
           </div>
 
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-4">
-            <span className="text-foreground/90 block text-base sm:text-lg font-normal mb-2">
-              Get Your
-            </span>
-            <span className="text-primary block">
-              FREE Website{' '}
-            </span>
-            <span className="text-foreground text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold block mt-2">
-              in 24 Hours
-            </span>
+          {/* Main Heading */}
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.1] mb-8">
+            Websites designed & built faster with AI
           </h1>
 
-          <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed font-normal max-w-2xl">
-            Choose from <span className="text-primary font-semibold">500+ professional templates</span>. 
-            Upgrade to premium services only when you're ready to scale.
+          {/* Subheading */}
+          <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-10 leading-relaxed max-w-[800px] mx-auto">
+            Use AI as your design ally, not a replacement. Instantly generate Sitemaps, Wireframes and Style Guides for marketing websites—all in minutes
           </p>
 
-          <div className="mb-8">
-            <Button 
-              size="lg" 
-              onClick={() => navigate('/marketplace')} 
-              className="bg-black hover:bg-black/90 text-white sm:text-lg px-8 sm:px-10 py-4 sm:py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto transform hover:scale-[1.02] font-semibold"
-            >
-              <span>Browse FREE Templates</span>
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </div>
+          {/* CTA Button */}
+          <Button 
+            size="lg" 
+            onClick={() => navigate('/marketplace')} 
+            className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg px-10 py-7 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-semibold"
+          >
+            <span>Browse FREE Templates</span>
+            <ArrowRight className="ml-2 h-5 w-5" />
+          </Button>
         </div>
-      </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden sm:block">
-        <div className="flex flex-col items-center gap-2 text-muted-foreground">
-          <span className="text-xs">Scroll to explore</span>
-          <div className="w-6 h-10 border border-border rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-muted-foreground rounded-full mt-2"></div>
-          </div>
+        {/* RIGHT SIDE - Scattered Images */}
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 hidden lg:block" style={{ width: '340px' }}>
+          {/* Top blue airplane card */}
+          <img 
+            src="/assets/card-4.png" 
+            alt="Travel website"
+            className="absolute rounded-2xl shadow-xl"
+            style={{ 
+              width: '260px',
+              top: '-220px',
+              right: '0',
+              zIndex: 3
+            }}
+          />
+          
+          {/* Middle purple card */}
+          <img 
+            src="/assets/card-5.png" 
+            alt="Business website"
+            className="absolute rounded-2xl shadow-xl"
+            style={{ 
+              width: '220px',
+              top: '-20px',
+              right: '-20px',
+              zIndex: 2
+            }}
+          />
+          
+          {/* Bottom analytics card */}
+          <img 
+            src="/assets/card-6.png" 
+            alt="Dashboard design"
+            className="absolute rounded-2xl shadow-xl"
+            style={{ 
+              width: '240px',
+              top: '160px',
+              right: '40px',
+              zIndex: 1
+            }}
+          />
+          
+          {/* Mario Cursor */}
+          <img 
+            src="/assets/cursor-mario.png" 
+            alt=""
+            className="absolute"
+            style={{ 
+              width: '70px',
+              top: '-100px',
+              right: '120px',
+              zIndex: 10
+            }}
+          />
         </div>
       </div>
     </section>

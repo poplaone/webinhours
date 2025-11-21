@@ -259,28 +259,12 @@
     @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl;
   }
 
-  /* ===== HERO SCATTERED IMAGE GRID ===== */
-  .hero-image-grid {
-    position: relative;
-    width: 100%;
-    height: 100%;
-  }
-
-  .hero-grid-image {
-    border-radius: 16px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .hero-grid-image:hover {
-    transform: scale(1.05);
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
-  }
-
-  /* Responsive Hero Grid */
-  @media (max-width: 991px) {
-    .hero-image-grid {
-      display: none;
+  /* ===== HERO SECTION - NO ANIMATIONS ===== */
+  /* Responsive behavior */
+  @media (max-width: 1024px) {
+    /* Hide side images on smaller screens */
+    section img[alt]:not([alt=""]) {
+      display: block;
     }
   }
 }
