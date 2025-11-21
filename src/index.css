@@ -264,11 +264,14 @@
     will-change: transform;
   }
 
-  /* Semicircle Card Carousel */
+  /* Semicircle Card Carousel - Stacked Effect */
   .hero-semicircle-container {
     position: relative;
     width: 100%;
-    perspective: 1000px;
+    perspective: 2000px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .hero-semicircle-cards {
@@ -276,22 +279,25 @@
     width: 100%;
     height: 100%;
     transform-style: preserve-3d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .hero-semicircle-card {
     position: absolute;
-    width: 280px;
+    width: 320px;
     height: auto;
-    border-radius: 16px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25), 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     will-change: transform, opacity;
     transform-style: preserve-3d;
     backface-visibility: hidden;
     left: 50%;
     top: 50%;
-    margin-left: -140px;
-    margin-top: -100px;
+    margin-left: -160px;
+    margin-top: -120px;
   }
 
   /* Hero Content Center */
@@ -329,7 +335,8 @@
   /* Responsive Hero Styles */
   @media (max-width: 991px) {
     .hero-semicircle-card {
-      width: 220px;
+      width: 260px;
+      margin-left: -130px;
     }
     
     .hero-heading {
@@ -339,7 +346,13 @@
 
   @media (max-width: 767px) {
     .hero-semicircle-container {
-      display: none;
+      height: 400px;
+    }
+    
+    .hero-semicircle-card {
+      width: 200px;
+      margin-left: -100px;
+      margin-top: -80px;
     }
     
     .hero-heading {
