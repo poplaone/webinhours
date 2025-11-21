@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 export const Hero = () => {
   const navigate = useNavigate();
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 sm:pt-12 bg-[#F4F2FF]">
+    <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 sm:pt-12">
       
       {/* Floating Cards */}
       <div className="absolute inset-0 pointer-events-none z-0 hidden sm:block">
