@@ -259,108 +259,28 @@
     @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl;
   }
 
-  /* ===== HERO ANIMATION STYLES ===== */
-  .hero-animated {
-    will-change: transform;
-  }
-
-  /* Semicircle Card Carousel - Stacked Effect */
-  .hero-semicircle-container {
-    position: relative;
-    width: 100%;
-    perspective: 2000px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .hero-semicircle-cards {
+  /* ===== HERO SCATTERED IMAGE GRID ===== */
+  .hero-image-grid {
     position: relative;
     width: 100%;
     height: 100%;
-    transform-style: preserve-3d;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
-  .hero-semicircle-card {
-    position: absolute;
-    width: 320px;
-    height: auto;
-    border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25), 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    will-change: transform, opacity;
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
-    left: 50%;
-    top: 50%;
-    margin-left: -160px;
-    margin-top: -120px;
+  .hero-grid-image {
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  /* Hero Content Center */
-  .hero-content-center {
-    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    opacity: 0;
+  .hero-grid-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
   }
 
-  .hero-heading {
-    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-
-  .hero-subheading {
-    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-
-  /* Hero Cursors */
-  .hero-cursor {
-    position: absolute;
-    pointer-events: none;
-    transition: all 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    transform-style: preserve-3d;
-    display: none;
-    opacity: 0;
-    will-change: transform;
-    z-index: 10;
-  }
-
-  .hero-cursor-jessica {
-    top: 50%;
-    left: 50%;
-    transform: translate3d(-50%, -50%, 0);
-  }
-
-  /* Responsive Hero Styles */
+  /* Responsive Hero Grid */
   @media (max-width: 991px) {
-    .hero-semicircle-card {
-      width: 260px;
-      margin-left: -130px;
-    }
-    
-    .hero-heading {
-      font-size: 4.5rem;
-    }
-  }
-
-  @media (max-width: 767px) {
-    .hero-semicircle-container {
-      height: 400px;
-    }
-    
-    .hero-semicircle-card {
-      width: 200px;
-      margin-left: -100px;
-      margin-top: -80px;
-    }
-    
-    .hero-heading {
-      font-size: 2.5rem;
-    }
-    
-    .hero-subheading {
-      font-size: 1.125rem;
+    .hero-image-grid {
+      display: none;
     }
   }
 }
