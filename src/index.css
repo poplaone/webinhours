@@ -267,18 +267,21 @@
   .hero-column-left,
   .hero-column-right {
     will-change: transform;
+    transform-style: preserve-3d;
   }
 
   /* Hero Images */
   .hero-image {
     width: 100%;
-    max-width: 400px;
+    max-width: 100%;
     height: auto;
     border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     opacity: 0;
     transform: translate3d(0, 0, 0) scale3d(0.4, 0.4, 1);
     display: none;
+    position: relative;
   }
 
   .hero-image-visible {
@@ -302,6 +305,10 @@
     right: -3.5rem;
   }
 
+  .hero-image.state-two {
+    height: 100%;
+  }
+
   /* Hero Content Center */
   .hero-content-center {
     transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -321,6 +328,7 @@
   .hero-heading-state-3 {
     font-size: 5.5rem;
     text-align: left;
+    max-width: 100%;
   }
 
   .hero-subheading {
@@ -328,8 +336,9 @@
   }
 
   .hero-subheading-state-2 {
-    text-align: left;
     width: 100%;
+    font-size: 1.5rem;
+    text-align: left;
   }
 
   .hero-subheading-state-3 {
@@ -348,6 +357,7 @@
     display: none;
     opacity: 0;
     will-change: transform;
+    z-index: 10;
   }
 
   .hero-cursor-jessica {
@@ -357,17 +367,15 @@
   }
 
   .hero-cursor-jessica.hero-cursor-state-2 {
+    left: auto;
     top: 28%;
     right: 28%;
-    left: auto;
     bottom: auto;
   }
 
   .hero-cursor-jessica.hero-cursor-state-3 {
     top: 20%;
     right: -165%;
-    left: auto;
-    bottom: auto;
   }
 
   .hero-cursor-mario {
@@ -379,13 +387,11 @@
   .hero-cursor-mario.hero-cursor-state-2 {
     top: 40%;
     left: 0%;
-    right: auto;
   }
 
   .hero-cursor-mario.hero-cursor-state-3 {
     top: 14%;
     left: -20%;
-    right: auto;
   }
 
   /* Responsive Hero Styles */
@@ -401,6 +407,10 @@
     .hero-heading-state-3 {
       font-size: 4.25rem;
     }
+
+    .hero-subheading-state-2 {
+      font-size: 1.25rem;
+    }
     
     .hero-subheading-state-3 {
       font-size: 1.25rem;
@@ -414,6 +424,10 @@
     
     .hero-image-offset-right {
       right: -1.5rem;
+    }
+
+    .hero-image.state-two {
+      height: 100%;
     }
     
     .hero-heading {
@@ -431,9 +445,35 @@
     .hero-subheading {
       font-size: 1.125rem;
     }
+
+    .hero-subheading-state-2 {
+      font-size: 1rem;
+    }
     
     .hero-subheading-state-3 {
       font-size: 1.125rem;
+    }
+
+    .hero-cursor-jessica.hero-cursor-state-2 {
+      left: auto;
+      top: 15%;
+      right: -40%;
+      bottom: auto;
+    }
+
+    .hero-cursor-jessica.hero-cursor-state-3 {
+      top: 82%;
+      right: -45%;
+    }
+
+    .hero-cursor-mario.hero-cursor-state-2 {
+      top: 85%;
+      left: -30%;
+    }
+
+    .hero-cursor-mario.hero-cursor-state-3 {
+      top: 10%;
+      left: -30%;
     }
   }
 }
