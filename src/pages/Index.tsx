@@ -5,7 +5,6 @@ import { CTASection } from '@/components/sections/CTASection';
 import { Footer } from '@/components/sections/Footer';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
-import InteractiveNeuralVortex from '@/components/ui/interactive-neural-vortex-background';
 import { GridPattern } from '@/components/ui/GridPattern';
 
 // Lazy load heavy components to improve initial page load
@@ -23,9 +22,8 @@ const Index = () => {
         keywords="website development, 24 hour website, fast web design, professional websites, custom development, e-commerce, mobile responsive, SEO optimization" 
       />
       
-      {/* Background layers - Grid behind Neural Vortex */}
+      {/* Background layers - Grid pattern */}
       <GridPattern />
-      <InteractiveNeuralVortex />
 
       {/* All sections now float over the unified background */}
       <div className="relative z-10">
