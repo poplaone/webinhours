@@ -2,66 +2,116 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import { useHeroAnimation } from '@/hooks/useHeroAnimation';
 
 export const Hero = () => {
   const navigate = useNavigate();
-  const { refs } = useHeroAnimation();
 
   return (
-    <section className="hero-animated min-h-screen flex items-center justify-center relative overflow-hidden pt-20 pb-10 px-4 sm:px-6">
-      <div className="hero-layout max-w-[1440px] mx-auto w-full grid grid-cols-1 lg:grid-cols-[500px_1fr] gap-8 lg:gap-16 items-center">
+    <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20 pb-10 px-4 sm:px-6">
+      <div className="max-w-[1440px] mx-auto w-full grid grid-cols-1 lg:grid-cols-[1fr_600px] gap-8 lg:gap-16 items-center">
         
-        {/* LEFT COLUMN - Semicircle Card Carousel */}
-        <div className="hero-semicircle-container relative hidden lg:block" style={{ height: '600px' }}>
-          <div className="hero-semicircle-cards">
-            {[
-              { src: '/assets/card-1.png', alt: 'Card 1', index: 0 },
-              { src: '/assets/card-2.png', alt: 'Card 2', index: 1 },
-              { src: '/assets/card-3.png', alt: 'Card 3', index: 2 },
-              { src: '/assets/card-4.png', alt: 'Card 4', index: 3 },
-              { src: '/assets/card-5.png', alt: 'Card 5', index: 4 },
-              { src: '/assets/card-6.png', alt: 'Card 6', index: 5 },
-            ].map((card) => (
-              <img
-                key={card.index}
-                ref={el => refs.cardElements.current[card.index] = el}
-                src={card.src}
-                alt={card.alt}
-                className="hero-semicircle-card"
-                data-card-index={card.index}
-              />
-            ))}
-          </div>
-          
-          {/* Jessica Cursor */}
+        {/* LEFT SIDE - Scattered Image Grid */}
+        <div className="hero-image-grid relative hidden lg:block" style={{ height: '600px' }}>
+          {/* Large top-left image */}
           <img 
-            ref={refs.jessica}
-            src="/assets/cursor-jessica.png" 
-            alt="Cursor indicator"
-            width="82.5"
-            className="hero-cursor hero-cursor-jessica"
+            src="/assets/card-1.png" 
+            alt="Featured design 1"
+            className="hero-grid-image hero-grid-large"
+            style={{ 
+              position: 'absolute',
+              top: '0',
+              left: '0',
+              width: '280px',
+              height: '320px',
+              objectFit: 'cover'
+            }}
+          />
+          
+          {/* Small top-right image */}
+          <img 
+            src="/assets/card-2.png" 
+            alt="Featured design 2"
+            className="hero-grid-image hero-grid-small"
+            style={{ 
+              position: 'absolute',
+              top: '20px',
+              right: '80px',
+              width: '180px',
+              height: '180px',
+              objectFit: 'cover'
+            }}
+          />
+          
+          {/* Medium center image */}
+          <img 
+            src="/assets/card-3.png" 
+            alt="Featured design 3"
+            className="hero-grid-image hero-grid-medium"
+            style={{ 
+              position: 'absolute',
+              top: '140px',
+              left: '60px',
+              width: '220px',
+              height: '240px',
+              objectFit: 'cover'
+            }}
+          />
+          
+          {/* Small bottom-left image */}
+          <img 
+            src="/assets/card-4.png" 
+            alt="Featured design 4"
+            className="hero-grid-image hero-grid-small"
+            style={{ 
+              position: 'absolute',
+              bottom: '80px',
+              left: '20px',
+              width: '160px',
+              height: '160px',
+              objectFit: 'cover'
+            }}
+          />
+          
+          {/* Medium bottom-right image */}
+          <img 
+            src="/assets/card-5.png" 
+            alt="Featured design 5"
+            className="hero-grid-image hero-grid-medium"
+            style={{ 
+              position: 'absolute',
+              bottom: '40px',
+              right: '40px',
+              width: '200px',
+              height: '220px',
+              objectFit: 'cover'
+            }}
+          />
+          
+          {/* Accent small image */}
+          <img 
+            src="/assets/card-6.png" 
+            alt="Featured design 6"
+            className="hero-grid-image hero-grid-small"
+            style={{ 
+              position: 'absolute',
+              top: '260px',
+              right: '0',
+              width: '140px',
+              height: '140px',
+              objectFit: 'cover'
+            }}
           />
         </div>
 
-        {/* CENTER CONTENT */}
-        <div 
-          ref={refs.centerContent}
-          className="hero-content-center text-center lg:text-left max-w-[800px]"
-        >
-          <div 
-            ref={refs.badge}
-            className="inline-flex items-center gap-2 bg-primary/10 backdrop-blur-sm border border-primary/20 px-4 py-2 rounded-full shadow-sm mb-6"
-          >
+        {/* RIGHT SIDE - Content */}
+        <div className="text-center lg:text-left max-w-[600px] mx-auto lg:mx-0">
+          <div className="inline-flex items-center gap-2 bg-primary/10 backdrop-blur-sm border border-primary/20 px-4 py-2 rounded-full shadow-sm mb-6">
             <span className="text-sm font-semibold">
               <span className="text-primary font-bold">500+</span> Professional Templates Available
             </span>
           </div>
 
-          <h1 
-            ref={refs.heading}
-            className="hero-heading text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-4"
-          >
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-4">
             <span className="text-foreground/90 block text-base sm:text-lg font-normal mb-2">
               Get Your
             </span>
@@ -73,10 +123,7 @@ export const Hero = () => {
             </span>
           </h1>
 
-          <p 
-            ref={refs.subheading}
-            className="hero-subheading text-base sm:text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed font-normal max-w-2xl"
-          >
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed font-normal max-w-2xl">
             Choose from <span className="text-primary font-semibold">500+ professional templates</span>. 
             Upgrade to premium services only when you're ready to scale.
           </p>
