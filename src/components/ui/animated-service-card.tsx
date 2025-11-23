@@ -9,10 +9,11 @@ type ServiceCardType = {
   price?: string;
   features?: string[];
   images?: string[];
+  image?: string;
   tagline?: string;
   detailedFeatures?: Array<{
     title: string;
-    description: string;
+    description?: string;
   }>;
 };
 
@@ -73,9 +74,11 @@ export function AnimatedServiceCard({ service, index, className, ...props }: Ani
                   </h3>
                   
                   {/* Feature Description */}
-                  <p className="text-sm text-muted-foreground leading-[1.5]">
-                    {feature.description}
-                  </p>
+                  {feature.description && (
+                    <p className="text-sm text-muted-foreground leading-[1.5]">
+                      {feature.description}
+                    </p>
+                  )}
                 </div>
               ))}
             </div>
@@ -87,7 +90,15 @@ export function AnimatedServiceCard({ service, index, className, ...props }: Ani
             isImageLeft && 'lg:col-start-1 lg:row-start-1'
           )}>
             <div className="w-full h-full flex items-center justify-center p-6">
-              <service.icon className="w-full h-full max-w-lg max-h-[380px] text-muted-foreground/20" strokeWidth={1} aria-hidden />
+              {service.image ? (
+                <img 
+                  src={service.image} 
+                  alt={service.title}
+                  className="w-full h-full object-contain max-w-lg max-h-[380px]"
+                />
+              ) : (
+                <service.icon className="w-full h-full max-w-lg max-h-[380px] text-muted-foreground/20" strokeWidth={1} aria-hidden />
+              )}
             </div>
           </div>
         </div>
