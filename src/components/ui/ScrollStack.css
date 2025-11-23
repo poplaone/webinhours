@@ -1,9 +1,10 @@
 .scroll-stack-scroller {
   position: relative;
   width: 100%;
-  min-height: 100vh;
-  overflow: visible;
-  overscroll-behavior: auto;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: visible;
+  overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
   -webkit-transform: translateZ(0);
@@ -12,13 +13,13 @@
 }
 
 .scroll-stack-inner {
-  padding: 12vh 2rem 32rem;
+  padding: 20vh 2rem 50rem;
   min-height: 100vh;
 }
 
 @media (min-width: 768px) {
   .scroll-stack-inner {
-    padding: 14vh 4rem 32rem;
+    padding: 20vh 4rem 50rem;
   }
 }
 
