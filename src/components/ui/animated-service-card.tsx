@@ -11,7 +11,6 @@ type ServiceCardType = {
   images?: string[];
   image?: string;
   tagline?: string;
-  keywords?: string;
   detailedFeatures?: Array<{
     title: string;
     description?: string;
@@ -56,16 +55,33 @@ export function AnimatedServiceCard({ service, index, className, ...props }: Ani
             </h2>
             
             {/* Description */}
-            <p className="text-[1.125rem] text-muted-foreground leading-[1.6] max-w-[500px] mb-6">
+            <p className="text-[1.125rem] text-muted-foreground leading-[1.6] max-w-[500px] mb-8">
               {service.description}
             </p>
-            
-            {/* Keywords */}
-            {service.keywords && (
-              <p className="text-sm font-medium text-foreground/70">
-                {service.keywords}
-              </p>
-            )}
+
+            {/* Detailed Features Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-border/50 pt-8 mt-8">
+              {service.detailedFeatures.map((feature, idx) => (
+                <div key={idx} className="flex flex-col items-start gap-4">
+                  {/* Feature Icon */}
+                  <div className="w-12 h-12">
+                    <service.icon className="w-full h-full" strokeWidth={1.5} aria-hidden />
+                  </div>
+                  
+                  {/* Feature Title */}
+                  <h3 className="text-base font-semibold mb-2">
+                    {feature.title}
+                  </h3>
+                  
+                  {/* Feature Description */}
+                  {feature.description && (
+                    <p className="text-sm text-muted-foreground leading-[1.5]">
+                      {feature.description}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Image Section */}
