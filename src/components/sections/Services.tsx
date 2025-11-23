@@ -1,7 +1,7 @@
 import React from 'react';
-import { Palette, Search, PenTool, ShoppingBag, Sparkles, Globe2, Check } from 'lucide-react';
+import { Palette, Search, PenTool, ShoppingBag, Sparkles, Globe2 } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
-import ScrollStack, { ScrollStackItem } from '@/components/ui/ScrollStack';
+import { AnimatedServiceCard } from '@/components/ui/animated-service-card';
 
 type ViewAnimationProps = {
 	delay?: number;
@@ -80,10 +80,20 @@ export const Services = () => {
       "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=400&auto=format&fit=crop&q=60",
       "https://images.unsplash.com/photo-1557821552-17105176677c?w=400&auto=format&fit=crop&q=60"
     ]
+  }, {
+    icon: Sparkles,
+    title: "Advanced Features",
+    description: "Add powerful functionality like appointment booking, member areas, live chat, and custom tools to grow your business.",
+    features: ["Booking Systems", "Member Areas", "Live Chat", "Custom Forms"],
+    price: "From $199",
+    images: [
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&auto=format&fit=crop&q=60",
+      "https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&auto=format&fit=crop&q=60"
+    ]
   }];
   return (
-    <section id="services" className="relative z-10">
-      <div className="pt-20 pb-8 px-4 container mx-auto w-full max-w-6xl space-y-8">
+    <section id="services" className="py-20 px-4 relative z-10 my-0">
+      <div className="container mx-auto w-full max-w-6xl space-y-8">
         <AnimatedContainer className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
             <span className="text-sm font-medium text-green-500">🆓 Free Website + Premium Services</span>
@@ -97,57 +107,16 @@ export const Services = () => {
             and upgrade to premium services only when you need advanced features, custom design, or marketing support.
           </p>
         </AnimatedContainer>
+
+        <AnimatedContainer
+          delay={0.4}
+          className="grid grid-cols-1 divide-x divide-y divide-border/50 border border-border/50 sm:grid-cols-2 md:grid-cols-3"
+        >
+          {services.map((service, i) => (
+            <AnimatedServiceCard key={i} service={service} index={i} />
+          ))}
+        </AnimatedContainer>
       </div>
-
-      <ScrollStack 
-        useWindowScroll={true}
-        itemDistance={150}
-        itemStackDistance={40}
-        baseScale={0.9}
-        stackPosition="25%"
-      >
-        {services.map((service, i) => (
-          <ScrollStackItem key={i}>
-            <div className="bg-card transition-colors h-full flex flex-col">
-              <div className="p-6 md:p-8 flex-1">
-                <div className="flex items-start justify-between mb-6">
-                  <div className="p-3 rounded-xl bg-primary/10 border border-primary/20">
-                    <service.icon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
-                  </div>
-                  <div className="text-right">
-                    <p className="text-2xl md:text-3xl font-bold text-primary">{service.price}</p>
-                  </div>
-                </div>
-                
-                <h3 className="text-2xl md:text-3xl font-bold mb-3">{service.title}</h3>
-                <p className="text-muted-foreground mb-6 text-sm md:text-base">{service.description}</p>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-                  {service.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-center gap-2">
-                      <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                      <span className="text-sm">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 mt-auto">
-                  {service.images.map((img, idx) => (
-                    <div key={idx} className="aspect-video rounded-lg overflow-hidden border border-border">
-                      <img 
-                        src={img} 
-                        alt={`${service.title} preview ${idx + 1}`}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </ScrollStackItem>
-        ))}
-      </ScrollStack>
     </section>
   );
 };
