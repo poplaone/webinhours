@@ -39,6 +39,7 @@ const ScrollStack = ({
   const stackCompletedRef = useRef(false);
   const animationFrameRef = useRef<number | null>(null);
   const lenisRef = useRef<any>(null);
+  const windowScrollHandlerRef = useRef<(() => void) | null>(null);
   const cardsRef = useRef<HTMLElement[]>([]);
   const lastTransformsRef = useRef(new Map());
   const isUpdatingRef = useRef(false);
@@ -197,26 +198,13 @@ const ScrollStack = ({
 
   const setupLenis = useCallback(() => {
     if (useWindowScroll) {
-      const lenis = new Lenis({
-        duration: 1.0,
-        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-        touchMultiplier: 2,
-        infinite: false,
-        wheelMultiplier: 1,
-        lerp: 0.15,
-      });
-
-      lenis.on('scroll', handleScroll);
-
-      const raf = (time: number) => {
-        lenis.raf(time);
-        animationFrameRef.current = requestAnimationFrame(raf);
+      const onScroll = () => {
+        handleScroll();
       };
-      animationFrameRef.current = requestAnimationFrame(raf);
 
-      lenisRef.current = lenis;
-      return lenis;
+      windowScrollHandlerRef.current = onScroll;
+      window.addEventListener('scroll', onScroll, { passive: true });
+      return;
     } else {
       const scroller = scrollerRef.current;
       if (!scroller) return;
@@ -224,13 +212,13 @@ const ScrollStack = ({
       const lenis = new Lenis({
         wrapper: scroller,
         content: scroller.querySelector('.scroll-stack-inner') as HTMLElement,
-        duration: 1.2,
+        duration: 1.0,
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
         touchMultiplier: 2,
         infinite: false,
         wheelMultiplier: 1,
-        lerp: 0.1,
+        lerp: 0.15,
       });
 
       lenis.on('scroll', handleScroll);
@@ -275,7 +263,11 @@ const ScrollStack = ({
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
-      if (lenisRef.current) {
+      if (useWindowScroll) {
+        if (windowScrollHandlerRef.current) {
+          window.removeEventListener('scroll', windowScrollHandlerRef.current);
+        }
+      } else if (lenisRef.current) {
         lenisRef.current.destroy();
       }
       stackCompletedRef.current = false;
