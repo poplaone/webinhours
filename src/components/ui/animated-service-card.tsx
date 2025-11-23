@@ -24,57 +24,71 @@ type AnimatedServiceCardProps = React.ComponentProps<'div'> & {
 export function AnimatedServiceCard({ service, index, className, ...props }: AnimatedServiceCardProps) {
   // Use detailed layout for first 3 cards if they have detailedFeatures
   const isDetailedCard = service.detailedFeatures && service.detailedFeatures.length > 0;
+  const isImageLeft = index === 1; // Middle card has image on left
 
   if (isDetailedCard) {
     return (
       <div
         className={cn(
-          'group relative transition-all duration-300',
+          'py-24',
           className
         )}
         {...props}
       >
-        <div className="flex flex-col gap-8">
-          {/* Header Section */}
-          <div className="space-y-4">
+        <div className={cn(
+          'grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center',
+          isImageLeft && 'lg:grid-flow-dense'
+        )}>
+          {/* Content Section */}
+          <div className={cn('space-y-8 p-4', isImageLeft && 'lg:col-start-2')}>
             {/* Tagline */}
             {service.tagline && (
-              <span className="text-lg font-semibold tracking-tight text-foreground">
+              <span className="text-[1.125rem] font-semibold tracking-[-0.02em] inline-block mb-2">
                 {service.tagline}
               </span>
             )}
             
             {/* Title */}
-            <h2 className="text-5xl md:text-6xl font-bold leading-tight tracking-tight text-foreground">
+            <h2 className="text-[3.5rem] font-bold leading-[1.1] tracking-[-0.03em] mb-8">
               {service.title}
             </h2>
             
             {/* Description */}
-            <p className="text-lg text-muted-foreground leading-relaxed max-w-[500px]">
+            <p className="text-[1.125rem] text-muted-foreground leading-[1.6] max-w-[500px] mb-8">
               {service.description}
             </p>
+
+            {/* Detailed Features Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-border/50 pt-8 mt-8">
+              {service.detailedFeatures.map((feature, idx) => (
+                <div key={idx} className="flex flex-col items-start gap-4">
+                  {/* Feature Icon */}
+                  <div className="w-12 h-12">
+                    <service.icon className="w-full h-full" strokeWidth={1.5} aria-hidden />
+                  </div>
+                  
+                  {/* Feature Title */}
+                  <h3 className="text-base font-semibold mb-2">
+                    {feature.title}
+                  </h3>
+                  
+                  {/* Feature Description */}
+                  <p className="text-sm text-muted-foreground leading-[1.5]">
+                    {feature.description}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Detailed Features Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-border pt-8">
-            {service.detailedFeatures.map((feature, idx) => (
-              <div key={idx} className="flex flex-col gap-3">
-                {/* Feature Icon */}
-                <div className="w-12 h-12">
-                  <service.icon className="w-full h-full text-foreground" strokeWidth={1.5} aria-hidden />
-                </div>
-                
-                {/* Feature Title */}
-                <h3 className="text-base font-semibold text-foreground">
-                  {feature.title}
-                </h3>
-                
-                {/* Feature Description */}
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {feature.description}
-                </p>
-              </div>
-            ))}
+          {/* Image Section */}
+          <div className={cn(
+            'bg-muted/30 rounded-3xl overflow-hidden flex items-center justify-center aspect-[4/3] w-full',
+            isImageLeft && 'lg:col-start-1 lg:row-start-1'
+          )}>
+            <div className="w-full h-full flex items-center justify-center">
+              <service.icon className="w-32 h-32 text-muted-foreground/20" strokeWidth={1} aria-hidden />
+            </div>
           </div>
         </div>
       </div>

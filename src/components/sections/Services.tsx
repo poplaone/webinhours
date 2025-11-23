@@ -137,7 +137,7 @@ export const Services = () => {
           </p>
         </AnimatedContainer>
 
-        <div className="space-y-24">
+        <div className="space-y-0">
           {services.slice(0, 3).map((service, i) => (
             <AnimatedContainer key={i} delay={0.4 + i * 0.1}>
               <AnimatedServiceCard service={service} index={i} />
