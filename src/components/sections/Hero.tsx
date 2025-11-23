@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useParallaxHero } from '@/hooks/useParallaxHero';
+import { CardSlider } from '@/components/ui/CardSlider';
 export const Hero = () => {
   const navigate = useNavigate();
   useParallaxHero();
@@ -55,6 +56,11 @@ export const Hero = () => {
           }} data-depth="0.35" />
           </div>
 
+        </div>
+        
+        {/* Mobile Card Slider - shown only on mobile */}
+        <div className="relume-hero-mobile-slider">
+          <CardSlider />
         </div>
       </div>
     </section>;

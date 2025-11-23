@@ -432,57 +432,34 @@
     }
   }
 
+  /* Mobile Card Slider - hidden on desktop */
+  .relume-hero-mobile-slider {
+    display: none;
+  }
+
   /* Responsive: Mobile */
   @media (max-width: 767px) {
     .relume-hero-section {
-      padding: 40px 0px 30px;
-      overflow: visible;
+      padding: 40px 16px 30px;
+      overflow: hidden;
     }
 
     .relume-hero-grid {
-      grid-template-columns: auto 1fr auto;
+      grid-template-columns: 1fr;
       gap: 0px;
       position: relative;
-      padding: 0 16px;
     }
 
+    /* Hide side columns on mobile */
     .relume-hero-column {
-      width: 80px;
-      gap: 16px;
-      opacity: 0.8;
-    }
-
-    .relume-hero-column:first-child {
-      margin-left: -50px;
-    }
-
-    .relume-hero-column:last-child {
-      margin-right: -50px;
-    }
-
-    .relume-hero-image {
-      width: 100%;
-      border-radius: 8px;
-    }
-
-    .relume-hero-image.is-offset-left {
-      left: 0;
-    }
-
-    .relume-hero-image.is-offset-right {
-      right: 0;
-    }
-
-    .relume-hero-cursor {
-      width: 40px !important;
-      top: 10px !important;
+      display: none;
     }
 
     .relume-hero-center {
       position: relative;
       z-index: 10;
       max-width: 100%;
-      padding: 0 8px;
+      padding: 0;
     }
 
     .relume-hero-heading {
@@ -498,6 +475,12 @@
       font-size: 11px;
       padding: 6px 12px;
       margin-bottom: 20px;
+    }
+
+    /* Show card slider on mobile */
+    .relume-hero-mobile-slider {
+      display: block;
+      margin-top: 40px;
     }
   }
 }
