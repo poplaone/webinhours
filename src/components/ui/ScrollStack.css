@@ -1,25 +1,23 @@
 .scroll-stack-scroller {
   position: relative;
   width: 100%;
-  height: 100vh;
-  overflow-y: auto;
   overflow-x: visible;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  will-change: scroll-position;
 }
 
 .scroll-stack-inner {
-  padding: 5vh 2rem 50rem;
+  padding: 2rem 1rem 30rem;
   min-height: 100vh;
 }
 
 @media (min-width: 768px) {
   .scroll-stack-inner {
-    padding: 20vh 4rem 50rem;
+    padding: 2rem 2rem 50rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .scroll-stack-inner {
+    padding: 2rem 4rem 50rem;
   }
 }
 
@@ -39,11 +37,23 @@
   position: relative;
 }
 
+@media (min-width: 640px) {
+  .scroll-stack-card {
+    padding: 2.5rem;
+  }
+}
+
 @media (min-width: 768px) {
   .scroll-stack-card {
     min-height: 28rem;
     padding: 3rem;
     border-radius: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .scroll-stack-card {
+    min-height: 30rem;
   }
 }
 

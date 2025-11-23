@@ -110,6 +110,7 @@ export const Services = () => {
       </div>
 
       <ScrollStack 
+        useWindowScroll={true}
         itemDistance={150}
         itemStackDistance={40}
         baseScale={0.9}
