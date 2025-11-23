@@ -1,15 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Palette, Search, PenTool, ShoppingBag, Sparkles, Globe2, Check } from 'lucide-react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
+import ScrollStack, { ScrollStackItem } from '@/components/ui/ScrollStack';
 
 export const Services = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
-  
   const services = [{
     icon: Globe2,
     title: "FREE Professional Website",
@@ -78,112 +71,33 @@ export const Services = () => {
     ]
   }];
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const cards = gsap.utils.toArray<HTMLElement>('.service-card');
-      const textItems = gsap.utils.toArray<HTMLElement>('.service-text-item');
-      
-      const tl = gsap.timeline({
-        defaults: {
-          ease: "none"
-        },
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: () => `+=${window.innerHeight * (cards.length + 1)}`,
-          scrub: 1,
-          pin: true,
-        }
-      });
-
-      // Animate cards in with clip-path
-      tl.from(cards, {
-        clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
-        duration: 1,
-        stagger: 2
-      });
-
-      // Change background colors
-      const colors = services.map(s => s.color);
-      tl.to(
-        sectionRef.current,
-        {
-          keyframes: {
-            background: ['hsl(var(--background))', ...colors],
-            ease: "none"
-          },
-          duration: 2 * cards.length
-        },
-        "<"
-      );
-
-      // Animate text items in
-      tl.from(
-        textItems,
-        {
-          y: window.innerHeight,
-          duration: 1,
-          stagger: 2
-        },
-        "<"
-      );
-
-      // Animate text items out (except last)
-      tl.to(
-        textItems.slice(0, -1),
-        {
-          y: -window.innerHeight,
-          duration: 1,
-          stagger: 2
-        },
-        2
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, [services]);
-
   return (
-    <section 
-      id="services" 
-      ref={sectionRef}
-      className="relative z-10 flex items-center justify-center min-h-screen transition-colors duration-300"
-    >
-      <div className="container mx-auto px-4 py-20 flex items-center justify-center gap-8 md:gap-16 flex-col lg:flex-row">
-        {/* Text Column - Hidden on mobile, visible on large screens */}
-        <div ref={textRef} className="hidden lg:grid w-full lg:w-1/3 relative" style={{ placeItems: 'center' }}>
-          {services.map((service, i) => (
-            <div 
-              key={i} 
-              className="service-text-item col-start-1 row-start-1"
-            >
-              <div className="space-y-4">
-                <div className="p-3 rounded-xl bg-background/20 backdrop-blur-sm border border-foreground/10 w-fit">
-                  <service.icon className="w-8 h-8 text-foreground" />
-                </div>
-                <h3 className="text-3xl font-bold text-foreground">{service.title}</h3>
-                <p className="text-xl font-bold text-foreground/90">{service.price}</p>
-              </div>
-            </div>
-          ))}
+    <section id="services" className="relative z-10 bg-background">
+      <div className="container mx-auto px-4">
+        <div className="text-center py-20">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            🆓 Free Website + Premium Services
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            Start FREE, Upgrade When Ready. Get your professional website completely FREE with no hidden costs.
+          </p>
         </div>
+      </div>
 
-        {/* Cards Column */}
-        <div ref={cardsRef} className="w-full lg:w-1/2 relative" style={{ display: 'grid', placeItems: 'center' }}>
-          {services.map((service, i) => (
-            <div
-              key={i}
-              className="service-card bg-card col-start-1 row-start-1 rounded-2xl p-6 md:p-8 shadow-2xl w-full"
-              style={{ 
-                clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-                height: '70vh',
-                minHeight: '500px',
-                maxHeight: '600px'
-              }}
-            >
+      <ScrollStack
+        itemDistance={150}
+        itemStackDistance={40}
+        stackPosition="30%"
+        scaleEndPosition="15%"
+        baseScale={0.92}
+        useWindowScroll={true}
+      >
+        {services.map((service, i) => (
+          <ScrollStackItem key={i}>
+            <div className="bg-card rounded-2xl p-6 md:p-8 shadow-2xl min-h-[500px] max-h-[600px] h-[70vh]">
               <div className="h-full flex flex-col">
-                <div className="flex items-start justify-between mb-6 lg:hidden">
-                  <div className="p-3 rounded-xl bg-primary/10 border border-primary/20">
+                <div className="flex items-start justify-between mb-6">
+                  <div className="p-3 rounded-xl bg-primary/10">
                     <service.icon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
                   </div>
                   <div className="text-right">
@@ -191,7 +105,7 @@ export const Services = () => {
                   </div>
                 </div>
                 
-                <h3 className="text-2xl md:text-3xl font-bold mb-3 lg:hidden">{service.title}</h3>
+                <h3 className="text-2xl md:text-3xl font-bold mb-3">{service.title}</h3>
                 <p className="text-muted-foreground mb-6 text-sm md:text-base">{service.description}</p>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
@@ -205,7 +119,7 @@ export const Services = () => {
 
                 <div className="grid grid-cols-2 gap-4 mt-auto">
                   {service.images.map((img, idx) => (
-                    <div key={idx} className="aspect-video rounded-lg overflow-hidden border border-border">
+                    <div key={idx} className="aspect-video rounded-lg overflow-hidden">
                       <img 
                         src={img} 
                         alt={`${service.title} preview ${idx + 1}`}
@@ -217,9 +131,9 @@ export const Services = () => {
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-      </div>
+          </ScrollStackItem>
+        ))}
+      </ScrollStack>
     </section>
   );
 };
