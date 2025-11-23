@@ -80,16 +80,6 @@ export const Services = () => {
       "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=400&auto=format&fit=crop&q=60",
       "https://images.unsplash.com/photo-1557821552-17105176677c?w=400&auto=format&fit=crop&q=60"
     ]
-  }, {
-    icon: Sparkles,
-    title: "Advanced Features",
-    description: "Add powerful functionality like appointment booking, member areas, live chat, and custom tools to grow your business.",
-    features: ["Booking Systems", "Member Areas", "Live Chat", "Custom Forms"],
-    price: "From $199",
-    images: [
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&auto=format&fit=crop&q=60"
-    ]
   }];
   return (
     <section id="services" className="relative z-10">
