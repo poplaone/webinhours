@@ -93,7 +93,7 @@ export const Services = () => {
   }];
   return (
     <section id="services" className="relative z-10">
-      <div className="py-20 px-4 container mx-auto w-full max-w-6xl space-y-8">
+      <div className="pt-20 pb-8 px-4 container mx-auto w-full max-w-6xl space-y-8">
         <AnimatedContainer className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
             <span className="text-sm font-medium text-green-500">🆓 Free Website + Premium Services</span>
