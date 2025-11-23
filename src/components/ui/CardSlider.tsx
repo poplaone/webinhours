@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, Plus, Check } from 'lucide-react';
+import { Plus, Check } from 'lucide-react';
 
 interface Card {
   id: number;
@@ -102,10 +102,6 @@ export const CardSlider: React.FC<CardSliderProps> = ({
     setCurrent((prev) => (prev + 1) % cards.length);
   }, [cards.length]);
 
-  const prev = useCallback(() => {
-    setCurrent((prev) => (prev - 1 + cards.length) % cards.length);
-  }, [cards.length]);
-
   const toggleSave = (cardId: number, e: React.MouseEvent) => {
     e.stopPropagation();
     setSavedStates(prev => ({
@@ -131,11 +127,8 @@ export const CardSlider: React.FC<CardSliderProps> = ({
     const isLeftSwipe = distance > 50;
     const isRightSwipe = distance < -50;
 
-    if (isLeftSwipe) {
+    if (isLeftSwipe || isRightSwipe) {
       next();
-    }
-    if (isRightSwipe) {
-      prev();
     }
   };
 
@@ -165,7 +158,7 @@ export const CardSlider: React.FC<CardSliderProps> = ({
           stopAutoSlide();
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.5 } // Increased threshold for better visibility detection
     );
 
     if (containerRef.current) {
@@ -193,15 +186,6 @@ export const CardSlider: React.FC<CardSliderProps> = ({
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [current, isVisible, startAutoSlide]);
-
-  // Stop auto-slide on user interaction
-  const handleUserInteraction = () => {
-    stopAutoSlide();
-    // Restart after 5 seconds if still visible
-    setTimeout(() => {
-      if (isVisible) startAutoSlide();
-    }, 5000);
-  };
 
   return (
     <div ref={containerRef} className={`sm:px-8 sm:mt-16 max-w-5xl mt-8 sm:mt-16 mr-auto ml-auto px-4 sm:px-6 relative ${className}`}>
@@ -247,30 +231,6 @@ export const CardSlider: React.FC<CardSliderProps> = ({
               </div>
             </article>
           ))}
-        </div>
-
-        {/* Controls - theme aware */}
-        <div className="left-0 sm:-left-2 lg:-left-8 flex absolute top-0 bottom-0 items-center">
-          <button 
-            onClick={() => {
-              prev();
-              handleUserInteraction();
-            }}
-            className="group relative inline-flex items-center justify-center h-9 w-9 sm:h-10 sm:w-10 lg:h-11 lg:w-11 rounded-full shadow-md ring-1 hover:shadow-lg transition bg-foreground hover:bg-foreground/90 ring-border hover:ring-border/80"
-          >
-            <ChevronLeft className="text-background group-hover:text-background/90 w-4 h-4 sm:w-5 sm:h-5" />
-          </button>
-        </div>
-        <div className="absolute inset-y-0 right-0 sm:-right-2 lg:-right-8 flex items-center">
-          <button 
-            onClick={() => {
-              next();
-              handleUserInteraction();
-            }}
-            className="group relative inline-flex items-center justify-center h-9 w-9 sm:h-10 sm:w-10 lg:h-11 lg:w-11 rounded-full shadow-md ring-1 hover:shadow-lg transition bg-foreground hover:bg-foreground/90 ring-border hover:ring-border/80"
-          >
-            <ChevronRight className="text-background group-hover:text-background/90 w-4 h-4 sm:w-5 sm:h-5" />
-          </button>
         </div>
       </div>
     </div>
