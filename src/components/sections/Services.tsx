@@ -109,15 +109,17 @@ export const Services = () => {
         </AnimatedContainer>
       </div>
 
-      <ScrollStack 
+      <ScrollStack
         itemDistance={150}
         itemStackDistance={40}
         baseScale={0.9}
-        stackPosition="25%"
+        stackPosition="45%"
+        scaleEndPosition="20%"
+        useWindowScroll
       >
         {services.map((service, i) => (
           <ScrollStackItem key={i}>
-            <div className="bg-card border border-border hover:border-primary/50 transition-colors h-full flex flex-col">
+            <div className="bg-card transition-colors h-full flex flex-col">
               <div className="p-6 md:p-8 flex-1">
                 <div className="flex items-start justify-between mb-6">
                   <div className="p-3 rounded-xl bg-primary/10 border border-primary/20">
