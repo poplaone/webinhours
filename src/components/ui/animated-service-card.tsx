@@ -36,7 +36,7 @@ export function AnimatedServiceCard({ service, index, className, ...props }: Ani
         {...props}
       >
         <div className={cn(
-          'grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-stretch',
+          'grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch',
           isImageLeft && 'lg:grid-flow-dense'
         )}>
           {/* Content Section */}
@@ -83,11 +83,11 @@ export function AnimatedServiceCard({ service, index, className, ...props }: Ani
 
           {/* Image Section */}
           <div className={cn(
-            'bg-muted/30 rounded-3xl overflow-hidden flex items-center justify-center w-full min-h-[500px] lg:min-h-[600px]',
+            'bg-muted/30 rounded-3xl overflow-hidden flex items-center justify-center w-full min-h-[400px] lg:min-h-[450px]',
             isImageLeft && 'lg:col-start-1 lg:row-start-1'
           )}>
-            <div className="w-full h-full flex items-center justify-center p-8">
-              <service.icon className="w-full h-full max-w-md max-h-md text-muted-foreground/20" strokeWidth={1} aria-hidden />
+            <div className="w-full h-full flex items-center justify-center p-6">
+              <service.icon className="w-full h-full max-w-lg max-h-[380px] text-muted-foreground/20" strokeWidth={1} aria-hidden />
             </div>
           </div>
         </div>
