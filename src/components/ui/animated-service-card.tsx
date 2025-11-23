@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { Check } from 'lucide-react';
 
 type ServiceCardType = {
   title: string;
@@ -8,6 +9,11 @@ type ServiceCardType = {
   price?: string;
   features?: string[];
   images?: string[];
+  tagline?: string;
+  detailedFeatures?: Array<{
+    title: string;
+    description: string;
+  }>;
 };
 
 type AnimatedServiceCardProps = React.ComponentProps<'div'> & {
@@ -16,6 +22,66 @@ type AnimatedServiceCardProps = React.ComponentProps<'div'> & {
 };
 
 export function AnimatedServiceCard({ service, index, className, ...props }: AnimatedServiceCardProps) {
+  // Use detailed layout for first 3 cards if they have detailedFeatures
+  const isDetailedCard = service.detailedFeatures && service.detailedFeatures.length > 0;
+
+  if (isDetailedCard) {
+    return (
+      <div
+        className={cn(
+          'group relative transition-all duration-300',
+          className
+        )}
+        {...props}
+      >
+        <div className="flex flex-col gap-8">
+          {/* Header Section */}
+          <div className="space-y-4">
+            {/* Tagline */}
+            {service.tagline && (
+              <span className="text-lg font-semibold tracking-tight text-foreground">
+                {service.tagline}
+              </span>
+            )}
+            
+            {/* Title */}
+            <h2 className="text-5xl md:text-6xl font-bold leading-tight tracking-tight text-foreground">
+              {service.title}
+            </h2>
+            
+            {/* Description */}
+            <p className="text-lg text-muted-foreground leading-relaxed max-w-[500px]">
+              {service.description}
+            </p>
+          </div>
+
+          {/* Detailed Features Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-border pt-8">
+            {service.detailedFeatures.map((feature, idx) => (
+              <div key={idx} className="flex flex-col gap-3">
+                {/* Feature Icon */}
+                <div className="w-12 h-12">
+                  <service.icon className="w-full h-full text-foreground" strokeWidth={1.5} aria-hidden />
+                </div>
+                
+                {/* Feature Title */}
+                <h3 className="text-base font-semibold text-foreground">
+                  {feature.title}
+                </h3>
+                
+                {/* Feature Description */}
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Original simple card layout for remaining cards
   return (
     <div
       className={cn(
@@ -55,7 +121,7 @@ export function AnimatedServiceCard({ service, index, className, ...props }: Ani
         <ul className="space-y-2">
           {service.features.map((item, idx) => (
             <li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground">
-              <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
+              <Check className="size-4 text-primary flex-shrink-0 mt-0.5" />
               <span>{item}</span>
             </li>
           ))}

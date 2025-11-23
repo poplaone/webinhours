@@ -32,33 +32,72 @@ function AnimatedContainer({ className, delay = 0.1, children }: ViewAnimationPr
 export const Services = () => {
   const services = [{
     icon: Globe2,
+    tagline: "100% FREE",
     title: "FREE Professional Website",
     description: "Get a complete, professional website with everything you need to start your online presence - completely FREE forever.",
-    features: ["500+ Templates", "Mobile Responsive", "SSL Security", "Basic Support"],
-    price: "100% FREE",
-    images: [
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=400&auto=format&fit=crop&q=60"
+    detailedFeatures: [
+      {
+        title: "500+ Templates",
+        description: "Choose from hundreds of professionally designed templates for any industry. Get started quickly with pre-built layouts"
+      },
+      {
+        title: "Mobile Responsive",
+        description: "Your website automatically adapts to any device - desktop, tablet, or mobile. Perfect display on all screen sizes"
+      },
+      {
+        title: "SSL Security",
+        description: "Enterprise-grade security included free. Keep your visitors safe with encrypted connections and secure hosting"
+      },
+      {
+        title: "Basic Support",
+        description: "Get help when you need it with our email support team. Access comprehensive guides and tutorials"
+      }
     ]
   }, {
     icon: Palette,
+    tagline: "From $199",
     title: "Custom Design & Branding",
     description: "Make your website unique with custom colors, fonts, logos, and personalized design that matches your brand perfectly.",
-    features: ["Custom Colors", "Logo Integration", "Brand Fonts", "Unlimited Revisions"],
-    price: "From $199",
-    images: [
-      "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=400&auto=format&fit=crop&q=60"
+    detailedFeatures: [
+      {
+        title: "Custom Colors",
+        description: "Apply your brand colors throughout your entire website. Create a cohesive visual identity that stands out"
+      },
+      {
+        title: "Logo Integration",
+        description: "Seamlessly integrate your logo and brand assets. Professional placement across all pages and devices"
+      },
+      {
+        title: "Brand Fonts",
+        description: "Use your custom fonts to match your brand guidelines. Typography that reflects your unique style"
+      },
+      {
+        title: "Unlimited Revisions",
+        description: "Refine your design until it's perfect. Make changes and adjustments at no additional cost"
+      }
     ]
   }, {
     icon: Search,
+    tagline: "From $149",
     title: "SEO Optimization",
     description: "Get found on Google with professional SEO setup, keyword optimization, and local business listing management.",
-    features: ["Google Rankings", "Local Listings", "Keyword Research", "Analytics Setup"],
-    price: "From $149",
-    images: [
-      "https://images.unsplash.com/photo-1562577309-4932fdd64cd1?w=400&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1543286386-713bdd548da4?w=400&auto=format&fit=crop&q=60"
+    detailedFeatures: [
+      {
+        title: "Google Rankings",
+        description: "Optimize your website to rank higher in search results. Drive more organic traffic to your business"
+      },
+      {
+        title: "Local Listings",
+        description: "Get listed on Google My Business and local directories. Attract customers in your area searching for your services"
+      },
+      {
+        title: "Keyword Research",
+        description: "Discover the best keywords for your industry. Target what your customers are actually searching for"
+      },
+      {
+        title: "Analytics Setup",
+        description: "Track your website performance with Google Analytics. Understand your visitors and improve results"
+      }
     ]
   }, {
     icon: PenTool,
@@ -98,12 +137,20 @@ export const Services = () => {
           </p>
         </AnimatedContainer>
 
+        <div className="space-y-24">
+          {services.slice(0, 3).map((service, i) => (
+            <AnimatedContainer key={i} delay={0.4 + i * 0.1}>
+              <AnimatedServiceCard service={service} index={i} />
+            </AnimatedContainer>
+          ))}
+        </div>
+
         <AnimatedContainer
-          delay={0.4}
-          className="grid grid-cols-1 divide-x divide-y divide-border/50 border border-border/50 sm:grid-cols-2 md:grid-cols-3"
+          delay={0.7}
+          className="grid grid-cols-1 divide-x divide-y divide-border/50 border border-border/50 sm:grid-cols-2"
         >
-          {services.map((service, i) => (
-            <AnimatedServiceCard key={i} service={service} index={i} />
+          {services.slice(3).map((service, i) => (
+            <AnimatedServiceCard key={i + 3} service={service} index={i + 3} />
           ))}
         </AnimatedContainer>
       </div>
