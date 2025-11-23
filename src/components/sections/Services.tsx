@@ -2,6 +2,7 @@ import React from 'react';
 import { Palette, Search, PenTool, ShoppingBag, Sparkles, Globe2 } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
 import { AnimatedServiceCard } from '@/components/ui/animated-service-card';
+import customBrandingGif from '@/assets/custom-branding.gif';
 
 type ViewAnimationProps = {
 	delay?: number;
@@ -55,25 +56,22 @@ export const Services = () => {
     ]
   }, {
     icon: Palette,
+    image: customBrandingGif,
     tagline: "From $199",
     title: "Custom Design & Branding",
     description: "Make your website unique with custom colors, fonts, logos, and personalized design that matches your brand perfectly.",
     detailedFeatures: [
       {
-        title: "Custom Colors",
-        description: "Apply your brand colors throughout your entire website. Create a cohesive visual identity that stands out"
+        title: "Custom Colors"
       },
       {
-        title: "Logo Integration",
-        description: "Seamlessly integrate your logo and brand assets. Professional placement across all pages and devices"
+        title: "Logo Integration"
       },
       {
-        title: "Brand Fonts",
-        description: "Use your custom fonts to match your brand guidelines. Typography that reflects your unique style"
+        title: "Brand Fonts"
       },
       {
-        title: "Unlimited Revisions",
-        description: "Refine your design until it's perfect. Make changes and adjustments at no additional cost"
+        title: "Unlimited Revisions"
       }
     ]
   }, {
