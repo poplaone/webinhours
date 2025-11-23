@@ -118,6 +118,7 @@ export const CardSlider: React.FC<CardSliderProps> = ({
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
+    stopAutoSlide(); // Stop auto-slide when user touches
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
@@ -142,10 +143,8 @@ export const CardSlider: React.FC<CardSliderProps> = ({
   const startAutoSlide = useCallback(() => {
     if (autoSlideRef.current) clearInterval(autoSlideRef.current);
     
-    // Only auto-slide on desktop (width >= 1024px)
-    if (window.innerWidth >= 1024) {
-      autoSlideRef.current = setInterval(next, 3000); // 3 seconds
-    }
+    // Auto-slide on all screen sizes
+    autoSlideRef.current = setInterval(next, 3000); // 3 seconds
   }, [next]);
 
   const stopAutoSlide = () => {
