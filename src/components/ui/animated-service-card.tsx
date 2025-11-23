@@ -11,6 +11,7 @@ type ServiceCardType = {
   images?: string[];
   image?: string;
   tagline?: string;
+  keywords?: string;
   detailedFeatures?: Array<{
     title: string;
     description?: string;
@@ -55,9 +56,16 @@ export function AnimatedServiceCard({ service, index, className, ...props }: Ani
             </h2>
             
             {/* Description */}
-            <p className="text-[1.125rem] text-muted-foreground leading-[1.6] max-w-[500px]">
+            <p className="text-[1.125rem] text-muted-foreground leading-[1.6] max-w-[500px] mb-6">
               {service.description}
             </p>
+            
+            {/* Keywords */}
+            {service.keywords && (
+              <p className="text-sm font-medium text-foreground/70">
+                {service.keywords}
+              </p>
+            )}
           </div>
 
           {/* Image Section */}
