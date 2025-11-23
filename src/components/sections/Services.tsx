@@ -38,20 +38,16 @@ export const Services = () => {
     description: "Get a complete, professional website with everything you need to start your online presence - completely FREE forever.",
     detailedFeatures: [
       {
-        title: "500+ Templates",
-        description: "Choose from hundreds of professionally designed templates for any industry. Get started quickly with pre-built layouts"
+        title: "500+ Templates"
       },
       {
-        title: "Mobile Responsive",
-        description: "Your website automatically adapts to any device - desktop, tablet, or mobile. Perfect display on all screen sizes"
+        title: "Mobile Responsive"
       },
       {
-        title: "SSL Security",
-        description: "Enterprise-grade security included free. Keep your visitors safe with encrypted connections and secure hosting"
+        title: "SSL Security"
       },
       {
-        title: "Basic Support",
-        description: "Get help when you need it with our email support team. Access comprehensive guides and tutorials"
+        title: "Basic Support"
       }
     ]
   }, {
@@ -81,20 +77,16 @@ export const Services = () => {
     description: "Get found on Google with professional SEO setup, keyword optimization, and local business listing management.",
     detailedFeatures: [
       {
-        title: "Google Rankings",
-        description: "Optimize your website to rank higher in search results. Drive more organic traffic to your business"
+        title: "Google Rankings"
       },
       {
-        title: "Local Listings",
-        description: "Get listed on Google My Business and local directories. Attract customers in your area searching for your services"
+        title: "Local Listings"
       },
       {
-        title: "Keyword Research",
-        description: "Discover the best keywords for your industry. Target what your customers are actually searching for"
+        title: "Keyword Research"
       },
       {
-        title: "Analytics Setup",
-        description: "Track your website performance with Google Analytics. Understand your visitors and improve results"
+        title: "Analytics Setup"
       }
     ]
   }, {
