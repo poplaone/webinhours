@@ -36,59 +36,20 @@ export const Services = () => {
     tagline: "100% FREE",
     title: "FREE Professional Website",
     description: "Get a complete, professional website with everything you need to start your online presence - completely FREE forever.",
-    detailedFeatures: [
-      {
-        title: "500+ Templates"
-      },
-      {
-        title: "Mobile Responsive"
-      },
-      {
-        title: "SSL Security"
-      },
-      {
-        title: "Basic Support"
-      }
-    ]
+    detailedFeatures: []
   }, {
     icon: Palette,
     image: customBrandingGif,
     tagline: "From $199",
     title: "Custom Design & Branding",
     description: "Make your website unique with custom colors, fonts, logos, and personalized design that matches your brand perfectly.",
-    detailedFeatures: [
-      {
-        title: "Custom Colors"
-      },
-      {
-        title: "Logo Integration"
-      },
-      {
-        title: "Brand Fonts"
-      },
-      {
-        title: "Unlimited Revisions"
-      }
-    ]
+    detailedFeatures: []
   }, {
     icon: Search,
     tagline: "From $149",
     title: "SEO Optimization",
     description: "Get found on Google with professional SEO setup, keyword optimization, and local business listing management.",
-    detailedFeatures: [
-      {
-        title: "Google Rankings"
-      },
-      {
-        title: "Local Listings"
-      },
-      {
-        title: "Keyword Research"
-      },
-      {
-        title: "Analytics Setup"
-      }
-    ]
+    detailedFeatures: []
   }, {
     icon: PenTool,
     title: "Content Creation",
