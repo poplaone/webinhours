@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { MessageSquare, ArrowRight, Clock, Star } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -9,12 +8,7 @@ export const CTASection = () => {
   return (
     <section className="py-20 px-4 relative">
       <div className="container mx-auto text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="max-w-4xl mx-auto"
-        >
+        <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-center gap-2 mb-6">
             <Star className="w-5 h-5 text-yellow-500 fill-current" />
             <span className="text-sm font-medium">Rated 4.9/5 by 500+ clients</span>
@@ -81,7 +75,7 @@ export const CTASection = () => {
               Talk to an Expert
             </Button>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
