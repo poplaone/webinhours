@@ -50,13 +50,7 @@ export const Services = () => {
     icon: PenTool,
     tagline: "$99/month",
     title: "Content Creation",
-    description: "Professional content for your website, blog, and social media to engage customers and grow your business online.",
-    detailedFeatures: [
-      { title: "Blog Writing" },
-      { title: "Social Media Posts" },
-      { title: "Email Content" },
-      { title: "Product Copy" }
-    ]
+    description: "Professional content for your website, blog, and social media to engage customers and grow your business online. Services include blog writing, social media posts, email content, and product copy tailored to your brand."
   }, {
     icon: Search,
     title: "SEO Optimization",
