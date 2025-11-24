@@ -30,7 +30,7 @@ const Index = () => {
           <Hero />
           
           {/* Marketplace Preview */}
-          <Suspense fallback={<div className="h-32 bg-card/20 animate-pulse rounded-lg mx-4 my-8" />}>
+          <Suspense fallback={<div className="h-32 bg-card/20 animate-pulse rounded-lg mx-4 my-2 md:my-8" />}>
             <MarketplacePreview />
           </Suspense>
           
@@ -38,12 +38,12 @@ const Index = () => {
           <Services />
           
           {/* Features - Lazy loaded */}
-          <Suspense fallback={<div className="h-64 bg-card/20 animate-pulse rounded-lg mx-4 my-8" />}>
+          <Suspense fallback={<div className="h-64 bg-card/20 animate-pulse rounded-lg mx-4 my-2 md:my-8" />}>
             <Features />
           </Suspense>
 
           {/* Enhanced Lead Capture Section */}
-          <section className="py-8 md:py-20 px-4 relative overflow-hidden">
+          <section className="py-6 md:py-20 px-4 relative overflow-hidden">
             <div className="container mx-auto relative z-10">
               <div className="max-w-4xl mx-auto text-center mb-8">
                 <h2 className="text-4xl font-bold mb-4">Ready to Transform Your Online Presence?</h2>
@@ -60,7 +60,7 @@ const Index = () => {
           
           {/* Testimonials - Lazy loaded */}
           <div id="testimonials">
-            <Suspense fallback={<div className="h-96 bg-card/20 animate-pulse mx-4 my-8" />}>
+            <Suspense fallback={<div className="h-96 bg-card/20 animate-pulse mx-4 my-2 md:my-8" />}>
               <PremiumTestimonials />
             </Suspense>
           </div>
