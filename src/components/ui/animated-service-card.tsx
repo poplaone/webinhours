@@ -1,6 +1,7 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { Check } from 'lucide-react';
+import { FeatureWithImageComparison } from './feature-with-image-comparison';
 
 type ServiceCardType = {
   title: string;
@@ -15,6 +16,10 @@ type ServiceCardType = {
     title: string;
     description?: string;
   }>;
+  beforeAfterSlider?: {
+    beforeImage: string;
+    afterImage: string;
+  };
 };
 
 type AnimatedServiceCardProps = React.ComponentProps<'div'> & {
@@ -92,7 +97,14 @@ export function AnimatedServiceCard({ service, index, className, ...props }: Ani
             isImageLeft && 'lg:col-start-1 lg:row-start-1'
           )}>
             <div className="w-full h-full flex items-center justify-center p-6">
-              {service.image ? (
+              {service.beforeAfterSlider ? (
+                <FeatureWithImageComparison
+                  beforeImage={service.beforeAfterSlider.beforeImage}
+                  afterImage={service.beforeAfterSlider.afterImage}
+                  beforeAlt={`${service.title} - Before`}
+                  afterAlt={`${service.title} - After`}
+                />
+              ) : service.image ? (
                 <img
                   src={service.image}
                   alt={service.title}

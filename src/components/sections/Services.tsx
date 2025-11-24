@@ -35,7 +35,11 @@ export const Services = () => {
     icon: Globe2,
     tagline: "100% FREE",
     title: "FREE Professional Website",
-    description: "Get a complete, professional website with everything you need to start your online presence - completely FREE forever. Includes 500+ Templates, Mobile Responsive design, SSL Security, and Basic Support."
+    description: "Get a complete, professional website with everything you need to start your online presence - completely FREE forever. Includes 500+ Templates, Mobile Responsive design, SSL Security, and Basic Support.",
+    beforeAfterSlider: {
+      beforeImage: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&auto=format&fit=crop&q=80",
+      afterImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=80"
+    }
   }, {
     icon: Palette,
     image: customBrandingGif,
