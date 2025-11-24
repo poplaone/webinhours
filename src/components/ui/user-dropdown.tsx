@@ -93,7 +93,7 @@ export const UserDropdown: React.FC<UserDropdownProps> = ({ profile }) => {
         {isAdmin && (
           <>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => navigate('/admin')}>
+            <DropdownMenuItem onClick={() => navigate('/admin-panel')}>
               <Shield className="mr-2 h-4 w-4" />
               <span>Admin Panel</span>
             </DropdownMenuItem>
