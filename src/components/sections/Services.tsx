@@ -1,5 +1,5 @@
 import React from 'react';
-import { Palette, Search, PenTool, ShoppingBag, Sparkles, Globe2 } from 'lucide-react';
+import { Palette, Search, PenTool, Sparkles, Globe2 } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
 import { AnimatedServiceCard } from '@/components/ui/animated-service-card';
 import customBrandingGif from '@/assets/custom-branding.gif';
@@ -64,15 +64,20 @@ export const Services = () => {
     features: ["Google Rankings", "Local Listings", "Keyword Research", "Analytics Setup"],
     price: "From $149"
   }, {
-    icon: ShoppingBag,
-    title: "E-commerce Setup",
-    description: "Add online shopping to your free website with secure payment processing, inventory management, and order tracking.",
-    features: ["Payment Processing", "Product Catalog", "Order Management", "Customer Accounts"],
-    price: "From $299",
-    images: [
-      "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=400&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1557821552-17105176677c?w=400&auto=format&fit=crop&q=60"
-    ]
+    icon: Sparkles,
+    title: "PR & Premium Services",
+    description: "Comprehensive PR support and premium website management services tailored to your business needs.",
+    features: [
+      "Press Release Writing & Distribution",
+      "Media Outreach & Pitching",
+      "Brand Reputation Management",
+      "Monthly Website Maintenance",
+      "Priority Technical Support",
+      "Performance Optimization",
+      "Security Monitoring & Updates",
+      "Analytics & Monthly Reporting"
+    ],
+    price: "Contact for Quote"
   }];
   return (
     <section id="services" className="py-20 px-4 relative z-10 my-0">
