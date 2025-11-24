@@ -20,7 +20,6 @@ const websiteSchema = z.object({
   category: z.string().min(1, 'Category is required'),
   price: z.number().min(0, 'Price must be non-negative'),
   preview_url: z.string().url('Must be a valid URL'),
-  demo_url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
 });
 
 interface WebsiteEditFormProps {
@@ -48,7 +47,6 @@ export function WebsiteEditForm({ website, onClose, onUpdate }: WebsiteEditFormP
       category: website.category,
       price: website.price,
       preview_url: website.preview_url,
-      demo_url: website.demo_url || '',
     },
   });
 

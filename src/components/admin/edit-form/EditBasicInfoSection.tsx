@@ -13,7 +13,6 @@ interface WebsiteFormData {
   category: string;
   price: number;
   preview_url: string;
-  demo_url: string;
 }
 
 interface EditBasicInfoSectionProps {
