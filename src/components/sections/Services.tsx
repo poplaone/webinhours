@@ -47,20 +47,22 @@ export const Services = () => {
     title: "Custom Design & Branding",
     description: "Make your website unique with custom colors, fonts, logos, and personalized design that matches your brand perfectly. Includes Custom Colors, Logo Integration, Brand Fonts, and Unlimited Revisions."
   }, {
-    icon: Search,
-    tagline: "From $149",
-    title: "SEO Optimization",
-    description: "Get found on Google with professional SEO setup, keyword optimization, and local business listing management. Includes Google Rankings, Local Listings, Keyword Research, and Analytics Setup."
-  }, {
     icon: PenTool,
+    tagline: "$99/month",
     title: "Content Creation",
     description: "Professional content for your website, blog, and social media to engage customers and grow your business online.",
-    features: ["Blog Writing", "Social Media Posts", "Email Content", "Product Copy"],
-    price: "$99/month",
-    images: [
-      "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&auto=format&fit=crop&q=60"
+    detailedFeatures: [
+      { title: "Blog Writing" },
+      { title: "Social Media Posts" },
+      { title: "Email Content" },
+      { title: "Product Copy" }
     ]
+  }, {
+    icon: Search,
+    title: "SEO Optimization",
+    description: "Get found on Google with professional SEO setup, keyword optimization, and local business listing management.",
+    features: ["Google Rankings", "Local Listings", "Keyword Research", "Analytics Setup"],
+    price: "From $149"
   }, {
     icon: ShoppingBag,
     title: "E-commerce Setup",
