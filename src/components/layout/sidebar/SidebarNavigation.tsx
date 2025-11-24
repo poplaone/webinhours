@@ -10,7 +10,6 @@ import {
   Phone,
   HelpCircle,
   DollarSign,
-  BookOpen,
   Workflow,
   Calculator
 } from 'lucide-react';
@@ -33,7 +32,6 @@ export const SidebarNavigation = ({ currentPath, isAuthenticated }: SidebarNavig
     { path: '/about', icon: InfoIcon, label: 'About' },
     { path: '/how-it-works', icon: Workflow, label: 'How It Works' },
     { path: '/pricing', icon: DollarSign, label: 'Pricing' },
-    { path: '/blog', icon: BookOpen, label: 'Blog' },
     { path: '/contact', icon: Phone, label: 'Contact' },
     { path: '/faq', icon: HelpCircle, label: 'FAQ' },
   ];
