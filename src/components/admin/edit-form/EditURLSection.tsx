@@ -10,7 +10,6 @@ interface WebsiteFormData {
   category: string;
   price: number;
   preview_url: string;
-  demo_url: string;
 }
 
 interface EditURLSectionProps {
@@ -20,34 +19,21 @@ interface EditURLSectionProps {
 
 export function EditURLSection({ control, errors }: EditURLSectionProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <FormField
-        control={control}
-        name="preview_url"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Preview URL *</FormLabel>
-            <FormControl>
-              <Input {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
-      <FormField
-        control={control}
-        name="demo_url"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Demo URL</FormLabel>
-            <FormControl>
-              <Input {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-    </div>
+    <FormField
+      control={control}
+      name="preview_url"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Website URL</FormLabel>
+          <FormControl>
+            <Input placeholder="https://your-website.com" {...field} />
+          </FormControl>
+          <p className="text-xs text-muted-foreground">
+            The URL where users can access your website template
+          </p>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
   );
 }
