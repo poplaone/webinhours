@@ -21,7 +21,6 @@ const formSchema = z.object({
   agent_type: z.enum(['chatbot', 'assistant', 'automation', 'analytics', 'content', 'other']),
   price: z.number().min(0, 'Price must be non-negative'),
   preview_url: z.string().url('Must be a valid URL'),
-  demo_url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
   thumbnail_url: z.string().url('Must be a valid URL').optional().or(z.literal(''))
 });
 
@@ -52,7 +51,6 @@ export const AIAgentUploadForm = ({ onClose }: AIAgentUploadFormProps) => {
       agent_type: 'chatbot',
       price: 0,
       preview_url: '',
-      demo_url: '',
       thumbnail_url: ''
     }
   });
@@ -98,7 +96,6 @@ export const AIAgentUploadForm = ({ onClose }: AIAgentUploadFormProps) => {
         agent_type: values.agent_type,
         price: values.price,
         preview_url: values.preview_url,
-        demo_url: values.demo_url || undefined,
         thumbnail_url: values.thumbnail_url || undefined,
         tags: tags.length > 0 ? tags : undefined,
         features: features.length > 0 ? features : undefined,
@@ -258,7 +255,7 @@ export const AIAgentUploadForm = ({ onClose }: AIAgentUploadFormProps) => {
 
             <Card>
               <CardHeader>
-                <CardTitle>URLs & Media</CardTitle>
+                <CardTitle>Agent Details</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <FormField
@@ -266,24 +263,13 @@ export const AIAgentUploadForm = ({ onClose }: AIAgentUploadFormProps) => {
                   name="preview_url"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Preview URL (Required)</FormLabel>
+                      <FormLabel>Agent URL</FormLabel>
                       <FormControl>
-                        <Input placeholder="https://example.com/agent-preview" {...field} />
+                        <Input placeholder="https://your-agent.com" {...field} />
                       </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="demo_url"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Demo URL (Optional)</FormLabel>
-                      <FormControl>
-                        <Input placeholder="https://example.com/agent-demo" {...field} />
-                      </FormControl>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        The URL where users can access your AI agent
+                      </p>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -294,10 +280,13 @@ export const AIAgentUploadForm = ({ onClose }: AIAgentUploadFormProps) => {
                   name="thumbnail_url"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Thumbnail URL (Optional)</FormLabel>
+                      <FormLabel>Thumbnail Image URL (Optional)</FormLabel>
                       <FormControl>
                         <Input placeholder="https://example.com/thumbnail.jpg" {...field} />
                       </FormControl>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Display image for the agent card (recommended: 800x500px)
+                      </p>
                       <FormMessage />
                     </FormItem>
                   )}
