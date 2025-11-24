@@ -23,11 +23,11 @@ type AnimatedServiceCardProps = React.ComponentProps<'div'> & {
 };
 
 export function AnimatedServiceCard({ service, index, className, ...props }: AnimatedServiceCardProps) {
-  // Use detailed layout for first 3 cards if they have detailedFeatures
-  const isDetailedCard = service.detailedFeatures && service.detailedFeatures.length > 0;
+  // Use detailed layout for first 3 cards
+  const isLargeCard = index < 3;
   const isImageLeft = index === 1; // Middle card has image on left
 
-  if (isDetailedCard) {
+  if (isLargeCard) {
     return (
       <div
         className={cn(
@@ -48,40 +48,42 @@ export function AnimatedServiceCard({ service, index, className, ...props }: Ani
                 {service.tagline}
               </span>
             )}
-            
+
             {/* Title */}
             <h2 className="text-[3.5rem] font-bold leading-[1.1] tracking-[-0.03em] mb-8">
               {service.title}
             </h2>
-            
+
             {/* Description */}
             <p className="text-[1.125rem] text-muted-foreground leading-[1.6] max-w-[500px] mb-8">
               {service.description}
             </p>
 
             {/* Detailed Features Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-border/50 pt-8 mt-8">
-              {service.detailedFeatures.map((feature, idx) => (
-                <div key={idx} className="flex flex-col items-start gap-4">
-                  {/* Feature Icon */}
-                  <div className="w-12 h-12">
-                    <service.icon className="w-full h-full" strokeWidth={1.5} aria-hidden />
+            {service.detailedFeatures && service.detailedFeatures.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-border/50 pt-8 mt-8">
+                {service.detailedFeatures.map((feature, idx) => (
+                  <div key={idx} className="flex flex-col items-start gap-4">
+                    {/* Feature Icon */}
+                    <div className="w-12 h-12">
+                      <service.icon className="w-full h-full" strokeWidth={1.5} aria-hidden />
+                    </div>
+
+                    {/* Feature Title */}
+                    <h3 className="text-base font-semibold mb-2">
+                      {feature.title}
+                    </h3>
+
+                    {/* Feature Description */}
+                    {feature.description && (
+                      <p className="text-sm text-muted-foreground leading-[1.5]">
+                        {feature.description}
+                      </p>
+                    )}
                   </div>
-                  
-                  {/* Feature Title */}
-                  <h3 className="text-base font-semibold mb-2">
-                    {feature.title}
-                  </h3>
-                  
-                  {/* Feature Description */}
-                  {feature.description && (
-                    <p className="text-sm text-muted-foreground leading-[1.5]">
-                      {feature.description}
-                    </p>
-                  )}
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Image Section */}
@@ -91,8 +93,8 @@ export function AnimatedServiceCard({ service, index, className, ...props }: Ani
           )}>
             <div className="w-full h-full flex items-center justify-center p-6">
               {service.image ? (
-                <img 
-                  src={service.image} 
+                <img
+                  src={service.image}
                   alt={service.title}
                   className="w-full h-full object-contain max-w-lg max-h-[380px]"
                 />

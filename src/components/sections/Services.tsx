@@ -5,29 +5,29 @@ import { AnimatedServiceCard } from '@/components/ui/animated-service-card';
 import customBrandingGif from '@/assets/custom-branding.gif';
 
 type ViewAnimationProps = {
-	delay?: number;
-	className?: React.ComponentProps<typeof motion.div>['className'];
-	children: React.ReactNode;
+  delay?: number;
+  className?: React.ComponentProps<typeof motion.div>['className'];
+  children: React.ReactNode;
 };
 
 function AnimatedContainer({ className, delay = 0.1, children }: ViewAnimationProps) {
-	const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useReducedMotion();
 
-	if (shouldReduceMotion) {
-		return <>{children}</>;
-	}
+  if (shouldReduceMotion) {
+    return <>{children}</>;
+  }
 
-	return (
-		<motion.div
-			initial={{ filter: 'blur(4px)', y: -8, opacity: 0 }}
-			whileInView={{ filter: 'blur(0px)', y: 0, opacity: 1 }}
-			viewport={{ once: true }}
-			transition={{ delay, duration: 0.8 }}
-			className={className}
-		>
-			{children}
-		</motion.div>
-	);
+  return (
+    <motion.div
+      initial={{ filter: 'blur(4px)', y: -8, opacity: 0 }}
+      whileInView={{ filter: 'blur(0px)', y: 0, opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ delay, duration: 0.8 }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
 }
 
 export const Services = () => {
@@ -35,60 +35,18 @@ export const Services = () => {
     icon: Globe2,
     tagline: "100% FREE",
     title: "FREE Professional Website",
-    description: "Get a complete, professional website with everything you need to start your online presence - completely FREE forever.",
-    detailedFeatures: [
-      {
-        title: "500+ Templates"
-      },
-      {
-        title: "Mobile Responsive"
-      },
-      {
-        title: "SSL Security"
-      },
-      {
-        title: "Basic Support"
-      }
-    ]
+    description: "Get a complete, professional website with everything you need to start your online presence - completely FREE forever. Includes 500+ Templates, Mobile Responsive design, SSL Security, and Basic Support."
   }, {
     icon: Palette,
     image: customBrandingGif,
     tagline: "From $199",
     title: "Custom Design & Branding",
-    description: "Make your website unique with custom colors, fonts, logos, and personalized design that matches your brand perfectly.",
-    detailedFeatures: [
-      {
-        title: "Custom Colors"
-      },
-      {
-        title: "Logo Integration"
-      },
-      {
-        title: "Brand Fonts"
-      },
-      {
-        title: "Unlimited Revisions"
-      }
-    ]
+    description: "Make your website unique with custom colors, fonts, logos, and personalized design that matches your brand perfectly. Includes Custom Colors, Logo Integration, Brand Fonts, and Unlimited Revisions."
   }, {
     icon: Search,
     tagline: "From $149",
     title: "SEO Optimization",
-    description: "Get found on Google with professional SEO setup, keyword optimization, and local business listing management.",
-    detailedFeatures: [
-      {
-        title: "Google Rankings"
-      },
-      {
-        title: "Local Listings"
-      },
-      {
-        title: "Keyword Research"
-      },
-      {
-        title: "Analytics Setup"
-      }
-    ]
+    description: "Get found on Google with professional SEO setup, keyword optimization, and local business listing management. Includes Google Rankings, Local Listings, Keyword Research, and Analytics Setup."
   }, {
     icon: PenTool,
     title: "Content Creation",
@@ -117,7 +75,7 @@ export const Services = () => {
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
             <span className="text-sm font-medium text-green-500">🆓 Free Website + Premium Services</span>
           </div>
-          
+
           <h2 className="text-3xl font-bold tracking-wide text-balance md:text-4xl lg:text-5xl xl:font-extrabold mb-4">
             Start FREE, Upgrade When Ready
           </h2>
