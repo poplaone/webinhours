@@ -35,59 +35,81 @@ export const AIAgentInfographicCard: React.FC<AIAgentInfographicCardProps> = ({ 
   };
   const Icon = pickIcon();
 
+  const glassEffect = 'bg-transparent border border-white/20 dark:border-white/10 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/40 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300';
+
   return (
-    <motion.div
-      whileHover={{ y: -3 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-      className="h-full"
+    <Card
+      className={`${glassEffect} overflow-hidden flex flex-col group relative h-full cursor-pointer rounded-2xl hover:scale-[1.02] transition-all duration-300`}
+      onClick={handleView}
     >
-      <Card className="group relative h-full overflow-hidden border border-border/50 bg-card/60 backdrop-blur supports-[backdrop-filter]:bg-card/50">
-        {/* Decorative infographic background */}
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-24 -right-24 h-56 w-56 rounded-full bg-gradient-to-br from-primary/25 to-accent/20 blur-2xl" />
-          <div className="absolute -bottom-24 -left-24 h-56 w-56 rounded-full bg-gradient-to-tr from-primary/15 to-accent/10 blur-2xl" />
-          <div className="absolute inset-0 opacity-[0.08] bg-[radial-gradient(circle_at_1px_1px,hsl(var(--primary))/0.25_1px,transparent_1px)] [background-size:16px_16px]" />
-          {/* Glass shine */}
-          <div className="absolute inset-0 pointer-events-none [mask-image:linear-gradient(to-bottom,white,transparent_60%)]">
-            <div className="absolute -top-24 left-1/4 right-1/4 h-32 rotate-12 bg-white/10 blur-md rounded-full" />
+      {/* Image/Icon Section - matching website cards */}
+      <div className="aspect-[16/10] w-full overflow-hidden relative group">
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-purple-500/5 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        
+        {agent.thumbnail_url ? (
+          <img
+            src={agent.thumbnail_url}
+            alt={agent.title}
+            className="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500"
+            loading="lazy"
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-primary/20 via-accent/10 to-primary/5 flex items-center justify-center relative">
+            {/* Decorative background patterns */}
+            <div className="absolute inset-0 opacity-[0.08] bg-[radial-gradient(circle_at_1px_1px,hsl(var(--primary))/0.25_1px,transparent_1px)] [background-size:16px_16px]" />
+            <div className="relative z-10 grid place-items-center rounded-2xl border border-border/60 bg-gradient-to-br from-primary/15 to-accent/15 p-6 text-primary shadow-sm">
+              <Icon className="h-16 w-16" />
+            </div>
+          </div>
+        )}
+        
+        {/* Category badge */}
+        <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
+          <span className="bg-white/80 dark:bg-[#181825]/80 text-xs font-semibold px-2 py-0.5 rounded-full shadow border border-border/30 capitalize w-fit mb-1">
+            {agent.category}
+          </span>
+          {agent.is_featured && (
+            <Badge className="bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED] text-white text-xs xl:text-sm px-3 py-1 rounded-full font-semibold shadow-lg">
+              <Star className="w-4 h-4 mr-1" />
+              Featured
+            </Badge>
+          )}
+        </div>
+      </div>
+
+      {/* Content Section - matching website cards */}
+      <CardContent className="p-5 xl:p-6 flex flex-col flex-grow bg-transparent min-h-[110px] relative z-10">
+        <div className="flex justify-between items-start mb-3">
+          <h3 className="font-semibold text-base xl:text-lg text-foreground group-hover:text-purple-200 transition-colors line-clamp-2 pr-2">
+            {agent.title}
+          </h3>
+          <div className="flex items-center gap-1 text-foreground/90 font-bold text-sm xl:text-base bg-background/10 backdrop-blur-sm border border-border/20 px-3 py-1.5 rounded-full hover:bg-background/20 transition-colors duration-200">
+            <Bot className="h-3.5 w-3.5" />
+            <span>{Number(agent.price) === 0 ? 'Free' : `$${agent.price}`}</span>
           </div>
         </div>
 
-        <CardContent className="relative p-3 sm:p-3 flex flex-col h-full">
-          {/* Header */}
-          <div className="flex items-start gap-2.5">
-            <div className="shrink-0 grid place-items-center rounded-lg border border-border/60 bg-gradient-to-br from-primary/15 to-accent/15 p-2.5 text-primary shadow-sm">
-              <Icon className="h-4 w-4" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-center gap-2">
-                <h3 className="truncate text-sm font-semibold leading-tight">{agent.title}</h3>
-                {agent.is_featured && (
-                  <Badge variant="secondary" className="gap-1">
-                    <Sparkles className="h-3.5 w-3.5 text-primary" /> Featured
-                  </Badge>
-                )}
-              </div>
-              <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[11px] text-muted-foreground">
-                <Badge variant="outline" className="h-5 px-1.5 border-border/60 text-foreground/80">
-                  {agent.agent_type}
-                </Badge>
-                <Badge variant="outline" className="h-5 px-1.5 border-border/60 text-foreground/80">
-                  {agent.category}
-                </Badge>
-              </div>
-            </div>
-          </div>
+        {agent.description && (
+          <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
+            {agent.description}
+          </p>
+        )}
 
-          {/* Description (subheading) */}
-          {agent.description && (
-            <p className="mt-2 line-clamp-2 text-[12px] text-muted-foreground">
-              {agent.description}
-            </p>
-          )}
-        </CardContent>
-      </Card>
-    </motion.div>
+        <div className="flex flex-wrap gap-1.5">
+          <Badge className="text-[10px] px-2 py-0.5 rounded-full bg-background/10 text-foreground/80 hover:bg-background/20 transition-colors border border-border/10 backdrop-blur-sm">
+            {agent.agent_type}
+          </Badge>
+          {agent.tags && agent.tags.slice(0, 2).map((tag: string) => (
+            <Badge 
+              key={tag}
+              className="text-[10px] px-2 py-0.5 rounded-full bg-background/10 text-foreground/80 hover:bg-background/20 transition-colors border border-border/10 backdrop-blur-sm"
+            >
+              {tag}
+            </Badge>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 
