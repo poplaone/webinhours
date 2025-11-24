@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 export const CTASection = () => {
   const navigate = useNavigate();
   return (
-    <section className="py-20 px-4 relative">
+    <section className="py-8 md:py-20 px-4 relative">
       <div className="container mx-auto text-center">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-center gap-2 mb-6">

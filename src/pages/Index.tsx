@@ -43,7 +43,7 @@ const Index = () => {
           </Suspense>
 
           {/* Enhanced Lead Capture Section */}
-          <section className="py-20 px-4 relative overflow-hidden">
+          <section className="py-8 md:py-20 px-4 relative overflow-hidden">
             <div className="container mx-auto relative z-10">
               <div className="max-w-4xl mx-auto text-center mb-8">
                 <h2 className="text-4xl font-bold mb-4">Ready to Transform Your Online Presence?</h2>
