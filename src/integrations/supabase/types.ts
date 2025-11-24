@@ -369,51 +369,6 @@ export type Database = {
         }
         Relationships: []
       }
-      support_tickets: {
-        Row: {
-          ai_generated: boolean
-          category: string | null
-          created_at: string
-          description: string
-          id: string
-          metadata: Json | null
-          priority: string
-          resolved_at: string | null
-          status: string
-          title: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          ai_generated?: boolean
-          category?: string | null
-          created_at?: string
-          description: string
-          id?: string
-          metadata?: Json | null
-          priority?: string
-          resolved_at?: string | null
-          status?: string
-          title: string
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          ai_generated?: boolean
-          category?: string | null
-          created_at?: string
-          description?: string
-          id?: string
-          metadata?: Json | null
-          priority?: string
-          resolved_at?: string | null
-          status?: string
-          title?: string
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
       test_responses: {
         Row: {
           completion_time: number | null

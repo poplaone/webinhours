@@ -30,7 +30,6 @@ const SiteDetails = lazy(() => import("./pages/SiteDetails"));
 const Notifications = lazy(() => import("./pages/Notifications"));
 const Checkout = lazy(() => import("./pages/Checkout"));
 const Calculator = lazy(() => import("./pages/Calculator"));
-const SupportTickets = lazy(() => import("./pages/SupportTickets"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
@@ -130,11 +129,6 @@ function App() {
                     <Route path="/notifications" element={
                       <ProtectedRoute>
                         <Notifications />
-                      </ProtectedRoute>
-                    } />
-                    <Route path="/support-tickets" element={
-                      <ProtectedRoute>
-                        <SupportTickets />
                       </ProtectedRoute>
                     } />
                     <Route path="*" element={<NotFound />} />
