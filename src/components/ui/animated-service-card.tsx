@@ -36,67 +36,46 @@ export function AnimatedServiceCard({ service, index, className, ...props }: Ani
     return (
       <div
         className={cn(
-          'py-24',
+          'py-16 lg:py-24',
           className
         )}
         {...props}
       >
         <div className={cn(
-          'grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-stretch',
-          isImageLeft && 'lg:grid-flow-dense'
+          'grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8 lg:gap-12 xl:gap-16 items-center',
+          isImageLeft && 'lg:grid-cols-[1.2fr_1fr]'
         )}>
           {/* Content Section */}
-          <div className={cn('space-y-8 p-4 flex flex-col justify-center order-2 lg:order-none', isImageLeft && 'lg:col-start-2')}>
-            {/* Tagline */}
+          <div className={cn(
+            'space-y-6 order-2 lg:order-1',
+            isImageLeft && 'lg:order-2'
+          )}>
+            {/* Tagline Badge */}
             {service.tagline && (
-              <span className="text-[1.125rem] font-semibold tracking-[-0.02em] inline-block mb-2">
-                {service.tagline}
-              </span>
+              <div className="inline-block">
+                <span className="text-sm font-medium tracking-wide uppercase px-3 py-1.5 rounded-md bg-muted/50 text-foreground/80">
+                  {service.tagline}
+                </span>
+              </div>
             )}
 
             {/* Title */}
-            <h2 className="text-[2.5rem] md:text-[3.5rem] font-bold leading-[1.1] tracking-[-0.03em] mb-8">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.15] tracking-tight text-foreground">
               {service.title}
             </h2>
 
             {/* Description */}
-            <p className="text-base md:text-[1.125rem] text-muted-foreground leading-[1.6] max-w-[500px] mb-8">
+            <p className="text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl">
               {service.description}
             </p>
-
-            {/* Detailed Features Grid */}
-            {service.detailedFeatures && service.detailedFeatures.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-border/50 pt-8 mt-8">
-                {service.detailedFeatures.map((feature, idx) => (
-                  <div key={idx} className="flex flex-col items-start gap-4">
-                    {/* Feature Icon */}
-                    <div className="w-12 h-12">
-                      <service.icon className="w-full h-full" strokeWidth={1.5} aria-hidden />
-                    </div>
-
-                    {/* Feature Title */}
-                    <h3 className="text-base font-semibold mb-2">
-                      {feature.title}
-                    </h3>
-
-                    {/* Feature Description */}
-                    {feature.description && (
-                      <p className="text-sm text-muted-foreground leading-[1.5]">
-                        {feature.description}
-                      </p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
 
           {/* Image Section */}
           <div className={cn(
-            'bg-muted/30 rounded-3xl overflow-hidden flex items-center justify-center w-full min-h-[300px] md:min-h-[500px] lg:min-h-[600px] order-1 lg:order-none',
-            isImageLeft && 'lg:col-start-1 lg:row-start-1'
+            'relative bg-gradient-to-br from-muted/50 to-muted/30 rounded-2xl lg:rounded-3xl overflow-hidden p-6 lg:p-8 order-1 lg:order-2 min-h-[280px] sm:min-h-[400px] lg:min-h-[500px]',
+            isImageLeft && 'lg:order-1'
           )}>
-            <div className="w-full h-full flex items-center justify-center p-8">
+            <div className="w-full h-full flex items-center justify-center">
               {service.beforeAfterSlider ? (
                 <FeatureWithImageComparison
                   beforeImage={service.beforeAfterSlider.beforeImage}
@@ -108,10 +87,10 @@ export function AnimatedServiceCard({ service, index, className, ...props }: Ani
                 <img
                   src={service.image}
                   alt={service.title}
-                  className="w-full h-full object-contain max-w-3xl max-h-[550px]"
+                  className="w-full h-full object-contain max-w-2xl"
                 />
               ) : (
-                <service.icon className="w-full h-full max-w-3xl max-h-[550px] text-muted-foreground/20" strokeWidth={1} aria-hidden />
+                <service.icon className="w-full h-full max-w-md text-muted-foreground/15" strokeWidth={0.5} aria-hidden />
               )}
             </div>
           </div>
