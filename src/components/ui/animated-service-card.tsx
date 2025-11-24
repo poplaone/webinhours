@@ -46,7 +46,7 @@ export function AnimatedServiceCard({ service, index, className, ...props }: Ani
           isImageLeft && 'lg:grid-flow-dense'
         )}>
           {/* Content Section */}
-          <div className={cn('space-y-8 p-4 flex flex-col justify-center', isImageLeft && 'lg:col-start-2')}>
+          <div className={cn('space-y-8 p-4 flex flex-col justify-center order-2 lg:order-none', isImageLeft && 'lg:col-start-2')}>
             {/* Tagline */}
             {service.tagline && (
               <span className="text-[1.125rem] font-semibold tracking-[-0.02em] inline-block mb-2">
@@ -55,12 +55,12 @@ export function AnimatedServiceCard({ service, index, className, ...props }: Ani
             )}
 
             {/* Title */}
-            <h2 className="text-[3.5rem] font-bold leading-[1.1] tracking-[-0.03em] mb-8">
+            <h2 className="text-[2.5rem] md:text-[3.5rem] font-bold leading-[1.1] tracking-[-0.03em] mb-8">
               {service.title}
             </h2>
 
             {/* Description */}
-            <p className="text-[1.125rem] text-muted-foreground leading-[1.6] max-w-[500px] mb-8">
+            <p className="text-base md:text-[1.125rem] text-muted-foreground leading-[1.6] max-w-[500px] mb-8">
               {service.description}
             </p>
 
@@ -93,7 +93,7 @@ export function AnimatedServiceCard({ service, index, className, ...props }: Ani
 
           {/* Image Section */}
           <div className={cn(
-            'bg-muted/30 rounded-3xl overflow-hidden flex items-center justify-center w-full min-h-[400px] lg:min-h-[450px]',
+            'bg-muted/30 rounded-3xl overflow-hidden flex items-center justify-center w-full min-h-[300px] md:min-h-[400px] lg:min-h-[450px] order-1 lg:order-none',
             isImageLeft && 'lg:col-start-1 lg:row-start-1'
           )}>
             <div className="w-full h-full flex items-center justify-center p-6">
