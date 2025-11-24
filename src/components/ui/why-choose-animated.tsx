@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "motion/react";
 import { 
   Clock, 
   Smartphone, 
@@ -34,13 +33,7 @@ const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
     <section className={cn("py-20 px-4 relative z-10", className)}>
       <div className="container mx-auto w-full max-w-7xl">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12 space-y-4"
-        >
+        <div className="text-center mb-12 space-y-4">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4">
             <Award className="size-4 text-primary" />
             <span className="text-sm font-medium text-primary">Why Choose WebInHours</span>
@@ -53,16 +46,10 @@ const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
           <p className="text-muted-foreground mt-4 text-sm tracking-wide text-balance md:text-base max-w-3xl mx-auto">
             Stop losing customers to slow development timelines. Our proven process delivers high-quality websites at lightning speed, so you can start growing your business today.
           </p>
-        </motion.div>
+        </div>
 
         {/* Main Content Box */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative flex justify-center"
-        >
+        <div className="relative flex justify-center">
           <div className="relative w-full max-w-[600px]">
             {/* Bottom shadow */}
             <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 h-[120px] w-[70%] rounded-xl bg-primary/10 blur-xl" />
@@ -84,17 +71,10 @@ const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
                 {features.map((feature, idx) => {
                   const Icon = feature.icon;
                   return (
-                    <motion.div
-                      key={idx}
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.1 * idx }}
-                      className="flex items-start gap-2"
-                    >
+                    <div key={idx} className="flex items-start gap-2">
                       <Icon className="size-4 text-primary flex-shrink-0 mt-0.5" />
                       <span className="text-xs font-medium leading-tight">{feature.text}</span>
-                    </motion.div>
+                    </div>
                   );
                 })}
               </div>
@@ -110,7 +90,7 @@ const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

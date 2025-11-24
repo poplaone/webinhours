@@ -1,34 +1,7 @@
 import React from 'react';
 import { Palette, Search, PenTool, Sparkles, Globe2 } from 'lucide-react';
-import { motion, useReducedMotion } from 'motion/react';
 import { AnimatedServiceCard } from '@/components/ui/animated-service-card';
 import customBrandingGif from '@/assets/custom-branding.gif';
-
-type ViewAnimationProps = {
-  delay?: number;
-  className?: React.ComponentProps<typeof motion.div>['className'];
-  children: React.ReactNode;
-};
-
-function AnimatedContainer({ className, delay = 0.1, children }: ViewAnimationProps) {
-  const shouldReduceMotion = useReducedMotion();
-
-  if (shouldReduceMotion) {
-    return <>{children}</>;
-  }
-
-  return (
-    <motion.div
-      initial={{ filter: 'blur(4px)', y: -8, opacity: 0 }}
-      whileInView={{ filter: 'blur(0px)', y: 0, opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ delay, duration: 0.8 }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
 
 export const Services = () => {
   const services = [{
@@ -76,7 +49,7 @@ export const Services = () => {
   return (
     <section id="services" className="py-20 px-4 relative z-10 my-0">
       <div className="container mx-auto w-full max-w-7xl space-y-8">
-        <AnimatedContainer className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
             <span className="text-sm font-medium text-green-500">🆓 Free Website + Premium Services</span>
           </div>
@@ -88,24 +61,19 @@ export const Services = () => {
             Get your professional website completely FREE with no hidden costs. Choose from hundreds of templates
             and upgrade to premium services only when you need advanced features, custom design, or marketing support.
           </p>
-        </AnimatedContainer>
+        </div>
 
         <div className="space-y-0">
           {services.slice(0, 3).map((service, i) => (
-            <AnimatedContainer key={i} delay={0.4 + i * 0.1}>
-              <AnimatedServiceCard service={service} index={i} />
-            </AnimatedContainer>
+            <AnimatedServiceCard key={i} service={service} index={i} />
           ))}
         </div>
 
-        <AnimatedContainer
-          delay={0.7}
-          className="grid grid-cols-1 divide-x divide-y divide-border/50 border border-border/50 sm:grid-cols-2"
-        >
+        <div className="grid grid-cols-1 divide-x divide-y divide-border/50 border border-border/50 sm:grid-cols-2">
           {services.slice(3).map((service, i) => (
             <AnimatedServiceCard key={i + 3} service={service} index={i + 3} />
           ))}
-        </AnimatedContainer>
+        </div>
       </div>
     </section>
   );
