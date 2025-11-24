@@ -21,13 +21,11 @@ const HowItWorks = lazy(() => import("./pages/HowItWorks"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
-const Blog = lazy(() => import("./pages/Blog"));
 const Auth = lazy(() => import("./pages/Auth"));
 const Profile = lazy(() => import("./pages/Profile"));
 const AdminPanel = lazy(() => import("./pages/AdminPanel"));
 const Marketplace = lazy(() => import("./pages/Marketplace"));
 const SiteDetails = lazy(() => import("./pages/SiteDetails"));
-const Checkout = lazy(() => import("./pages/Checkout"));
 const Calculator = lazy(() => import("./pages/Calculator"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
@@ -105,14 +103,12 @@ function App() {
                     <Route path="/pricing" element={<Pricing />} />
                     <Route path="/privacy" element={<Privacy />} />
                     <Route path="/terms" element={<Terms />} />
-                    <Route path="/blog" element={<Blog />} />
                     <Route path="/auth" element={<Auth />} />
                     <Route path="/marketplace" element={
                       <ErrorBoundary>
                         <Marketplace />
                       </ErrorBoundary>
                     } />
-                    <Route path="/checkout" element={<Checkout />} />
                     <Route path="/calculator" element={<Calculator />} />
                     <Route path="/site/:slugOrId" element={<SiteDetails />} />
                     <Route path="/profile" element={

@@ -42,7 +42,6 @@ export const Header = () => {
     { label: 'How It Works', path: '/how-it-works' },
     { label: 'Pricing', path: '/pricing' },
     { label: 'FAQ', path: '/faq' },
-    { label: 'Blog', path: '/blog' },
     { label: 'Privacy Policy', path: '/privacy' },
     { label: 'Terms of Service', path: '/terms' }
   ];

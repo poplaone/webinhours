@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Eye, Download, Tag, Code2, Shield } from 'lucide-react';
+import { ArrowLeft, Eye, Download, Tag, Code2, Shield, ExternalLink } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -255,16 +255,16 @@ const SiteDetails = () => {
               <div className="grid grid-cols-2 gap-3">
                 <Button
                   className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED]"
-                  onClick={() => navigate(`/checkout?site=${websiteId}`)}
+                  onClick={() => navigate('/contact')}
                 >
                   Buy Template
                 </Button>
                 <Button
                   variant="outline"
                   className="w-full"
-                  onClick={() => navigate('/contact')}
+                  onClick={() => window.open(site.preview_url, '_blank')}
                 >
-                  Customize
+                  Preview Live
                 </Button>
               </div>
             )}
@@ -312,7 +312,7 @@ const SiteDetails = () => {
             <div className="grid grid-cols-2 gap-3 max-w-md mx-auto">
               <Button
                 className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED] flex items-center justify-center gap-2"
-                onClick={() => navigate(`/checkout?site=${websiteId}`)}
+                onClick={() => navigate('/contact')}
               >
                 <Download className="h-4 w-4" />
                 Buy Template ${site.price === 0 ? 'Free' : site.price}
@@ -320,10 +320,10 @@ const SiteDetails = () => {
               <Button
                 variant="outline"
                 className="w-full flex items-center justify-center gap-2"
-                onClick={() => navigate('/contact')}
+                onClick={() => window.open(site.preview_url, '_blank')}
               >
-                <Code2 className="h-4 w-4" />
-                Customize
+                <ExternalLink className="h-4 w-4" />
+                Preview Live
               </Button>
             </div>
           </div>
