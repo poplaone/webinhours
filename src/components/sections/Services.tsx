@@ -47,7 +47,7 @@ export const Services = () => {
     price: "Contact for Quote"
   }];
   return (
-    <section id="services" className="py-8 md:py-20 px-4 relative z-10 my-0">
+    <section id="services" className="py-6 md:py-20 px-4 relative z-10 my-0">
       <div className="container mx-auto w-full max-w-7xl space-y-8">
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
