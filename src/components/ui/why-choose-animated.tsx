@@ -30,7 +30,7 @@ const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
   ];
 
   return (
-    <section className={cn("py-20 px-4 relative z-10", className)}>
+    <section className={cn("py-8 md:py-20 px-4 relative z-10", className)}>
       <div className="container mx-auto w-full max-w-7xl">
         {/* Header */}
         <div className="text-center mb-12 space-y-4">

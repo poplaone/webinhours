@@ -440,7 +440,7 @@
   /* Responsive: Mobile */
   @media (max-width: 767px) {
     .relume-hero-section {
-      padding: 40px 16px 30px;
+      padding: 24px 16px 20px;
       overflow: hidden;
     }
 
@@ -480,7 +480,7 @@
     /* Show card slider on mobile */
     .relume-hero-mobile-slider {
       display: block;
-      margin-top: 40px;
+      margin-top: 24px;
     }
   }
 }
