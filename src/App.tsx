@@ -27,7 +27,6 @@ const Profile = lazy(() => import("./pages/Profile"));
 const AdminPanel = lazy(() => import("./pages/AdminPanel"));
 const Marketplace = lazy(() => import("./pages/Marketplace"));
 const SiteDetails = lazy(() => import("./pages/SiteDetails"));
-const Notifications = lazy(() => import("./pages/Notifications"));
 const Checkout = lazy(() => import("./pages/Checkout"));
 const Calculator = lazy(() => import("./pages/Calculator"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -125,11 +124,6 @@ function App() {
                       <AdminRoute>
                         <AdminPanel />
                       </AdminRoute>
-                    } />
-                    <Route path="/notifications" element={
-                      <ProtectedRoute>
-                        <Notifications />
-                      </ProtectedRoute>
                     } />
                     <Route path="*" element={<NotFound />} />
                   </Routes>

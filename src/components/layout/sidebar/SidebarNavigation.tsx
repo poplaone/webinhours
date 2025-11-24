@@ -6,7 +6,6 @@ import {
   Store,
   User,
   Code,
-  Bell,
   InfoIcon,
   Phone,
   HelpCircle,
@@ -53,7 +52,6 @@ export const SidebarNavigation = ({ currentPath, isAuthenticated }: SidebarNavig
       icon: Code, 
       label: isAdmin ? 'Admin Panel' : 'My Dashboard'
     },
-    { path: '/notifications', icon: Bell, label: 'Notifications' },
   ];
 
   // Determine which items to show based on current path
