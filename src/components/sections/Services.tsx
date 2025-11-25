@@ -1,6 +1,7 @@
 import React from 'react';
-import { Palette, Search, PenTool, Sparkles, Globe2 } from 'lucide-react';
+import { Palette, PenTool, Globe2 } from 'lucide-react';
 import { AnimatedServiceCard } from '@/components/ui/animated-service-card';
+import CombinedFeaturedSection from '@/components/ui/combined-featured-section';
 import customBrandingGif from '@/assets/custom-branding.gif';
 
 export const Services = () => {
@@ -24,27 +25,6 @@ export const Services = () => {
     tagline: "$99/month",
     title: "Content Creation",
     description: "Professional content for your website, blog, and social media to engage customers and grow your business online. Services include blog writing, social media posts, email content, and product copy tailored to your brand."
-  }, {
-    icon: Search,
-    title: "SEO Optimization",
-    description: "Get found on Google with professional SEO setup, keyword optimization, and local business listing management.",
-    features: ["Google Rankings", "Local Listings", "Keyword Research", "Analytics Setup"],
-    price: "From $149"
-  }, {
-    icon: Sparkles,
-    title: "PR & Premium Services",
-    description: "Comprehensive PR support and premium website management services tailored to your business needs.",
-    features: [
-      "Press Release Writing & Distribution",
-      "Media Outreach & Pitching",
-      "Brand Reputation Management",
-      "Monthly Website Maintenance",
-      "Priority Technical Support",
-      "Performance Optimization",
-      "Security Monitoring & Updates",
-      "Analytics & Monthly Reporting"
-    ],
-    price: "Contact for Quote"
   }];
   return (
     <section id="services" className="py-6 md:py-20 px-4 relative z-10 my-0">
@@ -64,16 +44,13 @@ export const Services = () => {
         </div>
 
         <div className="space-y-0">
-          {services.slice(0, 3).map((service, i) => (
+          {services.map((service, i) => (
             <AnimatedServiceCard key={i} service={service} index={i} />
           ))}
         </div>
 
-        <div className="grid grid-cols-1 divide-x divide-y divide-border/50 border border-border/50 sm:grid-cols-2">
-          {services.slice(3).map((service, i) => (
-            <AnimatedServiceCard key={i + 3} service={service} index={i + 3} />
-          ))}
-        </div>
+        {/* SEO & PR Services in Modern Grid Layout */}
+        <CombinedFeaturedSection />
       </div>
     </section>
   );
