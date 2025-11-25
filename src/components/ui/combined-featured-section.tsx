@@ -9,22 +9,22 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } f
 
 export default function CombinedFeaturedSection() {
   return (
-    <section className="py-16 lg:py-24 bg-background">
-      <div className="max-w-[1600px] mx-auto px-6 grid grid-cols-1 md:grid-cols-2 md:grid-rows-2">
+    <section className="py-12 md:py-16 lg:py-24 bg-background">
+      <div className="max-w-[1600px] mx-auto px-4 md:px-6 grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 gap-0">
 
         {/* 1. SEO MAP - Top Left */}
-        <div className="relative rounded-none overflow-hidden bg-muted border border-border p-6">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-            <MapPin className="w-4 h-4" />
+        <div className="relative rounded-none overflow-hidden bg-muted border border-border p-4 md:p-6 min-h-[300px] md:min-h-[400px]">
+          <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground mb-3 md:mb-4">
+            <MapPin className="w-3 h-3 md:w-4 md:h-4" />
             SEO Analytics
           </div>
-          <h3 className="text-xl font-normal text-foreground">
+          <h3 className="text-base md:text-xl font-normal text-foreground">
             Get found on Google with professional SEO setup.{" "}
             <span className="text-muted-foreground">Track rankings across regions.</span>
           </h3>
 
-          <div className="relative mt-8">
-            <div className="absolute top-16 left-1/2 -translate-x-1/2 z-10 px-3 py-1 bg-background border border-border text-foreground rounded-md text-xs font-medium shadow-lg flex items-center gap-2">
+          <div className="relative mt-6 md:mt-8">
+            <div className="absolute top-8 md:top-16 left-1/2 -translate-x-1/2 z-10 px-2 md:px-3 py-1 bg-background border border-border text-foreground rounded-md text-[10px] md:text-xs font-medium shadow-lg flex items-center gap-1 md:gap-2">
               🌍 Ranking #1 in Local Search
             </div>
             <Map />
@@ -32,12 +32,12 @@ export default function CombinedFeaturedSection() {
         </div>
 
         {/* 2. SEO FEATURES - Top Right */}
-        <div className="flex flex-col justify-between gap-4 p-6 rounded-none border border-border bg-card">
+        <div className="flex flex-col justify-between gap-3 md:gap-4 p-4 md:p-6 rounded-none border border-border bg-card min-h-[300px] md:min-h-[400px]">
           <div>
-            <span className="text-xs flex items-center gap-2 text-sm text-muted-foreground">
-              <Search className="w-4 h-4" /> SEO Optimization
+            <span className="text-xs flex items-center gap-2 text-muted-foreground mb-2 md:mb-0">
+              <Search className="w-3 h-3 md:w-4 md:h-4" /> SEO Optimization
             </span>
-            <h3 className="text-xl font-normal text-foreground">
+            <h3 className="text-base md:text-xl font-normal text-foreground">
               Professional SEO setup with keyword optimization.{" "}
               <span className="text-muted-foreground">and local business listing management.</span>
             </h3>
@@ -48,12 +48,12 @@ export default function CombinedFeaturedSection() {
         </div>
 
         {/* 3. PR CHART - Bottom Left */}
-        <div className="rounded-none border border-border bg-muted p-6 space-y-4">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-            <Activity className="w-4 h-4" />
+        <div className="rounded-none border border-border bg-muted p-4 md:p-6 space-y-3 md:space-y-4 min-h-[300px] md:min-h-[400px]">
+          <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground mb-3 md:mb-4">
+            <Activity className="w-3 h-3 md:w-4 md:h-4" />
             Performance Tracking
           </div>
-          <h3 className="text-xl font-normal text-foreground">
+          <h3 className="text-base md:text-xl font-normal text-foreground">
             Real-time performance and analytics tracking.{" "}
             <span className="text-muted-foreground">Monitor your growth instantly.</span>
           </h3>
@@ -83,14 +83,14 @@ export default function CombinedFeaturedSection() {
 // ----------------- Feature Card Component -------------------
 function FeatureCard({ icon, title, subtitle, description }: { icon: React.ReactNode, title: string, subtitle: string, description: string }) {
   return (
-    <div className="relative flex flex-col gap-3 p-6 border border-border bg-background transition">
-      <div className="flex items-center gap-4">
+    <div className="relative flex flex-col gap-2 md:gap-3 p-4 md:p-6 border border-border bg-background transition min-h-[200px] md:min-h-[250px]">
+      <div className="flex items-center gap-3 md:gap-4">
         <div>
-          <span className="text-xs flex items-center gap-2 text-sm text-muted-foreground mb-4">
+          <span className="text-xs flex items-center gap-2 text-muted-foreground mb-2 md:mb-4">
             {icon}
             {title}
           </span>
-          <h3 className="text-lg font-normal text-foreground">
+          <h3 className="text-sm md:text-lg font-normal text-foreground">
             {subtitle}{" "}
             <span className="text-muted-foreground">{description}</span>
           </h3>
@@ -98,11 +98,11 @@ function FeatureCard({ icon, title, subtitle, description }: { icon: React.React
       </div>
 
       {/* Card pinned to bottom right */}
-      <Card className="absolute bottom-0 right-0 w-24 h-20 sm:w-32 sm:h-28 md:w-40 md:h-32 border-8 border-r-0 border-b-0 rounded-tl-xl rounded-br-none rounded-tr-none rounded-bl-none overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10" />
+      <Card className="absolute bottom-0 right-0 w-16 h-14 sm:w-24 sm:h-20 md:w-32 md:h-28 lg:w-40 lg:h-32 border-4 md:border-8 border-r-0 border-b-0 rounded-tl-lg md:rounded-tl-xl rounded-br-none rounded-tr-none rounded-bl-none overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10" />
 
       {/* Arrow icon on top of Card */}
-      <div className="absolute bottom-2 right-2 p-3 flex items-center gap-2 border border-border rounded-full hover:-rotate-45 transition z-10 bg-background">
-        <ArrowRight className="w-4 h-4 text-primary" />
+      <div className="absolute bottom-1 right-1 md:bottom-2 md:right-2 p-2 md:p-3 flex items-center gap-2 border border-border rounded-full hover:-rotate-45 transition z-10 bg-background">
+        <ArrowRight className="w-3 h-3 md:w-4 md:h-4 text-primary" />
       </div>
     </div>
   )
@@ -113,9 +113,9 @@ const map = new DottedMap({ height: 55, grid: 'diagonal' })
 const points = map.getPoints()
 
 const Map = () => (
-  <svg viewBox="0 0 120 60" className="w-full h-auto text-primary/70">
+  <svg viewBox="0 0 120 60" className="w-full h-auto text-primary">
     {points.map((point, i) => (
-      <circle key={i} cx={point.x} cy={point.y} r={0.15} fill="currentColor" />
+      <circle key={i} cx={point.x} cy={point.y} r={0.15} fill="currentColor" opacity="0.7" />
     ))}
   </svg>
 )
@@ -143,7 +143,7 @@ const chartConfig = {
 
 function MonitoringChart() {
   return (
-    <ChartContainer className="h-60 aspect-auto" config={chartConfig}>
+    <ChartContainer className="h-40 md:h-60 aspect-auto" config={chartConfig}>
       <AreaChart data={chartData}>
         <defs>
           <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
@@ -214,15 +214,15 @@ const seoFeatures: SEOFeature[] = [
 
 const SEOFeaturesCard = () => {
   return (
-    <div className="w-full max-w-sm h-[280px] bg-background p-2 overflow-hidden font-sans relative">
+    <div className="w-full max-w-sm h-[220px] md:h-[280px] bg-transparent p-1 md:p-2 overflow-hidden font-sans relative">
       {/* Fade shadow overlay */}
-      <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-background to-transparent z-10"></div>
+      <div className="absolute inset-x-0 bottom-0 h-8 md:h-12 bg-gradient-to-t from-card to-transparent z-10"></div>
       
-      <div className="space-y-2 relative z-0">
+      <div className="space-y-1.5 md:space-y-2 relative z-0">
         {seoFeatures.map((feature, i) => (
           <div
             key={i}
-            className="flex gap-3 items-start p-3 border border-border rounded-lg transform transition duration-300 ease-in-out cursor-pointer animate-scaleUp"
+            className="flex gap-2 md:gap-3 items-start p-2 md:p-3 border border-border rounded-md md:rounded-lg transform transition duration-300 ease-in-out cursor-pointer animate-scaleUp bg-card/50"
             style={{
               animationDelay: `${i * 300}ms`,
               animationFillMode: "forwards",
@@ -230,16 +230,16 @@ const SEOFeaturesCard = () => {
             }}
           >
             <div
-              className={`w-8 h-8 min-w-[2rem] min-h-[2rem] rounded-lg bg-gradient-to-br ${feature.color}`}
+              className={`w-6 h-6 md:w-8 md:h-8 min-w-[1.5rem] md:min-w-[2rem] min-h-[1.5rem] md:min-h-[2rem] rounded-md md:rounded-lg bg-gradient-to-br ${feature.color}`}
             />
-            <div className="flex flex-col">
-              <div className="flex items-center gap-2 text-xs font-semibold text-foreground">
-                {feature.title}
-                <span className="text-xs text-muted-foreground before:content-['•'] before:mr-1">
+            <div className="flex flex-col flex-1">
+              <div className="flex items-center gap-1.5 md:gap-2 text-[10px] md:text-xs font-semibold text-foreground">
+                <span className="truncate">{feature.title}</span>
+                <span className="text-[9px] md:text-xs text-muted-foreground before:content-['•'] before:mr-1 flex-shrink-0">
                   {feature.time}
                 </span>
               </div>
-              <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
+              <p className="text-[10px] md:text-xs text-muted-foreground mt-0.5 line-clamp-1">
                 {feature.content}
               </p>
             </div>
