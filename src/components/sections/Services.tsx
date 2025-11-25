@@ -3,7 +3,6 @@ import { Palette, PenTool, Globe2 } from 'lucide-react';
 import { AnimatedServiceCard } from '@/components/ui/animated-service-card';
 import CombinedFeaturedSection from '@/components/ui/combined-featured-section';
 import customBrandingGif from '@/assets/custom-branding.gif';
-
 export const Services = () => {
   const services = [{
     icon: Globe2,
@@ -26,8 +25,7 @@ export const Services = () => {
     title: "Content Creation",
     description: "Professional content for your website, blog, and social media to engage customers and grow your business online. Services include blog writing, social media posts, email content, and product copy tailored to your brand."
   }];
-  return (
-    <section id="services" className="py-6 md:py-20 px-4 relative z-10 my-0">
+  return <section id="services" className="py-6 md:py-20 px-4 relative z-10 my-0">
       <div className="container mx-auto w-full max-w-[1600px] space-y-8">
         <div className="mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
@@ -44,14 +42,11 @@ export const Services = () => {
         </div>
 
         <div className="space-y-0">
-          {services.map((service, i) => (
-            <AnimatedServiceCard key={i} service={service} index={i} />
-          ))}
+          {services.map((service, i) => <AnimatedServiceCard key={i} service={service} index={i} />)}
         </div>
 
         {/* SEO & PR Services in Modern Grid Layout */}
-        <CombinedFeaturedSection />
+        <CombinedFeaturedSection className="border-transparent bg-transparent" />
       </div>
-    </section>
-  );
+    </section>;
 };
