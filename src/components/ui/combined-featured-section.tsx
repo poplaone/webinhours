@@ -2,7 +2,7 @@ import { ArrowRight, Flower, MapPin, Search, Megaphone } from 'lucide-react';
 import DottedMap from 'dotted-map';
 import { Card } from '@/components/ui/card';
 export default function CombinedFeaturedSection() {
-  return <section className="py-12 md:py-16 lg:py-24 bg-background">
+  return <section className="py-12 md:py-16 lg:py-24 bg-transparent">
       <div className="max-w-[1600px] mx-auto px-4 md:px-6 grid grid-cols-1 md:grid-cols-2 gap-0">
 
         {/* LEFT COLUMN - SEO CONTENT */}

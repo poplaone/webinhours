@@ -46,7 +46,7 @@ export const Services = () => {
         </div>
 
         {/* SEO & PR Services in Modern Grid Layout */}
-        <CombinedFeaturedSection className="border-transparent bg-transparent" />
+        <CombinedFeaturedSection />
       </div>
     </section>;
 };
