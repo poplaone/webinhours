@@ -41,15 +41,9 @@ export function AnimatedServiceCard({ service, index, className, ...props }: Ani
         )}
         {...props}
       >
-        <div className={cn(
-          'grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8 lg:gap-12 xl:gap-16 items-center',
-          isImageLeft && 'lg:grid-cols-[1.2fr_1fr]'
-        )}>
+        <div className="max-w-3xl">
           {/* Content Section */}
-          <div className={cn(
-            'space-y-6 order-2 lg:order-1',
-            isImageLeft && 'lg:order-2'
-          )}>
+          <div className="space-y-6">
             {/* Tagline Badge */}
             {service.tagline && (
               <div className="inline-block">
@@ -64,35 +58,10 @@ export function AnimatedServiceCard({ service, index, className, ...props }: Ani
               {service.title}
             </h2>
 
-            {/* Description */}
+          {/* Description */}
             <p className="text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl">
               {service.description}
             </p>
-          </div>
-
-          {/* Image Section */}
-          <div className={cn(
-            'relative bg-gradient-to-br from-muted/50 to-muted/30 rounded-2xl lg:rounded-3xl overflow-hidden p-6 lg:p-8 order-1 lg:order-2 min-h-[280px] sm:min-h-[400px] lg:min-h-[500px]',
-            isImageLeft && 'lg:order-1'
-          )}>
-            <div className="w-full h-full flex items-center justify-center">
-              {service.beforeAfterSlider ? (
-                <FeatureWithImageComparison
-                  beforeImage={service.beforeAfterSlider.beforeImage}
-                  afterImage={service.beforeAfterSlider.afterImage}
-                  beforeAlt={`${service.title} - Before`}
-                  afterAlt={`${service.title} - After`}
-                />
-              ) : service.image ? (
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className="w-full h-full object-contain max-w-2xl"
-                />
-              ) : (
-                <service.icon className="w-full h-full max-w-md text-muted-foreground/15" strokeWidth={0.5} aria-hidden />
-              )}
-            </div>
           </div>
         </div>
       </div>
