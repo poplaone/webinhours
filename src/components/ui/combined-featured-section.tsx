@@ -1,79 +1,80 @@
-import { Activity, ArrowRight, Files, Flower, GalleryVerticalEnd, MapPin, Search, Megaphone } from 'lucide-react'
+import { ArrowRight, Flower, MapPin, Search, Megaphone } from 'lucide-react'
 import DottedMap from 'dotted-map'
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid } from 'recharts'
 import { Card } from '@/components/ui/card'
-import * as React from "react"
-import * as RechartsPrimitive from "recharts"
-import { cn } from "@/lib/utils"
-import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart'
 
 export default function CombinedFeaturedSection() {
   return (
     <section className="py-12 md:py-16 lg:py-24 bg-background">
-      <div className="max-w-[1600px] mx-auto px-4 md:px-6 grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 gap-0">
+      <div className="max-w-[1600px] mx-auto px-4 md:px-6 grid grid-cols-1 md:grid-cols-2 gap-0">
 
-        {/* 1. SEO MAP - Top Left */}
-        <div className="relative rounded-none overflow-hidden bg-muted border border-border p-4 md:p-6 min-h-[300px] md:min-h-[400px]">
-          <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground mb-3 md:mb-4">
-            <MapPin className="w-3 h-3 md:w-4 md:h-4" />
-            SEO Analytics
-          </div>
-          <h3 className="text-base md:text-xl font-normal text-foreground">
-            Get found on Google with professional SEO setup.{" "}
-            <span className="text-muted-foreground">Track rankings across regions.</span>
-          </h3>
-
-          <div className="relative mt-6 md:mt-8">
-            <div className="absolute top-8 md:top-16 left-1/2 -translate-x-1/2 z-10 px-2 md:px-3 py-1 bg-background border border-border text-foreground rounded-md text-[10px] md:text-xs font-medium shadow-lg flex items-center gap-1 md:gap-2">
-              🌍 Ranking #1 in Local Search
+        {/* LEFT COLUMN - SEO CONTENT */}
+        <div className="grid grid-rows-2 gap-0">
+          {/* SEO MAP - Top */}
+          <div className="relative rounded-none overflow-hidden bg-muted border border-border p-4 md:p-6 min-h-[300px] md:min-h-[400px]">
+            <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground mb-3 md:mb-4">
+              <MapPin className="w-3 h-3 md:w-4 md:h-4" />
+              SEO Analytics
             </div>
-            <Map />
-          </div>
-        </div>
-
-        {/* 2. SEO FEATURES - Top Right */}
-        <div className="flex flex-col justify-between gap-3 md:gap-4 p-4 md:p-6 rounded-none border border-border bg-card min-h-[300px] md:min-h-[400px]">
-          <div>
-            <span className="text-xs flex items-center gap-2 text-muted-foreground mb-2 md:mb-0">
-              <Search className="w-3 h-3 md:w-4 md:h-4" /> SEO Optimization
-            </span>
             <h3 className="text-base md:text-xl font-normal text-foreground">
-              Professional SEO setup with keyword optimization.{" "}
-              <span className="text-muted-foreground">and local business listing management.</span>
+              Get found on Google with professional SEO setup.{" "}
+              <span className="text-muted-foreground">Track rankings across regions.</span>
             </h3>
+
+            <div className="relative mt-6 md:mt-8">
+              <div className="absolute top-8 md:top-16 left-1/2 -translate-x-1/2 z-10 px-2 md:px-3 py-1 bg-background border border-border text-foreground rounded-md text-[10px] md:text-xs font-medium shadow-lg flex items-center gap-1 md:gap-2">
+                🌍 Ranking #1 in Local Search
+              </div>
+              <Map />
+            </div>
           </div>
-          <div className="flex justify-center items-center w-full">
-            <SEOFeaturesCard />
+
+          {/* GOOGLE RANKINGS ANIMATION - Bottom */}
+          <div className="rounded-none border border-border bg-muted p-4 md:p-6 space-y-3 md:space-y-4 min-h-[300px] md:min-h-[400px]">
+            <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground mb-3 md:mb-4">
+              <Search className="w-3 h-3 md:w-4 md:h-4" />
+              Google Rankings
+            </div>
+            <h3 className="text-base md:text-xl font-normal text-foreground">
+              Watch your keywords climb to the top.{" "}
+              <span className="text-muted-foreground">Real-time ranking updates.</span>
+            </h3>
+            <GoogleRankingsAnimation />
           </div>
         </div>
 
-        {/* 3. PR CHART - Bottom Left */}
-        <div className="rounded-none border border-border bg-muted p-4 md:p-6 space-y-3 md:space-y-4 min-h-[300px] md:min-h-[400px]">
-          <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground mb-3 md:mb-4">
-            <Activity className="w-3 h-3 md:w-4 md:h-4" />
-            Performance Tracking
+        {/* RIGHT COLUMN - PR & SERVICES CONTENT */}
+        <div className="grid grid-rows-2 gap-0">
+          {/* SEO FEATURES LIST - Top */}
+          <div className="flex flex-col justify-between gap-3 md:gap-4 p-4 md:p-6 rounded-none border border-border bg-card min-h-[300px] md:min-h-[400px]">
+            <div>
+              <span className="text-xs flex items-center gap-2 text-muted-foreground mb-2 md:mb-0">
+                <Search className="w-3 h-3 md:w-4 md:h-4" /> SEO Optimization
+              </span>
+              <h3 className="text-base md:text-xl font-normal text-foreground">
+                Professional SEO setup with keyword optimization.{" "}
+                <span className="text-muted-foreground">and local business listing management.</span>
+              </h3>
+            </div>
+            <div className="flex justify-center items-center w-full">
+              <SEOFeaturesCard />
+            </div>
           </div>
-          <h3 className="text-base md:text-xl font-normal text-foreground">
-            Real-time performance and analytics tracking.{" "}
-            <span className="text-muted-foreground">Monitor your growth instantly.</span>
-          </h3>
-          <MonitoringChart />
-        </div>
 
-        {/* 4. PR FEATURE CARDS - Bottom Right */}
-        <div className="grid sm:grid-cols-2 rounded-none bg-card">
-          <FeatureCard
-            icon={<Megaphone className="w-4 h-4" />}
-            title="PR & Media"
-            subtitle="Premium Services"
-            description="Press releases, media outreach, and brand reputation management."
-          />
-          <FeatureCard
-            icon={<Flower className="w-4 h-4" />}
-            title="Website Care"
-            subtitle="Monthly Maintenance"
-            description="Priority support, security monitoring, and performance optimization."
-          />
+          {/* PR FEATURE CARDS - Bottom */}
+          <div className="grid sm:grid-cols-2 rounded-none bg-card">
+            <FeatureCard
+              icon={<Megaphone className="w-4 h-4" />}
+              title="PR & Media"
+              subtitle="Premium Services"
+              description="Press releases, media outreach, and brand reputation management."
+            />
+            <FeatureCard
+              icon={<Flower className="w-4 h-4" />}
+              title="Website Care"
+              subtitle="Monthly Maintenance"
+              description="Priority support, security monitoring, and performance optimization."
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -120,50 +121,64 @@ const Map = () => (
   </svg>
 )
 
-// ----------------- Chart -------------------
-const chartData = [
-  { month: 'May', desktop: 56, mobile: 224 },
-  { month: 'June', desktop: 90, mobile: 300 },
-  { month: 'July', desktop: 126, mobile: 252 },
-  { month: 'Aug', desktop: 205, mobile: 410 },
-  { month: 'Sep', desktop: 200, mobile: 126 },
-  { month: 'Oct', desktop: 400, mobile: 800 },
-]
+// ----------------- Google Rankings Animation -------------------
+const rankingsData = [
+  { keyword: "web design services", position: 1, trend: "up", color: "from-green-400 to-emerald-500" },
+  { keyword: "professional websites", position: 2, trend: "up", color: "from-blue-400 to-cyan-500" },
+  { keyword: "custom web development", position: 3, trend: "stable", color: "from-purple-400 to-indigo-500" },
+  { keyword: "business website design", position: 5, trend: "up", color: "from-orange-400 to-amber-500" },
+  { keyword: "responsive web design", position: 7, trend: "down", color: "from-pink-400 to-rose-500" },
+];
 
-const chartConfig = {
-  desktop: {
-    label: 'Website Traffic',
-    color: 'hsl(var(--primary))',
-  },
-  mobile: {
-    label: 'Mobile Users',
-    color: 'hsl(var(--primary) / 0.6)',
-  },
-} satisfies ChartConfig
-
-function MonitoringChart() {
+function GoogleRankingsAnimation() {
   return (
-    <ChartContainer className="h-40 md:h-60 aspect-auto" config={chartConfig}>
-      <AreaChart data={chartData}>
-        <defs>
-          <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="var(--color-desktop)" stopOpacity={0.8} />
-            <stop offset="55%" stopColor="var(--color-desktop)" stopOpacity={0.1} />
-          </linearGradient>
-          <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="var(--color-mobile)" stopOpacity={0.8} />
-            <stop offset="55%" stopColor="var(--color-mobile)" stopOpacity={0.1} />
-          </linearGradient>
-        </defs>
-        <XAxis hide />
-        <YAxis hide />
-        <CartesianGrid vertical={false} horizontal={false} />
-        <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-        <Area strokeWidth={2} dataKey="mobile" type="monotone" fill="url(#fillMobile)" stroke="var(--color-mobile)" />
-        <Area strokeWidth={2} dataKey="desktop" type="monotone" fill="url(#fillDesktop)" stroke="var(--color-desktop)" />
-      </AreaChart>
-    </ChartContainer>
-  )
+    <div className="space-y-2 md:space-y-3">
+      {rankingsData.map((item, i) => (
+        <div
+          key={i}
+          className="flex items-center gap-2 md:gap-3 p-2 md:p-3 bg-card border border-border rounded-md md:rounded-lg animate-fade-in"
+          style={{
+            animationDelay: `${i * 150}ms`,
+            animationFillMode: "forwards",
+            opacity: 0,
+          }}
+        >
+          {/* Position Badge */}
+          <div className={`flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-md md:rounded-lg bg-gradient-to-br ${item.color} flex items-center justify-center`}>
+            <span className="text-xs md:text-sm font-bold text-white">#{item.position}</span>
+          </div>
+
+          {/* Keyword */}
+          <div className="flex-1 min-w-0">
+            <p className="text-xs md:text-sm font-medium text-foreground truncate">{item.keyword}</p>
+            <p className="text-[10px] md:text-xs text-muted-foreground">Google Search</p>
+          </div>
+
+          {/* Trend Indicator */}
+          <div className="flex-shrink-0">
+            {item.trend === "up" && (
+              <div className="flex items-center gap-1 text-green-500">
+                <ArrowRight className="w-3 h-3 md:w-4 md:h-4 -rotate-45" />
+                <span className="text-[10px] md:text-xs font-semibold">↑</span>
+              </div>
+            )}
+            {item.trend === "down" && (
+              <div className="flex items-center gap-1 text-red-500">
+                <ArrowRight className="w-3 h-3 md:w-4 md:h-4 rotate-45" />
+                <span className="text-[10px] md:text-xs font-semibold">↓</span>
+              </div>
+            )}
+            {item.trend === "stable" && (
+              <div className="flex items-center gap-1 text-muted-foreground">
+                <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
+                <span className="text-[10px] md:text-xs font-semibold">→</span>
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 interface SEOFeature {
