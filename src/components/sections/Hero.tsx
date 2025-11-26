@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useParallaxHero } from '@/hooks/useParallaxHero';
 import { CardSlider } from '@/components/ui/CardSlider';
+import { RotatingServices } from '@/components/ui/text-shuffle/RotatingServices';
 export const Hero = () => {
   const navigate = useNavigate();
   useParallaxHero();
@@ -34,7 +35,7 @@ export const Hero = () => {
             </h1>
             
             <p className="relume-hero-subheading">
-              Choose from hundreds of professional website designs—completely free. We'll handle the setup while you focus on growing your business. Premium services like content creation, PR, and social media management available when you need them.
+              Choose from hundreds of professional website designs—completely free. We'll handle the setup while you focus on growing your business. Premium services like <RotatingServices /> available when you need them.
             </p>
 
             <Button size="lg" onClick={() => navigate('/marketplace')} className="mt-8 bg-primary hover:bg-primary/90 text-primary-foreground text-lg px-10 py-7 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-semibold">
