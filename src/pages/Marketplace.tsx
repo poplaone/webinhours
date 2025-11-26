@@ -301,9 +301,9 @@ const Marketplace: React.FC = () => {
   return (
     <AppLayout className="bg-home-glow">
       <SEOHead 
-        title="Website Template Marketplace - Choose Your Perfect Design"
-        description="Browse our collection of professional website templates. E-commerce, business, portfolio designs ready in 24 hours. All templates include hosting, SSL, and mobile optimization."
-        keywords="website templates, web design marketplace, professional websites, e-commerce templates, business websites"
+        title="Free Website Marketplace - Browse 500+ Professional Designs"
+        description="Choose from 500+ professional website designs absolutely free. Find the perfect template for your business. Premium services like content creation, PR, and social media management available."
+        keywords="free website templates, professional website designs, free business website, website marketplace, choose website design, free web templates"
       />
       
       {/* Grid Background */}

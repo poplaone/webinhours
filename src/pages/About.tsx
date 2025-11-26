@@ -9,9 +9,9 @@ export default function About() {
   return (
     <AppLayout>
       <SEOHead 
-        title="About Us - WebInHours | Professional Websites in 24 Hours"
-        description="Learn about WebInHours, the leading platform for rapid professional web development. 500+ successful projects, 4.9/5 customer rating. Quality websites delivered in hours, not weeks."
-        keywords="about webinhours, web development company, professional website services, rapid web development, website marketplace"
+        title="About Us - WebInHours | Free Website Designs + Premium Services"
+        description="Offering 500+ professional website designs absolutely free. Premium services like content creation, PR, and social media management available when you need them. Your online presence, simplified."
+        keywords="free website platform, professional web design, content creation services, PR services, social media management, website hosting"
       />
       <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
@@ -19,11 +19,11 @@ export default function About() {
         <div className="text-center mb-16">
           <Badge variant="secondary" className="mb-4">About WebInHours</Badge>
           <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-            Professional Websites<br />Delivered in Hours
+            Your Free Website,<br />Your Way
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            We revolutionize web development by delivering high-quality, professional websites in hours, not weeks. 
-            Our mission is to make professional web presence accessible to everyone.
+            We believe everyone deserves a professional online presence. Choose from 500+ free website designs. 
+            Enhance with premium services like content creation, PR, and social media management when you're ready to scale.
           </p>
         </div>
 

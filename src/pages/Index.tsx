@@ -17,9 +17,9 @@ const Index = () => {
   return (
     <AppLayout>
       <SEOHead 
-        title="WebInHours - Professional Websites Delivered in 24 Hours" 
-        description="Get professional, mobile-responsive websites built in 24 hours, not weeks. Custom development, e-commerce, SEO optimization. 500+ successful projects. Money-back guarantee." 
-        keywords="website development, 24 hour website, fast web design, professional websites, custom development, e-commerce, mobile responsive, SEO optimization" 
+        title="WebInHours - Choose Your Free Website Design Today" 
+        description="Select from 500+ professional website designs absolutely free. We handle setup and hosting. Premium services like content creation, PR, and social media management available when you need them." 
+        keywords="free website design, professional website templates, free business website, website setup service, content creation, PR services, social media management, website hosting, online presence" 
       />
       
       {/* Background layers - Grid pattern */}
@@ -46,13 +46,13 @@ const Index = () => {
           <section className="py-6 md:py-20 px-4 relative overflow-hidden">
             <div className="container mx-auto relative z-10">
               <div className="max-w-4xl mx-auto text-center mb-8">
-                <h2 className="text-4xl font-bold mb-4">Ready to Transform Your Online Presence?</h2>
-                <p className="text-xl text-muted-foreground mb-8">Join 500+ successful businesses who chose speed over waiting</p>
+                <h2 className="text-4xl font-bold mb-4">Start Your Free Website Today</h2>
+                <p className="text-xl text-muted-foreground mb-8">Choose from 500+ professional designs. Add premium services when you're ready to grow.</p>
               </div>
               <Suspense fallback={<div className="h-32 bg-card/20 animate-pulse rounded-lg max-w-4xl mx-auto" />}>
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-r from-[#8B5CF6]/10 to-purple-500/10 rounded-2xl blur-xl"></div>
-                  <LeadCaptureForm variant="inline" incentive="Free Website Audit + $200 Bonus Package" className="max-w-4xl mx-auto relative z-10" />
+                  <LeadCaptureForm variant="inline" incentive="Get Your FREE Website + Premium Service Consultation" className="max-w-4xl mx-auto relative z-10" />
                 </div>
               </Suspense>
             </div>

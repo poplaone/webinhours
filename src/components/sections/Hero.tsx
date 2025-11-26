@@ -26,19 +26,19 @@ export const Hero = () => {
           {/* CENTER CONTENT */}
           <div className="relume-hero-center">
             <div className="relume-hero-badge">
-              <span className="relume-badge-gradient">500+</span> Professional Templates Available
+              <span className="relume-badge-gradient">500+</span> Free Website Designs
             </div>
             
             <h1 className="relume-hero-heading text-center text-3xl">
-              Websites designed & built faster with AI
+              Build Your Online Presence in Hours, Not Weeks
             </h1>
             
             <p className="relume-hero-subheading">
-              Use AI as your design ally, not a replacement. Instantly generate Sitemaps, Wireframes and Style Guides for marketing websites—all in minutes
+              Choose from hundreds of professional website designs—completely free. We'll handle the setup while you focus on growing your business. Premium services like content creation, PR, and social media management available when you need them.
             </p>
 
             <Button size="lg" onClick={() => navigate('/marketplace')} className="mt-8 bg-primary hover:bg-primary/90 text-primary-foreground text-lg px-10 py-7 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-semibold">
-              <span>Browse FREE Templates</span>
+              <span>Choose Your Free Website</span>
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>

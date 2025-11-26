@@ -60,9 +60,9 @@ export default function Contact() {
   return (
     <AppLayout>
       <SEOHead 
-        title="Contact Us - WebInHours | Get Your Website in 24 Hours"
-        description="Contact our expert team for custom website development. Get professional websites built in 24 hours with hosting, SSL, and mobile optimization included."
-        keywords="contact web development, website support, custom web design, professional websites"
+        title="Contact Us - WebInHours | Free Website Selection Support"
+        description="Get help choosing your free professional website design. Questions about premium services like content creation, PR, or social media management? We're here to help."
+        keywords="free website support, website design help, premium service inquiries, contact website team"
       />
       
       <div className="pt-24 pb-20 px-4">
@@ -71,11 +71,10 @@ export default function Contact() {
           <div className="text-center mb-16">
             <Badge variant="secondary" className="mb-4">Get In Touch</Badge>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              Contact Our<br />Expert Team
+              Let's Build Your<br />Online Presence
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Ready to get your website built in hours? Have questions about our services? 
-              We're here to help you every step of the way.
+              Ready to choose your free website? Have questions about premium services like content creation, PR, or social media management? We're here to guide you.
             </p>
           </div>
 

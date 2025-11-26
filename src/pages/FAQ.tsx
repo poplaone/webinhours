@@ -82,9 +82,9 @@ export default function FAQ() {
   return (
     <AppLayout>
       <SEOHead 
-        title="FAQ - WebInHours | Frequently Asked Questions"
-        description="Find answers to the most common questions about WebInHours, our services, and how we can help you get your website up and running quickly."
-        keywords="FAQ, frequently asked questions, website development, support"
+        title="FAQ - WebInHours | Free Websites & Premium Services Questions"
+        description="Answers to common questions about our free website designs, premium services like content creation and PR, setup process, and pricing. Get started with confidence."
+        keywords="free website FAQ, website design questions, premium services questions, content creation help, website setup support"
       />
       
       <div className="pt-24 pb-20 px-4">
