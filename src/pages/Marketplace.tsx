@@ -126,13 +126,6 @@ const Marketplace: React.FC = () => {
 
 
 
-  // Debug logging
-  console.log('Marketplace data:', {
-    websites: allMarketplaceWebsites.length,
-    aiAgents: allMarketplaceAIAgents.length,
-    websitesError,
-    aiAgentsError
-  });
 
   const isLoading = activeTab === 'websites' ? isLoadingWebsites : isLoadingAIAgents;
 
@@ -436,8 +429,8 @@ const Marketplace: React.FC = () => {
                           <AIAgentInfographicCard 
                             key={agent.id}
                             agent={agent as any}
-                            onUse={(agent) => console.log('Use agent:', agent)}
-                            onView={(agent) => console.log('View agent:', agent)}
+                            onUse={() => {}}
+                            onView={() => {}}
                           />
                         ))
                       )}
@@ -473,8 +466,8 @@ const Marketplace: React.FC = () => {
                             <AIAgentInfographicCard 
                               key={agent.id}
                               agent={agent as any}
-                              onUse={(agent) => console.log('Use agent:', agent)}
-                              onView={(agent) => console.log('View agent:', agent)}
+                              onUse={() => {}}
+                              onView={() => {}}
                             />
                           ))
                         )}

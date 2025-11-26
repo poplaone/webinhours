@@ -167,14 +167,7 @@ export const measurePerformance = <T extends (...args: any[]) => any>(
   name: string
 ): T => {
   return ((...args: Parameters<T>): ReturnType<T> => {
-    const start = performance.now();
     const result = fn(...args);
-    const end = performance.now();
-    
-    if (process.env.NODE_ENV === 'development') {
-      console.log(`${name} took ${(end - start).toFixed(2)}ms`);
-    }
-    
     return result;
   }) as T;
 };

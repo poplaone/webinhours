@@ -105,8 +105,8 @@ export const FastMarketplace: React.FC<FastMarketplaceProps> = ({
       }>
         <AIAgentInfographicCard
           agent={agent}
-          onUse={(agent) => console.log('Use agent:', agent)}
-          onView={(agent) => console.log('View agent:', agent)}
+          onUse={() => {}}
+          onView={() => {}}
         />
       </Suspense>
     </motion.div>

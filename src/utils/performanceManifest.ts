@@ -58,5 +58,5 @@ export const performanceMetrics = {
  * Log performance metrics in development
  */
 if (import.meta.env.DEV) {
-  console.log('Performance targets:', performanceMetrics);
+  // Performance targets logged in development
 }
