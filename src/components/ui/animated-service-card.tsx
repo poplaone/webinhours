@@ -72,7 +72,8 @@ export function AnimatedServiceCard({ service, index, className, ...props }: Ani
 
           {/* Image Section */}
           <div className={cn(
-            'relative bg-gradient-to-br from-muted/50 to-muted/30 rounded-2xl lg:rounded-3xl overflow-hidden p-6 lg:p-8 order-1 lg:order-2 min-h-[280px] sm:min-h-[400px] lg:min-h-[500px]',
+            'relative order-1 lg:order-2 min-h-[280px] sm:min-h-[400px] lg:min-h-[500px]',
+            !service.beforeAfterSlider && !service.image && 'bg-gradient-to-br from-muted/50 to-muted/30 rounded-2xl lg:rounded-3xl overflow-hidden p-6 lg:p-8',
             isImageLeft && 'lg:order-1'
           )}>
             <div className="w-full h-full flex items-center justify-center">

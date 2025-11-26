@@ -28,7 +28,7 @@ export function FeatureWithImageComparison({
     } else if ("clientX" in e) {
       x = e.clientX - rect.left;
     }
-    
+
     const percentage = (x / rect.width) * 100;
     setInset(Math.max(0, Math.min(100, percentage)));
   };
@@ -67,7 +67,7 @@ export function FeatureWithImageComparison({
         <img
           src={afterImage}
           alt={afterAlt}
-          className="absolute left-0 top-0 z-10 w-full h-full object-cover rounded-3xl select-none border border-border/50"
+          className="absolute left-0 top-0 z-10 w-full h-full object-cover rounded-3xl select-none"
           style={{
             clipPath: "inset(0 0 0 " + inset + "%)",
           }}
@@ -75,7 +75,7 @@ export function FeatureWithImageComparison({
         <img
           src={beforeImage}
           alt={beforeAlt}
-          className="absolute left-0 top-0 w-full h-full object-cover rounded-3xl select-none border border-border/50"
+          className="absolute left-0 top-0 w-full h-full object-cover rounded-3xl select-none"
         />
       </div>
     </div>
