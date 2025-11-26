@@ -34,7 +34,6 @@ export const useAdminAIAgents = () => {
   const { data: userAIAgents = [], isLoading: userLoading, refetch: refetchUserAIAgents } = useUserAIAgents();
 
   const handleAIAgentUpdate = async (agentId: string, updates: any) => {
-    console.log('handleAIAgentUpdate called with:', agentId, updates);
     try {
       await updateAIAgent.mutateAsync({
         id: agentId,
@@ -50,7 +49,6 @@ export const useAdminAIAgents = () => {
       refetchAllAIAgents();
       refetchUserAIAgents();
     } catch (error) {
-      console.error('Error in handleAIAgentUpdate:', error);
       toast({
         title: "Error",
         description: error instanceof Error ? error.message : "Failed to update AI agent",
@@ -60,7 +58,6 @@ export const useAdminAIAgents = () => {
   };
 
   const handleQuickAction = async (agentId: string, action: string) => {
-    console.log('handleQuickAction called with:', agentId, action);
     const updates: any = { status: action };
     
     if (action === 'approved') {
@@ -87,9 +84,8 @@ export const useAdminAIAgents = () => {
         // Refresh data after delete
         refetchAllAIAgents();
         refetchUserAIAgents();
-      } catch (error) {
-        console.error('Error in handleDelete:', error);
-        toast({
+    } catch (error) {
+      toast({
           title: "Error",
           description: error instanceof Error ? error.message : "Failed to delete AI agent",
           variant: "destructive",
@@ -99,7 +95,6 @@ export const useAdminAIAgents = () => {
   };
 
   const handleEditAIAgent = (agent: AIAgent) => {
-    console.log('handleEditAIAgent called with:', agent);
     setEditingAgent(agent);
     setShowEditDialog(true);
   };

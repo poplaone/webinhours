@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
+import SEOHead from '@/components/seo/SEOHead';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { useWebsiteById } from '@/hooks/queries/useWebsiteByIdQuery';
@@ -143,8 +144,15 @@ const SiteDetails = () => {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-background to-background/80 relative">
-      <div className="container mx-auto p-6 pb-20">
+    <>
+      <SEOHead 
+        title={`${site.title} - Website Template | WebInHours`}
+        description={site.description || `Professional ${site.category} website template. ${site.features?.slice(0, 3).join(', ')}. Ready in 24 hours.`}
+        keywords={`${site.category} template, ${site.tags?.join(', ')}, website template`}
+        ogImage={site.thumbnail_url}
+      />
+      <main className="min-h-screen bg-gradient-to-br from-background to-background/80 relative">
+        <div className="container mx-auto p-6 pb-20">
         {/* Header - Only show on desktop */}
         {!isMobile && (
           <div className="flex items-center gap-4 mb-6">
@@ -328,8 +336,9 @@ const SiteDetails = () => {
             </div>
           </div>
         )}
-      </div>
-    </main>
+        </div>
+      </main>
+    </>
   );
 };
 

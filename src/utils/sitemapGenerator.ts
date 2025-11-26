@@ -84,10 +84,9 @@ ${urlElements}
 </urlset>`;
 };
 
-// Function to log sitemap for now (in real app would generate actual sitemap file)
-export const logSitemap = () => {
+// Function to generate sitemap (XML is now in public/sitemap.xml)
+export const generateSitemap = () => {
   const urls = generateSitemapUrls();
   const sitemapXML = generateSitemapXML(urls);
-  console.log('Generated Sitemap XML:', sitemapXML);
   return sitemapXML;
 };

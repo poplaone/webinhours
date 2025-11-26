@@ -1,7 +1,7 @@
-
 import React from 'react';
 import { Header } from '@/components/sections/Header';
 import MobileBottomNav from '@/components/layout/MobileBottomNav';
+import { CookieConsent } from '@/components/ui/cookie-consent';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -17,6 +17,7 @@ const AppLayout = ({ children, showHeader = true, className = "" }: AppLayoutPro
         {children}
       </main>
       <MobileBottomNav />
+      <CookieConsent />
     </div>
   );
 };

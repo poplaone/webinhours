@@ -46,21 +46,7 @@ export const optimizeImages = () => {
 export const measureWebVitals = () => {
   // Simple performance monitoring without external dependencies
   if (typeof window !== 'undefined' && 'performance' in window) {
-    // Measure First Contentful Paint (only in development)
-    if (process.env.NODE_ENV === 'development' && 'getEntriesByType' in performance) {
-      const paintEntries = performance.getEntriesByType('paint');
-      paintEntries.forEach(entry => {
-        console.log(`${entry.name}: ${entry.startTime}ms`);
-      });
-    }
-    
-    // Measure page load time (only in development)
-    if (process.env.NODE_ENV === 'development') {
-      window.addEventListener('load', () => {
-        const loadTime = performance.now();
-        console.log(`Page load time: ${loadTime}ms`);
-      });
-    }
+    // Performance monitoring is active
   }
 };
 
@@ -70,19 +56,10 @@ export const enableServiceWorker = () => {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/sw.js')
         .then(registration => {
-          if (process.env.NODE_ENV === 'development') {
-            console.log('SW registered with scope:', registration.scope);
-          }
-          
           // Check for updates periodically
           setInterval(() => {
             registration.update();
           }, 60 * 60 * 1000); // Check every hour
-        })
-        .catch(registrationError => {
-          if (process.env.NODE_ENV === 'development') {
-            console.log('SW registration failed:', registrationError);
-          }
         });
     });
   }

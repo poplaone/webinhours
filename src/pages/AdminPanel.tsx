@@ -1,5 +1,5 @@
-
 import React from 'react';
+import SEOHead from '@/components/seo/SEOHead';
 import { AdminPanelHeader } from '@/components/admin/AdminPanelHeader';
 import { AdminPanelTabs } from '@/components/admin/AdminPanelTabs';
 import { AdminPanelModals } from '@/components/admin/AdminPanelModals';
@@ -66,8 +66,14 @@ const AdminPanel = () => {
   }, [showUploadDialog, showEditDialog, refetchAllWebsites, refetchUserWebsites]);
 
   return (
-    <main className="container mx-auto py-8 px-4 max-w-7xl">
-      <AdminPanelHeader
+    <>
+      <SEOHead 
+        title="Admin Panel - WebInHours"
+        description="Admin dashboard for managing websites and templates"
+        noIndex={true}
+      />
+      <main className="container mx-auto py-8 px-4 max-w-7xl">
+        <AdminPanelHeader
         isAdmin={isAdmin}
         showUploadDialog={showUploadDialog}
         setShowUploadDialog={setShowUploadDialog}
@@ -106,7 +112,8 @@ const AdminPanel = () => {
         setEditingWebsite={setEditingWebsite}
         handleWebsiteUpdate={handleWebsiteUpdate}
       />
-    </main>
+      </main>
+    </>
   );
 };
 

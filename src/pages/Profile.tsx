@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from '@/hooks/useAuth';
@@ -6,6 +5,7 @@ import { useProfile, useUpdateProfile } from '@/hooks/useProfiles';
 import { useUserWebsites } from '@/hooks/useWebsiteQueries';
 import { useIsAdmin } from '@/hooks/useAdmin';
 import AppLayout from '@/components/layout/AppLayout';
+import SEOHead from '@/components/seo/SEOHead';
 import { ProfileHeader } from '@/components/profile/ProfileHeader';
 import { ProfileEditForm } from '@/components/profile/ProfileEditForm';
 import { ProfileStats } from '@/components/profile/ProfileStats';
@@ -58,6 +58,11 @@ const Profile = () => {
 
   return (
     <AppLayout>
+      <SEOHead 
+        title="My Profile - WebInHours"
+        description="Manage your WebInHours profile, view your purchases and website templates"
+        noIndex={true}
+      />
       <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
           <ProfileHeader

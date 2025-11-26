@@ -17,8 +17,6 @@ export const useTrackPageLoad = (pageName: string) => {
           load_time: Math.round(loadTime)
         });
       }
-
-      console.log(`[Performance] ${pageName} loaded in ${Math.round(loadTime)}ms`);
     };
   }, [pageName]);
 };
@@ -57,11 +55,6 @@ export const useOptimizeRender = (componentName: string) => {
 
     return () => {
       const endTime = performance.now();
-      const renderTime = endTime - startTime;
-
-      if (renderTime > 16) { // Log if render takes longer than 1 frame (16ms)
-        console.warn(`[Performance] ${componentName} took ${Math.round(renderTime)}ms to render`);
-      }
     };
   }, [componentName]);
 };

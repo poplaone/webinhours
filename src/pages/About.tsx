@@ -1,6 +1,6 @@
-
 import React from 'react';
 import AppLayout from '@/components/layout/AppLayout';
+import SEOHead from '@/components/seo/SEOHead';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Clock, Users, Star, Zap, Shield, Heart } from 'lucide-react';
@@ -8,6 +8,11 @@ import { Clock, Users, Star, Zap, Shield, Heart } from 'lucide-react';
 export default function About() {
   return (
     <AppLayout>
+      <SEOHead 
+        title="About Us - WebInHours | Professional Websites in 24 Hours"
+        description="Learn about WebInHours, the leading platform for rapid professional web development. 500+ successful projects, 4.9/5 customer rating. Quality websites delivered in hours, not weeks."
+        keywords="about webinhours, web development company, professional website services, rapid web development, website marketplace"
+      />
       <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
         {/* Hero Section */}
