@@ -218,9 +218,9 @@ const Calculator = () => {
   return (
     <AppLayout>
       <SEOHead 
-        title="Project Calculator - Get Instant Quote | WebInHours"
-        description="Calculate the cost of your website project instantly. Get transparent pricing for landing pages, business websites, e-commerce stores, and custom development."
-        keywords="website cost calculator, project quote, web development pricing, website price estimate"
+        title="Project Calculator - WebInHours | Free Website + Optional Premium Services"
+        description="Start with a free professional website. Calculate the cost of optional premium services like custom design, content creation, PR campaigns, and social media management."
+        keywords="free website calculator, premium service pricing, content creation cost, PR service quote, website customization pricing"
       />
       
       <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">

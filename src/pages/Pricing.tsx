@@ -80,9 +80,9 @@ export default function Pricing() {
   return (
     <AppLayout>
       <SEOHead 
-        title="Pricing - WebInHours | Transparent Website Development Pricing"
-        description="No hidden fees, no monthly subscriptions. Pay once and get a professional website that's yours forever."
-        keywords="website pricing, web development cost, template pricing"
+        title="Pricing - WebInHours | Free Websites + Premium Services"
+        description="Start with a free professional website design. Pay only for premium services like custom content creation, PR campaigns, and social media management. Transparent pricing, no hidden fees."
+        keywords="free website design, premium website services, content creation pricing, PR services cost, social media management pricing, website customization"
       />
       
       <div className="pt-24 pb-20 px-4">
@@ -91,11 +91,11 @@ export default function Pricing() {
         <div className="text-center mb-16">
           <Badge variant="secondary" className="mb-4">Transparent Pricing</Badge>
           <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-            Choose Your<br />Perfect Plan
+            Start Free,<br />Scale When Ready
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            No hidden fees, no monthly subscriptions. Pay once and get a professional website 
-            that's yours forever.
+            Choose from 500+ professional website designs at no cost. Pay only for premium services 
+            like content creation, PR, and social media management when you need them.
           </p>
         </div>
 

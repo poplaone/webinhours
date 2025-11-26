@@ -41,9 +41,9 @@ export default function HowItWorks() {
   return (
     <AppLayout>
       <SEOHead 
-        title="How It Works - WebInHours | From Idea to Website in Hours"
-        description="Our streamlined 4-step process makes getting a professional website faster and easier than ever before."
-        keywords="how it works, website development process, rapid web development"
+        title="How It Works - WebInHours | Free Website Selection to Premium Services"
+        description="Choose your free professional website design in minutes. Add premium services like content creation, PR, and social media management as your business grows."
+        keywords="free website setup, how to get free website, website selection process, premium website services, content creation services"
       />
       
       <div className="pt-24 pb-20 px-4">
@@ -52,10 +52,10 @@ export default function HowItWorks() {
         <div className="text-center mb-16">
           <Badge variant="secondary" className="mb-4">How It Works</Badge>
           <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-            From Idea to Website<br />in Just Hours
+            Your Free Website,<br />Ready in Hours
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Our streamlined 4-step process makes getting a professional website faster and easier than ever before.
+            Pick your favorite design from 500+ free professional templates. We handle the setup. Scale with premium services when you're ready.
           </p>
         </div>
 

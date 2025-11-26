@@ -18,9 +18,9 @@ export const MarketplaceHeader = ({
   return (
     <div className="bg-gradient-to-r from-primary/10 to-secondary/10 p-6 rounded-lg mb-6">
       <div className="text-center mb-6">
-        <h1 className="text-3xl font-bold mb-2">Website Template Marketplace</h1>
+        <h1 className="text-3xl font-bold mb-2">Choose Your Free Website Design</h1>
         <p className="text-muted-foreground">
-          Discover professional website templates and AI agents. Choose from our curated collection of premium designs.
+          Browse 500+ professional website designs—completely free. Find the perfect design for your business. Premium services available when you need them.
         </p>
       </div>
       
