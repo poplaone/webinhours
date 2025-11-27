@@ -43,12 +43,12 @@ export const Hero = () => {
               <div className="absolute -top-1.5 -left-1.5 w-3 h-3 bg-primary" />
               <div className="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-primary" />
 
-              <h1 className="text-center font-bold text-secondary-foreground leading-tight mb-8 text-4xl xl:text-5xl">
+              <h1 className="text-center font-bold text-secondary-foreground leading-tight mb-8 text-5xl xl:text-6xl">
                 Build Your Online Presence in Hours, Not Weeks
               </h1>
 
               <div className="text-center max-w-5xl mx-auto text-muted-foreground">
-                <p className="text-base xl:text-lg">
+                <p className="text-sm xl:text-base">
                   Choose from hundreds of professional{' '}
                   <button onClick={() => navigate('/marketplace')} className="underline decoration-2 underline-offset-4 hover:text-primary transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit">
                     website designs
