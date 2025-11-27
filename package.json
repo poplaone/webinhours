@@ -47,6 +47,7 @@
     "cmdk": "^1.0.0",
     "color-thief-browser": "^2.0.2",
     "date-fns": "^3.6.0",
+    "dicons": "^1.1.7",
     "dotted-map": "^2.2.3",
     "embla-carousel-react": "^8.3.0",
     "framer-motion": "^12.5.0",
