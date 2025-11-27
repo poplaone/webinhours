@@ -38,12 +38,12 @@ export const Hero = () => {
               </div>
             </div>
 
-            <div className="relative mx-auto max-w-full px-16 py-8 border border-primary/30 rounded-sm">
+            <div className="relative mx-auto max-w-full px-4 py-6 sm:px-8 xl:px-16 xl:py-8 border border-primary/30 rounded-sm">
               {/* Decorative Corner Squares */}
-              <div className="absolute -top-1.5 -left-1.5 w-3 h-3 bg-primary" />
-              <div className="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-primary" />
+              <div className="absolute -top-1.5 -left-1.5 w-2 h-2 sm:w-3 sm:h-3 bg-primary" />
+              <div className="absolute -bottom-1.5 -right-1.5 w-2 h-2 sm:w-3 sm:h-3 bg-primary" />
 
-              <h1 className="text-center font-bold text-secondary-foreground leading-tight mb-8 xl:text-6xl text-xl">We build your online presence in Hours, Not Weeks.</h1>
+              <h1 className="text-center font-bold text-secondary-foreground leading-tight mb-6 sm:mb-8 text-5xl xl:text-6xl">We build your online presence in Hours, Not Weeks.</h1>
 
               <div className="text-center max-w-5xl mx-auto text-muted-foreground">
                 <p className="text-sm xl:text-base">
@@ -65,9 +65,9 @@ export const Hero = () => {
               </div>
             </div>
 
-            <Button size="lg" onClick={() => navigate('/marketplace')} className="mt-8 bg-primary hover:bg-primary/90 text-primary-foreground text-lg px-10 py-7 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-semibold">
+            <Button size="lg" onClick={() => navigate('/marketplace')} className="mt-6 sm:mt-8 bg-primary hover:bg-primary/90 text-primary-foreground text-base sm:text-lg px-6 py-5 sm:px-10 sm:py-7 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-semibold">
               <span>Choose Your Free Website</span>
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
             </Button>
           </div>
 
