@@ -1,43 +1,22 @@
 import { useEffect, useRef } from 'react';
 
-interface CursorConfig {
-  id: string;
-  image: string;
-  speed: number;
-  roamDuration: number;
-}
-
 export const useFloatingCursors = () => {
   const cursorsRef = useRef<Map<string, HTMLElement>>(new Map());
   const animationFrameRef = useRef<number>();
-  const startTimeRef = useRef<number>(Date.now());
 
   useEffect(() => {
-    const cursors: CursorConfig[] = [
-      { id: 'jessica', image: '/assets/cursor-jessica.png', speed: 0.015, roamDuration: 12000 },
-      { id: 'mario', image: '/assets/cursor-mario.png', speed: 0.012, roamDuration: 15000 }
+    const cursors = [
+      { id: 'jessica', image: '/assets/cursor-jessica.png', width: '82.5px' },
+      { id: 'mario', image: '/assets/cursor-mario.png', width: '69.5px' }
     ];
 
-    const cursorStates = new Map<string, {
-      x: number;
-      y: number;
-      targetX: number;
-      targetY: number;
-      velocityX: number;
-      velocityY: number;
-      isRoaming: boolean;
-      lastTargetChange: number;
-      targetLink: HTMLElement | null;
-      pauseUntil: number;
-    }>();
-
     // Create cursor elements
-    cursors.forEach(({ id, image }) => {
+    cursors.forEach(({ id, image, width }) => {
       const cursor = document.createElement('div');
       cursor.id = `floating-cursor-${id}`;
       cursor.style.cssText = `
         position: absolute;
-        width: ${id === 'jessica' ? '82.5px' : '69.5px'};
+        width: ${width};
         height: auto;
         pointer-events: none;
         z-index: 100;
@@ -53,125 +32,62 @@ export const useFloatingCursors = () => {
       if (heroSection) {
         heroSection.appendChild(cursor);
         cursorsRef.current.set(id, cursor);
-        
-        // Initialize starting position in center-ish area
-        const rect = heroSection.getBoundingClientRect();
-        const startX = rect.width * (0.3 + Math.random() * 0.4);
-        const startY = rect.height * (0.3 + Math.random() * 0.4);
-        
-        cursorStates.set(id, {
-          x: startX,
-          y: startY,
-          targetX: startX,
-          targetY: startY,
-          velocityX: 0,
-          velocityY: 0,
-          isRoaming: true,
-          lastTargetChange: Date.now(),
-          targetLink: null,
-          pauseUntil: 0
-        });
       }
     });
 
-    // Get all clickable links in hero
-    const getHeroLinks = () => {
-      const heroSection = document.querySelector('.relume-hero-section');
-      if (!heroSection) return [];
-      return Array.from(heroSection.querySelectorAll('button, a')) as HTMLElement[];
-    };
+    let startTime = Date.now();
 
-    const animate = () => {
+    const positionCursors = () => {
       const heroSection = document.querySelector('.relume-hero-section');
       if (!heroSection) return;
 
-      const rect = heroSection.getBoundingClientRect();
       const currentTime = Date.now();
-      const links = getHeroLinks();
+      const elapsed = (currentTime - startTime) / 1000; // in seconds
 
-      cursors.forEach(({ id, speed, roamDuration }) => {
-        const cursor = cursorsRef.current.get(id);
-        const state = cursorStates.get(id);
-        if (!cursor || !state) return;
-
-        // Check if paused
-        if (currentTime < state.pauseUntil) {
-          return;
-        }
-
-        const elapsedTime = currentTime - startTimeRef.current;
-
-        // Switch to link-seeking mode after roaming duration
-        if (elapsedTime > roamDuration && state.isRoaming && links.length > 0) {
-          state.isRoaming = false;
-          state.targetLink = links[Math.floor(Math.random() * links.length)];
-        }
-
-        // Update target based on mode
-        if (state.isRoaming) {
-          // Random roaming mode - change target less frequently for smoother motion
-          if (currentTime - state.lastTargetChange > 4000 + Math.random() * 3000) {
-            // Pick a new target within bounds with some margin
-            const margin = 100;
-            state.targetX = margin + Math.random() * (rect.width - margin * 2);
-            state.targetY = margin + Math.random() * (rect.height - margin * 2);
-            state.lastTargetChange = currentTime;
-          }
-        } else if (state.targetLink) {
-          // Link-seeking mode - move towards link slowly
-          const linkRect = state.targetLink.getBoundingClientRect();
-          const heroRect = heroSection.getBoundingClientRect();
-          state.targetX = linkRect.left - heroRect.left + linkRect.width / 2;
-          state.targetY = linkRect.top - heroRect.top + linkRect.height / 2;
-
-          // Check if reached the link
-          const dx = state.targetX - state.x;
-          const dy = state.targetY - state.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < 50) {
-            // Reached link, pause for a moment like a person would
-            state.pauseUntil = currentTime + 1500 + Math.random() * 1000;
-            
-            // Then pick a new target
-            if (Math.random() > 0.4 && links.length > 1) {
-              const otherLinks = links.filter(l => l !== state.targetLink);
-              state.targetLink = otherLinks[Math.floor(Math.random() * otherLinks.length)];
-            } else {
-              state.isRoaming = true;
-              state.targetLink = null;
-              state.lastTargetChange = currentTime;
-            }
-          }
-        }
-
-        // Calculate smooth movement with velocity for natural motion
-        const dx = state.targetX - state.x;
-        const dy = state.targetY - state.y;
+      // Position Jessica cursor near the "Choose Your Free Website" button
+      const jessicaCursor = cursorsRef.current.get('jessica');
+      const ctaButton = heroSection.querySelector('button[class*="bg-primary"]') as HTMLElement;
+      if (jessicaCursor && ctaButton) {
+        const buttonRect = ctaButton.getBoundingClientRect();
+        const heroRect = heroSection.getBoundingClientRect();
         
-        // Apply very gentle acceleration for smooth human-like movement
-        state.velocityX += dx * speed;
-        state.velocityY += dy * speed;
+        // Position to the left side of the button with subtle float animation
+        const baseX = buttonRect.left - heroRect.left - 100;
+        const baseY = buttonRect.top - heroRect.top + buttonRect.height / 2 - 40;
         
-        // Apply damping for smooth deceleration
-        state.velocityX *= 0.92;
-        state.velocityY *= 0.92;
+        // Add subtle floating animation
+        const floatX = Math.sin(elapsed * 0.8) * 8;
+        const floatY = Math.cos(elapsed * 0.6) * 10;
         
-        // Update position
-        state.x += state.velocityX;
-        state.y += state.velocityY;
+        jessicaCursor.style.transform = `translate3d(${baseX + floatX}px, ${baseY + floatY}px, 0)`;
+      }
 
-        // Keep within bounds
-        state.x = Math.max(20, Math.min(rect.width - 100, state.x));
-        state.y = Math.max(20, Math.min(rect.height - 100, state.y));
+      // Position Mario cursor near the typewriter text at top
+      const marioCursor = cursorsRef.current.get('mario');
+      const typewriterSection = heroSection.querySelector('.group.rounded-full') as HTMLElement;
+      if (marioCursor && typewriterSection) {
+        const typeRect = typewriterSection.getBoundingClientRect();
+        const heroRect = heroSection.getBoundingClientRect();
+        
+        // Position to the right side of the typewriter with subtle float animation
+        const baseX = typeRect.right - heroRect.left + 20;
+        const baseY = typeRect.top - heroRect.top + typeRect.height / 2 - 30;
+        
+        // Add subtle floating animation (different phase from Jessica)
+        const floatX = Math.sin(elapsed * 0.7 + 1) * 10;
+        const floatY = Math.cos(elapsed * 0.5 + 1) * 8;
+        
+        marioCursor.style.transform = `translate3d(${baseX + floatX}px, ${baseY + floatY}px, 0)`;
+      }
+    };
 
-        // Apply position with smooth transform
-        cursor.style.transform = `translate3d(${state.x}px, ${state.y}px, 0)`;
-      });
-
+    const animate = () => {
+      positionCursors();
       animationFrameRef.current = requestAnimationFrame(animate);
     };
 
+    // Initial positioning after a short delay to ensure DOM is ready
+    setTimeout(positionCursors, 100);
     animationFrameRef.current = requestAnimationFrame(animate);
 
     return () => {
