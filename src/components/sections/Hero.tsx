@@ -39,7 +39,7 @@ export const Hero = () => {
                 Choose from hundreds of professional website designs—completely free. We'll handle the setup while you focus on growing your business.
               </p>
               <p className="mt-3 min-h-[40px]">
-                We also offer premium services like <RotatingServices /> when you need them.
+                Need help with <RotatingServices />? We've got you covered.
               </p>
             </div>
 
