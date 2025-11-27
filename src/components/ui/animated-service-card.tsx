@@ -38,7 +38,22 @@ export function AnimatedServiceCard({
     return <div className={cn('py-16 lg:py-24', className)} {...props}>
         <div className={cn('grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8 lg:gap-12 xl:gap-16 items-center', isImageLeft && 'lg:grid-cols-[1.2fr_1fr]')}>
           {/* Content Section */}
-          
+          <div className={cn('space-y-6 order-2 lg:order-1', isImageLeft && 'lg:order-2')}>
+            {/* Tagline Badge */}
+            {service.tagline && <div className="inline-block">
+                
+              </div>}
+
+            {/* Title */}
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.15] tracking-tight text-foreground">
+              {service.title}
+            </h2>
+
+            {/* Description */}
+            <p className="text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl">
+              {service.description}
+            </p>
+          </div>
 
           {/* Image Section */}
           <div className={cn('relative order-1 lg:order-2 min-h-[280px] sm:min-h-[400px] lg:min-h-[500px]', !service.beforeAfterSlider && !service.image && 'bg-gradient-to-br from-muted/50 to-muted/30 rounded-2xl lg:rounded-3xl overflow-hidden p-6 lg:p-8', isImageLeft && 'lg:order-1')}>
