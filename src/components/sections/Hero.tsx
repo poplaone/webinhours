@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useParallaxHero } from '@/hooks/useParallaxHero';
+import { useFloatingCursors } from '@/hooks/useFloatingCursors';
 import { CardSlider } from '@/components/ui/CardSlider';
 import { RotatingServices } from '@/components/ui/text-shuffle/RotatingServices';
 import { AnimatedShinyText } from '@/components/ui/animated-shiny-text';
@@ -10,6 +11,7 @@ import { cn } from '@/lib/utils';
 export const Hero = () => {
   const navigate = useNavigate();
   useParallaxHero();
+  useFloatingCursors();
   return <section className="relume-hero-section">
       <div className="relume-hero-container">
         <div className="relume-hero-grid">
@@ -19,12 +21,6 @@ export const Hero = () => {
             <img src="/assets/card-1.png" alt="Design preview" className="relume-hero-image parallax-image" data-depth="0.15" />
             <img src="/assets/card-2.png" alt="Mobile designs" className="relume-hero-image is-offset-left parallax-image" data-depth="0.25" />
             <img src="/assets/card-3.png" alt="Agency website" className="relume-hero-image parallax-image" data-depth="0.2" />
-            <img src="/assets/cursor-jessica.png" alt="" className="relume-hero-cursor parallax-cursor" style={{
-            position: 'absolute',
-            width: '82.5px',
-            top: '20px',
-            left: '200px'
-          }} data-depth="0.4" />
           </div>
 
           {/* CENTER CONTENT */}
@@ -78,12 +74,6 @@ export const Hero = () => {
             <img src="/assets/card-4.png" alt="Travel website" className="relume-hero-image parallax-image" data-depth="0.18" />
             <img src="/assets/card-5.png" alt="Business website" className="relume-hero-image is-offset-right parallax-image" data-depth="0.22" />
             <img src="/assets/card-6.png" alt="Dashboard design" className="relume-hero-image parallax-image" data-depth="0.16" />
-            <img src="/assets/cursor-mario.png" alt="" className="relume-hero-cursor parallax-cursor" style={{
-            position: 'absolute',
-            width: '69.5px',
-            top: '10px',
-            right: '180px'
-          }} data-depth="0.35" />
           </div>
 
         </div>
