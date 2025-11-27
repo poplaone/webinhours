@@ -2,6 +2,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { Check } from 'lucide-react';
 import { FeatureWithImageComparison } from './feature-with-image-comparison';
+import { FeatureInfographicCards } from './feature-infographic-cards';
 type ServiceCardType = {
   title: string;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
@@ -49,10 +50,19 @@ export function AnimatedServiceCard({
               {service.title}
             </h2>
 
-            {/* Description */}
-            <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl">
-              {service.description}
-            </p>
+            {/* Description / Infographic Cards */}
+            {index === 0 ? (
+              <div className="space-y-4">
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
+                  Get a complete, professional website with everything you need to start your online presence - completely FREE forever.
+                </p>
+                <FeatureInfographicCards />
+              </div>
+            ) : (
+              <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl">
+                {service.description}
+              </p>
+            )}
           </div>
 
           {/* Image Section */}
