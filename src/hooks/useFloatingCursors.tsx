@@ -1,14 +1,13 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 export const useFloatingCursors = () => {
-  const cursorsRef = useRef<Map<string, HTMLElement>>(new Map());
-  const animationFrameRef = useRef<number>();
-
   useEffect(() => {
     const cursors = [
       { id: 'jessica', image: '/assets/cursor-jessica.png', width: '82.5px' },
       { id: 'mario', image: '/assets/cursor-mario.png', width: '69.5px' }
     ];
+
+    const cursorElements: HTMLElement[] = [];
 
     // Create cursor elements
     cursors.forEach(({ id, image, width }) => {
@@ -19,22 +18,23 @@ export const useFloatingCursors = () => {
         width: ${width};
         height: auto;
         pointer-events: none;
-        z-index: 100;
+        z-index: 150;
         background-image: url(${image});
         background-size: contain;
         background-repeat: no-repeat;
         aspect-ratio: 1;
-        transition: none;
         will-change: transform;
+        opacity: 1;
       `;
       
       const heroSection = document.querySelector('.relume-hero-section');
       if (heroSection) {
         heroSection.appendChild(cursor);
-        cursorsRef.current.set(id, cursor);
+        cursorElements.push(cursor);
       }
     });
 
+    let animationFrameId: number;
     let startTime = Date.now();
 
     const positionCursors = () => {
@@ -42,38 +42,50 @@ export const useFloatingCursors = () => {
       if (!heroSection) return;
 
       const currentTime = Date.now();
-      const elapsed = (currentTime - startTime) / 1000; // in seconds
+      const elapsed = (currentTime - startTime) / 1000;
 
-      // Position Jessica cursor near the "Choose Your Free Website" button
-      const jessicaCursor = cursorsRef.current.get('jessica');
-      const ctaButton = heroSection.querySelector('button[class*="bg-primary"]') as HTMLElement;
-      if (jessicaCursor && ctaButton) {
-        const buttonRect = ctaButton.getBoundingClientRect();
-        const heroRect = heroSection.getBoundingClientRect();
+      const heroRect = heroSection.getBoundingClientRect();
+
+      // Position Jessica cursor near the CTA button
+      const jessicaCursor = document.getElementById('floating-cursor-jessica');
+      const ctaButton = heroSection.querySelector('button.bg-primary') as HTMLElement;
+      
+      if (jessicaCursor) {
+        let baseX, baseY;
         
-        // Position to the left side of the button with subtle float animation
-        const baseX = buttonRect.left - heroRect.left - 100;
-        const baseY = buttonRect.top - heroRect.top + buttonRect.height / 2 - 40;
+        if (ctaButton) {
+          const buttonRect = ctaButton.getBoundingClientRect();
+          baseX = buttonRect.left - heroRect.left - 110;
+          baseY = buttonRect.top - heroRect.top + buttonRect.height / 2 - 35;
+        } else {
+          // Fallback position if button not found
+          baseX = heroRect.width / 2 - 150;
+          baseY = heroRect.height * 0.7;
+        }
         
-        // Add subtle floating animation
         const floatX = Math.sin(elapsed * 0.8) * 8;
         const floatY = Math.cos(elapsed * 0.6) * 10;
         
         jessicaCursor.style.transform = `translate3d(${baseX + floatX}px, ${baseY + floatY}px, 0)`;
       }
 
-      // Position Mario cursor near the typewriter text at top
-      const marioCursor = cursorsRef.current.get('mario');
-      const typewriterSection = heroSection.querySelector('.group.rounded-full') as HTMLElement;
-      if (marioCursor && typewriterSection) {
-        const typeRect = typewriterSection.getBoundingClientRect();
-        const heroRect = heroSection.getBoundingClientRect();
+      // Position Mario cursor near the typewriter section
+      const marioCursor = document.getElementById('floating-cursor-mario');
+      const animatedShinyText = heroSection.querySelector('.group.rounded-full') as HTMLElement;
+      
+      if (marioCursor) {
+        let baseX, baseY;
         
-        // Position to the right side of the typewriter with subtle float animation
-        const baseX = typeRect.right - heroRect.left + 20;
-        const baseY = typeRect.top - heroRect.top + typeRect.height / 2 - 30;
+        if (animatedShinyText) {
+          const textRect = animatedShinyText.getBoundingClientRect();
+          baseX = textRect.right - heroRect.left + 25;
+          baseY = textRect.top - heroRect.top + textRect.height / 2 - 30;
+        } else {
+          // Fallback position if text section not found
+          baseX = heroRect.width / 2 + 100;
+          baseY = 80;
+        }
         
-        // Add subtle floating animation (different phase from Jessica)
         const floatX = Math.sin(elapsed * 0.7 + 1) * 10;
         const floatY = Math.cos(elapsed * 0.5 + 1) * 8;
         
@@ -83,19 +95,21 @@ export const useFloatingCursors = () => {
 
     const animate = () => {
       positionCursors();
-      animationFrameRef.current = requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     };
 
-    // Initial positioning after a short delay to ensure DOM is ready
-    setTimeout(positionCursors, 100);
-    animationFrameRef.current = requestAnimationFrame(animate);
+    // Start animation after a delay to ensure DOM is ready
+    const timeoutId = setTimeout(() => {
+      positionCursors();
+      animationFrameId = requestAnimationFrame(animate);
+    }, 200);
 
     return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
+      clearTimeout(timeoutId);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
       }
-      cursorsRef.current.forEach(cursor => cursor.remove());
-      cursorsRef.current.clear();
+      cursorElements.forEach(cursor => cursor.remove());
     };
   }, []);
 };
