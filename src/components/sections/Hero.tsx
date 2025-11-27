@@ -38,8 +38,10 @@ export const Hero = () => {
               <p>
                 Choose from hundreds of professional website designs—completely free. We'll handle the setup while you focus on growing your business.
               </p>
-              <p className="mt-3 min-h-[40px]">
-                Need help with <RotatingServices />? We've got you covered.
+              <p className="mt-4 min-h-[48px] flex items-center justify-center">
+                <span className="mr-2">Need help with</span>
+                <RotatingServices />
+                <span className="ml-2">? We've got you covered.</span>
               </p>
             </div>
 
