@@ -350,8 +350,8 @@
   }
 
   .relume-hero-image {
-    width: 100%;
-    max-width: 100%;
+    width: 120%;
+    max-width: 120%;
     height: auto;
     aspect-ratio: 3 / 2;
     object-fit: cover;
