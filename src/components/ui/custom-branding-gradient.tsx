@@ -22,6 +22,7 @@ const defaultColorStops: ColorStop[] = [
 export function CustomBrandingGradient() {
   const [colorStops, setColorStops] = useState<ColorStop[]>(defaultColorStops);
   const [angle, setAngle] = useState(90);
+  const [radialSize, setRadialSize] = useState(100);
   const [noiseAmount, setNoiseAmount] = useState(0);
   const [applyNoise, setApplyNoise] = useState(false);
   const [isRadialGradient, setIsRadialGradient] = useState(false);
@@ -40,7 +41,7 @@ export function CustomBrandingGradient() {
 
   useEffect(() => {
     updateCanvas();
-  }, [colorStops, angle, noiseAmount, applyNoise, isRadialGradient]);
+  }, [colorStops, angle, radialSize, noiseAmount, applyNoise, isRadialGradient]);
 
   const updateCanvas = () => {
     const canvas = canvasRef.current;
@@ -53,13 +54,14 @@ export function CustomBrandingGradient() {
         if (!isRadialGradient) {
           gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
         } else {
+          const radius = (canvas.width / 2) * (radialSize / 100);
           gradient = ctx.createRadialGradient(
             canvas.width / 2,
             canvas.height / 2,
             0,
             canvas.width / 2,
             canvas.height / 2,
-            canvas.width / 2
+            radius
           );
         }
 
@@ -111,6 +113,7 @@ export function CustomBrandingGradient() {
   const resetSettings = () => {
     setColorStops(defaultColorStops);
     setAngle(90);
+    setRadialSize(100);
     setNoiseAmount(0);
     setApplyNoise(false);
     setIsRadialGradient(false);
@@ -186,7 +189,7 @@ export function CustomBrandingGradient() {
           )}
         </div>
 
-        {/* Gradient Type & Angle */}
+        {/* Gradient Type & Angle/Size */}
         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <div className="flex items-center gap-1.5">
             <Label className={!isRadialGradient ? "font-medium text-xs" : "text-xs text-muted-foreground"}>
@@ -201,7 +204,7 @@ export function CustomBrandingGradient() {
               Radial
             </Label>
           </div>
-          {!isRadialGradient && (
+          {!isRadialGradient ? (
             <div className="flex flex-1 min-w-[200px] items-center gap-2">
               <Label className="text-xs whitespace-nowrap" htmlFor="angle">
                 Angle
@@ -216,6 +219,23 @@ export function CustomBrandingGradient() {
               />
               <Label className="text-xs w-8 text-right" htmlFor="angle">
                 {angle}°
+              </Label>
+            </div>
+          ) : (
+            <div className="flex flex-1 min-w-[200px] items-center gap-2">
+              <Label className="text-xs whitespace-nowrap" htmlFor="radial-size">
+                Size
+              </Label>
+              <Slider
+                id="radial-size"
+                value={[radialSize]}
+                min={10}
+                max={200}
+                className="flex-1"
+                onValueChange={(value) => setRadialSize(Number(value))}
+              />
+              <Label className="text-xs w-8 text-right" htmlFor="radial-size">
+                {radialSize}%
               </Label>
             </div>
           )}
