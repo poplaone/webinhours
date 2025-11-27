@@ -35,10 +35,10 @@ export function AnimatedServiceCard({
   const isImageLeft = index === 1; // Middle card has image on left
 
   if (isLargeCard) {
-    return <div className={cn('py-16 lg:py-24', className)} {...props}>
-        <div className={cn('grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8 lg:gap-12 xl:gap-16 items-center', isImageLeft && 'lg:grid-cols-[1.2fr_1fr]')}>
+    return <div className={cn('py-8 sm:py-12 lg:py-24', className)} {...props}>
+        <div className={cn('grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-4 sm:gap-6 lg:gap-12 xl:gap-16 items-center', isImageLeft && 'lg:grid-cols-[1.2fr_1fr]')}>
           {/* Content Section */}
-          <div className={cn('space-y-6 order-2 lg:order-1', isImageLeft && 'lg:order-2')}>
+          <div className={cn('space-y-4 sm:space-y-6 order-2 lg:order-1', isImageLeft && 'lg:order-2')}>
             {/* Tagline Badge */}
             {service.tagline && <div className="inline-block">
                 
@@ -50,13 +50,13 @@ export function AnimatedServiceCard({
             </h2>
 
             {/* Description */}
-            <p className="text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl">
+            <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl">
               {service.description}
             </p>
           </div>
 
           {/* Image Section */}
-          <div className={cn('relative order-1 lg:order-2 min-h-[280px] sm:min-h-[400px] lg:min-h-[500px]', !service.beforeAfterSlider && !service.image && 'bg-gradient-to-br from-muted/50 to-muted/30 rounded-2xl lg:rounded-3xl overflow-hidden p-6 lg:p-8', isImageLeft && 'lg:order-1')}>
+          <div className={cn('relative order-1 lg:order-2 min-h-[350px] sm:min-h-[450px] lg:min-h-[500px]', !service.beforeAfterSlider && !service.image && 'bg-gradient-to-br from-muted/50 to-muted/30 rounded-2xl lg:rounded-3xl overflow-hidden p-6 lg:p-8', isImageLeft && 'lg:order-1')}>
             <div className="w-full h-full flex items-center justify-center">
               {service.beforeAfterSlider ? <FeatureWithImageComparison beforeImage={service.beforeAfterSlider.beforeImage} afterImage={service.beforeAfterSlider.afterImage} beforeAlt={`${service.title} - Before`} afterAlt={`${service.title} - After`} /> : service.image ? <img src={service.image} alt={service.title} className="w-full h-full object-contain max-w-2xl" /> : <service.icon className="w-full h-full max-w-md text-muted-foreground/15" strokeWidth={0.5} aria-hidden />}
             </div>
