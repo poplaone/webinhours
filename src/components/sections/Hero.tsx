@@ -43,9 +43,7 @@ export const Hero = () => {
               <div className="absolute -top-1.5 -left-1.5 w-3 h-3 bg-primary" />
               <div className="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-primary" />
 
-              <h1 className="text-center font-bold text-secondary-foreground leading-tight mb-8 text-5xl xl:text-6xl">
-                Build Your Online Presence in Hours, Not Weeks
-              </h1>
+              <h1 className="text-center font-bold text-secondary-foreground leading-tight mb-8 xl:text-6xl text-xl">We build your online presence in Hours, Not Weeks.</h1>
 
               <div className="text-center max-w-5xl mx-auto text-muted-foreground">
                 <p className="text-sm xl:text-base">
