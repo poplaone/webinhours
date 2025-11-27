@@ -5,6 +5,7 @@ import { useParallaxHero } from '@/hooks/useParallaxHero';
 import { CardSlider } from '@/components/ui/CardSlider';
 import { RotatingServices } from '@/components/ui/text-shuffle/RotatingServices';
 import { AnimatedShinyText } from '@/components/ui/animated-shiny-text';
+import { LogoMarquee } from '@/components/sections/LogoMarquee';
 import { cn } from '@/lib/utils';
 export const Hero = () => {
   const navigate = useNavigate();
@@ -90,6 +91,11 @@ export const Hero = () => {
         {/* Mobile Card Slider - shown only on mobile */}
         <div className="relume-hero-mobile-slider">
           <CardSlider />
+        </div>
+
+        {/* Logo Marquee - part of hero section */}
+        <div className="w-full mt-0 md:mt-8">
+          <LogoMarquee />
         </div>
       </div>
     </section>;
