@@ -50,12 +50,26 @@ export const Hero = () => {
                 Build Your Online Presence in Hours, Not Weeks
               </h1>
 
-              <div className="text-center max-w-4xl mx-auto space-y-3 text-muted-foreground">
+              <div className="text-center max-w-4xl mx-auto text-muted-foreground text-lg">
                 <p>
-                  Choose from hundreds of professional website designs—completely free. We'll handle the setup while you focus on growing your business.
-                </p>
-                <p>
-                  Need help with additional services? We've got you covered.
+                  Choose from hundreds of professional{' '}
+                  <button 
+                    onClick={() => navigate('/marketplace')} 
+                    className="underline decoration-2 underline-offset-4 hover:text-primary transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit"
+                  >
+                    website designs
+                  </button>
+                  —completely free. We'll handle the setup while you focus on growing your business. Need help with{' '}
+                  <button 
+                    onClick={() => {
+                      const servicesSection = document.getElementById('services');
+                      servicesSection?.scrollIntoView({ behavior: 'smooth' });
+                    }} 
+                    className="underline decoration-2 underline-offset-4 hover:text-primary transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit"
+                  >
+                    additional services
+                  </button>
+                  ? We've got you covered.
                 </p>
               </div>
             </div>
