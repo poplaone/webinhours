@@ -34,15 +34,13 @@ export const Hero = () => {
               Build Your Online Presence in Hours, Not Weeks
             </h1>
             
-            <p className="relume-hero-subheading">
-              Choose from hundreds of professional website designs—completely free. We'll handle the setup while you focus on growing your business.
-            </p>
-            
-            <div className="flex flex-col items-center gap-2 mt-4 min-h-[60px]">
-              <p className="text-muted-foreground text-sm">Premium services available:</p>
-              <div className="min-w-[280px] text-center">
-                <RotatingServices />
-              </div>
+            <div className="relume-hero-subheading">
+              <p>
+                Choose from hundreds of professional website designs—completely free. We'll handle the setup while you focus on growing your business.
+              </p>
+              <p className="mt-3 min-h-[40px]">
+                Premium services: <RotatingServices />
+              </p>
             </div>
 
             <Button size="lg" onClick={() => navigate('/marketplace')} className="mt-8 bg-primary hover:bg-primary/90 text-primary-foreground text-lg px-10 py-7 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-semibold">
