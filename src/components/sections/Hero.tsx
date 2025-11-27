@@ -33,17 +33,17 @@ export const Hero = () => {
               <div className="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-primary" />
 
               <h1 className="relume-hero-heading text-center text-3xl text-secondary-foreground">
-                Build Your Online Presence in Hours, Not Weeks
+                <div className="min-h-[72px] flex items-center justify-center">
+                  <RotatingServices />
+                </div>
               </h1>
 
               <div className="relume-hero-subheading">
                 <p>
                   Choose from hundreds of professional website designs—completely free. We'll handle the setup while you focus on growing your business.
                 </p>
-                <p className="mt-4 min-h-[48px] flex items-center justify-center">
-                  <span className="mr-2">Need help with</span>
-                  <RotatingServices />
-                  <span className="ml-2">? We've got you covered.</span>
+                <p className="mt-4">
+                  Need help with additional services? We've got you covered.
                 </p>
               </div>
             </div>
