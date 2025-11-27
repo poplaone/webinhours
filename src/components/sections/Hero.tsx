@@ -38,17 +38,17 @@ export const Hero = () => {
               </div>
             </div>
 
-            <div className="relative mx-auto max-w-6xl px-12 py-6 border border-primary/30 rounded-sm">
+            <div className="relative mx-auto max-w-full px-16 py-8 border border-primary/30 rounded-sm">
               {/* Decorative Corner Squares */}
               <div className="absolute -top-1.5 -left-1.5 w-3 h-3 bg-primary" />
               <div className="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-primary" />
 
-              <h1 className="text-center font-bold text-secondary-foreground leading-tight mb-6 text-2xl">
+              <h1 className="text-center font-bold text-secondary-foreground leading-tight mb-8 text-4xl xl:text-5xl">
                 Build Your Online Presence in Hours, Not Weeks
               </h1>
 
-              <div className="text-center max-w-4xl mx-auto text-muted-foreground text-lg">
-                <p className="text-sm">
+              <div className="text-center max-w-5xl mx-auto text-muted-foreground">
+                <p className="text-base xl:text-lg">
                   Choose from hundreds of professional{' '}
                   <button onClick={() => navigate('/marketplace')} className="underline decoration-2 underline-offset-4 hover:text-primary transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit">
                     website designs

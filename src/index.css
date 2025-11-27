@@ -336,7 +336,7 @@
   .relume-hero-grid {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
-    gap: 120px;
+    gap: 160px;
     align-items: center;
     position: relative;
   }
@@ -362,15 +362,15 @@
   }
 
   .relume-hero-image.is-offset-left {
-    left: -6rem;
+    left: -8rem;
   }
 
   .relume-hero-image.is-offset-right {
-    right: -6rem;
+    right: -8rem;
   }
 
   .relume-hero-center {
-    max-width: 720px;
+    max-width: 900px;
     text-align: center;
     z-index: 2;
     position: relative;
