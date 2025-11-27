@@ -14,8 +14,8 @@ export const useFloatingCursors = () => {
 
   useEffect(() => {
     const cursors: CursorConfig[] = [
-      { id: 'jessica', image: '/assets/cursor-jessica.png', speed: 0.3, roamDuration: 8000 },
-      { id: 'mario', image: '/assets/cursor-mario.png', speed: 0.25, roamDuration: 9000 }
+      { id: 'jessica', image: '/assets/cursor-jessica.png', speed: 0.015, roamDuration: 12000 },
+      { id: 'mario', image: '/assets/cursor-mario.png', speed: 0.012, roamDuration: 15000 }
     ];
 
     const cursorStates = new Map<string, {
@@ -23,10 +23,12 @@ export const useFloatingCursors = () => {
       y: number;
       targetX: number;
       targetY: number;
-      angle: number;
+      velocityX: number;
+      velocityY: number;
       isRoaming: boolean;
       lastTargetChange: number;
       targetLink: HTMLElement | null;
+      pauseUntil: number;
     }>();
 
     // Create cursor elements
@@ -44,6 +46,7 @@ export const useFloatingCursors = () => {
         background-repeat: no-repeat;
         aspect-ratio: 1;
         transition: none;
+        will-change: transform;
       `;
       
       const heroSection = document.querySelector('.relume-hero-section');
@@ -51,17 +54,22 @@ export const useFloatingCursors = () => {
         heroSection.appendChild(cursor);
         cursorsRef.current.set(id, cursor);
         
-        // Initialize random starting position
+        // Initialize starting position in center-ish area
         const rect = heroSection.getBoundingClientRect();
+        const startX = rect.width * (0.3 + Math.random() * 0.4);
+        const startY = rect.height * (0.3 + Math.random() * 0.4);
+        
         cursorStates.set(id, {
-          x: Math.random() * (rect.width - 100) + 50,
-          y: Math.random() * (rect.height - 100) + 50,
-          targetX: Math.random() * (rect.width - 100) + 50,
-          targetY: Math.random() * (rect.height - 100) + 50,
-          angle: Math.random() * Math.PI * 2,
+          x: startX,
+          y: startY,
+          targetX: startX,
+          targetY: startY,
+          velocityX: 0,
+          velocityY: 0,
           isRoaming: true,
           lastTargetChange: Date.now(),
-          targetLink: null
+          targetLink: null,
+          pauseUntil: 0
         });
       }
     });
@@ -86,25 +94,31 @@ export const useFloatingCursors = () => {
         const state = cursorStates.get(id);
         if (!cursor || !state) return;
 
+        // Check if paused
+        if (currentTime < state.pauseUntil) {
+          return;
+        }
+
         const elapsedTime = currentTime - startTimeRef.current;
 
         // Switch to link-seeking mode after roaming duration
         if (elapsedTime > roamDuration && state.isRoaming && links.length > 0) {
           state.isRoaming = false;
-          // Pick a random link
           state.targetLink = links[Math.floor(Math.random() * links.length)];
         }
 
         // Update target based on mode
         if (state.isRoaming) {
-          // Random roaming mode
-          if (currentTime - state.lastTargetChange > 2000 + Math.random() * 2000) {
-            state.targetX = Math.random() * (rect.width - 100) + 50;
-            state.targetY = Math.random() * (rect.height - 100) + 50;
+          // Random roaming mode - change target less frequently for smoother motion
+          if (currentTime - state.lastTargetChange > 4000 + Math.random() * 3000) {
+            // Pick a new target within bounds with some margin
+            const margin = 100;
+            state.targetX = margin + Math.random() * (rect.width - margin * 2);
+            state.targetY = margin + Math.random() * (rect.height - margin * 2);
             state.lastTargetChange = currentTime;
           }
         } else if (state.targetLink) {
-          // Link-seeking mode
+          // Link-seeking mode - move towards link slowly
           const linkRect = state.targetLink.getBoundingClientRect();
           const heroRect = heroSection.getBoundingClientRect();
           state.targetX = linkRect.left - heroRect.left + linkRect.width / 2;
@@ -115,9 +129,12 @@ export const useFloatingCursors = () => {
           const dy = state.targetY - state.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 30) {
-            // Reached link, pick a new one or go back to roaming
-            if (Math.random() > 0.5 && links.length > 1) {
+          if (distance < 50) {
+            // Reached link, pause for a moment like a person would
+            state.pauseUntil = currentTime + 1500 + Math.random() * 1000;
+            
+            // Then pick a new target
+            if (Math.random() > 0.4 && links.length > 1) {
               const otherLinks = links.filter(l => l !== state.targetLink);
               state.targetLink = otherLinks[Math.floor(Math.random() * otherLinks.length)];
             } else {
@@ -128,14 +145,27 @@ export const useFloatingCursors = () => {
           }
         }
 
-        // Move towards target with easing
+        // Calculate smooth movement with velocity for natural motion
         const dx = state.targetX - state.x;
         const dy = state.targetY - state.y;
         
-        state.x += dx * speed;
-        state.y += dy * speed;
+        // Apply very gentle acceleration for smooth human-like movement
+        state.velocityX += dx * speed;
+        state.velocityY += dy * speed;
+        
+        // Apply damping for smooth deceleration
+        state.velocityX *= 0.92;
+        state.velocityY *= 0.92;
+        
+        // Update position
+        state.x += state.velocityX;
+        state.y += state.velocityY;
 
-        // Apply position
+        // Keep within bounds
+        state.x = Math.max(20, Math.min(rect.width - 100, state.x));
+        state.y = Math.max(20, Math.min(rect.height - 100, state.y));
+
+        // Apply position with smooth transform
         cursor.style.transform = `translate3d(${state.x}px, ${state.y}px, 0)`;
       });
 
