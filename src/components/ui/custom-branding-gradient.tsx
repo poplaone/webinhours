@@ -117,9 +117,9 @@ export function CustomBrandingGradient() {
   };
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-3">
       {/* Gradient Preview */}
-      <div className="relative w-full aspect-video rounded-2xl lg:rounded-3xl overflow-hidden">
+      <div className="relative w-full aspect-[2/1] max-h-[200px] rounded-xl lg:rounded-2xl overflow-hidden">
         <div className="absolute inset-0" style={gradientStyle}></div>
         <canvas
           ref={displayCanvasRef}
@@ -130,20 +130,20 @@ export function CustomBrandingGradient() {
       </div>
 
       {/* Controls */}
-      <div className="space-y-3">
+      <div className="space-y-2">
         {/* Color Stops */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-1.5">
           {colorStops.map((stop, index) => (
-            <div key={index} className="flex items-center gap-2">
-              <div className="relative flex w-full max-w-[40px] items-center gap-3">
-                <label htmlFor={`color-${index}`} className="text-lg font-bold">
+            <div key={index} className="flex items-center gap-1.5">
+              <div className="relative flex items-center">
+                <label htmlFor={`color-${index}`}>
                   <div
-                    className="size-8 sm:size-10 cursor-pointer rounded-full border-2 border-border"
+                    className="size-7 cursor-pointer rounded-full border-2 border-border"
                     style={{ backgroundColor: stop.color }}
                   />
                 </label>
                 <Input
-                  className="absolute left-0 top-3 opacity-0"
+                  className="absolute left-0 top-0 opacity-0 cursor-pointer"
                   type="color"
                   id={`color-${index}`}
                   value={stop.color}
@@ -160,13 +160,13 @@ export function CustomBrandingGradient() {
                 onChange={(e) =>
                   updateColorStop(index, stop.color, Number(e.target.value))
                 }
-                className="w-14 sm:w-16 h-8 text-xs sm:text-sm"
+                className="w-12 h-7 text-xs px-2"
               />
               {colorStops.length > 2 && (
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-8 w-8"
+                  className="h-7 w-7"
                   onClick={() => removeColorStop(index)}
                 >
                   <DIcons.Minus className="h-3 w-3" />
@@ -178,7 +178,7 @@ export function CustomBrandingGradient() {
             <Button
               variant="outline"
               size="icon"
-              className="h-8 w-8"
+              className="h-7 w-7"
               onClick={addColorStop}
             >
               <DIcons.Plus className="h-3 w-3" />
@@ -187,9 +187,9 @@ export function CustomBrandingGradient() {
         </div>
 
         {/* Gradient Type & Angle */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-          <div className="flex items-center gap-2">
-            <Label className={!isRadialGradient ? "font-medium text-xs sm:text-sm" : "text-xs sm:text-sm"}>
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5">
+            <Label className={!isRadialGradient ? "font-medium text-xs" : "text-xs text-muted-foreground"}>
               Linear
             </Label>
             <Switch
@@ -197,13 +197,13 @@ export function CustomBrandingGradient() {
               checked={isRadialGradient}
               onCheckedChange={(checked) => setIsRadialGradient(checked)}
             />
-            <Label className={isRadialGradient ? "font-medium text-xs sm:text-sm" : "text-xs sm:text-sm"}>
+            <Label className={isRadialGradient ? "font-medium text-xs" : "text-xs text-muted-foreground"}>
               Radial
             </Label>
           </div>
           {!isRadialGradient && (
-            <div className="flex w-full items-center gap-2">
-              <Label className="w-auto text-xs sm:text-sm" htmlFor="angle">
+            <div className="flex flex-1 min-w-[200px] items-center gap-2">
+              <Label className="text-xs whitespace-nowrap" htmlFor="angle">
                 Angle
               </Label>
               <Slider
@@ -211,10 +211,10 @@ export function CustomBrandingGradient() {
                 value={[angle]}
                 min={0}
                 max={360}
-                className="w-full"
+                className="flex-1"
                 onValueChange={(value) => setAngle(Number(value))}
               />
-              <Label className="w-auto text-xs sm:text-sm" htmlFor="angle">
+              <Label className="text-xs w-8 text-right" htmlFor="angle">
                 {angle}°
               </Label>
             </div>
@@ -222,42 +222,42 @@ export function CustomBrandingGradient() {
         </div>
 
         {/* Noise Control */}
-        <div className="flex w-full items-center gap-2">
-          <Switch
-            id="apply-noise"
-            checked={applyNoise}
-            onCheckedChange={setApplyNoise}
-          />
-          <Label className="w-auto text-xs sm:text-sm" htmlFor="apply-noise">
-            Texture
-          </Label>
+        <div className="flex flex-wrap w-full items-center gap-2">
+          <div className="flex items-center gap-1.5">
+            <Switch
+              id="apply-noise"
+              checked={applyNoise}
+              onCheckedChange={setApplyNoise}
+            />
+            <Label className="text-xs whitespace-nowrap" htmlFor="apply-noise">
+              Texture
+            </Label>
+          </div>
           {applyNoise && (
-            <div className="flex w-full gap-2">
+            <div className="flex flex-1 min-w-[200px] items-center gap-2">
               <Slider
                 id="noise"
                 min={0}
                 max={200}
                 value={[noiseAmount]}
-                className="w-full"
+                className="flex-1"
                 onValueChange={(value) => setNoiseAmount(Number(value))}
               />
-              <Label className="w-auto text-xs sm:text-sm" htmlFor="noise">
+              <Label className="text-xs w-8 text-right" htmlFor="noise">
                 {noiseAmount}
               </Label>
             </div>
           )}
+          <Button
+            size="sm"
+            onClick={resetSettings}
+            variant="secondary"
+            className="h-7 px-3 ml-auto"
+          >
+            <DIcons.RotateCw className="h-3 w-3 mr-1.5" />
+            Reset
+          </Button>
         </div>
-
-        {/* Reset Button */}
-        <Button
-          size="sm"
-          onClick={resetSettings}
-          variant="secondary"
-          className="w-full sm:w-auto"
-        >
-          <DIcons.RotateCw className="h-3 w-3 mr-2" />
-          Reset
-        </Button>
       </div>
 
       <canvas ref={canvasRef} width="1000" height="1000" style={{ display: "none" }} />
