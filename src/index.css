@@ -330,7 +330,7 @@
   .relume-hero-grid {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
-    gap: 60px;
+    gap: 120px;
     align-items: center;
     position: relative;
   }
@@ -356,11 +356,11 @@
   }
 
   .relume-hero-image.is-offset-left {
-    left: -3.5rem;
+    left: -6rem;
   }
 
   .relume-hero-image.is-offset-right {
-    right: -3.5rem;
+    right: -6rem;
   }
 
   .relume-hero-center {
@@ -433,7 +433,15 @@
     }
 
     .relume-hero-grid {
-      gap: 40px;
+      gap: 60px;
+    }
+    
+    .relume-hero-image.is-offset-left {
+      left: -3rem;
+    }
+
+    .relume-hero-image.is-offset-right {
+      right: -3rem;
     }
 
     .relume-hero-heading {
