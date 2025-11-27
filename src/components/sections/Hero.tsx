@@ -30,11 +30,7 @@ export const Hero = () => {
           <div className="relume-hero-center">
 
             <div className="text-center mb-6 flex items-center justify-center">
-              <div
-                className={cn(
-                  "group rounded-full border border-black/5 bg-neutral-100 text-base transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800",
-                )}
-              >
+              <div className={cn("group rounded-full border border-black/5 bg-neutral-100 text-base transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800")}>
                 <AnimatedShinyText className="inline-flex items-center justify-center px-4 py-1 transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
                   <RotatingServices />
                 </AnimatedShinyText>
@@ -46,27 +42,23 @@ export const Hero = () => {
               <div className="absolute -top-1.5 -left-1.5 w-3 h-3 bg-primary" />
               <div className="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-primary" />
 
-              <h1 className="text-center text-5xl font-bold text-secondary-foreground leading-tight mb-6">
+              <h1 className="text-center font-bold text-secondary-foreground leading-tight mb-6 text-2xl">
                 Build Your Online Presence in Hours, Not Weeks
               </h1>
 
               <div className="text-center max-w-4xl mx-auto text-muted-foreground text-lg">
-                <p>
+                <p className="text-sm">
                   Choose from hundreds of professional{' '}
-                  <button 
-                    onClick={() => navigate('/marketplace')} 
-                    className="underline decoration-2 underline-offset-4 hover:text-primary transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit"
-                  >
+                  <button onClick={() => navigate('/marketplace')} className="underline decoration-2 underline-offset-4 hover:text-primary transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit">
                     website designs
                   </button>
                   —completely free. We'll handle the setup while you focus on growing your business. Need help with{' '}
-                  <button 
-                    onClick={() => {
-                      const servicesSection = document.getElementById('services');
-                      servicesSection?.scrollIntoView({ behavior: 'smooth' });
-                    }} 
-                    className="underline decoration-2 underline-offset-4 hover:text-primary transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit"
-                  >
+                  <button onClick={() => {
+                  const servicesSection = document.getElementById('services');
+                  servicesSection?.scrollIntoView({
+                    behavior: 'smooth'
+                  });
+                }} className="underline decoration-2 underline-offset-4 hover:text-primary transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit">
                     additional services
                   </button>
                   ? We've got you covered.
