@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useParallaxHero } from '@/hooks/useParallaxHero';
+import { CardSlider } from '@/components/ui/CardSlider';
 import { RotatingServices } from '@/components/ui/text-shuffle/RotatingServices';
 import { AnimatedShinyText } from '@/components/ui/animated-shiny-text';
 import { LogoMarquee } from '@/components/sections/LogoMarquee';
@@ -85,18 +86,9 @@ export const Hero = () => {
 
         </div>
 
-        {/* Mobile Portrait Images - shown only on mobile */}
-        <div className="relume-hero-mobile-slider grid grid-cols-2 gap-4 px-4">
-          <img 
-            src="/assets/card-1.png" 
-            alt="Website design preview" 
-            className="w-full h-auto rounded-lg shadow-lg"
-          />
-          <img 
-            src="/assets/card-4.png" 
-            alt="Professional website template" 
-            className="w-full h-auto rounded-lg shadow-lg"
-          />
+        {/* Mobile Card Slider - shown only on mobile */}
+        <div className="relume-hero-mobile-slider">
+          <CardSlider />
         </div>
 
         {/* Logo Marquee - part of hero section */}
