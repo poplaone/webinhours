@@ -141,15 +141,25 @@
     overflow-x: hidden;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
   }
 
   /* Mobile-specific optimizations */
   @media (max-width: 768px) {
+
     /* Ensure consistent touch targets */
-    button, a, input, textarea, select {
+    button,
+    a,
+    input,
+    textarea,
+    select {
       min-height: 44px;
     }
 
@@ -160,8 +170,11 @@
     }
 
     /* Optimize form inputs for mobile */
-    input, textarea, select {
-      font-size: 16px; /* Prevents zoom on iOS */
+    input,
+    textarea,
+    select {
+      font-size: 16px;
+      /* Prevents zoom on iOS */
     }
 
     /* Mobile container fix - full width usage */
@@ -172,7 +185,8 @@
     }
 
     /* Mobile cards - full width */
-    .mobile-card, .card {
+    .mobile-card,
+    .card {
       margin-left: 0 !important;
       margin-right: 0 !important;
     }
@@ -182,10 +196,12 @@
   .ai-chat {
     height: 100%;
   }
+
   .ai-chat [data-radix-scroll-area-viewport] {
     height: 100% !important;
     overflow-y: auto !important;
-    overscroll-behavior: contain; /* keep page stable while chat scrolls */
+    overscroll-behavior: contain;
+    /* keep page stable while chat scrolls */
     -ms-overflow-style: auto;
     scrollbar-width: thin;
   }
@@ -225,7 +241,7 @@
 
   .bg-grid {
     background-size: 30px 30px;
-    background-image: 
+    background-image:
       linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
   }
@@ -537,6 +553,7 @@
   0% {
     offset-distance: 0%;
   }
+
   100% {
     offset-distance: 100%;
   }
@@ -547,6 +564,7 @@
     transform: scale(0.8);
     opacity: 0;
   }
+
   100% {
     transform: scale(1);
     opacity: 1;
@@ -557,6 +575,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
