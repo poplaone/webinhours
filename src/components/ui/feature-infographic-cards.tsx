@@ -5,7 +5,7 @@ export function FeatureInfographicCards() {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-full">
       {/* 500+ Templates Card */}
-      <Card className="relative col-span-1 overflow-hidden">
+      <Card className="relative col-span-1 overflow-hidden bg-transparent border-border/40">
         <CardContent className="p-4 sm:p-6">
           <div className="relative mx-auto flex flex-col items-center">
             <div className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center mb-3">
@@ -23,7 +23,7 @@ export function FeatureInfographicCards() {
       </Card>
 
       {/* Mobile Responsive Card */}
-      <Card className="relative col-span-1 overflow-hidden">
+      <Card className="relative col-span-1 overflow-hidden bg-transparent border-border/40">
         <CardContent className="p-4 sm:p-6">
           <div className="relative mx-auto flex aspect-square size-12 sm:size-16 rounded-full border mb-3 before:absolute before:-inset-2 before:rounded-full before:border dark:border-white/10 dark:before:border-white/5">
             <Smartphone className="m-auto size-5 sm:size-6" strokeWidth={1.5} />
@@ -33,7 +33,7 @@ export function FeatureInfographicCards() {
       </Card>
 
       {/* SSL Security Card */}
-      <Card className="relative col-span-1 overflow-hidden">
+      <Card className="relative col-span-1 overflow-hidden bg-transparent border-border/40">
         <CardContent className="p-4 sm:p-6">
           <div className="relative mx-auto flex aspect-square size-12 sm:size-16 rounded-full border mb-3 before:absolute before:-inset-2 before:rounded-full before:border dark:border-white/10 dark:before:border-white/5">
             <Shield className="m-auto size-5 sm:size-6" strokeWidth={1.5} />
@@ -43,7 +43,7 @@ export function FeatureInfographicCards() {
       </Card>
 
       {/* Fast Performance Card */}
-      <Card className="relative col-span-1 overflow-hidden">
+      <Card className="relative col-span-1 overflow-hidden bg-transparent border-border/40">
         <CardContent className="p-4 sm:p-6">
           <div className="relative mx-auto flex aspect-square size-12 sm:size-16 rounded-full border mb-3 before:absolute before:-inset-2 before:rounded-full before:border dark:border-white/10 dark:before:border-white/5">
             <Zap className="m-auto size-5 sm:size-6" strokeWidth={1.5} />
