@@ -89,17 +89,15 @@ export function LogoMarquee() {
   const arr = [Logos.tailwindcss, Logos.framer, Logos.nextjs, Logos.aws];
 
   return (
-    <section className="w-full py-12">
-      <Marquee>
-        {arr.map((Logo, index) => (
-          <div
-            key={index}
-            className="relative h-full w-fit mx-[4rem] flex items-center justify-start"
-          >
-            <Logo />
-          </div>
-        ))}
-      </Marquee>
-    </section>
+    <Marquee className="mt-4 md:mt-0">
+      {arr.map((Logo, index) => (
+        <div
+          key={index}
+          className="relative h-full w-fit mx-[4rem] flex items-center justify-start"
+        >
+          <Logo />
+        </div>
+      ))}
+    </Marquee>
   );
 }
