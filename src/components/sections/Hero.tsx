@@ -27,15 +27,17 @@ export const Hero = () => {
           {/* CENTER CONTENT */}
           <div className="relume-hero-center">
 
+            <div className="text-center mb-6 min-h-[32px] flex items-center justify-center text-lg text-muted-foreground">
+              <RotatingServices />
+            </div>
+
             <div className="relative mx-auto max-w-4xl p-8 border border-primary/30 rounded-sm">
               {/* Decorative Corner Squares */}
               <div className="absolute -top-1.5 -left-1.5 w-3 h-3 bg-primary" />
               <div className="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-primary" />
 
               <h1 className="relume-hero-heading text-center text-3xl text-secondary-foreground">
-                <div className="min-h-[72px] flex items-center justify-center">
-                  <RotatingServices />
-                </div>
+                Build Your Online Presence in Hours, Not Weeks
               </h1>
 
               <div className="relume-hero-subheading">
