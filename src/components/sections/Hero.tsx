@@ -41,20 +41,20 @@ export const Hero = () => {
               </div>
             </div>
 
-            <div className="relative mx-auto max-w-4xl p-8 border border-primary/30 rounded-sm">
+            <div className="relative mx-auto max-w-6xl px-12 py-6 border border-primary/30 rounded-sm">
               {/* Decorative Corner Squares */}
               <div className="absolute -top-1.5 -left-1.5 w-3 h-3 bg-primary" />
               <div className="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-primary" />
 
-              <h1 className="relume-hero-heading text-center text-3xl text-secondary-foreground">
+              <h1 className="text-center text-5xl font-bold text-secondary-foreground leading-tight mb-6">
                 Build Your Online Presence in Hours, Not Weeks
               </h1>
 
-              <div className="relume-hero-subheading">
+              <div className="text-center max-w-4xl mx-auto space-y-3 text-muted-foreground">
                 <p>
                   Choose from hundreds of professional website designs—completely free. We'll handle the setup while you focus on growing your business.
                 </p>
-                <p className="mt-4">
+                <p>
                   Need help with additional services? We've got you covered.
                 </p>
               </div>
