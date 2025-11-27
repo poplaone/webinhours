@@ -336,7 +336,7 @@
   .relume-hero-grid {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
-    gap: 160px;
+    gap: 60px;
     align-items: center;
     position: relative;
   }
@@ -350,8 +350,8 @@
   }
 
   .relume-hero-image {
-    width: 120%;
-    max-width: 120%;
+    width: 100%;
+    max-width: 100%;
     height: auto;
     aspect-ratio: 3 / 2;
     object-fit: cover;
@@ -362,15 +362,15 @@
   }
 
   .relume-hero-image.is-offset-left {
-    left: -8rem;
+    left: -3.5rem;
   }
 
   .relume-hero-image.is-offset-right {
-    right: -8rem;
+    right: -3.5rem;
   }
 
   .relume-hero-center {
-    max-width: 900px;
+    max-width: 720px;
     text-align: center;
     z-index: 2;
     position: relative;
