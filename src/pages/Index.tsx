@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { Hero } from '@/components/sections/Hero';
+import { LogoMarquee } from '@/components/sections/LogoMarquee';
 import { Services } from '@/components/sections/Services';
 import { CTASection } from '@/components/sections/CTASection';
 import { Footer } from '@/components/sections/Footer';
@@ -28,6 +29,7 @@ const Index = () => {
       {/* All sections now float over the unified background */}
       <div className="relative z-10">
           <Hero />
+          <LogoMarquee />
           
           {/* Marketplace Preview */}
           <Suspense fallback={<div className="h-32 bg-card/20 animate-pulse rounded-lg mx-4 my-2 md:my-8" />}>
