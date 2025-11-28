@@ -16,6 +16,7 @@ const Index = lazy(() => import("./pages/Index"));
 const About = lazy(() => import("./pages/About"));
 // Services page removed - now using homepage services section
 const Contact = lazy(() => import("./pages/Contact"));
+const ContactConfirmation = lazy(() => import("./pages/ContactConfirmation"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const HowItWorks = lazy(() => import("./pages/HowItWorks"));
 const Pricing = lazy(() => import("./pages/Pricing"));
@@ -98,6 +99,7 @@ function App() {
                     <Route path="/about" element={<About />} />
                     {/* Services route removed - now using homepage services section */}
                     <Route path="/contact" element={<Contact />} />
+                    <Route path="/contact/confirmation" element={<ContactConfirmation />} />
                     <Route path="/faq" element={<FAQ />} />
                     <Route path="/how-it-works" element={<HowItWorks />} />
                     <Route path="/pricing" element={<Pricing />} />

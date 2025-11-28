@@ -1,5 +1,9 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { renderAsync } from "npm:@react-email/components@0.0.22";
+import * as React from "npm:react@18.3.1";
+import { AdminNotification } from "./_templates/admin-notification.tsx";
+import { UserConfirmation } from "./_templates/user-confirmation.tsx";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -28,40 +32,42 @@ const handler = async (req: Request): Promise<Response> => {
     const data: ContactEmailRequest = await req.json();
     console.log("Received contact form submission:", { name: data.name, email: data.email });
 
+    // Render email templates
+    const adminHtml = await renderAsync(
+      React.createElement(AdminNotification, {
+        name: data.name,
+        email: data.email,
+        subject: data.subject,
+        message: data.message,
+        type: data.type,
+        website: data.website,
+        projectType: data.projectType,
+      })
+    );
+
+    const userHtml = await renderAsync(
+      React.createElement(UserConfirmation, {
+        name: data.name,
+        message: data.message,
+      })
+    );
+
     // Send notification email to admin
     const adminEmail = await resend.emails.send({
-      from: "Contact Form <onboarding@resend.dev>",
+      from: "WebInHours Contact <onboarding@resend.dev>",
       to: ["your-email@example.com"], // Replace with your actual email
-      subject: `New Contact Form Submission ${data.type ? `- ${data.type}` : ''}`,
-      html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${data.name}</p>
-        <p><strong>Email:</strong> ${data.email}</p>
-        ${data.subject ? `<p><strong>Subject:</strong> ${data.subject}</p>` : ''}
-        ${data.type ? `<p><strong>Type:</strong> ${data.type}</p>` : ''}
-        ${data.website ? `<p><strong>Website:</strong> ${data.website}</p>` : ''}
-        ${data.projectType ? `<p><strong>Project Type:</strong> ${data.projectType}</p>` : ''}
-        <p><strong>Message:</strong></p>
-        <p>${data.message.replace(/\n/g, '<br>')}</p>
-      `,
+      subject: `New Contact: ${data.type || 'General'} - ${data.name}`,
+      html: adminHtml,
     });
 
     console.log("Admin notification sent:", adminEmail);
 
     // Send confirmation email to user
     const userEmail = await resend.emails.send({
-      from: "Contact Form <onboarding@resend.dev>",
+      from: "WebInHours <onboarding@resend.dev>",
       to: [data.email],
-      subject: "We received your message!",
-      html: `
-        <h1>Thank you for contacting us, ${data.name}!</h1>
-        <p>We have received your message and will get back to you as soon as possible.</p>
-        <p>Here's a copy of your message:</p>
-        <blockquote style="border-left: 4px solid #ccc; padding-left: 16px; margin: 16px 0;">
-          ${data.message.replace(/\n/g, '<br>')}
-        </blockquote>
-        <p>Best regards,<br>The Team</p>
-      `,
+      subject: "We've Received Your Message - WebInHours",
+      html: userHtml,
     });
 
     console.log("User confirmation sent:", userEmail);

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Gift, CheckCircle, ArrowRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +21,7 @@ export const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
   incentive = "Free Website Audit + Strategy Session",
   className = ''
 }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -54,7 +56,8 @@ export const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
 
       if (error) throw error;
       
-      setIsSubmitted(true);
+      // Redirect to confirmation page
+      navigate(`/contact/confirmation?name=${encodeURIComponent(formData.name)}&email=${encodeURIComponent(formData.email)}&type=lead`);
     } catch (error) {
       console.error("Error submitting lead form:", error);
       toast({
