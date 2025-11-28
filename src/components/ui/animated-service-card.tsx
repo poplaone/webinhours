@@ -4,6 +4,7 @@ import { Check } from 'lucide-react';
 import { FeatureWithImageComparison } from './feature-with-image-comparison';
 import { FeatureInfographicCards } from './feature-infographic-cards';
 import { CustomBrandingGradient } from './custom-branding-gradient';
+import { AnimatedCard, CardBody, CardDescription, CardTitle, CardVisual, Visual3 } from './animated-card-chart';
 type ServiceCardType = {
   title: string;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
@@ -76,7 +77,43 @@ export function AnimatedServiceCard({
           {/* Image Section */}
           <div className={cn('relative order-1 lg:order-2 min-h-[350px] sm:min-h-[450px] lg:min-h-[500px]', !service.beforeAfterSlider && !service.image && 'bg-gradient-to-br from-muted/50 to-muted/30 rounded-lg overflow-hidden p-6 lg:p-8', isImageLeft && 'lg:order-1')}>
             <div className="w-full h-full flex items-center justify-center">
-              {service.beforeAfterSlider ? <FeatureWithImageComparison beforeImage={service.beforeAfterSlider.beforeImage} afterImage={service.beforeAfterSlider.afterImage} beforeAlt={`${service.title} - Before`} afterAlt={`${service.title} - After`} /> : service.image ? <img src={service.image} alt={service.title} className="w-full h-full object-contain max-w-2xl" /> : <service.icon className="w-full h-full max-w-md text-muted-foreground/15" strokeWidth={0.5} aria-hidden />}
+              {service.beforeAfterSlider ? (
+                <FeatureWithImageComparison 
+                  beforeImage={service.beforeAfterSlider.beforeImage} 
+                  afterImage={service.beforeAfterSlider.afterImage} 
+                  beforeAlt={`${service.title} - Before`} 
+                  afterAlt={`${service.title} - After`} 
+                />
+              ) : index === 2 && service.image ? (
+                <div className="w-full h-full flex flex-col gap-6 items-center justify-center">
+                  <AnimatedCard className="w-full max-w-md">
+                    <CardVisual>
+                      <Visual3 
+                        mainColor="hsl(var(--primary))" 
+                        secondaryColor="hsl(var(--accent))" 
+                      />
+                    </CardVisual>
+                    <CardBody>
+                      <CardTitle>Content Drives Growth</CardTitle>
+                      <CardDescription>
+                        Quality content increases engagement, conversions, and revenue
+                      </CardDescription>
+                    </CardBody>
+                  </AnimatedCard>
+                </div>
+              ) : service.image ? (
+                <img 
+                  src={service.image} 
+                  alt={service.title} 
+                  className="w-full h-full object-contain max-w-2xl" 
+                />
+              ) : (
+                <service.icon 
+                  className="w-full h-full max-w-md text-muted-foreground/15" 
+                  strokeWidth={0.5} 
+                  aria-hidden 
+                />
+              )}
             </div>
           </div>
         </div>
