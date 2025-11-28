@@ -54,13 +54,25 @@ The webhook handler currently logs all events. You can extend it to:
 The integration uses the following secret (already configured):
 - `DODO_PAYMENTS_API_KEY` - Your Dodo Payments API key
 
+## API Endpoints
+
+The integration currently uses **Test Mode**:
+- Test Mode URL: `https://test.dodopayments.com`
+- Live Mode URL: `https://live.dodopayments.com`
+
+To switch to Live Mode:
+1. Update the `baseUrl` in `supabase/functions/dodo-checkout/index.ts` to `https://live.dodopayments.com`
+2. Update the `DODO_PAYMENTS_API_KEY` secret with your live API key
+
 ## Testing
 
 **Test Mode:**
-- Use test API keys from Dodo Payments dashboard
+- Currently configured to use `https://test.dodopayments.com`
+- Use test API keys from Dodo Payments dashboard (Developer → API Keys)
 - Use test card numbers provided by Dodo Payments
 
 **Live Mode:**
+- Change base URL to `https://live.dodopayments.com` in the edge function
 - Switch to production API keys
 - Update the `DODO_PAYMENTS_API_KEY` secret with your live key
 
