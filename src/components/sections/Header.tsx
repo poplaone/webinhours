@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Code, Menu, X, ArrowUp, HelpCircle, DollarSign, FileText, Shield, RotateCcw, Lightbulb } from 'lucide-react';
+import { Code, Menu, X, ArrowUp, HelpCircle, DollarSign, FileText, Shield, RotateCcw, Lightbulb, Globe, Palette, FileCode, Zap, Image, Search, Smartphone, Lock } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useAuth } from '@/hooks/useAuth';
@@ -32,7 +32,6 @@ export const Header = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const navItems = [
-    { label: 'Services', path: '/#services' },
     { label: 'Calculator', path: '/calculator' },
     { label: 'About', path: '/about' },
     { label: 'Contact', path: '/contact' }
@@ -45,6 +44,51 @@ export const Header = () => {
     description?: string;
   };
 
+  const serviceItems: LinkItem[] = [
+    { 
+      title: 'Free Website Templates', 
+      href: '/marketplace', 
+      icon: Globe, 
+      description: 'Browse 100+ professional templates' 
+    },
+    { 
+      title: 'Custom Design', 
+      href: '/#services', 
+      icon: Palette, 
+      description: 'Tailored design matching your brand' 
+    },
+    { 
+      title: 'Content Creation', 
+      href: '/#services', 
+      icon: FileCode, 
+      description: 'Professional copywriting & media' 
+    },
+    { 
+      title: 'SEO Optimization', 
+      href: '/#services', 
+      icon: Search, 
+      description: 'Rank higher in search results' 
+    },
+    { 
+      title: 'Performance', 
+      href: '/#services', 
+      icon: Zap, 
+      description: 'Lightning-fast load times' 
+    },
+    { 
+      title: 'Mobile Responsive', 
+      href: '/#services', 
+      icon: Smartphone, 
+      description: 'Perfect on all devices' 
+    },
+  ];
+
+  const featuredServices: LinkItem[] = [
+    { title: 'View All Services', href: '/#services', icon: FileCode },
+    { title: 'Browse Marketplace', href: '/marketplace', icon: Globe },
+    { title: 'Get a Quote', href: '/calculator', icon: DollarSign },
+  ];
+
   const moreItems: LinkItem[] = [
     { title: 'How It Works', href: '/how-it-works', icon: Lightbulb, description: 'Learn our proven process' },
     { title: 'Pricing', href: '/pricing', icon: DollarSign, description: 'Transparent pricing plans' },
@@ -56,7 +100,12 @@ export const Header = () => {
     { title: 'Terms of Service', href: '/terms', icon: FileText },
   ];
 
-  const allMobileItems = [...navItems, ...moreItems.map(item => ({ label: item.title, path: item.href })), ...legalItems.map(item => ({ label: item.title, path: item.href }))];
+  const allMobileItems = [
+    { label: 'Services', path: '/#services' },
+    ...navItems, 
+    ...moreItems.map(item => ({ label: item.title, path: item.href })), 
+    ...legalItems.map(item => ({ label: item.title, path: item.href }))
+  ];
 
   // Handle mobile header appearance
   useEffect(() => {
@@ -213,6 +262,75 @@ export const Header = () => {
           {/* Desktop Navigation */}
           <NavigationMenu className="hidden lg:flex">
             <NavigationMenuList>
+              {/* Services Mega Menu */}
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="bg-transparent text-muted-foreground hover:text-foreground">
+                  Services
+                </NavigationMenuTrigger>
+                <NavigationMenuContent className="bg-background p-1">
+                  <div className="grid w-[700px] grid-cols-[2fr_1fr] gap-2">
+                    {/* Main Services Grid */}
+                    <ul className="bg-popover grid grid-cols-2 gap-2 rounded-md border p-3 shadow-lg">
+                      {serviceItems.map((item) => (
+                        <li key={item.title}>
+                          <NavigationMenuLink 
+                            className="w-full flex flex-row gap-x-2 hover:bg-accent hover:text-accent-foreground rounded-md p-3 cursor-pointer group transition-all"
+                            asChild
+                          >
+                            <button onClick={() => handleNavigation(item.href)} className="w-full text-left">
+                              <div className="bg-primary/10 flex aspect-square size-11 items-center justify-center rounded-md border border-primary/20 shadow-sm group-hover:bg-primary/20 transition-colors">
+                                <item.icon className="text-primary size-5" />
+                              </div>
+                              <div className="flex flex-col items-start justify-center">
+                                <span className="font-semibold text-sm">{item.title}</span>
+                                <span className="text-muted-foreground text-xs leading-tight">{item.description}</span>
+                              </div>
+                            </button>
+                          </NavigationMenuLink>
+                        </li>
+                      ))}
+                    </ul>
+                    
+                    {/* Featured Actions */}
+                    <div className="space-y-2 p-2">
+                      <div className="mb-3">
+                        <h4 className="font-semibold text-sm mb-1 px-2">Quick Actions</h4>
+                        <p className="text-xs text-muted-foreground px-2">Get started today</p>
+                      </div>
+                      <ul className="space-y-1">
+                        {featuredServices.map((item) => (
+                          <li key={item.title}>
+                            <NavigationMenuLink
+                              className="flex p-2.5 hover:bg-accent flex-row rounded-md items-center gap-x-2 cursor-pointer group transition-colors"
+                              asChild
+                            >
+                              <button onClick={() => handleNavigation(item.href)} className="w-full text-left">
+                                <div className="bg-primary/10 p-1.5 rounded-md group-hover:bg-primary/20 transition-colors">
+                                  <item.icon className="text-primary size-4" />
+                                </div>
+                                <span className="font-medium text-sm">{item.title}</span>
+                              </button>
+                            </NavigationMenuLink>
+                          </li>
+                        ))}
+                      </ul>
+                      
+                      {/* CTA Section */}
+                      <div className="mt-4 p-3 bg-primary/5 rounded-md border border-primary/20">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Lock className="size-4 text-primary" />
+                          <span className="text-xs font-semibold">24-Hour Delivery</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground leading-relaxed">
+                          Get your website live in 24 hours with SSL & GDPR compliance
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+
+              {/* Regular Nav Items */}
               {navItems.map((item) => (
                 <NavigationMenuItem key={item.label}>
                   <button
@@ -225,7 +343,7 @@ export const Header = () => {
                 </NavigationMenuItem>
               ))}
               
-              {/* More dropdown for desktop */}
+              {/* More dropdown */}
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="bg-transparent text-muted-foreground hover:text-foreground">
                   More
