@@ -47,7 +47,10 @@ serve(async (req) => {
 
     console.log('Sending request to Dodo Payments with data:', JSON.stringify(checkoutData));
 
-    const response = await fetch('https://api.dodopayments.com/v1/payments', {
+    // Use test mode URL - change to https://live.dodopayments.com for production
+    const baseUrl = 'https://test.dodopayments.com';
+    
+    const response = await fetch(`${baseUrl}/payments`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
