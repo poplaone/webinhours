@@ -5,6 +5,10 @@ import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "./hooks/useAuth";
 import App from "./App.tsx";
 import "./index.css";
+import { initGA } from "./utils/analytics";
+
+// Initialize Google Analytics
+initGA();
 
 const rootElement = document.getElementById("root");
 
