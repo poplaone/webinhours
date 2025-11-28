@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'framer-motion';
 import { Code, Menu, X, ChevronDown, ArrowUp } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
@@ -21,13 +20,6 @@ export const Header = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const [mobileHeaderVisible, setMobileHeaderVisible] = useState(false);
-
-  const { scrollY } = useScroll();
-  
-  // Transform values for scroll effects (only for desktop)
-  const headerOpacity = useTransform(scrollY, [0, 100], [1, 0.95]);
-  const headerScale = useTransform(scrollY, [0, 100], [1, 0.98]);
-  const headerHeight = useTransform(scrollY, [0, 100], [64, 56]);
   
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -145,13 +137,7 @@ export const Header = () => {
 
             {/* Mobile Navigation Menu */}
             {isMenuOpen && (
-              <motion.div
-                className="border-t border-border/40"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-              >
+              <div className="border-t border-border/40">
                 <nav className="flex flex-col space-y-1 p-4 max-h-[55vh] overflow-y-auto">
                   {allMobileItems.map((item, index) => (
                     <button
@@ -165,7 +151,7 @@ export const Header = () => {
                     </button>
                   ))}
                 </nav>
-              </motion.div>
+              </div>
             )}
           </div>
         </header>
@@ -174,20 +160,14 @@ export const Header = () => {
         <div className="h-14 lg:hidden" />
 
         {/* Scroll to top button */}
-        <motion.button
-          className="fixed bottom-20 right-4 z-50 bg-[#8B5CF6] text-white p-3 rounded-full shadow-lg hover:bg-[#7C3AED] transition-all duration-300 hover:scale-110 lg:hidden"
-          onClick={scrollToTop}
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ 
-            opacity: showScrollTop ? 1 : 0, 
-            scale: showScrollTop ? 1 : 0 
-          }}
-          transition={{ duration: 0.3 }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <ArrowUp className="h-5 w-5" />
-        </motion.button>
+        {showScrollTop && (
+          <button
+            className="fixed bottom-20 right-4 z-50 bg-[#8B5CF6] text-white p-3 rounded-full shadow-lg hover:bg-[#7C3AED] transition-all duration-300 hover:scale-110 lg:hidden"
+            onClick={scrollToTop}
+          >
+            <ArrowUp className="h-5 w-5" />
+          </button>
+        )}
       </>
     );
   }
@@ -195,28 +175,9 @@ export const Header = () => {
   // Desktop header
   return (
     <>
-      <motion.header
-        className="fixed top-0 left-0 right-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm"
-        style={{
-          opacity: headerOpacity,
-          scale: headerScale,
-          height: headerHeight
-        }}
-        animate={{
-          y: isVisible ? 0 : -100
-        }}
-        transition={{
-          duration: 0.3,
-          ease: "easeInOut"
-        }}
-      >
-        <div className="container flex h-full items-center justify-between px-3 sm:px-6">
-          <motion.div 
-            className="flex items-center space-x-2" 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+      <header className={`fixed top-0 left-0 right-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+        <div className="container flex h-16 items-center justify-between px-3 sm:px-6">
+          <div className="flex items-center space-x-2">
             <div 
               className="bg-[#8B5CF6] rounded-md p-1.5 sm:p-2 hover:bg-[#7C3AED] transition-colors duration-300 cursor-pointer" 
               onClick={() => navigate('/')}
@@ -229,22 +190,19 @@ export const Header = () => {
             >
               WebInHours
             </span>
-          </motion.div>
+          </div>
           
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-6">
-            {navItems.map((item, index) => (
-              <motion.button
+            {navItems.map((item) => (
+              <button
                 key={item.label}
                 onClick={() => handleNavigation(item.path)}
                 className="text-muted-foreground hover:text-foreground transition-all duration-300 relative group text-sm font-medium"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
               >
                 {item.label}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#8B5CF6] transition-all duration-300 group-hover:w-full" />
-              </motion.button>
+              </button>
             ))}
             
             {/* More dropdown for desktop */}
@@ -265,12 +223,7 @@ export const Header = () => {
           </nav>
 
           {/* Desktop Theme Toggle and Get Started Button */}
-          <motion.div
-            className="flex items-center space-x-3"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+          <div className="flex items-center space-x-3">
             <ThemeToggle />
             {user ? (
               <UserDropdown profile={profile} />
@@ -282,18 +235,12 @@ export const Header = () => {
                 Sign in
               </Button>
             )}
-          </motion.div>
+          </div>
         </div>
 
         {/* Desktop Navigation Menu */}
         {isMenuOpen && (
-          <motion.div
-            className="hidden lg:block border-t bg-background/95 backdrop-blur"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-          >
+          <div className="hidden lg:block border-t bg-background/95 backdrop-blur">
             <nav className="flex flex-col space-y-1 p-4 max-h-[70vh] overflow-y-auto">
               {allMobileItems.map((item, index) => (
                 <button
@@ -307,25 +254,19 @@ export const Header = () => {
                 </button>
               ))}
             </nav>
-          </motion.div>
+          </div>
         )}
-      </motion.header>
+      </header>
 
       {/* Scroll to top button for desktop */}
-      <motion.button
-        className="fixed bottom-8 right-8 z-50 bg-[#8B5CF6] text-white p-3 rounded-full shadow-lg hover:bg-[#7C3AED] transition-all duration-300 hover:scale-110 hidden lg:block"
-        onClick={scrollToTop}
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ 
-          opacity: showScrollTop ? 1 : 0, 
-          scale: showScrollTop ? 1 : 0 
-        }}
-        transition={{ duration: 0.3 }}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-      >
-        <ArrowUp className="h-5 w-5" />
-      </motion.button>
+      {showScrollTop && (
+        <button
+          className="fixed bottom-8 right-8 z-50 bg-[#8B5CF6] text-white p-3 rounded-full shadow-lg hover:bg-[#7C3AED] transition-all duration-300 hover:scale-110 hidden lg:block"
+          onClick={scrollToTop}
+        >
+          <ArrowUp className="h-5 w-5" />
+        </button>
+      )}
     </>
   );
 };
