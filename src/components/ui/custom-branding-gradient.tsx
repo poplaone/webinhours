@@ -110,6 +110,17 @@ export function CustomBrandingGradient() {
     setColorStops(newColorStops.sort((a, b) => a.position - b.position));
   };
 
+  const downloadGradient = () => {
+    const canvas = canvasRef.current;
+    if (canvas) {
+      const dataURL = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.download = "gradient.png";
+      link.href = dataURL;
+      link.click();
+    }
+  };
+
   const resetSettings = () => {
     setColorStops(defaultColorStops);
     setAngle(90);
@@ -270,9 +281,18 @@ export function CustomBrandingGradient() {
           )}
           <Button
             size="sm"
+            onClick={downloadGradient}
+            variant="outline"
+            className="h-7 px-3 ml-auto"
+          >
+            <DIcons.Download className="h-3 w-3 mr-1.5" />
+            Download
+          </Button>
+          <Button
+            size="sm"
             onClick={resetSettings}
             variant="secondary"
-            className="h-7 px-3 ml-auto"
+            className="h-7 px-3"
           >
             <DIcons.RotateCw className="h-3 w-3 mr-1.5" />
             Reset
