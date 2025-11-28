@@ -3,6 +3,7 @@ import { Palette, PenTool, Globe2 } from 'lucide-react';
 import { AnimatedServiceCard } from '@/components/ui/animated-service-card';
 import CombinedFeaturedSection from '@/components/ui/combined-featured-section';
 import customBrandingGif from '@/assets/custom-branding.gif';
+import contentCreationImage from '@/assets/content-creation.webp';
 
 export const Services = () => {
   const services = [{
@@ -22,6 +23,7 @@ export const Services = () => {
     description: "Make your website unique with custom colors, fonts, logos, and personalized design that matches your brand perfectly. Includes Custom Colors, Logo Integration, Brand Fonts, and Unlimited Revisions."
   }, {
     icon: PenTool,
+    image: contentCreationImage,
     tagline: "$99/month",
     title: "Content Creation",
     description: "Professional content for your website, blog, and social media to engage customers and grow your business online. Services include blog writing, social media posts, email content, and product copy tailored to your brand."
