@@ -38,6 +38,60 @@ export function AnimatedServiceCard({
   const isImageLeft = index === 1; // Middle card has image on left
 
   if (isLargeCard) {
+    // Special layout for Content Creation (index 2)
+    if (index === 2) {
+      return <div className={cn('py-8 sm:py-12 lg:py-24', className)} {...props}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-12 xl:gap-16 items-center">
+          {/* Chart with integrated text */}
+          <div className="relative w-full order-2 lg:order-1">
+            {/* Tagline Badge */}
+            {service.tagline && <div className="mb-6">
+              
+            </div>}
+            
+            <AnimatedCard className="w-full">
+              <CardVisual className="relative">
+                <Visual3 
+                  mainColor="hsl(var(--primary))" 
+                  secondaryColor="hsl(var(--accent))" 
+                />
+                <div className="absolute inset-0 z-10 flex flex-col items-start justify-center p-6 lg:p-8">
+                  <div className="max-w-xl space-y-4">
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.15] tracking-tight text-foreground">
+                      {service.title}
+                    </h2>
+                    <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed">
+                      {service.description}
+                    </p>
+                  </div>
+                </div>
+              </CardVisual>
+            </AnimatedCard>
+          </div>
+
+          {/* Image Section */}
+          <div className="relative order-1 lg:order-2 min-h-[350px] sm:min-h-[450px] lg:min-h-[500px]">
+            <div className="w-full h-full flex items-center justify-center">
+              {service.image ? (
+                <img 
+                  src={service.image} 
+                  alt={service.title} 
+                  className="w-full h-full object-contain max-w-2xl" 
+                />
+              ) : (
+                <service.icon 
+                  className="w-full h-full max-w-md text-muted-foreground/15" 
+                  strokeWidth={0.5} 
+                  aria-hidden 
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      </div>;
+    }
+
+    // Standard layout for other large cards
     return <div className={cn('py-8 sm:py-12 lg:py-24', className)} {...props}>
         <div className={cn('grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-4 sm:gap-6 lg:gap-12 xl:gap-16 items-center', isImageLeft && 'lg:grid-cols-[1.2fr_1fr]')}>
           {/* Content Section */}
@@ -52,7 +106,7 @@ export function AnimatedServiceCard({
               {service.title}
             </h2>
 
-            {/* Description / Infographic Cards / Gradient Generator / Chart */}
+            {/* Description / Infographic Cards / Gradient Generator */}
             {index === 0 ? (
               <div className="space-y-4">
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
@@ -66,26 +120,6 @@ export function AnimatedServiceCard({
                   Make your website unique with custom colors, fonts, logos, and personalized design that matches your brand perfectly.
                 </p>
                 <CustomBrandingGradient />
-              </div>
-            ) : index === 2 ? (
-              <div className="space-y-6">
-                <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl">
-                  {service.description}
-                </p>
-                <AnimatedCard className="w-full max-w-md">
-                  <CardVisual>
-                    <Visual3 
-                      mainColor="hsl(var(--primary))" 
-                      secondaryColor="hsl(var(--accent))" 
-                    />
-                  </CardVisual>
-                  <CardBody>
-                    <CardTitle>Content Drives Growth</CardTitle>
-                    <CardDescription>
-                      Quality content increases engagement, conversions, and revenue
-                    </CardDescription>
-                  </CardBody>
-                </AnimatedCard>
               </div>
             ) : (
               <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl">
