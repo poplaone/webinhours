@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Code, Menu, X, ChevronDown, ArrowUp } from 'lucide-react';
+import { Code, Menu, X, ArrowUp, HelpCircle, DollarSign, FileText, Shield, RotateCcw, Lightbulb } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useAuth } from '@/hooks/useAuth';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useProfile } from '@/hooks/useProfiles';
 import { UserDropdown } from "@/components/ui/user-dropdown";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { LucideIcon } from 'lucide-react';
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -30,15 +38,25 @@ export const Header = () => {
     { label: 'Contact', path: '/contact' }
   ];
 
-  const moreItems = [
-    { label: 'How It Works', path: '/how-it-works' },
-    { label: 'Pricing', path: '/pricing' },
-    { label: 'FAQ', path: '/faq' },
-    { label: 'Privacy Policy', path: '/privacy' },
-    { label: 'Terms of Service', path: '/terms' }
+  type LinkItem = {
+    title: string;
+    href: string;
+    icon: LucideIcon;
+    description?: string;
+  };
+
+  const moreItems: LinkItem[] = [
+    { title: 'How It Works', href: '/how-it-works', icon: Lightbulb, description: 'Learn our proven process' },
+    { title: 'Pricing', href: '/pricing', icon: DollarSign, description: 'Transparent pricing plans' },
+    { title: 'FAQ', href: '/faq', icon: HelpCircle, description: 'Common questions answered' },
   ];
 
-  const allMobileItems = [...navItems, ...moreItems];
+  const legalItems: LinkItem[] = [
+    { title: 'Privacy Policy', href: '/privacy', icon: Shield },
+    { title: 'Terms of Service', href: '/terms', icon: FileText },
+  ];
+
+  const allMobileItems = [...navItems, ...moreItems.map(item => ({ label: item.title, path: item.href })), ...legalItems.map(item => ({ label: item.title, path: item.href }))];
 
   // Handle mobile header appearance
   useEffect(() => {
@@ -193,34 +211,67 @@ export const Header = () => {
           </div>
           
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-6">
-            {navItems.map((item) => (
-              <button
-                key={item.label}
-                onClick={() => handleNavigation(item.path)}
-                className="text-muted-foreground hover:text-foreground transition-all duration-300 relative group text-sm font-medium"
-              >
-                {item.label}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#8B5CF6] transition-all duration-300 group-hover:w-full" />
-              </button>
-            ))}
-            
-            {/* More dropdown for desktop */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="text-muted-foreground hover:text-foreground p-0 h-auto font-medium text-sm">
-                  More <ChevronDown className="ml-1 h-3 w-3" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48 bg-background border shadow-lg">
-                {moreItems.map(item => (
-                  <DropdownMenuItem key={item.label} onClick={() => handleNavigation(item.path)} className="cursor-pointer hover:bg-accent">
+          <NavigationMenu className="hidden lg:flex">
+            <NavigationMenuList>
+              {navItems.map((item) => (
+                <NavigationMenuItem key={item.label}>
+                  <button
+                    onClick={() => handleNavigation(item.path)}
+                    className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus:bg-accent focus:text-foreground focus:outline-none relative"
+                  >
                     {item.label}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </nav>
+                    <span className="absolute bottom-2 left-4 right-4 h-0.5 bg-[#8B5CF6] scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
+                  </button>
+                </NavigationMenuItem>
+              ))}
+              
+              {/* More dropdown for desktop */}
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="bg-transparent text-muted-foreground hover:text-foreground">
+                  More
+                </NavigationMenuTrigger>
+                <NavigationMenuContent className="bg-background p-1 pr-1.5 pb-1.5">
+                  <div className="grid w-[500px] grid-cols-2 gap-2">
+                    <ul className="bg-popover space-y-2 rounded-md border p-2 shadow-lg">
+                      {moreItems.map((item) => (
+                        <li key={item.title}>
+                          <NavigationMenuLink 
+                            className="w-full flex flex-row gap-x-2 hover:bg-accent hover:text-accent-foreground rounded-md p-2 cursor-pointer"
+                            asChild
+                          >
+                            <button onClick={() => handleNavigation(item.href)} className="w-full text-left">
+                              <div className="bg-background/40 flex aspect-square size-10 items-center justify-center rounded-md border shadow-sm">
+                                <item.icon className="text-foreground size-4" />
+                              </div>
+                              <div className="flex flex-col items-start justify-center">
+                                <span className="font-medium text-sm">{item.title}</span>
+                                <span className="text-muted-foreground text-xs">{item.description}</span>
+                              </div>
+                            </button>
+                          </NavigationMenuLink>
+                        </li>
+                      ))}
+                    </ul>
+                    <ul className="space-y-2 p-3">
+                      {legalItems.map((item) => (
+                        <li key={item.title}>
+                          <NavigationMenuLink
+                            className="flex p-2 hover:bg-accent flex-row rounded-md items-center gap-x-2 cursor-pointer"
+                            asChild
+                          >
+                            <button onClick={() => handleNavigation(item.href)} className="w-full text-left">
+                              <item.icon className="text-foreground size-4" />
+                              <span className="font-medium text-sm">{item.title}</span>
+                            </button>
+                          </NavigationMenuLink>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
 
           {/* Desktop Theme Toggle and Get Started Button */}
           <div className="flex items-center space-x-3">
