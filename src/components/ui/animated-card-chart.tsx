@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 // --- Card Components ---
 
-interface CardProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export function AnimatedCard({ className, ...props }: CardProps) {
   return (
@@ -36,7 +36,7 @@ export function CardBody({ className, ...props }: CardProps) {
   );
 }
 
-interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {}
+interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> { }
 
 export function CardTitle({ className, ...props }: CardTitleProps) {
   return (
@@ -51,7 +51,7 @@ export function CardTitle({ className, ...props }: CardTitleProps) {
 }
 
 interface CardDescriptionProps
-  extends React.HTMLAttributes<HTMLParagraphElement> {}
+  extends React.HTMLAttributes<HTMLParagraphElement> { }
 
 export function CardDescription({ className, ...props }: CardDescriptionProps) {
   return (
@@ -200,22 +200,36 @@ const Layer2: React.FC<LayerProps> = ({ color, animated }) => {
       style={{ "--color": color } as React.CSSProperties}
     >
       <div className={cn(
-        "ease-[cubic-bezier(0.6, 0.6, 0, 1)] absolute inset-0 z-[7] flex w-full items-start justify-center bg-transparent p-4 transition-transform duration-500",
+        "ease-[cubic-bezier(0.6, 0.6, 0, 1)] absolute inset-0 z-[7] flex w-full items-start justify-center bg-transparent p-2 sm:p-4 transition-transform duration-500",
         animated ? "translate-y-0" : "translate-y-full"
       )}>
         <div className={cn(
-          "ease-[cubic-bezier(0.6, 0, 1)] rounded-md border border-border bg-background/25 p-1.5 backdrop-blur-sm transition-opacity duration-500",
+          "ease-[cubic-bezier(0.6, 0, 1)] rounded-md border border-border bg-background/25 p-2 sm:p-3 backdrop-blur-sm transition-opacity duration-500 w-full max-w-[280px] sm:max-w-sm",
           animated ? "opacity-100" : "opacity-0"
         )}>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mb-1.5 sm:mb-2">
             <div className="h-2 w-2 shrink-0 rounded-full bg-[var(--color)]" />
-            <p className="text-xs text-foreground">
+            <p className="text-xs sm:text-sm font-semibold text-foreground">
               Content Engagement Growth
             </p>
           </div>
-          <p className="text-xs text-muted-foreground">
-            Quality content drives measurable results
+          <p className="text-[10px] sm:text-xs text-muted-foreground leading-relaxed mb-1.5 sm:mb-2">
+            Quality content drives measurable results across organic and paid channels
           </p>
+          <div className="grid grid-cols-3 gap-2 sm:flex sm:gap-4 border-t border-border/50 pt-1.5 sm:pt-2 mt-1.5 sm:mt-2">
+            <div className="flex flex-col">
+              <span className="text-[9px] sm:text-xs text-muted-foreground">Avg Monthly</span>
+              <span className="text-xs sm:text-sm font-bold text-foreground">+54%</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[9px] sm:text-xs text-muted-foreground">Peak Growth</span>
+              <span className="text-xs sm:text-sm font-bold text-foreground">+63%</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[9px] sm:text-xs text-muted-foreground">6 Months</span>
+              <span className="text-xs sm:text-sm font-bold text-foreground">+180%</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
