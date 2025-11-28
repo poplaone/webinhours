@@ -11,12 +11,12 @@ serve(async (req) => {
   }
 
   try {
-    const { productName, price, quantity = 1, customerEmail, customerName } = await req.json();
+    const { productId } = await req.json();
 
-    console.log('Creating Dodo Payments checkout:', { productName, price, quantity });
+    console.log('Creating Dodo Payments checkout for product:', productId);
 
-    if (!productName || !price) {
-      throw new Error('Product name and price are required');
+    if (!productId) {
+      throw new Error('Product ID is required');
     }
 
     const apiKey = Deno.env.get('DODO_PAYMENTS_API_KEY');
@@ -26,31 +26,20 @@ serve(async (req) => {
 
     // Create checkout session with Dodo Payments
     const checkoutData = {
-      payment: {
-        currency: "USD",
-        amount: Math.round(price * 100), // Convert to cents
-        payment_type: "one_time"
-      },
-      product: {
-        name: productName,
-        quantity: quantity
-      },
-      customer: {
-        email: customerEmail || '',
-        full_name: customerName || ''
-      },
-      metadata: {
-        source: 'webinhours',
-        product: productName
-      }
+      product_cart: [
+        {
+          product_id: productId,
+          quantity: 1
+        }
+      ]
     };
 
-    console.log('Sending request to Dodo Payments with data:', JSON.stringify(checkoutData));
+    console.log('Sending request to Dodo Payments:', JSON.stringify(checkoutData));
 
     // Use test mode URL - change to https://live.dodopayments.com for production
     const baseUrl = 'https://test.dodopayments.com';
     
-    const response = await fetch(`${baseUrl}/payments`, {
+    const response = await fetch(`${baseUrl}/checkouts`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
@@ -72,7 +61,7 @@ serve(async (req) => {
       JSON.stringify({ 
         success: true, 
         checkoutUrl: data.checkout_url,
-        paymentId: data.payment_id
+        sessionId: data.session_id
       }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
