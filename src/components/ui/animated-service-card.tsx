@@ -52,7 +52,7 @@ export function AnimatedServiceCard({
               {service.title}
             </h2>
 
-            {/* Description / Infographic Cards / Gradient Generator */}
+            {/* Description / Infographic Cards / Gradient Generator / Chart */}
             {index === 0 ? (
               <div className="space-y-4">
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
@@ -66,6 +66,26 @@ export function AnimatedServiceCard({
                   Make your website unique with custom colors, fonts, logos, and personalized design that matches your brand perfectly.
                 </p>
                 <CustomBrandingGradient />
+              </div>
+            ) : index === 2 ? (
+              <div className="space-y-6">
+                <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl">
+                  {service.description}
+                </p>
+                <AnimatedCard className="w-full max-w-md">
+                  <CardVisual>
+                    <Visual3 
+                      mainColor="hsl(var(--primary))" 
+                      secondaryColor="hsl(var(--accent))" 
+                    />
+                  </CardVisual>
+                  <CardBody>
+                    <CardTitle>Content Drives Growth</CardTitle>
+                    <CardDescription>
+                      Quality content increases engagement, conversions, and revenue
+                    </CardDescription>
+                  </CardBody>
+                </AnimatedCard>
               </div>
             ) : (
               <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl">
@@ -84,23 +104,6 @@ export function AnimatedServiceCard({
                   beforeAlt={`${service.title} - Before`} 
                   afterAlt={`${service.title} - After`} 
                 />
-              ) : index === 2 && service.image ? (
-                <div className="w-full h-full flex flex-col gap-6 items-center justify-center">
-                  <AnimatedCard className="w-full max-w-md">
-                    <CardVisual>
-                      <Visual3 
-                        mainColor="hsl(var(--primary))" 
-                        secondaryColor="hsl(var(--accent))" 
-                      />
-                    </CardVisual>
-                    <CardBody>
-                      <CardTitle>Content Drives Growth</CardTitle>
-                      <CardDescription>
-                        Quality content increases engagement, conversions, and revenue
-                      </CardDescription>
-                    </CardBody>
-                  </AnimatedCard>
-                </div>
               ) : service.image ? (
                 <img 
                   src={service.image} 
