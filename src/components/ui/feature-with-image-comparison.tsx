@@ -36,7 +36,7 @@ export function FeatureWithImageComparison({
   return (
     <div className="w-full h-full">
       <div
-        className="relative aspect-video w-full h-full overflow-hidden rounded-3xl select-none"
+        className="relative aspect-video w-full h-full overflow-hidden rounded-lg select-none"
         onMouseMove={onMouseMove}
         onMouseUp={() => setOnMouseDown(false)}
         onTouchMove={onMouseMove}
@@ -67,7 +67,7 @@ export function FeatureWithImageComparison({
         <img
           src={afterImage}
           alt={afterAlt}
-          className="absolute left-0 top-0 z-10 w-full h-full object-cover rounded-3xl select-none"
+          className="absolute left-0 top-0 z-10 w-full h-full object-cover rounded-lg select-none"
           style={{
             clipPath: "inset(0 0 0 " + inset + "%)",
           }}
@@ -75,7 +75,7 @@ export function FeatureWithImageComparison({
         <img
           src={beforeImage}
           alt={beforeAlt}
-          className="absolute left-0 top-0 w-full h-full object-cover rounded-3xl select-none"
+          className="absolute left-0 top-0 w-full h-full object-cover rounded-lg select-none"
         />
       </div>
     </div>
