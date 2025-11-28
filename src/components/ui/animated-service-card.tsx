@@ -60,7 +60,7 @@ export function AnimatedServiceCard({
           </div>
 
           {/* Image Section */}
-          <div className="relative order-1 lg:order-2 min-h-[350px] sm:min-h-[450px] lg:min-h-[500px]">
+          <div className="relative order-1 lg:order-2 min-h-[300px] sm:min-h-[400px] lg:min-h-[500px]">
             <div className="w-full h-full flex items-center justify-center">
               {service.image ? <img src={service.image} alt={service.title} className="w-full h-full object-contain max-w-2xl" /> : <service.icon className="w-full h-full max-w-md text-muted-foreground/15" strokeWidth={0.5} aria-hidden />}
             </div>
