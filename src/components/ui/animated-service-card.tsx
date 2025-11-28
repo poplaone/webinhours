@@ -55,16 +55,12 @@ export function AnimatedServiceCard({
                   mainColor="hsl(var(--primary))" 
                   secondaryColor="hsl(var(--accent))" 
                 />
-                <div className="absolute inset-0 z-10 flex flex-col items-start justify-start p-6 lg:p-8 pt-8 lg:pt-12">
-                  <div className="max-w-lg space-y-3">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/80 backdrop-blur-sm px-3 py-1.5">
-                      <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
-                      <span className="text-xs font-medium text-foreground">Content Engagement Growth</span>
-                    </div>
-                    <h3 className="text-2xl sm:text-3xl font-bold leading-tight tracking-tight text-foreground">
+                <div className="absolute inset-0 z-10 flex flex-col items-start justify-start p-4 sm:p-6 lg:p-8 pt-6 sm:pt-8 lg:pt-12">
+                  <div className="max-w-full sm:max-w-lg space-y-2 sm:space-y-3">
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold leading-tight tracking-tight text-foreground">
                       Content Creation Drives Results
                     </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed max-w-md">
+                    <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-[280px] sm:max-w-md">
                       Quality content increases engagement and revenue
                     </p>
                   </div>
