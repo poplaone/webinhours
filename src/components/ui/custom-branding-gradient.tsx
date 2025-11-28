@@ -133,7 +133,7 @@ export function CustomBrandingGradient() {
   return (
     <div className="w-full space-y-3">
       {/* Gradient Preview */}
-      <div className="relative w-full aspect-[2/1] max-h-[200px] rounded-xl lg:rounded-2xl overflow-hidden">
+      <div className="relative w-full aspect-[2/1] max-h-[200px] rounded-lg overflow-hidden">
         <div className="absolute inset-0" style={gradientStyle}></div>
         <canvas
           ref={displayCanvasRef}
