@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,6 +17,7 @@ import { supabase } from '@/integrations/supabase/client';
 
 export default function Contact() {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -45,19 +47,8 @@ export default function Contact() {
 
       if (error) throw error;
       
-      toast({
-        title: "Message Sent!",
-        description: "We'll get back to you within 24 hours.",
-      });
-      
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-        type: ''
-      });
+      // Redirect to confirmation page
+      navigate(`/contact/confirmation?name=${encodeURIComponent(formData.name)}&email=${encodeURIComponent(formData.email)}&type=${encodeURIComponent(formData.type || 'general')}`);
     } catch (error) {
       console.error("Error sending message:", error);
       toast({
