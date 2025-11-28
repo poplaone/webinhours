@@ -1,15 +1,54 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Check, Star, Zap, Users, Crown } from 'lucide-react';
+import { Check, Star, Zap, Users, Crown, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 export default function Pricing() {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+
+  const handlePurchase = async (planName: string, price: string) => {
+    setLoadingPlan(planName);
+    
+    try {
+      // Extract numeric price
+      const numericPrice = parseFloat(price.replace(/[^0-9.-]+/g, ''));
+      
+      const { data, error } = await supabase.functions.invoke('dodo-checkout', {
+        body: {
+          productName: `${planName} Plan - WebInHours`,
+          price: numericPrice,
+          quantity: 1
+        }
+      });
+
+      if (error) throw error;
+
+      if (data.success && data.checkoutUrl) {
+        // Redirect to Dodo Payments checkout
+        window.location.href = data.checkoutUrl;
+      } else {
+        throw new Error('Failed to create checkout session');
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+      toast({
+        title: "Checkout Error",
+        description: "Failed to initiate payment. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoadingPlan(null);
+    }
+  };
 
   const plans = [
     {
@@ -139,9 +178,23 @@ export default function Pricing() {
                     : ''
                   }`}
                   variant={plan.popular ? "default" : "outline"}
-                  onClick={() => navigate('/dashboard')}
+                  onClick={() => {
+                    if (plan.name === "Template") {
+                      navigate('/marketplace');
+                    } else {
+                      handlePurchase(plan.name, plan.price);
+                    }
+                  }}
+                  disabled={loadingPlan === plan.name}
                 >
-                  {plan.cta}
+                  {loadingPlan === plan.name ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    plan.cta
+                  )}
                 </Button>
               </CardContent>
             </Card>
