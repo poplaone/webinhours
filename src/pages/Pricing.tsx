@@ -19,15 +19,26 @@ export default function Pricing() {
     setLoadingPlan(planName);
     
     try {
-      // Extract numeric price
-      const numericPrice = parseFloat(price.replace(/[^0-9.-]+/g, ''));
+      // Product IDs must be created in Dodo Payments dashboard first
+      // Map plan names to your Dodo Payments product IDs
+      const productIdMap: Record<string, string> = {
+        'Custom Lite': 'YOUR_CUSTOM_LITE_PRODUCT_ID', // Replace with actual product ID from Dodo dashboard
+        'Custom Pro': 'YOUR_CUSTOM_PRO_PRODUCT_ID',   // Replace with actual product ID from Dodo dashboard
+      };
+
+      const productId = productIdMap[planName];
+      
+      if (!productId || productId.startsWith('YOUR_')) {
+        toast({
+          title: "Setup Required",
+          description: `Please create products in Dodo Payments dashboard and update product IDs in code. Check DODO_PAYMENTS_SETUP.md for instructions.`,
+          variant: "destructive"
+        });
+        return;
+      }
       
       const { data, error } = await supabase.functions.invoke('dodo-checkout', {
-        body: {
-          productName: `${planName} Plan - WebInHours`,
-          price: numericPrice,
-          quantity: 1
-        }
+        body: { productId }
       });
 
       if (error) throw error;
