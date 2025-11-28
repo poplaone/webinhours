@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { leadCaptureSchema } from "@/utils/formValidation";
+import { supabase } from "@/integrations/supabase/client";
 
 interface LeadCaptureFormProps {
   variant?: 'popup' | 'inline' | 'sidebar';
@@ -29,7 +30,7 @@ export const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Client-side validation
@@ -43,9 +44,25 @@ export const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
       return;
     }
     
-    // Handle form submission
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 3000);
+    try {
+      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+        body: {
+          ...formData,
+          subject: `Lead Capture - ${formData.projectType || 'General Inquiry'}`,
+        }
+      });
+
+      if (error) throw error;
+      
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error("Error submitting lead form:", error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to submit form. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const benefits = [
