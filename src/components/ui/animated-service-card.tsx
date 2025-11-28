@@ -51,10 +51,16 @@ export function AnimatedServiceCard({
             
             <AnimatedCard className="w-full">
               <CardVisual className="relative">
-                <Visual3 mainColor="hsl(var(--primary))" secondaryColor="hsl(var(--accent))" />
+                <Visual3 
+                  mainColor="hsl(var(--primary))" 
+                  secondaryColor="hsl(var(--accent))" 
+                />
                 <div className="absolute inset-0 z-10 flex flex-col items-start justify-start p-6 lg:p-8 pt-8 lg:pt-12">
                   <div className="max-w-lg space-y-3">
-                    
+                    <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/80 backdrop-blur-sm px-3 py-1.5">
+                      <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+                      <span className="text-xs font-medium text-foreground">Content Engagement Growth</span>
+                    </div>
                     <h3 className="text-2xl sm:text-3xl font-bold leading-tight tracking-tight text-foreground">
                       Content Creation Drives Results
                     </h3>
@@ -70,7 +76,19 @@ export function AnimatedServiceCard({
           {/* Image Section */}
           <div className="relative order-1 lg:order-2 min-h-[350px] sm:min-h-[450px] lg:min-h-[500px]">
             <div className="w-full h-full flex items-center justify-center">
-              {service.image ? <img src={service.image} alt={service.title} className="w-full h-full object-contain max-w-2xl" /> : <service.icon className="w-full h-full max-w-md text-muted-foreground/15" strokeWidth={0.5} aria-hidden />}
+              {service.image ? (
+                <img 
+                  src={service.image} 
+                  alt={service.title} 
+                  className="w-full h-full object-contain max-w-2xl" 
+                />
+              ) : (
+                <service.icon 
+                  className="w-full h-full max-w-md text-muted-foreground/15" 
+                  strokeWidth={0.5} 
+                  aria-hidden 
+                />
+              )}
             </div>
           </div>
         </div>
@@ -93,25 +111,50 @@ export function AnimatedServiceCard({
             </h2>
 
             {/* Description / Infographic Cards / Gradient Generator */}
-            {index === 0 ? <div className="space-y-4">
+            {index === 0 ? (
+              <div className="space-y-4">
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
                   Get a complete, professional website with everything you need to start your online presence - completely FREE forever.
                 </p>
                 <FeatureInfographicCards />
-              </div> : index === 1 ? <div className="space-y-4">
+              </div>
+            ) : index === 1 ? (
+              <div className="space-y-4">
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
                   Make your website unique with custom colors, fonts, logos, and personalized design that matches your brand perfectly.
                 </p>
                 <CustomBrandingGradient />
-              </div> : <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl">
+              </div>
+            ) : (
+              <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl">
                 {service.description}
-              </p>}
+              </p>
+            )}
           </div>
 
           {/* Image Section */}
           <div className={cn('relative order-1 lg:order-2 min-h-[350px] sm:min-h-[450px] lg:min-h-[500px]', !service.beforeAfterSlider && !service.image && 'bg-gradient-to-br from-muted/50 to-muted/30 rounded-lg overflow-hidden p-6 lg:p-8', isImageLeft && 'lg:order-1')}>
             <div className="w-full h-full flex items-center justify-center">
-              {service.beforeAfterSlider ? <FeatureWithImageComparison beforeImage={service.beforeAfterSlider.beforeImage} afterImage={service.beforeAfterSlider.afterImage} beforeAlt={`${service.title} - Before`} afterAlt={`${service.title} - After`} /> : service.image ? <img src={service.image} alt={service.title} className="w-full h-full object-contain max-w-2xl" /> : <service.icon className="w-full h-full max-w-md text-muted-foreground/15" strokeWidth={0.5} aria-hidden />}
+              {service.beforeAfterSlider ? (
+                <FeatureWithImageComparison 
+                  beforeImage={service.beforeAfterSlider.beforeImage} 
+                  afterImage={service.beforeAfterSlider.afterImage} 
+                  beforeAlt={`${service.title} - Before`} 
+                  afterAlt={`${service.title} - After`} 
+                />
+              ) : service.image ? (
+                <img 
+                  src={service.image} 
+                  alt={service.title} 
+                  className="w-full h-full object-contain max-w-2xl" 
+                />
+              ) : (
+                <service.icon 
+                  className="w-full h-full max-w-md text-muted-foreground/15" 
+                  strokeWidth={0.5} 
+                  aria-hidden 
+                />
+              )}
             </div>
           </div>
         </div>
