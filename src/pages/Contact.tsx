@@ -14,6 +14,7 @@ import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { contactSchema } from '@/utils/formValidation';
 import { supabase } from '@/integrations/supabase/client';
+import { trackFormSubmission } from '@/utils/analytics';
 
 export default function Contact() {
   const { toast } = useToast();
@@ -47,10 +48,17 @@ export default function Contact() {
 
       if (error) throw error;
       
+      // Track successful form submission
+      trackFormSubmission('contact_form', true);
+      
       // Redirect to confirmation page
       navigate(`/contact/confirmation?name=${encodeURIComponent(formData.name)}&email=${encodeURIComponent(formData.email)}&type=${encodeURIComponent(formData.type || 'general')}`);
     } catch (error) {
       console.error("Error sending message:", error);
+      
+      // Track failed form submission
+      trackFormSubmission('contact_form', false);
+      
       toast({
         title: "Error",
         description: error instanceof Error ? error.message : "Failed to send message. Please try again.",

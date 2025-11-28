@@ -10,6 +10,7 @@ import { GridBackground } from "@/components/ui/GridBackground";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 import { preloadCriticalResources, optimizeRenderPerformance, enableServiceWorker } from "@/utils/performanceOptimizer";
+import { usePageTracking } from "@/hooks/usePageTracking";
 
 // Lazy load all pages including Index for optimal code splitting
 const Index = lazy(() => import("./pages/Index"));
@@ -54,9 +55,12 @@ const queryClient = new QueryClient({
   }
 });
 
-// Component to handle scroll to top on route change
+// Component to handle scroll to top and analytics tracking on route change
 function ScrollToTop() {
   const { pathname } = useLocation();
+  
+  // Track page views
+  usePageTracking();
 
   useEffect(() => {
     window.scrollTo(0, 0);
