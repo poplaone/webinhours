@@ -5,3 +5,9 @@ verify_jwt = true
 
 [functions.send-contact-email]
 verify_jwt = false
+
+[functions.dodo-checkout]
+verify_jwt = false
+
+[functions.dodo-webhook]
+verify_jwt = false
