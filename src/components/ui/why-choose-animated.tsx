@@ -95,7 +95,7 @@ const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
                 return (
                   <div
                     key={idx}
-                    className="group relative overflow-hidden rounded-xl border border-border/50 bg-card/50 backdrop-blur-sm p-4 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300"
+                    className="group relative overflow-hidden rounded-lg border border-border/50 bg-card/50 backdrop-blur-sm p-4 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300"
                   >
                     {/* Gradient background on hover */}
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
