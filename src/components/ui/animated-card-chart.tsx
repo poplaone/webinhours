@@ -15,7 +15,7 @@ export function AnimatedCard({ className, ...props }: CardProps) {
       aria-labelledby="card-title"
       aria-describedby="card-description"
       className={cn(
-        "group/animated-card relative w-full overflow-hidden rounded-xl border border-border bg-card shadow-sm",
+        "group/animated-card relative w-full overflow-hidden rounded-xl bg-transparent",
         className
       )}
       {...props}
@@ -28,7 +28,7 @@ export function CardBody({ className, ...props }: CardProps) {
     <div
       role="group"
       className={cn(
-        "flex flex-col space-y-1.5 border-t border-border p-4",
+        "flex flex-col space-y-1.5 p-4 bg-transparent",
         className
       )}
       {...props}
@@ -68,7 +68,7 @@ export function CardDescription({ className, ...props }: CardDescriptionProps) {
 export function CardVisual({ className, ...props }: CardProps) {
   return (
     <div
-      className={cn("h-[180px] w-full overflow-hidden", className)}
+      className={cn("h-[300px] w-full overflow-hidden", className)}
       {...props}
     />
   );
@@ -87,35 +87,29 @@ export function Visual3({
   secondaryColor = "hsl(var(--accent))",
   gridColor = "#80808015",
 }: Visual3Props) {
-  const [hovered, setHovered] = useState(false);
+  const [animated, setAnimated] = useState(false);
+
+  React.useEffect(() => {
+    // Auto-animate after component mounts
+    const timer = setTimeout(() => {
+      setAnimated(true);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <>
-      <div
-        className="absolute inset-0 z-20"
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        style={
-          {
-            "--color": mainColor,
-            "--secondary-color": secondaryColor,
-          } as React.CSSProperties
-        }
+    <div className="relative h-[300px] w-full overflow-hidden bg-transparent">
+      <Layer4
+        color={mainColor}
+        secondaryColor={secondaryColor}
+        hovered={animated}
       />
-
-      <div className="relative h-[180px] w-full overflow-hidden rounded-t-lg">
-        <Layer4
-          color={mainColor}
-          secondaryColor={secondaryColor}
-          hovered={hovered}
-        />
-        <Layer3 color={mainColor} />
-        <Layer2 color={mainColor} />
-        <Layer1 color={mainColor} secondaryColor={secondaryColor} />
-        <EllipseGradient color={mainColor} />
-        <GridLayer color={gridColor} />
-      </div>
-    </>
+      <Layer3 color={mainColor} animated={animated} />
+      <Layer2 color={mainColor} animated={animated} />
+      <Layer1 color={mainColor} secondaryColor={secondaryColor} animated={animated} />
+      <EllipseGradient color={mainColor} />
+      <GridLayer color={gridColor} />
+    </div>
   );
 }
 
@@ -123,6 +117,7 @@ interface LayerProps {
   color: string;
   secondaryColor?: string;
   hovered?: boolean;
+  animated?: boolean;
 }
 
 const GridLayer: React.FC<{ color: string }> = ({ color }) => {
@@ -139,13 +134,13 @@ const EllipseGradient: React.FC<{ color: string }> = ({ color }) => {
     <div className="absolute inset-0 z-[5] flex h-full w-full items-center justify-center">
       <svg
         width="100%"
-        height="180"
-        viewBox="0 0 356 180"
+        height="300"
+        viewBox="0 0 356 300"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="xMidYMid slice"
       >
-        <rect width="356" height="180" fill="url(#paint0_radial_12_207)" />
+        <rect width="356" height="300" fill="url(#paint0_radial_12_207)" />
         <defs>
           <radialGradient
             id="paint0_radial_12_207"
@@ -153,10 +148,10 @@ const EllipseGradient: React.FC<{ color: string }> = ({ color }) => {
             cy="0"
             r="1"
             gradientUnits="userSpaceOnUse"
-            gradientTransform="translate(178 98) rotate(90) scale(98 178)"
+            gradientTransform="translate(178 150) rotate(90) scale(150 178)"
           >
-            <stop stopColor={color} stopOpacity="0.25" />
-            <stop offset="0.34" stopColor={color} stopOpacity="0.15" />
+            <stop stopColor={color} stopOpacity="0.15" />
+            <stop offset="0.34" stopColor={color} stopOpacity="0.08" />
             <stop offset="1" stopOpacity="0" />
           </radialGradient>
         </defs>
@@ -165,7 +160,7 @@ const EllipseGradient: React.FC<{ color: string }> = ({ color }) => {
   );
 };
 
-const Layer1: React.FC<LayerProps> = ({ color, secondaryColor }) => {
+const Layer1: React.FC<LayerProps> = ({ color, secondaryColor, animated }) => {
   return (
     <div
       className="absolute top-4 left-4 z-[8] flex items-center gap-1"
@@ -176,13 +171,19 @@ const Layer1: React.FC<LayerProps> = ({ color, secondaryColor }) => {
         } as React.CSSProperties
       }
     >
-      <div className="flex shrink-0 items-center rounded-full border border-border bg-background/25 px-1.5 py-0.5 backdrop-blur-sm transition-opacity duration-300 ease-in-out group-hover/animated-card:opacity-0">
+      <div className={cn(
+        "flex shrink-0 items-center rounded-full border border-border bg-background/25 px-1.5 py-0.5 backdrop-blur-sm transition-opacity duration-300 ease-in-out",
+        animated && "opacity-0"
+      )}>
         <div className="h-1.5 w-1.5 rounded-full bg-[var(--color)]" />
         <span className="ml-1 text-[10px] text-foreground">
           +45%
         </span>
       </div>
-      <div className="flex shrink-0 items-center rounded-full border border-border bg-background/25 px-1.5 py-0.5 backdrop-blur-sm transition-opacity duration-300 ease-in-out group-hover/animated-card:opacity-0">
+      <div className={cn(
+        "flex shrink-0 items-center rounded-full border border-border bg-background/25 px-1.5 py-0.5 backdrop-blur-sm transition-opacity duration-300 ease-in-out",
+        animated && "opacity-0"
+      )}>
         <div className="h-1.5 w-1.5 rounded-full bg-[var(--secondary-color)]" />
         <span className="ml-1 text-[10px] text-foreground">
           +63%
@@ -192,14 +193,20 @@ const Layer1: React.FC<LayerProps> = ({ color, secondaryColor }) => {
   );
 };
 
-const Layer2: React.FC<{ color: string }> = ({ color }) => {
+const Layer2: React.FC<LayerProps> = ({ color, animated }) => {
   return (
     <div
       className="group relative h-full w-full"
       style={{ "--color": color } as React.CSSProperties}
     >
-      <div className="ease-[cubic-bezier(0.6, 0.6, 0, 1)] absolute inset-0 z-[7] flex w-full translate-y-full items-start justify-center bg-transparent p-4 transition-transform duration-500 group-hover/animated-card:translate-y-0">
-        <div className="ease-[cubic-bezier(0.6, 0, 1)] rounded-md border border-border bg-background/25 p-1.5 opacity-0 backdrop-blur-sm transition-opacity duration-500 group-hover/animated-card:opacity-100">
+      <div className={cn(
+        "ease-[cubic-bezier(0.6, 0.6, 0, 1)] absolute inset-0 z-[7] flex w-full items-start justify-center bg-transparent p-4 transition-transform duration-500",
+        animated ? "translate-y-0" : "translate-y-full"
+      )}>
+        <div className={cn(
+          "ease-[cubic-bezier(0.6, 0, 1)] rounded-md border border-border bg-background/25 p-1.5 backdrop-blur-sm transition-opacity duration-500",
+          animated ? "opacity-100" : "opacity-0"
+        )}>
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 shrink-0 rounded-full bg-[var(--color)]" />
             <p className="text-xs text-foreground">
@@ -215,29 +222,32 @@ const Layer2: React.FC<{ color: string }> = ({ color }) => {
   );
 };
 
-const Layer3: React.FC<{ color: string }> = ({ color }) => {
+const Layer3: React.FC<LayerProps> = ({ color, animated }) => {
   return (
-    <div className="ease-[cubic-bezier(0.6, 0.6, 0, 1)] absolute inset-0 z-[6] flex translate-y-full items-center justify-center opacity-0 transition-all duration-500 group-hover/animated-card:translate-y-0 group-hover/animated-card:opacity-100">
+    <div className={cn(
+      "ease-[cubic-bezier(0.6, 0.6, 0, 1)] absolute inset-0 z-[6] flex items-center justify-center transition-all duration-500",
+      animated ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
+    )}>
       <svg
         width="100%"
-        height="180"
-        viewBox="0 0 356 180"
+        height="300"
+        viewBox="0 0 356 300"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="xMidYMid slice"
       >
-        <rect width="356" height="180" fill="url(#paint0_linear_29_3)" />
+        <rect width="356" height="300" fill="url(#paint0_linear_29_3)" />
         <defs>
           <linearGradient
             id="paint0_linear_29_3"
             x1="178"
             y1="0"
             x2="178"
-            y2="180"
+            y2="300"
             gradientUnits="userSpaceOnUse"
           >
             <stop offset="0.35" stopColor={color} stopOpacity="0" />
-            <stop offset="1" stopColor={color} stopOpacity="0.3" />
+            <stop offset="1" stopColor={color} stopOpacity="0.2" />
           </linearGradient>
         </defs>
       </svg>
@@ -245,7 +255,8 @@ const Layer3: React.FC<{ color: string }> = ({ color }) => {
   );
 };
 
-const Layer4: React.FC<LayerProps> = ({ color, secondaryColor, hovered }) => {
+const Layer4: React.FC<LayerProps> = ({ color, secondaryColor, hovered, animated }) => {
+  const isAnimated = hovered || animated;
   const rectsData = [
     {
       width: 15,
@@ -390,16 +401,19 @@ const Layer4: React.FC<LayerProps> = ({ color, secondaryColor, hovered }) => {
   ];
 
   return (
-    <div className="ease-[cubic-bezier(0.6, 0.6, 0, 1)] absolute inset-0 z-[8] flex h-[180px] w-full items-center justify-center text-muted/10 transition-transform duration-500 group-hover/animated-card:scale-150">
-      <svg width="100%" height="180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 356 180" preserveAspectRatio="xMidYMid meet">
+    <div className={cn(
+      "ease-[cubic-bezier(0.6, 0.6, 0, 1)] absolute inset-0 z-[8] flex h-[300px] w-full items-center justify-center text-muted/10 transition-transform duration-500",
+      isAnimated && "scale-150"
+    )}>
+      <svg width="100%" height="300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 356 300" preserveAspectRatio="xMidYMid meet">
         {rectsData.map((rect, index) => (
           <rect
             key={index}
             width={rect.width}
-            height={hovered ? rect.hoverHeight : rect.height}
+            height={isAnimated ? rect.hoverHeight : rect.height}
             x={rect.x}
-            y={hovered ? rect.hoverY : rect.y}
-            fill={hovered ? rect.hoverFill : rect.fill}
+            y={isAnimated ? rect.hoverY + 100 : rect.y + 100}
+            fill={isAnimated ? rect.hoverFill : rect.fill}
             rx="2"
             ry="2"
             className="ease-[cubic-bezier(0.6, 0.6, 0, 1)] transition-all duration-500"
