@@ -46,7 +46,7 @@ export const Hero = () => {
               <h1 className="text-center font-bold leading-tight mb-6 sm:mb-8 xl:text-6xl text-xl text-primary">We build your online presence in Hours, Not Weeks.</h1>
 
               <div className="text-center max-w-5xl mx-auto text-muted-foreground">
-                <p className="text-sm xl:text-base">
+                <p className="text-sm xl:text-base leading-tight md:leading-normal">
                   Choose from hundreds of professional{' '}
                   <button onClick={() => navigate('/marketplace')} className="underline decoration-2 underline-offset-4 hover:text-primary transition-colors cursor-pointer bg-transparent border-none p-0 font-inherit">
                     website designs
