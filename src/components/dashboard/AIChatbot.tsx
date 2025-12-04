@@ -27,6 +27,9 @@ interface AIChatbotProps {
 }
 
 const DAILY_LIMIT = 10;
+const CHAT_EXPIRY_HOURS = 24;
+const AI_CHAT_STORAGE_KEY = 'ai_chat_messages';
+const AI_CHAT_TIMESTAMP_KEY = 'ai_chat_started_at';
 
 // Initial messages for each mode
 const getInitialAIMessage = (): Message => ({
@@ -43,13 +46,45 @@ const getInitialLiveMessage = (): Message => ({
   timestamp: new Date().toISOString(),
 });
 
+// Check if chat has expired (24 hours)
+const isChatExpired = (): boolean => {
+  const startedAt = localStorage.getItem(AI_CHAT_TIMESTAMP_KEY);
+  if (!startedAt) return true;
+  
+  const startTime = new Date(startedAt).getTime();
+  const now = Date.now();
+  const hoursPassed = (now - startTime) / (1000 * 60 * 60);
+  
+  return hoursPassed >= CHAT_EXPIRY_HOURS;
+};
+
+// Load saved AI messages from localStorage
+const loadSavedAIMessages = (): Message[] => {
+  if (isChatExpired()) {
+    localStorage.removeItem(AI_CHAT_STORAGE_KEY);
+    localStorage.removeItem(AI_CHAT_TIMESTAMP_KEY);
+    return [getInitialAIMessage()];
+  }
+  
+  try {
+    const saved = localStorage.getItem(AI_CHAT_STORAGE_KEY);
+    if (saved) {
+      const messages = JSON.parse(saved) as Message[];
+      return messages.length > 0 ? messages : [getInitialAIMessage()];
+    }
+  } catch {
+    // Invalid data, reset
+  }
+  return [getInitialAIMessage()];
+};
+
 export const AIChatbot: React.FC<AIChatbotProps> = ({ onSearch }) => {
   const [chatMode, setChatMode] = useState<ChatMode>('ai');
   const [inputValue, setInputValue] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   
-  // Separate states for AI and Live modes
-  const [aiMessages, setAiMessages] = useState<Message[]>([getInitialAIMessage()]);
+  // Separate states for AI and Live modes - load AI messages from localStorage
+  const [aiMessages, setAiMessages] = useState<Message[]>(loadSavedAIMessages);
   const [liveMessages, setLiveMessages] = useState<Message[]>([getInitialLiveMessage()]);
   
   const [aiLoading, setAiLoading] = useState(false);
@@ -65,6 +100,37 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({ onSearch }) => {
   // Current mode's messages and loading state
   const currentMessages = chatMode === 'ai' ? aiMessages : liveMessages;
   const isLoading = chatMode === 'ai' ? aiLoading : liveLoading;
+
+  // Save AI messages to localStorage and set timestamp
+  useEffect(() => {
+    // Only save if there are user messages (not just welcome)
+    const hasUserMessages = aiMessages.some(m => m.role === 'user');
+    if (hasUserMessages) {
+      localStorage.setItem(AI_CHAT_STORAGE_KEY, JSON.stringify(aiMessages));
+      // Set start timestamp if not already set
+      if (!localStorage.getItem(AI_CHAT_TIMESTAMP_KEY)) {
+        localStorage.setItem(AI_CHAT_TIMESTAMP_KEY, new Date().toISOString());
+      }
+    }
+  }, [aiMessages]);
+
+  // Check for expired chat on mount and periodically
+  useEffect(() => {
+    const checkExpiry = () => {
+      if (isChatExpired()) {
+        localStorage.removeItem(AI_CHAT_STORAGE_KEY);
+        localStorage.removeItem(AI_CHAT_TIMESTAMP_KEY);
+        setAiMessages([getInitialAIMessage()]);
+      }
+    };
+    
+    // Check on mount
+    checkExpiry();
+    
+    // Check every minute
+    const interval = setInterval(checkExpiry, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Fetch AI credits on mount
   useEffect(() => {
