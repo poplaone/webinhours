@@ -6,13 +6,10 @@ import { useWebsites } from '@/hooks/useWebsites';
 import { useAIAgents } from '@/hooks/useAIAgents';
 import { Tables } from '@/integrations/supabase/types';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Bot, MessageCircle, X } from 'lucide-react';
+import { Bot } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
-import ChatSidebar from '@/components/ai/ChatSidebar';
 
 // Lazy load heavy components
 const MarketplaceFilters = lazy(() => import('@/components/marketplace/MarketplaceFilters').then(m => ({ default: m.MarketplaceFilters })));
@@ -41,7 +38,6 @@ const Marketplace: React.FC = () => {
   const [sortBy, setSortBy] = useState('popular');
   const [activeTab, setActiveTab] = useState<'websites' | 'ai-agents'>('websites');
   const [tagFilter, setTagFilter] = useState<string | null>(null);
-  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const mainContentRef = useRef<HTMLDivElement>(null);
   const filtersWrapRef = useRef<HTMLDivElement>(null);
@@ -488,28 +484,6 @@ const Marketplace: React.FC = () => {
 
 
       </div>
-
-      {/* Floating Chat Button */}
-      <Sheet open={isChatOpen} onOpenChange={setIsChatOpen}>
-        <SheetTrigger asChild>
-          <Button
-            className="fixed bottom-20 right-4 lg:bottom-6 lg:right-6 z-50 h-14 w-14 rounded-full bg-gradient-to-r from-[#8B5CF6] to-[#10B981] hover:from-[#7C3AED] hover:to-[#059669] shadow-lg"
-            size="icon"
-          >
-            {isChatOpen ? (
-              <X className="h-6 w-6 text-white" />
-            ) : (
-              <MessageCircle className="h-6 w-6 text-white" />
-            )}
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="right" className="w-full sm:w-[400px] p-0 bg-[#121212] border-l border-[#8B5CF6]/20">
-          <ChatSidebar 
-            isMaximized={false}
-            onClose={() => setIsChatOpen(false)}
-          />
-        </SheetContent>
-      </Sheet>
     </AppLayout>
   );
 };
