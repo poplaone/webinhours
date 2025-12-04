@@ -53,38 +53,38 @@ export const Header = () => {
     },
     {
       title: 'Custom Design',
-      href: '/#services',
+      href: '/contact?service=custom-website',
       icon: Palette,
       description: 'Tailored design matching your brand'
     },
     {
       title: 'Content Creation',
-      href: '/#services',
+      href: '/contact?service=content-creation',
       icon: FileCode,
       description: 'Professional copywriting & media'
     },
     {
       title: 'SEO & GEO Optimization',
-      href: '/#services',
+      href: '/contact?service=seo-geo',
       icon: Search,
       description: 'Rank higher in search & AI results'
     },
     {
-      title: 'Performance',
-      href: '/#services',
+      title: 'E-commerce Solutions',
+      href: '/contact?service=ecommerce',
       icon: Zap,
-      description: 'Lightning-fast load times'
+      description: 'Online store setup & management'
     },
     {
-      title: 'Mobile Responsive',
-      href: '/#services',
+      title: 'Social Media Management',
+      href: '/contact?service=social-media',
       icon: Smartphone,
-      description: 'Perfect on all devices'
+      description: 'Grow your online presence'
     },
   ];
 
   const featuredServices: LinkItem[] = [
-    { title: 'View All Services', href: '/#services', icon: FileCode },
+    { title: 'Get Started Free', href: '/contact?service=free-website', icon: FileCode },
     { title: 'Browse Marketplace', href: '/marketplace', icon: Globe },
     { title: 'Get a Quote', href: '/calculator', icon: DollarSign },
   ];
@@ -101,7 +101,8 @@ export const Header = () => {
   ];
 
   const allMobileItems = [
-    { label: 'Services', path: '/#services' },
+    { label: 'Free Website', path: '/contact?service=free-website' },
+    { label: 'Marketplace', path: '/marketplace' },
     ...navItems,
     ...moreItems.map(item => ({ label: item.title, path: item.href })),
     ...legalItems.map(item => ({ label: item.title, path: item.href }))

@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Code } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -16,6 +16,13 @@ export const Footer = () => {
     }
   }, [isMobile]);
 
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <footer className={`py-12 px-4 border-t relative z-10 transition-all duration-[2000ms] ease-in-out ${isMobile && !mobileFooterVisible
         ? 'bg-transparent backdrop-blur-none border-transparent'
@@ -27,12 +34,12 @@ export const Footer = () => {
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <div className="flex items-center space-x-2 mb-4">
+            <Link to="/" className="flex items-center space-x-2 mb-4 hover:opacity-80 transition-opacity">
               <div className="bg-[#8B5CF6] rounded-md p-2">
                 <Code className="h-6 w-6 text-white" />
               </div>
               <span className="font-bold text-xl">WebInHours</span>
-            </div>
+            </Link>
             <p className="text-muted-foreground">
               Professional web development services delivered with speed and precision.
             </p>
@@ -40,34 +47,115 @@ export const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4">Services</h3>
             <ul className="space-y-2 text-muted-foreground">
-              <li>Web Development</li>
-              <li>Mobile Design</li>
-              <li>E-commerce Solutions</li>
-              <li>SEO & GEO Optimization</li>
-              <li>Performance Optimization</li>
+              <li>
+                <Link to="/contact?service=custom-website" className="hover:text-foreground transition-colors">
+                  Web Development
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact?service=custom-website" className="hover:text-foreground transition-colors">
+                  Mobile Design
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact?service=ecommerce" className="hover:text-foreground transition-colors">
+                  E-commerce Solutions
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact?service=seo-geo" className="hover:text-foreground transition-colors">
+                  SEO & GEO Optimization
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact?service=maintenance" className="hover:text-foreground transition-colors">
+                  Performance Optimization
+                </Link>
+              </li>
             </ul>
           </div>
           <div>
             <h3 className="font-semibold mb-4">Company</h3>
             <ul className="space-y-2 text-muted-foreground">
-              <li>About Us</li>
-              <li>Portfolio</li>
-              <li>Careers</li>
-              <li>Contact</li>
+              <li>
+                <Link to="/about" className="hover:text-foreground transition-colors">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/marketplace" className="hover:text-foreground transition-colors">
+                  Portfolio
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="hover:text-foreground transition-colors">
+                  Careers
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="hover:text-foreground transition-colors">
+                  Contact
+                </Link>
+              </li>
             </ul>
           </div>
           <div>
             <h3 className="font-semibold mb-4">Connect</h3>
             <ul className="space-y-2 text-muted-foreground">
-              <li>LinkedIn</li>
-              <li>Twitter</li>
-              <li>GitHub</li>
-              <li>Email</li>
+              <li>
+                <a 
+                  href="https://linkedin.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-foreground transition-colors"
+                >
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://twitter.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-foreground transition-colors"
+                >
+                  Twitter
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://github.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-foreground transition-colors"
+                >
+                  GitHub
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="mailto:support@webinhours.com"
+                  className="hover:text-foreground transition-colors"
+                >
+                  Email
+                </a>
+              </li>
             </ul>
           </div>
         </div>
-        <div className="border-t border-border/40 mt-8 pt-8 text-center text-muted-foreground">
+        <div className="border-t border-border/40 mt-8 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-muted-foreground">
           <p>&copy; 2024 WebInHours. All rights reserved.</p>
+          <div className="flex items-center gap-4 text-sm">
+            <Link to="/privacy" className="hover:text-foreground transition-colors">
+              Privacy Policy
+            </Link>
+            <Link to="/terms" className="hover:text-foreground transition-colors">
+              Terms of Service
+            </Link>
+            <Link to="/faq" className="hover:text-foreground transition-colors">
+              FAQ
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
