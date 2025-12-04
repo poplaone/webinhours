@@ -6,7 +6,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import { Bot, Send, Sparkles, Headphones, Lock, Search, Loader2 } from 'lucide-react';
+import { Bot, Send, Sparkles, Headphones, Lock, Search, Loader2, Filter, ExternalLink } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
@@ -356,19 +356,64 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({ onSearch }) => {
     }
   }, [user, sessionId, liveMessages, toast]);
 
-  // Handle send message
+  // Handle send message - NO automatic search filter update
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
     
     const messageText = inputValue;
     setInputValue('');
-    onSearch?.(messageText);
+    // Removed: onSearch?.(messageText) - Don't auto-update filters from chat
 
     if (chatMode === 'ai') {
       await sendAIMessage(messageText);
     } else {
       await sendLiveMessage(messageText);
     }
+  };
+
+  // Apply filter from AI suggestion
+  const handleApplyFilter = (filter: string) => {
+    onSearch?.(filter);
+    toast({
+      title: "Filter applied",
+      description: `Showing results for "${filter}"`,
+    });
+  };
+
+  // Extract suggested filters from AI message
+  const extractSuggestedFilters = (content: string): string[] => {
+    const filters: string[] = [];
+    const categories = ['e-commerce', 'portfolio', 'saas', 'blog', 'landing page', 'ai agents', 'business', 'dashboard', 'admin', 'startup'];
+    const lowerContent = content.toLowerCase();
+    
+    categories.forEach(cat => {
+      if (lowerContent.includes(cat)) {
+        filters.push(cat.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '));
+      }
+    });
+    
+    return [...new Set(filters)].slice(0, 3); // Max 3 unique filters
+  };
+
+  // Extract navigation suggestions from AI message
+  const extractNavigationLinks = (content: string): { label: string; path: string }[] => {
+    const links: { label: string; path: string }[] = [];
+    const lowerContent = content.toLowerCase();
+    
+    if (lowerContent.includes('marketplace') || lowerContent.includes('browse')) {
+      links.push({ label: 'Browse Marketplace', path: '/marketplace' });
+    }
+    if (lowerContent.includes('pricing') || lowerContent.includes('price')) {
+      links.push({ label: 'View Pricing', path: '/pricing' });
+    }
+    if (lowerContent.includes('contact') || lowerContent.includes('support')) {
+      links.push({ label: 'Contact Us', path: '/contact' });
+    }
+    if (lowerContent.includes('how it works') || lowerContent.includes('learn more')) {
+      links.push({ label: 'How It Works', path: '/how-it-works' });
+    }
+    
+    return links.slice(0, 2); // Max 2 links
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -390,11 +435,11 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({ onSearch }) => {
     // Messages are kept separate, no need to reset
   };
 
-  // Quick action for authenticated AI users
+  // Quick action for authenticated AI users - NO automatic filter
   const handleQuickAction = async (action: string) => {
     if (chatMode === 'ai' && user) {
       setInputValue('');
-      onSearch?.(action);
+      // Removed: onSearch?.(action) - Don't auto-update filters
       await sendAIMessage(action);
     }
   };
@@ -547,33 +592,74 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({ onSearch }) => {
                 <ScrollArea className="h-full w-full">
                   <div className="p-4 pb-24 space-y-4">
                     <AnimatePresence mode="popLayout">
-                      {currentMessages.map(message => (
-                        <motion.div 
-                          key={message.id} 
-                          initial={{ opacity: 0, y: 10 }} 
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -10 }}
-                          layout
-                          className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} w-full`}
-                        >
-                          <div className="max-w-[85%]">
-                            <div className={`p-3 rounded-2xl ${
-                              message.role === 'user' 
-                                ? chatMode === 'ai'
-                                  ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white'
-                                  : 'bg-gradient-to-r from-green-500 to-emerald-600 text-white'
-                                : 'bg-muted/80 text-foreground'
-                            }`}>
-                              <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
+                      {currentMessages.map(message => {
+                        const suggestedFilters = chatMode === 'ai' && message.role === 'assistant' && message.id !== 'ai-welcome'
+                          ? extractSuggestedFilters(message.content)
+                          : [];
+                        const navLinks = chatMode === 'ai' && message.role === 'assistant' && message.id !== 'ai-welcome'
+                          ? extractNavigationLinks(message.content)
+                          : [];
+                        const hasActions = suggestedFilters.length > 0 || navLinks.length > 0;
+
+                        return (
+                          <motion.div 
+                            key={message.id} 
+                            initial={{ opacity: 0, y: 10 }} 
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            layout
+                            className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} w-full`}
+                          >
+                            <div className="max-w-[85%]">
+                              <div className={`p-3 rounded-2xl ${
+                                message.role === 'user' 
+                                  ? chatMode === 'ai'
+                                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white'
+                                    : 'bg-gradient-to-r from-green-500 to-emerald-600 text-white'
+                                  : 'bg-muted/80 text-foreground'
+                              }`}>
+                                <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
+                              </div>
+                              
+                              {/* Action buttons for AI responses */}
+                              {hasActions && (
+                                <div className="mt-2 flex flex-wrap gap-1.5">
+                                  {suggestedFilters.map((filter) => (
+                                    <Button
+                                      key={filter}
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => handleApplyFilter(filter.toLowerCase())}
+                                      className="text-xs h-7 px-2 border-purple-500/40 text-purple-400 hover:bg-purple-500/20 gap-1"
+                                    >
+                                      <Filter className="h-3 w-3" />
+                                      {filter}
+                                    </Button>
+                                  ))}
+                                  {navLinks.map((link) => (
+                                    <Button
+                                      key={link.path}
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => navigate(link.path)}
+                                      className="text-xs h-7 px-2 border-blue-500/40 text-blue-400 hover:bg-blue-500/20 gap-1"
+                                    >
+                                      <ExternalLink className="h-3 w-3" />
+                                      {link.label}
+                                    </Button>
+                                  ))}
+                                </div>
+                              )}
+                              
+                              <div className={`text-xs text-muted-foreground mt-1 ${
+                                message.role === 'user' ? 'text-right' : 'text-left'
+                              }`}>
+                                {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                              </div>
                             </div>
-                            <div className={`text-xs text-muted-foreground mt-1 ${
-                              message.role === 'user' ? 'text-right' : 'text-left'
-                            }`}>
-                              {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                            </div>
-                          </div>
-                        </motion.div>
-                      ))}
+                          </motion.div>
+                        );
+                      })}
                     </AnimatePresence>
 
                     {/* Loading indicator */}
