@@ -170,9 +170,22 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({ onSearch }) => {
     scrollToBottom();
   }, [currentMessages, scrollToBottom]);
 
+  // Check if credits are exhausted
+  const hasCredits = remainingCredits === null || remainingCredits > 0;
+
   // Send AI message
   const sendAIMessage = useCallback(async (message: string) => {
     if (!message.trim() || !user || !session) return;
+    
+    // Check credits before sending
+    if (remainingCredits !== null && remainingCredits <= 0) {
+      toast({
+        title: "No credits remaining",
+        description: "Your AI credits will reset at midnight.",
+        variant: "destructive"
+      });
+      return;
+    }
 
     const userMessage: Message = {
       id: `user-${Date.now()}`,
@@ -437,9 +450,19 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({ onSearch }) => {
           {/* Credits indicator */}
           {chatMode === 'ai' && user && remainingCredits !== null && (
             <div className="mt-2 flex items-center justify-center">
-              <Badge variant="outline" className="text-xs bg-purple-500/10 border-purple-500/30 text-purple-400">
+              <Badge 
+                variant="outline" 
+                className={`text-xs ${
+                  remainingCredits > 0 
+                    ? 'bg-purple-500/10 border-purple-500/30 text-purple-400' 
+                    : 'bg-destructive/10 border-destructive/30 text-destructive'
+                }`}
+              >
                 <Sparkles className="h-3 w-3 mr-1" />
-                {remainingCredits}/{DAILY_LIMIT} credits remaining
+                {remainingCredits > 0 
+                  ? `${remainingCredits}/${DAILY_LIMIT} credits remaining`
+                  : 'No credits - resets at midnight'
+                }
               </Badge>
             </div>
           )}
@@ -611,7 +634,7 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({ onSearch }) => {
                   />
                   <Button 
                     onClick={handleSendMessage} 
-                    disabled={isLoading || !inputValue.trim()}
+                    disabled={isLoading || !inputValue.trim() || (chatMode === 'ai' && !hasCredits)}
                     className={`px-3 ${
                       chatMode === 'ai' 
                         ? 'bg-purple-500 hover:bg-purple-600' 
