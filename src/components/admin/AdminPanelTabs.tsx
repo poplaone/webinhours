@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AdminStats } from './AdminStats';
 import { MyWebsitesTable } from './MyWebsitesTable';
 import { MyAIAgentsTable } from './MyAIAgentsTable';
+import { LiveSupportTab } from './LiveSupportTab';
 import { Website } from '@/hooks/useWebsites';
 import { AIAgent } from '@/types/aiAgent';
 
@@ -75,9 +76,10 @@ export function AdminPanelTabs({
 }: AdminPanelTabsProps) {
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-      <TabsList className={`grid w-full ${isAdmin ? 'grid-cols-3' : 'grid-cols-1'}`}>
+      <TabsList className={`grid w-full ${isAdmin ? 'grid-cols-4' : 'grid-cols-1'}`}>
         {isAdmin && <TabsTrigger value="my-websites">My Websites ({userWebsites.length})</TabsTrigger>}
         {isAdmin && <TabsTrigger value="my-ai-agents">My AI Agents ({userAIAgents.length})</TabsTrigger>}
+        {isAdmin && <TabsTrigger value="live-support">Live Support</TabsTrigger>}
         <TabsTrigger value="analytics">{isAdmin ? 'Analytics' : 'Dashboard'}</TabsTrigger>
       </TabsList>
 
@@ -104,6 +106,13 @@ export function AdminPanelTabs({
             formatPrice={formatPrice}
             getStatusColor={getStatusColor}
           />
+        </TabsContent>
+      )}
+
+      {/* Live Support Tab */}
+      {isAdmin && (
+        <TabsContent value="live-support" className="space-y-6">
+          <LiveSupportTab />
         </TabsContent>
       )}
 

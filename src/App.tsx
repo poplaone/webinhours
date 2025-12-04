@@ -26,7 +26,6 @@ const Terms = lazy(() => import("./pages/Terms"));
 const Auth = lazy(() => import("./pages/Auth"));
 const Profile = lazy(() => import("./pages/Profile"));
 const AdminPanel = lazy(() => import("./pages/AdminPanel"));
-const LiveSupportAdmin = lazy(() => import("./pages/LiveSupportAdmin"));
 const Marketplace = lazy(() => import("./pages/Marketplace"));
 const SiteDetails = lazy(() => import("./pages/SiteDetails"));
 const Calculator = lazy(() => import("./pages/Calculator"));
@@ -126,11 +125,6 @@ function App() {
                     <Route path="/admin-panel" element={
                       <AdminRoute>
                         <AdminPanel />
-                      </AdminRoute>
-                    } />
-                    <Route path="/admin/live-support" element={
-                      <AdminRoute>
-                        <LiveSupportAdmin />
                       </AdminRoute>
                     } />
                     <Route path="*" element={<NotFound />} />

@@ -11,8 +11,7 @@ import {
   HelpCircle,
   DollarSign,
   Workflow,
-  Calculator,
-  Headphones
+  Calculator
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useIsAdmin } from '@/hooks/useAdmin';
@@ -53,16 +52,11 @@ export const SidebarNavigation = ({ currentPath, isAuthenticated }: SidebarNavig
     },
   ];
 
-  // Admin-only nav items
-  const adminNavItems = isAdmin ? [
-    { path: '/admin/live-support', icon: Headphones, label: 'Live Support' },
-  ] : [];
-
   // Determine which items to show based on current path
   const isHomepage = currentPath === '/';
   const publicNavItems = isHomepage ? [...commonNavItems, ...homepageOnlyItems] : commonNavItems;
   
-  const navItems = isAuthenticated ? [...publicNavItems, ...authenticatedNavItems, ...adminNavItems] : publicNavItems;
+  const navItems = isAuthenticated ? [...publicNavItems, ...authenticatedNavItems] : publicNavItems;
 
   // Handle navigation with preloading
   const handleNavigate = useCallback((path: string) => {
