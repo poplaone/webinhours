@@ -104,6 +104,66 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_usage_limits: {
+        Row: {
+          created_at: string
+          daily_count: number
+          id: string
+          last_reset_date: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          daily_count?: number
+          id?: string
+          last_reset_date?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          daily_count?: number
+          id?: string
+          last_reset_date?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      chat_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          is_live_support: boolean
+          is_read: boolean
+          role: string
+          session_id: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          is_live_support?: boolean
+          is_read?: boolean
+          role: string
+          session_id: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          is_live_support?: boolean
+          is_read?: boolean
+          role?: string
+          session_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -254,7 +314,15 @@ export type Database = {
         }
         Returns: boolean
       }
+      check_and_increment_ai_usage: {
+        Args: { p_daily_limit?: number; p_user_id: string }
+        Returns: boolean
+      }
       generate_slug: { Args: { title: string }; Returns: string }
+      get_remaining_ai_credits: {
+        Args: { p_daily_limit?: number; p_user_id: string }
+        Returns: number
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
