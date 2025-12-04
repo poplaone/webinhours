@@ -24,6 +24,7 @@ const serviceOptions = [
   { id: 'social-media', label: 'Social Media Management', description: 'Grow your online presence' },
   { id: 'pr-marketing', label: 'PR & Marketing', description: 'Brand awareness campaigns' },
   { id: 'maintenance', label: 'Website Maintenance', description: 'Updates & technical support' },
+  { id: 'other', label: 'Other', description: 'Something else? Tell us below' },
 ];
 
 // Budget options
@@ -92,6 +93,7 @@ export default function Contact() {
     budget: '',
     timeline: '',
     otherDetails: '',
+    customService: '',
   });
 
   // Pre-select service from URL parameter
@@ -137,9 +139,12 @@ export default function Contact() {
     }
 
     // Build compiled message
-    const selectedServices = formData.services.map(id => 
-      serviceOptions.find(s => s.id === id)?.label || id
-    ).join(', ');
+    const selectedServices = formData.services.map(id => {
+      if (id === 'other' && formData.customService) {
+        return `Other: ${formData.customService}`;
+      }
+      return serviceOptions.find(s => s.id === id)?.label || id;
+    }).join(', ');
     
     const selectedBudget = budgetOptions.find(b => b.id === formData.budget)?.label || 'Not specified';
     const selectedTimeline = timelineOptions.find(t => t.id === formData.timeline)?.label || 'Not specified';
@@ -152,7 +157,12 @@ export default function Contact() {
 📧 Email: ${formData.email}
 
 🎯 Services Interested:
-${formData.services.map(id => `   • ${serviceOptions.find(s => s.id === id)?.label}`).join('\n')}
+${formData.services.map(id => {
+  if (id === 'other' && formData.customService) {
+    return `   • Other: ${formData.customService}`;
+  }
+  return `   • ${serviceOptions.find(s => s.id === id)?.label}`;
+}).join('\n')}
 
 💰 Budget Range: ${selectedBudget}
 ⏰ Timeline: ${selectedTimeline}
@@ -170,9 +180,10 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
           message: compiledMessage,
           type: 'lead-capture',
           projectType: selectedServices,
-          budget: selectedBudget,
-          timeline: selectedTimeline,
+          budget: formData.budget,
+          timeline: formData.timeline,
           services: formData.services,
+          customService: formData.customService,
         }
       });
 
@@ -271,6 +282,20 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
                         />
                       ))}
                     </div>
+                    
+                    {/* Custom service text field when "Other" is selected */}
+                    {formData.services.includes('other') && (
+                      <div className="mt-4">
+                        <Label htmlFor="customService">What service do you need?</Label>
+                        <Input
+                          id="customService"
+                          value={formData.customService}
+                          onChange={(e) => setFormData(prev => ({ ...prev, customService: e.target.value }))}
+                          placeholder="Describe the service you're looking for..."
+                          className="mt-1.5 bg-background/50"
+                        />
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -363,7 +388,10 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
                     <div className="p-4 rounded-xl bg-primary/5 border border-primary/20">
                       <h3 className="font-medium mb-3 text-sm">Your Selection Summary</h3>
                       <div className="space-y-2 text-sm">
-                        <p><span className="text-muted-foreground">Services:</span> {formData.services.map(id => serviceOptions.find(s => s.id === id)?.label).join(', ')}</p>
+                        <p><span className="text-muted-foreground">Services:</span> {formData.services.map(id => {
+                          if (id === 'other' && formData.customService) return `Other: ${formData.customService}`;
+                          return serviceOptions.find(s => s.id === id)?.label;
+                        }).join(', ')}</p>
                         <p><span className="text-muted-foreground">Budget:</span> {budgetOptions.find(b => b.id === formData.budget)?.label || 'Not selected'}</p>
                         <p><span className="text-muted-foreground">Timeline:</span> {timelineOptions.find(t => t.id === formData.timeline)?.label || 'Not selected'}</p>
                       </div>
