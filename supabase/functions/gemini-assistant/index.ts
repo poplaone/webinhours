@@ -14,12 +14,12 @@ serve(async (req) => {
   }
 
   try {
-    const GOOGLE_GEMINI_API_KEY = Deno.env.get('GOOGLE_GEMINI_API_KEY');
+    const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     const SUPABASE_URL = Deno.env.get('SUPABASE_URL');
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
 
-    if (!GOOGLE_GEMINI_API_KEY) {
-      throw new Error('GOOGLE_GEMINI_API_KEY is not configured');
+    if (!LOVABLE_API_KEY) {
+      throw new Error('LOVABLE_API_KEY is not configured');
     }
 
     const authHeader = req.headers.get('Authorization');
@@ -55,7 +55,6 @@ serve(async (req) => {
     }
 
     if (!canProceed) {
-      // Get remaining credits for message
       const { data: remaining } = await supabase.rpc(
         'get_remaining_ai_credits',
         { p_user_id: user.id, p_daily_limit: DAILY_LIMIT }
@@ -149,52 +148,61 @@ ${agentContext || 'No AI agents currently available.'}
 - Never make up items that don't exist
 - REFUSE to discuss topics unrelated to WebInHours services`;
 
-    // Build conversation for Gemini
-    const geminiContents = [
-      { role: 'user', parts: [{ text: systemPrompt }] },
-      { role: 'model', parts: [{ text: 'I understand. I am WebInHours AI Assistant ready to help users navigate the marketplace and find the perfect website templates and AI agents for their needs.' }] },
+    // Build messages for Lovable AI Gateway (OpenAI-compatible format)
+    const messages = [
+      { role: 'system', content: systemPrompt },
       ...conversationHistory.map((msg: { role: string; content: string }) => ({
-        role: msg.role === 'user' ? 'user' : 'model',
-        parts: [{ text: msg.content }]
+        role: msg.role === 'user' ? 'user' : 'assistant',
+        content: msg.content
       })),
-      { role: 'user', parts: [{ text: message }] }
+      { role: 'user', content: message }
     ];
 
-    console.log('Calling Gemini API...');
+    console.log('Calling Lovable AI Gateway...');
     
-    const geminiResponse = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GOOGLE_GEMINI_API_KEY}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: geminiContents,
-          generationConfig: {
-            temperature: 0.7,
-            topK: 40,
-            topP: 0.95,
-            maxOutputTokens: 1024,
-          },
-          safetySettings: [
-            { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-            { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-            { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-            { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-          ]
-        }),
-      }
-    );
+    const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'google/gemini-2.5-flash',
+        messages,
+        temperature: 0.7,
+        max_tokens: 1024,
+      }),
+    });
 
-    if (!geminiResponse.ok) {
-      const errorText = await geminiResponse.text();
-      console.error('Gemini API error:', geminiResponse.status, errorText);
-      throw new Error(`Gemini API error: ${geminiResponse.status}`);
+    if (!aiResponse.ok) {
+      const errorText = await aiResponse.text();
+      console.error('Lovable AI Gateway error:', aiResponse.status, errorText);
+      
+      if (aiResponse.status === 429) {
+        return new Response(JSON.stringify({ 
+          error: 'AI service rate limit exceeded. Please try again later.',
+        }), {
+          status: 429,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+      
+      if (aiResponse.status === 402) {
+        return new Response(JSON.stringify({ 
+          error: 'AI service credits exhausted. Please contact support.',
+        }), {
+          status: 402,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+      
+      throw new Error(`AI Gateway error: ${aiResponse.status}`);
     }
 
-    const geminiData = await geminiResponse.json();
-    console.log('Gemini response received');
+    const aiData = await aiResponse.json();
+    console.log('AI response received');
 
-    const responseText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || 
+    const responseText = aiData.choices?.[0]?.message?.content || 
       'I apologize, but I could not generate a response. Please try again.';
 
     // Get remaining credits after this request
