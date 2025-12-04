@@ -17,13 +17,12 @@ export const Footer = () => {
   }, [isMobile]);
 
   return (
-    <footer className={`py-12 px-4 border-t relative z-10 transition-all duration-[2000ms] ease-in-out ${
-      isMobile && !mobileFooterVisible 
-        ? 'bg-transparent backdrop-blur-none border-transparent' 
-        : isMobile 
+    <footer className={`py-12 px-4 border-t relative z-10 transition-all duration-[2000ms] ease-in-out ${isMobile && !mobileFooterVisible
+        ? 'bg-transparent backdrop-blur-none border-transparent'
+        : isMobile
           ? 'bg-background/60 backdrop-blur-md border-border/20'
           : 'bg-card/30 backdrop-blur'
-    }`}>
+      }`}>
 
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -44,6 +43,7 @@ export const Footer = () => {
               <li>Web Development</li>
               <li>Mobile Design</li>
               <li>E-commerce Solutions</li>
+              <li>SEO & GEO Optimization</li>
               <li>Performance Optimization</li>
             </ul>
           </div>

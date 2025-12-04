@@ -29,7 +29,7 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Client-side validation
     const validation = contactSchema.safeParse(formData);
     if (!validation.success) {
@@ -40,25 +40,25 @@ export default function Contact() {
       });
       return;
     }
-    
+
     try {
       const { data, error } = await supabase.functions.invoke('send-contact-email', {
         body: formData
       });
 
       if (error) throw error;
-      
+
       // Track successful form submission
       trackFormSubmission('contact_form', true);
-      
+
       // Redirect to confirmation page
       navigate(`/contact/confirmation?name=${encodeURIComponent(formData.name)}&email=${encodeURIComponent(formData.email)}&type=${encodeURIComponent(formData.type || 'general')}`);
     } catch (error) {
       console.error("Error sending message:", error);
-      
+
       // Track failed form submission
       trackFormSubmission('contact_form', false);
-      
+
       toast({
         title: "Error",
         description: error instanceof Error ? error.message : "Failed to send message. Please try again.",
@@ -73,12 +73,12 @@ export default function Contact() {
 
   return (
     <AppLayout>
-      <SEOHead 
+      <SEOHead
         title="Contact Us - WebInHours | Free Website Selection Support"
         description="Get help choosing your free professional website design. Questions about premium services like content creation, PR, or social media management? We're here to help."
-        keywords="free website support, website design help, premium service inquiries, contact website team"
+        keywords="free website support, website design help, premium service inquiries, contact website team, seo geo support"
       />
-      
+
       <div className="pt-24 pb-20 px-4">
         <div className="container mx-auto">
           {/* Hero Section */}

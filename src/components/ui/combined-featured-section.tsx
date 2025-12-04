@@ -13,10 +13,10 @@ export default function CombinedFeaturedSection() {
         <div className="relative rounded-none overflow-hidden border border-border p-4 md:p-6 min-h-[300px] md:min-h-[400px] bg-transparent">
           <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground mb-3 md:mb-4">
             <MapPin className="w-3 h-3 md:w-4 md:h-4" />
-            SEO Analytics
+            SEO & GEO Analytics
           </div>
           <h3 className="text-base md:text-xl font-normal text-foreground">
-            Get found on Google with professional SEO setup.{" "}
+            Get found on Google & AI Search with professional SEO & GEO setup.{" "}
             <span className="text-muted-foreground">Track rankings across regions.</span>
           </h3>
 
@@ -50,7 +50,7 @@ export default function CombinedFeaturedSection() {
 
           <div className="relative z-10">
             <span className="text-xs flex items-center gap-2 text-muted-foreground mb-2 md:mb-0">
-              <Search className="w-3 h-3 md:w-4 md:h-4" /> SEO Optimization
+              <Search className="w-3 h-3 md:w-4 md:h-4" /> SEO & GEO Optimization
             </span>
             <h3 className="text-base md:text-xl font-normal text-foreground">
               Professional SEO setup, Generative Engine Optimization (GEO),{" "}

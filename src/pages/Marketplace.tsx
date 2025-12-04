@@ -91,16 +91,16 @@ const Marketplace: React.FC = () => {
 
     const updateOffset = () => {
       if (!filtersWrapRef.current) return;
-      
+
       // Batch read and write operations to prevent forced reflow
       requestAnimationFrame(() => {
         if (!filtersWrapRef.current) return;
-        
+
         // Read layout properties
         const rect = filtersWrapRef.current.getBoundingClientRect();
         const height = filtersWrapRef.current.offsetHeight || rect.height || 0;
         const computedOffset = Math.max(0, STICKY_TOP_PX + height);
-        
+
         // Write to DOM in same frame after reads
         requestAnimationFrame(() => {
           root.style.setProperty('--filters-sticky-offset', `${computedOffset}px`);
@@ -242,23 +242,23 @@ const Marketplace: React.FC = () => {
   const dummyAIAgents: AIAgent[] = useMemo(() => (
     Array.from({ length: 12 }).map((_, i) => {
       const presets = [
-        { title: 'ShopBot Assistant', category: 'ecommerce', agent_type: 'automation', tags: ['shop','cart','retail'] },
-        { title: 'Portfolio Curator', category: 'portfolio', agent_type: 'creative', tags: ['design','showcase','ui'] },
-        { title: 'BizOps Advisor', category: 'business', agent_type: 'assistant', tags: ['crm','sales','ops'] },
-        { title: 'Blog Content Wizard', category: 'blog', agent_type: 'copywriter', tags: ['article','seo','news'] },
-        { title: 'SaaS Launch Copilot', category: 'landing', agent_type: 'growth', tags: ['saas','startup','launch'] },
-        { title: 'Support Chat Agent', category: 'support', agent_type: 'chatbot', tags: ['inbox','support','message'] },
-        { title: 'Analytics Reporter', category: 'analytics', agent_type: 'reporting', tags: ['kpi','metrics','charts'] },
-        { title: 'Security Sentinel', category: 'security', agent_type: 'monitor', tags: ['shield','guard','auth'] },
-        { title: 'Global SEO Scout', category: 'marketing', agent_type: 'seo', tags: ['traffic','keywords','intl'] },
-        { title: 'Dev Automator', category: 'developer', agent_type: 'automation', tags: ['code','github','pipeline'] },
-        { title: 'Brand Design Helper', category: 'design', agent_type: 'assistant', tags: ['logo','brand','assets'] },
-        { title: 'Magic Optimizer', category: 'utilities', agent_type: 'optimizer', tags: ['enhance','wizard','auto'] }
+        { title: 'ShopBot Assistant', category: 'ecommerce', agent_type: 'automation', tags: ['shop', 'cart', 'retail'] },
+        { title: 'Portfolio Curator', category: 'portfolio', agent_type: 'creative', tags: ['design', 'showcase', 'ui'] },
+        { title: 'BizOps Advisor', category: 'business', agent_type: 'assistant', tags: ['crm', 'sales', 'ops'] },
+        { title: 'Blog Content Wizard', category: 'blog', agent_type: 'copywriter', tags: ['article', 'seo', 'geo', 'news'] },
+        { title: 'SaaS Launch Copilot', category: 'landing', agent_type: 'growth', tags: ['saas', 'startup', 'launch'] },
+        { title: 'Support Chat Agent', category: 'support', agent_type: 'chatbot', tags: ['inbox', 'support', 'message'] },
+        { title: 'Analytics Reporter', category: 'analytics', agent_type: 'reporting', tags: ['kpi', 'metrics', 'charts'] },
+        { title: 'Security Sentinel', category: 'security', agent_type: 'monitor', tags: ['shield', 'guard', 'auth'] },
+        { title: 'Global SEO & GEO Scout', category: 'marketing', agent_type: 'seo', tags: ['traffic', 'keywords', 'geo', 'intl'] },
+        { title: 'Dev Automator', category: 'developer', agent_type: 'automation', tags: ['code', 'github', 'pipeline'] },
+        { title: 'Brand Design Helper', category: 'design', agent_type: 'assistant', tags: ['logo', 'brand', 'assets'] },
+        { title: 'Magic Optimizer', category: 'utilities', agent_type: 'optimizer', tags: ['enhance', 'wizard', 'auto'] }
       ];
       const p = presets[i % presets.length];
       const now = new Date().toISOString();
       return {
-        id: `dummy-${i+1}` as any,
+        id: `dummy-${i + 1}` as any,
         user_id: 'system' as any,
         title: p.title,
         description: `Infographic AI agent for ${p.category} use-cases. No image, glass card, themed icon.`,
@@ -269,18 +269,18 @@ const Marketplace: React.FC = () => {
         demo_url: '#',
         thumbnail_url: undefined,
         images: [],
-        technologies: ['AI','Automation'],
-        features: ['Fast','Configurable','Reliable'],
+        technologies: ['AI', 'Automation'],
+        features: ['Fast', 'Configurable', 'Reliable'],
         inclusions: [],
         agent_type: p.agent_type,
         model_info: null,
         use_cases: [p.category, ...p.tags],
         status: 'live' as any,
         is_featured: i % 5 === 0,
-        views_count: Math.floor(Math.random()*500),
-        usage_count: Math.floor(Math.random()*200),
-        rating_average: 4 + (Math.random()*1),
-        rating_count: Math.floor(Math.random()*100),
+        views_count: Math.floor(Math.random() * 500),
+        usage_count: Math.floor(Math.random() * 200),
+        rating_average: 4 + (Math.random() * 1),
+        rating_count: Math.floor(Math.random() * 100),
         created_at: now,
         updated_at: now,
         featured_at: undefined,
@@ -300,12 +300,12 @@ const Marketplace: React.FC = () => {
 
   return (
     <AppLayout className="bg-home-glow">
-      <SEOHead 
+      <SEOHead
         title="Free Website Marketplace - Browse 500+ Professional Designs"
         description="Choose from 500+ professional website designs absolutely free. Find the perfect template for your business. Premium services like content creation, PR, and social media management available."
         keywords="free website templates, professional website designs, free business website, website marketplace, choose website design, free web templates"
       />
-      
+
       {/* Grid Background */}
       <GridPattern />
 
@@ -368,7 +368,7 @@ const Marketplace: React.FC = () => {
                           </div>
                           <div className="max-h-[60vh] overflow-y-auto">
                             <Suspense fallback={<div className="h-40 bg-muted/10 animate-pulse rounded" />}>
-                              <AIChatbot onSearch={(q) => { 
+                              <AIChatbot onSearch={(q) => {
                                 setActiveTab('websites');
                                 setSelectedCategory('all');
                                 setTagFilter(null);
@@ -396,7 +396,7 @@ const Marketplace: React.FC = () => {
                   height: 'calc(100dvh - var(--filters-sticky-offset, 140px))'
                 }}
               >
-                <AIChatbot onSearch={(q) => { 
+                <AIChatbot onSearch={(q) => {
                   setActiveTab('websites');
                   setSelectedCategory('all');
                   setTagFilter(null);
@@ -412,9 +412,9 @@ const Marketplace: React.FC = () => {
               {isMobile ? (
                 <div className="relative z-10 p-1">
                   {activeTab === 'websites' ? (
-                    <TemplateGrid 
-                      templates={sortedItems as Website[]} 
-                      isLoading={isLoading} 
+                    <TemplateGrid
+                      templates={sortedItems as Website[]}
+                      isLoading={isLoading}
                       onRefresh={handleRefresh}
                       onTagFilter={handleTagFilter}
                     />
@@ -426,11 +426,11 @@ const Marketplace: React.FC = () => {
                         ))
                       ) : (
                         ((sortedItems as AIAgent[]).length > 0 ? (sortedItems as AIAgent[]) : dummyAIAgents).map((agent) => (
-                          <AIAgentInfographicCard 
+                          <AIAgentInfographicCard
                             key={agent.id}
                             agent={agent as any}
-                            onUse={() => {}}
-                            onView={() => {}}
+                            onUse={() => { }}
+                            onView={() => { }}
                           />
                         ))
                       )}
@@ -449,9 +449,9 @@ const Marketplace: React.FC = () => {
                 >
                   <div>
                     {activeTab === 'websites' ? (
-                      <TemplateGrid 
-                        templates={sortedItems as Website[]} 
-                        isLoading={isLoading} 
+                      <TemplateGrid
+                        templates={sortedItems as Website[]}
+                        isLoading={isLoading}
                         onRefresh={handleRefresh}
                         onTagFilter={handleTagFilter}
                       />
@@ -463,11 +463,11 @@ const Marketplace: React.FC = () => {
                           ))
                         ) : (
                           ((sortedItems as AIAgent[]).length > 0 ? (sortedItems as AIAgent[]) : dummyAIAgents).map((agent) => (
-                            <AIAgentInfographicCard 
+                            <AIAgentInfographicCard
                               key={agent.id}
                               agent={agent as any}
-                              onUse={() => {}}
-                              onView={() => {}}
+                              onUse={() => { }}
+                              onView={() => { }}
                             />
                           ))
                         )}

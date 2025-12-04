@@ -7,14 +7,14 @@ import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
-import { 
-  Calculator as CalculatorIcon, 
-  Clock, 
-  DollarSign, 
-  CheckCircle, 
-  Globe, 
-  ShoppingCart, 
-  Smartphone, 
+import {
+  Calculator as CalculatorIcon,
+  Clock,
+  DollarSign,
+  CheckCircle,
+  Globe,
+  ShoppingCart,
+  Smartphone,
   Zap,
   ArrowRight,
   Star,
@@ -78,7 +78,7 @@ const Calculator = () => {
       name: 'Professional Package',
       icon: ShoppingCart,
       basePrice: 399,
-      description: 'FREE website + branding + SEO',
+      description: 'FREE website + branding + SEO & GEO',
       timeframe: '3-4 days',
       color: 'bg-purple-500'
     },
@@ -96,9 +96,9 @@ const Calculator = () => {
   const features: Feature[] = [
     {
       id: 'seo',
-      name: 'Advanced SEO Optimization',
+      name: 'Advanced SEO & GEO Optimization',
       price: 149,
-      description: 'Complete SEO setup and optimization',
+      description: 'Complete SEO & GEO setup and optimization',
       category: 'Marketing'
     },
     {
@@ -179,13 +179,13 @@ const Calculator = () => {
 
   const calculateTotal = () => {
     let total = 0;
-    
+
     // Base project price
     const projectType = projectTypes.find(type => type.id === selectedType);
     if (projectType) {
       total += projectType.basePrice;
     }
-    
+
     // Add feature prices
     selectedFeatures.forEach(featureId => {
       const feature = features.find(f => f.id === featureId);
@@ -193,19 +193,19 @@ const Calculator = () => {
         total += feature.price;
       }
     });
-    
+
     // Apply timeline multiplier
     const timelineOption = timelineOptions.find(option => option.value === timeline);
     if (timelineOption) {
       total *= timelineOption.multiplier;
     }
-    
+
     setTotalPrice(Math.round(total));
   };
 
   const handleFeatureToggle = (featureId: string) => {
-    setSelectedFeatures(prev => 
-      prev.includes(featureId) 
+    setSelectedFeatures(prev =>
+      prev.includes(featureId)
         ? prev.filter(id => id !== featureId)
         : [...prev, featureId]
     );
@@ -217,12 +217,12 @@ const Calculator = () => {
 
   return (
     <AppLayout>
-      <SEOHead 
+      <SEOHead
         title="Project Calculator - WebInHours | Free Website + Optional Premium Services"
         description="Start with a free professional website. Calculate the cost of optional premium services like custom design, content creation, PR campaigns, and social media management."
         keywords="free website calculator, premium service pricing, content creation cost, PR service quote, website customization pricing"
       />
-      
+
       <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
         {/* Header Section */}
         <section className="pt-20 pb-12 px-4">
@@ -232,15 +232,15 @@ const Calculator = () => {
                 <CalculatorIcon className="h-5 w-5 text-[#8B5CF6]" />
                 <span className="text-sm font-medium text-[#8B5CF6]">Project Calculator</span>
               </div>
-              
+
               <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
                 Start FREE, Add What You Need
               </h1>
-              
+
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
                 Your professional website is <span className="text-green-500 font-semibold">100% FREE</span>. Calculate the cost of premium services you might want to add later.
               </p>
-              
+
               {/* Progress Indicator */}
               <div className="max-w-md mx-auto mt-8">
                 <div className="flex justify-between text-sm text-muted-foreground mb-2">
@@ -257,10 +257,10 @@ const Calculator = () => {
         <section className="px-4 pb-20">
           <div className="container mx-auto max-w-7xl">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              
+
               {/* Configuration Panel */}
               <div className="lg:col-span-2 space-y-8">
-                
+
                 {/* Step 1: Project Type */}
                 <Card className="border-border/40 bg-card/50 backdrop-blur">
                   <CardHeader>
@@ -277,15 +277,14 @@ const Calculator = () => {
                       {projectTypes.map((type) => {
                         const Icon = type.icon;
                         const isSelected = selectedType === type.id;
-                        
+
                         return (
                           <div
                             key={type.id}
-                            className={`p-6 rounded-xl border-2 cursor-pointer group hover:shadow-lg ${
-                              isSelected 
-                                ? 'border-[#8B5CF6] bg-[#8B5CF6]/5' 
+                            className={`p-6 rounded-xl border-2 cursor-pointer group hover:shadow-lg ${isSelected
+                                ? 'border-[#8B5CF6] bg-[#8B5CF6]/5'
                                 : 'border-border hover:border-[#8B5CF6]/50'
-                            }`}
+                              }`}
                             onClick={() => setSelectedType(type.id)}
                           >
                             <div className="flex items-start gap-4">
@@ -332,15 +331,14 @@ const Calculator = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {features.map((feature) => {
                           const isSelected = selectedFeatures.includes(feature.id);
-                          
+
                           return (
                             <div
                               key={feature.id}
-                              className={`p-4 rounded-lg border cursor-pointer hover:shadow-md ${
-                                isSelected 
-                                  ? 'border-[#8B5CF6] bg-[#8B5CF6]/5' 
+                              className={`p-4 rounded-lg border cursor-pointer hover:shadow-md ${isSelected
+                                  ? 'border-[#8B5CF6] bg-[#8B5CF6]/5'
                                   : 'border-border hover:border-[#8B5CF6]/50'
-                              }`}
+                                }`}
                               onClick={() => handleFeatureToggle(feature.id)}
                             >
                               <div className="flex items-center justify-between mb-2">
@@ -384,15 +382,14 @@ const Calculator = () => {
                       <div className="space-y-3">
                         {timelineOptions.map((option) => {
                           const isSelected = timeline === option.value;
-                          
+
                           return (
                             <div
                               key={option.value}
-                              className={`p-4 rounded-lg border cursor-pointer hover:shadow-md ${
-                                isSelected 
-                                  ? 'border-[#8B5CF6] bg-[#8B5CF6]/5' 
+                              className={`p-4 rounded-lg border cursor-pointer hover:shadow-md ${isSelected
+                                  ? 'border-[#8B5CF6] bg-[#8B5CF6]/5'
                                   : 'border-border hover:border-[#8B5CF6]/50'
-                              }`}
+                                }`}
                               onClick={() => setTimeline(option.value)}
                             >
                               <div className="flex items-center justify-between">
@@ -407,7 +404,7 @@ const Calculator = () => {
                                 </div>
                                 <div className="flex items-center gap-2">
                                   {option.multiplier !== 1 && (
-                                    <Badge 
+                                    <Badge
                                       variant={option.multiplier > 1 ? "destructive" : "default"}
                                       className="text-xs"
                                     >
@@ -439,7 +436,7 @@ const Calculator = () => {
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-6">
-                      
+
                       {/* Selected Project Type */}
                       {selectedType && (
                         <div>
@@ -510,19 +507,19 @@ const Calculator = () => {
                           <span>Total Investment</span>
                           <span className="text-2xl text-[#8B5CF6]">${totalPrice.toLocaleString()}</span>
                         </div>
-                        
+
                         {selectedType && (
                           <div className="space-y-3">
-                            <Button 
-                              className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED]" 
+                            <Button
+                              className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED]"
                               size="lg"
                               onClick={() => navigate('/contact')}
                             >
                               Get Started Now
                               <ArrowRight className="ml-2 h-4 w-4" />
                             </Button>
-                            <Button 
-                              variant="outline" 
+                            <Button
+                              variant="outline"
                               className="w-full"
                               onClick={() => navigate('/marketplace')}
                             >

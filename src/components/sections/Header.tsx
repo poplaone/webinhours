@@ -28,7 +28,7 @@ export const Header = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const [mobileHeaderVisible, setMobileHeaderVisible] = useState(false);
-  
+
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const navItems = [
@@ -45,41 +45,41 @@ export const Header = () => {
   };
 
   const serviceItems: LinkItem[] = [
-    { 
-      title: 'Free Website Templates', 
-      href: '/marketplace', 
-      icon: Globe, 
-      description: 'Browse 100+ professional templates' 
+    {
+      title: 'Free Website Templates',
+      href: '/marketplace',
+      icon: Globe,
+      description: 'Browse 100+ professional templates'
     },
-    { 
-      title: 'Custom Design', 
-      href: '/#services', 
-      icon: Palette, 
-      description: 'Tailored design matching your brand' 
+    {
+      title: 'Custom Design',
+      href: '/#services',
+      icon: Palette,
+      description: 'Tailored design matching your brand'
     },
-    { 
-      title: 'Content Creation', 
-      href: '/#services', 
-      icon: FileCode, 
-      description: 'Professional copywriting & media' 
+    {
+      title: 'Content Creation',
+      href: '/#services',
+      icon: FileCode,
+      description: 'Professional copywriting & media'
     },
-    { 
-      title: 'SEO Optimization', 
-      href: '/#services', 
-      icon: Search, 
-      description: 'Rank higher in search results' 
+    {
+      title: 'SEO & GEO Optimization',
+      href: '/#services',
+      icon: Search,
+      description: 'Rank higher in search & AI results'
     },
-    { 
-      title: 'Performance', 
-      href: '/#services', 
-      icon: Zap, 
-      description: 'Lightning-fast load times' 
+    {
+      title: 'Performance',
+      href: '/#services',
+      icon: Zap,
+      description: 'Lightning-fast load times'
     },
-    { 
-      title: 'Mobile Responsive', 
-      href: '/#services', 
-      icon: Smartphone, 
-      description: 'Perfect on all devices' 
+    {
+      title: 'Mobile Responsive',
+      href: '/#services',
+      icon: Smartphone,
+      description: 'Perfect on all devices'
     },
   ];
 
@@ -102,8 +102,8 @@ export const Header = () => {
 
   const allMobileItems = [
     { label: 'Services', path: '/#services' },
-    ...navItems, 
-    ...moreItems.map(item => ({ label: item.title, path: item.href })), 
+    ...navItems,
+    ...moreItems.map(item => ({ label: item.title, path: item.href })),
     ...legalItems.map(item => ({ label: item.title, path: item.href }))
   ];
 
@@ -123,10 +123,10 @@ export const Header = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
+
       // Show/hide scroll to top button
       setShowScrollTop(currentScrollY > 300);
-      
+
       // Hide/show header on scroll (only for desktop)
       if (!isMobile) {
         if (currentScrollY > lastScrollY && currentScrollY > 100) {
@@ -135,7 +135,7 @@ export const Header = () => {
           setIsVisible(true); // Scrolling up
         }
       }
-      
+
       setLastScrollY(currentScrollY);
     };
 
@@ -169,15 +169,14 @@ export const Header = () => {
     return (
       <>
         <header className="fixed top-2 left-2 right-2 z-50 lg:hidden">
-          <div className={`rounded-xl border shadow-xl transition-all duration-700 ease-in-out ${
-            mobileHeaderVisible 
-              ? 'bg-background/70 backdrop-blur-md border-border/30' 
+          <div className={`rounded-xl border shadow-xl transition-all duration-700 ease-in-out ${mobileHeaderVisible
+              ? 'bg-background/70 backdrop-blur-md border-border/30'
               : 'bg-transparent backdrop-blur-none border-transparent'
-          }`}>
+            }`}>
             <div className="flex items-center justify-between py-2 px-3">
               {/* Logo on left */}
-              <div 
-                className="flex items-center space-x-2 cursor-pointer" 
+              <div
+                className="flex items-center space-x-2 cursor-pointer"
                 onClick={() => navigate('/')}
               >
                 <div className="bg-[#8B5CF6] rounded-lg p-1.5">
@@ -187,7 +186,7 @@ export const Header = () => {
                   WebInHours
                 </span>
               </div>
-              
+
               {/* Theme toggle and Menu button on right */}
               <div className="flex items-center space-x-2">
                 <ThemeToggle />
@@ -210,9 +209,8 @@ export const Header = () => {
                     <button
                       key={item.label}
                       onClick={() => handleNavigation(item.path)}
-                      className={`text-muted-foreground hover:text-foreground transition-colors py-2 text-left touch-manipulation hover:bg-accent/50 rounded-md px-2 ${
-                        index < navItems.length ? 'text-base font-medium' : 'text-sm'
-                      }`}
+                      className={`text-muted-foreground hover:text-foreground transition-colors py-2 text-left touch-manipulation hover:bg-accent/50 rounded-md px-2 ${index < navItems.length ? 'text-base font-medium' : 'text-sm'
+                        }`}
                     >
                       {item.label}
                     </button>
@@ -245,20 +243,20 @@ export const Header = () => {
       <header className={`fixed top-0 left-0 right-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="container flex h-16 items-center justify-between px-3 sm:px-6">
           <div className="flex items-center space-x-2">
-            <div 
-              className="bg-[#8B5CF6] rounded-md p-1.5 sm:p-2 hover:bg-[#7C3AED] transition-colors duration-300 cursor-pointer" 
+            <div
+              className="bg-[#8B5CF6] rounded-md p-1.5 sm:p-2 hover:bg-[#7C3AED] transition-colors duration-300 cursor-pointer"
               onClick={() => navigate('/')}
             >
               <Code className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-white" />
             </div>
-            <span 
-              className="font-bold text-base sm:text-lg md:text-xl bg-gradient-to-r from-[#8B5CF6] to-[#A78BFA] bg-clip-text text-transparent cursor-pointer" 
+            <span
+              className="font-bold text-base sm:text-lg md:text-xl bg-gradient-to-r from-[#8B5CF6] to-[#A78BFA] bg-clip-text text-transparent cursor-pointer"
               onClick={() => navigate('/')}
             >
               WebInHours
             </span>
           </div>
-          
+
           {/* Desktop Navigation */}
           <NavigationMenu className="hidden lg:flex">
             <NavigationMenuList>
@@ -273,7 +271,7 @@ export const Header = () => {
                     <ul className="bg-popover grid grid-cols-2 gap-2 rounded-md border p-3 shadow-lg">
                       {serviceItems.map((item) => (
                         <li key={item.title}>
-                          <NavigationMenuLink 
+                          <NavigationMenuLink
                             className="w-full flex flex-row gap-x-2 hover:bg-accent hover:text-accent-foreground rounded-md p-3 cursor-pointer group transition-all"
                             asChild
                           >
@@ -290,7 +288,7 @@ export const Header = () => {
                         </li>
                       ))}
                     </ul>
-                    
+
                     {/* Featured Actions */}
                     <div className="space-y-2 p-2">
                       <div className="mb-3">
@@ -314,7 +312,7 @@ export const Header = () => {
                           </li>
                         ))}
                       </ul>
-                      
+
                       {/* CTA Section */}
                       <div className="mt-4 p-3 bg-primary/5 rounded-md border border-primary/20">
                         <div className="flex items-center gap-2 mb-2">
@@ -342,7 +340,7 @@ export const Header = () => {
                   </button>
                 </NavigationMenuItem>
               ))}
-              
+
               {/* More dropdown */}
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="bg-transparent text-muted-foreground hover:text-foreground">
@@ -353,7 +351,7 @@ export const Header = () => {
                     <ul className="bg-popover space-y-2 rounded-md border p-2 shadow-lg">
                       {moreItems.map((item) => (
                         <li key={item.title}>
-                          <NavigationMenuLink 
+                          <NavigationMenuLink
                             className="w-full flex flex-row gap-x-2 hover:bg-accent hover:text-accent-foreground rounded-md p-2 cursor-pointer"
                             asChild
                           >
@@ -397,8 +395,8 @@ export const Header = () => {
             {user ? (
               <UserDropdown profile={profile} />
             ) : (
-              <Button 
-                onClick={() => navigate('/auth')} 
+              <Button
+                onClick={() => navigate('/auth')}
                 className="bg-[#8B5CF6] hover:bg-[#7C3AED] transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#8B5CF6]/25 text-sm px-6"
               >
                 Sign in
@@ -415,9 +413,8 @@ export const Header = () => {
                 <button
                   key={item.label}
                   onClick={() => handleNavigation(item.path)}
-                  className={`text-muted-foreground hover:text-foreground transition-colors py-3 text-left hover:bg-accent/50 rounded-md px-2 ${
-                    index < navItems.length ? 'text-base font-medium' : 'text-sm'
-                  }`}
+                  className={`text-muted-foreground hover:text-foreground transition-colors py-3 text-left hover:bg-accent/50 rounded-md px-2 ${index < navItems.length ? 'text-base font-medium' : 'text-sm'
+                    }`}
                 >
                   {item.label}
                 </button>

@@ -36,7 +36,7 @@ export const Services = () => {
           {services.map((service, i) => <AnimatedServiceCard key={i} service={service} index={i} />)}
         </div>
 
-        {/* SEO & PR Services in Modern Grid Layout */}
+        {/* SEO, GEO & PR Services in Modern Grid Layout */}
         <CombinedFeaturedSection />
       </div>
     </section>

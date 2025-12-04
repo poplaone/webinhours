@@ -17,7 +17,7 @@ const Index = () => {
     <AppLayout>
       <SEOHead
         title="WebInHours - Choose Your Free Website Design Today"
-        description="Select from 500+ professional website designs absolutely free. We handle setup and hosting. Premium services like content creation, PR, and social media management available when you need them."
+        description="Select from 500+ professional website designs absolutely free. We handle setup and hosting. Premium services like content creation, PR, SEO & GEO, and social media management available when you need them."
         keywords="free website design, professional website templates, free business website, website setup service, content creation, PR services, social media management, website hosting, online presence"
       />
 

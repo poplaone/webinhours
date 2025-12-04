@@ -31,7 +31,7 @@ export default function FAQ() {
       questions: [
         {
           question: "What's included in the price?",
-          answer: "All website files, design assets, basic setup instructions, and initial support period. Custom projects also include consultation and revisions."
+          answer: "All website files, design assets, basic setup instructions, and initial support period. Custom projects also include consultation, revisions, and basic SEO & GEO setup."
         },
         {
           question: "Are there any hidden fees?",
@@ -81,65 +81,65 @@ export default function FAQ() {
 
   return (
     <AppLayout>
-      <SEOHead 
+      <SEOHead
         title="FAQ - WebInHours | Free Websites & Premium Services Questions"
         description="Answers to common questions about our free website designs, premium services like content creation and PR, setup process, and pricing. Get started with confidence."
         keywords="free website FAQ, website design questions, premium services questions, content creation help, website setup support"
       />
-      
+
       <div className="pt-24 pb-20 px-4">
         <div className="container mx-auto">
-        {/* Hero Section */}
-        <div className="text-center mb-16">
-          <Badge variant="secondary" className="mb-4">Frequently Asked Questions</Badge>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-            Got Questions?<br />We Have Answers
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Find answers to the most common questions about WebInHours, our services, and how we can help you get your website up and running quickly.
-          </p>
-        </div>
-
-        {/* FAQ Categories */}
-        <div className="space-y-8">
-          {faqs.map((category, categoryIndex) => (
-            <Card key={categoryIndex}>
-              <CardHeader>
-                <CardTitle className="flex items-center text-2xl">
-                  <HelpCircle className="h-6 w-6 mr-3 text-purple-600" />
-                  {category.category}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Accordion type="multiple" className="w-full">
-                  {category.questions.map((faq, index) => (
-                    <AccordionItem key={index} value={`${categoryIndex}-${index}`}>
-                      <AccordionTrigger className="text-left">
-                        {faq.question}
-                      </AccordionTrigger>
-                      <AccordionContent className="text-gray-600">
-                        {faq.answer}
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* Contact CTA */}
-        <Card className="mt-16 bg-gradient-to-r from-purple-50 to-blue-50">
-          <CardContent className="text-center py-12">
-            <h2 className="text-2xl font-bold mb-4">Still Have Questions?</h2>
-            <p className="text-gray-600 mb-6">
-              Can't find what you're looking for? Our team is here to help.
+          {/* Hero Section */}
+          <div className="text-center mb-16">
+            <Badge variant="secondary" className="mb-4">Frequently Asked Questions</Badge>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              Got Questions?<br />We Have Answers
+            </h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Find answers to the most common questions about WebInHours, our services, and how we can help you get your website up and running quickly.
             </p>
-            <Badge variant="outline" className="cursor-pointer hover:bg-purple-100">
-              Contact Support
-            </Badge>
-          </CardContent>
-        </Card>
+          </div>
+
+          {/* FAQ Categories */}
+          <div className="space-y-8">
+            {faqs.map((category, categoryIndex) => (
+              <Card key={categoryIndex}>
+                <CardHeader>
+                  <CardTitle className="flex items-center text-2xl">
+                    <HelpCircle className="h-6 w-6 mr-3 text-purple-600" />
+                    {category.category}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Accordion type="multiple" className="w-full">
+                    {category.questions.map((faq, index) => (
+                      <AccordionItem key={index} value={`${categoryIndex}-${index}`}>
+                        <AccordionTrigger className="text-left">
+                          {faq.question}
+                        </AccordionTrigger>
+                        <AccordionContent className="text-gray-600">
+                          {faq.answer}
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Contact CTA */}
+          <Card className="mt-16 bg-gradient-to-r from-purple-50 to-blue-50">
+            <CardContent className="text-center py-12">
+              <h2 className="text-2xl font-bold mb-4">Still Have Questions?</h2>
+              <p className="text-gray-600 mb-6">
+                Can't find what you're looking for? Our team is here to help.
+              </p>
+              <Badge variant="outline" className="cursor-pointer hover:bg-purple-100">
+                Contact Support
+              </Badge>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </AppLayout>
