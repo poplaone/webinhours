@@ -7,7 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Send, MessageCircle, User, Clock, RefreshCw, Zap, Filter, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Send, MessageCircle, User, Clock, RefreshCw, Zap, Filter, CheckCircle2, AlertCircle, Trash2 } from 'lucide-react';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 
@@ -214,6 +215,48 @@ export function LiveSupportTab() {
     }
   };
 
+  const deleteConversation = async (sessionId: string) => {
+    try {
+      // Delete all messages for this session
+      const { error: messagesError } = await supabase
+        .from('chat_messages')
+        .delete()
+        .eq('session_id', sessionId)
+        .eq('is_live_support', true);
+
+      if (messagesError) throw messagesError;
+
+      // Delete the session record
+      const { error: sessionError } = await supabase
+        .from('support_sessions')
+        .delete()
+        .eq('session_id', sessionId);
+
+      if (sessionError) throw sessionError;
+
+      // Update local state
+      setSessions(prev => prev.filter(s => s.session_id !== sessionId));
+      
+      // Clear selection if deleted session was selected
+      if (selectedSession === sessionId) {
+        setSelectedSession(null);
+        setMessages([]);
+      }
+
+      toast({
+        title: 'Conversation deleted',
+        description: 'The conversation has been permanently removed.',
+      });
+    } catch (error: any) {
+      console.error('Error deleting conversation:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to delete conversation',
+        variant: 'destructive',
+      });
+    }
+  };
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
@@ -332,44 +375,80 @@ export function LiveSupportTab() {
                 filteredSessions.map((session) => {
                   const StatusIcon = STATUS_CONFIG[session.status].icon;
                   return (
-                    <button
+                    <div
                       key={session.session_id}
-                      onClick={() => setSelectedSession(session.session_id)}
                       className={`w-full p-4 text-left border-b border-border/50 hover:bg-muted/50 transition-colors ${
                         selectedSession === session.session_id ? 'bg-muted' : ''
                       }`}
                     >
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex items-center gap-2">
-                          <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                            <User className="h-4 w-4 text-primary" />
+                      <div 
+                        className="cursor-pointer"
+                        onClick={() => setSelectedSession(session.session_id)}
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex items-center gap-2">
+                            <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                              <User className="h-4 w-4 text-primary" />
+                            </div>
+                            <div>
+                              <p className="font-medium text-sm truncate max-w-[120px]">
+                                {session.user_email}
+                              </p>
+                              <p className="text-xs text-muted-foreground truncate max-w-[150px]">
+                                {session.last_message}
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="font-medium text-sm truncate max-w-[120px]">
-                              {session.user_email}
-                            </p>
-                            <p className="text-xs text-muted-foreground truncate max-w-[150px]">
-                              {session.last_message}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex flex-col items-end gap-1">
-                          {session.unread_count > 0 && (
-                            <Badge variant="destructive" className="h-5 text-xs">
-                              {session.unread_count}
+                          <div className="flex flex-col items-end gap-1">
+                            {session.unread_count > 0 && (
+                              <Badge variant="destructive" className="h-5 text-xs">
+                                {session.unread_count}
+                              </Badge>
+                            )}
+                            <Badge variant={STATUS_CONFIG[session.status].variant} className="h-5 text-xs">
+                              <StatusIcon className="h-3 w-3 mr-1" />
+                              {STATUS_CONFIG[session.status].label}
                             </Badge>
-                          )}
-                          <Badge variant={STATUS_CONFIG[session.status].variant} className="h-5 text-xs">
-                            <StatusIcon className="h-3 w-3 mr-1" />
-                            {STATUS_CONFIG[session.status].label}
-                          </Badge>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
+                          <Clock className="h-3 w-3" />
+                          {format(new Date(session.last_message_time), 'MMM d, h:mm a')}
                         </div>
                       </div>
-                      <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
-                        <Clock className="h-3 w-3" />
-                        {format(new Date(session.last_message_time), 'MMM d, h:mm a')}
+                      <div className="flex justify-end mt-2">
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              className="h-6 text-xs text-destructive hover:text-destructive hover:bg-destructive/10"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <Trash2 className="h-3 w-3 mr-1" />
+                              Delete
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Delete conversation?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                This will permanently delete this conversation and all its messages. This action cannot be undone.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction 
+                                onClick={() => deleteConversation(session.session_id)}
+                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                              >
+                                Delete
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
                       </div>
-                    </button>
+                    </div>
                   );
                 })
               )}
