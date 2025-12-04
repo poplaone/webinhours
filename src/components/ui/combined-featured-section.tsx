@@ -1,6 +1,7 @@
 import { ArrowRight, Flower, MapPin, Search, Megaphone, Shield, FileText, Activity, CheckCircle, RefreshCw, Zap, Globe, Building2, Rss, BarChart3, Lock, Wifi, TrendingUp, Star } from 'lucide-react';
 import DottedMap from 'dotted-map';
 import { Card } from '@/components/ui/card';
+import { motion } from 'framer-motion';
 
 export default function CombinedFeaturedSection() {
   return <section className="py-12 md:py-16 lg:py-24 bg-transparent">
@@ -155,7 +156,13 @@ const SEOOptimizationBackground = () => {
       <div className="absolute inset-0 flex flex-col items-center justify-center pt-20 md:pt-8">
 
         {/* Dual Cards Container - Centered without search bar */}
-        <div className="flex gap-4 w-[90%] h-[60%] mt-4">
+        <motion.div
+          className="flex gap-4 w-[90%] h-[60%] mt-4"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
 
           {/* Left: Google / Traditional SEO */}
           <div className="flex-1 bg-card border border-border rounded-lg shadow-md p-3 flex flex-col gap-2 relative overflow-hidden">
@@ -203,7 +210,7 @@ const SEOOptimizationBackground = () => {
             <div className="absolute bottom-2 right-2 px-1.5 py-0.5 bg-purple-500 text-white text-[8px] font-bold rounded">GEO OPTIMIZED</div>
           </div>
 
-        </div>
+        </motion.div>
 
       </div>
     </div>
@@ -218,7 +225,13 @@ const PRMediaBackground = () => {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 
       {/* Floating Documents Stack */}
-      <div className="absolute bottom-[-20%] right-[-10%] md:bottom-[-10%] md:right-[-5%] w-[60%] h-[80%] opacity-80 transform rotate-[-12deg] scale-75 md:scale-100 transition-transform duration-700 group-hover:rotate-[-8deg] group-hover:scale-105">
+      <motion.div
+        className="absolute bottom-[-20%] right-[-10%] md:bottom-[-10%] md:right-[-5%] w-[60%] h-[80%] opacity-80 transform rotate-[-12deg] scale-75 md:scale-100 transition-transform duration-700 group-hover:rotate-[-8deg] group-hover:scale-105"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 0.8, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
 
         {/* Back Document */}
         <div className="absolute bottom-4 right-8 w-full h-full bg-background border border-border/60 rounded-lg shadow-sm transform rotate-[-5deg] origin-bottom-right"></div>
@@ -256,7 +269,7 @@ const PRMediaBackground = () => {
             PUBLISHED
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Connection Lines / Network Effect */}
       <svg className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20" xmlns="http://www.w3.org/2000/svg">
@@ -276,7 +289,13 @@ const WebsiteCareBackground = () => {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 
       {/* Floating Interface Stack */}
-      <div className="absolute bottom-[-20%] right-[-10%] md:bottom-[-10%] md:right-[-5%] w-[70%] h-[80%] opacity-90 transform rotate-[-6deg] scale-75 md:scale-100 transition-transform duration-700 group-hover:rotate-[-3deg] group-hover:scale-105">
+      <motion.div
+        className="absolute bottom-[-20%] right-[-10%] md:bottom-[-10%] md:right-[-5%] w-[70%] h-[80%] opacity-90 transform rotate-[-6deg] scale-75 md:scale-100 transition-transform duration-700 group-hover:rotate-[-3deg] group-hover:scale-105"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 0.9, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
 
         {/* Back Panel (Shadow/Depth) */}
         <div className="absolute bottom-4 right-8 w-full h-full bg-background border border-border/60 rounded-xl shadow-sm transform rotate-[-3deg] origin-bottom-right"></div>
@@ -339,7 +358,7 @@ const WebsiteCareBackground = () => {
             <Zap className="w-2 h-2" /> OPTIMIZED
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Connection Lines / Network Effect (Subtle) */}
       <svg className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20" xmlns="http://www.w3.org/2000/svg">
@@ -369,7 +388,13 @@ const PressReleasesBackground = () => {
       </div>
 
       {/* Floating Interface Stack */}
-      <div className="absolute bottom-[-20%] right-[-10%] md:bottom-[-10%] md:right-[-5%] w-[70%] h-[80%] opacity-90 transform rotate-[-6deg] scale-75 md:scale-100 transition-transform duration-700 group-hover:rotate-[-3deg] group-hover:scale-105">
+      <motion.div
+        className="absolute bottom-[-20%] right-[-10%] md:bottom-[-10%] md:right-[-5%] w-[70%] h-[80%] opacity-90 transform rotate-[-6deg] scale-75 md:scale-100 transition-transform duration-700 group-hover:rotate-[-3deg] group-hover:scale-105"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 0.9, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
 
         {/* Back Panel */}
         <div className="absolute bottom-4 right-8 w-full h-full bg-background border border-border/60 rounded-xl shadow-sm transform rotate-[-3deg] origin-bottom-right"></div>
@@ -413,7 +438,7 @@ const PressReleasesBackground = () => {
             SENT TO 50+ OUTLETS
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Connecting Lines */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20" xmlns="http://www.w3.org/2000/svg">
@@ -432,7 +457,13 @@ const BrandMonitoringBackground = () => {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 
       {/* Floating Interface Stack */}
-      <div className="absolute bottom-[-20%] right-[-10%] md:bottom-[-10%] md:right-[-5%] w-[70%] h-[80%] opacity-90 transform rotate-[-6deg] scale-75 md:scale-100 transition-transform duration-700 group-hover:rotate-[-3deg] group-hover:scale-105">
+      <motion.div
+        className="absolute bottom-[-20%] right-[-10%] md:bottom-[-10%] md:right-[-5%] w-[70%] h-[80%] opacity-90 transform rotate-[-6deg] scale-75 md:scale-100 transition-transform duration-700 group-hover:rotate-[-3deg] group-hover:scale-105"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 0.9, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
 
         {/* Back Panel */}
         <div className="absolute bottom-4 right-8 w-full h-full bg-background border border-border/60 rounded-xl shadow-sm transform rotate-[-3deg] origin-bottom-right"></div>
@@ -486,7 +517,7 @@ const BrandMonitoringBackground = () => {
           </div>
 
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
