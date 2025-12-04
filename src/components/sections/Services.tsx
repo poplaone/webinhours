@@ -32,7 +32,7 @@ export const Services = () => {
   return (
     <section id="services" className="py-6 md:py-20 px-4 relative z-10 my-0">
       <div className="container mx-auto w-full max-w-[1600px] space-y-8">
-        <div className="space-y-0 border-2 border-primary/30 rounded-sm p-8 md:p-12">
+        <div className="space-y-0 border-2 border-primary/30 rounded-sm p-4 md:p-12">
           {services.map((service, i) => <AnimatedServiceCard key={i} service={service} index={i} />)}
         </div>
 
