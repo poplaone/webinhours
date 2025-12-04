@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import { Bot, Send, Sparkles, Headphones, Lock } from 'lucide-react';
+import { Bot, Send, Sparkles, Headphones, Lock, Search, Plus, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useMarketplaceAI } from '@/hooks/useMarketplaceAI';
 import { useLiveSupport } from '@/hooks/useLiveSupport';
@@ -41,6 +42,7 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({
   }]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const scrollAreaRootRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -210,6 +212,33 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({
     }, 800);
   };
 
+  const handleQuickAction = async (action: string) => {
+    if (chatMode === 'ai' && isAuthenticated) {
+      const userMessage: Message = {
+        id: Date.now().toString(),
+        type: 'user',
+        content: action,
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, userMessage]);
+      onSearch?.(action);
+      await sendAIMessage(action);
+    }
+  };
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      onSearch?.(searchQuery);
+      setSearchQuery('');
+    }
+  };
+
+  const handleSearchKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0, x: 20 }} 
@@ -270,8 +299,67 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({
         </CardHeader>
 
         <CardContent className="flex-1 flex flex-col p-0 min-h-0 overflow-hidden">
-          {/* Non-authenticated view for live support */}
-          {chatMode === 'live' && !user ? (
+          {/* Non-authenticated AI mode view */}
+          {chatMode === 'ai' && !isAuthenticated && (
+            <div className="flex-1 flex flex-col">
+              {/* Search interface for non-authenticated users */}
+              <div className="flex-none p-4 border-b border-purple-200/20">
+                <div className="text-center mb-4">
+                  <Lock className="h-8 w-8 text-purple-500 mx-auto mb-2" />
+                  <p className="text-sm text-muted-foreground mb-2">Sign in to use AI-powered search</p>
+                  <Button 
+                    size="sm" 
+                    className="bg-purple-500 hover:bg-purple-600 text-white"
+                    onClick={() => navigate('/auth')}
+                  >
+                    Sign In to Ask AI
+                  </Button>
+                </div>
+                
+                <div className="relative mt-4">
+                  <p className="text-xs text-muted-foreground mb-2 text-center">Or search the marketplace:</p>
+                  <div className="flex gap-2">
+                    <Input
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyDown={handleSearchKeyDown}
+                      placeholder="Search templates, categories..."
+                      className="bg-muted/30 border-purple-500/30"
+                    />
+                    <Button 
+                      size="icon"
+                      variant="outline"
+                      className="border-purple-500/30 text-purple-500 hover:bg-purple-500/10"
+                      onClick={handleSearch}
+                    >
+                      <Search className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Quick filters for non-authenticated */}
+              <div className="flex-1 p-4 overflow-y-auto">
+                <p className="text-xs text-muted-foreground mb-3">Quick filters:</p>
+                <div className="flex flex-wrap gap-2">
+                  {['E-commerce', 'Portfolio', 'SaaS', 'Blog', 'Landing Page', 'AI Chatbot'].map((filter) => (
+                    <Button
+                      key={filter}
+                      variant="outline"
+                      size="sm"
+                      className="text-xs border-purple-500/30 text-muted-foreground hover:text-foreground hover:bg-purple-500/10"
+                      onClick={() => onSearch?.(filter.toLowerCase())}
+                    >
+                      {filter}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Non-authenticated live support view */}
+          {chatMode === 'live' && !user && (
             <div className="flex-1 flex flex-col items-center justify-center p-6">
               <Lock className="h-12 w-12 text-green-500 mb-4" />
               <p className="text-muted-foreground text-center mb-4">Sign in to chat with our support team</p>
@@ -282,7 +370,10 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({
                 Sign In for Live Support
               </Button>
             </div>
-          ) : (
+          )}
+
+          {/* Authenticated chat view */}
+          {((chatMode === 'ai' && isAuthenticated) || (chatMode === 'live' && user)) && (
             <>
               <div ref={scrollAreaRootRef} className="relative flex-1 min-h-0 ai-chat z-0">
                 <ScrollArea className="h-full w-full">
@@ -345,7 +436,7 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({
                 </ScrollArea>
               </div>
 
-              <div className="h-20 p-4 border-t border-muted absolute bottom-0 left-0 right-0 bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/70 flex items-center z-10">
+              <div className="p-4 border-t border-muted absolute bottom-0 left-0 right-0 bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/70 z-10">
                 <div className="relative max-w-[340px] mx-auto w-full">
                   <input 
                     value={inputValue} 
@@ -370,6 +461,42 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({
                     <Send className="w-4 h-4" />
                   </button>
                 </div>
+                
+                {/* Quick Actions for AI mode */}
+                {chatMode === 'ai' && (
+                  <div className="flex gap-2 mt-2 flex-wrap justify-center max-w-[340px] mx-auto">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="text-xs h-7 bg-muted/30 border-purple-500/30 hover:bg-purple-500/20"
+                      onClick={() => handleQuickAction("Find me an e-commerce website template")}
+                      disabled={isLoading}
+                    >
+                      <Plus className="h-3 w-3 mr-1" />
+                      E-commerce
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="text-xs h-7 bg-muted/30 border-purple-500/30 hover:bg-purple-500/20"
+                      onClick={() => handleQuickAction("Show me AI chatbot agents for customer support")}
+                      disabled={isLoading}
+                    >
+                      <Zap className="h-3 w-3 mr-1" />
+                      AI Agents
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="text-xs h-7 bg-muted/30 border-purple-500/30 hover:bg-purple-500/20"
+                      onClick={() => handleQuickAction("Compare your best portfolio templates")}
+                      disabled={isLoading}
+                    >
+                      <Sparkles className="h-3 w-3 mr-1" />
+                      Portfolio
+                    </Button>
+                  </div>
+                )}
               </div>
             </>
           )}
