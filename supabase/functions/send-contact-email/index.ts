@@ -21,6 +21,10 @@ interface ContactEmailRequest {
   type?: string;
   website?: string;
   projectType?: string;
+  budget?: string;
+  timeline?: string;
+  services?: string[];
+  customService?: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -49,6 +53,10 @@ const handler = async (req: Request): Promise<Response> => {
       React.createElement(UserConfirmation, {
         name: data.name,
         message: data.message,
+        services: data.services,
+        budget: data.budget,
+        timeline: data.timeline,
+        customService: data.customService,
       })
     );
 
