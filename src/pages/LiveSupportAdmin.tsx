@@ -7,10 +7,20 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { ArrowLeft, Send, MessageCircle, User, Clock, RefreshCw } from 'lucide-react';
+import { ArrowLeft, Send, MessageCircle, User, Clock, RefreshCw, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
+
+const QUICK_RESPONSES = [
+  { label: 'Greeting', text: 'Hello! Thanks for reaching out to WebInHours support. How can I help you today?' },
+  { label: 'Pricing', text: 'Our pricing varies based on the template or AI agent you choose. You can see individual prices on each product page. Need help finding something in your budget?' },
+  { label: 'Customization', text: 'Yes, all our templates are fully customizable! Once purchased, you get the complete source code to modify as needed.' },
+  { label: 'Delivery', text: 'After purchase, you\'ll receive instant access to download your template or AI agent. Check your email for the download link!' },
+  { label: 'Refund', text: 'We offer refunds within 7 days of purchase if the product doesn\'t meet your expectations. Please contact us with your order details.' },
+  { label: 'Tech Support', text: 'For technical issues, please describe the problem in detail. Screenshots help us diagnose faster!' },
+  { label: 'Thanks', text: 'Thank you for choosing WebInHours! Is there anything else I can help you with?' },
+];
 
 interface ChatSession {
   session_id: string;
@@ -339,7 +349,25 @@ const LiveSupportAdmin = () => {
                       <div ref={messagesEndRef} />
                     </div>
                   </ScrollArea>
-                  <div className="p-4 border-t">
+                  <div className="p-4 border-t space-y-3">
+                    {/* Quick Responses */}
+                    <div className="flex flex-wrap gap-2">
+                      <span className="flex items-center text-xs text-muted-foreground mr-1">
+                        <Zap className="h-3 w-3 mr-1" />
+                        Quick:
+                      </span>
+                      {QUICK_RESPONSES.map((qr) => (
+                        <Button
+                          key={qr.label}
+                          variant="outline"
+                          size="sm"
+                          className="h-7 text-xs"
+                          onClick={() => setNewMessage(qr.text)}
+                        >
+                          {qr.label}
+                        </Button>
+                      ))}
+                    </div>
                     <form
                       onSubmit={(e) => {
                         e.preventDefault();
