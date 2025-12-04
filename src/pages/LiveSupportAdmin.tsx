@@ -7,7 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { ArrowLeft, Send, MessageCircle, User, Clock, RefreshCw, Zap } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ArrowLeft, Send, MessageCircle, User, Clock, RefreshCw, Zap, Filter, CheckCircle2, AlertCircle, Circle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
@@ -22,6 +23,8 @@ const QUICK_RESPONSES = [
   { label: 'Thanks', text: 'Thank you for choosing WebInHours! Is there anything else I can help you with?' },
 ];
 
+type ConversationStatus = 'open' | 'pending' | 'resolved';
+
 interface ChatSession {
   session_id: string;
   user_id: string;
@@ -29,6 +32,7 @@ interface ChatSession {
   last_message_time: string;
   unread_count: number;
   user_email?: string;
+  status: ConversationStatus;
 }
 
 interface ChatMessage {
@@ -38,6 +42,12 @@ interface ChatMessage {
   created_at: string;
   is_read: boolean;
 }
+
+const STATUS_CONFIG: Record<ConversationStatus, { label: string; icon: React.ElementType; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
+  open: { label: 'Open', icon: AlertCircle, variant: 'destructive' },
+  pending: { label: 'Pending', icon: Clock, variant: 'secondary' },
+  resolved: { label: 'Resolved', icon: CheckCircle2, variant: 'outline' },
+};
 
 const LiveSupportAdmin = () => {
   const { user } = useAuth();
@@ -49,24 +59,32 @@ const LiveSupportAdmin = () => {
   const [newMessage, setNewMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<ConversationStatus | 'all'>('all');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Fetch all live support sessions
   const fetchSessions = async () => {
     setIsLoading(true);
     try {
-      const { data, error } = await supabase
+      const { data: messagesData, error: messagesError } = await supabase
         .from('chat_messages')
         .select('session_id, user_id, content, created_at, is_read, role')
         .eq('is_live_support', true)
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (messagesError) throw messagesError;
+
+      // Fetch session statuses
+      const { data: sessionsData } = await supabase
+        .from('support_sessions')
+        .select('session_id, status');
+
+      const statusMap = new Map(sessionsData?.map(s => [s.session_id, s.status as ConversationStatus]) || []);
 
       // Group by session
       const sessionMap = new Map<string, ChatSession>();
       
-      for (const msg of data || []) {
+      for (const msg of messagesData || []) {
         if (!sessionMap.has(msg.session_id)) {
           // Get user email from profiles
           const { data: profile } = await supabase
@@ -82,6 +100,7 @@ const LiveSupportAdmin = () => {
             last_message_time: msg.created_at,
             unread_count: 0,
             user_email: profile?.email || 'Unknown',
+            status: statusMap.get(msg.session_id) || 'open',
           });
         }
         
@@ -129,6 +148,42 @@ const LiveSupportAdmin = () => {
       .eq('is_live_support', true);
   };
 
+  // Update conversation status
+  const updateStatus = async (sessionId: string, newStatus: ConversationStatus) => {
+    const session = sessions.find(s => s.session_id === sessionId);
+    if (!session) return;
+
+    try {
+      // Upsert the session status
+      const { error } = await supabase
+        .from('support_sessions')
+        .upsert({
+          session_id: sessionId,
+          user_id: session.user_id,
+          status: newStatus,
+        }, { onConflict: 'session_id' });
+
+      if (error) throw error;
+
+      // Update local state
+      setSessions(prev => prev.map(s => 
+        s.session_id === sessionId ? { ...s, status: newStatus } : s
+      ));
+
+      toast({
+        title: 'Status updated',
+        description: `Conversation marked as ${newStatus}`,
+      });
+    } catch (error: any) {
+      console.error('Error updating status:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to update status',
+        variant: 'destructive',
+      });
+    }
+  };
+
   // Send support response
   const sendMessage = async () => {
     if (!newMessage.trim() || !selectedSession || !user) return;
@@ -152,6 +207,11 @@ const LiveSupportAdmin = () => {
         });
 
       if (error) throw error;
+
+      // Update status to pending if it was open
+      if (session.status === 'open') {
+        await updateStatus(selectedSession, 'pending');
+      }
 
       setNewMessage('');
       toast({
@@ -224,6 +284,13 @@ const LiveSupportAdmin = () => {
     };
   }, [selectedSession]);
 
+  // Filter sessions by status
+  const filteredSessions = statusFilter === 'all' 
+    ? sessions 
+    : sessions.filter(s => s.status === statusFilter);
+
+  const currentSession = sessions.find(s => s.session_id === selectedSession);
+
   return (
     <>
       <SEOHead 
@@ -250,57 +317,95 @@ const LiveSupportAdmin = () => {
           {/* Sessions List */}
           <Card className="lg:col-span-1">
             <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <MessageCircle className="h-5 w-5" />
-                Conversations
-                {sessions.length > 0 && (
-                  <Badge variant="secondary">{sessions.length}</Badge>
-                )}
-              </CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <MessageCircle className="h-5 w-5" />
+                  Conversations
+                  {filteredSessions.length > 0 && (
+                    <Badge variant="secondary">{filteredSessions.length}</Badge>
+                  )}
+                </CardTitle>
+              </div>
+              {/* Status Filter */}
+              <div className="flex items-center gap-2 mt-3">
+                <Filter className="h-4 w-4 text-muted-foreground" />
+                <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v as ConversationStatus | 'all')}>
+                  <SelectTrigger className="h-8 text-xs">
+                    <SelectValue placeholder="Filter by status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Conversations</SelectItem>
+                    <SelectItem value="open">
+                      <span className="flex items-center gap-2">
+                        <AlertCircle className="h-3 w-3 text-destructive" /> Open
+                      </span>
+                    </SelectItem>
+                    <SelectItem value="pending">
+                      <span className="flex items-center gap-2">
+                        <Clock className="h-3 w-3 text-muted-foreground" /> Pending
+                      </span>
+                    </SelectItem>
+                    <SelectItem value="resolved">
+                      <span className="flex items-center gap-2">
+                        <CheckCircle2 className="h-3 w-3 text-green-500" /> Resolved
+                      </span>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </CardHeader>
             <CardContent className="p-0">
-              <ScrollArea className="h-[calc(100vh-320px)]">
+              <ScrollArea className="h-[calc(100vh-380px)]">
                 {isLoading ? (
                   <div className="p-4 text-center text-muted-foreground">Loading...</div>
-                ) : sessions.length === 0 ? (
+                ) : filteredSessions.length === 0 ? (
                   <div className="p-4 text-center text-muted-foreground">
-                    No support conversations yet
+                    No conversations found
                   </div>
                 ) : (
-                  sessions.map((session) => (
-                    <button
-                      key={session.session_id}
-                      onClick={() => setSelectedSession(session.session_id)}
-                      className={`w-full p-4 text-left border-b border-border/50 hover:bg-muted/50 transition-colors ${
-                        selectedSession === session.session_id ? 'bg-muted' : ''
-                      }`}
-                    >
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex items-center gap-2">
-                          <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                            <User className="h-4 w-4 text-primary" />
+                  filteredSessions.map((session) => {
+                    const StatusIcon = STATUS_CONFIG[session.status].icon;
+                    return (
+                      <button
+                        key={session.session_id}
+                        onClick={() => setSelectedSession(session.session_id)}
+                        className={`w-full p-4 text-left border-b border-border/50 hover:bg-muted/50 transition-colors ${
+                          selectedSession === session.session_id ? 'bg-muted' : ''
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex items-center gap-2">
+                            <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                              <User className="h-4 w-4 text-primary" />
+                            </div>
+                            <div>
+                              <p className="font-medium text-sm truncate max-w-[120px]">
+                                {session.user_email}
+                              </p>
+                              <p className="text-xs text-muted-foreground truncate max-w-[150px]">
+                                {session.last_message}
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="font-medium text-sm truncate max-w-[150px]">
-                              {session.user_email}
-                            </p>
-                            <p className="text-xs text-muted-foreground truncate max-w-[180px]">
-                              {session.last_message}
-                            </p>
+                          <div className="flex flex-col items-end gap-1">
+                            {session.unread_count > 0 && (
+                              <Badge variant="destructive" className="h-5 text-xs">
+                                {session.unread_count}
+                              </Badge>
+                            )}
+                            <Badge variant={STATUS_CONFIG[session.status].variant} className="h-5 text-xs">
+                              <StatusIcon className="h-3 w-3 mr-1" />
+                              {STATUS_CONFIG[session.status].label}
+                            </Badge>
                           </div>
                         </div>
-                        {session.unread_count > 0 && (
-                          <Badge variant="destructive" className="shrink-0">
-                            {session.unread_count}
-                          </Badge>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
-                        <Clock className="h-3 w-3" />
-                        {format(new Date(session.last_message_time), 'MMM d, h:mm a')}
-                      </div>
-                    </button>
-                  ))
+                        <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
+                          <Clock className="h-3 w-3" />
+                          {format(new Date(session.last_message_time), 'MMM d, h:mm a')}
+                        </div>
+                      </button>
+                    );
+                  })
                 )}
               </ScrollArea>
             </CardContent>
@@ -309,16 +414,46 @@ const LiveSupportAdmin = () => {
           {/* Chat Area */}
           <Card className="lg:col-span-2 flex flex-col">
             <CardHeader className="pb-3 border-b">
-              <CardTitle className="text-lg">
-                {selectedSession ? (
-                  <span className="flex items-center gap-2">
-                    <MessageCircle className="h-5 w-5" />
-                    Chat with {sessions.find(s => s.session_id === selectedSession)?.user_email}
-                  </span>
-                ) : (
-                  'Select a conversation'
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg">
+                  {selectedSession ? (
+                    <span className="flex items-center gap-2">
+                      <MessageCircle className="h-5 w-5" />
+                      Chat with {currentSession?.user_email}
+                    </span>
+                  ) : (
+                    'Select a conversation'
+                  )}
+                </CardTitle>
+                {/* Status Selector */}
+                {selectedSession && currentSession && (
+                  <Select 
+                    value={currentSession.status} 
+                    onValueChange={(v) => updateStatus(selectedSession, v as ConversationStatus)}
+                  >
+                    <SelectTrigger className="w-[140px] h-8">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="open">
+                        <span className="flex items-center gap-2">
+                          <AlertCircle className="h-3 w-3 text-destructive" /> Open
+                        </span>
+                      </SelectItem>
+                      <SelectItem value="pending">
+                        <span className="flex items-center gap-2">
+                          <Clock className="h-3 w-3 text-muted-foreground" /> Pending
+                        </span>
+                      </SelectItem>
+                      <SelectItem value="resolved">
+                        <span className="flex items-center gap-2">
+                          <CheckCircle2 className="h-3 w-3 text-green-500" /> Resolved
+                        </span>
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                 )}
-              </CardTitle>
+              </div>
             </CardHeader>
             <CardContent className="flex-1 flex flex-col p-0">
               {selectedSession ? (

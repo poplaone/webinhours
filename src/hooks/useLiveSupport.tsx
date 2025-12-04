@@ -152,6 +152,15 @@ export const useLiveSupport = (): UseLiveSupportReturn => {
         prev.map(m => m.id === tempId ? { ...m, id: data.id } : m)
       );
 
+      // Create or update support session (upsert)
+      await supabase
+        .from('support_sessions')
+        .upsert({
+          session_id: sessionId,
+          user_id: user.id,
+          status: 'open',
+        }, { onConflict: 'session_id' });
+
       // Send email notification to admin (fire and forget)
       const { data: profile } = await supabase
         .from('profiles')
