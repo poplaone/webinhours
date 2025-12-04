@@ -152,6 +152,22 @@ export const useLiveSupport = (): UseLiveSupportReturn => {
         prev.map(m => m.id === tempId ? { ...m, id: data.id } : m)
       );
 
+      // Send email notification to admin (fire and forget)
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('email, full_name')
+        .eq('id', user.id)
+        .single();
+
+      supabase.functions.invoke('live-support-notification', {
+        body: {
+          userName: profile?.full_name || 'User',
+          userEmail: profile?.email || user.email,
+          message: message,
+          sessionId: sessionId,
+        }
+      }).catch(err => console.error('Email notification failed:', err));
+
       // If this is the first message, show a welcome response
       if (messages.length === 0) {
         const welcomeMessage: LiveMessage = {
