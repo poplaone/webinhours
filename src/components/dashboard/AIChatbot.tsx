@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,223 +6,362 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import { Bot, Send, Sparkles, Headphones, Lock, Search, Plus, Zap } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { useMarketplaceAI } from '@/hooks/useMarketplaceAI';
-import { useLiveSupport } from '@/hooks/useLiveSupport';
+import { Bot, Send, Sparkles, Headphones, Lock, Search, Loader2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 type ChatMode = 'ai' | 'live';
 
 interface Message {
   id: string;
-  type: 'user' | 'bot';
+  role: 'user' | 'assistant' | 'support';
   content: string;
-  timestamp: Date;
-  suggestions?: string[];
+  timestamp: string;
 }
 
 interface AIChatbotProps {
-  onTemplateRecommend?: (templateId: string) => void;
   onSearch?: (query: string) => void;
 }
 
-export const AIChatbot: React.FC<AIChatbotProps> = ({
-  onTemplateRecommend,
-  onSearch
-}) => {
+const DAILY_LIMIT = 10;
+
+// Initial messages for each mode
+const getInitialAIMessage = (): Message => ({
+  id: 'ai-welcome',
+  role: 'assistant',
+  content: "👋 Hi! I'm your AI marketplace assistant. I can help you find the perfect website template or AI agent for your business. What are you looking for today?",
+  timestamp: new Date().toISOString(),
+});
+
+const getInitialLiveMessage = (): Message => ({
+  id: 'live-welcome',
+  role: 'support',
+  content: "👋 Welcome to live support! Send a message and our team will respond as soon as possible.",
+  timestamp: new Date().toISOString(),
+});
+
+export const AIChatbot: React.FC<AIChatbotProps> = ({ onSearch }) => {
   const [chatMode, setChatMode] = useState<ChatMode>('ai');
-  const [messages, setMessages] = useState<Message[]>([{
-    id: '1',
-    type: 'bot',
-    content: "Hi! I'm your AI assistant. I can help you find the perfect template, answer questions about our services, or recommend products based on your needs. What can I help you with today?",
-    timestamp: new Date(),
-    suggestions: ["Find e-commerce templates", "What's trending?", "Budget-friendly options", "Portfolio templates"]
-  }]);
   const [inputValue, setInputValue] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const scrollAreaRootRef = useRef<HTMLDivElement>(null);
-  const { user } = useAuth();
-  const navigate = useNavigate();
-
-  // AI Chat hook
-  const { 
-    messages: aiMessages, 
-    isLoading: aiLoading, 
-    sendMessage: sendAIMessage,
-    remainingCredits,
-    dailyLimit,
-    isAuthenticated 
-  } = useMarketplaceAI();
   
-  // Live Support hook
-  const {
-    messages: liveMessages,
-    isLoading: liveLoading,
-    sendMessage: sendLiveMessage,
-  } = useLiveSupport();
+  // Separate states for AI and Live modes
+  const [aiMessages, setAiMessages] = useState<Message[]>([getInitialAIMessage()]);
+  const [liveMessages, setLiveMessages] = useState<Message[]>([getInitialLiveMessage()]);
+  
+  const [aiLoading, setAiLoading] = useState(false);
+  const [liveLoading, setLiveLoading] = useState(false);
+  const [remainingCredits, setRemainingCredits] = useState<number | null>(null);
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const { user, session } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
-  const isLoading = chatMode === 'ai' ? (aiLoading || isTyping) : liveLoading;
+  // Current mode's messages and loading state
+  const currentMessages = chatMode === 'ai' ? aiMessages : liveMessages;
+  const isLoading = chatMode === 'ai' ? aiLoading : liveLoading;
 
-  // Update messages based on mode
+  // Fetch AI credits on mount
   useEffect(() => {
-    if (chatMode === 'live') {
-      if (liveMessages.length === 0 && user) {
-        setMessages([{
-          id: 'welcome',
-          type: 'bot',
-          content: "👋 Welcome to live support! Send a message and our team will respond as soon as possible.",
-          timestamp: new Date(),
-        }]);
-      } else {
-        setMessages(liveMessages.map(msg => ({
+    const fetchCredits = async () => {
+      if (!user) {
+        setRemainingCredits(null);
+        return;
+      }
+      try {
+        const { data } = await supabase.rpc('get_remaining_ai_credits', {
+          p_user_id: user.id,
+          p_daily_limit: DAILY_LIMIT
+        });
+        if (data !== null) setRemainingCredits(data);
+      } catch (err) {
+        console.error('Error fetching credits:', err);
+      }
+    };
+    fetchCredits();
+  }, [user]);
+
+  // Initialize live support session
+  useEffect(() => {
+    if (!user) {
+      setLiveMessages([getInitialLiveMessage()]);
+      setSessionId(null);
+      return;
+    }
+
+    const storedSessionId = localStorage.getItem(`live_support_session_${user.id}`);
+    const currentSessionId = storedSessionId || crypto.randomUUID();
+    
+    if (!storedSessionId) {
+      localStorage.setItem(`live_support_session_${user.id}`, currentSessionId);
+    }
+    setSessionId(currentSessionId);
+
+    // Load existing live messages
+    const loadLiveMessages = async () => {
+      const { data, error } = await supabase
+        .from('chat_messages')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('session_id', currentSessionId)
+        .eq('is_live_support', true)
+        .order('created_at', { ascending: true });
+
+      if (!error && data && data.length > 0) {
+        setLiveMessages(data.map(msg => ({
           id: msg.id,
-          type: msg.role === 'user' ? 'user' : 'bot',
+          role: msg.role === 'user' ? 'user' : 'support',
           content: msg.content,
-          timestamp: new Date(msg.timestamp),
+          timestamp: msg.created_at,
         })));
       }
-    } else {
-      // Reset to initial AI message when switching back
-      if (aiMessages.length === 0) {
-        setMessages([{
-          id: '1',
-          type: 'bot',
-          content: "Hi! I'm your AI assistant. I can help you find the perfect template, answer questions about our services, or recommend products based on your needs. What can I help you with today?",
-          timestamp: new Date(),
-          suggestions: ["Find e-commerce templates", "What's trending?", "Budget-friendly options", "Portfolio templates"]
-        }]);
-      }
-    }
-  }, [chatMode, liveMessages, user, aiMessages.length]);
+    };
+    loadLiveMessages();
 
-  const scrollToBottom = () => {
-    const viewport = scrollAreaRootRef.current?.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement | null;
-    if (viewport) {
-      requestAnimationFrame(() => {
-        if (viewport) {
-          const scrollHeight = viewport.scrollHeight;
-          requestAnimationFrame(() => {
-            viewport.scrollTo({ top: scrollHeight, behavior: 'auto' });
+    // Subscribe to realtime updates for live support
+    const channel = supabase
+      .channel(`live_support_${currentSessionId}`)
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'chat_messages',
+        filter: `session_id=eq.${currentSessionId}`
+      }, (payload) => {
+        const newMsg = payload.new as any;
+        if (newMsg.role === 'support') {
+          setLiveMessages(prev => {
+            if (prev.some(m => m.id === newMsg.id)) return prev;
+            return [...prev, {
+              id: newMsg.id,
+              role: 'support',
+              content: newMsg.content,
+              timestamp: newMsg.created_at,
+            }];
+          });
+          toast({
+            title: "New message from support",
+            description: newMsg.content.slice(0, 50) + (newMsg.content.length > 50 ? '...' : ''),
           });
         }
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user, toast]);
+
+  // Scroll to bottom when messages change
+  const scrollToBottom = useCallback(() => {
+    const viewport = scrollAreaRef.current?.querySelector('[data-radix-scroll-area-viewport]') as HTMLElement | null;
+    if (viewport) {
+      requestAnimationFrame(() => {
+        viewport.scrollTo({ top: viewport.scrollHeight, behavior: 'smooth' });
       });
     }
-  };
+  }, []);
 
   useEffect(() => {
-    const raf = requestAnimationFrame(scrollToBottom);
-    return () => cancelAnimationFrame(raf);
-  }, [messages]);
+    scrollToBottom();
+  }, [currentMessages, scrollToBottom]);
 
-  const generateBotResponse = (userInput: string): Message => {
-    const input = userInput.toLowerCase();
-    if (input.includes('ecommerce') || input.includes('e-commerce') || input.includes('shop')) {
-      return {
-        id: Date.now().toString(),
-        type: 'bot',
-        content: "Great! I found some excellent e-commerce templates for you. Here are my top recommendations based on features and user ratings:",
-        timestamp: new Date(),
-        suggestions: ["TechStore - Modern E-commerce", "FashionHub - Clothing Store", "GadgetWorld - Electronics", "Show all e-commerce templates"]
-      };
-    }
-    if (input.includes('portfolio') || input.includes('creative')) {
-      return {
-        id: Date.now().toString(),
-        type: 'bot',
-        content: "Perfect! Portfolio templates are great for showcasing your work. I recommend these based on your creative needs:",
-        timestamp: new Date(),
-        suggestions: ["CreativeStudio - Portfolio", "DesignPro - Agency Website", "ArtistSpace - Creative Portfolio", "Browse all portfolio templates"]
-      };
-    }
-    if (input.includes('budget') || input.includes('cheap') || input.includes('affordable')) {
-      return {
-        id: Date.now().toString(),
-        type: 'bot',
-        content: "I understand budget is important! Here are some excellent affordable options that don't compromise on quality:",
-        timestamp: new Date(),
-        suggestions: ["Templates under $50", "Free templates", "Best value templates", "Payment plans available"]
-      };
-    }
-    if (input.includes('trending') || input.includes('popular')) {
-      return {
-        id: Date.now().toString(),
-        type: 'bot',
-        content: "Here's what's trending right now! These templates are popular among our users:",
-        timestamp: new Date(),
-        suggestions: ["AI-powered websites", "Minimalist designs", "Dark mode templates", "Mobile-first designs"]
-      };
-    }
-    return {
-      id: Date.now().toString(),
-      type: 'bot',
-      content: "I'd be happy to help you with that! Could you tell me more about what type of website you're looking to create? This will help me provide better recommendations.",
-      timestamp: new Date(),
-      suggestions: ["Business website", "Personal portfolio", "E-commerce store", "Blog or content site"]
+  // Send AI message
+  const sendAIMessage = useCallback(async (message: string) => {
+    if (!message.trim() || !user || !session) return;
+
+    const userMessage: Message = {
+      id: `user-${Date.now()}`,
+      role: 'user',
+      content: message,
+      timestamp: new Date().toISOString(),
     };
-  };
+    
+    setAiMessages(prev => [...prev, userMessage]);
+    setAiLoading(true);
 
+    try {
+      const conversationHistory = aiMessages
+        .filter(m => m.id !== 'ai-welcome')
+        .slice(-10)
+        .map(msg => ({
+          role: msg.role === 'user' ? 'user' : 'assistant',
+          content: msg.content
+        }));
+
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/gemini-assistant`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`,
+          },
+          body: JSON.stringify({ message, conversationHistory }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (response.status === 429) {
+          setRemainingCredits(data.remainingCredits || 0);
+          toast({
+            title: "Daily limit reached",
+            description: `You've used all ${DAILY_LIMIT} AI messages for today.`,
+            variant: "destructive"
+          });
+          const limitMessage: Message = {
+            id: `limit-${Date.now()}`,
+            role: 'assistant',
+            content: `⚠️ You've reached your daily limit of ${DAILY_LIMIT} AI messages. Your credits will reset at midnight. Browse the marketplace or use filters in the meantime!`,
+            timestamp: new Date().toISOString(),
+          };
+          setAiMessages(prev => [...prev, limitMessage]);
+          return;
+        }
+        throw new Error(data.error || 'Failed to get AI response');
+      }
+
+      if (data.remainingCredits !== undefined) {
+        setRemainingCredits(data.remainingCredits);
+      }
+
+      const assistantMessage: Message = {
+        id: `assistant-${Date.now()}`,
+        role: 'assistant',
+        content: data.response,
+        timestamp: new Date().toISOString(),
+      };
+      setAiMessages(prev => [...prev, assistantMessage]);
+
+    } catch (error: any) {
+      console.error('AI error:', error);
+      const errorMessage: Message = {
+        id: `error-${Date.now()}`,
+        role: 'assistant',
+        content: "I apologize, but I'm having trouble processing your request. Please try again.",
+        timestamp: new Date().toISOString(),
+      };
+      setAiMessages(prev => [...prev, errorMessage]);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to communicate with AI",
+        variant: "destructive",
+      });
+    } finally {
+      setAiLoading(false);
+    }
+  }, [aiMessages, user, session, toast]);
+
+  // Send live support message
+  const sendLiveMessage = useCallback(async (message: string) => {
+    if (!message.trim() || !user || !sessionId) return;
+
+    setLiveLoading(true);
+    const tempId = `temp-${Date.now()}`;
+    const userMessage: Message = {
+      id: tempId,
+      role: 'user',
+      content: message,
+      timestamp: new Date().toISOString(),
+    };
+    
+    setLiveMessages(prev => [...prev, userMessage]);
+
+    try {
+      const { data, error } = await supabase
+        .from('chat_messages')
+        .insert({
+          user_id: user.id,
+          session_id: sessionId,
+          role: 'user',
+          content: message,
+          is_live_support: true,
+          is_read: false
+        })
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      // Update temp ID with real ID
+      setLiveMessages(prev => 
+        prev.map(m => m.id === tempId ? { ...m, id: data.id } : m)
+      );
+
+      // Create support session
+      await supabase
+        .from('support_sessions')
+        .upsert({
+          session_id: sessionId,
+          user_id: user.id,
+          status: 'open',
+        }, { onConflict: 'session_id' });
+
+      // Send notification (fire and forget)
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('email, full_name')
+        .eq('id', user.id)
+        .single();
+
+      supabase.functions.invoke('live-support-notification', {
+        body: {
+          userName: profile?.full_name || 'User',
+          userEmail: profile?.email || user.email,
+          message,
+          sessionId,
+        }
+      }).catch(console.error);
+
+      // Auto response for first message
+      if (liveMessages.filter(m => m.role === 'user').length === 0) {
+        const autoResponse: Message = {
+          id: `auto-${Date.now()}`,
+          role: 'support',
+          content: "Thank you for contacting us! A support agent will respond to your message shortly. Our typical response time is within a few hours during business hours.",
+          timestamp: new Date().toISOString(),
+        };
+        setLiveMessages(prev => [...prev, autoResponse]);
+      }
+
+    } catch (error: any) {
+      console.error('Live support error:', error);
+      setLiveMessages(prev => prev.filter(m => m.id !== tempId));
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setLiveLoading(false);
+    }
+  }, [user, sessionId, liveMessages, toast]);
+
+  // Handle send message
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
     
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      type: 'user',
-      content: inputValue,
-      timestamp: new Date()
-    };
-    setMessages(prev => [...prev, userMessage]);
     const messageText = inputValue;
     setInputValue('');
+    onSearch?.(messageText);
 
-    if (chatMode === 'live') {
-      await sendLiveMessage(messageText);
+    if (chatMode === 'ai') {
+      await sendAIMessage(messageText);
     } else {
-      // Trigger marketplace search if provided
-      onSearch?.(messageText);
-      setIsTyping(true);
-      
-      // For AI mode, use the AI hook if authenticated, otherwise use mock response
-      if (isAuthenticated) {
-        await sendAIMessage(messageText);
-        setIsTyping(false);
-      } else {
-        // Mock AI response for non-authenticated users
-        setTimeout(() => {
-          const botResponse = generateBotResponse(messageText);
-          setMessages(prev => [...prev, botResponse]);
-          setIsTyping(false);
-        }, 1500);
-      }
+      await sendLiveMessage(messageText);
     }
   };
 
-  const handleSuggestionClick = (suggestion: string) => {
-    setInputValue(suggestion);
-    const msg: Message = { id: Date.now().toString(), type: 'user', content: suggestion, timestamp: new Date() };
-    setMessages(prev => [...prev, msg]);
-    onSearch?.(suggestion);
-    setIsTyping(true);
-    setTimeout(() => {
-      const botResponse = generateBotResponse(suggestion);
-      setMessages(prev => [...prev, botResponse]);
-      setIsTyping(false);
-    }, 800);
-  };
-
-  const handleQuickAction = async (action: string) => {
-    if (chatMode === 'ai' && isAuthenticated) {
-      const userMessage: Message = {
-        id: Date.now().toString(),
-        type: 'user',
-        content: action,
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, userMessage]);
-      onSearch?.(action);
-      await sendAIMessage(action);
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
     }
   };
 
@@ -233,9 +372,17 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({
     }
   };
 
-  const handleSearchKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSearch();
+  const handleModeSwitch = (checked: boolean) => {
+    setChatMode(checked ? 'live' : 'ai');
+    // Messages are kept separate, no need to reset
+  };
+
+  // Quick action for authenticated AI users
+  const handleQuickAction = async (action: string) => {
+    if (chatMode === 'ai' && user) {
+      setInputValue('');
+      onSearch?.(action);
+      await sendAIMessage(action);
     }
   };
 
@@ -246,7 +393,7 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({
       className="w-full h-full"
     >
       <Card className="relative h-full flex flex-col bg-transparent border-0 shadow-none overflow-hidden">
-        <CardHeader className="pb-2 border-b border-purple-200/20">
+        <CardHeader className="pb-2 border-b border-border/20">
           <div className="flex items-center justify-between mb-3">
             <CardTitle className="flex items-center text-lg">
               <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-3 ${
@@ -270,40 +417,39 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({
           {/* Mode Toggle */}
           <div className="flex items-center justify-between bg-muted/30 rounded-lg p-2">
             <div className="flex items-center gap-2">
-              <Bot className={`h-4 w-4 transition-colors ${chatMode === 'ai' ? 'text-purple-500' : 'text-gray-400'}`} />
-              <Label htmlFor="chat-mode-toggle" className="text-xs text-muted-foreground cursor-pointer">AI</Label>
+              <Bot className={`h-4 w-4 transition-colors ${chatMode === 'ai' ? 'text-purple-500' : 'text-muted-foreground'}`} />
+              <Label htmlFor="chat-mode" className="text-xs text-muted-foreground cursor-pointer">AI</Label>
             </div>
             
             <Switch
-              id="chat-mode-toggle"
+              id="chat-mode"
               checked={chatMode === 'live'}
-              onCheckedChange={(checked) => setChatMode(checked ? 'live' : 'ai')}
+              onCheckedChange={handleModeSwitch}
               className="data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-purple-500"
             />
             
             <div className="flex items-center gap-2">
-              <Label htmlFor="chat-mode-toggle" className="text-xs text-muted-foreground cursor-pointer">Live</Label>
-              <Headphones className={`h-4 w-4 transition-colors ${chatMode === 'live' ? 'text-green-500' : 'text-gray-400'}`} />
+              <Label htmlFor="chat-mode" className="text-xs text-muted-foreground cursor-pointer">Live</Label>
+              <Headphones className={`h-4 w-4 transition-colors ${chatMode === 'live' ? 'text-green-500' : 'text-muted-foreground'}`} />
             </div>
           </div>
 
-          {/* Credits indicator for AI mode */}
-          {chatMode === 'ai' && isAuthenticated && remainingCredits !== null && (
+          {/* Credits indicator */}
+          {chatMode === 'ai' && user && remainingCredits !== null && (
             <div className="mt-2 flex items-center justify-center">
-              <Badge variant="outline" className="text-xs bg-purple-500/10 border-purple-500/30 text-purple-500">
+              <Badge variant="outline" className="text-xs bg-purple-500/10 border-purple-500/30 text-purple-400">
                 <Sparkles className="h-3 w-3 mr-1" />
-                {remainingCredits}/{dailyLimit} credits remaining
+                {remainingCredits}/{DAILY_LIMIT} credits remaining
               </Badge>
             </div>
           )}
         </CardHeader>
 
         <CardContent className="flex-1 flex flex-col p-0 min-h-0 overflow-hidden">
-          {/* Non-authenticated AI mode view */}
-          {chatMode === 'ai' && !isAuthenticated && (
+          {/* Non-authenticated AI mode */}
+          {chatMode === 'ai' && !user && (
             <div className="flex-1 flex flex-col">
-              {/* Search interface for non-authenticated users */}
-              <div className="flex-none p-4 border-b border-purple-200/20">
+              <div className="flex-none p-4 border-b border-border/20">
                 <div className="text-center mb-4">
                   <Lock className="h-8 w-8 text-purple-500 mx-auto mb-2" />
                   <p className="text-sm text-muted-foreground mb-2">Sign in to use AI-powered search</p>
@@ -322,15 +468,15 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({
                     <Input
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      onKeyDown={handleSearchKeyDown}
-                      placeholder="Search templates, categories..."
+                      onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                      placeholder="Search templates..."
                       className="bg-muted/30 border-purple-500/30"
                     />
                     <Button 
                       size="icon"
                       variant="outline"
-                      className="border-purple-500/30 text-purple-500 hover:bg-purple-500/10"
                       onClick={handleSearch}
+                      className="border-purple-500/30 text-purple-500 hover:bg-purple-500/10"
                     >
                       <Search className="h-4 w-4" />
                     </Button>
@@ -338,16 +484,15 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({
                 </div>
               </div>
               
-              {/* Quick filters for non-authenticated */}
               <div className="flex-1 p-4 overflow-y-auto">
                 <p className="text-xs text-muted-foreground mb-3">Quick filters:</p>
                 <div className="flex flex-wrap gap-2">
-                  {['E-commerce', 'Portfolio', 'SaaS', 'Blog', 'Landing Page', 'AI Chatbot'].map((filter) => (
+                  {['E-commerce', 'Portfolio', 'SaaS', 'Blog', 'Landing Page'].map((filter) => (
                     <Button
                       key={filter}
                       variant="outline"
                       size="sm"
-                      className="text-xs border-purple-500/30 text-muted-foreground hover:text-foreground hover:bg-purple-500/10"
+                      className="text-xs border-purple-500/30 text-muted-foreground hover:bg-purple-500/10"
                       onClick={() => onSearch?.(filter.toLowerCase())}
                     >
                       {filter}
@@ -358,7 +503,7 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({
             </div>
           )}
 
-          {/* Non-authenticated live support view */}
+          {/* Non-authenticated live support */}
           {chatMode === 'live' && !user && (
             <div className="flex-1 flex flex-col items-center justify-center p-6">
               <Lock className="h-12 w-12 text-green-500 mb-4" />
@@ -373,130 +518,113 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({
           )}
 
           {/* Authenticated chat view */}
-          {((chatMode === 'ai' && isAuthenticated) || (chatMode === 'live' && user)) && (
+          {((chatMode === 'ai' && user) || (chatMode === 'live' && user)) && (
             <>
-              <div ref={scrollAreaRootRef} className="relative flex-1 min-h-0 ai-chat z-0">
+              <div ref={scrollAreaRef} className="relative flex-1 min-h-0">
                 <ScrollArea className="h-full w-full">
-                  <div className="p-4 pb-24">
-                    <div className="flex flex-col items-center space-y-4">
-                      {messages.map(message => (
+                  <div className="p-4 pb-24 space-y-4">
+                    <AnimatePresence mode="popLayout">
+                      {currentMessages.map(message => (
                         <motion.div 
                           key={message.id} 
                           initial={{ opacity: 0, y: 10 }} 
-                          animate={{ opacity: 1, y: 0 }} 
-                          className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'} w-full`}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          layout
+                          className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} w-full`}
                         >
-                          <div className={`max-w-[340px] w-full ${message.type === 'user' ? 'order-2' : 'order-1'}`}>
-                            <div className={`p-4 rounded-2xl ${
-                              message.type === 'user' 
+                          <div className="max-w-[85%]">
+                            <div className={`p-3 rounded-2xl ${
+                              message.role === 'user' 
                                 ? chatMode === 'ai'
                                   ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white'
                                   : 'bg-gradient-to-r from-green-500 to-emerald-600 text-white'
-                                : 'bg-white/90 text-primary shadow-md'
+                                : 'bg-muted/80 text-foreground'
                             }`}>
-                              <p className="text-base leading-relaxed">{message.content}</p>
+                              <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
                             </div>
-                            {message.suggestions && chatMode === 'ai' && (
-                              <div className="mt-2 flex flex-col items-center w-full space-y-2">
-                                {message.suggestions.map((suggestion, index) => (
-                                  <button 
-                                    key={index} 
-                                    onClick={() => handleSuggestionClick(suggestion)} 
-                                    className="bg-transparent border border-primary text-primary rounded-full px-4 py-2 w-full text-left hover:bg-primary/10 transition text-sm"
-                                  >
-                                    {suggestion}
-                                  </button>
-                                ))}
-                              </div>
-                            )}
-                            <div className="text-xs text-muted-foreground w-full text-left mt-1">
-                              {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            <div className={`text-xs text-muted-foreground mt-1 ${
+                              message.role === 'user' ? 'text-right' : 'text-left'
+                            }`}>
+                              {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </div>
                           </div>
                         </motion.div>
                       ))}
-                      {isLoading && (
-                        <motion.div 
-                          initial={{ opacity: 0 }} 
-                          animate={{ opacity: 1 }} 
-                          className="flex justify-start w-full"
-                        >
-                          <div className="bg-white/90 p-4 rounded-2xl shadow-md max-w-[340px] w-full">
-                            <div className="flex space-x-1">
-                              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                            </div>
+                    </AnimatePresence>
+
+                    {/* Loading indicator */}
+                    {isLoading && (
+                      <motion.div 
+                        initial={{ opacity: 0 }} 
+                        animate={{ opacity: 1 }} 
+                        className="flex justify-start"
+                      >
+                        <div className="bg-muted/80 p-3 rounded-2xl">
+                          <div className="flex items-center gap-2">
+                            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                            <span className="text-sm text-muted-foreground">
+                              {chatMode === 'ai' ? 'AI is thinking...' : 'Sending...'}
+                            </span>
                           </div>
-                        </motion.div>
-                      )}
-                      <div className="h-0" />
-                    </div>
+                        </div>
+                      </motion.div>
+                    )}
                   </div>
                 </ScrollArea>
               </div>
 
-              <div className="p-4 border-t border-muted absolute bottom-0 left-0 right-0 bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/70 z-10">
-                <div className="relative max-w-[340px] mx-auto w-full">
-                  <input 
+              {/* Quick actions for AI mode */}
+              {chatMode === 'ai' && user && (
+                <div className="px-4 py-2 border-t border-border/20">
+                  <div className="flex gap-2 flex-wrap">
+                    {['E-commerce', 'AI Agents', 'Portfolio'].map((action) => (
+                      <Button
+                        key={action}
+                        variant="outline"
+                        size="sm"
+                        disabled={isLoading}
+                        className="text-xs border-purple-500/30 text-purple-400 hover:bg-purple-500/10"
+                        onClick={() => handleQuickAction(`Show me ${action.toLowerCase()} templates`)}
+                      >
+                        {action}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Input area */}
+              <div className="p-4 border-t border-border/20">
+                <div className="flex gap-2">
+                  <Input 
+                    placeholder={chatMode === 'ai' ? "Ask about templates..." : "Type your message..."} 
                     value={inputValue} 
-                    onChange={e => setInputValue(e.target.value)} 
-                    placeholder={chatMode === 'ai' ? "Ask me anything..." : "Type your message..."} 
-                    onKeyPress={e => e.key === 'Enter' && handleSendMessage()} 
-                    className={`w-full bg-transparent border rounded-full px-4 py-3 pr-12 placeholder:text-muted-foreground focus:outline-none ${
+                    onChange={(e) => setInputValue(e.target.value)} 
+                    onKeyDown={handleKeyDown}
+                    disabled={isLoading}
+                    className={`flex-1 ${
                       chatMode === 'ai' 
-                        ? 'border-purple-500 text-primary' 
-                        : 'border-green-500 text-primary'
+                        ? 'border-purple-500/30 focus:border-purple-500' 
+                        : 'border-green-500/30 focus:border-green-500'
                     }`}
                   />
-                  <button 
+                  <Button 
                     onClick={handleSendMessage} 
-                    disabled={!inputValue.trim() || isLoading} 
-                    className={`absolute right-2 top-1/2 transform -translate-y-1/2 text-white rounded-full p-2 shadow-md transition disabled:opacity-50 ${
-                      chatMode === 'ai'
-                        ? 'bg-purple-500 hover:bg-purple-600'
+                    disabled={isLoading || !inputValue.trim()}
+                    className={`px-3 ${
+                      chatMode === 'ai' 
+                        ? 'bg-purple-500 hover:bg-purple-600' 
                         : 'bg-green-500 hover:bg-green-600'
-                    }`}
+                    } text-white`}
                   >
-                    <Send className="w-4 h-4" />
-                  </button>
+                    {isLoading ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Send className="h-4 w-4" />
+                    )}
+                  </Button>
                 </div>
-                
-                {/* Quick Actions for AI mode */}
-                {chatMode === 'ai' && (
-                  <div className="flex gap-2 mt-2 flex-wrap justify-center max-w-[340px] mx-auto">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="text-xs h-7 bg-muted/30 border-purple-500/30 hover:bg-purple-500/20"
-                      onClick={() => handleQuickAction("Find me an e-commerce website template")}
-                      disabled={isLoading}
-                    >
-                      <Plus className="h-3 w-3 mr-1" />
-                      E-commerce
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="text-xs h-7 bg-muted/30 border-purple-500/30 hover:bg-purple-500/20"
-                      onClick={() => handleQuickAction("Show me AI chatbot agents for customer support")}
-                      disabled={isLoading}
-                    >
-                      <Zap className="h-3 w-3 mr-1" />
-                      AI Agents
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="text-xs h-7 bg-muted/30 border-purple-500/30 hover:bg-purple-500/20"
-                      onClick={() => handleQuickAction("Compare your best portfolio templates")}
-                      disabled={isLoading}
-                    >
-                      <Sparkles className="h-3 w-3 mr-1" />
-                      Portfolio
-                    </Button>
-                  </div>
-                )}
               </div>
             </>
           )}
