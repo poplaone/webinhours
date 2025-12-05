@@ -6,17 +6,18 @@ import { CookieConsent } from '@/components/ui/cookie-consent';
 interface AppLayoutProps {
   children: React.ReactNode;
   showHeader?: boolean;
+  showMobileNav?: boolean;
   className?: string;
 }
 
-const AppLayout = ({ children, showHeader = true, className = "" }: AppLayoutProps) => {
+const AppLayout = ({ children, showHeader = true, showMobileNav = true, className = "" }: AppLayoutProps) => {
   return (
     <div className={`min-h-screen relative ${className}`}>
       {showHeader && <Header />}
       <main className="pb-20 lg:pb-0">
         {children}
       </main>
-      <MobileBottomNav />
+      {showMobileNav && <MobileBottomNav />}
       <CookieConsent />
     </div>
   );

@@ -58,24 +58,24 @@ const OptionCard: React.FC<OptionCardProps> = ({ label, description, selected, o
     type="button"
     onClick={onClick}
     className={cn(
-      "relative p-4 rounded-xl border-2 text-left transition-all duration-200 hover:scale-[1.02]",
+      "relative p-4 rounded-lg border text-left transition-colors duration-200",
       selected
-        ? "border-primary bg-primary/10 shadow-lg shadow-primary/20"
-        : "border-border/50 bg-card/50 hover:border-primary/50 hover:bg-card"
+        ? "border-primary bg-primary/5 text-primary"
+        : "border-border bg-card hover:border-primary/50 hover:bg-accent/50"
     )}
   >
-    <div className="flex items-start justify-between gap-2">
-      <div className="flex-1">
-        <p className="font-medium text-foreground">{label}</p>
-        <p className="text-xs text-muted-foreground mt-0.5">{description}</p>
+    <div className="flex items-start justify-between gap-3">
+      <div className="flex-1 space-y-1">
+        <p className={cn("font-medium", selected ? "text-primary" : "text-foreground")}>{label}</p>
+        <p className="text-xs text-muted-foreground leading-relaxed">{description}</p>
       </div>
       <div className={cn(
-        "w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors",
+        "w-4 h-4 rounded-full border flex items-center justify-center flex-shrink-0 mt-0.5",
         selected
-          ? "border-primary bg-primary"
+          ? "border-primary bg-primary text-primary-foreground"
           : "border-muted-foreground/30"
       )}>
-        {selected && <Check className="w-3 h-3 text-primary-foreground" />}
+        {selected && <Check className="w-2.5 h-2.5" />}
       </div>
     </div>
   </button>
@@ -145,7 +145,7 @@ export default function Contact() {
       }
       return serviceOptions.find(s => s.id === id)?.label || id;
     }).join(', ');
-    
+
     const selectedBudget = budgetOptions.find(b => b.id === formData.budget)?.label || 'Not specified';
     const selectedTimeline = timelineOptions.find(t => t.id === formData.timeline)?.label || 'Not specified';
 
@@ -158,11 +158,11 @@ export default function Contact() {
 
 🎯 Services Interested:
 ${formData.services.map(id => {
-  if (id === 'other' && formData.customService) {
-    return `   • Other: ${formData.customService}`;
-  }
-  return `   • ${serviceOptions.find(s => s.id === id)?.label}`;
-}).join('\n')}
+      if (id === 'other' && formData.customService) {
+        return `   • Other: ${formData.customService}`;
+      }
+      return `   • ${serviceOptions.find(s => s.id === id)?.label}`;
+    }).join('\n')}
 
 💰 Budget Range: ${selectedBudget}
 ⏰ Timeline: ${selectedTimeline}
@@ -212,87 +212,66 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
   return (
     <AppLayout>
       <SEOHead
-        title="Contact Us - WebInHours | Free Website & Premium Services"
-        description="Get your free professional website or explore our premium services. Quick form, instant response within 2 hours."
-        keywords="free website, contact web agency, premium web services, seo optimization"
+        title="Contact Us - WebInHours"
+        description="Get your free professional website or explore our premium services."
       />
 
-      <div className="min-h-screen pt-24 pb-20 px-4">
+      <div className="min-h-screen pt-24 pb-20 px-4 bg-background">
         <div className="container mx-auto max-w-4xl">
-          {/* Hero */}
-          <div className="text-center mb-12">
-            <Badge variant="secondary" className="mb-4 gap-2">
-              <Sparkles className="w-3 h-3" />
-              Quick & Easy
-            </Badge>
-            <h1 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent">
-              Let's Build Something Amazing
-            </h1>
-            <p className="text-muted-foreground max-w-xl mx-auto">
-              Select what you need, and we'll get back to you within 2 hours with a personalized plan.
-            </p>
-          </div>
-
-          {/* Progress Steps */}
-          <div className="flex items-center justify-center gap-2 mb-8">
-            {[1, 2, 3].map((s) => (
-              <React.Fragment key={s}>
-                <button
-                  onClick={() => s < step && setStep(s)}
-                  className={cn(
-                    "w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all",
-                    step === s
-                      ? "bg-primary text-primary-foreground scale-110"
-                      : step > s
-                      ? "bg-primary/20 text-primary cursor-pointer hover:bg-primary/30"
-                      : "bg-muted text-muted-foreground"
-                  )}
-                >
-                  {step > s ? <Check className="w-5 h-5" /> : s}
-                </button>
-                {s < 3 && (
-                  <div className={cn(
-                    "w-12 h-1 rounded-full transition-colors",
-                    step > s ? "bg-primary" : "bg-muted"
-                  )} />
-                )}
-              </React.Fragment>
-            ))}
+          {/* Progress Steps - Clean */}
+          <div className="mb-8 pt-8">
+            <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
+              <div className={cn("flex items-center gap-2 transition-colors", step >= 1 && "text-primary")}>
+                <span className={cn("w-6 h-6 rounded-full flex items-center justify-center border text-xs", step >= 1 ? "border-primary bg-primary text-primary-foreground" : "border-muted-foreground/30")}>1</span>
+                Services
+              </div>
+              <ChevronRight className="w-4 h-4 text-muted-foreground/30" />
+              <div className={cn("flex items-center gap-2 transition-colors", step >= 2 && "text-primary")}>
+                <span className={cn("w-6 h-6 rounded-full flex items-center justify-center border text-xs", step >= 2 ? "border-primary bg-primary text-primary-foreground" : "border-muted-foreground/30")}>2</span>
+                Details
+              </div>
+              <ChevronRight className="w-4 h-4 text-muted-foreground/30" />
+              <div className={cn("flex items-center gap-2 transition-colors", step >= 3 && "text-primary")}>
+                <span className={cn("w-6 h-6 rounded-full flex items-center justify-center border text-xs", step >= 3 ? "border-primary bg-primary text-primary-foreground" : "border-muted-foreground/30")}>3</span>
+                Info
+              </div>
+            </div>
           </div>
 
           {/* Form Card */}
-          <Card className="border-primary/20 bg-gradient-to-br from-card via-card to-primary/5">
+          <Card className="border border-border/50 shadow-sm bg-card">
             <CardContent className="p-6 md:p-8">
               <form onSubmit={handleSubmit}>
                 {/* Step 1: Services */}
                 {step === 1 && (
                   <div className="space-y-6">
-                    <div className="text-center mb-6">
-                      <h2 className="text-xl font-semibold mb-2">What are you looking for?</h2>
-                      <p className="text-sm text-muted-foreground">Select all that apply</p>
+                    <div>
+                      <h2 className="text-lg font-semibold text-foreground mb-1">Select Services</h2>
+                      <p className="text-sm text-muted-foreground mb-4">Choose all that apply to your project.</p>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {serviceOptions.map((service) => (
+                          <OptionCard
+                            key={service.id}
+                            {...service}
+                            selected={formData.services.includes(service.id)}
+                            onClick={() => toggleService(service.id)}
+                            multi
+                          />
+                        ))}
+                      </div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      {serviceOptions.map((service) => (
-                        <OptionCard
-                          key={service.id}
-                          {...service}
-                          selected={formData.services.includes(service.id)}
-                          onClick={() => toggleService(service.id)}
-                          multi
-                        />
-                      ))}
-                    </div>
-                    
-                    {/* Custom service text field when "Other" is selected */}
+
+                    {/* Custom service text field */}
                     {formData.services.includes('other') && (
-                      <div className="mt-4">
-                        <Label htmlFor="customService">What service do you need?</Label>
+                      <div className="pt-2">
+                        <Label htmlFor="customService">Please specify</Label>
                         <Input
                           id="customService"
                           value={formData.customService}
                           onChange={(e) => setFormData(prev => ({ ...prev, customService: e.target.value }))}
-                          placeholder="Describe the service you're looking for..."
-                          className="mt-1.5 bg-background/50"
+                          placeholder="Describe the service..."
+                          className="mt-1.5"
                         />
                       </div>
                     )}
@@ -303,36 +282,37 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
                 {step === 2 && (
                   <div className="space-y-8">
                     <div>
-                      <div className="text-center mb-6">
-                        <h2 className="text-xl font-semibold mb-2">What's your budget?</h2>
-                        <p className="text-sm text-muted-foreground">This helps us recommend the best options</p>
-                      </div>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                        {budgetOptions.map((budget) => (
-                          <OptionCard
-                            key={budget.id}
-                            {...budget}
-                            selected={formData.budget === budget.id}
-                            onClick={() => setFormData(prev => ({ ...prev, budget: budget.id }))}
-                          />
-                        ))}
-                      </div>
-                    </div>
+                      <h2 className="text-lg font-semibold text-foreground mb-1">Project Details</h2>
+                      <p className="text-sm text-muted-foreground mb-4">Help us understand your scope.</p>
 
-                    <div>
-                      <div className="text-center mb-6">
-                        <h2 className="text-xl font-semibold mb-2">When do you need this?</h2>
-                        <p className="text-sm text-muted-foreground">Choose your preferred timeline</p>
-                      </div>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                        {timelineOptions.map((timeline) => (
-                          <OptionCard
-                            key={timeline.id}
-                            {...timeline}
-                            selected={formData.timeline === timeline.id}
-                            onClick={() => setFormData(prev => ({ ...prev, timeline: timeline.id }))}
-                          />
-                        ))}
+                      <div className="space-y-6">
+                        <div>
+                          <Label className="mb-2 block text-sm font-medium">Budget Range</Label>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            {budgetOptions.map((budget) => (
+                              <OptionCard
+                                key={budget.id}
+                                {...budget}
+                                selected={formData.budget === budget.id}
+                                onClick={() => setFormData(prev => ({ ...prev, budget: budget.id }))}
+                              />
+                            ))}
+                          </div>
+                        </div>
+
+                        <div>
+                          <Label className="mb-2 block text-sm font-medium">Timeline</Label>
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            {timelineOptions.map((timeline) => (
+                              <OptionCard
+                                key={timeline.id}
+                                {...timeline}
+                                selected={formData.timeline === timeline.id}
+                                onClick={() => setFormData(prev => ({ ...prev, timeline: timeline.id }))}
+                              />
+                            ))}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -341,70 +321,80 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
                 {/* Step 3: Contact Details */}
                 {step === 3 && (
                   <div className="space-y-6">
-                    <div className="text-center mb-6">
-                      <h2 className="text-xl font-semibold mb-2">Almost there!</h2>
-                      <p className="text-sm text-muted-foreground">Where should we send your personalized plan?</p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="name">Your Name *</Label>
-                        <Input
-                          id="name"
-                          value={formData.name}
-                          onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                          placeholder="John Doe"
-                          className="mt-1.5 bg-background/50"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="email">Email Address *</Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                          placeholder="john@company.com"
-                          className="mt-1.5 bg-background/50"
-                          required
-                        />
-                      </div>
-                    </div>
-
                     <div>
-                      <Label htmlFor="details">Anything else? (Optional)</Label>
-                      <Textarea
-                        id="details"
-                        value={formData.otherDetails}
-                        onChange={(e) => setFormData(prev => ({ ...prev, otherDetails: e.target.value }))}
-                        placeholder="Tell us more about your project, specific requirements, or any questions..."
-                        rows={3}
-                        className="mt-1.5 bg-background/50"
-                      />
+                      <h2 className="text-lg font-semibold text-foreground mb-1">Your Information</h2>
+                      <p className="text-sm text-muted-foreground mb-4">Where should we send the plan?</p>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div className="space-y-2">
+                          <Label htmlFor="name">Full Name *</Label>
+                          <Input
+                            id="name"
+                            value={formData.name}
+                            onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                            placeholder="John Doe"
+                            required
+                            className="bg-background"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="email">Email Address *</Label>
+                          <Input
+                            id="email"
+                            type="email"
+                            value={formData.email}
+                            onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                            placeholder="john@company.com"
+                            required
+                            className="bg-background"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="mt-5 space-y-2">
+                        <Label htmlFor="details">Additional Notes (Optional)</Label>
+                        <Textarea
+                          id="details"
+                          value={formData.otherDetails}
+                          onChange={(e) => setFormData(prev => ({ ...prev, otherDetails: e.target.value }))}
+                          placeholder="Any specific requirements or questions?"
+                          rows={4}
+                          className="bg-background resize-none"
+                        />
+                      </div>
                     </div>
 
                     {/* Summary */}
-                    <div className="p-4 rounded-xl bg-primary/5 border border-primary/20">
-                      <h3 className="font-medium mb-3 text-sm">Your Selection Summary</h3>
-                      <div className="space-y-2 text-sm">
-                        <p><span className="text-muted-foreground">Services:</span> {formData.services.map(id => {
-                          if (id === 'other' && formData.customService) return `Other: ${formData.customService}`;
-                          return serviceOptions.find(s => s.id === id)?.label;
-                        }).join(', ')}</p>
-                        <p><span className="text-muted-foreground">Budget:</span> {budgetOptions.find(b => b.id === formData.budget)?.label || 'Not selected'}</p>
-                        <p><span className="text-muted-foreground">Timeline:</span> {timelineOptions.find(t => t.id === formData.timeline)?.label || 'Not selected'}</p>
-                      </div>
+                    <div className="bg-muted/30 rounded-lg p-4 border border-border/50 text-sm">
+                      <h3 className="font-semibold mb-3">Summary</h3>
+                      <dl className="space-y-1.5">
+                        <div className="flex justify-between">
+                          <dt className="text-muted-foreground">Services:</dt>
+                          <dd className="font-medium text-right">{formData.services.map(id => {
+                            if (id === 'other' && formData.customService) return `Other`;
+                            return serviceOptions.find(s => s.id === id)?.label;
+                          }).join(', ')}
+                          </dd>
+                        </div>
+                        <div className="flex justify-between">
+                          <dt className="text-muted-foreground">Budget:</dt>
+                          <dd className="font-medium">{budgetOptions.find(b => b.id === formData.budget)?.label || '-'}</dd>
+                        </div>
+                        <div className="flex justify-between">
+                          <dt className="text-muted-foreground">Timeline:</dt>
+                          <dd className="font-medium">{timelineOptions.find(t => t.id === formData.timeline)?.label || '-'}</dd>
+                        </div>
+                      </dl>
                     </div>
                   </div>
                 )}
 
-                {/* Navigation Buttons */}
-                <div className="flex items-center justify-between mt-8 pt-6 border-t border-border/50">
+                {/* Footer Controls */}
+                <div className="flex items-center justify-between pt-6 mt-6 border-t border-border/50">
                   {step > 1 ? (
                     <Button
                       type="button"
-                      variant="ghost"
+                      variant="outline"
                       onClick={() => setStep(s => s - 1)}
                     >
                       Back
@@ -418,19 +408,18 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
                       type="button"
                       onClick={() => setStep(s => s + 1)}
                       disabled={!canProceed()}
-                      className="gap-2"
+                      className="min-w-[120px]"
                     >
                       Continue
-                      <ChevronRight className="w-4 h-4" />
                     </Button>
                   ) : (
                     <Button
                       type="submit"
                       disabled={!canProceed()}
-                      className="gap-2 bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90"
+                      className="min-w-[140px]"
                     >
-                      <Send className="w-4 h-4" />
-                      Get My Free Plan
+                      <Send className="w-4 h-4 mr-2" />
+                      Submit Request
                     </Button>
                   )}
                 </div>
@@ -438,19 +427,27 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
             </CardContent>
           </Card>
 
-          {/* Quick Contact Info */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <Mail className="w-4 h-4 text-primary" />
-              <span>support@webinhours.com</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Phone className="w-4 h-4 text-primary" />
-              <span>+1 (555) 123-4567</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-primary" />
-              <span>Response within 2 hours</span>
+          {/* Clean Contact Footer */}
+          <div className="mt-12 border-t border-border/40 pt-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left">
+              <div className="flex flex-col items-center md:items-start gap-1">
+                <span className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                  <Mail className="w-4 h-4" /> Email Us
+                </span>
+                <span className="text-sm text-muted-foreground">support@webinhours.com</span>
+              </div>
+              <div className="flex flex-col items-center md:items-start gap-1">
+                <span className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                  <Phone className="w-4 h-4" /> Call Us
+                </span>
+                <span className="text-sm text-muted-foreground">+1 (555) 123-4567</span>
+              </div>
+              <div className="flex flex-col items-center md:items-start gap-1">
+                <span className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                  <Clock className="w-4 h-4" /> Support
+                </span>
+                <span className="text-sm text-muted-foreground">24/7 Priority Support</span>
+              </div>
             </div>
           </div>
         </div>

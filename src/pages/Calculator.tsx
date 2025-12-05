@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Progress } from '@/components/ui/progress';
+// import { Progress } from '@/components/ui/progress'; // Removed unused
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
 import {
@@ -14,12 +15,9 @@ import {
   CheckCircle,
   Globe,
   ShoppingCart,
-  Smartphone,
   Zap,
   ArrowRight,
-  Star,
-  Users,
-  Shield
+  Users
 } from 'lucide-react';
 
 interface ProjectType {
@@ -213,340 +211,285 @@ const Calculator = () => {
 
   const getSelectedProject = () => projectTypes.find(type => type.id === selectedType);
 
-  const progress = selectedType ? (selectedFeatures.length > 0 ? (timeline ? 100 : 75) : 50) : 25;
+  const handleContinue = () => {
+    // Navigate to contact with the selected base package
+    if (selectedType) {
+      navigate(`/contact?service=${selectedType}`);
+    } else {
+      navigate('/contact');
+    }
+  };
 
   return (
-    <AppLayout>
+    <AppLayout showMobileNav={false}>
       <SEOHead
-        title="Project Calculator - WebInHours | Free Website + Optional Premium Services"
-        description="Start with a free professional website. Calculate the cost of optional premium services like custom design, content creation, PR campaigns, and social media management."
-        keywords="free website calculator, premium service pricing, content creation cost, PR service quote, website customization pricing"
+        title="Project Estimator - WebInHours"
+        description="Estimate the investment for your professional website project."
       />
 
-      <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
-        {/* Header Section */}
-        <section className="pt-20 pb-12 px-4">
-          <div className="container mx-auto max-w-6xl">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 mb-6">
-                <CalculatorIcon className="h-5 w-5 text-[#8B5CF6]" />
-                <span className="text-sm font-medium text-[#8B5CF6]">Project Calculator</span>
-              </div>
-
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-                Start FREE, Add What You Need
-              </h1>
-
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                Your professional website is <span className="text-green-500 font-semibold">100% FREE</span>. Calculate the cost of premium services you might want to add later.
-              </p>
-
-              {/* Progress Indicator */}
-              <div className="max-w-md mx-auto mt-8">
-                <div className="flex justify-between text-sm text-muted-foreground mb-2">
-                  <span>Configuration Progress</span>
-                  <span>{progress}%</span>
-                </div>
-                <Progress value={progress} className="h-2" />
-              </div>
-            </div>
+      <div className="min-h-screen pt-24 pb-32 lg:pb-20 px-4 bg-background">
+        <div className="container mx-auto max-w-7xl">
+          {/* Header Section - Clean & Professional */}
+          <div className="mb-10">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground mb-4">
+              Project Estimator
+            </h1>
+            <p className="text-muted-foreground max-w-2xl text-lg">
+              Customize your package to get an instant estimate for your project.
+            </p>
           </div>
-        </section>
 
-        {/* Calculator Content */}
-        <section className="px-4 pb-20">
-          <div className="container mx-auto max-w-7xl">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Configuration Panel */}
+            <div className="lg:col-span-2 space-y-8">
 
-              {/* Configuration Panel */}
-              <div className="lg:col-span-2 space-y-8">
+              {/* Step 1: Project Type */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">1</div>
+                  <h2 className="text-xl font-semibold">Select Base Package</h2>
+                </div>
 
-                {/* Step 1: Project Type */}
-                <Card className="border-border/40 bg-card/50 backdrop-blur">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <span className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
-                      Choose Your Starting Package
-                    </CardTitle>
-                    <CardDescription>
-                      Start with FREE and optionally add premium services
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {projectTypes.map((type) => {
-                        const Icon = type.icon;
-                        const isSelected = selectedType === type.id;
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {projectTypes.map((type) => {
+                    const Icon = type.icon;
+                    const isSelected = selectedType === type.id;
 
-                        return (
-                          <div
-                            key={type.id}
-                            className={`p-6 rounded-xl border-2 cursor-pointer group hover:shadow-lg ${isSelected
-                                ? 'border-[#8B5CF6] bg-[#8B5CF6]/5'
-                                : 'border-border hover:border-[#8B5CF6]/50'
-                              }`}
-                            onClick={() => setSelectedType(type.id)}
-                          >
-                            <div className="flex items-start gap-4">
-                              <div className={`w-12 h-12 rounded-lg ${type.color} flex items-center justify-center`}>
-                                <Icon className="h-6 w-6 text-white" />
-                              </div>
-                              <div className="flex-1">
-                                <h3 className="font-semibold mb-1 group-hover:text-[#8B5CF6]">
-                                  {type.name}
-                                </h3>
-                                <p className="text-sm text-muted-foreground mb-2">
-                                  {type.description}
-                                </p>
-                                <div className="flex items-center justify-between">
-                                  <Badge variant="outline" className="text-xs">
-                                    {type.timeframe}
-                                  </Badge>
-                                  <span className="font-bold text-[#8B5CF6]">
-                                    ${type.basePrice}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
+                    return (
+                      <div
+                        key={type.id}
+                        className={cn(
+                          "relative p-6 rounded-xl border-2 cursor-pointer transition-all duration-200",
+                          isSelected
+                            ? "border-primary bg-primary/5 shadow-sm"
+                            : "border-muted bg-card hover:border-primary/50"
+                        )}
+                        onClick={() => setSelectedType(type.id)}
+                      >
+                        <div className="flex items-start gap-4">
+                          <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center shrink-0", isSelected ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground")}>
+                            <Icon className="h-5 w-5" />
                           </div>
-                        );
-                      })}
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Step 2: Features */}
-                {selectedType && (
-                  <Card className="border-border/40 bg-card/50 backdrop-blur">
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <span className="w-8 h-8 bg-[#8B5CF6] text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
-                        Add Features & Enhancements
-                      </CardTitle>
-                      <CardDescription>
-                        Customize your project with additional features (optional)
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {features.map((feature) => {
-                          const isSelected = selectedFeatures.includes(feature.id);
-
-                          return (
-                            <div
-                              key={feature.id}
-                              className={`p-4 rounded-lg border cursor-pointer hover:shadow-md ${isSelected
-                                  ? 'border-[#8B5CF6] bg-[#8B5CF6]/5'
-                                  : 'border-border hover:border-[#8B5CF6]/50'
-                                }`}
-                              onClick={() => handleFeatureToggle(feature.id)}
-                            >
-                              <div className="flex items-center justify-between mb-2">
-                                <h4 className="font-medium">{feature.name}</h4>
-                                <div className="flex items-center gap-2">
-                                  <Badge variant="secondary" className="text-xs">
-                                    {feature.category}
-                                  </Badge>
-                                  {isSelected && (
-                                    <CheckCircle className="h-5 w-5 text-[#8B5CF6]" />
-                                  )}
-                                </div>
-                              </div>
-                              <p className="text-sm text-muted-foreground mb-2">
-                                {feature.description}
-                              </p>
-                              <span className="font-semibold text-[#8B5CF6]">
-                                +${feature.price}
+                          <div className="flex-1">
+                            <h3 className={cn("font-semibold mb-1", isSelected && "text-primary")}>
+                              {type.name}
+                            </h3>
+                            <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
+                              {type.description}
+                            </p>
+                            <div className="flex items-center justify-between mt-auto">
+                              <Badge variant="secondary" className="text-xs font-normal">
+                                {type.timeframe}
+                              </Badge>
+                              <span className="font-bold text-lg">
+                                ${type.basePrice}
                               </span>
                             </div>
-                          );
-                        })}
+                          </div>
+                        </div>
                       </div>
-                    </CardContent>
-                  </Card>
-                )}
-
-                {/* Step 3: Timeline */}
-                {selectedType && (
-                  <Card className="border-border/40 bg-card/50 backdrop-blur">
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <span className="w-8 h-8 bg-[#8B5CF6] text-white rounded-full flex items-center justify-center text-sm font-bold">3</span>
-                        Select Timeline
-                      </CardTitle>
-                      <CardDescription>
-                        Choose your preferred delivery timeline
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-3">
-                        {timelineOptions.map((option) => {
-                          const isSelected = timeline === option.value;
-
-                          return (
-                            <div
-                              key={option.value}
-                              className={`p-4 rounded-lg border cursor-pointer hover:shadow-md ${isSelected
-                                  ? 'border-[#8B5CF6] bg-[#8B5CF6]/5'
-                                  : 'border-border hover:border-[#8B5CF6]/50'
-                                }`}
-                              onClick={() => setTimeline(option.value)}
-                            >
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                  <Clock className="h-5 w-5 text-[#8B5CF6]" />
-                                  <div>
-                                    <h4 className="font-medium">{option.label}</h4>
-                                    <p className="text-sm text-muted-foreground">
-                                      {option.description}
-                                    </p>
-                                  </div>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  {option.multiplier !== 1 && (
-                                    <Badge
-                                      variant={option.multiplier > 1 ? "destructive" : "default"}
-                                      className="text-xs"
-                                    >
-                                      {option.multiplier > 1 ? '+' : ''}{((option.multiplier - 1) * 100).toFixed(0)}%
-                                    </Badge>
-                                  )}
-                                  {isSelected && (
-                                    <CheckCircle className="h-5 w-5 text-[#8B5CF6]" />
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
+                    );
+                  })}
+                </div>
               </div>
 
-              {/* Quote Summary Sidebar */}
-              <div className="lg:col-span-1">
-                <div className="sticky top-24">
-                  <Card className="border-border/40 bg-card/50 backdrop-blur">
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <DollarSign className="h-5 w-5 text-[#8B5CF6]" />
-                        Project Quote
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
+              {/* Step 2: Features */}
+              {selectedType && (
+                <div className="space-y-4 pt-4 border-t border-border/50">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">2</div>
+                    <h2 className="text-xl font-semibold">Add Features</h2>
+                  </div>
 
-                      {/* Selected Project Type */}
-                      {selectedType && (
-                        <div>
-                          <h4 className="font-medium mb-3">Project Type</h4>
-                          <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
-                            {(() => {
-                              const project = getSelectedProject();
-                              if (project) {
-                                const Icon = project.icon;
-                                return (
-                                  <>
-                                    <div className={`w-10 h-10 rounded-lg ${project.color} flex items-center justify-center`}>
-                                      <Icon className="h-5 w-5 text-white" />
-                                    </div>
-                                    <div className="flex-1">
-                                      <p className="font-medium">{project.name}</p>
-                                      <p className="text-sm text-muted-foreground">${project.basePrice}</p>
-                                    </div>
-                                  </>
-                                );
-                              }
-                              return null;
-                            })()}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {features.map((feature) => {
+                      const isSelected = selectedFeatures.includes(feature.id);
+
+                      return (
+                        <div
+                          key={feature.id}
+                          className={cn(
+                            "group p-4 rounded-lg border cursor-pointer transition-all duration-200",
+                            isSelected
+                              ? "border-primary bg-primary/5"
+                              : "border-muted bg-card hover:border-primary/50"
+                          )}
+                          onClick={() => handleFeatureToggle(feature.id)}
+                        >
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              {isSelected ? (
+                                <CheckCircle className="h-5 w-5 text-primary" />
+                              ) : (
+                                <div className="w-5 h-5 rounded-full border border-muted-foreground/30" />
+                              )}
+                              <h4 className={cn("font-medium", isSelected && "text-primary")}>{feature.name}</h4>
+                            </div>
+                            <span className="font-semibold text-sm">
+                              +${feature.price}
+                            </span>
                           </div>
+                          <p className="text-sm text-muted-foreground pl-7">
+                            {feature.description}
+                          </p>
                         </div>
-                      )}
-
-                      {/* Selected Features */}
-                      {selectedFeatures.length > 0 && (
-                        <div>
-                          <h4 className="font-medium mb-3">Added Features</h4>
-                          <div className="space-y-2">
-                            {selectedFeatures.map(featureId => {
-                              const feature = features.find(f => f.id === featureId);
-                              return feature ? (
-                                <div key={featureId} className="flex items-center justify-between p-2 bg-muted/30 rounded">
-                                  <span className="text-sm">{feature.name}</span>
-                                  <span className="text-sm font-medium text-[#8B5CF6]">+${feature.price}</span>
-                                </div>
-                              ) : null;
-                            })}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Timeline */}
-                      {timeline && (
-                        <div>
-                          <h4 className="font-medium mb-3">Timeline</h4>
-                          <div className="p-3 bg-muted/50 rounded-lg">
-                            <p className="text-sm">
-                              {timelineOptions.find(opt => opt.value === timeline)?.label}
-                            </p>
-                            {timeline !== 'standard' && (
-                              <p className="text-xs text-muted-foreground mt-1">
-                                {timeline === 'rush' ? 'Rush fee applied' : 'Extended timeline discount'}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      )}
-
-                      <Separator />
-
-                      {/* Total */}
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-between text-lg font-bold">
-                          <span>Total Investment</span>
-                          <span className="text-2xl text-[#8B5CF6]">${totalPrice.toLocaleString()}</span>
-                        </div>
-
-                        {selectedType && (
-                          <div className="space-y-3">
-                            <Button
-                              className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED]"
-                              size="lg"
-                              onClick={() => navigate('/contact')}
-                            >
-                              Get Started Now
-                              <ArrowRight className="ml-2 h-4 w-4" />
-                            </Button>
-                            <Button
-                              variant="outline"
-                              className="w-full"
-                              onClick={() => navigate('/marketplace')}
-                            >
-                              Browse Templates
-                            </Button>
-                          </div>
-                        )}
-
-                        {/* Trust Indicators */}
-                        <div className="grid grid-cols-2 gap-4 pt-4 border-t">
-                          <div className="text-center">
-                            <Star className="h-5 w-5 text-yellow-500 mx-auto mb-1" />
-                            <p className="text-xs text-muted-foreground">4.9/5 Rating</p>
-                          </div>
-                          <div className="text-center">
-                            <Shield className="h-5 w-5 text-green-500 mx-auto mb-1" />
-                            <p className="text-xs text-muted-foreground">Money-back Guarantee</p>
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                      );
+                    })}
+                  </div>
                 </div>
+              )}
+
+              {/* Step 3: Timeline */}
+              {selectedType && (
+                <div className="space-y-4 pt-4 border-t border-border/50">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">3</div>
+                    <h2 className="text-xl font-semibold">Timeline Preference</h2>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {timelineOptions.map((option) => {
+                      const isSelected = timeline === option.value;
+
+                      return (
+                        <div
+                          key={option.value}
+                          className={cn(
+                            "group p-4 rounded-lg border cursor-pointer transition-all duration-200 text-center",
+                            isSelected
+                              ? "border-primary bg-primary/5"
+                              : "border-muted bg-card hover:border-primary/50"
+                          )}
+                          onClick={() => setTimeline(option.value)}
+                        >
+                          <div className="font-semibold mb-1">{option.label}</div>
+                          {option.multiplier !== 1 && (
+                            <Badge variant={option.multiplier > 1 ? "destructive" : "secondary"} className="mb-2 text-xs">
+                              {option.multiplier > 1 ? `+${((option.multiplier - 1) * 100).toFixed(0)}%` : `${((option.multiplier - 1) * 100).toFixed(0)}%`}
+                            </Badge>
+                          )}
+                          <p className="text-xs text-muted-foreground">
+                            {option.description}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Summary Sidebar - Desktop */}
+            <div className="hidden lg:block lg:col-span-1">
+              <div className="sticky top-24">
+                <Card className="border border-border shadow-md overflow-hidden">
+                  <div className="bg-muted/50 p-4 border-b border-border">
+                    <CardTitle className="flex items-center gap-2 text-lg">
+                      <DollarSign className="h-5 w-5 text-primary" />
+                      Estimated Cost
+                    </CardTitle>
+                  </div>
+                  <CardContent className="p-6 space-y-6">
+
+                    {/* Selected Project Type */}
+                    <div>
+                      <h4 className="text-sm font-medium text-muted-foreground mb-3 uppercase tracking-wider">Package</h4>
+                      {selectedType ? (
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <p className="font-medium">{getSelectedProject()?.name}</p>
+                            <p className="text-xs text-muted-foreground">{getSelectedProject()?.timeframe}</p>
+                          </div>
+                          <p className="font-medium">${getSelectedProject()?.basePrice}</p>
+                        </div>
+                      ) : (
+                        <p className="text-sm text-muted-foreground italic">No package selected</p>
+                      )}
+                    </div>
+
+                    <Separator />
+
+                    {/* Selected Features */}
+                    <div>
+                      <h4 className="text-sm font-medium text-muted-foreground mb-3 uppercase tracking-wider">Add-ons</h4>
+                      {selectedFeatures.length > 0 ? (
+                        <div className="space-y-2">
+                          {selectedFeatures.map(featureId => {
+                            const feature = features.find(f => f.id === featureId);
+                            return feature ? (
+                              <div key={featureId} className="flex justify-between text-sm">
+                                <span>{feature.name}</span>
+                                <span className="font-medium">+${feature.price}</span>
+                              </div>
+                            ) : null;
+                          })}
+                        </div>
+                      ) : (
+                        <p className="text-sm text-muted-foreground italic">None selected</p>
+                      )}
+                    </div>
+
+                    <Separator />
+
+                    {/* Timeline Multiplier */}
+                    {timeline !== 'standard' && (
+                      <div>
+                        <div className="flex justify-between text-sm">
+                          <span className="text-muted-foreground">Timeline Adjustment</span>
+                          <span className={timelineOptions.find(t => t.value === timeline)?.multiplier! > 1 ? "text-red-500" : "text-green-500"}>
+                            {timelineOptions.find(t => t.value === timeline)?.multiplier! > 1 ? '+' : ''}
+                            {((timelineOptions.find(t => t.value === timeline)?.multiplier! - 1) * 100).toFixed(0)}%
+                          </span>
+                        </div>
+                        <Separator className="mt-4" />
+                      </div>
+                    )}
+
+                    {/* Total */}
+                    <div className="pt-2">
+                      <div className="flex items-end justify-between mb-2">
+                        <span className="font-bold text-lg">Total</span>
+                        <span className="text-4xl font-bold tracking-tight text-primary">
+                          ${totalPrice.toLocaleString()}
+                        </span>
+                      </div>
+                      <p className="text-xs text-muted-foreground text-right">*Estimated investment</p>
+                    </div>
+
+                    <Button
+                      className="w-full h-12 text-lg font-semibold shadow-lg"
+                      onClick={handleContinue}
+                      disabled={!selectedType}
+                    >
+                      Process Inquiry
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                    <p className="text-xs text-center text-muted-foreground mt-2">
+                      No payment required to inquire.
+                    </p>
+                  </CardContent>
+                </Card>
               </div>
             </div>
           </div>
-        </section>
+        </div>
+
+        {/* Mobile Fixed Bottom Bar */}
+        <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border p-4 lg:hidden shadow-[0_-4px_12px_-5px_rgba(0,0,0,0.1)] z-50 animate-in slide-in-from-bottom transition-all">
+          <div className="container mx-auto max-w-7xl flex items-center justify-between gap-4">
+            <div className="flex flex-col">
+              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Estimated Total</span>
+              <span className="text-2xl font-bold text-primary">${totalPrice.toLocaleString()}</span>
+            </div>
+            <Button
+              className="px-6 h-11 font-semibold shadow-md"
+              onClick={handleContinue}
+              disabled={!selectedType}
+            >
+              Process <ArrowRight className="ml-2 h-4 w-4 hidden sm:inline" />
+            </Button>
+          </div>
+        </div>
       </div>
     </AppLayout>
   );
