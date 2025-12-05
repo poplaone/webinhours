@@ -4,6 +4,8 @@ import { AnimatedServiceCard } from '@/components/ui/animated-service-card';
 import CombinedFeaturedSection from '@/components/ui/combined-featured-section';
 import customBrandingGif from '@/assets/custom-branding.gif';
 import contentCreationImage from '@/assets/content-creation.webp';
+import comparisonBefore from '@/assets/comparison-before.webp';
+import comparisonAfter from '@/assets/comparison-after.webp';
 
 export const Services = () => {
   const services = [{
@@ -12,8 +14,8 @@ export const Services = () => {
     title: "FREE Professional Website",
     description: "Get a complete, professional website with everything you need to start your online presence - completely FREE forever. Includes 500+ Templates, Mobile Responsive design, SSL Security, and Basic Support.",
     beforeAfterSlider: {
-      beforeImage: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&auto=format&fit=crop&q=80",
-      afterImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=80"
+      beforeImage: comparisonBefore,
+      afterImage: comparisonAfter
     }
   }, {
     icon: Palette,
