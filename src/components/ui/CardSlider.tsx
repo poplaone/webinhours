@@ -12,38 +12,45 @@ interface Card {
 const defaultCards: Card[] = [
   {
     id: 1,
-    title: "E-commerce Platform",
-    description: "Complete online store design",
-    image: "https://hoirqrkdgbmvpwutwuwj-all.supabase.co/storage/v1/object/public/assets/assets/fa91f7af-c0ee-487e-9b71-34905a5f7414_1600w.webp",
-    alt: "E-commerce design preview"
+    title: "Digital Design Agency",
+    description: "Creative web design solutions",
+    image: "/assets/card-1.webp",
+    alt: "Digital design agency website"
   },
   {
     id: 2,
-    title: "SaaS Dashboard",
-    description: "Modern analytics interface",
-    image: "https://hoirqrkdgbmvpwutwuwj-all.supabase.co/storage/v1/object/public/assets/assets/5929dfb3-6ba0-482e-8054-7c6b716e45bc_1600w.jpg",
-    alt: "SaaS dashboard design"
+    title: "E-commerce Store",
+    description: "Modern online shopping experience",
+    image: "/assets/card-2.webp",
+    alt: "E-commerce website design"
   },
   {
     id: 3,
-    title: "Landing Pages",
-    description: "High-converting designs",
-    image: "https://hoirqrkdgbmvpwutwuwj-all.supabase.co/storage/v1/object/public/assets/assets/ce6d7146-78eb-4530-bc2a-2885666e1383_1600w.webp",
-    alt: "Landing page design"
+    title: "Portfolio Website",
+    description: "Professional personal branding",
+    image: "/assets/card-3.webp",
+    alt: "Portfolio website design"
   },
   {
     id: 4,
-    title: "Mobile App UI",
-    description: "Native & responsive experiences",
-    image: "https://hoirqrkdgbmvpwutwuwj-all.supabase.co/storage/v1/object/public/assets/assets/c75a3e33-28d5-4996-97d3-cabbf3908ede_1600w.webp",
-    alt: "Mobile app design"
+    title: "AI Platform",
+    description: "Intelligent automation workflows",
+    image: "/assets/card-4.webp",
+    alt: "AI platform design"
   },
   {
     id: 5,
-    title: "Brand Identity",
-    description: "Complete visual systems",
-    image: "https://hoirqrkdgbmvpwutwuwj-all.supabase.co/storage/v1/object/public/assets/assets/c4ba3f45-b7fb-47e5-a442-3c55bd9f9f1c_1600w.webp",
-    alt: "Brand identity design"
+    title: "Mobile App",
+    description: "Native & responsive experiences",
+    image: "/assets/card-5.webp",
+    alt: "Mobile app design"
+  },
+  {
+    id: 6,
+    title: "Tech Landing Page",
+    description: "Futuristic digital presence",
+    image: "/assets/card-6.webp",
+    alt: "Tech landing page design"
   }
 ];
 
