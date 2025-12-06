@@ -43,11 +43,7 @@ export const Hero = () => {
           <div className="relume-hero-center">
 
             <div className="text-center mb-6 flex items-center justify-center">
-              <div className={cn("group rounded-full border border-black/5 bg-neutral-100 text-base transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800")}>
-                <AnimatedShinyText className="inline-flex items-center justify-center px-4 py-1 transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
-                  <RotatingServices />
-                </AnimatedShinyText>
-              </div>
+              <RotatingServices />
             </div>
 
             <div className="relative mx-auto max-w-full px-4 py-6 sm:px-8 xl:px-16 xl:py-8 border border-primary/30 rounded-sm">
