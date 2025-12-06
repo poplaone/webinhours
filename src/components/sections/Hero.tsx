@@ -21,11 +21,11 @@ export const Hero = () => {
             height: 'auto',
             maxWidth: '100%'
           }} data-depth="0.15" loading="eager" className="relume-hero-image parallax-image object-contain" />
-            <img src="/assets/card-2.webp" alt="E-commerce website" style={{
+            <img alt="E-commerce website" style={{
             width: 'auto',
             height: 'auto',
             maxWidth: '100%'
-          }} data-depth="0.25" loading="eager" className="relume-hero-image is-offset-left parallax-image object-contain" />
+          }} data-depth="0.25" loading="eager" className="relume-hero-image is-offset-left parallax-image object-contain" src="/lovable-uploads/f05d4bb5-4c1a-40d9-bb57-f25dcd61d809.png" />
             <img src="/assets/card-3.webp" alt="Portfolio website" className="relume-hero-image parallax-image" style={{
             width: 'auto',
             height: 'auto',
