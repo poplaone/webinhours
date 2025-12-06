@@ -184,7 +184,7 @@ export function LiveSupportTab() {
     setNewMessage(''); // Clear immediately for better UX
 
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('chat_messages')
         .insert({
           user_id: session.user_id,
@@ -193,22 +193,19 @@ export function LiveSupportTab() {
           content: messageContent,
           is_live_support: true,
           is_read: false,
-        })
-        .select()
-        .single();
+        });
 
       if (error) throw error;
 
-      // Immediately add to messages list (don't wait for realtime)
-      if (data) {
-        setMessages(prev => [...prev, {
-          id: data.id,
-          role: 'support',
-          content: data.content,
-          created_at: data.created_at,
-          is_read: data.is_read,
-        }]);
-      }
+      // Immediately add to messages list with generated ID (don't wait for realtime)
+      const tempId = crypto.randomUUID();
+      setMessages(prev => [...prev, {
+        id: tempId,
+        role: 'support',
+        content: messageContent,
+        created_at: new Date().toISOString(),
+        is_read: false,
+      }]);
 
       if (session.status === 'open') {
         await updateStatus(selectedSession, 'pending');
