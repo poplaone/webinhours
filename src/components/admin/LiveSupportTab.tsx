@@ -180,31 +180,47 @@ export function LiveSupportTab() {
     const session = sessions.find(s => s.session_id === selectedSession);
     if (!session) return;
 
+    const messageContent = newMessage;
+    setNewMessage(''); // Clear immediately for better UX
+
     try {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('chat_messages')
         .insert({
           user_id: session.user_id,
           session_id: selectedSession,
           role: 'support',
-          content: newMessage,
+          content: messageContent,
           is_live_support: true,
           is_read: false,
-        });
+        })
+        .select()
+        .single();
 
       if (error) throw error;
+
+      // Immediately add to messages list (don't wait for realtime)
+      if (data) {
+        setMessages(prev => [...prev, {
+          id: data.id,
+          role: 'support',
+          content: data.content,
+          created_at: data.created_at,
+          is_read: data.is_read,
+        }]);
+      }
 
       if (session.status === 'open') {
         await updateStatus(selectedSession, 'pending');
       }
 
-      setNewMessage('');
       toast({
         title: "Message sent",
         description: "Your response has been delivered.",
       });
     } catch (error: any) {
       console.error('Error sending message:', error);
+      setNewMessage(messageContent); // Restore message on error
       toast({
         title: "Error",
         description: "Failed to send message. Please try again.",
@@ -286,15 +302,32 @@ export function LiveSupportTab() {
           const newMsg = payload.new as any;
           fetchSessions();
           
-          if (selectedSession === newMsg.session_id) {
-            setMessages(prev => [...prev, {
-              id: newMsg.id,
-              role: newMsg.role,
-              content: newMsg.content,
-              created_at: newMsg.created_at,
-              is_read: newMsg.is_read,
-            }]);
+          // Only add message if it's from user (admin's own messages are added immediately on send)
+          if (selectedSession === newMsg.session_id && newMsg.role === 'user') {
+            setMessages(prev => {
+              // Prevent duplicates
+              if (prev.some(m => m.id === newMsg.id)) return prev;
+              return [...prev, {
+                id: newMsg.id,
+                role: newMsg.role,
+                content: newMsg.content,
+                created_at: newMsg.created_at,
+                is_read: newMsg.is_read,
+              }];
+            });
           }
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'DELETE',
+          schema: 'public',
+          table: 'chat_messages',
+        },
+        () => {
+          // Refresh sessions when messages are deleted
+          fetchSessions();
         }
       )
       .subscribe();
