@@ -432,48 +432,74 @@
     }
   }
 
-  /* Responsive: Tablet */
-  @media (max-width: 991px) {
+  /* Responsive: Tablet (640px - 1023px) - Keep PC-like hero */
+  @media (min-width: 640px) and (max-width: 1023px) {
     .relume-hero-section {
-      padding: 60px 24px 40px;
+      padding: 80px 20px 40px;
+      min-height: auto;
     }
 
     .relume-hero-grid {
-      gap: 60px;
+      grid-template-columns: 0.8fr auto 0.8fr;
+      gap: 24px;
     }
     
+    .relume-hero-column {
+      display: flex;
+      gap: 16px;
+    }
+    
+    .relume-hero-image {
+      border-radius: 6px;
+    }
+
     .relume-hero-image.is-offset-left {
-      left: -3rem;
+      left: -1.5rem;
     }
 
     .relume-hero-image.is-offset-right {
-      right: -3rem;
+      right: -1.5rem;
+    }
+
+    .relume-hero-center {
+      max-width: 400px;
+      padding: 0 12px;
     }
 
     .relume-hero-heading {
-      font-size: 4.5rem;
+      font-size: 2.5rem;
     }
 
     .relume-hero-subheading {
-      font-size: 1.3rem;
+      font-size: 1rem;
     }
 
     .relume-hero-badge {
-      font-size: 14px;
-      padding: 8px 20px;
+      font-size: 12px;
+      padding: 6px 16px;
+    }
+    
+    .relume-hero-cursor {
+      display: none;
+    }
+    
+    /* Hide mobile slider on tablet */
+    .relume-hero-mobile-slider {
+      display: none;
     }
   }
 
-  /* Mobile Card Slider - hidden on desktop */
+  /* Mobile Card Slider - hidden on desktop and tablet */
   .relume-hero-mobile-slider {
     display: none;
   }
 
-  /* Responsive: Mobile */
-  @media (max-width: 767px) {
+  /* Responsive: Mobile (below 640px) */
+  @media (max-width: 639px) {
     .relume-hero-section {
       padding: 20px 16px 16px;
       overflow: hidden;
+      min-height: auto;
     }
 
     .relume-hero-grid {

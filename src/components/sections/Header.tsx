@@ -4,7 +4,7 @@ import { Code, Menu, X, ArrowUp, HelpCircle, DollarSign, FileText, Shield, Rotat
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useAuth } from '@/hooks/useAuth';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useIsMobile, useIsMobileOrTablet } from '@/hooks/use-mobile';
 import { useProfile } from '@/hooks/useProfiles';
 import { UserDropdown } from "@/components/ui/user-dropdown";
 import {
@@ -22,6 +22,7 @@ export const Header = () => {
   const location = useLocation();
   const { user } = useAuth();
   const isMobile = useIsMobile();
+  const isMobileOrTablet = useIsMobileOrTablet();
   const { data: profile } = useProfile();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -108,9 +109,9 @@ export const Header = () => {
     ...legalItems.map(item => ({ label: item.title, path: item.href }))
   ];
 
-  // Handle mobile header appearance
+  // Handle mobile/tablet header appearance
   useEffect(() => {
-    if (isMobile) {
+    if (isMobileOrTablet) {
       // Start transparent, then appear after 500ms for better UX
       const timer = setTimeout(() => {
         setMobileHeaderVisible(true);
@@ -118,7 +119,7 @@ export const Header = () => {
 
       return () => clearTimeout(timer);
     }
-  }, [isMobile]);
+  }, [isMobileOrTablet]);
 
   // Handle scroll behavior
   useEffect(() => {
@@ -129,7 +130,7 @@ export const Header = () => {
       setShowScrollTop(currentScrollY > 300);
 
       // Hide/show header on scroll (only for desktop)
-      if (!isMobile) {
+      if (!isMobileOrTablet) {
         if (currentScrollY > lastScrollY && currentScrollY > 100) {
           setIsVisible(false); // Scrolling down
         } else {
@@ -165,52 +166,63 @@ export const Header = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Mobile header styles - matching bottom nav (thinner for more content space)
-  if (isMobile) {
+  // Mobile & Tablet header styles - floating with glassmorphism
+  if (isMobileOrTablet) {
     return (
       <>
-        <header className="fixed top-2 left-2 right-2 z-50 lg:hidden">
-          <div className={`rounded-xl border shadow-xl transition-all duration-700 ease-in-out ${mobileHeaderVisible
+        <header className="fixed top-2 left-2 right-2 sm:top-3 sm:left-4 sm:right-4 z-50 lg:hidden">
+          <div className={`rounded-xl sm:rounded-2xl border shadow-xl transition-all duration-700 ease-in-out ${mobileHeaderVisible
               ? 'bg-background/70 backdrop-blur-md border-border/30'
               : 'bg-transparent backdrop-blur-none border-transparent'
             }`}>
-            <div className="flex items-center justify-between py-2 px-3">
+            <div className="flex items-center justify-between py-2 sm:py-3 px-3 sm:px-5">
               {/* Logo on left */}
               <div
                 className="flex items-center space-x-2 cursor-pointer"
                 onClick={() => navigate('/')}
               >
-                <div className="bg-[#8B5CF6] rounded-lg p-1.5">
-                  <Code className="h-4 w-4 text-white" />
+                <div className="bg-[#8B5CF6] rounded-lg p-1.5 sm:p-2">
+                  <Code className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                 </div>
-                <span className="font-bold text-sm bg-gradient-to-r from-[#8B5CF6] to-[#A78BFA] bg-clip-text text-transparent">
+                <span className="font-bold text-sm sm:text-base bg-gradient-to-r from-[#8B5CF6] to-[#A78BFA] bg-clip-text text-transparent">
                   WebInHours
                 </span>
               </div>
 
               {/* Theme toggle and Menu button on right */}
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 sm:space-x-3">
                 <ThemeToggle />
+                {user ? (
+                  <UserDropdown profile={profile} />
+                ) : (
+                  <Button
+                    onClick={() => navigate('/auth')}
+                    size="sm"
+                    className="hidden sm:flex bg-[#8B5CF6] hover:bg-[#7C3AED] text-sm px-4"
+                  >
+                    Sign in
+                  </Button>
+                )}
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-10 w-10 rounded-lg touch-manipulation text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-all duration-200"
+                  className="h-10 w-10 sm:h-11 sm:w-11 rounded-lg touch-manipulation text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-all duration-200"
                   onClick={toggleMenu}
                 >
-                  {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                  {isMenuOpen ? <X className="h-5 w-5 sm:h-6 sm:w-6" /> : <Menu className="h-5 w-5 sm:h-6 sm:w-6" />}
                 </Button>
               </div>
             </div>
 
-            {/* Mobile Navigation Menu */}
+            {/* Mobile/Tablet Navigation Menu */}
             {isMenuOpen && (
               <div className="border-t border-border/40">
-                <nav className="flex flex-col space-y-1 p-4 max-h-[55vh] overflow-y-auto">
+                <nav className="flex flex-col sm:grid sm:grid-cols-2 gap-1 p-4 sm:p-5 max-h-[55vh] overflow-y-auto">
                   {allMobileItems.map((item, index) => (
                     <button
                       key={item.label}
                       onClick={() => handleNavigation(item.path)}
-                      className={`text-muted-foreground hover:text-foreground transition-colors py-2 text-left touch-manipulation hover:bg-accent/50 rounded-md px-2 ${index < navItems.length ? 'text-base font-medium' : 'text-sm'
+                      className={`text-muted-foreground hover:text-foreground transition-colors py-2 sm:py-3 text-left touch-manipulation hover:bg-accent/50 rounded-md px-2 sm:px-3 ${index < navItems.length ? 'text-base font-medium' : 'text-sm'
                         }`}
                     >
                       {item.label}
@@ -223,15 +235,15 @@ export const Header = () => {
         </header>
 
         {/* Add padding to prevent content overlap */}
-        <div className="h-14 lg:hidden" />
+        <div className="h-14 sm:h-16 lg:hidden" />
 
         {/* Scroll to top button */}
         {showScrollTop && (
           <button
-            className="fixed bottom-20 right-4 z-50 bg-[#8B5CF6] text-white p-3 rounded-full shadow-lg hover:bg-[#7C3AED] transition-all duration-300 hover:scale-110 lg:hidden"
+            className="fixed bottom-24 sm:bottom-28 right-4 sm:right-6 z-50 bg-[#8B5CF6] text-white p-3 sm:p-4 rounded-full shadow-lg hover:bg-[#7C3AED] transition-all duration-300 hover:scale-110 lg:hidden"
             onClick={scrollToTop}
           >
-            <ArrowUp className="h-5 w-5" />
+            <ArrowUp className="h-5 w-5 sm:h-6 sm:w-6" />
           </button>
         )}
       </>
