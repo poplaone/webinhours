@@ -16,9 +16,21 @@ export const Hero = () => {
 
           {/* LEFT COLUMN */}
           <div className="relume-hero-column">
-            <img src="/assets/card-1.webp" alt="Design preview" className="relume-hero-image parallax-image" style={{ width: 'auto', height: 'auto', maxWidth: '100%' }} data-depth="0.15" loading="eager" />
-            <img src="/assets/card-2.webp" alt="E-commerce website" className="relume-hero-image is-offset-left parallax-image" style={{ width: 'auto', height: 'auto', maxWidth: '100%' }} data-depth="0.25" loading="eager" />
-            <img src="/assets/card-3.webp" alt="Portfolio website" className="relume-hero-image parallax-image" style={{ width: 'auto', height: 'auto', maxWidth: '100%' }} data-depth="0.2" loading="eager" />
+            <img src="/assets/card-1.webp" alt="Design preview" style={{
+            width: 'auto',
+            height: 'auto',
+            maxWidth: '100%'
+          }} data-depth="0.15" loading="eager" className="relume-hero-image parallax-image object-contain" />
+            <img src="/assets/card-2.webp" alt="E-commerce website" style={{
+            width: 'auto',
+            height: 'auto',
+            maxWidth: '100%'
+          }} data-depth="0.25" loading="eager" className="relume-hero-image is-offset-left parallax-image object-contain" />
+            <img src="/assets/card-3.webp" alt="Portfolio website" className="relume-hero-image parallax-image" style={{
+            width: 'auto',
+            height: 'auto',
+            maxWidth: '100%'
+          }} data-depth="0.2" loading="eager" />
             <img src="/assets/cursor-jessica.png" alt="" className="relume-hero-cursor parallax-cursor" style={{
             position: 'absolute',
             width: '82.5px',
@@ -73,9 +85,21 @@ export const Hero = () => {
 
           {/* RIGHT COLUMN */}
           <div className="relume-hero-column">
-            <img src="/assets/card-4.webp" alt="AI workflow platform" className="relume-hero-image parallax-image" style={{ width: 'auto', height: 'auto', maxWidth: '100%' }} data-depth="0.18" loading="eager" />
-            <img src="/assets/card-5.webp" alt="Mobile app design" className="relume-hero-image is-offset-right parallax-image" style={{ width: 'auto', height: 'auto', maxWidth: '100%' }} data-depth="0.22" loading="eager" />
-            <img src="/assets/card-6.webp" alt="Tech landing page" className="relume-hero-image parallax-image" style={{ width: 'auto', height: 'auto', maxWidth: '100%' }} data-depth="0.16" loading="eager" />
+            <img src="/assets/card-4.webp" alt="AI workflow platform" style={{
+            width: 'auto',
+            height: 'auto',
+            maxWidth: '100%'
+          }} data-depth="0.18" loading="eager" className="relume-hero-image parallax-image object-cover" />
+            <img src="/assets/card-5.webp" alt="Mobile app design" className="relume-hero-image is-offset-right parallax-image" style={{
+            width: 'auto',
+            height: 'auto',
+            maxWidth: '100%'
+          }} data-depth="0.22" loading="eager" />
+            <img src="/assets/card-6.webp" alt="Tech landing page" style={{
+            width: 'auto',
+            height: 'auto',
+            maxWidth: '100%'
+          }} data-depth="0.16" loading="eager" className="relume-hero-image parallax-image object-contain" />
             <img src="/assets/cursor-mario.png" alt="" className="relume-hero-cursor parallax-cursor" style={{
             position: 'absolute',
             width: '69.5px',
