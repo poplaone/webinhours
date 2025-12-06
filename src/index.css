@@ -353,8 +353,6 @@
     width: 100%;
     max-width: 100%;
     height: auto;
-    aspect-ratio: 3 / 2;
-    object-fit: cover;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
