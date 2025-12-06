@@ -42,7 +42,7 @@ export const Hero = () => {
           {/* CENTER CONTENT */}
           <div className="relume-hero-center">
 
-            <div className="text-center mb-6 flex items-center justify-center">
+            <div className="text-center mb-6 md:mb-6 mt-8 md:mt-0 flex items-center justify-center">
               <RotatingServices />
             </div>
 

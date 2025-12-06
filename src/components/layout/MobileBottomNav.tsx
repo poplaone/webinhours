@@ -33,18 +33,28 @@ const MobileBottomNav = () => {
   // Show on mobile and tablet devices (below lg breakpoint)
   if (!isMobileOrTablet) return null;
 
-  // Navigation items - more items for tablet
-  const navItems = [
+  // Navigation items - 4 items for mobile, more for tablet
+  const isMobile = window.innerWidth < 640;
+  
+  const mobileNavItems = [
+    { path: '/', icon: Home, label: 'Home' },
+    { path: '/marketplace', icon: Store, label: 'Marketplace' },
+    { path: '/how-it-works', icon: Wrench, label: 'Services' },
+    { path: '/contact', icon: Phone, label: 'Contact' },
+  ];
+
+  const tabletNavItems = [
     { path: '/', icon: Home, label: 'Home' },
     { path: '/marketplace', icon: Store, label: 'Marketplace' },
     { path: '/calculator', icon: Calculator, label: 'Calculator' },
     { path: '/about', icon: Info, label: 'About' },
     { path: '/contact', icon: Phone, label: 'Contact' },
-    // Show Profile icon when logged in, Login icon when not logged in
     user 
       ? { path: '/profile', icon: User, label: 'Profile' }
       : { path: '/auth', icon: LogIn, label: 'Login' }
   ];
+
+  const navItems = isMobile ? mobileNavItems : tabletNavItems;
 
   return (
     <div className={`fixed bottom-2 left-2 right-2 sm:bottom-3 sm:left-4 sm:right-4 rounded-xl sm:rounded-2xl border shadow-xl z-50 lg:hidden safe-area-pb transition-all duration-700 ease-in-out ${
