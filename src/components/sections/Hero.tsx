@@ -26,7 +26,7 @@ export const Hero = () => {
             height: 'auto',
             maxWidth: '100%'
           }} data-depth="0.25" loading="eager" className="relume-hero-image is-offset-left parallax-image object-contain" src="/lovable-uploads/f05d4bb5-4c1a-40d9-bb57-f25dcd61d809.png" />
-            <img src="/assets/card-3.webp" alt="Portfolio website" className="relume-hero-image parallax-image" style={{
+            <img src="/assets/card-3.webp" alt="Portfolio website" className="relume-hero-image parallax-image object-contain" style={{
             width: 'auto',
             height: 'auto',
             maxWidth: '100%'
@@ -85,8 +85,8 @@ export const Hero = () => {
             width: 'auto',
             height: 'auto',
             maxWidth: '100%'
-          }} data-depth="0.18" loading="eager" className="relume-hero-image parallax-image object-cover" />
-            <img src="/assets/card-5.webp" alt="Mobile app design" className="relume-hero-image is-offset-right parallax-image" style={{
+          }} data-depth="0.18" loading="eager" className="relume-hero-image parallax-image object-contain" />
+            <img src="/assets/card-5.webp" alt="Mobile app design" className="relume-hero-image is-offset-right parallax-image object-contain" style={{
             width: 'auto',
             height: 'auto',
             maxWidth: '100%'
