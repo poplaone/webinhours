@@ -40,7 +40,7 @@ export const RotatingServices = () => {
   }, [displayText, isDeleting, currentIndex]);
 
   return (
-    <span className="inline-block font-semibold text-primary">
+    <span className="inline-block font-mono font-medium text-foreground tracking-wide">
       {displayText}
       <span className="animate-pulse">|</span>
     </span>
