@@ -14,7 +14,7 @@ const AppLayout = ({ children, showHeader = true, showMobileNav = true, classNam
   return (
     <div className={`min-h-screen relative ${className}`}>
       {showHeader && <Header />}
-      <main className="pb-20 lg:pb-0">
+      <main className="pb-24 sm:pb-28 lg:pb-0">
         {children}
       </main>
       {showMobileNav && <MobileBottomNav />}
