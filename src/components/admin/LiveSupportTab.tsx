@@ -492,7 +492,7 @@ export function LiveSupportTab() {
         </Card>
 
         {/* Chat Area */}
-        <Card className="lg:col-span-2 flex flex-col">
+        <Card className="lg:col-span-2 flex flex-col max-h-[600px]">
           <CardHeader className="pb-3 border-b">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg">
@@ -535,10 +535,10 @@ export function LiveSupportTab() {
             </div>
           </CardHeader>
           
-          <CardContent className="flex-1 p-0 flex flex-col">
+          <CardContent className="flex-1 p-0 flex flex-col min-h-0 overflow-hidden">
             {selectedSession ? (
               <>
-                <ScrollArea className="flex-1 p-4 h-[400px]">
+                <ScrollArea className="flex-1 p-4 min-h-0">
                   <div className="space-y-4">
                     {messages.map((message) => (
                       <div
