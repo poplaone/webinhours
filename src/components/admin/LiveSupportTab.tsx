@@ -347,7 +347,12 @@ export function LiveSupportTab() {
           <h2 className="text-xl font-semibold">Live Support Dashboard</h2>
           <p className="text-sm text-muted-foreground">Manage customer support conversations</p>
         </div>
-        <Button variant="outline" size="sm" onClick={fetchSessions}>
+        <Button variant="outline" size="sm" onClick={() => {
+          fetchSessions();
+          if (selectedSession) {
+            fetchMessages(selectedSession);
+          }
+        }}>
           <RefreshCw className="h-4 w-4 mr-2" />
           Refresh
         </Button>
