@@ -62,7 +62,6 @@ const TemplateCard = memo<{template: Website; onClick: (t: Website) => void; onH
           className={`w-full h-full object-cover transition-transform group-hover:scale-110 duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
           loading="eager"
           decoding="async"
-          fetchPriority="high"
           onLoad={handleImageLoad}
           onError={handleImageError}
         />
