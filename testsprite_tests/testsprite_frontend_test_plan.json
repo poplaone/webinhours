@@ -1,0 +1,659 @@
+[
+  {
+    "id": "TC001",
+    "title": "Email/Password Login Success",
+    "description": "Verify that users can successfully log in using valid email and password credentials and access protected routes.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the login page"
+      },
+      {
+        "type": "action",
+        "description": "Enter valid email and password"
+      },
+      {
+        "type": "action",
+        "description": "Click the login button"
+      },
+      {
+        "type": "assertion",
+        "description": "User is authenticated and redirected to the marketplace or user dashboard"
+      },
+      {
+        "type": "assertion",
+        "description": "Access to protected routes is granted"
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Google OAuth Login Success",
+    "description": "Verify users can log in using Google OAuth and access appropriate protected and admin routes.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the login page"
+      },
+      {
+        "type": "action",
+        "description": "Click the 'Sign in with Google' button"
+      },
+      {
+        "type": "assertion",
+        "description": "User is authenticated via Google OAuth"
+      },
+      {
+        "type": "assertion",
+        "description": "User is redirected to the marketplace or dashboard"
+      },
+      {
+        "type": "assertion",
+        "description": "Protected and admin routes permission is enforced correctly"
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Login Failure with Invalid Credentials",
+    "description": "Verify that the login fails with invalid email or password and appropriate error messages are displayed.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the login page"
+      },
+      {
+        "type": "action",
+        "description": "Enter invalid email or password"
+      },
+      {
+        "type": "action",
+        "description": "Click the login button"
+      },
+      {
+        "type": "assertion",
+        "description": "Login is rejected"
+      },
+      {
+        "type": "assertion",
+        "description": "Error message indicating invalid credentials is displayed"
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Marketplace Browsing with Filters and Search",
+    "description": "Verify users can browse the marketplace with filters and search, returning correct paginated and cached results.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the marketplace page"
+      },
+      {
+        "type": "action",
+        "description": "Apply various filters (e.g., category, price) and use the search bar"
+      },
+      {
+        "type": "assertion",
+        "description": "Marketplace results update according to filters and search query"
+      },
+      {
+        "type": "assertion",
+        "description": "Pagination controls are working correctly"
+      },
+      {
+        "type": "action",
+        "description": "Navigate away and return to marketplace"
+      },
+      {
+        "type": "assertion",
+        "description": "Marketplace listings load instantly from cache due to prefetching"
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Marketplace Item Detail View and Prefetch",
+    "description": "Verify clicking on a marketplace item loads detailed view and prefetching works for fast navigation.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to a marketplace item from the list"
+      },
+      {
+        "type": "assertion",
+        "description": "Detailed information about the website or AI agent is displayed"
+      },
+      {
+        "type": "action",
+        "description": "Hover or interact with other marketplace items"
+      },
+      {
+        "type": "assertion",
+        "description": "Prefetching of item details and marketplace data occurs in the background"
+      },
+      {
+        "type": "action",
+        "description": "Click on prefetched items"
+      },
+      {
+        "type": "assertion",
+        "description": "Content loads instantly without delay"
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Purchase Flow for Marketplace Items",
+    "description": "Verify users can initiate and complete purchases of websites and AI agents, and purchase history updates.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to an item detail page in the marketplace"
+      },
+      {
+        "type": "action",
+        "description": "Click the purchase button"
+      },
+      {
+        "type": "action",
+        "description": "Complete the checkout process (simulate payment flow)"
+      },
+      {
+        "type": "assertion",
+        "description": "Purchase success confirmation is shown"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to user profile purchase history tab"
+      },
+      {
+        "type": "assertion",
+        "description": "New purchase is reflected accurately in purchase history"
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Admin Panel - CRUD Operations on Websites and AI Agents",
+    "description": "Verify admin users can create, read, update, and delete website and AI agent entries with immediate UI update and validation.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Log in as an admin user and navigate to the admin panel"
+      },
+      {
+        "type": "action",
+        "description": "Create a new website or AI agent listing with valid data"
+      },
+      {
+        "type": "assertion",
+        "description": "New listing appears immediately in the grid"
+      },
+      {
+        "type": "action",
+        "description": "Edit the newly created listing with updated values"
+      },
+      {
+        "type": "assertion",
+        "description": "Updates reflect immediately with correct data validation"
+      },
+      {
+        "type": "action",
+        "description": "Delete the listing"
+      },
+      {
+        "type": "assertion",
+        "description": "Listing is removed immediately from the UI"
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Admin Panel - User Reviews Moderation and Metrics",
+    "description": "Admin users can moderate user reviews and view metrics with real-time updates.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Log in as admin and open the Pending Reviews tab"
+      },
+      {
+        "type": "action",
+        "description": "Approve and reject user reviews"
+      },
+      {
+        "type": "assertion",
+        "description": "Reviews status updates immediately reflect in the UI"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to admin metrics dashboard"
+      },
+      {
+        "type": "assertion",
+        "description": "Metrics for websites, AI agents, and user engagement are displayed correctly"
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "User Profile Management and Persistence",
+    "description": "Verify users can view and edit profile info, stats, and purchase history with persisted updates.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as a user and navigate to Profile page"
+      },
+      {
+        "type": "assertion",
+        "description": "User's current profile info, stats, and purchase history are correctly displayed"
+      },
+      {
+        "type": "action",
+        "description": "Edit profile details (e.g., name, email, preferences) and save changes"
+      },
+      {
+        "type": "assertion",
+        "description": "Profile updates are saved and reflected immediately"
+      },
+      {
+        "type": "action",
+        "description": "Reload the Profile page"
+      },
+      {
+        "type": "assertion",
+        "description": "Saved changes persist after reload"
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "AI Chat Assistant - Message Handling and Quick Actions",
+    "description": "Verify chat assistant can send and receive messages, display them properly, and handle quick action triggers.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open AI chat assistant sidebar"
+      },
+      {
+        "type": "action",
+        "description": "Send a message to the AI chat assistant"
+      },
+      {
+        "type": "assertion",
+        "description": "Message appears in the chat window"
+      },
+      {
+        "type": "action",
+        "description": "Receive AI response message"
+      },
+      {
+        "type": "assertion",
+        "description": "AI response is displayed correctly and timely"
+      },
+      {
+        "type": "action",
+        "description": "Trigger a quick action from suggested options"
+      },
+      {
+        "type": "assertion",
+        "description": "Quick action executes expected behavior"
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Blog Listing and Reading Posts",
+    "description": "Verify users can navigate blog post listings and read detailed posts.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the blog listing page"
+      },
+      {
+        "type": "assertion",
+        "description": "List of blog posts is displayed with titles and excerpts"
+      },
+      {
+        "type": "action",
+        "description": "Click on a blog post"
+      },
+      {
+        "type": "assertion",
+        "description": "Blog post detail content is rendered correctly"
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Project Calculator Estimations",
+    "description": "Users can input project parameters and receive estimated cost and features output.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the project calculator page"
+      },
+      {
+        "type": "action",
+        "description": "Input various project parameters (e.g., features, scale)"
+      },
+      {
+        "type": "action",
+        "description": "Submit the form to get estimation"
+      },
+      {
+        "type": "assertion",
+        "description": "Estimated project cost and feature breakdown are displayed accurately"
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Contact Form Validation and Submission Tracking",
+    "description": "Verify contact form validates inputs, triggers analytics events on submission, and shows confirmation.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Attempt to submit contact form with invalid or missing inputs"
+      },
+      {
+        "type": "assertion",
+        "description": "Validation errors are displayed preventing submission"
+      },
+      {
+        "type": "action",
+        "description": "Submit contact form with valid input data"
+      },
+      {
+        "type": "assertion",
+        "description": "Form submits successfully and user is navigated to confirmation page"
+      },
+      {
+        "type": "assertion",
+        "description": "Analytics event for form submission is sent"
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "SEO Component Render Verification",
+    "description": "Verify SEO components render correct structured data, meta tags, FAQ schema, and geo-schema on respective pages.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to a page with SEO structured data (e.g., marketplace or blog post)"
+      },
+      {
+        "type": "assertion",
+        "description": "Structured data and meta tags in the page head include accurate information"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to a page with FAQ schema"
+      },
+      {
+        "type": "assertion",
+        "description": "FAQ Schema JSON-LD is present and valid"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to pages with GEO structured data"
+      },
+      {
+        "type": "assertion",
+        "description": "Geo-schema JSON-LD is present and conforms to standards"
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Performance Optimizations - Cache and Prefetching",
+    "description": "Verify caching layers at HTTP, service worker, and React Query enable fast load times and prefetching for marketplace pages.",
+    "category": "performance",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Load marketplace page for the first time"
+      },
+      {
+        "type": "assertion",
+        "description": "Content loads within defined performance thresholds"
+      },
+      {
+        "type": "action",
+        "description": "Navigate away and back to the marketplace page"
+      },
+      {
+        "type": "assertion",
+        "description": "Marketplace content loads instantly from cache"
+      },
+      {
+        "type": "action",
+        "description": "Trigger prefetching by hovering marketplace items"
+      },
+      {
+        "type": "assertion",
+        "description": "Prefetching completes successfully without blocking UI"
+      }
+    ]
+  },
+  {
+    "id": "TC016",
+    "title": "Google Analytics 4 Event Tracking",
+    "description": "Verify Google Analytics 4 properly tracks page views, button clicks, and form submissions.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to multiple pages in the application"
+      },
+      {
+        "type": "assertion",
+        "description": "Page view events are recorded in GA4"
+      },
+      {
+        "type": "action",
+        "description": "Click purchase buttons and submit contact forms"
+      },
+      {
+        "type": "assertion",
+        "description": "Button click and form submission events are recorded in GA4"
+      }
+    ]
+  },
+  {
+    "id": "TC017",
+    "title": "Theme Switching and Persistence",
+    "description": "Verify users can toggle dark/light modes with immediate UI update and that preference is persisted across sessions.",
+    "category": "ui",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Locate theme toggle switch in UI"
+      },
+      {
+        "type": "action",
+        "description": "Switch from light to dark mode"
+      },
+      {
+        "type": "assertion",
+        "description": "UI updates immediately to dark mode without page reload"
+      },
+      {
+        "type": "action",
+        "description": "Reload the application"
+      },
+      {
+        "type": "assertion",
+        "description": "Dark mode persists after reload"
+      },
+      {
+        "type": "action",
+        "description": "Switch back to light mode and verify persistence"
+      }
+    ]
+  },
+  {
+    "id": "TC018",
+    "title": "Responsive Layout Components Functionality",
+    "description": "Verify header, footer, sidebar, and navigation components render and behave correctly on desktop and mobile views.",
+    "category": "ui",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Access the platform using desktop viewport"
+      },
+      {
+        "type": "assertion",
+        "description": "Header, footer, sidebar, and navigation display correctly and are functional"
+      },
+      {
+        "type": "action",
+        "description": "Resize viewport to mobile dimensions or simulate mobile device"
+      },
+      {
+        "type": "assertion",
+        "description": "Layout components switch to mobile versions (mobile bottom nav, drawer) and are functional"
+      },
+      {
+        "type": "action",
+        "description": "Test navigation interactions on mobile"
+      },
+      {
+        "type": "assertion",
+        "description": "Navigation items open and clickable, sidebar toggles correctly"
+      }
+    ]
+  },
+  {
+    "id": "TC019",
+    "title": "Live Support Chat - Admin and User Interactions",
+    "description": "Verify live support chat functionality for both users and admin, including message send/receive and session persistence.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "User starts live support chat session"
+      },
+      {
+        "type": "action",
+        "description": "Send message from user side"
+      },
+      {
+        "type": "assertion",
+        "description": "Message appears in user chat window immediately"
+      },
+      {
+        "type": "action",
+        "description": "Admin receives message in live support tab"
+      },
+      {
+        "type": "action",
+        "description": "Admin replies to the message"
+      },
+      {
+        "type": "assertion",
+        "description": "User receives admin reply in real-time"
+      },
+      {
+        "type": "action",
+        "description": "Simulate network interruption and recovery"
+      },
+      {
+        "type": "assertion",
+        "description": "Chat session persists or reconnects smoothly without data loss"
+      }
+    ]
+  },
+  {
+    "id": "TC020",
+    "title": "Contact Form Submission Error Handling",
+    "description": "Verify contact form displays validation errors for various invalid inputs and prevents submission.",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to contact form page"
+      },
+      {
+        "type": "action",
+        "description": "Leave required fields empty and attempt to submit"
+      },
+      {
+        "type": "assertion",
+        "description": "Validation errors for required fields are displayed"
+      },
+      {
+        "type": "action",
+        "description": "Enter invalid email format and attempt to submit"
+      },
+      {
+        "type": "assertion",
+        "description": "Email validation error is displayed"
+      },
+      {
+        "type": "action",
+        "description": "Correct inputs and submit successfully"
+      },
+      {
+        "type": "assertion",
+        "description": "Form submission succeeds after corrections"
+      }
+    ]
+  },
+  {
+    "id": "TC021",
+    "title": "SEO Meta Tags and Structured Data Verification via Page Source",
+    "description": "Verify that SEO meta tags and JSON-LD data for structured content are correctly embedded in page source.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to key pages (e.g., Marketplace, Blog post, FAQ)"
+      },
+      {
+        "type": "assertion",
+        "description": "View page source and confirm presence of SEO meta tags and JSON-LD structured data"
+      },
+      {
+        "type": "assertion",
+        "description": "Meta tags contain correct and relevant information per page context"
+      }
+    ]
+  }
+]
