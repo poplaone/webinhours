@@ -24,15 +24,17 @@ const Index = () => {
         keywords="professional website design, SEO solutions, custom website design, high-conversion websites, premium templates, website development, SEO optimization, web design agency"
         canonicalUrl="https://webinhours.com/"
       />
-      
+
       {/* Enhanced Structured Data for GEO/AI Extraction */}
       <GEOStructuredData pageType="home" />
-      
+
       {/* FAQ Schema for Featured Snippets */}
       <FAQSchema />
 
-      {/* Background layers - Grid pattern */}
-      <GridPattern />
+      {/* FAQ Schema for Featured Snippets */}
+      <FAQSchema />
+
+      {/* Background layers - Grid pattern provided by AppLayout */}
 
       {/* All sections now float over the unified background */}
       <div className="relative z-10">

@@ -1,4 +1,4 @@
-import React from 'react';
+import { GridPattern } from '@/components/ui/GridPattern';
 import { Header } from '@/components/sections/Header';
 import MobileBottomNav from '@/components/layout/MobileBottomNav';
 import { CookieConsent } from '@/components/ui/cookie-consent';
@@ -13,8 +13,9 @@ interface AppLayoutProps {
 const AppLayout = ({ children, showHeader = true, showMobileNav = true, className = "" }: AppLayoutProps) => {
   return (
     <div className={`min-h-screen relative ${className}`}>
+      <GridPattern />
       {showHeader && <Header />}
-      <main className="pb-24 sm:pb-28 lg:pb-0">
+      <main className="pb-24 sm:pb-28 lg:pb-0 relative z-10">
         {children}
       </main>
       {showMobileNav && <MobileBottomNav />}

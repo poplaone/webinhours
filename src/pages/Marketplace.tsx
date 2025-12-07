@@ -219,19 +219,18 @@ const Marketplace: React.FC = () => {
   }), [allMarketplaceWebsites]);
 
   return (
-    <AppLayout className="bg-home-glow">
+    <AppLayout className="">
       <SEOHead
         title="Free Website Marketplace - Browse 500+ Professional Designs | WebInHours"
         description="Choose from 500+ professional website designs absolutely free. Find the perfect template for your business. Premium services like content creation, PR, and social media management available."
         keywords="free website templates, professional website designs, free business website, website marketplace, choose website design, free web templates"
         canonicalUrl="https://webinhours.com/marketplace"
       />
-      
+
       {/* GEO-Optimized Marketplace Schema */}
       <GEOStructuredData pageType="marketplace" />
 
-      {/* Grid Background */}
-      <GridPattern />
+      {/* Grid Background provided by AppLayout */}
 
       <div className="pt-6 pb-8 px-2 sm:px-4 lg:px-6 min-h-screen flex flex-col relative z-10">
         <div className="container mx-auto max-w-[1800px] flex flex-col flex-1">

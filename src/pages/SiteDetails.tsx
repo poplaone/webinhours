@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
+import AppLayout from "@/components/layout/AppLayout";
 import SEOHead from '@/components/seo/SEOHead';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
@@ -22,7 +23,7 @@ const SiteDetails = () => {
   const { toast } = useToast();
   const { data: site, isLoading } = useWebsiteById(websiteId);
   const isMobile = useIsMobile();
-  const { prefetchSite } = usePrefetchSiteDetails();
+  usePrefetchSiteDetails();
 
   const handlePurchase = useCallback(() => {
     if (!user) {
@@ -35,7 +36,6 @@ const SiteDetails = () => {
       return;
     }
 
-    // Handle purchase logic here for authenticated users
     toast({
       title: "Purchase Initiated",
       description: "Redirecting to payment..."
@@ -58,7 +58,6 @@ const SiteDetails = () => {
     navigate('/marketplace');
   }, [navigate]);
 
-  // Memoized default values
   const defaultFeatures = useMemo(() => ['Responsive Design', 'Modern UI', 'Fast Loading', 'SEO Optimized'], []);
   const defaultTechnologies = useMemo(() => ['HTML', 'CSS', 'JavaScript', 'React'], []);
   const defaultTags = useMemo(() => ['web', 'template', 'responsive'], []);
@@ -69,20 +68,16 @@ const SiteDetails = () => {
     'Future updates'
   ], []);
 
-  // Optimized skeleton loader - shows immediately without blocking
   if (isLoading) {
     return (
-      <main className="min-h-screen bg-gradient-to-br from-background to-background/80 relative">
-        <div className="container mx-auto p-6 pb-20">
-          {/* Mobile/Desktop header skeleton */}
+      <AppLayout>
+        <div className="container mx-auto p-6 pb-20 relative z-10">
           <div className="flex items-center gap-4 mb-6">
             <div className="h-10 w-40 bg-gray-800/30 rounded-lg animate-pulse" />
             <div className="flex-1" />
             <div className="h-10 w-32 bg-gray-800/30 rounded-lg animate-pulse" />
           </div>
-
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 min-h-[calc(100vh-200px)]">
-            {/* Main content skeleton */}
             <div className="lg:col-span-2">
               <Card className="h-full">
                 <CardContent className="p-0 h-full">
@@ -90,8 +85,6 @@ const SiteDetails = () => {
                 </CardContent>
               </Card>
             </div>
-
-            {/* Sidebar skeleton */}
             <div className="space-y-6">
               <Card>
                 <CardHeader>
@@ -108,236 +101,230 @@ const SiteDetails = () => {
                   </div>
                 </CardContent>
               </Card>
-
-              <Card>
-                <CardHeader>
-                  <div className="h-6 w-32 bg-gray-800/30 rounded animate-pulse" />
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-wrap gap-2">
-                    {Array.from({ length: 6 }).map((_, i) => (
-                      <div key={i} className="h-8 w-20 bg-gray-800/20 rounded-full animate-pulse" />
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
             </div>
           </div>
         </div>
-      </main>
+      </AppLayout>
     );
   }
 
   if (!site) {
     return (
-      <main className="min-h-screen bg-gradient-to-br from-background to-background/80 flex items-center justify-center">
-        <Card className="p-8 text-center">
-          <h2 className="text-2xl font-bold mb-4">Site Not Found</h2>
-          <p className="text-muted-foreground mb-4">The requested site could not be found.</p>
-          <Button onClick={handleBackToMarketplace}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Marketplace
-          </Button>
-        </Card>
-      </main>
+      <AppLayout>
+        <div className="container mx-auto p-6 pb-20 flex items-center justify-center min-h-[50vh] relative z-10">
+          <Card className="p-8 text-center">
+            <h2 className="text-2xl font-bold mb-4">Site Not Found</h2>
+            <p className="text-muted-foreground mb-4">The requested site could not be found.</p>
+            <Button onClick={handleBackToMarketplace}>
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Marketplace
+            </Button>
+          </Card>
+        </div>
+      </AppLayout>
     );
   }
 
   return (
-    <>
+    <AppLayout>
       <SEOHead
         title={`${site.title} - Website Template | WebInHour`}
         description={site.description || `Professional ${site.category} website template. ${site.features?.slice(0, 3).join(', ')}. Ready in 24 hours.`}
         keywords={`${site.category} template, ${site.tags?.join(', ')}, website template`}
         ogImage={site.thumbnail_url}
+        canonicalUrl={`https://webinhour.com/marketplace/${site.id}`}
       />
-      <main className="min-h-screen bg-gradient-to-br from-background to-background/80 relative">
-        <div className="container mx-auto p-6 pb-20">
-          {/* Header - Only show on desktop */}
-          {!isMobile && (
-            <div className="flex items-center gap-4 mb-6">
-              <Button variant="outline" onClick={handleBackToMarketplace} className="flex items-center gap-2">
-                <ArrowLeft className="h-4 w-4" />
-                Back to Marketplace
-              </Button>
-              <div className="flex-1">
-                <h1 className="text-3xl font-bold">{site.title}</h1>
-              </div>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" className="flex items-center gap-2" onClick={handlePreview}>
-                  <Eye className="h-4 w-4" />
-                  Preview
-                </Button>
-                <Button onClick={handlePurchase} className="bg-[#8B5CF6] hover:bg-[#7C3AED] flex items-center gap-2">
-                  <Download className="h-4 w-4" />
-                  {site.price === 0 ? 'Download Free' : `Purchase $${site.price}`}
-                </Button>
-              </div>
-            </div>
-          )}
 
-          <div className={`grid grid-cols-1 ${isMobile ? 'gap-4' : 'lg:grid-cols-3 gap-6'} min-h-[calc(100vh-200px)]`}>
-            {/* Main Content */}
-            <div className={isMobile ? '' : 'lg:col-span-2'}>
-              {/* Site Preview */}
-              <Card className="h-full relative">
-                <CardContent className="p-0 h-full">
-                  <div className={`h-full ${isMobile ? 'min-h-[300px]' : 'min-h-[500px]'} overflow-hidden rounded-lg relative`}>
-                    <img
-                      src={site.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&h=450&q=80"}
-                      alt={site.title}
-                      className="w-full h-full object-cover"
-                      loading="eager"
-                      decoding="async"
-                    />
-                    {/* Translucent Preview Button Inside Image */}
+      <div className="container mx-auto p-6 pb-20 relative z-10">
+        {!isMobile && (
+          <div className="flex items-center gap-4 mb-6">
+            <Button variant="outline" onClick={handleBackToMarketplace} className="flex items-center gap-2">
+              <ArrowLeft className="h-4 w-4" />
+              Back to Marketplace
+            </Button>
+            <div className="flex-1">
+              <h1 className="text-3xl font-bold">{site.title}</h1>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" className="flex items-center gap-2" onClick={handlePreview}>
+                <Eye className="h-4 w-4" />
+                Preview
+              </Button>
+              <Button onClick={handlePurchase} className="bg-[#8B5CF6] hover:bg-[#7C3AED] flex items-center gap-2">
+                <Download className="h-4 w-4" />
+                {site.price === 0 ? 'Download Free' : `Purchase $${site.price}`}
+              </Button>
+            </div>
+          </div>
+        )}
+
+        <div className={`grid grid-cols-1 ${isMobile ? 'gap-4' : 'lg:grid-cols-3 gap-6'} min-h-[calc(100vh-200px)]`}>
+          <div className={isMobile ? '' : 'lg:col-span-2'}>
+            <Card className="h-full relative overflow-hidden">
+              <CardContent className="p-0 h-full">
+                <div className={`h-full ${isMobile ? 'min-h-[300px]' : 'min-h-[500px]'} overflow-hidden rounded-lg relative group`}>
+                  <img
+                    src={site.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&h=450&q=80"}
+                    alt={site.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="eager"
+                    decoding="async"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <Button
+                      onClick={handlePreview}
+                      className="bg-white/10 backdrop-blur-md text-white border-white/20 hover:bg-white/20"
+                      variant="outline"
+                      size="lg"
+                    >
+                      <Eye className="mr-2 h-5 w-5" />
+                      Live Preview
+                    </Button>
+                  </div>
+                  {/* Mobile Preview Button Overlay - Always visible on mobile if needed, or stick to the logic above */}
+                  {isMobile && (
                     <Button
                       onClick={handlePreview}
                       className="absolute top-4 right-4 bg-black/40 hover:bg-black/60 backdrop-blur-sm text-white border-white/20 flex items-center gap-2"
                       variant="outline"
+                      size="sm"
                     >
                       <Eye className="h-4 w-4" />
                       Preview
                     </Button>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Mobile: Title below image */}
-              {isMobile && (
-                <div className="mt-4">
-                  <h1 className="text-2xl font-bold">{site.title}</h1>
+                  )}
                 </div>
-              )}
-            </div>
+              </CardContent>
+            </Card>
 
-            {/* Sidebar - Desktop or Mobile content */}
-            <div className="space-y-6">
-              {/* Combined: Details with About This Template */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>About This Template</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-muted-foreground leading-relaxed">
-                    {site.description || "This is a professional website template designed for modern businesses. It features a clean, responsive design that looks great on all devices."}
-                  </p>
-                  <Separator />
-                  <div className="flex justify-between items-center">
-                    <span className="font-medium">Category</span>
-                    <Badge>{site.category}</Badge>
-                  </div>
-                  <Separator />
-                  <Tabs defaultValue="features">
-                    <TabsList className="w-full grid grid-cols-2">
-                      <TabsTrigger value="features">Features</TabsTrigger>
-                      <TabsTrigger value="inclusions">Inclusions</TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="features" className="mt-4">
-                      <div className="grid grid-cols-1 gap-3">
-                        {(site.features || defaultFeatures).map((feature, index) => (
-                          <div key={index} className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-[#8B5CF6] rounded-full"></div>
-                            <span>{feature}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </TabsContent>
-                    <TabsContent value="inclusions" className="mt-4">
-                      <div className="space-y-3">
-                        {(site.inclusions && site.inclusions.length > 0 ? site.inclusions : defaultInclusions).map((inc, index) => (
-                          <div key={index} className="flex items-center gap-2">
-                            <Shield className="h-4 w-4 text-green-500" />
-                            <span className="text-sm">{inc}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </TabsContent>
-                  </Tabs>
-                </CardContent>
-              </Card>
-
-              {/* Desktop: Call-to-action buttons under the combined card */}
-              {!isMobile && (
-                <div className="grid grid-cols-2 gap-3">
-                  <Button
-                    className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED]"
-                    onClick={() => navigate('/contact')}
-                  >
-                    Buy Template
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => window.open(site.preview_url, '_blank')}
-                  >
-                    Preview Live
-                  </Button>
-                </div>
-              )}
-
-              {/* Toggle: Tech Used / Tags */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Tech & Tags</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Tabs defaultValue="tech">
-                    <TabsList className="w-full grid grid-cols-2">
-                      <TabsTrigger value="tech">Tech Used</TabsTrigger>
-                      <TabsTrigger value="tags">Tags</TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="tech" className="mt-4">
-                      <div className="flex flex-wrap gap-2">
-                        {(site.technologies || defaultTechnologies).map((tech, index) => (
-                          <Badge key={index} variant="secondary" className="flex items-center gap-1">
-                            <Code2 className="h-3 w-3" />
-                            {tech}
-                          </Badge>
-                        ))}
-                      </div>
-                    </TabsContent>
-                    <TabsContent value="tags" className="mt-4">
-                      <div className="flex flex-wrap gap-2">
-                        {(site.tags || defaultTags).map((tag, index) => (
-                          <Badge key={index} variant="outline" className="flex items-center gap-1">
-                            <Tag className="h-3 w-3" />
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                    </TabsContent>
-                  </Tabs>
-                </CardContent>
-              </Card>
-            </div>
+            {isMobile && (
+              <div className="mt-4">
+                <h1 className="text-2xl font-bold">{site.title}</h1>
+              </div>
+            )}
           </div>
 
-          {/* Mobile: Sticky Footer with Action Buttons */}
-          {isMobile && (
-            <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t border-border p-4 z-50">
-              <div className="grid grid-cols-2 gap-3 max-w-md mx-auto">
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>About This Template</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-muted-foreground leading-relaxed">
+                  {site.description || "This is a professional website template designed for modern businesses. It features a clean, responsive design that looks great on all devices."}
+                </p>
+                <Separator />
+                <div className="flex justify-between items-center">
+                  <span className="font-medium">Category</span>
+                  <Badge>{site.category}</Badge>
+                </div>
+                <Separator />
+                <Tabs defaultValue="features">
+                  <TabsList className="w-full grid grid-cols-2">
+                    <TabsTrigger value="features">Features</TabsTrigger>
+                    <TabsTrigger value="inclusions">Inclusions</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="features" className="mt-4">
+                    <div className="grid grid-cols-1 gap-3">
+                      {(site.features || defaultFeatures).map((feature, index) => (
+                        <div key={index} className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-[#8B5CF6] rounded-full"></div>
+                          <span>{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="inclusions" className="mt-4">
+                    <div className="space-y-3">
+                      {(site.inclusions && site.inclusions.length > 0 ? site.inclusions : defaultInclusions).map((inc, index) => (
+                        <div key={index} className="flex items-center gap-2">
+                          <Shield className="h-4 w-4 text-green-500" />
+                          <span className="text-sm">{inc}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              </CardContent>
+            </Card>
+
+            {!isMobile && (
+              <div className="grid grid-cols-2 gap-3">
                 <Button
-                  className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED] flex items-center justify-center gap-2"
+                  className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED]"
                   onClick={() => navigate('/contact')}
                 >
-                  <Download className="h-4 w-4" />
-                  Buy Template ${site.price === 0 ? 'Free' : site.price}
+                  Buy Template
                 </Button>
                 <Button
                   variant="outline"
-                  className="w-full flex items-center justify-center gap-2"
+                  className="w-full"
                   onClick={() => window.open(site.preview_url, '_blank')}
                 >
-                  <ExternalLink className="h-4 w-4" />
                   Preview Live
                 </Button>
               </div>
-            </div>
-          )}
+            )}
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Tech & Tags</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Tabs defaultValue="tech">
+                  <TabsList className="w-full grid grid-cols-2">
+                    <TabsTrigger value="tech">Tech Used</TabsTrigger>
+                    <TabsTrigger value="tags">Tags</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="tech" className="mt-4">
+                    <div className="flex flex-wrap gap-2">
+                      {(site.technologies || defaultTechnologies).map((tech, index) => (
+                        <Badge key={index} variant="secondary" className="flex items-center gap-1">
+                          <Code2 className="h-3 w-3" />
+                          {tech}
+                        </Badge>
+                      ))}
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="tags" className="mt-4">
+                    <div className="flex flex-wrap gap-2">
+                      {(site.tags || defaultTags).map((tag, index) => (
+                        <Badge key={index} variant="outline" className="flex items-center gap-1">
+                          <Tag className="h-3 w-3" />
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              </CardContent>
+            </Card>
+          </div>
         </div>
-      </main>
-    </>
+
+        {isMobile && (
+          <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t border-border p-4 z-50">
+            <div className="grid grid-cols-2 gap-3 max-w-md mx-auto">
+              <Button
+                className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED] flex items-center justify-center gap-2"
+                onClick={() => navigate('/contact')}
+              >
+                <Download className="h-4 w-4" />
+                Buy Template ${site.price === 0 ? 'Free' : site.price}
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full flex items-center justify-center gap-2"
+                onClick={() => window.open(site.preview_url, '_blank')}
+              >
+                <ExternalLink className="h-4 w-4" />
+                Preview Live
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
+    </AppLayout>
   );
 };
 

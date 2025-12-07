@@ -223,272 +223,270 @@ const Calculator = () => {
   return (
     <AppLayout showMobileNav={false}>
       <SEOHead
-        title="Project Estimator - WebInHour"
-        description="Estimate the investment for your professional website project."
+        title="Project Cost Calculator - WebInHours"
+        description="Estimate the cost of your custom website or app project. get an instant quote for our professional services."
       />
 
-      <div className="min-h-screen pt-24 pb-32 lg:pb-20 px-4 bg-background">
-        <div className="container mx-auto max-w-7xl">
-          {/* Header Section - Clean & Professional */}
-          <div className="mb-10">
-            <h1 className="text-3xl font-bold tracking-tight text-foreground mb-4">
-              Project Estimator
-            </h1>
-            <p className="text-muted-foreground max-w-2xl text-lg">
-              Customize your package to get an instant estimate for your project.
-            </p>
-          </div>
+      <div className="container mx-auto p-4 lg:p-8 pb-32">
+        <div className="text-center mb-10">
+          <Badge variant="secondary" className="mb-4">Instant Quote</Badge>
+          <h1 className="text-3xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+            Project Cost Calculator
+          </h1>
+          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+            Customize your package to get an instant estimate for your project.
+          </p>
+        </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Configuration Panel */}
-            <div className="lg:col-span-2 space-y-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Configuration Panel */}
+          <div className="lg:col-span-2 space-y-8">
 
-              {/* Step 1: Project Type */}
-              <div className="space-y-4">
+            {/* Step 1: Project Type */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">1</div>
+                <h2 className="text-xl font-semibold">Select Base Package</h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {projectTypes.map((type) => {
+                  const Icon = type.icon;
+                  const isSelected = selectedType === type.id;
+
+                  return (
+                    <div
+                      key={type.id}
+                      className={cn(
+                        "relative p-6 rounded-xl border-2 cursor-pointer transition-all duration-200",
+                        isSelected
+                          ? "border-primary bg-primary/5 shadow-sm"
+                          : "border-muted bg-card hover:border-primary/50"
+                      )}
+                      onClick={() => setSelectedType(type.id)}
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center shrink-0", isSelected ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground")}>
+                          <Icon className="h-5 w-5" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className={cn("font-semibold mb-1", isSelected && "text-primary")}>
+                            {type.name}
+                          </h3>
+                          <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
+                            {type.description}
+                          </p>
+                          <div className="flex items-center justify-between mt-auto">
+                            <Badge variant="secondary" className="text-xs font-normal">
+                              {type.timeframe}
+                            </Badge>
+                            <span className="font-bold text-lg">
+                              ${type.basePrice}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Step 2: Features */}
+            {selectedType && (
+              <div className="space-y-4 pt-4 border-t border-border/50">
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">1</div>
-                  <h2 className="text-xl font-semibold">Select Base Package</h2>
+                  <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">2</div>
+                  <h2 className="text-xl font-semibold">Add Features</h2>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {projectTypes.map((type) => {
-                    const Icon = type.icon;
-                    const isSelected = selectedType === type.id;
+                  {features.map((feature) => {
+                    const isSelected = selectedFeatures.includes(feature.id);
 
                     return (
                       <div
-                        key={type.id}
+                        key={feature.id}
                         className={cn(
-                          "relative p-6 rounded-xl border-2 cursor-pointer transition-all duration-200",
+                          "group p-4 rounded-lg border cursor-pointer transition-all duration-200",
                           isSelected
-                            ? "border-primary bg-primary/5 shadow-sm"
+                            ? "border-primary bg-primary/5"
                             : "border-muted bg-card hover:border-primary/50"
                         )}
-                        onClick={() => setSelectedType(type.id)}
+                        onClick={() => handleFeatureToggle(feature.id)}
                       >
-                        <div className="flex items-start gap-4">
-                          <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center shrink-0", isSelected ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground")}>
-                            <Icon className="h-5 w-5" />
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            {isSelected ? (
+                              <CheckCircle className="h-5 w-5 text-primary" />
+                            ) : (
+                              <div className="w-5 h-5 rounded-full border border-muted-foreground/30" />
+                            )}
+                            <h4 className={cn("font-medium", isSelected && "text-primary")}>{feature.name}</h4>
                           </div>
-                          <div className="flex-1">
-                            <h3 className={cn("font-semibold mb-1", isSelected && "text-primary")}>
-                              {type.name}
-                            </h3>
-                            <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
-                              {type.description}
-                            </p>
-                            <div className="flex items-center justify-between mt-auto">
-                              <Badge variant="secondary" className="text-xs font-normal">
-                                {type.timeframe}
-                              </Badge>
-                              <span className="font-bold text-lg">
-                                ${type.basePrice}
-                              </span>
-                            </div>
-                          </div>
+                          <span className="font-semibold text-sm">
+                            +${feature.price}
+                          </span>
                         </div>
+                        <p className="text-sm text-muted-foreground pl-7">
+                          {feature.description}
+                        </p>
                       </div>
                     );
                   })}
                 </div>
               </div>
+            )}
 
-              {/* Step 2: Features */}
-              {selectedType && (
-                <div className="space-y-4 pt-4 border-t border-border/50">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">2</div>
-                    <h2 className="text-xl font-semibold">Add Features</h2>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {features.map((feature) => {
-                      const isSelected = selectedFeatures.includes(feature.id);
-
-                      return (
-                        <div
-                          key={feature.id}
-                          className={cn(
-                            "group p-4 rounded-lg border cursor-pointer transition-all duration-200",
-                            isSelected
-                              ? "border-primary bg-primary/5"
-                              : "border-muted bg-card hover:border-primary/50"
-                          )}
-                          onClick={() => handleFeatureToggle(feature.id)}
-                        >
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-2">
-                              {isSelected ? (
-                                <CheckCircle className="h-5 w-5 text-primary" />
-                              ) : (
-                                <div className="w-5 h-5 rounded-full border border-muted-foreground/30" />
-                              )}
-                              <h4 className={cn("font-medium", isSelected && "text-primary")}>{feature.name}</h4>
-                            </div>
-                            <span className="font-semibold text-sm">
-                              +${feature.price}
-                            </span>
-                          </div>
-                          <p className="text-sm text-muted-foreground pl-7">
-                            {feature.description}
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </div>
+            {/* Step 3: Timeline */}
+            {selectedType && (
+              <div className="space-y-4 pt-4 border-t border-border/50">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">3</div>
+                  <h2 className="text-xl font-semibold">Timeline Preference</h2>
                 </div>
-              )}
 
-              {/* Step 3: Timeline */}
-              {selectedType && (
-                <div className="space-y-4 pt-4 border-t border-border/50">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">3</div>
-                    <h2 className="text-xl font-semibold">Timeline Preference</h2>
-                  </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {timelineOptions.map((option) => {
+                    const isSelected = timeline === option.value;
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {timelineOptions.map((option) => {
-                      const isSelected = timeline === option.value;
-
-                      return (
-                        <div
-                          key={option.value}
-                          className={cn(
-                            "group p-4 rounded-lg border cursor-pointer transition-all duration-200 text-center",
-                            isSelected
-                              ? "border-primary bg-primary/5"
-                              : "border-muted bg-card hover:border-primary/50"
-                          )}
-                          onClick={() => setTimeline(option.value)}
-                        >
-                          <div className="font-semibold mb-1">{option.label}</div>
-                          {option.multiplier !== 1 && (
-                            <Badge variant={option.multiplier > 1 ? "destructive" : "secondary"} className="mb-2 text-xs">
-                              {option.multiplier > 1 ? `+${((option.multiplier - 1) * 100).toFixed(0)}%` : `${((option.multiplier - 1) * 100).toFixed(0)}%`}
-                            </Badge>
-                          )}
-                          <p className="text-xs text-muted-foreground">
-                            {option.description}
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Summary Sidebar - Desktop */}
-            <div className="hidden lg:block lg:col-span-1">
-              <div className="sticky top-24">
-                <Card className="border border-border shadow-md overflow-hidden">
-                  <div className="bg-muted/50 p-4 border-b border-border">
-                    <CardTitle className="flex items-center gap-2 text-lg">
-                      <DollarSign className="h-5 w-5 text-primary" />
-                      Estimated Cost
-                    </CardTitle>
-                  </div>
-                  <CardContent className="p-6 space-y-6">
-
-                    {/* Selected Project Type */}
-                    <div>
-                      <h4 className="text-sm font-medium text-muted-foreground mb-3 uppercase tracking-wider">Package</h4>
-                      {selectedType ? (
-                        <div className="flex items-start justify-between">
-                          <div>
-                            <p className="font-medium">{getSelectedProject()?.name}</p>
-                            <p className="text-xs text-muted-foreground">{getSelectedProject()?.timeframe}</p>
-                          </div>
-                          <p className="font-medium">${getSelectedProject()?.basePrice}</p>
-                        </div>
-                      ) : (
-                        <p className="text-sm text-muted-foreground italic">No package selected</p>
-                      )}
-                    </div>
-
-                    <Separator />
-
-                    {/* Selected Features */}
-                    <div>
-                      <h4 className="text-sm font-medium text-muted-foreground mb-3 uppercase tracking-wider">Add-ons</h4>
-                      {selectedFeatures.length > 0 ? (
-                        <div className="space-y-2">
-                          {selectedFeatures.map(featureId => {
-                            const feature = features.find(f => f.id === featureId);
-                            return feature ? (
-                              <div key={featureId} className="flex justify-between text-sm">
-                                <span>{feature.name}</span>
-                                <span className="font-medium">+${feature.price}</span>
-                              </div>
-                            ) : null;
-                          })}
-                        </div>
-                      ) : (
-                        <p className="text-sm text-muted-foreground italic">None selected</p>
-                      )}
-                    </div>
-
-                    <Separator />
-
-                    {/* Timeline Multiplier */}
-                    {timeline !== 'standard' && (
-                      <div>
-                        <div className="flex justify-between text-sm">
-                          <span className="text-muted-foreground">Timeline Adjustment</span>
-                          <span className={timelineOptions.find(t => t.value === timeline)?.multiplier! > 1 ? "text-red-500" : "text-green-500"}>
-                            {timelineOptions.find(t => t.value === timeline)?.multiplier! > 1 ? '+' : ''}
-                            {((timelineOptions.find(t => t.value === timeline)?.multiplier! - 1) * 100).toFixed(0)}%
-                          </span>
-                        </div>
-                        <Separator className="mt-4" />
+                    return (
+                      <div
+                        key={option.value}
+                        className={cn(
+                          "group p-4 rounded-lg border cursor-pointer transition-all duration-200 text-center",
+                          isSelected
+                            ? "border-primary bg-primary/5"
+                            : "border-muted bg-card hover:border-primary/50"
+                        )}
+                        onClick={() => setTimeline(option.value)}
+                      >
+                        <div className="font-semibold mb-1">{option.label}</div>
+                        {option.multiplier !== 1 && (
+                          <Badge variant={option.multiplier > 1 ? "destructive" : "secondary"} className="mb-2 text-xs">
+                            {option.multiplier > 1 ? `+${((option.multiplier - 1) * 100).toFixed(0)}%` : `${((option.multiplier - 1) * 100).toFixed(0)}%`}
+                          </Badge>
+                        )}
+                        <p className="text-xs text-muted-foreground">
+                          {option.description}
+                        </p>
                       </div>
-                    )}
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
 
-                    {/* Total */}
-                    <div className="pt-2">
-                      <div className="flex items-end justify-between mb-2">
-                        <span className="font-bold text-lg">Total</span>
-                        <span className="text-4xl font-bold tracking-tight text-primary">
-                          ${totalPrice.toLocaleString()}
+          {/* Summary Sidebar - Desktop */}
+          <div className="hidden lg:block lg:col-span-1">
+            <div className="sticky top-24">
+              <Card className="border border-border shadow-md overflow-hidden">
+                <div className="bg-muted/50 p-4 border-b border-border">
+                  <CardTitle className="flex items-center gap-2 text-lg">
+                    <DollarSign className="h-5 w-5 text-primary" />
+                    Estimated Cost
+                  </CardTitle>
+                </div>
+                <CardContent className="p-6 space-y-6">
+
+                  {/* Selected Project Type */}
+                  <div>
+                    <h4 className="text-sm font-medium text-muted-foreground mb-3 uppercase tracking-wider">Package</h4>
+                    {selectedType ? (
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <p className="font-medium">{getSelectedProject()?.name}</p>
+                          <p className="text-xs text-muted-foreground">{getSelectedProject()?.timeframe}</p>
+                        </div>
+                        <p className="font-medium">${getSelectedProject()?.basePrice}</p>
+                      </div>
+                    ) : (
+                      <p className="text-sm text-muted-foreground italic">No package selected</p>
+                    )}
+                  </div>
+
+                  <Separator />
+
+                  {/* Selected Features */}
+                  <div>
+                    <h4 className="text-sm font-medium text-muted-foreground mb-3 uppercase tracking-wider">Add-ons</h4>
+                    {selectedFeatures.length > 0 ? (
+                      <div className="space-y-2">
+                        {selectedFeatures.map(featureId => {
+                          const feature = features.find(f => f.id === featureId);
+                          return feature ? (
+                            <div key={featureId} className="flex justify-between text-sm">
+                              <span>{feature.name}</span>
+                              <span className="font-medium">+${feature.price}</span>
+                            </div>
+                          ) : null;
+                        })}
+                      </div>
+                    ) : (
+                      <p className="text-sm text-muted-foreground italic">None selected</p>
+                    )}
+                  </div>
+
+                  <Separator />
+
+                  {/* Timeline Multiplier */}
+                  {timeline !== 'standard' && (
+                    <div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-muted-foreground">Timeline Adjustment</span>
+                        <span className={timelineOptions.find(t => t.value === timeline)?.multiplier! > 1 ? "text-red-500" : "text-green-500"}>
+                          {timelineOptions.find(t => t.value === timeline)?.multiplier! > 1 ? '+' : ''}
+                          {((timelineOptions.find(t => t.value === timeline)?.multiplier! - 1) * 100).toFixed(0)}%
                         </span>
                       </div>
-                      <p className="text-xs text-muted-foreground text-right">*Estimated investment</p>
+                      <Separator className="mt-4" />
                     </div>
+                  )}
 
-                    <Button
-                      className="w-full h-12 text-lg font-semibold shadow-lg"
-                      onClick={handleContinue}
-                      disabled={!selectedType}
-                    >
-                      Process Inquiry
-                      <ArrowRight className="ml-2 h-5 w-5" />
-                    </Button>
-                    <p className="text-xs text-center text-muted-foreground mt-2">
-                      No payment required to inquire.
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
+                  {/* Total */}
+                  <div className="pt-2">
+                    <div className="flex items-end justify-between mb-2">
+                      <span className="font-bold text-lg">Total</span>
+                      <span className="text-4xl font-bold tracking-tight text-primary">
+                        ${totalPrice.toLocaleString()}
+                      </span>
+                    </div>
+                    <p className="text-xs text-muted-foreground text-right">*Estimated investment</p>
+                  </div>
+
+                  <Button
+                    className="w-full h-12 text-lg font-semibold shadow-lg"
+                    onClick={handleContinue}
+                    disabled={!selectedType}
+                  >
+                    Process Inquiry
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                  <p className="text-xs text-center text-muted-foreground mt-2">
+                    No payment required to inquire.
+                  </p>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Mobile Fixed Bottom Bar */}
-        <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border p-4 lg:hidden shadow-[0_-4px_12px_-5px_rgba(0,0,0,0.1)] z-50 animate-in slide-in-from-bottom transition-all">
-          <div className="container mx-auto max-w-7xl flex items-center justify-between gap-4">
-            <div className="flex flex-col">
-              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Estimated Total</span>
-              <span className="text-2xl font-bold text-primary">${totalPrice.toLocaleString()}</span>
-            </div>
-            <Button
-              className="px-6 h-11 font-semibold shadow-md"
-              onClick={handleContinue}
-              disabled={!selectedType}
-            >
-              Process <ArrowRight className="ml-2 h-4 w-4 hidden sm:inline" />
-            </Button>
+      {/* Mobile Fixed Bottom Bar */}
+      <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border p-4 lg:hidden shadow-[0_-4px_12px_-5px_rgba(0,0,0,0.1)] z-50 animate-in slide-in-from-bottom transition-all">
+        <div className="container mx-auto max-w-7xl flex items-center justify-between gap-4">
+          <div className="flex flex-col">
+            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Estimated Total</span>
+            <span className="text-2xl font-bold text-primary">${totalPrice.toLocaleString()}</span>
           </div>
+          <Button
+            className="px-6 h-11 font-semibold shadow-md"
+            onClick={handleContinue}
+            disabled={!selectedType}
+          >
+            Process <ArrowRight className="ml-2 h-4 w-4 hidden sm:inline" />
+          </Button>
         </div>
       </div>
     </AppLayout>

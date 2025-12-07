@@ -212,15 +212,23 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
   return (
     <AppLayout>
       <SEOHead
-        title="Contact Us - WebInHour"
-        description="Get your free professional website or explore our premium services."
+        title="Contact Us - WebInHours | Get Started Today"
+        description="Get in touch with our team for your website project. We're here to help you build your dream website."
       />
 
-      <div className="min-h-screen pt-4 lg:pt-24 pb-20 px-4 bg-background">
-        <div className="container mx-auto max-w-4xl">
-          {/* Progress Steps - Clean */}
-          <div className="mb-4 lg:mb-8 pt-2 lg:pt-8">
-            <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
+      <div className="container mx-auto p-4 lg:p-8 pb-32">
+        <div className="max-w-4xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-10">
+            <h1 className="text-3xl lg:text-4xl font-bold mb-4">Start Your Project</h1>
+            <p className="text-lg text-muted-foreground">
+              Tell us about your needs and we'll help you get started.
+            </p>
+          </div>
+
+          {/* Progress Steps */}
+          <div className="mb-8">
+            <div className="flex items-center justify-center gap-4 text-sm font-medium">
               <div className={cn("flex items-center gap-2 transition-colors", step >= 1 && "text-primary")}>
                 <span className={cn("w-6 h-6 rounded-full flex items-center justify-center border text-xs", step >= 1 ? "border-primary bg-primary text-primary-foreground" : "border-muted-foreground/30")}>1</span>
                 Services

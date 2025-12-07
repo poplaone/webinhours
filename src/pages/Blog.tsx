@@ -215,10 +215,10 @@ const BlogCard = ({ post, index, featured = false }: { post: BlogPost; index: nu
               <span className="flex items-center gap-1">
                 <Calendar className="w-3 h-3" aria-hidden="true" />
                 <time itemProp="datePublished" dateTime={post.publishedAt}>
-                  {new Date(post.publishedAt).toLocaleDateString('en-US', { 
-                    month: 'short', 
-                    day: 'numeric', 
-                    year: 'numeric' 
+                  {new Date(post.publishedAt).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
                   })}
                 </time>
               </span>
@@ -227,7 +227,7 @@ const BlogCard = ({ post, index, featured = false }: { post: BlogPost; index: nu
                 {post.readTime} min read
               </span>
             </div>
-            <CardTitle 
+            <CardTitle
               className={`text-foreground group-hover:text-primary transition-colors ${featured ? "text-xl md:text-2xl" : "text-lg"}`}
               itemProp="headline"
             >
@@ -236,7 +236,7 @@ const BlogCard = ({ post, index, featured = false }: { post: BlogPost; index: nu
           </CardHeader>
 
           <CardContent>
-            <p 
+            <p
               className="text-muted-foreground text-sm mb-4 line-clamp-2"
               itemProp="description"
             >
@@ -254,7 +254,7 @@ const BlogCard = ({ post, index, featured = false }: { post: BlogPost; index: nu
             </div>
 
             {/* Author */}
-            <div 
+            <div
               className="flex items-center justify-between"
               itemProp="author"
               itemScope
@@ -319,12 +319,12 @@ const Blog = () => {
             <p className="text-primary font-medium text-sm mb-3">
               Expert Web Development Insights
             </p>
-            
+
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
               <span className="text-foreground">WebInHours </span>
               <span className="text-primary">Blog</span>
             </h1>
-            
+
             <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
               Learn from industry experts. Get actionable tips on web development, SEO, design, and growing your online presence.
             </p>
@@ -338,16 +338,16 @@ const Blog = () => {
             className="flex flex-wrap justify-center gap-2 mb-12"
             aria-label="Blog categories"
           >
-            <Badge 
-              variant="secondary" 
+            <Badge
+              variant="secondary"
               className="cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90"
             >
               All Posts
             </Badge>
             {categories.map(category => (
-              <Badge 
+              <Badge
                 key={category}
-                variant="outline" 
+                variant="outline"
                 className="cursor-pointer hover:bg-primary/10"
               >
                 {category}
@@ -396,17 +396,6 @@ const Blog = () => {
             <p className="text-muted-foreground mb-6 max-w-md mx-auto">
               Get the latest web development tips and insights delivered to your inbox.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-lg bg-background border border-border focus:border-primary outline-none transition-colors"
-                aria-label="Email address"
-              />
-              <button className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors">
-                Subscribe
-              </button>
-            </div>
           </motion.section>
         </div>
       </main>
