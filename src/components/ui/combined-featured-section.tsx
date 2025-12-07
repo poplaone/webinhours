@@ -16,8 +16,8 @@ export default function CombinedFeaturedSection() {
             SEO & GEO Analytics
           </div>
           <h3 className="text-base md:text-xl font-normal text-foreground">
-            Dominate search results with AI-Powered SEO & GEO (Generative Engine Optimization). Secure #1 rankings in local and global markets.
-            <span className="text-muted-foreground">Track rankings across regions.</span>
+            Dominate search results with AI-Driven SEO & GEO (Generative Engine Optimization). Secure #1 rankings in local and global markets with data-backed strategies.
+            <span className="text-muted-foreground"> Track real-time rankings across all regions.</span>
           </h3>
 
           <div className="relative mt-6 md:mt-8">
@@ -78,21 +78,21 @@ export default function CombinedFeaturedSection() {
             icon={<Flower className="w-4 h-4" />}
             title="Website Care"
             subtitle="Monthly Maintenance"
-            description="Priority support, regular updates, and performance optimization."
+            description="Priority support, security updates, and speed optimization."
             customBackground={<WebsiteCareBackground />}
           />
           <FeatureCard
             icon={<FileText className="w-4 h-4" />}
             title="Press Releases"
-            subtitle="Monthly"
-            description="Professional PR writing and distribution to major outlets."
+            subtitle="Distribution"
+            description="Professional writing and distribution to 50+ major news outlets."
             customBackground={<PressReleasesBackground />}
           />
           <FeatureCard
             icon={<Shield className="w-4 h-4" />}
-            title="Brand Monitoring"
-            subtitle="24/7"
-            description="Continuous reputation management and security monitoring."
+            title="Brand Protection"
+            subtitle="24/7 Monitoring"
+            description="Continuous reputation management and threat detection."
             customBackground={<BrandMonitoringBackground />}
           />
         </div>

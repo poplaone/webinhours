@@ -13,7 +13,7 @@ export const Services = () => {
       icon: Globe2,
       title: "Free Website",
       tagline: "Launch Your Online Presence",
-      description: "Get a fully functional, mobile-optimized website at zero cost. Choose from 500+ SEO-ready templates, secured with free SSL.",
+      description: "Launch a fully functional, mobile-optimized website at zero cost. Choose from 500+ SEO-ready templates, secured with free SSL, and hosted on lightning-fast servers.",
       price: "Free",
       beforeAfterSlider: {
         beforeImage: comparisonBefore,
@@ -30,45 +30,45 @@ export const Services = () => {
       icon: Palette,
       title: "Custom Branding",
       tagline: "Stand Out from the Crowd",
-      description: "Elevate your brand with bespoke web design. We craft custom color palettes, unique typography, and conversion-focused layouts.",
+      description: "Elevate your brand with bespoke web design. We craft custom color palettes, unique typography, and conversion-focused layouts tailored to your business identity.",
       price: "From $299",
       image: customBrandingGif,
       detailedFeatures: [
-        { title: "Custom Color Palette", description: "Unique brand colors" },
-        { title: "Typography Selection", description: "Premium font pairing" },
-        { title: "Logo Integration", description: "Perfect brand alignment" },
-        { title: "Conversion Optimization", description: "Designed to convert" },
+        { title: "Custom Color Palette", description: "Psychology-backed color schemes" },
+        { title: "Typography Selection", description: "Premium font pairing for readability" },
+        { title: "Logo Integration", description: "Seamless brand identity alignment" },
+        { title: "Conversion Optimization", description: "UX/UI designed to drive sales" },
       ],
     },
     {
       icon: PenTool,
       title: "Content Creation",
       tagline: "Words That Convert",
-      description: "Engage your audience with professionally crafted content. From compelling copy to stunning visuals, we tell your brand story.",
+      description: "Drive traffic with professionally crafted content. From SEO-optimized blog posts to compelling product copy, we tell your brand story and boost engagement.",
       price: "From $199",
       image: contentCreationImage,
       detailedFeatures: [
-        { title: "Professional Copywriting", description: "Engaging, persuasive content" },
-        { title: "Blog Articles", description: "SEO-optimized posts" },
-        { title: "Product Descriptions", description: "Compelling sales copy" },
-        { title: "Social Media Content", description: "Platform-specific content" },
+        { title: "Professional Copywriting", description: "Persuasive content that converts" },
+        { title: "SEO Blog Articles", description: "Keyword-rich posts to rank higher" },
+        { title: "Product Descriptions", description: "Sales-driven copy for e-commerce" },
+        { title: "Social Media Strategy", description: "Viral content for engagement" },
       ],
     },
   ];
 
   return (
-    <section 
-      id="services" 
+    <section
+      id="services"
       className="relative bg-background overflow-hidden"
       aria-labelledby="services-heading"
-      itemScope 
+      itemScope
       itemType="https://schema.org/ItemList"
     >
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
         {/* Section Header with Answer-First Formatting */}
         <header className="text-center mb-12 lg:mb-16">
-          <h2 
-            id="services-heading" 
+          <h2
+            id="services-heading"
             className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4"
           >
             Our Services
@@ -82,10 +82,10 @@ export const Services = () => {
         {/* Service Cards with Schema Markup */}
         <div className="space-y-0">
           {services.map((service, index) => (
-            <article 
-              key={index} 
-              itemProp="itemListElement" 
-              itemScope 
+            <article
+              key={index}
+              itemProp="itemListElement"
+              itemScope
               itemType="https://schema.org/Service"
             >
               <meta itemProp="position" content={String(index + 1)} />
