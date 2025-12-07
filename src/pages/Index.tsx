@@ -10,14 +10,15 @@ import { GridPattern } from '@/components/ui/GridPattern';
 const PremiumTestimonials = lazy(() => import('@/components/ui/premium-testimonials').then(m => ({ default: m.PremiumTestimonials })));
 const MarketplacePreview = lazy(() => import('@/components/sections/MarketplacePreview').then(m => ({ default: m.MarketplacePreview })));
 const Features = lazy(() => import('@/components/sections/Features').then(m => ({ default: m.Features })));
+const PremiumMarketplaceServices = lazy(() => import('@/components/sections/PremiumMarketplaceServices').then(m => ({ default: m.PremiumMarketplaceServices })));
 
 const Index = () => {
   return (
     <AppLayout>
       <SEOHead
-        title="WebInHour - Choose Your Free Website Design Today"
-        description="Select from 500+ professional website designs absolutely free. We handle setup and hosting. Premium services like content creation, PR, SEO & GEO, and social media management available when you need them."
-        keywords="free website design, professional website templates, free business website, website setup service, content creation, PR services, social media management, website hosting, online presence"
+        title="WebInHour - Enterprise Digital Solutions & Premium Assets"
+        description="WebInHour delivers professional website development, online reputation management, social media verification, and premium digital assets. Your complete digital transformation partner."
+        keywords="WebInHour, reputation management, google knowledge panel, social media verification, premium domains, digital pr services, website development"
       />
 
       {/* Background layers - Grid pattern */}
@@ -44,6 +45,13 @@ const Index = () => {
         <div id="testimonials">
           <Suspense fallback={<div className="h-96 bg-card/20 animate-pulse mx-4 my-2 md:my-8" />}>
             <PremiumTestimonials />
+          </Suspense>
+        </div>
+
+        {/* Premium Marketplace Services */}
+        <div id="premium-marketplace">
+          <Suspense fallback={<div className="h-[600px] bg-card/20 animate-pulse mx-4 my-2 md:my-8" />}>
+            <PremiumMarketplaceServices />
           </Suspense>
         </div>
 
