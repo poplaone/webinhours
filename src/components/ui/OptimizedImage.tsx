@@ -11,14 +11,22 @@ interface OptimizedImageProps {
   onError?: () => void;
   sizes?: string;
   quality?: number;
+  width?: number;
+  height?: number;
 }
+
+// LCP-optimized placeholder - minimal size, no layout shift
+const PLACEHOLDER_SVG = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="1" height="1"%3E%3C/svg%3E';
 
 // Preload critical images
 const preloadImage = (src: string) => {
   if (typeof window === 'undefined') return;
 
-  const img = new window.Image();
-  img.src = src;
+  const link = document.createElement('link');
+  link.rel = 'preload';
+  link.as = 'image';
+  link.href = src;
+  document.head.appendChild(link);
 };
 
 export const OptimizedImage = memo<OptimizedImageProps>(({
@@ -27,11 +35,13 @@ export const OptimizedImage = memo<OptimizedImageProps>(({
   className = '',
   aspectRatio = '16/10',
   priority = false,
-  placeholder = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3C/svg%3E',
+  placeholder = PLACEHOLDER_SVG,
   onLoad,
   onError,
   sizes,
-  quality = 80
+  quality = 80,
+  width,
+  height,
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -40,7 +50,7 @@ export const OptimizedImage = memo<OptimizedImageProps>(({
 
   // Intersection Observer for lazy loading
   useEffect(() => {
-    if (!imgRef.current) return;
+    if (priority || !imgRef.current) return;
 
     observerRef.current = new IntersectionObserver(
       (entries) => {
@@ -55,7 +65,7 @@ export const OptimizedImage = memo<OptimizedImageProps>(({
         });
       },
       {
-        rootMargin: '200px 0px', // Start loading 200px before entering viewport
+        rootMargin: '100px 0px', // Start loading 100px before entering viewport
         threshold: 0.01
       }
     );
@@ -67,7 +77,7 @@ export const OptimizedImage = memo<OptimizedImageProps>(({
     return () => {
       observerRef.current?.disconnect();
     };
-  }, []);
+  }, [priority]);
 
   const handleLoad = useCallback(() => {
     setIsLoaded(true);
@@ -91,36 +101,36 @@ export const OptimizedImage = memo<OptimizedImageProps>(({
 
   return (
     <div
-      className={`relative overflow-hidden bg-gray-100 ${className}`}
-      style={{ aspectRatio }}
+      className={`relative overflow-hidden bg-muted ${className}`}
+      style={{ aspectRatio, width, height }}
     >
-      {/* Placeholder/Skeleton */}
-      {!isLoaded && !hasError && (
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-200 animate-pulse">
-          <div className="absolute inset-0 bg-gradient-to-t from-transparent to-white/30" />
-        </div>
+      {/* Placeholder/Skeleton - only show for lazy loaded images */}
+      {!isLoaded && !hasError && !priority && (
+        <div className="absolute inset-0 bg-gradient-to-br from-muted via-muted/80 to-muted animate-pulse" />
       )}
 
       {/* Actual Image */}
       <img
         ref={imgRef}
-        data-src={optimizedSrc}
+        data-src={priority ? undefined : optimizedSrc}
         src={priority ? optimizedSrc : placeholder}
         alt={alt}
         onLoad={handleLoad}
         onError={handleError}
-        className={`w-full h-full object-cover transition-opacity duration-500 ${
-          isLoaded ? 'opacity-100' : 'opacity-0'
+        width={width}
+        height={height}
+        className={`w-full h-full object-cover transition-opacity duration-300 ${
+          isLoaded || priority ? 'opacity-100' : 'opacity-0'
         }`}
         sizes={sizes}
         loading={priority ? 'eager' : 'lazy'}
-        decoding="async"
+        decoding={priority ? 'sync' : 'async'}
         fetchPriority={priority ? 'high' : 'low'}
       />
 
       {/* Error state */}
       {hasError && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-200 text-gray-500">
+        <div className="absolute inset-0 flex items-center justify-center bg-muted text-muted-foreground">
           <span className="text-sm">Image unavailable</span>
         </div>
       )}
