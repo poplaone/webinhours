@@ -33,6 +33,7 @@ export const Header = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const navItems = [
+    { label: 'Blog', path: '/blog' },
     { label: 'Calculator', path: '/calculator' },
     { label: 'About', path: '/about' },
     { label: 'Contact', path: '/contact' }
