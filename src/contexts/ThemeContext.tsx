@@ -27,7 +27,7 @@ interface ThemeProviderProps {
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   children,
   defaultTheme = 'dark',
-  storageKey = 'webinhours-theme',
+  storageKey = 'webinhour-theme',
 }) => {
   const [theme, setTheme] = useState<Theme>(() => {
     // Check localStorage first

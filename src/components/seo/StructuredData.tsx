@@ -51,10 +51,10 @@ const StructuredData: React.FC<StructuredDataProps> = (props) => {
           "url": props.url,
           "publisher": {
             "@type": "Organization",
-            "name": "WebInHours",
+            "name": "WebInHour",
             "logo": {
               "@type": "ImageObject",
-              "url": "https://webinhours.com/logo.png"
+              "url": "https://webinhour.com/logo.png"
             }
           }
         };

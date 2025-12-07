@@ -25,10 +25,10 @@ export const Footer = () => {
 
   return (
     <footer className={`py-12 px-4 border-t relative z-10 transition-all duration-[2000ms] ease-in-out ${isMobile && !mobileFooterVisible
-        ? 'bg-transparent backdrop-blur-none border-transparent'
-        : isMobile
-          ? 'bg-background/60 backdrop-blur-md border-border/20'
-          : 'bg-card/30 backdrop-blur'
+      ? 'bg-transparent backdrop-blur-none border-transparent'
+      : isMobile
+        ? 'bg-background/60 backdrop-blur-md border-border/20'
+        : 'bg-card/30 backdrop-blur'
       }`}>
 
       <div className="container mx-auto">
@@ -38,7 +38,7 @@ export const Footer = () => {
               <div className="bg-[#8B5CF6] rounded-md p-2">
                 <Code className="h-6 w-6 text-white" />
               </div>
-              <span className="font-bold text-xl">WebInHours</span>
+              <span className="font-bold text-xl">WebInHour</span>
             </Link>
             <p className="text-muted-foreground">
               Professional web development services delivered with speed and precision.
@@ -103,9 +103,9 @@ export const Footer = () => {
             <h3 className="font-semibold mb-4">Connect</h3>
             <ul className="space-y-2 text-muted-foreground">
               <li>
-                <a 
-                  href="https://linkedin.com" 
-                  target="_blank" 
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-foreground transition-colors"
                 >
@@ -113,9 +113,9 @@ export const Footer = () => {
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://twitter.com" 
-                  target="_blank" 
+                <a
+                  href="https://twitter.com"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-foreground transition-colors"
                 >
@@ -123,9 +123,9 @@ export const Footer = () => {
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://github.com" 
-                  target="_blank" 
+                <a
+                  href="https://github.com"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-foreground transition-colors"
                 >
@@ -133,8 +133,8 @@ export const Footer = () => {
                 </a>
               </li>
               <li>
-                <a 
-                  href="mailto:support@webinhours.com"
+                <a
+                  href="mailto:support@webinhour.com"
                   className="hover:text-foreground transition-colors"
                 >
                   Email
@@ -144,7 +144,7 @@ export const Footer = () => {
           </div>
         </div>
         <div className="border-t border-border/40 mt-8 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-muted-foreground">
-          <p>&copy; 2024 WebInHours. All rights reserved.</p>
+          <p>&copy; 2024 WebInHour. All rights reserved.</p>
           <div className="flex items-center gap-4 text-sm">
             <Link to="/privacy" className="hover:text-foreground transition-colors">
               Privacy Policy

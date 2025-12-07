@@ -1,7 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { Hero } from '@/components/sections/Hero';
 import { Services } from '@/components/sections/Services';
-import { CTASection } from '@/components/sections/CTASection';
 import { Footer } from '@/components/sections/Footer';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
@@ -16,7 +15,7 @@ const Index = () => {
   return (
     <AppLayout>
       <SEOHead
-        title="WebInHours - Choose Your Free Website Design Today"
+        title="WebInHour - Choose Your Free Website Design Today"
         description="Select from 500+ professional website designs absolutely free. We handle setup and hosting. Premium services like content creation, PR, SEO & GEO, and social media management available when you need them."
         keywords="free website design, professional website templates, free business website, website setup service, content creation, PR services, social media management, website hosting, online presence"
       />
@@ -48,7 +47,6 @@ const Index = () => {
           </Suspense>
         </div>
 
-        <CTASection />
         <Footer />
       </div>
     </AppLayout>

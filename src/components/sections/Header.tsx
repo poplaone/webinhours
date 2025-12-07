@@ -172,8 +172,8 @@ export const Header = () => {
       <>
         <header className="fixed top-2 left-2 right-2 sm:top-3 sm:left-4 sm:right-4 z-50 lg:hidden">
           <div className={`rounded-xl sm:rounded-2xl border shadow-xl transition-all duration-700 ease-in-out ${mobileHeaderVisible
-              ? 'bg-background/70 backdrop-blur-md border-border/30'
-              : 'bg-transparent backdrop-blur-none border-transparent'
+            ? 'bg-background/70 backdrop-blur-md border-border/30'
+            : 'bg-transparent backdrop-blur-none border-transparent'
             }`}>
             <div className="flex items-center justify-between py-2 sm:py-3 px-3 sm:px-5">
               {/* Logo on left */}
@@ -185,7 +185,7 @@ export const Header = () => {
                   <Code className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                 </div>
                 <span className="font-bold text-sm sm:text-base bg-gradient-to-r from-[#8B5CF6] to-[#A78BFA] bg-clip-text text-transparent">
-                  WebInHours
+                  WebInHour
                 </span>
               </div>
 
@@ -266,7 +266,7 @@ export const Header = () => {
               className="font-bold text-base sm:text-lg md:text-xl bg-gradient-to-r from-[#8B5CF6] to-[#A78BFA] bg-clip-text text-transparent cursor-pointer"
               onClick={() => navigate('/')}
             >
-              WebInHours
+              WebInHour
             </span>
           </div>
 

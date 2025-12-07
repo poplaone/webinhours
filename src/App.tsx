@@ -58,7 +58,7 @@ const queryClient = new QueryClient({
 // Component to handle scroll to top and analytics tracking on route change
 function ScrollToTop() {
   const { pathname } = useLocation();
-  
+
   // Track page views
   usePageTracking();
 
@@ -84,54 +84,54 @@ function App() {
           <ThemeProvider defaultTheme="dark" storageKey="webinhours-theme">
             <TooltipProvider>
               <BrowserRouter>
-              <ScrollToTop />
-              <Helmet>
-                <title>WebInHours - Professional Website Solutions</title>
-                <meta name="description" content="Get your professional website ready in 24 hours. Choose from our marketplace of premium templates or get a custom design." />
-              </Helmet>
-              <GridBackground className="min-h-screen text-foreground">
-                <Suspense fallback={
-                  <div className="flex items-center justify-center min-h-screen">
-                    <div className="text-center">
-                      <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                      <p className="text-foreground">Loading...</p>
+                <ScrollToTop />
+                <Helmet>
+                  <title>WebInHour - Professional Website Solutions</title>
+                  <meta name="description" content="Get your professional website ready in 24 hours. Choose from our marketplace of premium templates or get a custom design." />
+                </Helmet>
+                <GridBackground className="min-h-screen text-foreground">
+                  <Suspense fallback={
+                    <div className="flex items-center justify-center min-h-screen">
+                      <div className="text-center">
+                        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                        <p className="text-foreground">Loading...</p>
+                      </div>
                     </div>
-                  </div>
-                }>
-                  <Routes>
-                    <Route path="/" element={<Index />} />
-                    <Route path="/about" element={<About />} />
-                    {/* Services route removed - now using homepage services section */}
-                    <Route path="/contact" element={<Contact />} />
-                    <Route path="/contact/confirmation" element={<ContactConfirmation />} />
-                    <Route path="/faq" element={<FAQ />} />
-                    <Route path="/how-it-works" element={<HowItWorks />} />
-                    <Route path="/pricing" element={<Pricing />} />
-                    <Route path="/privacy" element={<Privacy />} />
-                    <Route path="/terms" element={<Terms />} />
-                    <Route path="/auth" element={<Auth />} />
-                    <Route path="/marketplace" element={
-                      <ErrorBoundary>
-                        <Marketplace />
-                      </ErrorBoundary>
-                    } />
-                    <Route path="/calculator" element={<Calculator />} />
-                    <Route path="/site/:slugOrId" element={<SiteDetails />} />
-                    <Route path="/profile" element={
-                      <ProtectedRoute>
-                        <Profile />
-                      </ProtectedRoute>
-                    } />
-                    <Route path="/admin-panel" element={
-                      <AdminRoute>
-                        <AdminPanel />
-                      </AdminRoute>
-                    } />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </Suspense>
-              </GridBackground>
-              <Toaster />
+                  }>
+                    <Routes>
+                      <Route path="/" element={<Index />} />
+                      <Route path="/about" element={<About />} />
+                      {/* Services route removed - now using homepage services section */}
+                      <Route path="/contact" element={<Contact />} />
+                      <Route path="/contact/confirmation" element={<ContactConfirmation />} />
+                      <Route path="/faq" element={<FAQ />} />
+                      <Route path="/how-it-works" element={<HowItWorks />} />
+                      <Route path="/pricing" element={<Pricing />} />
+                      <Route path="/privacy" element={<Privacy />} />
+                      <Route path="/terms" element={<Terms />} />
+                      <Route path="/auth" element={<Auth />} />
+                      <Route path="/marketplace" element={
+                        <ErrorBoundary>
+                          <Marketplace />
+                        </ErrorBoundary>
+                      } />
+                      <Route path="/calculator" element={<Calculator />} />
+                      <Route path="/site/:slugOrId" element={<SiteDetails />} />
+                      <Route path="/profile" element={
+                        <ProtectedRoute>
+                          <Profile />
+                        </ProtectedRoute>
+                      } />
+                      <Route path="/admin-panel" element={
+                        <AdminRoute>
+                          <AdminPanel />
+                        </AdminRoute>
+                      } />
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </Suspense>
+                </GridBackground>
+                <Toaster />
               </BrowserRouter>
             </TooltipProvider>
           </ThemeProvider>

@@ -9,7 +9,7 @@ export default function About() {
   return (
     <AppLayout>
       <SEOHead
-        title="About Us - WebInHours | Free Website Designs + Premium Services"
+        title="About Us - WebInHour | Free Website Designs + Premium Services"
         description="Offering 500+ professional website designs absolutely free. Premium services like content creation, PR, and social media management available when you need them. Your online presence, simplified."
         keywords="free website platform, professional web design, content creation services, PR services, social media management, website hosting"
       />
@@ -17,7 +17,7 @@ export default function About() {
         <div className="container mx-auto max-w-7xl">
           {/* Hero Section */}
           <div className="text-center mb-16">
-            <Badge variant="secondary" className="mb-4">About WebInHours</Badge>
+            <Badge variant="secondary" className="mb-4">About WebInHour</Badge>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
               Your Free Website,<br />Your Way
             </h1>
@@ -64,7 +64,7 @@ export default function About() {
             <div>
               <h2 className="text-3xl font-bold mb-6">Our Story</h2>
               <p className="text-gray-600 mb-4">
-                WebInHours was founded with a simple belief: businesses shouldn't have to wait weeks or months
+                WebInHour was founded with a simple belief: businesses shouldn't have to wait weeks or months
                 for a professional website. In today's fast-paced digital world, speed matters.
               </p>
               <p className="text-gray-600 mb-4">

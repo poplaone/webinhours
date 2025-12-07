@@ -223,7 +223,7 @@ const Calculator = () => {
   return (
     <AppLayout showMobileNav={false}>
       <SEOHead
-        title="Project Estimator - WebInHours"
+        title="Project Estimator - WebInHour"
         description="Estimate the investment for your professional website project."
       />
 

@@ -58,9 +58,9 @@ const Profile = () => {
 
   return (
     <AppLayout>
-      <SEOHead 
-        title="My Profile - WebInHours"
-        description="Manage your WebInHours profile, view your purchases and website templates"
+      <SEOHead
+        title="My Profile - WebInHour"
+        description="Manage your WebInHour profile, view your purchases and website templates"
         noIndex={true}
       />
       <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">

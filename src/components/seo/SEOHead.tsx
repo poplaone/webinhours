@@ -13,7 +13,7 @@ interface SEOHeadProps {
 }
 
 const SEOHead: React.FC<SEOHeadProps> = ({
-  title = "WebInHours - Choose Your Free Website Design Today",
+  title = "WebInHour - Choose Your Free Website Design Today",
   description = "Select from 500+ professional website designs absolutely free. We handle setup and hosting. Premium services like content creation, PR, and social media management available when you need them.",
   keywords = "free website design, professional website templates, free business website, website setup service, content creation, PR services, social media management, website hosting, online presence",
   ogImage = "/placeholder.svg",
@@ -21,7 +21,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   canonicalUrl,
   noIndex = false
 }) => {
-  const fullTitle = title.includes('WebInHours') ? title : `${title} | WebInHours`;
+  const fullTitle = title.includes('WebInHour') ? title : `${title} | WebInHour`;
   const currentUrl = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : 'https://webinhours.com');
 
   return (
@@ -30,33 +30,33 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
-      
+
       {/* Robots */}
       {noIndex && <meta name="robots" content="noindex,nofollow" />}
-      
+
       {/* Canonical URL */}
       <link rel="canonical" href={currentUrl} />
-      
+
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={ogType} />
       <meta property="og:url" content={currentUrl} />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={ogImage} />
-      <meta property="og:site_name" content="WebInHours" />
-      
+      <meta property="og:site_name" content="WebInHour" />
+
       {/* Twitter */}
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="twitter:url" content={currentUrl} />
       <meta property="twitter:title" content={fullTitle} />
       <meta property="twitter:description" content={description} />
       <meta property="twitter:image" content={ogImage} />
-      
+
       {/* Additional SEO Tags */}
       <meta name="author" content="WebInHours" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta httpEquiv="Content-Language" content="en" />
-      
+
       {/* Enhanced Structured Data */}
       <script type="application/ld+json">
         {JSON.stringify({
@@ -99,7 +99,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
           }
         })}
       </script>
-      
+
       {/* Service Structured Data */}
       <script type="application/ld+json">
         {JSON.stringify({

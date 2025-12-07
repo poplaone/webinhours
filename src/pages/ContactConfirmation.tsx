@@ -59,12 +59,12 @@ export default function ContactConfirmation() {
 
   return (
     <AppLayout>
-      <SEOHead 
-        title="Message Received - WebInHours"
+      <SEOHead
+        title="Message Received - WebInHour"
         description="Your message has been successfully received. We'll get back to you shortly."
         keywords="contact confirmation, message received"
       />
-      
+
       <div className="pt-24 pb-20 px-4">
         <div className="container mx-auto max-w-4xl">
           {/* Success Header */}
@@ -72,15 +72,15 @@ export default function ContactConfirmation() {
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-500/10 border-4 border-green-500/20 mb-6">
               <CheckCircle className="h-10 w-10 text-green-500" />
             </div>
-            
+
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Thanks for reaching out, <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">{name}</span>!
             </h1>
-            
+
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-6">
               We've received your message and our team is already on it. You should receive a confirmation email at <strong className="text-foreground">{email}</strong>
             </p>
-            
+
             <Badge variant="secondary" className="text-base px-4 py-2">
               <Clock className="h-4 w-4 mr-2" />
               Expected Response Time: {getResponseTime()}
@@ -91,7 +91,7 @@ export default function ContactConfirmation() {
           <Card className="mb-8">
             <CardContent className="p-8">
               <h2 className="text-2xl font-bold mb-6 text-center">What Happens Next?</h2>
-              
+
               <div className="space-y-6">
                 {nextSteps.map((step, index) => {
                   const Icon = step.icon;
@@ -102,7 +102,7 @@ export default function ContactConfirmation() {
                           <Icon className="h-6 w-6 text-primary" />
                         </div>
                       </div>
-                      
+
                       <div className="flex-1">
                         <div className="flex items-center justify-between mb-1">
                           <h3 className="font-semibold text-lg">{step.title}</h3>
@@ -124,17 +124,17 @@ export default function ContactConfirmation() {
               <p className="text-muted-foreground mb-6">
                 Explore our marketplace of professional website templates or learn more about our custom design services.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button 
+                <Button
                   onClick={() => navigate('/marketplace')}
                   className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
                 >
                   Browse Marketplace
                   <ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
-                
-                <Button 
+
+                <Button
                   variant="outline"
                   onClick={() => navigate('/')}
                 >
@@ -149,7 +149,7 @@ export default function ContactConfirmation() {
           <div className="text-center mt-8 text-sm text-muted-foreground">
             <p>
               Didn't receive a confirmation email? Check your spam folder or{' '}
-              <button 
+              <button
                 onClick={() => navigate('/contact')}
                 className="text-primary hover:underline font-medium"
               >

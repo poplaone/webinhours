@@ -285,7 +285,7 @@ const Marketplace: React.FC = () => {
         updated_at: now,
         featured_at: undefined,
         approved_at: now,
-        profiles: { full_name: 'WebInHours', avatar_url: undefined }
+        profiles: { full_name: 'WebInHour', avatar_url: undefined }
       } as unknown as AIAgent;
     })
   ), []);

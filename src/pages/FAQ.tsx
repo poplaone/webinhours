@@ -13,8 +13,8 @@ export default function FAQ() {
       category: "General",
       questions: [
         {
-          question: "What is WebInHours?",
-          answer: "WebInHours is a platform that delivers professional websites in hours, not weeks. We connect businesses with talented developers and offer pre-built templates for rapid deployment."
+          question: "What is WebInHour?",
+          answer: "WebInHour is a platform that delivers professional websites in hours, not weeks. We connect businesses with talented developers and offer pre-built templates for rapid deployment."
         },
         {
           question: "How fast can I get my website?",
@@ -82,7 +82,7 @@ export default function FAQ() {
   return (
     <AppLayout>
       <SEOHead
-        title="FAQ - WebInHours | Free Websites & Premium Services Questions"
+        title="FAQ - WebInHour | Free Websites & Premium Services Questions"
         description="Answers to common questions about our free website designs, premium services like content creation and PR, setup process, and pricing. Get started with confidence."
         keywords="free website FAQ, website design questions, premium services questions, content creation help, website setup support"
       />
@@ -96,7 +96,7 @@ export default function FAQ() {
               Got Questions?<br />We Have Answers
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Find answers to the most common questions about WebInHours, our services, and how we can help you get your website up and running quickly.
+              Find answers to the most common questions about WebInHour, our services, and how we can help you get your website up and running quickly.
             </p>
           </div>
 

@@ -212,14 +212,14 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
   return (
     <AppLayout>
       <SEOHead
-        title="Contact Us - WebInHours"
+        title="Contact Us - WebInHour"
         description="Get your free professional website or explore our premium services."
       />
 
-      <div className="min-h-screen pt-24 pb-20 px-4 bg-background">
+      <div className="min-h-screen pt-4 lg:pt-24 pb-20 px-4 bg-background">
         <div className="container mx-auto max-w-4xl">
           {/* Progress Steps - Clean */}
-          <div className="mb-8 pt-8">
+          <div className="mb-4 lg:mb-8 pt-2 lg:pt-8">
             <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
               <div className={cn("flex items-center gap-2 transition-colors", step >= 1 && "text-primary")}>
                 <span className={cn("w-6 h-6 rounded-full flex items-center justify-center border text-xs", step >= 1 ? "border-primary bg-primary text-primary-foreground" : "border-muted-foreground/30")}>1</span>
@@ -434,7 +434,7 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
                 <span className="flex items-center gap-2 text-sm font-semibold text-foreground">
                   <Mail className="w-4 h-4" /> Email Us
                 </span>
-                <span className="text-sm text-muted-foreground">support@webinhours.com</span>
+                <span className="text-sm text-muted-foreground">support@webinhour.com</span>
               </div>
               <div className="flex flex-col items-center md:items-start gap-1">
                 <span className="flex items-center gap-2 text-sm font-semibold text-foreground">

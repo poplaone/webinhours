@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import { Check } from 'lucide-react';
 import { FeatureWithImageComparison } from './feature-with-image-comparison';
 import { FeatureInfographicCards } from './feature-infographic-cards';
-import { CustomBrandingGradient } from './custom-branding-gradient';
+import { CustomBrandingVisuals } from './custom-branding-visuals';
 import { AnimatedCard, CardBody, CardDescription, CardTitle, CardVisual, Visual3 } from './animated-card-chart';
 type ServiceCardType = {
   title: string;
@@ -94,7 +94,7 @@ export function AnimatedServiceCard({
             <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
               Make your website unique with custom colors, fonts, logos, and personalized design that matches your brand perfectly.
             </p>
-            <CustomBrandingGradient />
+            <CustomBrandingVisuals />
           </div> : <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl">
             {service.description}
           </p>}

@@ -23,7 +23,7 @@ const AdminPanel = () => {
     pendingCount,
     approvedCount,
     featuredCount,
-    
+
     // Setters
     setSearchTerm,
     setSelectedCategory,
@@ -33,7 +33,7 @@ const AdminPanel = () => {
     setActiveTab,
     setReviewingWebsite,
     setEditingWebsite,
-    
+
     // Handlers
     handleWebsiteUpdate,
     handleQuickAction,
@@ -41,7 +41,7 @@ const AdminPanel = () => {
     handleEditWebsite,
     getStatusColor,
     formatPrice,
-    
+
     // Refetch functions
     refetchAllWebsites,
     refetchUserWebsites,
@@ -67,51 +67,51 @@ const AdminPanel = () => {
 
   return (
     <>
-      <SEOHead 
-        title="Admin Panel - WebInHours"
+      <SEOHead
+        title="Admin Panel - WebInHour"
         description="Admin dashboard for managing websites and templates"
         noIndex={true}
       />
       <main className="container mx-auto py-8 px-4 max-w-7xl">
         <AdminPanelHeader
-        isAdmin={isAdmin}
-        showUploadDialog={showUploadDialog}
-        setShowUploadDialog={setShowUploadDialog}
-      />
+          isAdmin={isAdmin}
+          showUploadDialog={showUploadDialog}
+          setShowUploadDialog={setShowUploadDialog}
+        />
 
-      <AdminPanelTabs
-        isAdmin={isAdmin}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        allWebsites={allWebsites}
-        userWebsites={userWebsites}
-        allWebsitesLoading={allWebsitesLoading}
-        searchTerm={searchTerm}
-        selectedCategory={selectedCategory}
-        selectedStatus={selectedStatus}
-        setSearchTerm={setSearchTerm}
-        setSelectedCategory={setSelectedCategory}
-        setSelectedStatus={setSelectedStatus}
-        setReviewingWebsite={setReviewingWebsite}
-        handleEditWebsite={handleEditWebsite}
-        handleDelete={handleDelete}
-        handleQuickAction={handleQuickAction}
-        formatPrice={formatPrice}
-        getStatusColor={getStatusColor}
-        pendingCount={pendingCount}
-        approvedCount={approvedCount}
-        featuredCount={featuredCount}
-      />
+        <AdminPanelTabs
+          isAdmin={isAdmin}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          allWebsites={allWebsites}
+          userWebsites={userWebsites}
+          allWebsitesLoading={allWebsitesLoading}
+          searchTerm={searchTerm}
+          selectedCategory={selectedCategory}
+          selectedStatus={selectedStatus}
+          setSearchTerm={setSearchTerm}
+          setSelectedCategory={setSelectedCategory}
+          setSelectedStatus={setSelectedStatus}
+          setReviewingWebsite={setReviewingWebsite}
+          handleEditWebsite={handleEditWebsite}
+          handleDelete={handleDelete}
+          handleQuickAction={handleQuickAction}
+          formatPrice={formatPrice}
+          getStatusColor={getStatusColor}
+          pendingCount={pendingCount}
+          approvedCount={approvedCount}
+          featuredCount={featuredCount}
+        />
 
-      <AdminPanelModals
-        reviewingWebsite={reviewingWebsite}
-        setReviewingWebsite={setReviewingWebsite}
-        showEditDialog={showEditDialog}
-        setShowEditDialog={setShowEditDialog}
-        editingWebsite={editingWebsite}
-        setEditingWebsite={setEditingWebsite}
-        handleWebsiteUpdate={handleWebsiteUpdate}
-      />
+        <AdminPanelModals
+          reviewingWebsite={reviewingWebsite}
+          setReviewingWebsite={setReviewingWebsite}
+          showEditDialog={showEditDialog}
+          setShowEditDialog={setShowEditDialog}
+          editingWebsite={editingWebsite}
+          setEditingWebsite={setEditingWebsite}
+          handleWebsiteUpdate={handleWebsiteUpdate}
+        />
       </main>
     </>
   );

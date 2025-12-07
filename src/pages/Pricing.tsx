@@ -130,7 +130,7 @@ export default function Pricing() {
   return (
     <AppLayout>
       <SEOHead
-        title="Pricing - WebInHours | Free Websites + Premium Services"
+        title="Pricing - WebInHour | Free Websites + Premium Services"
         description="Start with a free professional website design. Pay only for premium services like custom content creation, PR campaigns, and social media management. Transparent pricing, no hidden fees."
         keywords="free website design, premium website services, content creation pricing, PR services cost, social media management pricing, website customization"
       />

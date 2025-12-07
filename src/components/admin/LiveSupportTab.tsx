@@ -13,13 +13,13 @@ import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 
 const QUICK_RESPONSES = [
-  { label: 'Greeting', text: 'Hello! Thanks for reaching out to WebInHours support. How can I help you today?' },
+  { label: 'Greeting', text: 'Hello! Thanks for reaching out to WebInHour support. How can I help you today?' },
   { label: 'Pricing', text: 'Our pricing varies based on the template or AI agent you choose. You can see individual prices on each product page. Need help finding something in your budget?' },
   { label: 'Customization', text: 'Yes, all our templates are fully customizable! Once purchased, you get the complete source code to modify as needed.' },
   { label: 'Delivery', text: 'After purchase, you\'ll receive instant access to download your template or AI agent. Check your email for the download link!' },
   { label: 'Refund', text: 'We offer refunds within 7 days of purchase if the product doesn\'t meet your expectations. Please contact us with your order details.' },
   { label: 'Tech Support', text: 'For technical issues, please describe the problem in detail. Screenshots help us diagnose faster!' },
-  { label: 'Thanks', text: 'Thank you for choosing WebInHours! Is there anything else I can help you with?' },
+  { label: 'Thanks', text: 'Thank you for choosing WebInHour! Is there anything else I can help you with?' },
 ];
 
 type ConversationStatus = 'open' | 'pending' | 'resolved';
@@ -78,7 +78,7 @@ export function LiveSupportTab() {
       const statusMap = new Map(sessionsData?.map(s => [s.session_id, s.status as ConversationStatus]) || []);
 
       const sessionMap = new Map<string, ChatSession>();
-      
+
       for (const msg of messagesData || []) {
         if (!sessionMap.has(msg.session_id)) {
           const { data: profile } = await supabase
@@ -97,7 +97,7 @@ export function LiveSupportTab() {
             status: statusMap.get(msg.session_id) || 'open',
           });
         }
-        
+
         const session = sessionMap.get(msg.session_id)!;
         if (!msg.is_read && msg.role !== 'support') {
           session.unread_count++;
@@ -155,7 +155,7 @@ export function LiveSupportTab() {
 
       if (error) throw error;
 
-      setSessions(prev => prev.map(s => 
+      setSessions(prev => prev.map(s =>
         s.session_id === sessionId ? { ...s, status: newStatus } : s
       ));
 
@@ -249,7 +249,7 @@ export function LiveSupportTab() {
 
       // Update local state
       setSessions(prev => prev.filter(s => s.session_id !== sessionId));
-      
+
       // Clear selection if deleted session was selected
       if (selectedSession === sessionId) {
         setSelectedSession(null);
@@ -298,7 +298,7 @@ export function LiveSupportTab() {
         (payload) => {
           const newMsg = payload.new as any;
           fetchSessions();
-          
+
           // Only add message if it's from user (admin's own messages are added immediately on send)
           if (selectedSession === newMsg.session_id && newMsg.role === 'user') {
             setMessages(prev => {
@@ -334,8 +334,8 @@ export function LiveSupportTab() {
     };
   }, [selectedSession]);
 
-  const filteredSessions = statusFilter === 'all' 
-    ? sessions 
+  const filteredSessions = statusFilter === 'all'
+    ? sessions
     : sessions.filter(s => s.status === statusFilter);
 
   const currentSession = sessions.find(s => s.session_id === selectedSession);
@@ -412,11 +412,10 @@ export function LiveSupportTab() {
                   return (
                     <div
                       key={session.session_id}
-                      className={`w-full p-4 text-left border-b border-border/50 hover:bg-muted/50 transition-colors ${
-                        selectedSession === session.session_id ? 'bg-muted' : ''
-                      }`}
+                      className={`w-full p-4 text-left border-b border-border/50 hover:bg-muted/50 transition-colors ${selectedSession === session.session_id ? 'bg-muted' : ''
+                        }`}
                     >
-                      <div 
+                      <div
                         className="cursor-pointer"
                         onClick={() => setSelectedSession(session.session_id)}
                       >
@@ -454,9 +453,9 @@ export function LiveSupportTab() {
                       <div className="flex justify-end mt-2">
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
-                            <Button 
-                              variant="ghost" 
-                              size="sm" 
+                            <Button
+                              variant="ghost"
+                              size="sm"
                               className="h-6 text-xs text-destructive hover:text-destructive hover:bg-destructive/10"
                               onClick={(e) => e.stopPropagation()}
                             >
@@ -473,7 +472,7 @@ export function LiveSupportTab() {
                             </AlertDialogHeader>
                             <AlertDialogFooter>
                               <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <AlertDialogAction 
+                              <AlertDialogAction
                                 onClick={() => deleteConversation(session.session_id)}
                                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                               >
@@ -506,8 +505,8 @@ export function LiveSupportTab() {
                 )}
               </CardTitle>
               {selectedSession && currentSession && (
-                <Select 
-                  value={currentSession.status} 
+                <Select
+                  value={currentSession.status}
                   onValueChange={(v) => updateStatus(selectedSession, v as ConversationStatus)}
                 >
                   <SelectTrigger className="w-[140px] h-8">
@@ -534,7 +533,7 @@ export function LiveSupportTab() {
               )}
             </div>
           </CardHeader>
-          
+
           <CardContent className="flex-1 p-0 flex flex-col min-h-0 overflow-hidden">
             {selectedSession ? (
               <>
@@ -546,16 +545,14 @@ export function LiveSupportTab() {
                         className={`flex ${message.role === 'support' ? 'justify-end' : 'justify-start'}`}
                       >
                         <div
-                          className={`max-w-[80%] rounded-lg p-3 ${
-                            message.role === 'support'
+                          className={`max-w-[80%] rounded-lg p-3 ${message.role === 'support'
                               ? 'bg-primary text-primary-foreground'
                               : 'bg-muted'
-                          }`}
+                            }`}
                         >
                           <p className="text-sm">{message.content}</p>
-                          <p className={`text-xs mt-1 ${
-                            message.role === 'support' ? 'text-primary-foreground/70' : 'text-muted-foreground'
-                          }`}>
+                          <p className={`text-xs mt-1 ${message.role === 'support' ? 'text-primary-foreground/70' : 'text-muted-foreground'
+                            }`}>
                             {format(new Date(message.created_at), 'h:mm a')}
                           </p>
                         </div>

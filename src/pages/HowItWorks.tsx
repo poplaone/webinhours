@@ -41,7 +41,7 @@ export default function HowItWorks() {
   return (
     <AppLayout>
       <SEOHead
-        title="How It Works - WebInHours | Free Website Selection to Premium Services"
+        title="How It Works - WebInHour | Free Website Selection to Premium Services"
         description="Choose your free professional website design in minutes. Add premium services like content creation, PR, and social media management as your business grows."
         keywords="free website setup, how to get free website, website selection process, premium website services, content creation services"
       />
