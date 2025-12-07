@@ -14,13 +14,13 @@ export function FastDeliveryCard({ className }: { className?: string }) {
             <div className="relative z-10 flex flex-col justify-between flex-1 gap-4">
                 <div>
                     <div className="flex items-center gap-2 mb-3">
-                        <div className="p-1.5 rounded-md bg-blue-500/10 border border-blue-500/20 text-blue-500">
+                        <div className="p-1.5 rounded-md bg-primary/10 border border-primary/20 text-primary">
                             <Clock className="w-4 h-4" />
                         </div>
                         <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Fast Delivery</span>
                     </div>
 
-                    <h3 className="text-xl md:text-2xl font-bold text-foreground mb-2 group-hover:text-blue-500 transition-colors">
+                    <h3 className="text-xl md:text-2xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                         24-Hour Delivery Guarantee
                     </h3>
                     <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
@@ -29,7 +29,7 @@ export function FastDeliveryCard({ className }: { className?: string }) {
                 </div>
 
                 <div className="hidden md:flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                    <Badge variant="outline" className="bg-blue-500/5 text-blue-600 border-blue-200 dark:border-blue-900">
+                    <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20">
                         <Timer className="w-3 h-3 mr-1" />
                         24h Target
                     </Badge>
@@ -42,16 +42,16 @@ export function FastDeliveryCard({ className }: { className?: string }) {
                 <div className="w-full bg-background/50 backdrop-blur-sm border border-border/60 rounded-lg p-4 shadow-sm">
                     <div className="flex justify-between items-center mb-4 border-b border-border/50 pb-2">
                         <span className="text-[10px] font-bold text-muted-foreground uppercase">Project Timeline</span>
-                        <span className="text-[10px] bg-green-500/10 text-green-600 px-2 py-0.5 rounded-full font-medium">Active</span>
+                        <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium">Active</span>
                     </div>
 
                     <div className="relative space-y-0">
                         {/* Connecting Line */}
-                        <div className="absolute left-[11px] top-2 bottom-4 w-0.5 bg-gradient-to-b from-blue-500 via-blue-500/50 to-muted/20"></div>
+                        <div className="absolute left-[11px] top-2 bottom-4 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-muted/20"></div>
 
                         {/* Step 1 */}
                         <div className="relative flex items-center gap-3 pb-4">
-                            <div className="relative z-10 flex items-center justify-center w-6 h-6 rounded-full bg-blue-500 text-white shadow-md ring-2 ring-background">
+                            <div className="relative z-10 flex items-center justify-center w-6 h-6 rounded-full bg-muted text-muted-foreground shadow-md ring-2 ring-background border border-border">
                                 <CheckCircle2 className="w-3.5 h-3.5" />
                             </div>
                             <div>
@@ -62,7 +62,7 @@ export function FastDeliveryCard({ className }: { className?: string }) {
 
                         {/* Step 2 */}
                         <div className="relative flex items-center gap-3 pb-4">
-                            <div className="relative z-10 flex items-center justify-center w-6 h-6 rounded-full bg-blue-500 text-white shadow-md ring-2 ring-background">
+                            <div className="relative z-10 flex items-center justify-center w-6 h-6 rounded-full bg-muted text-muted-foreground shadow-md ring-2 ring-background border border-border">
                                 <CheckCircle2 className="w-3.5 h-3.5" />
                             </div>
                             <div>
@@ -73,13 +73,13 @@ export function FastDeliveryCard({ className }: { className?: string }) {
 
                         {/* Step 3 */}
                         <div className="relative flex items-center gap-3">
-                            <div className="relative z-10 flex items-center justify-center w-6 h-6 rounded-full bg-green-500 text-white shadow-lg shadow-green-500/20 ring-2 ring-background animate-pulse">
+                            <div className="relative z-10 flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/20 ring-2 ring-background animate-pulse">
                                 <Rocket className="w-3.5 h-3.5" />
                             </div>
                             <div className="flex items-center gap-2">
                                 <div>
                                     <div className="text-xs font-bold text-foreground">Delivery</div>
-                                    <div className="text-[10px] text-green-600 font-medium">Ready in 24h</div>
+                                    <div className="text-[10px] text-primary font-medium">Ready in 24h</div>
                                 </div>
                             </div>
                         </div>
