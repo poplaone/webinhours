@@ -9,12 +9,12 @@ export const InsightsSidebar = () => {
   const navigate = useNavigate();
 
   return (
-    <Card className="border border-border/40 bg-card/50 backdrop-blur h-fit">
+    <Card className="border border-border/40 bg-transparent backdrop-blur h-fit">
       <div className="p-4 lg:p-5 xl:p-6 border-b border-border/40 flex items-center gap-2">
-        <Brain className="h-5 w-5 lg:h-6 lg:w-6 text-[#8B5CF6]" />
+        <Brain className="h-5 w-5 lg:h-6 lg:w-6 text-primary" />
         <h3 className="font-semibold text-sm lg:text-base xl:text-lg">Marketplace Insights</h3>
       </div>
-      
+
       <CardContent className="p-4 lg:p-5 xl:p-6">
         <div className="space-y-4 lg:space-y-5 xl:space-y-6">
           <div>
@@ -26,7 +26,7 @@ export const InsightsSidebar = () => {
               E-commerce and SaaS templates are trending this month, with high demand from customers seeking modern, responsive designs.
             </p>
           </div>
-          
+
           <div>
             <h4 className="text-sm lg:text-base font-medium mb-2 lg:mb-3 flex items-center gap-1.5">
               <BarChart3 className="h-4 w-4 lg:h-5 lg:w-5 text-[#8B5CF6]" />
@@ -36,7 +36,7 @@ export const InsightsSidebar = () => {
               Portfolio and landing page templates show consistent high demand with excellent ratings from customers and developers.
             </p>
           </div>
-          
+
           <div className="pt-3 lg:pt-4 border-t border-border/40">
             <h4 className="text-sm lg:text-base font-medium mb-3 lg:mb-4">Featured This Week</h4>
             <ul className="space-y-3 lg:space-y-4">

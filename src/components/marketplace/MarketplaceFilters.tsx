@@ -77,7 +77,7 @@ export const MarketplaceFilters = ({
   ], []);
 
   // Get current filter labels for display
-  const selectedCategoryLabel = useMemo(() => 
+  const selectedCategoryLabel = useMemo(() =>
     categories.find(cat => cat.id === selectedCategory)?.name || 'All',
     [categories, selectedCategory]
   );
@@ -88,16 +88,16 @@ export const MarketplaceFilters = ({
   }, [sortBy, sortOptions]);
 
   return (
-    <div className="bg-card/50 backdrop-blur rounded-xl border border-border/40 p-4 px-[23px] py-[10px] mx-[3px]">
+    <div className="bg-transparent border border-border/40 p-4 px-[23px] py-[10px] mx-[3px]">
       {/* Desktop Layout */}
       <div className="hidden sm:flex gap-4 items-center flex-wrap">
         <div className="relative flex-1 min-w-[240px]">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input 
-            placeholder="Search websites..." 
-            value={localSearchTerm} 
-            onChange={handleSearchChange} 
-            className="pl-10" 
+          <Input
+            placeholder="Search websites..."
+            value={localSearchTerm}
+            onChange={handleSearchChange}
+            className="pl-10"
           />
         </div>
 
@@ -139,21 +139,21 @@ export const MarketplaceFilters = ({
           {/* Search Bar - More compact */}
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input 
-              placeholder="Search websites..." 
-              value={localSearchTerm} 
-              onChange={handleSearchChange} 
-              className="pl-9 pr-3 h-9 text-sm" 
+            <Input
+              placeholder="Search websites..."
+              value={localSearchTerm}
+              onChange={handleSearchChange}
+              className="pl-9 pr-3 h-9 text-sm"
             />
           </div>
 
           {/* Mobile Filter Button */}
           <Sheet open={isFiltersOpen} onOpenChange={setIsFiltersOpen}>
             <SheetTrigger asChild>
-              <Button 
-                variant="outline" 
-                size="icon" 
-                className="shrink-0 w-9 h-9 p-0 flex items-center justify-center" 
+              <Button
+                variant="outline"
+                size="icon"
+                className="shrink-0 w-9 h-9 p-0 flex items-center justify-center"
                 aria-label="Filters"
               >
                 <Filter className="h-4 w-4" />
@@ -162,27 +162,27 @@ export const MarketplaceFilters = ({
             <SheetContent side="bottom" className="h-[85vh] rounded-t-2xl px-4 pt-6 pb-8">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-semibold">Filter & Sort</h3>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={handleFilterClose} 
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleFilterClose}
                   className="text-muted-foreground"
                 >
                   Done
                 </Button>
               </div>
-              
+
               <div className="space-y-6 overflow-y-auto max-h-[calc(85vh-100px)] pr-2 -mr-2">
                 {/* Category Filter */}
                 <div>
                   <h4 className="text-sm font-medium mb-3">Category</h4>
                   <div className="grid grid-cols-2 gap-2">
                     {categories.map(category => (
-                      <Button 
-                        key={category.id} 
-                        variant={selectedCategory === category.id ? 'default' : 'outline'} 
-                        size="sm" 
-                        className={`justify-start h-auto py-1.5 px-3 text-left text-sm font-normal ${selectedCategory === category.id ? 'bg-primary/90' : ''}`} 
+                      <Button
+                        key={category.id}
+                        variant={selectedCategory === category.id ? 'default' : 'outline'}
+                        size="sm"
+                        className={`justify-start h-auto py-1.5 px-3 text-left text-sm font-normal ${selectedCategory === category.id ? 'bg-primary/90' : ''}`}
                         onClick={() => handleCategoryChange(category.id)}
                       >
                         <span className="truncate">{category.name}</span>
@@ -197,11 +197,11 @@ export const MarketplaceFilters = ({
                   <h4 className="text-sm font-medium mb-3">Sort By</h4>
                   <div className="space-y-2">
                     {sortOptions.map(option => (
-                      <Button 
-                        key={option.value} 
-                        variant={sortBy === option.value ? 'secondary' : 'ghost'} 
-                        size="sm" 
-                        className={`w-full justify-start ${sortBy === option.value ? 'bg-secondary/80' : ''}`} 
+                      <Button
+                        key={option.value}
+                        variant={sortBy === option.value ? 'secondary' : 'ghost'}
+                        size="sm"
+                        className={`w-full justify-start ${sortBy === option.value ? 'bg-secondary/80' : ''}`}
                         onClick={() => handleSortChange(option.value)}
                       >
                         {sortBy === option.value && (

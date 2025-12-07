@@ -136,7 +136,7 @@ export default function Pricing() {
         keywords="free website design, premium website services, content creation pricing, PR services cost, social media management pricing, website customization"
         canonicalUrl="https://webinhours.com/pricing"
       />
-      
+
       {/* GEO-Optimized Pricing Schema */}
       <GEOStructuredData pageType="pricing" />
 
@@ -157,7 +157,7 @@ export default function Pricing() {
           {/* Pricing Cards */}
           <div className="grid md:grid-cols-3 gap-8 mb-16">
             {plans.map((plan, index) => (
-              <Card key={index} className={`relative ${plan.popular ? 'border-purple-500 border-2 scale-105' : ''}`}>
+              <Card key={index} className={`relative bg-white/5 backdrop-blur-md ${plan.popular ? 'border-purple-500 border-2 scale-105 shadow-xl shadow-purple-500/10' : 'border-border/50 hover:border-purple-500/50'}`}>
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                     <Badge className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
@@ -218,7 +218,7 @@ export default function Pricing() {
           </div>
 
           {/* Add-ons Section */}
-          <Card className="mb-16">
+          <Card className="mb-16 bg-white/5 backdrop-blur-md border border-border/50">
             <CardHeader>
               <CardTitle className="text-center text-2xl">Add-On Services</CardTitle>
               <p className="text-center text-gray-600">Enhance your website with additional features</p>
@@ -226,7 +226,7 @@ export default function Pricing() {
             <CardContent>
               <div className="grid md:grid-cols-3 gap-4">
                 {addOns.map((addon, index) => (
-                  <div key={index} className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+                  <div key={index} className="flex justify-between items-center p-4 bg-white/5 rounded-lg border border-white/10">
                     <span className="font-medium">{addon.name}</span>
                     <Badge variant="secondary">{addon.price}</Badge>
                   </div>
@@ -236,7 +236,7 @@ export default function Pricing() {
           </Card>
 
           {/* Marketplace Section */}
-          <Card className="mb-16 bg-gradient-to-r from-green-50 to-blue-50">
+          <Card className="mb-16 bg-gradient-to-r from-green-500/5 to-blue-500/5 backdrop-blur-md border border-border/50">
             <CardHeader className="text-center">
               <CardTitle className="text-2xl flex items-center justify-center">
                 <Users className="h-6 w-6 mr-2 text-green-600" />
@@ -250,7 +250,7 @@ export default function Pricing() {
                   <p className="text-gray-600 mb-4">
                     Access premium templates and custom websites from talented independent developers.
                   </p>
-                  <div className="bg-white p-4 rounded-lg">
+                  <div className="bg-white/10 p-4 rounded-lg border border-white/10">
                     <div className="text-2xl font-bold text-green-600">$19-$299</div>
                     <p className="text-sm text-gray-600">Template range</p>
                   </div>
@@ -260,7 +260,7 @@ export default function Pricing() {
                   <p className="text-gray-600 mb-4">
                     Earn money by selling your templates and custom websites on our platform.
                   </p>
-                  <div className="bg-white p-4 rounded-lg">
+                  <div className="bg-white/10 p-4 rounded-lg border border-white/10">
                     <div className="text-2xl font-bold text-purple-600">70%</div>
                     <p className="text-sm text-gray-600">Revenue share</p>
                   </div>
@@ -270,7 +270,7 @@ export default function Pricing() {
           </Card>
 
           {/* FAQ Section */}
-          <Card>
+          <Card className="bg-white/5 backdrop-blur-md border border-border/50">
             <CardHeader>
               <CardTitle className="text-center text-2xl">Frequently Asked Questions</CardTitle>
             </CardHeader>

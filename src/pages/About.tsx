@@ -29,28 +29,28 @@ export default function About() {
 
           {/* Stats Section */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
-            <Card className="text-center">
+            <Card className="text-center bg-white/5 backdrop-blur-md border-border/50">
               <CardContent className="pt-6">
                 <Clock className="h-8 w-8 text-purple-600 mx-auto mb-3" />
                 <div className="text-3xl font-bold text-gray-900">2-24h</div>
                 <p className="text-gray-600">Average Delivery</p>
               </CardContent>
             </Card>
-            <Card className="text-center">
+            <Card className="text-center bg-white/5 backdrop-blur-md border-border/50">
               <CardContent className="pt-6">
                 <Users className="h-8 w-8 text-blue-600 mx-auto mb-3" />
                 <div className="text-3xl font-bold text-gray-900">500+</div>
                 <p className="text-gray-600">Happy Clients</p>
               </CardContent>
             </Card>
-            <Card className="text-center">
+            <Card className="text-center bg-white/5 backdrop-blur-md border-border/50">
               <CardContent className="pt-6">
                 <Star className="h-8 w-8 text-yellow-600 mx-auto mb-3" />
                 <div className="text-3xl font-bold text-gray-900">4.9/5</div>
                 <p className="text-gray-600">Customer Rating</p>
               </CardContent>
             </Card>
-            <Card className="text-center">
+            <Card className="text-center bg-white/5 backdrop-blur-md border-border/50">
               <CardContent className="pt-6">
                 <Zap className="h-8 w-8 text-green-600 mx-auto mb-3" />
                 <div className="text-3xl font-bold text-gray-900">100+</div>
@@ -76,7 +76,7 @@ export default function About() {
                 creating a thriving marketplace of high-quality web solutions.
               </p>
             </div>
-            <Card>
+            <Card className="bg-white/5 backdrop-blur-md border-border/50">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Heart className="h-5 w-5 text-red-500 mr-2" />
@@ -110,14 +110,14 @@ export default function About() {
           </div>
 
           {/* How We're Different */}
-          <Card className="mb-16">
+          <Card className="mb-16 bg-white/5 backdrop-blur-md border-border/50">
             <CardHeader>
               <CardTitle className="text-center text-2xl">How We're Different</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-3 gap-8">
                 <div className="text-center">
-                  <div className="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <div className="bg-purple-500/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                     <Zap className="h-8 w-8 text-purple-600" />
                   </div>
                   <h3 className="font-semibold mb-2">Rapid Development</h3>
@@ -126,7 +126,7 @@ export default function About() {
                   </p>
                 </div>
                 <div className="text-center">
-                  <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <div className="bg-blue-500/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                     <Star className="h-8 w-8 text-blue-600" />
                   </div>
                   <h3 className="font-semibold mb-2">Premium Quality</h3>
@@ -135,7 +135,7 @@ export default function About() {
                   </p>
                 </div>
                 <div className="text-center">
-                  <div className="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <div className="bg-green-500/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                     <Users className="h-8 w-8 text-green-600" />
                   </div>
                   <h3 className="font-semibold mb-2">Marketplace Community</h3>

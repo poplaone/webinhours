@@ -19,10 +19,10 @@ interface TemplateGridProps {
 }
 
 // Memoized template card component
-const TemplateCard = memo<{template: Website; onClick: (t: Website) => void; onHover?: (t: Website) => void; onTouchStart?: (t: Website) => void;}>(({ template, onClick, onHover, onTouchStart }) => {
+const TemplateCard = memo<{ template: Website; onClick: (t: Website) => void; onHover?: (t: Website) => void; onTouchStart?: (t: Website) => void; }>(({ template, onClick, onHover, onTouchStart }) => {
   const imgRef = useRef<HTMLImageElement>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
-  
+
   // Glassmorphism effect styles - keeping the shimmer glass effect
   const glassEffect = 'bg-transparent border border-white/20 dark:border-white/10 relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/40 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300';
 
@@ -89,8 +89,8 @@ const TemplateCard = memo<{template: Website; onClick: (t: Website) => void; onH
         </div>
         <div className="flex flex-wrap gap-1.5 mb-3">
           {template.tags && template.tags.slice(0, 3).map((tag: string) => (
-            <Badge 
-              key={tag} 
+            <Badge
+              key={tag}
               className="text-[10px] px-2 py-0.5 rounded-full bg-background/10 text-foreground/80 hover:bg-background/20 transition-colors border border-border/10 backdrop-blur-sm"
             >
               {tag}
@@ -112,7 +112,7 @@ const LoadingSkeleton = memo(() => (
     columnClassName="masonry-col"
   >
     {Array.from({ length: 6 }).map((_, i) => (
-      <Card key={i} className="mb-5 animate-pulse rounded-2xl border-2 border-transparent bg-gradient-to-br from-[#f5f3ff] to-[#e0e7ff] break-inside-avoid">
+      <Card key={i} className="mb-5 animate-pulse rounded-2xl border-2 border-white/10 bg-white/5 break-inside-avoid">
         <div className="h-52 md:h-64 bg-gray-200 rounded-t-2xl"></div>
         <CardContent className="p-5">
           <div className="h-5 bg-gray-200 rounded mb-3"></div>
@@ -130,7 +130,7 @@ const LoadingSkeleton = memo(() => (
 LoadingSkeleton.displayName = 'LoadingSkeleton';
 
 // Memoized empty state
-const EmptyState = memo<{onRefresh: () => void; onNavigate: () => void}>(({ onRefresh, onNavigate }) => (
+const EmptyState = memo<{ onRefresh: () => void; onNavigate: () => void }>(({ onRefresh, onNavigate }) => (
   <div className="col-span-full text-center py-8 md:py-12 lg:py-16">
     <div className="max-w-md mx-auto">
       <div className="w-16 h-16 lg:w-20 lg:h-20 mx-auto mb-4 bg-[#8B5CF6]/10 rounded-full flex items-center justify-center">
@@ -141,7 +141,7 @@ const EmptyState = memo<{onRefresh: () => void; onNavigate: () => void}>(({ onRe
         Try adjusting your search or filters to find what you're looking for
       </p>
       <div className="flex gap-3 justify-center">
-        <Button 
+        <Button
           variant="outline"
           onClick={onRefresh}
           size="sm"
@@ -149,7 +149,7 @@ const EmptyState = memo<{onRefresh: () => void; onNavigate: () => void}>(({ onRe
         >
           Refresh
         </Button>
-        <Button 
+        <Button
           className="bg-[#8B5CF6] hover:bg-[#7C3AED] lg:px-6 lg:py-3"
           onClick={onNavigate}
           size="sm"

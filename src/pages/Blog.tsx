@@ -193,7 +193,7 @@ const BlogCard = ({ post, index, featured = false }: { post: BlogPost; index: nu
       className={featured ? "md:col-span-2 lg:col-span-2" : ""}
     >
       <Link to={`/blog/${post.slug}`}>
-        <Card className="h-full bg-card/60 backdrop-blur-md border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 overflow-hidden group">
+        <Card className="h-full bg-white/5 backdrop-blur-md border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 overflow-hidden group">
           {/* Image */}
           <div className={`relative overflow-hidden ${featured ? "h-64 md:h-80" : "h-48"}`}>
             <img
@@ -387,7 +387,7 @@ const Blog = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="mt-16 text-center bg-card/60 backdrop-blur-md border border-border/50 rounded-2xl p-8 md:p-12"
+            className="mt-16 text-center bg-white/5 backdrop-blur-md border border-border/50 rounded-2xl p-8 md:p-12"
             aria-labelledby="newsletter-heading"
           >
             <h2 id="newsletter-heading" className="text-2xl md:text-3xl font-bold mb-4 text-foreground">

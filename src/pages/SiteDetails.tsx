@@ -79,14 +79,14 @@ const SiteDetails = () => {
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 min-h-[calc(100vh-200px)]">
             <div className="lg:col-span-2">
-              <Card className="h-full">
+              <Card className="h-full bg-white/5 backdrop-blur-md border-border/50">
                 <CardContent className="p-0 h-full">
                   <div className="h-full min-h-[500px] bg-gray-800/20 animate-pulse rounded-lg" />
                 </CardContent>
               </Card>
             </div>
             <div className="space-y-6">
-              <Card>
+              <Card className="bg-white/5 backdrop-blur-md border-border/50">
                 <CardHeader>
                   <div className="h-6 w-48 bg-gray-800/30 rounded animate-pulse" />
                 </CardHeader>
@@ -112,7 +112,7 @@ const SiteDetails = () => {
     return (
       <AppLayout>
         <div className="container mx-auto p-6 pb-20 flex items-center justify-center min-h-[50vh] relative z-10">
-          <Card className="p-8 text-center">
+          <Card className="p-8 text-center bg-white/5 backdrop-blur-md border-border/50">
             <h2 className="text-2xl font-bold mb-4">Site Not Found</h2>
             <p className="text-muted-foreground mb-4">The requested site could not be found.</p>
             <Button onClick={handleBackToMarketplace}>
@@ -160,7 +160,7 @@ const SiteDetails = () => {
 
         <div className={`grid grid-cols-1 ${isMobile ? 'gap-4' : 'lg:grid-cols-3 gap-6'} min-h-[calc(100vh-200px)]`}>
           <div className={isMobile ? '' : 'lg:col-span-2'}>
-            <Card className="h-full relative overflow-hidden">
+            <Card className="h-full relative overflow-hidden bg-white/5 backdrop-blur-md border-border/50">
               <CardContent className="p-0 h-full">
                 <div className={`h-full ${isMobile ? 'min-h-[300px]' : 'min-h-[500px]'} overflow-hidden rounded-lg relative group`}>
                   <img
@@ -205,7 +205,7 @@ const SiteDetails = () => {
           </div>
 
           <div className="space-y-6">
-            <Card>
+            <Card className="bg-white/5 backdrop-blur-md border-border/50">
               <CardHeader>
                 <CardTitle>About This Template</CardTitle>
               </CardHeader>
@@ -266,7 +266,7 @@ const SiteDetails = () => {
               </div>
             )}
 
-            <Card>
+            <Card className="bg-white/5 backdrop-blur-md border-border/50">
               <CardHeader>
                 <CardTitle>Tech & Tags</CardTitle>
               </CardHeader>

@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-// import { Progress } from '@/components/ui/progress'; // Removed unused
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
 import {
   Calculator as CalculatorIcon,
-  Clock,
   DollarSign,
   CheckCircle,
   Globe,
@@ -261,7 +259,7 @@ const Calculator = () => {
                         "relative p-6 rounded-xl border-2 cursor-pointer transition-all duration-200",
                         isSelected
                           ? "border-primary bg-primary/5 shadow-sm"
-                          : "border-muted bg-card hover:border-primary/50"
+                          : "border-muted bg-transparent hover:border-primary/50"
                       )}
                       onClick={() => setSelectedType(type.id)}
                     >
@@ -311,7 +309,7 @@ const Calculator = () => {
                           "group p-4 rounded-lg border cursor-pointer transition-all duration-200",
                           isSelected
                             ? "border-primary bg-primary/5"
-                            : "border-muted bg-card hover:border-primary/50"
+                            : "border-muted bg-transparent hover:border-primary/50"
                         )}
                         onClick={() => handleFeatureToggle(feature.id)}
                       >
@@ -357,7 +355,7 @@ const Calculator = () => {
                           "group p-4 rounded-lg border cursor-pointer transition-all duration-200 text-center",
                           isSelected
                             ? "border-primary bg-primary/5"
-                            : "border-muted bg-card hover:border-primary/50"
+                            : "border-muted bg-transparent hover:border-primary/50"
                         )}
                         onClick={() => setTimeline(option.value)}
                       >
@@ -382,7 +380,7 @@ const Calculator = () => {
           <div className="hidden lg:block lg:col-span-1">
             <div className="sticky top-24">
               <Card className="border border-border shadow-md overflow-hidden">
-                <div className="bg-muted/50 p-4 border-b border-border">
+                <div className="bg-white/5 backdrop-blur-sm p-4 border-b border-border">
                   <CardTitle className="flex items-center gap-2 text-lg">
                     <DollarSign className="h-5 w-5 text-primary" />
                     Estimated Cost
@@ -474,7 +472,7 @@ const Calculator = () => {
       </div>
 
       {/* Mobile Fixed Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border p-4 lg:hidden shadow-[0_-4px_12px_-5px_rgba(0,0,0,0.1)] z-50 animate-in slide-in-from-bottom transition-all">
+      <div className="fixed bottom-0 left-0 right-0 bg-background/20 backdrop-blur-md border-t border-border p-4 lg:hidden shadow-[0_-4px_12px_-5px_rgba(0,0,0,0.1)] z-50 animate-in slide-in-from-bottom transition-all">
         <div className="container mx-auto max-w-7xl flex items-center justify-between gap-4">
           <div className="flex flex-col">
             <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Estimated Total</span>

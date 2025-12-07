@@ -61,7 +61,7 @@ const OptionCard: React.FC<OptionCardProps> = ({ label, description, selected, o
       "relative p-4 rounded-lg border text-left transition-colors duration-200",
       selected
         ? "border-primary bg-primary/5 text-primary"
-        : "border-border bg-card hover:border-primary/50 hover:bg-accent/50"
+        : "border-border bg-transparent hover:border-primary/50 hover:bg-primary/5"
     )}
   >
     <div className="flex items-start justify-between gap-3">
@@ -247,7 +247,7 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
           </div>
 
           {/* Form Card */}
-          <Card className="border border-border/50 shadow-sm bg-card">
+          <Card className="border border-border/50 shadow-sm bg-white/5 backdrop-blur-md">
             <CardContent className="p-6 md:p-8">
               <form onSubmit={handleSubmit}>
                 {/* Step 1: Services */}

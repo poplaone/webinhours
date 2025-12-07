@@ -81,7 +81,7 @@ export default function FAQ() {
   ];
 
   // Flatten FAQs for GEO structured data
-  const allFaqsForSchema = faqs.flatMap(category => 
+  const allFaqsForSchema = faqs.flatMap(category =>
     category.questions.map(q => ({
       question: q.question,
       answer: q.answer
@@ -96,7 +96,7 @@ export default function FAQ() {
         keywords="free website FAQ, website design questions, premium services questions, content creation help, website setup support"
         canonicalUrl="https://webinhours.com/faq"
       />
-      
+
       {/* GEO-Optimized FAQ Schema */}
       <GEOStructuredData pageType="faq" faqs={allFaqsForSchema} />
 
@@ -116,7 +116,7 @@ export default function FAQ() {
           {/* FAQ Categories */}
           <div className="space-y-8">
             {faqs.map((category, categoryIndex) => (
-              <Card key={categoryIndex}>
+              <Card key={categoryIndex} className="bg-white/5 backdrop-blur-md border-border/50">
                 <CardHeader>
                   <CardTitle className="flex items-center text-2xl">
                     <HelpCircle className="h-6 w-6 mr-3 text-purple-600" />
@@ -142,7 +142,7 @@ export default function FAQ() {
           </div>
 
           {/* Contact CTA */}
-          <Card className="mt-16 bg-gradient-to-r from-purple-50 to-blue-50">
+          <Card className="mt-16 bg-gradient-to-r from-purple-500/5 to-blue-500/5 backdrop-blur-md border-border/50">
             <CardContent className="text-center py-12">
               <h2 className="text-2xl font-bold mb-4">Still Have Questions?</h2>
               <p className="text-gray-600 mb-6">

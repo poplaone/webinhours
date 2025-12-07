@@ -87,94 +87,94 @@ export const FeaturedSidebar: React.FC = () => {
       className="w-full"
     >
       <div className="flex flex-col items-center space-y-6 pb-6">
-          {/* Featured Templates */}
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
-            <Card className="bg-transparent border-0 shadow-none rounded-2xl w-full max-w-[340px]">
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center text-lg text-[#6c63ff]">
-                  <Crown className="w-5 h-5 mr-2 text-[#6c63ff]" />
-                  Featured Templates
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                {featuredTemplates.map((template, index) => (
-                  <motion.div key={template.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 * index }} className="flex items-center justify-between p-2 rounded-lg hover:bg-[#ececff] cursor-pointer group transition-colors">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-8 h-8 bg-gradient-to-br from-[#6c63ff] to-[#8b7fff] rounded-lg flex items-center justify-center">
-                        <span className="text-white text-xs font-bold">{template.title.charAt(0)}</span>
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-sm group-hover:text-[#6c63ff] transition-colors font-medium">{template.title}</span>
-                        <div className="flex items-center space-x-1">
-                          <Star className="w-3 h-3 text-yellow-400 fill-current" />
-                          <span className="text-xs text-gray-600">{template.rating}</span>
-                        </div>
+        {/* Featured Templates */}
+        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
+          <Card className="bg-transparent border-0 shadow-none rounded-2xl w-full max-w-[340px]">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center text-lg text-primary">
+                <Crown className="w-5 h-5 mr-2 text-primary" />
+                Featured Templates
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              {featuredTemplates.map((template, index) => (
+                <motion.div key={template.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 * index }} className="flex items-center justify-between p-2 rounded-lg hover:bg-primary/5 cursor-pointer group transition-colors">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-8 h-8 bg-gradient-to-br from-primary to-purple-600 rounded-lg flex items-center justify-center">
+                      <span className="text-white text-xs font-bold">{template.title.charAt(0)}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-sm group-hover:text-primary transition-colors font-medium">{template.title}</span>
+                      <div className="flex items-center space-x-1">
+                        <Star className="w-3 h-3 text-yellow-400 fill-current" />
+                        <span className="text-xs text-muted-foreground">{template.rating}</span>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <Badge variant="secondary" className="text-xs px-2 py-0 h-5 bg-[#e0e0ff] text-[#6c63ff]">${template.price}</Badge>
-                      <span className="text-xs text-gray-400">{template.downloads}</span>
-                    </div>
-                  </motion.div>
-                ))}
-              </CardContent>
-            </Card>
-          </motion.div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Badge variant="secondary" className="text-xs px-2 py-0 h-5 bg-primary/10 text-primary">${template.price}</Badge>
+                    <span className="text-xs text-muted-foreground">{template.downloads}</span>
+                  </div>
+                </motion.div>
+              ))}
+            </CardContent>
+          </Card>
+        </motion.div>
 
-          {/* Trending Searches */}
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
-            <Card className="bg-transparent border-0 shadow-none rounded-2xl w-full max-w-[340px]">
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center text-lg text-[#6c63ff]">
-                  <TrendingUp className="w-5 h-5 mr-2 text-[#6c63ff]" />
-                  Trending Searches
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                {trendingSearches.map((search, index) => (
-                  <motion.div key={search.term} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 * index }} className="flex items-center justify-between p-2 rounded-lg hover:bg-[#ececff] cursor-pointer group transition-colors">
-                    <div className="flex items-center space-x-2">
-                      <Search className="w-3 h-3 text-[#6c63ff]" />
-                      <span className="text-sm group-hover:text-[#6c63ff] transition-colors">{search.term}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Badge variant="secondary" className="text-xs px-2 py-0 h-5 bg-[#e0e0ff] text-[#6c63ff]">+{search.growth}%</Badge>
-                      <span className="text-xs text-gray-400">{search.count}</span>
-                    </div>
-                  </motion.div>
-                ))}
-              </CardContent>
-            </Card>
-          </motion.div>
+        {/* Trending Searches */}
+        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
+          <Card className="bg-transparent border-0 shadow-none rounded-2xl w-full max-w-[340px]">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center text-lg text-primary">
+                <TrendingUp className="w-5 h-5 mr-2 text-primary" />
+                Trending Searches
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              {trendingSearches.map((search, index) => (
+                <motion.div key={search.term} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 * index }} className="flex items-center justify-between p-2 rounded-lg hover:bg-primary/5 cursor-pointer group transition-colors">
+                  <div className="flex items-center space-x-2">
+                    <Search className="w-3 h-3 text-primary" />
+                    <span className="text-sm group-hover:text-primary transition-colors">{search.term}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Badge variant="secondary" className="text-xs px-2 py-0 h-5 bg-primary/10 text-primary">+{search.growth}%</Badge>
+                    <span className="text-xs text-muted-foreground">{search.count}</span>
+                  </div>
+                </motion.div>
+              ))}
+            </CardContent>
+          </Card>
+        </motion.div>
 
-          {/* Quick Links */}
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}>
-            <Card className="bg-transparent border-0 shadow-none rounded-2xl w-full max-w-[340px]">
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center text-lg text-[#6c63ff]">
-                  <Zap className="w-5 h-5 mr-2 text-[#6c63ff]" />
-                  Quick Links
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {quickLinks.map((link, index) => (
-                  <motion.div key={link.title} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 * index }}>
-                    <Button variant="ghost" className="w-full justify-start p-3 h-auto hover:bg-[#ececff] group text-[#6c63ff]">
-                      <div className={`w-8 h-8 rounded-lg bg-gradient-to-r from-[#e0e0ff] to-[#c3c3ff] flex items-center justify-center mr-3 group-hover:scale-110 transition-transform`}>
-                        {link.icon}
-                      </div>
-                      <div className="text-left">
-                        <p className="font-medium text-sm">{link.title}</p>
-                        <p className="text-xs text-gray-500">{link.description}</p>
-                      </div>
-                      <ArrowRight className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </Button>
-                  </motion.div>
-                ))}
-              </CardContent>
-            </Card>
-          </motion.div>
-        </div>
+        {/* Quick Links */}
+        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}>
+          <Card className="bg-transparent border-0 shadow-none rounded-2xl w-full max-w-[340px]">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center text-lg text-primary">
+                <Zap className="w-5 h-5 mr-2 text-primary" />
+                Quick Links
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {quickLinks.map((link, index) => (
+                <motion.div key={link.title} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 * index }}>
+                  <Button variant="ghost" className="w-full justify-start p-3 h-auto hover:bg-primary/5 group text-primary">
+                    <div className={`w-8 h-8 rounded-lg bg-gradient-to-r from-primary/10 to-purple-500/10 flex items-center justify-center mr-3 group-hover:scale-110 transition-transform`}>
+                      {link.icon}
+                    </div>
+                    <div className="text-left">
+                      <p className="font-medium text-sm">{link.title}</p>
+                      <p className="text-xs text-muted-foreground">{link.description}</p>
+                    </div>
+                    <ArrowRight className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Button>
+                </motion.div>
+              ))}
+            </CardContent>
+          </Card>
+        </motion.div>
+      </div>
     </motion.div>
   );
 };

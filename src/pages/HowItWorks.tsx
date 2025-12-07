@@ -70,7 +70,7 @@ export default function HowItWorks() {
                     </div>
                   </div>
 
-                  <Card className="flex-grow">
+                  <Card className="flex-grow bg-white/5 backdrop-blur-md border-border/50">
                     <CardHeader>
                       <CardTitle className="flex items-center text-2xl">
                         <step.icon className="h-6 w-6 mr-3 text-purple-600" />
@@ -101,7 +101,7 @@ export default function HowItWorks() {
           </div>
 
           {/* Marketplace Section */}
-          <Card className="mb-16 bg-gradient-to-r from-purple-50 to-blue-50">
+          <Card className="mb-16 bg-gradient-to-r from-purple-500/5 to-blue-500/5 backdrop-blur-md border-border/50">
             <CardHeader className="text-center">
               <CardTitle className="text-3xl flex items-center justify-center">
                 <Users className="h-8 w-8 mr-3 text-purple-600" />
@@ -138,19 +138,19 @@ export default function HowItWorks() {
                 <div>
                   <h3 className="text-xl font-semibold mb-4">What You Can Sell</h3>
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="text-center p-4 bg-white rounded-lg">
+                    <div className="text-center p-4 bg-white/10 backdrop-blur-md rounded-lg border border-white/10">
                       <Zap className="h-8 w-8 text-purple-600 mx-auto mb-2" />
                       <p className="text-sm font-medium">Website Templates</p>
                     </div>
-                    <div className="text-center p-4 bg-white rounded-lg">
+                    <div className="text-center p-4 bg-white/10 backdrop-blur-md rounded-lg border border-white/10">
                       <Users className="h-8 w-8 text-blue-600 mx-auto mb-2" />
                       <p className="text-sm font-medium">Custom Sites</p>
                     </div>
-                    <div className="text-center p-4 bg-white rounded-lg">
+                    <div className="text-center p-4 bg-white/10 backdrop-blur-md rounded-lg border border-white/10">
                       <MessageCircle className="h-8 w-8 text-green-600 mx-auto mb-2" />
                       <p className="text-sm font-medium">Components</p>
                     </div>
-                    <div className="text-center p-4 bg-white rounded-lg">
+                    <div className="text-center p-4 bg-white/10 backdrop-blur-md rounded-lg border border-white/10">
                       <Rocket className="h-8 w-8 text-red-600 mx-auto mb-2" />
                       <p className="text-sm font-medium">Full Projects</p>
                     </div>
