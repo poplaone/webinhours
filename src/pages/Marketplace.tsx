@@ -4,21 +4,18 @@ import SEOHead from '@/components/seo/SEOHead';
 import GEOStructuredData from '@/components/seo/GEOStructuredData';
 import { GridPattern } from '@/components/ui/GridPattern';
 import { useWebsites } from '@/hooks/useWebsites';
-import { useAIAgents } from '@/hooks/useAIAgents';
 import { Tables } from '@/integrations/supabase/types';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Bot } from 'lucide-react';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
 // Lazy load heavy components
 const MarketplaceFilters = lazy(() => import('@/components/marketplace/MarketplaceFilters').then(m => ({ default: m.MarketplaceFilters })));
 const TemplateGrid = lazy(() => import('@/components/dashboard/TemplateGrid').then(m => ({ default: m.TemplateGrid })));
-const AIAgentInfographicCard = lazy(() => import('@/components/ai-agents/AIAgentInfographicCard').then(m => ({ default: m.AIAgentInfographicCard })));
 const MarketplaceCTA = lazy(() => import('@/components/marketplace/MarketplaceCTA').then(m => ({ default: m.MarketplaceCTA })));
 const AIChatbot = lazy(() => import('@/components/dashboard/AIChatbot').then(m => ({ default: m.AIChatbot })));
-// AnimatedGridBackground removed for better performance
 
 interface Category {
   id: string;
@@ -27,17 +24,11 @@ interface Category {
 }
 
 type Website = Tables<'websites'>;
-type AIAgent = Tables<'ai_agents'>;
 
 const Marketplace: React.FC = () => {
-  // Performance monitoring - temporarily disabled
-  // usePerformanceMonitor('Marketplace');
-  // useRenderPerformance('Marketplace');
-
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('popular');
-  const [activeTab, setActiveTab] = useState<'websites' | 'ai-agents'>('websites');
   const [tagFilter, setTagFilter] = useState<string | null>(null);
 
   const mainContentRef = useRef<HTMLDivElement>(null);
@@ -52,7 +43,6 @@ const Marketplace: React.FC = () => {
       ? window.history.scrollRestoration
       : undefined;
 
-    // Disable browser automatic scroll restoration
     if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
@@ -65,7 +55,6 @@ const Marketplace: React.FC = () => {
       }
     };
 
-    // Reset immediately and after layout/paint to beat late content shifts
     reset();
     const raf = requestAnimationFrame(reset);
     const t0 = setTimeout(reset, 0);
@@ -83,26 +72,22 @@ const Marketplace: React.FC = () => {
     };
   }, [isMobile]);
 
-  // Calculate sticky offset for filters so assistant starts below it
+  // Calculate sticky offset for filters
   useEffect(() => {
-    // Skip offset management on mobile since we use normal page scroll
     if (isMobile || !filtersWrapRef.current) return;
     const root = document.documentElement;
-    const STICKY_TOP_PX = 64; // matches top-16
+    const STICKY_TOP_PX = 64;
 
     const updateOffset = () => {
       if (!filtersWrapRef.current) return;
 
-      // Batch read and write operations to prevent forced reflow
       requestAnimationFrame(() => {
         if (!filtersWrapRef.current) return;
 
-        // Read layout properties
         const rect = filtersWrapRef.current.getBoundingClientRect();
         const height = filtersWrapRef.current.offsetHeight || rect.height || 0;
         const computedOffset = Math.max(0, STICKY_TOP_PX + height);
 
-        // Write to DOM in same frame after reads
         requestAnimationFrame(() => {
           root.style.setProperty('--filters-sticky-offset', `${computedOffset}px`);
         });
@@ -119,18 +104,10 @@ const Marketplace: React.FC = () => {
     };
   }, [filtersWrapRef, isMobile]);
 
-  // Note: post-data scroll reset is declared AFTER data hooks below
+  // Fetch websites data
+  const { data: allMarketplaceWebsites = [], isLoading, refetch: refetchWebsites, error: websitesError } = useWebsites({ includeAll: false });
 
-  // Explicitly request only public marketplace data (approved/featured only)
-  const { data: allMarketplaceWebsites = [], isLoading: isLoadingWebsites, refetch: refetchWebsites, error: websitesError } = useWebsites({ includeAll: false });
-  const { data: allMarketplaceAIAgents = [], isLoading: isLoadingAIAgents, refetch: refetchAIAgents, error: aiAgentsError } = useAIAgents({ includeAll: false, includeMine: true });
-
-
-
-
-  const isLoading = activeTab === 'websites' ? isLoadingWebsites : isLoadingAIAgents;
-
-  // After data loads first time or tab changes, re-assert scroll to top once
+  // After data loads first time, re-assert scroll to top once
   useEffect(() => {
     if (!isLoading && didInitialScrollReset.current) {
       const t = setTimeout(() => {
@@ -142,23 +119,19 @@ const Marketplace: React.FC = () => {
       }, 0);
       return () => clearTimeout(t);
     }
-  }, [isLoading, activeTab, isMobile]);
+  }, [isLoading, isMobile]);
 
   const handleRefresh = useCallback(() => {
-    if (activeTab === 'websites') {
-      refetchWebsites();
-    } else {
-      refetchAIAgents();
-    }
-  }, [activeTab, refetchWebsites, refetchAIAgents]);
+    refetchWebsites();
+  }, [refetchWebsites]);
 
   const handleTagFilter = useCallback((tag: string | null) => {
     setTagFilter(tag);
   }, []);
 
   // Memoized data processing
-  const { allItems, filteredItems, sortedItems, categories } = useMemo(() => {
-    const allItems = (activeTab === 'websites' ? allMarketplaceWebsites : allMarketplaceAIAgents) as (Website | AIAgent)[];
+  const { filteredItems, sortedItems, categories } = useMemo(() => {
+    const allItems = allMarketplaceWebsites as Website[];
 
     // Helpers for robust search
     const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9\s]+/g, ' ').replace(/\s+/g, ' ').trim();
@@ -200,8 +173,8 @@ const Marketplace: React.FC = () => {
     const sortedItems = [...filteredItems].sort((a, b) => {
       switch (sortBy) {
         case 'popular': {
-          const aPopularity = 'downloads_count' in a ? (a as any).downloads_count ?? 0 : ('usage_count' in a ? (a as any).usage_count ?? 0 : 0);
-          const bPopularity = 'downloads_count' in b ? (b as any).downloads_count ?? 0 : ('usage_count' in b ? (b as any).usage_count ?? 0 : 0);
+          const aPopularity = (a as any).downloads_count ?? 0;
+          const bPopularity = (b as any).downloads_count ?? 0;
           return bPopularity - aPopularity;
         }
         case 'newest': {
@@ -213,13 +186,13 @@ const Marketplace: React.FC = () => {
           return bRating - aRating;
         }
         case 'price-low': {
-          const aPrice = (a as any).price ?? (a as any).starting_price ?? Infinity;
-          const bPrice = (b as any).price ?? (b as any).starting_price ?? Infinity;
+          const aPrice = (a as any).price ?? Infinity;
+          const bPrice = (b as any).price ?? Infinity;
           return aPrice - bPrice;
         }
         case 'price-high': {
-          const aPrice = (a as any).price ?? (a as any).starting_price ?? -Infinity;
-          const bPrice = (b as any).price ?? (b as any).starting_price ?? -Infinity;
+          const aPrice = (a as any).price ?? -Infinity;
+          const bPrice = (b as any).price ?? -Infinity;
           return bPrice - aPrice;
         }
         default:
@@ -229,75 +202,21 @@ const Marketplace: React.FC = () => {
 
     const categories: Category[] = [
       { id: 'all', name: 'All', count: allMarketplaceWebsites.length },
-      ...Array.from(new Set(allMarketplaceWebsites.map(t => t.category))).map((cat, index) => ({
+      ...Array.from(new Set(allMarketplaceWebsites.map(t => t.category))).map((cat) => ({
         id: cat,
         name: cat,
         count: allMarketplaceWebsites.filter(t => t.category === cat).length
       }))
     ];
 
-    return { allItems, filteredItems, sortedItems, categories };
-  }, [activeTab, allMarketplaceWebsites, allMarketplaceAIAgents, selectedCategory, searchTerm, tagFilter, sortBy]);
-
-  // Fallback: 12 dummy AI agents when no data exists
-  const dummyAIAgents: AIAgent[] = useMemo(() => (
-    Array.from({ length: 12 }).map((_, i) => {
-      const presets = [
-        { title: 'ShopBot Assistant', category: 'ecommerce', agent_type: 'automation', tags: ['shop', 'cart', 'retail'] },
-        { title: 'Portfolio Curator', category: 'portfolio', agent_type: 'creative', tags: ['design', 'showcase', 'ui'] },
-        { title: 'BizOps Advisor', category: 'business', agent_type: 'assistant', tags: ['crm', 'sales', 'ops'] },
-        { title: 'Blog Content Wizard', category: 'blog', agent_type: 'copywriter', tags: ['article', 'seo', 'geo', 'news'] },
-        { title: 'SaaS Launch Copilot', category: 'landing', agent_type: 'growth', tags: ['saas', 'startup', 'launch'] },
-        { title: 'Support Chat Agent', category: 'support', agent_type: 'chatbot', tags: ['inbox', 'support', 'message'] },
-        { title: 'Analytics Reporter', category: 'analytics', agent_type: 'reporting', tags: ['kpi', 'metrics', 'charts'] },
-        { title: 'Security Sentinel', category: 'security', agent_type: 'monitor', tags: ['shield', 'guard', 'auth'] },
-        { title: 'Global SEO & GEO Scout', category: 'marketing', agent_type: 'seo', tags: ['traffic', 'keywords', 'geo', 'intl'] },
-        { title: 'Dev Automator', category: 'developer', agent_type: 'automation', tags: ['code', 'github', 'pipeline'] },
-        { title: 'Brand Design Helper', category: 'design', agent_type: 'assistant', tags: ['logo', 'brand', 'assets'] },
-        { title: 'Magic Optimizer', category: 'utilities', agent_type: 'optimizer', tags: ['enhance', 'wizard', 'auto'] }
-      ];
-      const p = presets[i % presets.length];
-      const now = new Date().toISOString();
-      return {
-        id: `dummy-${i + 1}` as any,
-        user_id: 'system' as any,
-        title: p.title,
-        description: `Infographic AI agent for ${p.category} use-cases. No image, glass card, themed icon.`,
-        category: p.category,
-        tags: p.tags,
-        price: 0 as any,
-        preview_url: '#',
-        demo_url: '#',
-        thumbnail_url: undefined,
-        images: [],
-        technologies: ['AI', 'Automation'],
-        features: ['Fast', 'Configurable', 'Reliable'],
-        inclusions: [],
-        agent_type: p.agent_type,
-        model_info: null,
-        use_cases: [p.category, ...p.tags],
-        status: 'live' as any,
-        is_featured: i % 5 === 0,
-        views_count: Math.floor(Math.random() * 500),
-        usage_count: Math.floor(Math.random() * 200),
-        rating_average: 4 + (Math.random() * 1),
-        rating_count: Math.floor(Math.random() * 100),
-        created_at: now,
-        updated_at: now,
-        featured_at: undefined,
-        approved_at: now,
-        profiles: { full_name: 'WebInHour', avatar_url: undefined }
-      } as unknown as AIAgent;
-    })
-  ), []);
+    return { filteredItems, sortedItems, categories };
+  }, [allMarketplaceWebsites, selectedCategory, searchTerm, tagFilter, sortBy]);
 
   // Memoized stats
-  const { totalWebsites, totalDownloads, totalAIAgents, totalUsage } = useMemo(() => ({
+  const { totalWebsites, totalDownloads } = useMemo(() => ({
     totalWebsites: allMarketplaceWebsites.length,
     totalDownloads: allMarketplaceWebsites.reduce((sum, w) => sum + (w.downloads_count || 0), 0),
-    totalAIAgents: allMarketplaceAIAgents.length,
-    totalUsage: allMarketplaceAIAgents.reduce((sum, a) => sum + (a.usage_count || 0), 0)
-  }), [allMarketplaceWebsites, allMarketplaceAIAgents]);
+  }), [allMarketplaceWebsites]);
 
   return (
     <AppLayout className="bg-home-glow">
@@ -328,8 +247,6 @@ const Marketplace: React.FC = () => {
                   sortBy={sortBy}
                   setSortBy={setSortBy}
                   categories={categories}
-                  activeTab={activeTab}
-                  setActiveTab={setActiveTab}
                 />
               </Suspense>
             </div>
@@ -360,8 +277,6 @@ const Marketplace: React.FC = () => {
                             sortBy={sortBy}
                             setSortBy={setSortBy}
                             categories={categories}
-                            activeTab={activeTab}
-                            setActiveTab={setActiveTab}
                           />
                         </Suspense>
                       </TabsContent>
@@ -374,7 +289,6 @@ const Marketplace: React.FC = () => {
                           <div className="max-h-[60vh] overflow-y-auto">
                             <Suspense fallback={<div className="h-40 bg-muted/10 animate-pulse rounded" />}>
                               <AIChatbot onSearch={(q) => {
-                                setActiveTab('websites');
                                 setSelectedCategory('all');
                                 setTagFilter(null);
                                 setSearchTerm(q);
@@ -392,7 +306,6 @@ const Marketplace: React.FC = () => {
           <div className="flex gap-4 xl:gap-6 items-start flex-1">
             {/* Left Sidebar */}
             <div className="hidden xl:block w-[320px] shrink-0">
-              {/* Sticky assistant under filter bar using measured offset */}
               <div
                 className="sticky"
                 style={{
@@ -402,45 +315,23 @@ const Marketplace: React.FC = () => {
                 }}
               >
                 <AIChatbot onSearch={(q) => {
-                  setActiveTab('websites');
                   setSelectedCategory('all');
                   setTagFilter(null);
                   setSearchTerm(q);
                 }} />
               </div>
             </div>
-            {/* Main Content - desktop uses independent scroll; mobile uses page scroll */}
+            {/* Main Content */}
             <div className="flex-1 min-w-0 relative">
-              <div className="absolute inset-0">
-                {/* AnimatedGridBackground removed for better performance */}
-              </div>
+              <div className="absolute inset-0" />
               {isMobile ? (
                 <div className="relative z-10 p-1">
-                  {activeTab === 'websites' ? (
-                    <TemplateGrid
-                      templates={sortedItems as Website[]}
-                      isLoading={isLoading}
-                      onRefresh={handleRefresh}
-                      onTagFilter={handleTagFilter}
-                    />
-                  ) : (
-                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-4">
-                      {isLoading ? (
-                        Array.from({ length: 6 }).map((_, i) => (
-                          <div key={i} className="h-80 bg-gray-200 animate-pulse rounded-lg" />
-                        ))
-                      ) : (
-                        ((sortedItems as AIAgent[]).length > 0 ? (sortedItems as AIAgent[]) : dummyAIAgents).map((agent) => (
-                          <AIAgentInfographicCard
-                            key={agent.id}
-                            agent={agent as any}
-                            onUse={() => { }}
-                            onView={() => { }}
-                          />
-                        ))
-                      )}
-                    </div>
-                  )}
+                  <TemplateGrid
+                    templates={sortedItems as Website[]}
+                    isLoading={isLoading}
+                    onRefresh={handleRefresh}
+                    onTagFilter={handleTagFilter}
+                  />
                   <MarketplaceCTA />
                 </div>
               ) : (
@@ -453,41 +344,19 @@ const Marketplace: React.FC = () => {
                   }}
                 >
                   <div>
-                    {activeTab === 'websites' ? (
-                      <TemplateGrid
-                        templates={sortedItems as Website[]}
-                        isLoading={isLoading}
-                        onRefresh={handleRefresh}
-                        onTagFilter={handleTagFilter}
-                      />
-                    ) : (
-                      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-4">
-                        {isLoading ? (
-                          Array.from({ length: 6 }).map((_, i) => (
-                            <div key={i} className="h-80 bg-gray-200 animate-pulse rounded-lg" />
-                          ))
-                        ) : (
-                          ((sortedItems as AIAgent[]).length > 0 ? (sortedItems as AIAgent[]) : dummyAIAgents).map((agent) => (
-                            <AIAgentInfographicCard
-                              key={agent.id}
-                              agent={agent as any}
-                              onUse={() => { }}
-                              onView={() => { }}
-                            />
-                          ))
-                        )}
-                      </div>
-                    )}
+                    <TemplateGrid
+                      templates={sortedItems as Website[]}
+                      isLoading={isLoading}
+                      onRefresh={handleRefresh}
+                      onTagFilter={handleTagFilter}
+                    />
                   </div>
                   <MarketplaceCTA />
                 </div>
               )}
             </div>
-            {/* Right Sidebar removed per request: Featured/Trending/Quick Links */}
           </div>
         </div>
-
-
       </div>
     </AppLayout>
   );
