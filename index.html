@@ -109,6 +109,10 @@
     <!-- DNS prefetch for faster resource loading -->
     <link rel="dns-prefetch" href="https://cdn.gpteng.co">
     
+    <!-- Preload LCP (Largest Contentful Paint) critical hero images -->
+    <link rel="preload" as="image" href="/assets/card-1.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="/assets/card-4.webp" fetchpriority="high">
+    
     <!-- Preload critical CSS to prevent render-blocking chain -->
     <!-- Vite will inject the actual CSS file during build -->
     
