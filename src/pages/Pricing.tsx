@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
+import GEOStructuredData from '@/components/seo/GEOStructuredData';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -130,10 +131,14 @@ export default function Pricing() {
   return (
     <AppLayout>
       <SEOHead
-        title="Pricing - WebInHour | Free Websites + Premium Services"
+        title="Pricing - WebInHours | Free Websites + Premium Services"
         description="Start with a free professional website design. Pay only for premium services like custom content creation, PR campaigns, and social media management. Transparent pricing, no hidden fees."
         keywords="free website design, premium website services, content creation pricing, PR services cost, social media management pricing, website customization"
+        canonicalUrl="https://webinhours.com/pricing"
       />
+      
+      {/* GEO-Optimized Pricing Schema */}
+      <GEOStructuredData pageType="pricing" />
 
       <div className="pt-24 pb-20 px-4">
         <div className="container mx-auto">
