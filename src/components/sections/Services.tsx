@@ -59,7 +59,7 @@ export const Services = () => {
   return (
     <section
       id="services"
-      className="relative bg-background overflow-hidden"
+      className="relative bg-transparent overflow-hidden"
       aria-labelledby="services-heading"
       itemScope
       itemType="https://schema.org/ItemList"

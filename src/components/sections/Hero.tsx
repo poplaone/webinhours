@@ -11,10 +11,10 @@ export const Hero = () => {
   const navigate = useNavigate();
   useParallaxHero();
   return (
-    <section 
+    <section
       className="relume-hero-section"
       aria-labelledby="hero-heading"
-      itemScope 
+      itemScope
       itemType="https://schema.org/WebPage"
     >
       <div className="relume-hero-container">
@@ -58,39 +58,39 @@ export const Hero = () => {
               <div className="absolute -bottom-1.5 -right-1.5 w-2 h-2 sm:w-3 sm:h-3 bg-primary" />
 
               {/* H1 - Primary keyword optimized for GEO */}
-              <h1 
+              <h1
                 id="hero-heading"
                 className="text-center font-medium tracking-tight leading-tight mb-6 sm:mb-8 xl:text-6xl text-xl text-primary"
                 itemProp="headline"
               >
-                Professional Website Design <br className="hidden md:block" />
-                <span className="text-foreground">& SEO Solutions</span>
+                WebInHour: Elite Digital Presence, <br className="hidden md:block" />
+                <span className="text-foreground">SEO & GEO Solutions.</span>
               </h1>
 
               {/* TL;DR Summary - Answer-First for GEO extraction */}
               <div className="text-center max-w-5xl mx-auto text-muted-foreground" itemProp="description">
                 <p className="text-sm xl:text-lg leading-relaxed font-medium">
-                  <strong>The fastest way to launch high-conversion websites.</strong> Get{' '}
+                  The fastest way to launch high-conversion websites optimized for AI Search. Access{' '}
                   <button onClick={() => navigate('/marketplace')} className="text-primary hover:text-primary/80 transition-colors font-semibold underline decoration-2 underline-offset-4">
-                    custom design
+                    professional custom design
                   </button>
-                  , SEO optimization, and{' '}
+                  , Generative Engine Optimization (GEO), and{' '}
                   <button onClick={() => {
                     const servicesSection = document.getElementById('premium-services');
                     servicesSection?.scrollIntoView({ behavior: 'smooth' });
                   }} className="text-primary hover:text-primary/80 transition-colors font-semibold underline decoration-2 underline-offset-4">
-                    premium templates
+                    verified digital assets
                   </button>
-                  —all in one platform.
+                  {' '}in one ecosystem.
                 </p>
               </div>
             </div>
 
             {/* CTA Buttons */}
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button 
-                size="lg" 
-                onClick={() => navigate('/marketplace')} 
+              <Button
+                size="lg"
+                onClick={() => navigate('/marketplace')}
                 className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground text-base sm:text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-bold tracking-tight"
                 aria-label="Browse free website templates"
               >
@@ -98,13 +98,13 @@ export const Hero = () => {
                 <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
               </Button>
 
-              <Button 
-                variant="outline" 
-                size="lg" 
+              <Button
+                variant="outline"
+                size="lg"
                 onClick={() => {
                   const servicesSection = document.getElementById('premium-marketplace');
                   servicesSection?.scrollIntoView({ behavior: 'smooth' });
-                }} 
+                }}
                 className="w-full sm:w-auto border-2 border-primary/20 hover:bg-primary/5 text-foreground text-base sm:text-lg px-8 py-6 rounded-lg font-semibold"
                 aria-label="View premium web development services"
               >
