@@ -301,19 +301,27 @@ const Layer4: React.FC<LayerProps> = ({ color, secondaryColor, hovered, animated
       isAnimated && "scale-150"
     )}>
       <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 356 300" preserveAspectRatio="xMidYMid meet" className="scale-110">
-        {rectsData.map((rect, index) => (
-          <rect
-            key={index}
-            width={rect.width}
-            height={isAnimated ? rect.hoverHeight : rect.height}
-            x={rect.x}
-            y={isAnimated ? rect.hoverY + 100 : rect.y + 100}
-            fill={isAnimated ? rect.hoverFill : rect.fill}
-            rx="2"
-            ry="2"
-            className="ease-[cubic-bezier(0.6, 0.6, 0, 1)] transition-all duration-500"
-          />
-        ))}
+        {rectsData.map((rect, index) => {
+          const scaleRatio = rect.hoverHeight / rect.height;
+          return (
+            <rect
+              key={index}
+              width={rect.width}
+              height={rect.height}
+              x={rect.x}
+              y={rect.y + 100}
+              fill={isAnimated ? rect.hoverFill : rect.fill}
+              rx="2"
+              ry="2"
+              style={{
+                transformBox: 'fill-box',
+                transformOrigin: 'top',
+                transform: isAnimated ? `translateY(10px) scaleY(${scaleRatio})` : 'none',
+              }}
+              className="ease-[cubic-bezier(0.6, 0.6, 0, 1)] transition-transform duration-500"
+            />
+          );
+        })}
       </svg>
     </div>
   );

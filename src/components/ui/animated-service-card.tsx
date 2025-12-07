@@ -62,7 +62,7 @@ export function AnimatedServiceCard({
           {/* Image Section */}
           <div className="relative order-1 lg:order-2 min-h-0 sm:min-h-[400px] lg:min-h-[500px]">
             <div className="w-full h-full flex items-center justify-center">
-              {service.image ? <img src={service.image} alt={service.title} className="w-full h-auto sm:h-full object-contain max-w-2xl" /> : <service.icon className="w-full h-full max-w-md text-muted-foreground/15" strokeWidth={0.5} aria-hidden />}
+              {service.image ? <img src={service.image} alt={service.title} className="w-full h-auto sm:h-full object-contain max-w-2xl" loading="lazy" decoding="async" /> : <service.icon className="w-full h-full max-w-md text-muted-foreground/15" strokeWidth={0.5} aria-hidden />}
             </div>
           </div>
         </div>
@@ -103,7 +103,7 @@ export function AnimatedServiceCard({
         {/* Image Section */}
         <div className={cn('relative order-1 lg:order-2 min-h-0 sm:min-h-[450px] lg:min-h-[500px]', !service.beforeAfterSlider && !service.image && 'bg-gradient-to-br from-muted/50 to-muted/30 rounded-lg overflow-hidden p-6 lg:p-8', isImageLeft && 'lg:order-1')}>
           <div className="w-full h-full flex items-center justify-center">
-            {service.beforeAfterSlider ? <FeatureWithImageComparison beforeImage={service.beforeAfterSlider.beforeImage} afterImage={service.beforeAfterSlider.afterImage} beforeAlt={`${service.title} - Before`} afterAlt={`${service.title} - After`} /> : service.image ? <img src={service.image} alt={service.title} className="w-full h-auto sm:h-full object-contain max-w-2xl" /> : <service.icon className="w-full h-full max-w-md text-muted-foreground/15" strokeWidth={0.5} aria-hidden />}
+            {service.beforeAfterSlider ? <FeatureWithImageComparison beforeImage={service.beforeAfterSlider.beforeImage} afterImage={service.beforeAfterSlider.afterImage} beforeAlt={`${service.title} - Before`} afterAlt={`${service.title} - After`} /> : service.image ? <img src={service.image} alt={service.title} className="w-full h-auto sm:h-full object-contain max-w-2xl" loading="lazy" decoding="async" /> : <service.icon className="w-full h-full max-w-md text-muted-foreground/15" strokeWidth={0.5} aria-hidden />}
           </div>
         </div>
       </div>

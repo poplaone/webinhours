@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { Hero } from '@/components/sections/Hero';
-import { Services } from '@/components/sections/Services';
+
 import { Footer } from '@/components/sections/Footer';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
@@ -13,6 +13,7 @@ const PremiumTestimonials = lazy(() => import('@/components/ui/premium-testimoni
 const MarketplacePreview = lazy(() => import('@/components/sections/MarketplacePreview').then(m => ({ default: m.MarketplacePreview })));
 const Features = lazy(() => import('@/components/sections/Features').then(m => ({ default: m.Features })));
 const PremiumMarketplaceServices = lazy(() => import('@/components/sections/PremiumMarketplaceServices').then(m => ({ default: m.PremiumMarketplaceServices })));
+const Services = lazy(() => import('@/components/sections/Services').then(m => ({ default: m.Services })));
 
 const Index = () => {
   return (
@@ -46,7 +47,10 @@ const Index = () => {
         </Suspense>
 
         {/* Services Section */}
-        <Services />
+        {/* Services Section */}
+        <Suspense fallback={<div className="h-96 bg-card/20 animate-pulse rounded-lg mx-4 my-2 md:my-8" />}>
+          <Services />
+        </Suspense>
 
         {/* Features - Lazy loaded */}
         <Suspense fallback={<div className="h-64 bg-card/20 animate-pulse rounded-lg mx-4 my-2 md:my-8" />}>
