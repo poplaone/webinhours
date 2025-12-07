@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import { Plus, Settings, Bot, Globe } from 'lucide-react';
+import { Settings, Globe } from 'lucide-react';
 import { WebsiteUploadForm } from './WebsiteUploadForm';
-import { AIAgentUploadForm } from '../ai-agents/AIAgentUploadForm';
 
 interface AdminPanelHeaderProps {
   isAdmin: boolean;
@@ -16,8 +15,6 @@ export function AdminPanelHeader({
   showUploadDialog, 
   setShowUploadDialog 
 }: AdminPanelHeaderProps) {
-  const [showAIAgentDialog, setShowAIAgentDialog] = useState(false);
-
   return (
     <div className="flex justify-between items-center mb-8">
       <div>
@@ -26,7 +23,7 @@ export function AdminPanelHeader({
           {isAdmin ? 'Admin Panel' : 'My Dashboard'}
         </h1>
         <p className="text-muted-foreground mt-2">
-          {isAdmin ? 'Manage website templates and AI agents' : 'View your uploaded content'}
+          {isAdmin ? 'Manage website templates' : 'View your uploaded content'}
         </p>
       </div>
       
@@ -42,18 +39,6 @@ export function AdminPanelHeader({
             </DialogTrigger>
             <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
               <WebsiteUploadForm onClose={() => setShowUploadDialog(false)} />
-            </DialogContent>
-          </Dialog>
-          
-          <Dialog open={showAIAgentDialog} onOpenChange={setShowAIAgentDialog}>
-            <DialogTrigger asChild>
-              <Button variant="outline" className="border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6]/10">
-                <Bot className="mr-2 h-4 w-4" />
-                Upload AI Agent
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-              <AIAgentUploadForm onClose={() => setShowAIAgentDialog(false)} />
             </DialogContent>
           </Dialog>
         </div>

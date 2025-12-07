@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Clock, CheckCircle, Star, Users } from 'lucide-react';
@@ -8,10 +7,6 @@ interface AdminStatsProps {
   approvedCount: number;
   featuredCount: number;
   userWebsitesCount: number;
-  aiAgentsPendingCount?: number;
-  aiAgentsApprovedCount?: number;
-  aiAgentsFeaturedCount?: number;
-  userAIAgentsCount?: number;
   isAdmin: boolean;
 }
 

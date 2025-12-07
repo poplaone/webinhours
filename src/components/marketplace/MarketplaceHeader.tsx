@@ -1,19 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Star, Download, ExternalLink, Globe, Bot } from 'lucide-react';
+import { Star, Download, Globe } from 'lucide-react';
+
 interface MarketplaceHeaderProps {
   totalWebsites: number;
   totalDownloads: number;
-  totalAIAgents?: number;
-  totalUsage?: number;
-  activeTab?: 'all' | 'websites' | 'ai-agents';
 }
+
 export const MarketplaceHeader = ({
   totalWebsites,
   totalDownloads,
-  totalAIAgents = 0,
-  totalUsage = 0,
-  activeTab = 'all'
 }: MarketplaceHeaderProps) => {
   return (
     <div className="bg-gradient-to-r from-primary/10 to-secondary/10 p-6 rounded-lg mb-6">
@@ -24,7 +20,7 @@ export const MarketplaceHeader = ({
         </p>
       </div>
       
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -58,23 +54,10 @@ export const MarketplaceHeader = ({
           className="text-center"
         >
           <div className="flex items-center justify-center mb-2">
-            <Bot className="h-5 w-5 text-primary mr-2" />
-            <span className="text-2xl font-bold">{totalAIAgents}</span>
-          </div>
-          <p className="text-sm text-muted-foreground">AI Agents</p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="text-center"
-        >
-          <div className="flex items-center justify-center mb-2">
             <Star className="h-5 w-5 text-primary mr-2" />
-            <span className="text-2xl font-bold">{totalUsage}</span>
+            <span className="text-2xl font-bold">4.9</span>
           </div>
-          <p className="text-sm text-muted-foreground">Usage</p>
+          <p className="text-sm text-muted-foreground">Rating</p>
         </motion.div>
       </div>
     </div>

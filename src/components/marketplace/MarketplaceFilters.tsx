@@ -1,11 +1,9 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
-import { Search, Filter, Globe, Bot, ChevronDown } from 'lucide-react';
+import { Search, Filter } from 'lucide-react';
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-// import { debounce } from '@/utils/performanceUtils';
 
 interface Category {
   id: string;
@@ -21,8 +19,6 @@ interface MarketplaceFiltersProps {
   sortBy: string;
   setSortBy: (sort: string) => void;
   categories: Category[];
-  activeTab: 'websites' | 'ai-agents';
-  setActiveTab: (tab: 'websites' | 'ai-agents') => void;
 }
 
 export const MarketplaceFilters = ({
@@ -33,8 +29,6 @@ export const MarketplaceFilters = ({
   sortBy,
   setSortBy,
   categories,
-  activeTab,
-  setActiveTab
 }: MarketplaceFiltersProps) => {
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
@@ -69,10 +63,6 @@ export const MarketplaceFilters = ({
     setSortBy(sort);
   }, [setSortBy]);
 
-  const handleTabChange = useCallback((tab: string) => {
-    setActiveTab(tab as 'websites' | 'ai-agents');
-  }, [setActiveTab]);
-
   const handleFilterClose = useCallback(() => {
     setIsFiltersOpen(false);
   }, []);
@@ -101,23 +91,10 @@ export const MarketplaceFilters = ({
     <div className="bg-card/50 backdrop-blur rounded-xl border border-border/40 p-4 px-[23px] py-[10px] mx-[3px]">
       {/* Desktop Layout */}
       <div className="hidden sm:flex gap-4 items-center flex-wrap">
-        <Tabs value={activeTab} onValueChange={handleTabChange} className="w-auto">
-          <TabsList className="grid grid-cols-2">
-            <TabsTrigger value="websites" className="flex items-center gap-2 px-3 py-1.5 text-base">
-              <Globe className="h-4 w-4" />
-              Websites
-            </TabsTrigger>
-            <TabsTrigger value="ai-agents" className="flex items-center gap-2 px-3 py-1.5 text-base">
-              <Bot className="h-4 w-4" />
-              AI Agents
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
-
         <div className="relative flex-1 min-w-[240px]">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input 
-            placeholder={`Search ${activeTab}...`} 
+            placeholder="Search websites..." 
             value={localSearchTerm} 
             onChange={handleSearchChange} 
             className="pl-10" 
@@ -163,7 +140,7 @@ export const MarketplaceFilters = ({
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input 
-              placeholder={`Search ${activeTab}...`} 
+              placeholder="Search websites..." 
               value={localSearchTerm} 
               onChange={handleSearchChange} 
               className="pl-9 pr-3 h-9 text-sm" 
@@ -196,29 +173,6 @@ export const MarketplaceFilters = ({
               </div>
               
               <div className="space-y-6 overflow-y-auto max-h-[calc(85vh-100px)] pr-2 -mr-2">
-                {/* Tab Selector */}
-                <div>
-                  <h4 className="text-sm font-medium mb-3">View</h4>
-                  <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-                    <TabsList className="grid grid-cols-2 w-full bg-muted/50 h-10">
-                      <TabsTrigger 
-                        value="websites" 
-                        className="flex items-center gap-1.5 text-sm py-1.5 data-[state=active]:bg-background data-[state=active]:shadow-sm"
-                      >
-                        <Globe className="h-3.5 w-3.5" />
-                        <span>Websites</span>
-                      </TabsTrigger>
-                      <TabsTrigger 
-                        value="ai-agents" 
-                        className="flex items-center gap-1.5 text-sm py-1.5 data-[state=active]:bg-background data-[state=active]:shadow-sm"
-                      >
-                        <Bot className="h-3.5 w-3.5" />
-                        <span>AI Agents</span>
-                      </TabsTrigger>
-                    </TabsList>
-                  </Tabs>
-                </div>
-
                 {/* Category Filter */}
                 <div>
                   <h4 className="text-sm font-medium mb-3">Category</h4>

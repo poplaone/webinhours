@@ -30,47 +30,19 @@ export const usePrefetchMarketplace = () => {
     });
   }, [queryClient]);
 
-  // Prefetch AI agents data
-  const prefetchAIAgents = useCallback(async () => {
-    const cached = queryClient.getQueryData(['ai-agents', { includeAll: false }]);
-    if (cached) return;
-
-    await queryClient.prefetchQuery({
-      queryKey: ['ai-agents', { includeAll: false }],
-      queryFn: async () => {
-        const { data, error } = await supabase
-          .from('ai_agents')
-          .select('*')
-          .in('status', ['approved', 'featured'])
-          .order('created_at', { ascending: false });
-
-        if (error) throw error;
-        return data || [];
-      },
-      staleTime: 1000 * 60 * 10,
-      gcTime: 1000 * 60 * 60,
-    });
-  }, [queryClient]);
-
   // Prefetch data when component mounts if not already cached
   useEffect(() => {
     const hasWebsitesCache = queryClient.getQueryData(['websites', { includeAll: false }]);
-    const hasAIAgentsCache = queryClient.getQueryData(['ai-agents', { includeAll: false }]);
 
     if (!hasWebsitesCache) {
       prefetchWebsites();
     }
-
-    if (!hasAIAgentsCache) {
-      prefetchAIAgents();
-    }
-  }, [queryClient, prefetchWebsites, prefetchAIAgents]);
+  }, [queryClient, prefetchWebsites]);
 
   // Prefetch on navigation intent
   const prefetchOnHover = useCallback(() => {
     prefetchWebsites();
-    prefetchAIAgents();
-  }, [prefetchWebsites, prefetchAIAgents]);
+  }, [prefetchWebsites]);
 
   // Trigger prefetch when user is near marketplace
   useEffect(() => {
