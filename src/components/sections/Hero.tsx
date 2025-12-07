@@ -57,30 +57,31 @@ export const Hero = () => {
               <div className="absolute -top-1.5 -left-1.5 w-2 h-2 sm:w-3 sm:h-3 bg-primary" />
               <div className="absolute -bottom-1.5 -right-1.5 w-2 h-2 sm:w-3 sm:h-3 bg-primary" />
 
-              {/* H1 - Primary keyword optimized */}
+              {/* H1 - Primary keyword optimized for GEO */}
               <h1 
                 id="hero-heading"
                 className="text-center font-medium tracking-tight leading-tight mb-6 sm:mb-8 xl:text-6xl text-xl text-primary"
                 itemProp="headline"
               >
-                Free Professional Websites <br className="hidden md:block" />
-                <span className="text-foreground">Delivered in 24 Hours</span>
+                Professional Website Design <br className="hidden md:block" />
+                <span className="text-foreground">& SEO Solutions</span>
               </h1>
 
               {/* TL;DR Summary - Answer-First for GEO extraction */}
               <div className="text-center max-w-5xl mx-auto text-muted-foreground" itemProp="description">
                 <p className="text-sm xl:text-lg leading-relaxed font-medium">
-                  <strong>Get a free professional website today.</strong> Choose from{' '}
+                  <strong>The fastest way to launch high-conversion websites.</strong> Get{' '}
                   <button onClick={() => navigate('/marketplace')} className="text-primary hover:text-primary/80 transition-colors font-semibold underline decoration-2 underline-offset-4">
-                    500+ mobile-optimized templates
+                    custom design
                   </button>
-                  , all SEO-ready with free SSL. Premium{' '}
+                  , SEO optimization, and{' '}
                   <button onClick={() => {
                     const servicesSection = document.getElementById('premium-services');
                     servicesSection?.scrollIntoView({ behavior: 'smooth' });
                   }} className="text-primary hover:text-primary/80 transition-colors font-semibold underline decoration-2 underline-offset-4">
-                    custom branding from $299
-                  </button>.
+                    premium templates
+                  </button>
+                  —all in one platform.
                 </p>
               </div>
             </div>

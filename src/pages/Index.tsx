@@ -5,6 +5,7 @@ import { Footer } from '@/components/sections/Footer';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
 import GEOStructuredData from '@/components/seo/GEOStructuredData';
+import FAQSchema from '@/components/seo/FAQSchema';
 import { GridPattern } from '@/components/ui/GridPattern';
 
 // Lazy load heavy components to improve initial page load
@@ -18,14 +19,17 @@ const Index = () => {
     <AppLayout>
       {/* GEO-Optimized SEO with Answer-First Approach */}
       <SEOHead
-        title="Free Professional Websites in 24 Hours | 500+ Templates - WebInHours"
-        description="Get a free professional website today. Choose from 500+ templates, mobile-optimized, SEO-ready. Custom branding from $299. Delivered in 24 hours."
-        keywords="free website, professional website templates, 24 hour website, free website builder, custom branding, SEO website, mobile responsive website, website development service"
+        title="Professional Website Design & SEO Solutions | WebInHours"
+        description="The fastest way to launch high-conversion websites. Get custom design, SEO optimization, and premium templates—all in one platform. Start free today."
+        keywords="professional website design, SEO solutions, custom website design, high-conversion websites, premium templates, website development, SEO optimization, web design agency"
         canonicalUrl="https://webinhours.com/"
       />
       
       {/* Enhanced Structured Data for GEO/AI Extraction */}
       <GEOStructuredData pageType="home" />
+      
+      {/* FAQ Schema for Featured Snippets */}
+      <FAQSchema />
 
       {/* Background layers - Grid pattern */}
       <GridPattern />
