@@ -16,7 +16,7 @@ export default function CombinedFeaturedSection() {
             SEO & GEO Analytics
           </div>
           <h3 className="text-base md:text-xl font-normal text-foreground">
-            Get found on Google & AI Search with professional SEO & GEO setup.{" "}
+            Dominate search results with AI-Powered SEO & GEO (Generative Engine Optimization). Secure #1 rankings in local and global markets.
             <span className="text-muted-foreground">Track rankings across regions.</span>
           </h3>
 
@@ -53,7 +53,7 @@ export default function CombinedFeaturedSection() {
               <Search className="w-3 h-3 md:w-4 md:h-4" /> SEO & GEO Optimization
             </span>
             <h3 className="text-base md:text-xl font-normal text-foreground">
-              Professional SEO setup, Generative Engine Optimization (GEO),{" "}
+              Advanced SEO strategies, Generative Engine Optimization (GEO) for AI search,{" "}
               <span className="text-muted-foreground">and local business listing management.</span>
             </h3>
           </div>
@@ -71,7 +71,7 @@ export default function CombinedFeaturedSection() {
             icon={<Megaphone className="w-4 h-4" />}
             title="PR & Media"
             subtitle="Premium Services"
-            description="Press releases, media outreach, and brand reputation management."
+            description="Secure high-authority backlinks with premium press releases and media outreach."
             customBackground={<PRMediaBackground />}
           />
           <FeatureCard

@@ -214,7 +214,7 @@ const Layer2: React.FC<LayerProps> = ({ color, animated }) => {
             </p>
           </div>
           <p className="text-[10px] sm:text-xs text-muted-foreground leading-relaxed mb-1.5 sm:mb-2">
-            Quality content drives measurable results across organic and paid channels
+            High-impact content strategies that drive organic traffic and maximize conversion rates across all channels.
           </p>
           <div className="grid grid-cols-3 gap-2 sm:flex sm:gap-4 border-t border-border/50 pt-1.5 sm:pt-2 mt-1.5 sm:mt-2">
             <div className="flex flex-col">

@@ -87,12 +87,12 @@ export function AnimatedServiceCard({
           {/* Description / Infographic Cards / Gradient Generator */}
           {index === 0 ? <div className="space-y-4">
             <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
-              Get a complete, professional website with everything you need to start your online presence - completely FREE forever.
+              Launch a fully functional, mobile-optimized website at zero cost. Choose from 500+ SEO-ready templates, secured with free SSL.
             </p>
             <FeatureInfographicCards />
           </div> : index === 1 ? <div className="space-y-4">
             <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
-              Make your website unique with custom colors, fonts, logos, and personalized design that matches your brand perfectly.
+              Elevate your brand with bespoke web design. We craft custom color palettes, unique typography, and conversion-focused layouts.
             </p>
             <CustomBrandingVisuals />
           </div> : <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl">
