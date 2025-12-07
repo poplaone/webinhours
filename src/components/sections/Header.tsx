@@ -327,15 +327,22 @@ export const Header = () => {
                       </ul>
 
                       {/* CTA Section */}
-                      <div className="mt-4 p-3 bg-primary/5 rounded-md border border-primary/20">
+                      <button
+                        onClick={() => handleNavigation('/#premium-services')}
+                        className="w-full mt-4 p-3 bg-primary/5 rounded-md border border-primary/20 cursor-pointer hover:bg-primary/10 transition-colors text-left group"
+                      >
                         <div className="flex items-center gap-2 mb-2">
-                          <Lock className="size-4 text-primary" />
-                          <span className="text-xs font-semibold">24-Hour Delivery</span>
+                          <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                          </span>
+                          <span className="text-xs font-semibold text-primary tracking-wide uppercase">Live Network</span>
                         </div>
-                        <p className="text-xs text-muted-foreground leading-relaxed">
-                          Get your website live in 24 hours with SSL & GDPR compliance
+                        <p className="text-xs font-bold text-foreground mb-1">Premium Digital Solutions</p>
+                        <p className="text-[10px] text-muted-foreground leading-relaxed group-hover:text-muted-foreground/80">
+                          Access our vetted ecosystem of enterprise-grade services. From reputation defense to exclusive digital asset acquisition.
                         </p>
-                      </div>
+                      </button>
                     </div>
                   </div>
                 </NavigationMenuContent>

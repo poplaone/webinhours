@@ -19,7 +19,7 @@ export function PerformanceSEOCard({ className }: { className?: string }) {
                 </div>
 
                 <div>
-                    <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+                    <h3 className="text-xl font-medium tracking-tight text-foreground mb-2 group-hover:text-primary transition-colors">
                         SEO & Speed Optimized
                     </h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">
@@ -29,49 +29,52 @@ export function PerformanceSEOCard({ className }: { className?: string }) {
             </div>
 
             {/* GRAPHIC CONTENT (Bottom) */}
-            <div className="relative z-10 flex-1 flex flex-col items-center justify-end mt-2 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="relative z-10 flex-1 flex flex-col items-center justify-end mt-4">
 
-                {/* Main Score Gauge */}
-                <div className="relative w-32 h-32 group-hover:scale-105 transition-transform duration-500 mb-4">
-                    <svg className="w-full h-full -rotate-90">
-                        {/* Background Circle */}
-                        <circle cx="64" cy="64" r="58" stroke="currentColor" strokeWidth="4" fill="transparent" className="text-muted/10" />
+                {/* Digital Ring Meter */}
+                <div className="flex items-center gap-8 w-full justify-center mb-6">
+                    <div className="relative w-24 h-24 group-hover:scale-105 transition-transform duration-500">
+                        {/* Outer Ring */}
+                        <svg className="w-full h-full -rotate-90">
+                            <circle cx="48" cy="48" r="44" stroke="currentColor" strokeWidth="2" fill="transparent" className="text-muted/10" />
+                            <circle
+                                cx="48" cy="48" r="44"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                fill="transparent"
+                                strokeDasharray="276"
+                                strokeDashoffset="0"
+                                className="text-primary drop-shadow-[0_0_10px_rgba(var(--primary),0.5)]"
+                            />
+                        </svg>
 
-                        {/* Progress Circle - Sleek White/Primary */}
-                        <circle
-                            cx="64" cy="64" r="58"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                            fill="transparent"
-                            strokeDasharray="364.4"
-                            strokeDashoffset="10"
-                            strokeLinecap="round"
-                            className="text-foreground transition-all duration-1000 ease-out drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]"
-                        />
-                    </svg>
-
-                    {/* Central Score */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                        <span className="text-5xl font-black text-foreground tracking-tighter tabular-nums">100</span>
+                        {/* Center Score */}
+                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                            <span className="text-3xl font-bold tracking-tighter text-foreground">100</span>
+                            <span className="text-[10px] uppercase font-mono text-muted-foreground">Score</span>
+                        </div>
                     </div>
-                </div>
 
-                {/* Core Web Vitals */}
-                <div className="w-full flex justify-between gap-2 px-1">
-                    <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-background/50 border border-border/50 flex-1 hover:border-primary/30 transition-colors cursor-default">
-                        <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(var(--primary),0.5)]"></div>
-                        <span className="text-[10px] font-bold text-muted-foreground">LCP</span>
-                        <span className="text-xs font-semibold">0.8s</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-background/50 border border-border/50 flex-1 hover:border-primary/30 transition-colors cursor-default">
-                        <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(var(--primary),0.5)]"></div>
-                        <span className="text-[10px] font-bold text-muted-foreground">INP</span>
-                        <span className="text-xs font-semibold">40ms</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-background/50 border border-border/50 flex-1 hover:border-primary/30 transition-colors cursor-default">
-                        <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(var(--primary),0.5)]"></div>
-                        <span className="text-[10px] font-bold text-muted-foreground">CLS</span>
-                        <span className="text-xs font-semibold">0.00</span>
+                    {/* Metric Bars */}
+                    <div className="flex flex-col gap-3 min-w-[100px]">
+                        <div className="space-y-1">
+                            <div className="flex justify-between text-[10px] uppercase font-mono text-muted-foreground">
+                                <span>LCP</span>
+                                <span className="text-foreground">0.8s</span>
+                            </div>
+                            <div className="h-1.5 w-full bg-muted/20 rounded-full overflow-hidden">
+                                <div className="h-full bg-green-500 w-[95%] shadow-[0_0_8px_rgba(34,197,94,0.4)]"></div>
+                            </div>
+                        </div>
+                        <div className="space-y-1">
+                            <div className="flex justify-between text-[10px] uppercase font-mono text-muted-foreground">
+                                <span>INP</span>
+                                <span className="text-foreground">40ms</span>
+                            </div>
+                            <div className="h-1.5 w-full bg-muted/20 rounded-full overflow-hidden">
+                                <div className="h-full bg-green-500 w-[98%] shadow-[0_0_8px_rgba(34,197,94,0.4)]"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Smartphone, Check } from "lucide-react";
+import { Smartphone } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function MobileResponsiveCard({ className }: { className?: string }) {
@@ -19,7 +19,7 @@ export function MobileResponsiveCard({ className }: { className?: string }) {
                 </div>
 
                 <div>
-                    <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+                    <h3 className="text-xl font-medium tracking-tight text-foreground mb-2 group-hover:text-primary transition-colors">
                         100% Mobile Optimized
                     </h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">
@@ -30,44 +30,32 @@ export function MobileResponsiveCard({ className }: { className?: string }) {
 
             {/* GRAPHIC CONTENT (Bottom) */}
             <div className="relative z-10 flex-1 flex items-end justify-center mt-6 group-hover:scale-105 transition-transform duration-500">
-                <div className="relative w-full max-w-[200px] flex justify-center">
+                <div className="relative w-full max-w-[180px] flex justify-center">
 
-                    {/* High Fidelity Phone Mockup */}
-                    <div className="relative w-[120px] h-[200px] bg-[#09090b] rounded-[2rem] border-[4px] border-[#27272a] shadow-2xl overflow-hidden ring-1 ring-white/5">
+                    {/* Sharp Bezel-less Device */}
+                    <div className="relative w-[140px] h-[220px] bg-zinc-950 border-x border-t border-zinc-800 shadow-2xl overflow-hidden ring-1 ring-white/5 mx-auto">
 
-                        {/* Dynamic Island / Notch */}
-                        <div className="absolute top-0 left-1/2 -translate-x-1/2 h-5 w-24 bg-black rounded-b-xl z-30 flex items-center justify-center">
-                            <div className="w-12 h-2.5 bg-[#1a1a1a] rounded-full flex items-center justify-end px-1.5 gap-1">
-                                <div className="w-1 h-1 rounded-full bg-[#333]"></div>
-                                <div className="w-1 h-1 rounded-full bg-[#3d3d3d]"></div>
-                            </div>
-                        </div>
-
-                        {/* Screen Content (Wireframe - Monochrome) */}
-                        <div className="w-full h-full bg-zinc-950 flex flex-col pt-6 px-3 pb-3 relative">
-                            {/* Status Bar hint */}
-                            <div className="absolute top-1 right-4 flex gap-0.5">
-                                <div className="w-1 h-1 bg-zinc-700/50 rounded-full"></div>
-                                <div className="w-1 h-1 bg-zinc-700/50 rounded-full"></div>
+                        {/* Screen Content - Sharp & Professional */}
+                        <div className="w-full h-full bg-background flex flex-col relative">
+                            {/* Fake Browser Header */}
+                            <div className="h-6 bg-zinc-900 border-b border-zinc-800 flex items-center px-2 gap-2">
+                                <div className="w-2 h-2 rounded-full bg-zinc-700"></div>
+                                <div className="flex-1 h-3 bg-zinc-800 rounded mx-2"></div>
                             </div>
 
-                            {/* Navigation */}
-                            <div className="flex justify-between items-center mb-3">
-                                <div className="w-4 h-4 rounded bg-zinc-800"></div>
-                                <div className="w-3 h-2 rounded-sm bg-zinc-800"></div>
+                            {/* Hero Section Wireframe */}
+                            <div className="h-24 bg-zinc-900/50 flex flex-col items-center justify-center gap-2 p-4 border-b border-border/10">
+                                <div className="w-3/4 h-2 bg-muted-foreground/20 rounded-none"></div>
+                                <div className="w-1/2 h-2 bg-muted-foreground/20 rounded-none"></div>
+                                <div className="mt-2 w-16 h-4 bg-primary rounded-none"></div>
                             </div>
 
-                            {/* Hero Section */}
-                            <div className="w-full aspect-[4/3] bg-zinc-900 rounded-lg border border-zinc-800 mb-3 flex flex-col items-center justify-center p-2 gap-1.5">
-                                <div className="w-2/3 h-1.5 bg-zinc-800 rounded-full"></div>
-                                <div className="w-1/2 h-1.5 bg-zinc-800/50 rounded-full"></div>
-                                <div className="mt-1 w-12 h-3 bg-primary rounded text-[4px] text-primary-foreground flex items-center justify-center font-bold">CTA</div>
-                            </div>
-
-                            {/* Grid Section */}
-                            <div className="grid grid-cols-2 gap-2">
-                                <div className="aspect-square rounded-md bg-zinc-900 border border-zinc-800"></div>
-                                <div className="aspect-square rounded-md bg-zinc-900 border border-zinc-800"></div>
+                            {/* Grid Content */}
+                            <div className="flex-1 p-3 grid grid-cols-2 gap-2 bg-zinc-950/30">
+                                <div className="bg-zinc-900 border border-zinc-800/50 aspect-square"></div>
+                                <div className="bg-zinc-900 border border-zinc-800/50 aspect-square"></div>
+                                <div className="bg-zinc-900 border border-zinc-800/50 aspect-square"></div>
+                                <div className="bg-zinc-900 border border-zinc-800/50 aspect-square"></div>
                             </div>
                         </div>
 
@@ -75,16 +63,8 @@ export function MobileResponsiveCard({ className }: { className?: string }) {
                         <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 pointer-events-none z-40"></div>
                     </div>
 
-                    {/* Tablet Hint (Left Shadow) */}
-                    <div className="absolute -left-8 bottom-4 w-12 h-32 bg-zinc-800 rounded-r-xl border-y border-r border-zinc-700 opacity-40 blur-[1px] -z-10"></div>
-
-                    {/* Desktop Hint (Right Shadow) */}
-                    <div className="absolute -right-12 bottom-0 w-24 h-24 bg-zinc-800 rounded-tl-xl border-t border-l border-zinc-700 opacity-30 blur-[1px] -z-10"></div>
-
-                    {/* Floating Check Badge */}
-                    <div className="absolute -right-2 top-10 bg-primary text-primary-foreground p-1.5 rounded-full shadow-lg ring-2 ring-background z-50 animate-bounce duration-[3000ms]">
-                        <Check className="w-3 h-3" strokeWidth={3} />
-                    </div>
+                    {/* Minimal Shadow/Base */}
+                    <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-32 h-4 bg-primary/20 blur-xl rounded-full"></div>
                 </div>
             </div>
         </div>

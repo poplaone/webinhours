@@ -162,7 +162,7 @@ const SERVICE_WORKFLOWS: Record<string, WorkflowStep[]> = {
     ],
     "Rare Emails": [
         { title: "Availability", desc: "Check global naming databases.", icon: StepIcons.Analysis },
-        { title: "Acquisition", desc: "Secure legacy account access.", icon: StepIcons.Lock },
+        { title: "Acquisition", desc: "Secure legacy account access.", icon: StepIcons.Security },
         { title: "Handover", desc: "Credentials & 2FA transfer.", icon: StepIcons.Identity },
     ],
     "Premium Domains": [
@@ -217,7 +217,7 @@ export function PremiumMarketplaceServices() {
     };
 
     return (
-        <section className="py-24 px-4 relative overflow-hidden">
+        <section id="premium-services" className="py-24 px-4 relative overflow-hidden">
             <NetworkBackground />
 
             <div className="container mx-auto max-w-[1400px] relative z-10">
@@ -235,7 +235,7 @@ export function PremiumMarketplaceServices() {
                         Live Network
                     </motion.div>
 
-                    <h2 className="text-4xl md:text-6xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-foreground to-foreground/70">
+                    <h2 className="text-4xl md:text-6xl font-medium tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-foreground to-foreground/70">
                         Premium Digital Solutions
                     </h2>
                     <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
@@ -359,50 +359,115 @@ export function PremiumMarketplaceServices() {
                     <DialogContent className="sm:max-w-[700px] bg-card border-primary/20 p-0 overflow-hidden gap-0">
                         {selectedService && (
                             <>
-                                <div className="p-6 pb-2 border-b border-border/40 bg-muted/20">
-                                    <DialogHeader>
-                                        <DialogTitle className="text-2xl font-bold flex items-center gap-3">
-                                            <div className="p-2 rounded bg-primary/10 text-primary">
-                                                <Zap className="w-5 h-5" />
+                                {/* HEADER: Tech Monitor Style */}
+                                <div className="relative p-6 pb-6 overflow-hidden bg-background/95">
+                                    {/* Tech Grid Background */}
+                                    <div className="absolute inset-0 opacity-10 pointer-events-none"
+                                        style={{ backgroundImage: 'linear-gradient(to right, #8882 1px, transparent 1px), linear-gradient(to bottom, #8882 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
+                                    </div>
+
+                                    <div className="relative z-10 flex flex-col md:flex-row md:items-start justify-between gap-4">
+                                        <div className="flex items-start gap-4">
+                                            <div className="p-3 rounded-lg bg-primary/10 border border-primary/20 text-primary relative overflow-hidden group-hover:shadow-[0_0_20px_rgba(var(--primary),0.3)] transition-all">
+                                                <Zap className="w-6 h-6 relative z-10" />
+                                                <div className="absolute inset-0 bg-primary/10 animate-pulse"></div>
                                             </div>
-                                            {selectedService.title}
-                                        </DialogTitle>
-                                        <DialogDescription className="text-base pt-2">
-                                            {selectedService.desc}
-                                        </DialogDescription>
-                                    </DialogHeader>
+                                            <div>
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <span className="text-[10px] font-mono text-primary px-1.5 py-0.5 rounded bg-primary/10 border border-primary/20">
+                                                        SYS_ID: {Math.floor(Math.random() * 9000) + 1000}
+                                                    </span>
+                                                    <span className="flex items-center gap-1 text-[10px] font-mono text-green-500">
+                                                        <span className="relative flex h-1.5 w-1.5">
+                                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                                                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
+                                                        </span>
+                                                        ONLINE
+                                                    </span>
+                                                </div>
+                                                <DialogTitle className="text-2xl font-medium tracking-tight text-foreground">
+                                                    {selectedService.title}
+                                                </DialogTitle>
+                                                <p className="text-sm text-muted-foreground mt-1 max-w-md leading-relaxed">
+                                                    {selectedService.desc}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                {/* Workflow Visualization */}
-                                <div className="p-8 relative bg-gradient-to-b from-background to-muted/20">
-                                    {/* Vertical Line */}
-                                    <div className="absolute left-[2.25rem] top-12 bottom-12 w-0.5 bg-gradient-to-b from-primary via-primary/40 to-muted/20"></div>
+                                {/* BODY: Workflow Pipeline */}
+                                <div className="p-6 md:p-8 bg-muted/10 relative overflow-hidden">
+                                    {/* Decorative Side Data */}
+                                    <div className="absolute right-4 top-4 bottom-4 w-px bg-gradient-to-b from-transparent via-primary/20 to-transparent hidden md:block"></div>
+                                    <div className="absolute right-8 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-8 text-[9px] font-mono text-muted-foreground/40 rotate-90 origin-right">
+                                        <span>LATENCY: 12ms</span>
+                                        <span>UPTIME: 99.9%</span>
+                                        <span>ENCRYPTION: AES-256</span>
+                                    </div>
 
-                                    <div className="space-y-8 relative">
+                                    <div className="space-y-6 relative max-w-lg">
+                                        {/* Animated Connecting Timeline Line */}
+                                        <div className="absolute left-[28px] top-4 bottom-4 w-0.5 bg-border/50">
+                                            <motion.div
+                                                initial={{ height: 0 }}
+                                                animate={{ height: "100%" }}
+                                                transition={{ duration: 1.5, ease: "easeInOut" }}
+                                                className="w-full bg-gradient-to-b from-primary via-primary/80 to-transparent origin-top"
+                                            />
+                                        </div>
+
                                         {getWorkflow(selectedService.title).map((step, idx) => (
                                             <motion.div
                                                 key={idx}
-                                                initial={{ opacity: 0, x: -10 }}
+                                                initial={{ opacity: 0, x: -20 }}
                                                 animate={{ opacity: 1, x: 0 }}
-                                                transition={{ delay: idx * 0.1 }}
-                                                className="flex items-start gap-4"
+                                                transition={{ delay: idx * 0.15 }}
+                                                className="relative z-10 group"
                                             >
-                                                <div className="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-background border-2 border-primary/20 flex items-center justify-center shadow-lg group-hover:border-primary transition-colors">
-                                                    <step.icon className="w-5 h-5 text-primary" />
-                                                </div>
-                                                <div className="pt-1">
-                                                    <div className="text-xs font-mono text-primary/70 mb-0.5">NODE_0{idx + 1}</div>
-                                                    <h4 className="font-bold text-foreground">{step.title}</h4>
-                                                    <p className="text-sm text-muted-foreground">{step.desc}</p>
+                                                <div className="flex items-start gap-4 p-3 rounded-xl hover:bg-card/80 border border-transparent hover:border-primary/20 transition-all duration-300">
+                                                    {/* Node Icon */}
+                                                    <div className="relative flex-shrink-0">
+                                                        <div className="w-14 h-14 rounded-full bg-background border-2 border-border group-hover:border-primary/50 flex items-center justify-center shadow-lg transition-all z-20 relative group-hover:scale-110 duration-300">
+                                                            <step.icon className="w-6 h-6 text-muted-foreground group-hover:text-primary transition-colors duration-300" />
+                                                        </div>
+                                                        {/* Pulse Ring */}
+                                                        <div className="absolute inset-0 rounded-full border border-primary/0 group-hover:border-primary/30 scale-100 group-hover:scale-125 transition-all duration-500"></div>
+                                                    </div>
+
+                                                    {/* Node Content */}
+                                                    <div className="pt-1.5 flex-1">
+                                                        <div className="flex items-center justify-between mb-1">
+                                                            <span className="text-[10px] font-mono text-primary/60 tracking-wider">
+                                                                NODE_0{idx + 1}
+                                                            </span>
+                                                            {idx === 0 && <span className="text-[9px] font-mono bg-primary/10 text-primary px-1 rounded">INIT</span>}
+                                                            {idx === getWorkflow(selectedService.title).length - 1 && <span className="text-[9px] font-mono bg-green-500/10 text-green-500 px-1 rounded">FINAL</span>}
+                                                        </div>
+                                                        <h4 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors">
+                                                            {step.title}
+                                                        </h4>
+                                                        <p className="text-sm text-muted-foreground group-hover:text-muted-foreground/80 transition-colors leading-relaxed mt-0.5">
+                                                            {step.desc}
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </motion.div>
                                         ))}
                                     </div>
                                 </div>
 
-                                <div className="p-4 bg-muted/30 border-t border-border/40 flex justify-end">
-                                    <Button onClick={() => setSelectedService(null)} variant="default">
-                                        Close Node
+                                {/* FOOTER: Action Bar */}
+                                <div className="p-4 bg-background/95 border-t border-border/40 flex items-center justify-between">
+                                    <div className="hidden md:flex items-center gap-4 text-[10px] font-mono text-muted-foreground">
+                                        <div className="flex items-center gap-1.5">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                                            SYSTEM_READY
+                                        </div>
+                                        <div>VER: 2.4.0</div>
+                                    </div>
+                                    <Button onClick={() => setSelectedService(null)} variant="outline" className="ml-auto hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30 transition-colors">
+                                        Terminate Process
                                     </Button>
                                 </div>
                             </>

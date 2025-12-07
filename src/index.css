@@ -153,8 +153,9 @@
   h4,
   h5,
   h6 {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
   }
 
   /* Mobile-specific optimizations */
@@ -441,12 +442,12 @@
       grid-template-columns: 0.8fr auto 0.8fr;
       gap: 24px;
     }
-    
+
     .relume-hero-column {
       display: flex;
       gap: 16px;
     }
-    
+
     .relume-hero-image {
       border-radius: 6px;
     }
@@ -476,11 +477,11 @@
       font-size: 12px;
       padding: 6px 16px;
     }
-    
+
     .relume-hero-cursor {
       display: none;
     }
-    
+
     /* Hide mobile slider on tablet */
     .relume-hero-mobile-slider {
       display: none;

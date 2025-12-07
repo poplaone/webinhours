@@ -51,7 +51,7 @@ export const Hero = () => {
             <div className="absolute -top-1.5 -left-1.5 w-2 h-2 sm:w-3 sm:h-3 bg-primary" />
             <div className="absolute -bottom-1.5 -right-1.5 w-2 h-2 sm:w-3 sm:h-3 bg-primary" />
 
-            <h1 className="text-center font-bold leading-tight mb-6 sm:mb-8 xl:text-6xl text-xl text-primary">
+            <h1 className="text-center font-medium tracking-tight leading-tight mb-6 sm:mb-8 xl:text-6xl text-xl text-primary">
               WebInHour: Your Digital Presence, <br className="hidden md:block" />
               <span className="text-foreground">Delivered with Precision.</span>
             </h1>
