@@ -52,18 +52,18 @@ export const Hero = () => {
             <div className="absolute -bottom-1.5 -right-1.5 w-2 h-2 sm:w-3 sm:h-3 bg-primary" />
 
             <h1 className="text-center font-medium tracking-tight leading-tight mb-6 sm:mb-8 xl:text-6xl text-xl text-primary">
-              WebInHour: Your Digital Presence, <br className="hidden md:block" />
-              <span className="text-foreground">Delivered with Precision.</span>
+              WebInHour: Elite Digital Presence <br className="hidden md:block" />
+              <span className="text-foreground">& SEO Solutions.</span>
             </h1>
 
             <div className="text-center max-w-5xl mx-auto text-muted-foreground">
               <p className="text-sm xl:text-lg leading-relaxed font-medium">
-                We bridge the gap between instant deployment and enterprise-grade quality.
-                Access 500+ <button onClick={() => navigate('/marketplace')} className="text-primary hover:text-primary/80 transition-colors font-semibold underline decoration-2 underline-offset-4">professional architectures</button> for free,
-                or leverage our elite network for <button onClick={() => {
-                  const servicesSection = document.getElementById('premium-marketplace');
+                The fastest way to launch high-conversion websites.
+                Access <button onClick={() => navigate('/marketplace')} className="text-primary hover:text-primary/80 transition-colors font-semibold underline decoration-2 underline-offset-4">professional custom design</button>, reputation management,
+                and <button onClick={() => {
+                  const servicesSection = document.getElementById('premium-services');
                   servicesSection?.scrollIntoView({ behavior: 'smooth' });
-                }} className="text-primary hover:text-primary/80 transition-colors font-semibold underline decoration-2 underline-offset-4">specialized digital assets</button>.
+                }} className="text-primary hover:text-primary/80 transition-colors font-semibold underline decoration-2 underline-offset-4">verified digital assets</button> in one ecosystem.
               </p>
             </div>
           </div>

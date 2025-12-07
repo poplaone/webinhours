@@ -29,42 +29,65 @@ export function MobileResponsiveCard({ className }: { className?: string }) {
             </div>
 
             {/* GRAPHIC CONTENT (Bottom) */}
-            <div className="relative z-10 flex-1 flex items-end justify-center mt-6 group-hover:scale-105 transition-transform duration-500">
-                <div className="relative w-full max-w-[180px] flex justify-center">
+            <div className="relative z-10 flex-1 flex items-end justify-center mt-6 group-hover:scale-105 transition-transform duration-500 perspective-1000">
+                <div className="relative w-full max-w-[180px] flex justify-center transform-style-3d rotate-x-12 rotate-y-[-10deg] group-hover:rotate-x-0 group-hover:rotate-y-0 transition-transform duration-700">
 
-                    {/* Sharp Bezel-less Device */}
-                    <div className="relative w-[140px] h-[220px] bg-zinc-950 border-x border-t border-zinc-800 shadow-2xl overflow-hidden ring-1 ring-white/5 mx-auto">
-
-                        {/* Screen Content - Sharp & Professional */}
-                        <div className="w-full h-full bg-background flex flex-col relative">
-                            {/* Fake Browser Header */}
-                            <div className="h-6 bg-zinc-900 border-b border-zinc-800 flex items-center px-2 gap-2">
-                                <div className="w-2 h-2 rounded-full bg-zinc-700"></div>
-                                <div className="flex-1 h-3 bg-zinc-800 rounded mx-2"></div>
+                    {/* Backend Mockup (Layer 1 - Deep) */}
+                    <div className="absolute top-4 -right-12 w-[140px] h-[200px] bg-zinc-900/80 border border-zinc-800 rounded-lg shadow-xl translate-z-[-20px] blur-[1px] opacity-60">
+                        <div className="p-3 space-y-2">
+                            <div className="w-full h-1 bg-primary/20 rounded-full"></div>
+                            <div className="w-2/3 h-1 bg-primary/20 rounded-full"></div>
+                            <div className="w-full h-1 bg-primary/20 rounded-full"></div>
+                            <div className="grid grid-cols-2 gap-2 mt-4">
+                                <div className="h-10 border border-primary/10 bg-primary/5 rounded"></div>
+                                <div className="h-10 border border-primary/10 bg-primary/5 rounded"></div>
                             </div>
+                        </div>
+                    </div>
 
-                            {/* Hero Section Wireframe */}
-                            <div className="h-24 bg-zinc-900/50 flex flex-col items-center justify-center gap-2 p-4 border-b border-border/10">
-                                <div className="w-3/4 h-2 bg-muted-foreground/20 rounded-none"></div>
-                                <div className="w-1/2 h-2 bg-muted-foreground/20 rounded-none"></div>
-                                <div className="mt-2 w-16 h-4 bg-primary rounded-none"></div>
-                            </div>
-
-                            {/* Grid Content */}
-                            <div className="flex-1 p-3 grid grid-cols-2 gap-2 bg-zinc-950/30">
-                                <div className="bg-zinc-900 border border-zinc-800/50 aspect-square"></div>
-                                <div className="bg-zinc-900 border border-zinc-800/50 aspect-square"></div>
-                                <div className="bg-zinc-900 border border-zinc-800/50 aspect-square"></div>
-                                <div className="bg-zinc-900 border border-zinc-800/50 aspect-square"></div>
+                    {/* Main Sharp Device (Layer 2 - Focus) */}
+                    <div className="relative w-[150px] h-[230px] bg-zinc-950 border border-zinc-800 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden ring-1 ring-white/10 z-20">
+                        {/* Status Bar */}
+                        <div className="h-6 bg-background/50 border-b border-white/5 backdrop-blur-md flex items-center justify-between px-3">
+                            <span className="text-[8px] font-mono text-muted-foreground">09:41</span>
+                            <div className="flex gap-1">
+                                <div className="w-2 h-2 rounded-[1px] bg-primary"></div>
+                                <div className="w-2 h-2 rounded-[1px] bg-foreground"></div>
                             </div>
                         </div>
 
-                        {/* Reflection Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 pointer-events-none z-40"></div>
+                        {/* UI Content */}
+                        <div className="p-4 space-y-3">
+                            {/* Pro Card 1 */}
+                            <div className="bg-gradient-to-br from-zinc-900 to-black border border-white/10 p-3 rounded-sm shadow-lg relative overflow-hidden group/item">
+                                <div className="absolute inset-0 bg-primary/5 translate-x-[-100%] group-hover/item:translate-x-[100%] transition-transform duration-1000"></div>
+                                <div className="flex items-center gap-2 mb-2">
+                                    <div className="w-6 h-6 bg-primary rounded-sm flex items-center justify-center text-[10px] text-primary-foreground font-bold">W</div>
+                                    <div className="h-2 w-16 bg-zinc-800 rounded-sm"></div>
+                                </div>
+                                <div className="h-12 bg-zinc-800/50 rounded-sm border border-white/5"></div>
+                            </div>
+
+                            {/* Pro Card 2 */}
+                            <div className="bg-zinc-900/50 border border-white/5 p-3 rounded-sm flex gap-2 items-center">
+                                <div className="w-8 h-8 rounded-full border border-primary/30"></div>
+                                <div className="space-y-1">
+                                    <div className="h-1.5 w-12 bg-zinc-700 rounded-full"></div>
+                                    <div className="h-1.5 w-8 bg-zinc-800 rounded-full"></div>
+                                </div>
+                            </div>
+
+                            {/* Floating Interactive Element */}
+                            <div className="absolute bottom-4 right-4 left-4 h-10 bg-primary text-primary-foreground text-[10px] font-bold tracking-widest uppercase flex items-center justify-center shadow-[0_4px_20px_rgba(var(--primary),0.4)]">
+                                View Project
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Minimal Shadow/Base */}
-                    <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-32 h-4 bg-primary/20 blur-xl rounded-full"></div>
+                    {/* Floating Glass Element (Layer 3 - Overlay) */}
+                    <div className="absolute -bottom-6 -left-8 w-24 h-24 bg-primary/10 backdrop-blur-md border border-white/10 rounded-lg shadow-glass z-30 flex items-center justify-center transform rotate-6 animate-pulse duration-[4000ms]">
+                        <div className="text-[10px] font-mono text-primary font-bold">MOBILE_FIRST</div>
+                    </div>
                 </div>
             </div>
         </div>

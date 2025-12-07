@@ -31,50 +31,55 @@ export function PerformanceSEOCard({ className }: { className?: string }) {
             {/* GRAPHIC CONTENT (Bottom) */}
             <div className="relative z-10 flex-1 flex flex-col items-center justify-end mt-4">
 
-                {/* Digital Ring Meter */}
-                <div className="flex items-center gap-8 w-full justify-center mb-6">
-                    <div className="relative w-24 h-24 group-hover:scale-105 transition-transform duration-500">
-                        {/* Outer Ring */}
+                {/* Advanced HUD Meter */}
+                <div className="flex items-center gap-6 w-full justify-center mb-4 relative">
+                    {/* Rotating Scan Background */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent blur-3xl opacity-20 pointer-events-none"></div>
+
+                    <div className="relative w-28 h-28 group-hover:scale-105 transition-transform duration-500">
+                        {/* Outer Decoration Ring */}
+                        <div className="absolute inset-0 rounded-full border border-primary/20 border-dashed animate-[spin_10s_linear_infinite]"></div>
+
+                        {/* Segmented Arc Gauge */}
                         <svg className="w-full h-full -rotate-90">
-                            <circle cx="48" cy="48" r="44" stroke="currentColor" strokeWidth="2" fill="transparent" className="text-muted/10" />
+                            {/* Background Track */}
+                            <circle cx="56" cy="56" r="48" stroke="currentColor" strokeWidth="6" fill="transparent" className="text-muted/10" strokeDasharray="30 5" />
+
+                            {/* Active Progress (with Gradient effect simulated by color) */}
                             <circle
-                                cx="48" cy="48" r="44"
+                                cx="56" cy="56" r="48"
                                 stroke="currentColor"
-                                strokeWidth="2"
+                                strokeWidth="6"
                                 fill="transparent"
-                                strokeDasharray="276"
-                                strokeDashoffset="0"
-                                className="text-primary drop-shadow-[0_0_10px_rgba(var(--primary),0.5)]"
+                                strokeDasharray="280 360"
+                                strokeLinecap="butt"
+                                className="text-primary drop-shadow-[0_0_12px_rgba(var(--primary),0.6)] animate-in fade-in duration-1000"
                             />
                         </svg>
 
-                        {/* Center Score */}
-                        <div className="absolute inset-0 flex flex-col items-center justify-center">
-                            <span className="text-3xl font-bold tracking-tighter text-foreground">100</span>
-                            <span className="text-[10px] uppercase font-mono text-muted-foreground">Score</span>
+                        {/* Center Digital Readout */}
+                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-card/30 backdrop-blur-sm rounded-full m-4 border border-white/5">
+                            <span className="text-[10px] font-mono text-primary animate-pulse">OPTIMIZED</span>
+                            <span className="text-4xl font-bold tracking-tighter text-foreground tabular-nums">100</span>
                         </div>
                     </div>
 
-                    {/* Metric Bars */}
-                    <div className="flex flex-col gap-3 min-w-[100px]">
-                        <div className="space-y-1">
-                            <div className="flex justify-between text-[10px] uppercase font-mono text-muted-foreground">
-                                <span>LCP</span>
-                                <span className="text-foreground">0.8s</span>
+                    {/* Matrix Data Bars */}
+                    <div className="flex flex-col gap-2 min-w-[100px] z-10">
+                        {[{ l: "LCP", v: "0.8s", w: "98%" }, { l: "INP", v: "40ms", w: "95%" }, { l: "CLS", v: "0.00", w: "100%" }].map((metric, i) => (
+                            <div key={metric.l} className="space-y-0.5">
+                                <div className="flex justify-between text-[9px] font-mono text-muted-foreground/80 tracking-widest">
+                                    <span>[ {metric.l} ]</span>
+                                    <span className="text-primary">{metric.v}</span>
+                                </div>
+                                <div className="h-1 w-full bg-zinc-900 rounded-sm overflow-hidden border border-white/5">
+                                    <div
+                                        className="h-full bg-primary shadow-[0_0_8px_rgba(var(--primary),0.5)]"
+                                        style={{ width: metric.w, animationDelay: `${i * 200}ms` }}
+                                    ></div>
+                                </div>
                             </div>
-                            <div className="h-1.5 w-full bg-muted/20 rounded-full overflow-hidden">
-                                <div className="h-full bg-green-500 w-[95%] shadow-[0_0_8px_rgba(34,197,94,0.4)]"></div>
-                            </div>
-                        </div>
-                        <div className="space-y-1">
-                            <div className="flex justify-between text-[10px] uppercase font-mono text-muted-foreground">
-                                <span>INP</span>
-                                <span className="text-foreground">40ms</span>
-                            </div>
-                            <div className="h-1.5 w-full bg-muted/20 rounded-full overflow-hidden">
-                                <div className="h-full bg-green-500 w-[98%] shadow-[0_0_8px_rgba(34,197,94,0.4)]"></div>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
 
