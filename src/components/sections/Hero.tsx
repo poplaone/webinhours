@@ -22,46 +22,46 @@ export const Hero = () => {
 
           {/* LEFT COLUMN - LCP optimized with fetchpriority */}
           <div className="relume-hero-column" aria-hidden="true">
-            <img 
-              src="/assets/card-1.webp" 
-              alt="Professional website design preview" 
+            <img
+              src="/assets/card-1.webp"
+              alt="Professional website design preview"
               width={400}
               height={300}
-              style={{ width: 'auto', height: 'auto', maxWidth: '100%' }} 
-              data-depth="0.15" 
+              style={{ width: '100%', height: 'auto', aspectRatio: '400/300' }}
+              data-depth="0.15"
               loading="eager"
               decoding="sync"
-              className="relume-hero-image parallax-image object-contain" 
+              className="relume-hero-image parallax-image object-contain"
             />
-            <img 
-              alt="E-commerce website template example" 
+            <img
+              alt="E-commerce website template example"
               src="/lovable-uploads/f05d4bb5-4c1a-40d9-bb57-f25dcd61d809.png"
               width={400}
               height={300}
-              style={{ width: 'auto', height: 'auto', maxWidth: '100%' }} 
-              data-depth="0.25" 
+              style={{ width: '100%', height: 'auto', aspectRatio: '400/300' }}
+              data-depth="0.25"
               loading="eager"
               decoding="async"
-              className="relume-hero-image is-offset-left parallax-image object-contain" 
+              className="relume-hero-image is-offset-left parallax-image object-contain"
             />
-            <img 
-              src="/assets/card-3.webp" 
-              alt="Portfolio website template example" 
+            <img
+              src="/assets/card-3.webp"
+              alt="Portfolio website template example"
               width={400}
               height={300}
-              style={{ width: 'auto', height: 'auto', maxWidth: '100%' }} 
-              data-depth="0.2" 
+              style={{ width: '100%', height: 'auto', aspectRatio: '400/300' }}
+              data-depth="0.2"
               loading="eager"
               decoding="async"
-              className="relume-hero-image parallax-image object-contain" 
+              className="relume-hero-image parallax-image object-contain"
             />
-            <img 
-              src="/assets/cursor-jessica.png" 
-              alt="" 
+            <img
+              src="/assets/cursor-jessica.png"
+              alt=""
               width={83}
               height={83}
-              className="relume-hero-cursor parallax-cursor" 
-              style={{ position: 'absolute', width: '82.5px', top: '20px', left: '200px' }} 
+              className="relume-hero-cursor parallax-cursor"
+              style={{ position: 'absolute', width: '82.5px', top: '20px', left: '200px' }}
               data-depth="0.4"
               loading="lazy"
               decoding="async"
@@ -138,47 +138,47 @@ export const Hero = () => {
 
           {/* RIGHT COLUMN - LCP optimized with fetchpriority */}
           <div className="relume-hero-column" aria-hidden="true">
-            <img 
-              src="/assets/card-4.webp" 
-              alt="AI workflow platform template" 
+            <img
+              src="/assets/card-4.webp"
+              alt="AI workflow platform template"
               width={400}
               height={300}
-              style={{ width: 'auto', height: 'auto', maxWidth: '100%' }} 
-              data-depth="0.18" 
+              style={{ width: '100%', height: 'auto', aspectRatio: '400/300' }}
+              data-depth="0.18"
               loading="eager"
               decoding="sync"
-              className="relume-hero-image parallax-image object-contain" 
+              className="relume-hero-image parallax-image object-contain"
             />
-            <img 
-              src="/assets/card-5.webp" 
-              alt="Mobile app design template" 
+            <img
+              src="/assets/card-5.webp"
+              alt="Mobile app design template"
               width={400}
               height={300}
-              style={{ width: 'auto', height: 'auto', maxWidth: '100%' }} 
-              data-depth="0.22" 
+              style={{ width: '100%', height: 'auto', aspectRatio: '400/300' }}
+              data-depth="0.22"
               loading="eager"
               decoding="async"
-              className="relume-hero-image is-offset-right parallax-image object-contain" 
+              className="relume-hero-image is-offset-right parallax-image object-contain"
             />
-            <img 
-              src="/assets/card-6.webp" 
-              alt="Tech landing page template" 
+            <img
+              src="/assets/card-6.webp"
+              alt="Tech landing page template"
               width={400}
               height={300}
-              style={{ width: 'auto', height: 'auto', maxWidth: '100%' }} 
-              data-depth="0.16" 
+              style={{ width: '100%', height: 'auto', aspectRatio: '400/300' }}
+              data-depth="0.16"
               loading="eager"
               decoding="async"
-              className="relume-hero-image parallax-image object-contain" 
+              className="relume-hero-image parallax-image object-contain"
             />
-            <img 
-              src="/assets/cursor-mario.png" 
-              alt="" 
+            <img
+              src="/assets/cursor-mario.png"
+              alt=""
               width={70}
               height={70}
-              className="relume-hero-cursor parallax-cursor" 
-              style={{ position: 'absolute', width: '69.5px', top: '10px', right: '180px' }} 
-              data-depth="0.35" 
+              className="relume-hero-cursor parallax-cursor"
+              style={{ position: 'absolute', width: '69.5px', top: '10px', right: '180px' }}
+              data-depth="0.35"
               aria-hidden="true"
               loading="lazy"
               decoding="async"

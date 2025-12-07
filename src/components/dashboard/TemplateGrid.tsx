@@ -2,7 +2,7 @@
 import React, { useRef, useEffect, useState, memo, useCallback } from 'react';
 import Masonry from 'react-masonry-css';
 import './masonry.css';
-import ColorThief from 'color-thief-browser';
+
 import { useNavigate } from 'react-router-dom';
 import { DollarSign, Star } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -60,7 +60,7 @@ const TemplateCard = memo<{ template: Website; onClick: (t: Website) => void; on
           src={template.thumbnail_url || 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=600&q=80'}
           alt={template.title}
           className={`w-full h-full object-cover transition-transform group-hover:scale-110 duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-          loading="eager"
+          loading="lazy"
           decoding="async"
           onLoad={handleImageLoad}
           onError={handleImageError}

@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
+import { visualizer } from "rollup-plugin-visualizer";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -16,6 +17,13 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     mode === 'development' && componentTagger(),
+    visualizer({
+      template: "treemap", // or sunburst
+      open: true,
+      gzipSize: true,
+      brotliSize: true,
+      filename: "analyse.html", // will be saved in project's root
+    }),
   ].filter(Boolean),
   resolve: {
     alias: {
@@ -25,7 +33,7 @@ export default defineConfig(({ mode }) => ({
   build: {
     // Optimize build performance with safer target
     target: 'es2020',
-    minify: 'terser',
+    // minify: 'esbuild', // Default is esbuild, so we can omit or explicitly set it
     // Enable module preload for parallel loading with CSS preload
     modulePreload: {
       polyfill: true,
@@ -40,21 +48,21 @@ export default defineConfig(({ mode }) => ({
     // Ensure proper output format
     outDir: 'dist',
     emptyOutDir: true,
-    terserOptions: {
-      compress: {
-        drop_console: mode === 'production',
-        drop_debugger: mode === 'production',
-      },
-    },
     rollupOptions: {
       // Prevent TDZ errors by ensuring proper module initialization
-      preserveEntrySignatures: 'strict',
+      // preserveEntrySignatures: 'strict', // Removed to let Rollup optimize
       output: {
-        // Ultra-simplified chunk splitting to prevent TDZ errors
         manualChunks: (id) => {
-          // Keep ALL node_modules together to prevent initialization issues
-          if (id.includes('node_modules/')) {
-            return 'vendor';
+          // React core and vendor splitting
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) {
+              return 'react-vendor';
+            }
+            if (id.includes('lucide-react') || id.includes('@radix-ui') || id.includes('clsx') || id.includes('tailwind-merge')) {
+              return 'ui-vendor';
+            }
+            // For other vendors, let them be part of a general vendor chunk or standard splitting
+            // return 'vendor'; 
           }
         },
         // Optimize asset naming and enable CSS splitting
@@ -75,10 +83,12 @@ export default defineConfig(({ mode }) => ({
     },
     // Optimize chunk size warnings
     chunkSizeWarningLimit: 1000,
-    // DISABLE tree shaking completely to prevent TDZ errors
-    treeshake: false,
+    // ENABLE tree shaking
+    treeshake: true,
     // Ensure source maps for debugging (dev only)
-    sourcemap: mode === 'development'
+    sourcemap: mode === 'development',
+    // Ensure CSS code splitting is enabled (default is true, but just to be explicit if needed, though 'true' is better)
+    cssCodeSplit: true,
   },
   optimizeDeps: {
     // Pre-bundle essential dependencies to prevent loading issues
@@ -90,14 +100,10 @@ export default defineConfig(({ mode }) => ({
       'tailwind-merge',
       'class-variance-authority'
     ],
-    // Force pre-bundling of problematic dependencies
-    force: true,
   },
   // Optimize CSS - inline critical CSS, split the rest
   css: {
     devSourcemap: mode === 'development',
-    // Disable code splitting to reduce network chains in production
-    codeSplit: mode === 'development',
     preprocessorOptions: {
       css: {
         // Ensure CSS is processed efficiently
