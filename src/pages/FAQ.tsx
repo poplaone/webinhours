@@ -2,6 +2,7 @@
 import React from 'react';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
+import GEOStructuredData from '@/components/seo/GEOStructuredData';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -79,13 +80,25 @@ export default function FAQ() {
     }
   ];
 
+  // Flatten FAQs for GEO structured data
+  const allFaqsForSchema = faqs.flatMap(category => 
+    category.questions.map(q => ({
+      question: q.question,
+      answer: q.answer
+    }))
+  );
+
   return (
     <AppLayout>
       <SEOHead
-        title="FAQ - WebInHour | Free Websites & Premium Services Questions"
+        title="FAQ - WebInHours | Free Websites & Premium Services Questions"
         description="Answers to common questions about our free website designs, premium services like content creation and PR, setup process, and pricing. Get started with confidence."
         keywords="free website FAQ, website design questions, premium services questions, content creation help, website setup support"
+        canonicalUrl="https://webinhours.com/faq"
       />
+      
+      {/* GEO-Optimized FAQ Schema */}
+      <GEOStructuredData pageType="faq" faqs={allFaqsForSchema} />
 
       <div className="pt-24 pb-20 px-4">
         <div className="container mx-auto">

@@ -1,3 +1,7 @@
+# WebInHours - robots.txt
+# Optimized for AI crawlers and search engines (GEO Phase 1)
+
+# Allow all search engines
 User-agent: Googlebot
 Allow: /
 
@@ -10,5 +14,58 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
+# AI Crawlers - Explicitly allowed for GEO optimization
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Anthropic-AI
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Cohere-AI
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Meta-ExternalFetcher
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+# Default - Allow all
 User-agent: *
 Allow: /
+
+# Sitemaps
+Sitemap: https://webinhours.com/sitemap.xml
+
+# LLMs.txt - AI content guidance
+# See: https://webinhours.com/llms.txt

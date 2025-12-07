@@ -1,6 +1,7 @@
 import React, { useState, useRef, useMemo, useCallback, useEffect, Suspense, lazy } from 'react';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
+import GEOStructuredData from '@/components/seo/GEOStructuredData';
 import { GridPattern } from '@/components/ui/GridPattern';
 import { useWebsites } from '@/hooks/useWebsites';
 import { useAIAgents } from '@/hooks/useAIAgents';
@@ -301,10 +302,14 @@ const Marketplace: React.FC = () => {
   return (
     <AppLayout className="bg-home-glow">
       <SEOHead
-        title="Free Website Marketplace - Browse 500+ Professional Designs"
+        title="Free Website Marketplace - Browse 500+ Professional Designs | WebInHours"
         description="Choose from 500+ professional website designs absolutely free. Find the perfect template for your business. Premium services like content creation, PR, and social media management available."
         keywords="free website templates, professional website designs, free business website, website marketplace, choose website design, free web templates"
+        canonicalUrl="https://webinhours.com/marketplace"
       />
+      
+      {/* GEO-Optimized Marketplace Schema */}
+      <GEOStructuredData pageType="marketplace" />
 
       {/* Grid Background */}
       <GridPattern />

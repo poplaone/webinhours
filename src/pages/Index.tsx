@@ -4,6 +4,7 @@ import { Services } from '@/components/sections/Services';
 import { Footer } from '@/components/sections/Footer';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
+import GEOStructuredData from '@/components/seo/GEOStructuredData';
 import { GridPattern } from '@/components/ui/GridPattern';
 
 // Lazy load heavy components to improve initial page load
@@ -15,11 +16,16 @@ const PremiumMarketplaceServices = lazy(() => import('@/components/sections/Prem
 const Index = () => {
   return (
     <AppLayout>
+      {/* GEO-Optimized SEO with Answer-First Approach */}
       <SEOHead
-        title="WebInHour - Enterprise Digital Solutions & Premium Assets"
-        description="WebInHour delivers professional website development, online reputation management, social media verification, and premium digital assets. Your complete digital transformation partner."
-        keywords="WebInHour, reputation management, google knowledge panel, social media verification, premium domains, digital pr services, website development"
+        title="Free Professional Websites in 24 Hours | 500+ Templates - WebInHours"
+        description="Get a free professional website today. Choose from 500+ templates, mobile-optimized, SEO-ready. Custom branding from $299. Delivered in 24 hours."
+        keywords="free website, professional website templates, 24 hour website, free website builder, custom branding, SEO website, mobile responsive website, website development service"
+        canonicalUrl="https://webinhours.com/"
       />
+      
+      {/* Enhanced Structured Data for GEO/AI Extraction */}
+      <GEOStructuredData pageType="home" />
 
       {/* Background layers - Grid pattern */}
       <GridPattern />
