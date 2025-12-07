@@ -125,7 +125,6 @@ export const OptimizedImage = memo<OptimizedImageProps>(({
         sizes={sizes}
         loading={priority ? 'eager' : 'lazy'}
         decoding={priority ? 'sync' : 'async'}
-        fetchPriority={priority ? 'high' : 'low'}
       />
 
       {/* Error state */}

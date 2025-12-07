@@ -31,7 +31,6 @@ export const Hero = () => {
               data-depth="0.15" 
               loading="eager"
               decoding="sync"
-              fetchPriority="high"
               className="relume-hero-image parallax-image object-contain" 
             />
             <img 
@@ -148,7 +147,6 @@ export const Hero = () => {
               data-depth="0.18" 
               loading="eager"
               decoding="sync"
-              fetchPriority="high"
               className="relume-hero-image parallax-image object-contain" 
             />
             <img 

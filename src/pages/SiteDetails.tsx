@@ -189,7 +189,6 @@ const SiteDetails = () => {
                       className="w-full h-full object-cover"
                       loading="eager"
                       decoding="async"
-                      fetchPriority="high"
                     />
                     {/* Translucent Preview Button Inside Image */}
                     <Button
