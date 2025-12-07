@@ -29,6 +29,8 @@ const AdminPanel = lazy(() => import("./pages/AdminPanel"));
 const Marketplace = lazy(() => import("./pages/Marketplace"));
 const SiteDetails = lazy(() => import("./pages/SiteDetails"));
 const Calculator = lazy(() => import("./pages/Calculator"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
@@ -116,6 +118,8 @@ function App() {
                         </ErrorBoundary>
                       } />
                       <Route path="/calculator" element={<Calculator />} />
+                      <Route path="/blog" element={<Blog />} />
+                      <Route path="/blog/:slug" element={<BlogPost />} />
                       <Route path="/site/:slugOrId" element={<SiteDetails />} />
                       <Route path="/profile" element={
                         <ProtectedRoute>
