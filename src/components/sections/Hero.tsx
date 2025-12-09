@@ -99,10 +99,10 @@ export const Hero = () => {
                   </button>
                   , Generative Engine Optimization (GEO), and{' '}
                   <button onClick={() => {
-                    const servicesSection = document.getElementById('premium-services');
+                    const servicesSection = document.getElementById('premium-marketplace');
                     servicesSection?.scrollIntoView({ behavior: 'smooth' });
                   }} className="text-primary hover:text-primary/80 transition-colors font-semibold underline decoration-2 underline-offset-4">
-                    verified digital assets
+                    premium digital solutions
                   </button>
                   {' '}in one ecosystem.
                 </p>
@@ -114,25 +114,14 @@ export const Hero = () => {
               <Button
                 size="lg"
                 onClick={() => navigate('/marketplace')}
-                className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground text-base sm:text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-bold tracking-tight"
+                className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground text-base sm:text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-medium"
                 aria-label="Browse free website templates"
               >
-                <span>Get Free Website</span>
-                <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
+                <span className="bg-gradient-to-r from-white via-white to-white/70 bg-clip-text text-transparent font-medium">Get Free Website</span>
+                <ArrowRight className="ml-2 h-5 w-5 text-white" aria-hidden="true" />
               </Button>
 
-              <Button
-                variant="outline"
-                size="lg"
-                onClick={() => {
-                  const servicesSection = document.getElementById('premium-marketplace');
-                  servicesSection?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="w-full sm:w-auto border-2 border-primary/20 hover:bg-primary/5 text-foreground text-base sm:text-lg px-8 py-6 rounded-lg font-semibold"
-                aria-label="View premium web development services"
-              >
-                View Premium Services
-              </Button>
+
             </div>
           </div>
 

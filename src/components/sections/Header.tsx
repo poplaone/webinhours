@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Code, Menu, X, ArrowUp, HelpCircle, DollarSign, FileText, Shield, RotateCcw, Lightbulb, Globe, Palette, FileCode, Zap, Image, Search, Smartphone, Lock } from 'lucide-react';
+import { Code, Menu, X, ArrowUp, HelpCircle, DollarSign, FileText, Shield, RotateCcw, Lightbulb, Globe, Palette, FileCode, Zap, Image, Search, Smartphone, Lock, BookOpen, Users } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useAuth } from '@/hooks/useAuth';
@@ -33,9 +33,8 @@ export const Header = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const navItems = [
-    { label: 'Blog', path: '/blog' },
     { label: 'Calculator', path: '/calculator' },
-    { label: 'About', path: '/about' },
+    { label: 'Pricing', path: '/pricing' },
     { label: 'Contact', path: '/contact' }
   ];
 
@@ -92,8 +91,9 @@ export const Header = () => {
   ];
 
   const moreItems: LinkItem[] = [
+    { title: 'Blog', href: '/blog', icon: BookOpen, description: 'Latest news, updates & tech guides' },
     { title: 'How It Works', href: '/how-it-works', icon: Lightbulb, description: 'Learn our proven process' },
-    { title: 'Pricing', href: '/pricing', icon: DollarSign, description: 'Transparent pricing plans' },
+    { title: 'About', href: '/about', icon: Users, description: 'Our mission, values & team' },
     { title: 'FAQ', href: '/faq', icon: HelpCircle, description: 'Common questions answered' },
   ];
 

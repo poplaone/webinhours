@@ -356,11 +356,11 @@ export function PremiumMarketplaceServices() {
 
                 {/* --- WORKFLOW MODAL --- */}
                 <Dialog open={!!selectedService} onOpenChange={(open) => !open && setSelectedService(null)}>
-                    <DialogContent className="sm:max-w-[700px] bg-card border-primary/20 p-0 overflow-hidden gap-0">
+                    <DialogContent className="w-[95vw] sm:w-full sm:max-w-[700px] max-h-[85vh] overflow-y-auto bg-card border-primary/20 p-0 gap-0">
                         {selectedService && (
                             <>
                                 {/* HEADER: Tech Monitor Style */}
-                                <div className="relative p-6 pb-6 overflow-hidden bg-background/95">
+                                <div className="relative p-4 md:p-6 pb-6 overflow-hidden bg-background/95">
                                     {/* Tech Grid Background */}
                                     <div className="absolute inset-0 opacity-10 pointer-events-none"
                                         style={{ backgroundImage: 'linear-gradient(to right, #8882 1px, transparent 1px), linear-gradient(to bottom, #8882 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
@@ -397,7 +397,7 @@ export function PremiumMarketplaceServices() {
                                 </div>
 
                                 {/* BODY: Workflow Pipeline */}
-                                <div className="p-6 md:p-8 bg-muted/10 relative overflow-hidden">
+                                <div className="p-4 md:p-8 bg-muted/10 relative overflow-hidden">
                                     {/* Decorative Side Data */}
                                     <div className="absolute right-4 top-4 bottom-4 w-px bg-gradient-to-b from-transparent via-primary/20 to-transparent hidden md:block"></div>
                                     <div className="absolute right-8 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-8 text-[9px] font-mono text-muted-foreground/40 rotate-90 origin-right">
@@ -408,7 +408,7 @@ export function PremiumMarketplaceServices() {
 
                                     <div className="space-y-6 relative max-w-lg">
                                         {/* Animated Connecting Timeline Line */}
-                                        <div className="absolute left-[28px] top-4 bottom-4 w-0.5 bg-border/50">
+                                        <div className="absolute left-[32px] md:left-[40px] top-4 bottom-4 w-0.5 bg-border/50">
                                             <motion.div
                                                 initial={{ height: 0 }}
                                                 animate={{ height: "100%" }}
@@ -425,10 +425,10 @@ export function PremiumMarketplaceServices() {
                                                 transition={{ delay: idx * 0.15 }}
                                                 className="relative z-10 group"
                                             >
-                                                <div className="flex items-start gap-4 p-3 rounded-xl hover:bg-card/80 border border-transparent hover:border-primary/20 transition-all duration-300">
+                                                <div className="flex items-start gap-4 p-2 md:p-3 rounded-xl hover:bg-card/80 border border-transparent hover:border-primary/20 transition-all duration-300">
                                                     {/* Node Icon */}
                                                     <div className="relative flex-shrink-0">
-                                                        <div className="w-14 h-14 rounded-full bg-background border-2 border-border group-hover:border-primary/50 flex items-center justify-center shadow-lg transition-all z-20 relative group-hover:scale-110 duration-300">
+                                                        <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-background border-2 border-border group-hover:border-primary/50 flex items-center justify-center shadow-lg transition-all z-20 relative group-hover:scale-110 duration-300">
                                                             <step.icon className="w-6 h-6 text-muted-foreground group-hover:text-primary transition-colors duration-300" />
                                                         </div>
                                                         {/* Pulse Ring */}

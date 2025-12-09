@@ -3,144 +3,177 @@ import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Clock, Users, Star, Zap, Shield, Heart } from 'lucide-react';
+import { Clock, Users, Star, Zap, Shield, Heart, Trophy, Target, Globe } from 'lucide-react';
 
 export default function About() {
   return (
     <AppLayout>
       <SEOHead
-        title="About Us - WebInHour | Free Website Designs + Premium Services"
-        description="Offering 500+ professional website designs absolutely free. Premium services like content creation, PR, and social media management available when you need them. Your online presence, simplified."
-        keywords="free website platform, professional web design, content creation services, PR services, social media management, website hosting"
+        title="About WebInHour | The Future of Digital Deployment"
+        description="We are redefining web development with an AI-integrated ecosystem that merges speed, quality, and scalability. Discover how we empower brands to launch instantly and grow limitlessly."
+        keywords="enterprise web development, AI website builder, digital ecosystem, vetted freelance marketplace, rapid deployment platform"
       />
       <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
           {/* Hero Section */}
-          <div className="text-center mb-16">
-            <Badge variant="secondary" className="mb-4">About WebInHour</Badge>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              Your Free Website,<br />Your Way
+          <div className="text-center mb-20 scroll-m-20">
+            <Badge variant="secondary" className="mb-6 px-4 py-1.5 text-sm font-medium tracking-wide uppercase">Our Vision</Badge>
+            <h1 className="text-4xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent tracking-tight">
+              Architecting the Future <br className="hidden md:block" />
+              of Digital Presence.
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              We believe everyone deserves a professional online presence. Choose from 500+ free website designs.
-              Enhance with premium services like content creation, PR, and social media management when you're ready to scale.
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed font-light">
+              We've dismantled the barriers between idea and execution.
+              <span className="text-foreground font-medium"> WebInHour</span> is the world's first unified ecosystem where professional-grade deployment meets limitless scalability.
             </p>
           </div>
 
-          {/* Stats Section */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
-            <Card className="text-center bg-white/5 backdrop-blur-md border-border/50">
-              <CardContent className="pt-6">
-                <Clock className="h-8 w-8 text-purple-600 mx-auto mb-3" />
-                <div className="text-3xl font-bold text-gray-900">2-24h</div>
-                <p className="text-gray-600">Average Delivery</p>
-              </CardContent>
-            </Card>
-            <Card className="text-center bg-white/5 backdrop-blur-md border-border/50">
-              <CardContent className="pt-6">
-                <Users className="h-8 w-8 text-blue-600 mx-auto mb-3" />
-                <div className="text-3xl font-bold text-gray-900">500+</div>
-                <p className="text-gray-600">Happy Clients</p>
-              </CardContent>
-            </Card>
-            <Card className="text-center bg-white/5 backdrop-blur-md border-border/50">
-              <CardContent className="pt-6">
-                <Star className="h-8 w-8 text-yellow-600 mx-auto mb-3" />
-                <div className="text-3xl font-bold text-gray-900">4.9/5</div>
-                <p className="text-gray-600">Customer Rating</p>
-              </CardContent>
-            </Card>
-            <Card className="text-center bg-white/5 backdrop-blur-md border-border/50">
-              <CardContent className="pt-6">
-                <Zap className="h-8 w-8 text-green-600 mx-auto mb-3" />
-                <div className="text-3xl font-bold text-gray-900">100+</div>
-                <p className="text-gray-600">Templates Available</p>
-              </CardContent>
-            </Card>
+          {/* Stats Section - Social Proof */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-24">
+            {[
+              { icon: Clock, value: "24h", label: "Max Deployment Time", color: "text-purple-600" },
+              { icon: Globe, value: "500+", label: "Active Ecosystem Nodes", color: "text-blue-600" },
+              { icon: Trophy, value: "99.9%", label: "Client Success Rate", color: "text-yellow-600" },
+              { icon: Zap, value: "100+", label: "Enterprise Templates", color: "text-green-600" }
+            ].map((stat, idx) => (
+              <Card key={idx} className="text-center bg-white/5 backdrop-blur-md border-border/50 hover:border-primary/20 transition-all duration-300 group">
+                <CardContent className="pt-8 pb-8">
+                  <div className="bg-background/50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 border border-border/50">
+                    <stat.icon className={`h-8 w-8 ${stat.color}`} />
+                  </div>
+                  <div className="text-4xl font-bold text-foreground mb-2 tracking-tight">{stat.value}</div>
+                  <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">{stat.label}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
 
-          {/* Our Story */}
-          <div className="grid md:grid-cols-2 gap-12 mb-16">
-            <div>
-              <h2 className="text-3xl font-bold mb-6">Our Story</h2>
-              <p className="text-gray-600 mb-4">
-                WebInHour was founded with a simple belief: businesses shouldn't have to wait weeks or months
-                for a professional website. In today's fast-paced digital world, speed matters.
-              </p>
-              <p className="text-gray-600 mb-4">
-                We've streamlined the entire web development process, from design to deployment, enabling us
-                to deliver stunning, functional websites in a fraction of the traditional time.
-              </p>
-              <p className="text-gray-600">
-                Our platform also empowers independent developers to showcase and sell their creations,
-                creating a thriving marketplace of high-quality web solutions.
-              </p>
+          {/* Our Story - The Narrative */}
+          <div className="grid md:grid-cols-2 gap-16 mb-24 items-center">
+            <div className="space-y-8">
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">The Paradigm Shift</h2>
+              <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
+                <p>
+                  For too long, businesses faced a binary choice: wait months for expensive agencies or settle for generic, unscalable DIY builders. To us, this was a fundamental market failure.
+                </p>
+                <p>
+                  <strong className="text-foreground">We built the third option.</strong>
+                </p>
+                <p>
+                  WebInHour was engineered to democratize access to enterprise-grade web technology. By leveraging AI-driven optimization and a curated marketplace of expert developers, we deliver custom, high-performance digital assets in a fraction of the time.
+                </p>
+                <p>
+                  We aren't just building websites; we're accelerating the speed of digital commerce.
+                </p>
+              </div>
             </div>
-            <Card className="bg-white/5 backdrop-blur-md border-border/50">
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Heart className="h-5 w-5 text-red-500 mr-2" />
-                  Our Values
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <Shield className="h-5 w-5 text-blue-600 mt-1" />
-                  <div>
-                    <h4 className="font-semibold">Quality First</h4>
-                    <p className="text-sm text-gray-600">Every website meets our high standards</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <Clock className="h-5 w-5 text-purple-600 mt-1" />
-                  <div>
-                    <h4 className="font-semibold">Speed Matters</h4>
-                    <p className="text-sm text-gray-600">Fast delivery without compromising quality</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <Users className="h-5 w-5 text-green-600 mt-1" />
-                  <div>
-                    <h4 className="font-semibold">Community Driven</h4>
-                    <p className="text-sm text-gray-600">Supporting developers and businesses alike</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="grid gap-6">
+              <Card className="bg-gradient-to-br from-background to-muted border-border/50">
+                <CardHeader>
+                  <CardTitle className="flex items-center text-xl">
+                    <Target className="h-6 w-6 text-primary mr-3" />
+                    Our Mission
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    To eliminate technical friction and empower every brand, from startups to enterprises, with a world-class digital footprint instantly.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="bg-gradient-to-br from-background to-muted border-border/50">
+                <CardHeader>
+                  <CardTitle className="flex items-center text-xl">
+                    <Heart className="h-6 w-6 text-red-500 mr-3" />
+                    Core Philosophy
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    Performance is not a luxury. It is a standard. Every asset we deploy is optimized for speed, SEO, and conversion from day one.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
 
-          {/* How We're Different */}
-          <Card className="mb-16 bg-white/5 backdrop-blur-md border-border/50">
-            <CardHeader>
-              <CardTitle className="text-center text-2xl">How We're Different</CardTitle>
+          {/* Core Values */}
+          <div className="mb-24">
+            <h2 className="text-3xl font-bold text-center mb-12">Engineered for Excellence</h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                {
+                  icon: Shield,
+                  title: "Excellence by Design",
+                  desc: "We don't compromise. Our diverse library is curated rigorously, ensuring cleaner code, faster loads, and better results.",
+                  color: "text-blue-500"
+                },
+                {
+                  icon: Clock,
+                  title: "Velocity & Precision",
+                  desc: "Time is your most valuable asset. Our streamlined pipelines ensure your project goes from concept to live in record time.",
+                  color: "text-purple-500"
+                },
+                {
+                  icon: Users,
+                  title: "Collaborative Ecosystem",
+                  desc: "We bridge the gap between top-tier talent and ambitious brands, creating a symbiotic marketplace of innovation.",
+                  color: "text-green-500"
+                }
+              ].map((value, i) => (
+                <Card key={i} className="bg-white/5 backdrop-blur-md border-border/50 hover:bg-white/10 transition-colors">
+                  <CardContent className="pt-8">
+                    <div className="flex items-center space-x-4 mb-4">
+                      <div className={`p-3 rounded-lg bg-background border border-border/50 ${value.color}`}>
+                        <value.icon className="h-6 w-6" />
+                      </div>
+                      <h4 className="font-bold text-lg">{value.title}</h4>
+                    </div>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {value.desc}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Differentiation */}
+          <Card className="mb-16 bg-gradient-to-r from-primary/5 via-background to-primary/5 border-primary/20 backdrop-blur-xl">
+            <CardHeader className="text-center pb-2">
+              <CardTitle className="text-3xl font-bold">The WebInHour Advantage</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-3 gap-8">
-                <div className="text-center">
-                  <div className="bg-purple-500/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <Zap className="h-8 w-8 text-purple-600" />
+            <CardContent className="pt-8">
+              <div className="grid md:grid-cols-3 gap-12 relative">
+                {/* Dividers for desktop */}
+                <div className="hidden md:block absolute top-10 bottom-10 left-1/3 w-px bg-border/50"></div>
+                <div className="hidden md:block absolute top-10 bottom-10 right-1/3 w-px bg-border/50"></div>
+
+                <div className="text-center px-4">
+                  <div className="bg-purple-500/10 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 transform hover:rotate-6 transition-transform">
+                    <Zap className="h-10 w-10 text-purple-600" />
                   </div>
-                  <h3 className="font-semibold mb-2">Rapid Development</h3>
-                  <p className="text-gray-600 text-sm">
-                    Our streamlined process and pre-built components enable lightning-fast development
+                  <h3 className="font-bold text-lg mb-3">AI-Native Optimization</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    Proprietary Generative Engine Optimization (GEO) ensures your site ranks not just on Search, but in AI answers.
                   </p>
                 </div>
-                <div className="text-center">
-                  <div className="bg-blue-500/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <Star className="h-8 w-8 text-blue-600" />
+                <div className="text-center px-4">
+                  <div className="bg-blue-500/10 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 transform hover:-rotate-6 transition-transform">
+                    <Star className="h-10 w-10 text-blue-600" />
                   </div>
-                  <h3 className="font-semibold mb-2">Premium Quality</h3>
-                  <p className="text-gray-600 text-sm">
-                    Every website is built with modern technologies and best practices
+                  <h3 className="font-bold text-lg mb-3">Enterprise Standards</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    Built on modern stacks (React, Vite, Tailwind). No bloated legacy code. Just pure performance.
                   </p>
                 </div>
-                <div className="text-center">
-                  <div className="bg-green-500/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <Users className="h-8 w-8 text-green-600" />
+                <div className="text-center px-4">
+                  <div className="bg-green-500/10 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 transform hover:rotate-6 transition-transform">
+                    <Users className="h-10 w-10 text-green-600" />
                   </div>
-                  <h3 className="font-semibold mb-2">Marketplace Community</h3>
-                  <p className="text-gray-600 text-sm">
-                    Access to hundreds of templates from talented independent developers
+                  <h3 className="font-bold text-lg mb-3">Vetted Expert Network</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    Direct access to a closed network of verified developers and digital strategists for bespoke needs.
                   </p>
                 </div>
               </div>
