@@ -71,7 +71,7 @@ const SiteDetails = () => {
   if (isLoading) {
     return (
       <AppLayout>
-        <div className="container mx-auto px-6 pt-20 md:pt-24 pb-20 relative z-10">
+        <div className="container mx-auto px-6 pt-4 md:pt-24 pb-20 relative z-10">
           <div className="flex items-center gap-4 mb-6">
             <div className="h-10 w-40 bg-gray-800/30 rounded-lg animate-pulse" />
             <div className="flex-1" />
@@ -111,7 +111,7 @@ const SiteDetails = () => {
   if (!site) {
     return (
       <AppLayout>
-        <div className="container mx-auto px-6 pt-20 md:pt-24 pb-20 flex items-center justify-center min-h-[50vh] relative z-10">
+        <div className="container mx-auto px-6 pt-4 md:pt-24 pb-20 flex items-center justify-center min-h-[50vh] relative z-10">
           <Card className="p-8 text-center bg-white/5 backdrop-blur-md border-border/50">
             <h2 className="text-2xl font-bold mb-4">Site Not Found</h2>
             <p className="text-muted-foreground mb-4">The requested site could not be found.</p>
@@ -135,7 +135,7 @@ const SiteDetails = () => {
         canonicalUrl={`https://webinhour.com/websites/${site.id}`}
       />
 
-      <div className="container mx-auto px-6 pt-20 md:pt-24 pb-20 relative z-10">
+      <div className="container mx-auto px-6 pt-4 md:pt-24 pb-20 relative z-10">
         {/* Mobile Header with Back Button, Title, and Buy */}
         {isMobile && (
           <div className="flex items-center justify-between gap-3 mb-4">
@@ -154,7 +154,7 @@ const SiteDetails = () => {
 
             <Button
               size="sm"
-              onClick={() => navigate('/contact')}
+              onClick={handlePurchase}
               className="bg-[#8B5CF6] hover:bg-[#7C3AED] h-8 px-3 shrink-0"
             >
               Buy
@@ -274,23 +274,7 @@ const SiteDetails = () => {
               </CardContent>
             </Card>
 
-            {!isMobile && (
-              <div className="grid grid-cols-2 gap-3">
-                <Button
-                  className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED]"
-                  onClick={() => navigate('/contact')}
-                >
-                  Buy Template
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full"
-                  onClick={() => window.open(site.preview_url, '_blank')}
-                >
-                  Preview Live
-                </Button>
-              </div>
-            )}
+
 
             <Card className="bg-white/5 backdrop-blur-md border-border/50">
               <CardHeader>
@@ -328,27 +312,7 @@ const SiteDetails = () => {
           </div>
         </div>
 
-        {isMobile && (
-          <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t border-border p-4 z-50">
-            <div className="grid grid-cols-2 gap-3 max-w-md mx-auto">
-              <Button
-                className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED] flex items-center justify-center gap-2"
-                onClick={() => navigate('/contact')}
-              >
-                <Download className="h-4 w-4" />
-                Buy Template ${site.price === 0 ? 'Free' : site.price}
-              </Button>
-              <Button
-                variant="outline"
-                className="w-full flex items-center justify-center gap-2"
-                onClick={() => window.open(site.preview_url, '_blank')}
-              >
-                <ExternalLink className="h-4 w-4" />
-                Preview Live
-              </Button>
-            </div>
-          </div>
-        )}
+
       </div>
     </AppLayout>
   );
