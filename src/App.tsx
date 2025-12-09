@@ -29,8 +29,8 @@ const AdminPanel = lazy(() => import("./pages/AdminPanel"));
 const Marketplace = lazy(() => import("./pages/Marketplace"));
 const SiteDetails = lazy(() => import("./pages/SiteDetails"));
 const Calculator = lazy(() => import("./pages/Calculator"));
-const Blog = lazy(() => import("./pages/Blog"));
-const BlogPost = lazy(() => import("./pages/BlogPost"));
+const Blog = lazy(() => import("./pages/Blog/BlogIndex"));
+const BlogPost = lazy(() => import("./pages/Blog/BlogPost"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({

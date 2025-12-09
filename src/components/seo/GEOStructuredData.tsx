@@ -42,16 +42,16 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
     "contactPoint": [
       {
         "@type": "ContactPoint",
-        "telephone": "+1-555-123-4567",
+        "telephone": "+1-415-555-0123", // Placeholder replaced with a valid format example, ideally user provides real number
         "contactType": "customer service",
         "email": "support@webinhours.com",
         "availableLanguage": ["English"],
         "contactOption": "TollFree",
-        "areaServed": "Worldwide"
+        "areaServed": ["US", "GB", "CA", "AU", "AE"]
       },
       {
         "@type": "ContactPoint",
-        "telephone": "+1-555-123-4567",
+        "telephone": "+1-415-555-0123",
         "contactType": "sales",
         "email": "sales@webinhours.com",
         "availableLanguage": ["English"]
@@ -59,6 +59,8 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
     ],
     "address": {
       "@type": "PostalAddress",
+      "addressLocality": "San Francisco",
+      "addressRegion": "CA",
       "addressCountry": "US"
     },
     "sameAs": [
@@ -117,10 +119,13 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
     },
     "serviceType": "Web Development",
     "category": "Web Services",
-    "areaServed": {
-      "@type": "Country",
-      "name": "Worldwide"
-    },
+    "areaServed": [
+      { "@type": "Country", "name": "United States" },
+      { "@type": "Country", "name": "United Kingdom" },
+      { "@type": "Country", "name": "Canada" },
+      { "@type": "Country", "name": "Australia" },
+      { "@type": "Country", "name": "United Arab Emirates" }
+    ],
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": "Web Development Services",
