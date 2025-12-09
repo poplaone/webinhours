@@ -224,7 +224,7 @@ const Marketplace: React.FC = () => {
         title="Free Website Marketplace - Browse 500+ Professional Designs | WebInHours"
         description="Choose from 500+ professional website designs absolutely free. Find the perfect template for your business. Premium services like content creation, PR, and social media management available."
         keywords="free website templates, professional website designs, free business website, website marketplace, choose website design, free web templates"
-        canonicalUrl="https://webinhours.com/marketplace"
+        canonicalUrl="https://webinhours.com/websites"
       />
 
       {/* GEO-Optimized Marketplace Schema */}

@@ -48,7 +48,7 @@ export const Header = () => {
   const serviceItems: LinkItem[] = [
     {
       title: 'Free Website Templates',
-      href: '/marketplace',
+      href: '/websites',
       icon: Globe,
       description: 'Browse 100+ professional templates'
     },
@@ -86,7 +86,7 @@ export const Header = () => {
 
   const featuredServices: LinkItem[] = [
     { title: 'Get Started Free', href: '/contact?service=free-website', icon: FileCode },
-    { title: 'Browse Marketplace', href: '/marketplace', icon: Globe },
+    { title: 'Browse Websites', href: '/websites', icon: Globe },
     { title: 'Get a Quote', href: '/calculator', icon: DollarSign },
   ];
 
@@ -104,7 +104,7 @@ export const Header = () => {
 
   const allMobileItems = [
     { label: 'Free Website', path: '/contact?service=free-website' },
-    { label: 'Marketplace', path: '/marketplace' },
+    { label: 'Websites', path: '/websites' },
     ...navItems,
     ...moreItems.map(item => ({ label: item.title, path: item.href })),
     ...legalItems.map(item => ({ label: item.title, path: item.href }))

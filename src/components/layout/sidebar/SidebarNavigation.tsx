@@ -38,7 +38,7 @@ export const SidebarNavigation = ({ currentPath, isAuthenticated }: SidebarNavig
 
   // Always show marketplace and calculator
   const commonNavItems = [
-    { path: '/marketplace', icon: Store, label: 'Marketplace' },
+    { path: '/websites', icon: Store, label: 'Websites' },
     { path: '/calculator', icon: Calculator, label: 'Project Calculator' },
   ];
 
@@ -61,7 +61,7 @@ export const SidebarNavigation = ({ currentPath, isAuthenticated }: SidebarNavig
   // Handle navigation with preloading
   const handleNavigate = useCallback((path: string) => {
     // Prefetch marketplace data if navigating to marketplace
-    if (path === '/marketplace') {
+    if (path === '/websites') {
       prefetchOnHover();
     }
     navigate(path);
@@ -85,7 +85,7 @@ export const SidebarNavigation = ({ currentPath, isAuthenticated }: SidebarNavig
             onClick={() => handleNavigate(item.path)}
             onMouseEnter={() => {
               // Prefetch data when hovering over marketplace
-              if (item.path === '/marketplace') {
+              if (item.path === '/websites') {
                 prefetchOnHover();
               }
             }}

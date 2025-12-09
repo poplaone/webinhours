@@ -38,7 +38,7 @@ export function MobileServicesDrawer({ isOpen, onOpenChange }: MobileServicesDra
     const serviceItems = [
         {
             title: 'Free Website Templates',
-            href: '/marketplace',
+            href: '/websites',
             icon: Globe,
             description: 'Browse 100+ professional templates'
         },
@@ -76,7 +76,7 @@ export function MobileServicesDrawer({ isOpen, onOpenChange }: MobileServicesDra
 
     const featuredServices = [
         { title: 'Get Started Free', href: '/contact?service=free-website', icon: FileCode },
-        { title: 'Browse Marketplace', href: '/marketplace', icon: Globe },
+        { title: 'Browse Websites', href: '/websites', icon: Globe },
         { title: 'Get a Quote', href: '/calculator', icon: DollarSign },
     ];
 

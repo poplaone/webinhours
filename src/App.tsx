@@ -112,7 +112,7 @@ function App() {
                       <Route path="/privacy" element={<Privacy />} />
                       <Route path="/terms" element={<Terms />} />
                       <Route path="/auth" element={<Auth />} />
-                      <Route path="/marketplace" element={
+                      <Route path="/websites" element={
                         <ErrorBoundary>
                           <Marketplace />
                         </ErrorBoundary>

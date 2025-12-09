@@ -40,14 +40,14 @@ const MobileBottomNav = () => {
 
   const mobileNavItems = [
     { path: '/', icon: Home, label: 'Home' },
-    { path: '/marketplace', icon: Store, label: 'Marketplace' },
+    { path: '/websites', icon: Store, label: 'Websites' },
     { path: '/how-it-works', icon: Wrench, label: 'Services' },
     { path: '/contact', icon: Phone, label: 'Contact' },
   ];
 
   const tabletNavItems = [
     { path: '/', icon: Home, label: 'Home' },
-    { path: '/marketplace', icon: Store, label: 'Marketplace' },
+    { path: '/websites', icon: Store, label: 'Websites' },
     { path: '/calculator', icon: Calculator, label: 'Calculator' },
     { path: '/about', icon: Info, label: 'About' },
     { path: '/contact', icon: Phone, label: 'Contact' },

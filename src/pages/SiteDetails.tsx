@@ -55,7 +55,7 @@ const SiteDetails = () => {
   }, [site?.preview_url, toast]);
 
   const handleBackToMarketplace = useCallback(() => {
-    navigate('/marketplace');
+    navigate('/websites');
   }, [navigate]);
 
   const defaultFeatures = useMemo(() => ['Responsive Design', 'Modern UI', 'Fast Loading', 'SEO Optimized'], []);
@@ -132,7 +132,7 @@ const SiteDetails = () => {
         description={site.description || `Professional ${site.category} website template. ${site.features?.slice(0, 3).join(', ')}. Ready in 24 hours.`}
         keywords={`${site.category} template, ${site.tags?.join(', ')}, website template`}
         ogImage={site.thumbnail_url}
-        canonicalUrl={`https://webinhour.com/marketplace/${site.id}`}
+        canonicalUrl={`https://webinhour.com/websites/${site.id}`}
       />
 
       <div className="container mx-auto p-6 pb-20 relative z-10">

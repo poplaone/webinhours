@@ -467,7 +467,7 @@ export const AIChatbot: React.FC<AIChatbotProps> = ({ onSearch }) => {
     const lowerContent = content.toLowerCase();
     
     if (lowerContent.includes('marketplace') || lowerContent.includes('browse')) {
-      links.push({ label: 'Browse Marketplace', path: '/marketplace' });
+      links.push({ label: 'Browse Websites', path: '/websites' });
     }
     if (lowerContent.includes('pricing') || lowerContent.includes('price')) {
       links.push({ label: 'View Pricing', path: '/pricing' });

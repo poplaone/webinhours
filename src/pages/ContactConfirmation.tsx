@@ -127,10 +127,10 @@ export default function ContactConfirmation() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button
-                  onClick={() => navigate('/marketplace')}
+                  onClick={() => navigate('/websites')}
                   className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
                 >
-                  Browse Marketplace
+                  Browse Websites
                   <ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
 

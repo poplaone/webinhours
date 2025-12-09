@@ -57,7 +57,7 @@ export const PurchaseHistoryTab = () => {
         </div>
         
         <div className="text-center py-8">
-          <Button onClick={() => navigate('/marketplace')}>
+          <Button onClick={() => navigate('/websites')}>
             Browse More Templates
           </Button>
         </div>

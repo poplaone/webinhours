@@ -99,7 +99,7 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
       "@type": "SearchAction",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": "https://webinhours.com/marketplace?search={search_term_string}"
+        "urlTemplate": "https://webinhours.com/websites?search={search_term_string}"
       },
       "query-input": "required name=search_term_string"
     }
@@ -215,7 +215,7 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
 
     switch (pageType) {
       case 'marketplace':
-        breadcrumbs.push({ name: "Marketplace", url: "https://webinhours.com/marketplace" });
+        breadcrumbs.push({ name: "Websites", url: "https://webinhours.com/websites" });
         break;
       case 'pricing':
         breadcrumbs.push({ name: "Pricing", url: "https://webinhours.com/pricing" });

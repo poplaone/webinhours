@@ -45,7 +45,7 @@ const parseSpecialTags = (content: string) => {
     } else if (match[2]) {
       // NAVIGATE tag
       const path = match[2];
-      const label = path === '/marketplace' ? 'Go to Marketplace' 
+      const label = path === '/websites' ? 'Go to Websites' 
         : path === '/contact' ? 'Contact Us'
         : path === '/pricing' ? 'View Pricing'
         : path === '/calculator' ? 'Try Calculator'
