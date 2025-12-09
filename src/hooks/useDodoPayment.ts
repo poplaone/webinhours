@@ -19,7 +19,9 @@ export const useDodoPayment = () => {
                 throw error;
             }
 
-            if (data?.url) {
+            if (data?.checkoutUrl) {
+                window.location.href = data.checkoutUrl;
+            } else if (data?.url) {
                 window.location.href = data.url;
             } else {
                 throw new Error('No checkout URL returned');
