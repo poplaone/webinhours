@@ -193,17 +193,8 @@ export const Header = () => {
               {/* Theme toggle and Menu button on right */}
               <div className="flex items-center space-x-2 sm:space-x-3">
                 <ThemeToggle />
-                {user ? (
-                  <UserDropdown profile={profile} />
-                ) : (
-                  <Button
-                    onClick={() => navigate('/auth')}
-                    size="sm"
-                    className="hidden sm:flex bg-[#8B5CF6] hover:bg-[#7C3AED] text-sm px-4"
-                  >
-                    Sign in
-                  </Button>
-                )}
+                {/* Profile removed from mobile header, moved to footer */}
+
                 <Button
                   variant="ghost"
                   size="sm"

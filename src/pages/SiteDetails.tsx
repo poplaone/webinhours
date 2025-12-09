@@ -71,7 +71,7 @@ const SiteDetails = () => {
   if (isLoading) {
     return (
       <AppLayout>
-        <div className="container mx-auto p-6 pb-20 relative z-10">
+        <div className="container mx-auto px-6 pt-20 md:pt-24 pb-20 relative z-10">
           <div className="flex items-center gap-4 mb-6">
             <div className="h-10 w-40 bg-gray-800/30 rounded-lg animate-pulse" />
             <div className="flex-1" />
@@ -111,7 +111,7 @@ const SiteDetails = () => {
   if (!site) {
     return (
       <AppLayout>
-        <div className="container mx-auto p-6 pb-20 flex items-center justify-center min-h-[50vh] relative z-10">
+        <div className="container mx-auto px-6 pt-20 md:pt-24 pb-20 flex items-center justify-center min-h-[50vh] relative z-10">
           <Card className="p-8 text-center bg-white/5 backdrop-blur-md border-border/50">
             <h2 className="text-2xl font-bold mb-4">Site Not Found</h2>
             <p className="text-muted-foreground mb-4">The requested site could not be found.</p>
@@ -135,7 +135,33 @@ const SiteDetails = () => {
         canonicalUrl={`https://webinhour.com/websites/${site.id}`}
       />
 
-      <div className="container mx-auto p-6 pb-20 relative z-10">
+      <div className="container mx-auto px-6 pt-20 md:pt-24 pb-20 relative z-10">
+        {/* Mobile Header with Back Button, Title, and Buy */}
+        {isMobile && (
+          <div className="flex items-center justify-between gap-3 mb-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleBackToMarketplace}
+              className="-ml-2 text-muted-foreground hover:text-foreground shrink-0"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+
+            <h1 className="text-lg font-bold truncate flex-1 text-center">
+              {site.title}
+            </h1>
+
+            <Button
+              size="sm"
+              onClick={() => navigate('/contact')}
+              className="bg-[#8B5CF6] hover:bg-[#7C3AED] h-8 px-3 shrink-0"
+            >
+              Buy
+            </Button>
+          </div>
+        )}
+
         {!isMobile && (
           <div className="flex items-center gap-4 mb-6">
             <Button variant="outline" onClick={handleBackToMarketplace} className="flex items-center gap-2">
@@ -162,7 +188,7 @@ const SiteDetails = () => {
           <div className={isMobile ? '' : 'lg:col-span-2'}>
             <Card className="h-full relative overflow-hidden bg-white/5 backdrop-blur-md border-border/50">
               <CardContent className="p-0 h-full">
-                <div className={`h-full ${isMobile ? 'min-h-[300px]' : 'min-h-[500px]'} overflow-hidden rounded-lg relative group`}>
+                <div className={`h-full ${isMobile ? 'aspect-[4/3] w-full' : 'min-h-[500px]'} overflow-hidden rounded-lg relative group`}>
                   <img
                     src={site.thumbnail_url || "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&h=450&q=80"}
                     alt={site.title}
@@ -199,7 +225,7 @@ const SiteDetails = () => {
 
             {isMobile && (
               <div className="mt-4">
-                <h1 className="text-2xl font-bold">{site.title}</h1>
+                <h1 className="text-xl font-bold">{site.title}</h1>
               </div>
             )}
           </div>
