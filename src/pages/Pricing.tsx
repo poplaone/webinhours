@@ -29,7 +29,7 @@ export default function Pricing() {
       ],
       popular: false,
       cta: "Browse Templates",
-      action: () => navigate('/marketplace')
+      action: () => navigate('/websites')
     },
     {
       name: "Custom Lite",

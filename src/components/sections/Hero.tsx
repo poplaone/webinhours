@@ -94,7 +94,7 @@ export const Hero = () => {
               <div className="text-center max-w-5xl mx-auto text-muted-foreground" itemProp="description">
                 <p className="text-sm xl:text-lg leading-relaxed font-medium">
                   The fastest way to launch high-conversion websites optimized for AI Search. Access{' '}
-                  <button onClick={() => navigate('/marketplace')} className="text-primary hover:text-primary/80 transition-colors font-semibold underline decoration-2 underline-offset-4">
+                  <button onClick={() => navigate('/websites')} className="text-primary hover:text-primary/80 transition-colors font-semibold underline decoration-2 underline-offset-4">
                     professional custom design
                   </button>
                   , Generative Engine Optimization (GEO), and{' '}
@@ -113,7 +113,7 @@ export const Hero = () => {
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button
                 size="lg"
-                onClick={() => navigate('/marketplace')}
+                onClick={() => navigate('/websites')}
                 className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground text-base sm:text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-medium"
                 aria-label="Browse free website templates"
               >

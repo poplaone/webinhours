@@ -52,7 +52,7 @@ export const usePrefetchMarketplace = () => {
       sessionStorage.setItem('recentRoutes', JSON.stringify(recentRoutes.slice(-3)));
 
       // If user has visited marketplace before, prefetch data
-      if (recentRoutes.includes('/marketplace')) {
+      if (recentRoutes.includes('/websites')) {
         prefetchOnHover();
       }
     } catch {

@@ -49,7 +49,7 @@ export const generateSitemapUrls = (): SitemapUrl[] => {
       priority: 0.6
     },
     {
-      loc: `${baseUrl}/marketplace`,
+      loc: `${baseUrl}/websites`,
       lastmod: currentDate,
       changefreq: 'daily',
       priority: 0.9

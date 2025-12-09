@@ -99,7 +99,7 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
-      navigate(`/marketplace?search=${encodeURIComponent(searchQuery)}`);
+      navigate(`/websites?search=${encodeURIComponent(searchQuery)}`);
       setSearchQuery('');
     }
   };
@@ -203,7 +203,7 @@ const ChatSidebar = ({ isMaximized = false, onToggleMaximize, onClose, className
                   variant="outline"
                   size="sm"
                   className="text-xs border-[#8B5CF6]/30 text-gray-400 hover:text-white hover:bg-[#8B5CF6]/10"
-                  onClick={() => navigate(`/marketplace?category=${encodeURIComponent(filter.toLowerCase())}`)}
+                  onClick={() => navigate(`/websites?category=${encodeURIComponent(filter.toLowerCase())}`)}
                 >
                   {filter}
                 </Button>

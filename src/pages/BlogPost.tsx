@@ -54,7 +54,7 @@ WebInHours solves these problems by offering:
 
 ### Step 1: Browse the Template Marketplace
 
-Visit our [marketplace](/marketplace) and browse through 500+ professionally designed templates. Filter by:
+Visit our [websites](/websites) and browse through 500+ professionally designed templates. Filter by:
 
 - Industry (e-commerce, portfolio, business, blog)
 - Style (modern, minimalist, bold)
@@ -108,7 +108,7 @@ A: Absolutely. We'll help you connect your domain at no extra cost.
 
 Getting a professional website doesn't have to cost thousands or take months. With WebInHours, you can have a beautiful, functional website ready in 24 hours - for free.
 
-[Browse Templates Now →](/marketplace)
+[Browse Templates Now →](/websites)
     `,
     author: {
       name: "Sarah Chen",
@@ -424,7 +424,7 @@ const BlogPost = () => {
               <p className="text-muted-foreground mb-6">
                 Choose from 500+ professional templates and launch in 24 hours.
               </p>
-              <Link to="/marketplace">
+              <Link to="/websites">
                 <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
                   Browse Templates
                 </Button>

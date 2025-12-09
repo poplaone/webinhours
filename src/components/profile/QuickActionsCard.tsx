@@ -18,10 +18,10 @@ export const QuickActionsCard = () => {
           <Button 
             variant="outline" 
             className="h-24 flex flex-col gap-2"
-            onClick={() => navigate('/marketplace')}
+            onClick={() => navigate('/websites')}
           >
             <ShoppingBag className="h-6 w-6" />
-            Browse Marketplace
+            Browse Websites
           </Button>
           <Button variant="outline" className="h-24 flex flex-col gap-2">
             <Globe className="h-6 w-6" />
