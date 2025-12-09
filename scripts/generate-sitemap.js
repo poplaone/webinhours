@@ -19,7 +19,6 @@ try {
     // Fallback to empty if file missing
 }
 
-
 const baseUrl = 'https://webinhours.com';
 
 const staticRoutes = [
@@ -37,6 +36,8 @@ const staticRoutes = [
 ];
 
 const generateSitemap = () => {
+    console.log(`📝 Found ${blogSlugs.length} blog posts: ${blogSlugs.join(', ')}`);
+
     const allRoutes = [
         ...staticRoutes,
         ...blogSlugs.map(slug => `/blog/${slug}`)
