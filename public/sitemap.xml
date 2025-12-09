@@ -12,10 +12,10 @@
     <priority>1.0</priority>
   </url>
   
-  <!-- Marketplace - High Priority (Core Feature) -->
+  <!-- Websites - High Priority (Core Feature) -->
   <url>
-    <loc>https://webinhours.com/marketplace</loc>
-    <lastmod>2024-12-07</lastmod>
+    <loc>https://webinhours.com/websites</loc>
+    <lastmod>2024-12-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
