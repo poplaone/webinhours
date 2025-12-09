@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
-import { renderAsync } from "npm:@react-email/components@0.0.22";
 import * as React from "npm:react@18.3.1";
+import { render } from "npm:@react-email/render@0.0.12";
 import { AdminNotification } from "./_templates/admin-notification.tsx";
 import { UserConfirmation } from "./_templates/user-confirmation.tsx";
 
@@ -37,7 +37,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Received contact form submission:", { name: data.name, email: data.email });
 
     // Render email templates
-    const adminHtml = await renderAsync(
+    const adminHtml = render(
       React.createElement(AdminNotification, {
         name: data.name,
         email: data.email,
@@ -49,7 +49,7 @@ const handler = async (req: Request): Promise<Response> => {
       })
     );
 
-    const userHtml = await renderAsync(
+    const userHtml = render(
       React.createElement(UserConfirmation, {
         name: data.name,
         message: data.message,
