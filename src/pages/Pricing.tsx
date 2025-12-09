@@ -5,14 +5,27 @@ import GEOStructuredData from '@/components/seo/GEOStructuredData';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Check, Star, Zap, Users, Crown, Shield, Globe, MessageCircle, Database, Network, Share2, Code, Cpu, Link, Lock, AlertTriangle, RefreshCw, AlertCircle, FileText } from 'lucide-react';
+import { Check, Star, Zap, Crown, Shield, Globe, MessageCircle, Share2, Code, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useDodoPayment } from '@/hooks/useDodoPayment';
 
+// Dodo Payments Product IDs
+const DODO_PRODUCTS = {
+  'Custom Lite': 'pdt_4VbxIlVYONBlZcu91PSu5',
+  'Custom Pro': 'pdt_Lp3H6UAAng5cDeHMYNwqR',
+} as const;
+
 export default function Pricing() {
   const navigate = useNavigate();
   const { initiateCheckout, isLoading } = useDodoPayment();
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+
+  const handlePurchase = async (planName: keyof typeof DODO_PRODUCTS) => {
+    setLoadingPlan(planName);
+    await initiateCheckout(DODO_PRODUCTS[planName]);
+    setLoadingPlan(null);
+  };
 
   const plans = [
     {
@@ -31,7 +44,8 @@ export default function Pricing() {
       ],
       popular: false,
       cta: "Browse Templates",
-      action: () => navigate('/websites')
+      action: () => navigate('/websites'),
+      isPaid: false
     },
     {
       name: "Custom Lite",
@@ -50,7 +64,8 @@ export default function Pricing() {
       ],
       popular: true,
       cta: "Get Started",
-      action: () => initiateCheckout('prod_custom_lite') // Replace with real ID from dashboard
+      action: () => handlePurchase("Custom Lite"),
+      isPaid: true
     },
     {
       name: "Custom Pro",
@@ -69,8 +84,9 @@ export default function Pricing() {
         "Training session"
       ],
       popular: false,
-      cta: "Contact Sales",
-      action: () => initiateCheckout('prod_custom_pro') // Replace with real ID from dashboard
+      cta: "Get Started",
+      action: () => handlePurchase("Custom Pro"),
+      isPaid: true
     }
   ];
 
@@ -206,9 +222,14 @@ export default function Pricing() {
                       }`}
                     variant={plan.popular ? "default" : "outline"}
                     onClick={plan.action}
-                    disabled={isLoading}
+                    disabled={plan.isPaid && loadingPlan === plan.name}
                   >
-                    {isLoading && plan.price !== "Free" ? "Processing..." : plan.cta}
+                    {plan.isPaid && loadingPlan === plan.name ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Processing...
+                      </>
+                    ) : plan.cta}
                   </Button>
                 </CardContent>
               </Card>
