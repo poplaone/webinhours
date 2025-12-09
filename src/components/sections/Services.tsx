@@ -64,21 +64,7 @@ export const Services = () => {
       itemScope
       itemType="https://schema.org/ItemList"
     >
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
-        {/* Section Header with Answer-First Formatting */}
-        <header className="text-center mb-12 lg:mb-16">
-          <h2
-            id="services-heading"
-            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4"
-          >
-            Our Services
-          </h2>
-          {/* TL;DR Summary for AI extraction */}
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto" itemProp="description">
-            Professional web development services: Free websites with 500+ templates, custom branding from $299, and content creation from $199. All services include mobile optimization, SEO, and SSL security.
-          </p>
-        </header>
-
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Service Cards with Schema Markup */}
         <div className="space-y-0">
           {services.map((service, index) => (
