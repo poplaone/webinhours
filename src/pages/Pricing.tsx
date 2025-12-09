@@ -5,10 +5,16 @@ import GEOStructuredData from '@/components/seo/GEOStructuredData';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Check, Star, Zap, Crown, Shield, Globe, MessageCircle, Share2, Code, Loader2 } from 'lucide-react';
+import { Check, Star, Zap, Crown, Shield, Globe, MessageCircle, Share2, Code, Loader2, ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useDodoPayment } from '@/hooks/useDodoPayment';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 // Dodo Payments Product IDs
 const DODO_PRODUCTS = {
@@ -16,14 +22,38 @@ const DODO_PRODUCTS = {
   'Custom Pro': 'pdt_Lp3H6UAAng5cDeHMYNwqR',
 } as const;
 
+// Supported currencies with display info
+type Currency = {
+  code: string;
+  symbol: string;
+  name: string;
+  flag: string;
+};
+
+const CURRENCIES: Currency[] = [
+  { code: 'USD', symbol: '$', name: 'US Dollar', flag: '🇺🇸' },
+  { code: 'EUR', symbol: '€', name: 'Euro', flag: '🇪🇺' },
+  { code: 'GBP', symbol: '£', name: 'British Pound', flag: '🇬🇧' },
+  { code: 'CAD', symbol: 'C$', name: 'Canadian Dollar', flag: '🇨🇦' },
+  { code: 'AUD', symbol: 'A$', name: 'Australian Dollar', flag: '🇦🇺' },
+  { code: 'INR', symbol: '₹', name: 'Indian Rupee', flag: '🇮🇳' },
+];
+
+// Base prices in USD (displayed prices are always in USD)
+const BASE_PRICES = {
+  'Custom Lite': 299,
+  'Custom Pro': 599,
+};
+
 export default function Pricing() {
   const navigate = useNavigate();
   const { initiateCheckout, isLoading } = useDodoPayment();
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+  const [selectedCurrency, setSelectedCurrency] = useState(CURRENCIES[0]); // Default to USD
 
   const handlePurchase = async (planName: keyof typeof DODO_PRODUCTS) => {
     setLoadingPlan(planName);
-    await initiateCheckout(DODO_PRODUCTS[planName]);
+    await initiateCheckout(DODO_PRODUCTS[planName], selectedCurrency.code);
     setLoadingPlan(null);
   };
 
@@ -173,9 +203,36 @@ export default function Pricing() {
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
               Start Free,<br />Scale with Expertise
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6">
               Launch today with our free templates. When you need a professional touch or a fully custom solution, our expert team is ready to deliver.
             </p>
+            
+            {/* Currency Selector */}
+            <div className="flex items-center justify-center gap-2">
+              <span className="text-sm text-muted-foreground">Prices shown in USD</span>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <span>{selectedCurrency.flag}</span>
+                    <span>{selectedCurrency.code}</span>
+                    <ChevronDown className="h-4 w-4 opacity-50" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="center">
+                  {CURRENCIES.map((currency) => (
+                    <DropdownMenuItem
+                      key={currency.code}
+                      onClick={() => setSelectedCurrency(currency)}
+                      className="gap-2 cursor-pointer"
+                    >
+                      <span>{currency.flag}</span>
+                      <span className="font-medium">{currency.code}</span>
+                      <span className="text-muted-foreground text-sm">- {currency.name}</span>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
 
           {/* Pricing Cards */}
