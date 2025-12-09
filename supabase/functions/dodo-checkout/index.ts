@@ -59,8 +59,8 @@ serve(async (req) => {
 
     console.log('Sending request to Dodo Payments:', JSON.stringify(checkoutData));
 
-    // Use test mode URL - change to https://api.dodopayments.com for production
-    const baseUrl = 'https://test.dodopayments.com';
+    // Use live mode URL for production products
+    const baseUrl = 'https://api.dodopayments.com';
     
     const response = await fetch(`${baseUrl}/payments`, {
       method: 'POST',
