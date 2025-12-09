@@ -6,13 +6,13 @@ export const useDodoPayment = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { toast } = useToast();
 
-    const initiateCheckout = async (productId: string) => {
+    const initiateCheckout = async (productId: string, currency: string = 'USD') => {
         try {
             setIsLoading(true);
-            console.log('Initiating checkout for:', productId);
+            console.log('Initiating checkout for:', productId, 'currency:', currency);
 
             const { data, error } = await supabase.functions.invoke('dodo-checkout', {
-                body: { productId },
+                body: { productId, currency },
             });
 
             if (error) {

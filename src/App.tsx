@@ -32,6 +32,8 @@ const SiteDetails = lazy(() => import("./pages/SiteDetails"));
 const Calculator = lazy(() => import("./pages/Calculator"));
 const Blog = lazy(() => import("./pages/Blog/BlogIndex"));
 const BlogPost = lazy(() => import("./pages/Blog/BlogPost"));
+const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
+const PaymentCancel = lazy(() => import("./pages/PaymentCancel"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
@@ -123,6 +125,8 @@ function App() {
                       <Route path="/calculator" element={<Calculator />} />
                       <Route path="/blog" element={<Blog />} />
                       <Route path="/blog/:slug" element={<BlogPost />} />
+                      <Route path="/payment/success" element={<PaymentSuccess />} />
+                      <Route path="/payment/cancel" element={<PaymentCancel />} />
                       <Route path="/site/:slugOrId" element={<SiteDetails />} />
                       <Route path="/profile" element={
                         <ProtectedRoute>
