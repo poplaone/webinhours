@@ -13,6 +13,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useWebsiteById } from '@/hooks/queries/useWebsiteByIdQuery';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { usePrefetchSiteDetails } from '@/hooks/queries/usePrefetchSiteDetails';
+import { useDodoPayment } from '@/hooks/useDodoPayment';
 
 const SiteDetails = () => {
   const { id, slugOrId } = useParams<{ id?: string; slugOrId?: string }>();
@@ -25,6 +26,8 @@ const SiteDetails = () => {
   const isMobile = useIsMobile();
   usePrefetchSiteDetails();
 
+  const { initiateCheckout, isLoading: isPaymentLoading } = useDodoPayment();
+
   const handlePurchase = useCallback(() => {
     if (!user) {
       toast({
@@ -36,11 +39,21 @@ const SiteDetails = () => {
       return;
     }
 
-    toast({
-      title: "Purchase Initiated",
-      description: "Redirecting to payment..."
-    });
-  }, [user, toast, navigate]);
+    if (site?.price && site.price > 0) {
+      // Use a generic product ID or specific one detailed in site data
+      // For now, we assume a standard 'premium_template' product ID
+      // In production, this would be `site.stripe_product_id` or similar
+      initiateCheckout('prod_premium_template');
+    } else {
+      // Free download logic
+      toast({
+        title: "Download Started",
+        description: "Your download will begin shortly."
+      });
+      // Trigger actual download here if URL exists
+      if (site?.demo_url) window.open(site.demo_url, '_blank');
+    }
+  }, [user, toast, navigate, site, initiateCheckout]);
 
   const handlePreview = useCallback(() => {
     if (site?.preview_url) {

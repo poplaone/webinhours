@@ -8,9 +8,11 @@ import { Button } from '@/components/ui/button';
 import { Check, Star, Zap, Users, Crown, Shield, Globe, MessageCircle, Database, Network, Share2, Code, Cpu, Link, Lock, AlertTriangle, RefreshCw, AlertCircle, FileText } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useDodoPayment } from '@/hooks/useDodoPayment';
 
 export default function Pricing() {
   const navigate = useNavigate();
+  const { initiateCheckout, isLoading } = useDodoPayment();
 
   const plans = [
     {
@@ -48,7 +50,7 @@ export default function Pricing() {
       ],
       popular: true,
       cta: "Get Started",
-      action: () => navigate('/contact')
+      action: () => initiateCheckout('prod_custom_lite') // Replace with real ID from dashboard
     },
     {
       name: "Custom Pro",
@@ -68,7 +70,7 @@ export default function Pricing() {
       ],
       popular: false,
       cta: "Contact Sales",
-      action: () => navigate('/contact')
+      action: () => initiateCheckout('prod_custom_pro') // Replace with real ID from dashboard
     }
   ];
 
@@ -204,8 +206,9 @@ export default function Pricing() {
                       }`}
                     variant={plan.popular ? "default" : "outline"}
                     onClick={plan.action}
+                    disabled={isLoading}
                   >
-                    {plan.cta}
+                    {isLoading && plan.price !== "Free" ? "Processing..." : plan.cta}
                   </Button>
                 </CardContent>
               </Card>

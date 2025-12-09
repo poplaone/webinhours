@@ -5,16 +5,20 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Import blog posts data
-// Since this is a Node script running in ESM, we might need to adjust how we import the TS file data
-// or just duplicate the slugs here for simplicity if TS import is complex without build step.
-// For robustness in this environment, I'll extract slugs from value or use a hardcoded list for now, 
-// ensuring to note that this should be dynamic in a full CI/CD pipeline.
-const blogSlugs = [
-    "future-of-24-hour-web-deployment",
-    "roi-of-premium-digital-assets",
-    "geo-vs-seo-optimizing-for-ai"
-];
+// Read blog posts from shared JSON source
+const blogPostsPath = path.join(__dirname, '../src/data/blog-posts.json');
+let blogSlugs = [];
+
+try {
+    const blogData = fs.readFileSync(blogPostsPath, 'utf8');
+    const posts = JSON.parse(blogData);
+    blogSlugs = posts.map(post => post.slug);
+    console.log(`Found ${blogSlugs.length} blog posts to index.`);
+} catch (error) {
+    console.error('Error reading blog posts:', error);
+    // Fallback to empty if file missing
+}
+
 
 const baseUrl = 'https://webinhours.com';
 
