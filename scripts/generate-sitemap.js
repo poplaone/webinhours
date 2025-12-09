@@ -5,16 +5,22 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Import blog posts data
-// Since this is a Node script running in ESM, we might need to adjust how we import the TS file data
-// or just duplicate the slugs here for simplicity if TS import is complex without build step.
-// For robustness in this environment, I'll extract slugs from value or use a hardcoded list for now, 
-// ensuring to note that this should be dynamic in a full CI/CD pipeline.
-const blogSlugs = [
-    "future-of-24-hour-web-deployment",
-    "roi-of-premium-digital-assets",
-    "geo-vs-seo-optimizing-for-ai"
-];
+// Dynamically extract blog slugs from blog-posts.ts
+const extractBlogSlugs = () => {
+    const blogPostsPath = path.join(__dirname, '../src/data/blog-posts.ts');
+    const content = fs.readFileSync(blogPostsPath, 'utf-8');
+    
+    // Extract all slug values using regex
+    const slugRegex = /slug:\s*["']([^"']+)["']/g;
+    const slugs = [];
+    let match;
+    
+    while ((match = slugRegex.exec(content)) !== null) {
+        slugs.push(match[1]);
+    }
+    
+    return slugs;
+};
 
 const baseUrl = 'https://webinhours.com';
 
@@ -33,6 +39,9 @@ const staticRoutes = [
 ];
 
 const generateSitemap = () => {
+    const blogSlugs = extractBlogSlugs();
+    console.log(`📝 Found ${blogSlugs.length} blog posts: ${blogSlugs.join(', ')}`);
+    
     const allRoutes = [
         ...staticRoutes,
         ...blogSlugs.map(slug => `/blog/${slug}`)
