@@ -1,5 +1,6 @@
 import { Suspense, lazy, useEffect } from 'react';
 import { Toaster } from "@/components/ui/toaster";
+import { Navigate } from "react-router-dom";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
@@ -117,6 +118,8 @@ function App() {
                           <Marketplace />
                         </ErrorBoundary>
                       } />
+                      {/* Redirect old /marketplace URL to /websites for backward compatibility */}
+                      <Route path="/marketplace" element={<Navigate to="/websites" replace />} />
                       <Route path="/calculator" element={<Calculator />} />
                       <Route path="/blog" element={<Blog />} />
                       <Route path="/blog/:slug" element={<BlogPost />} />
