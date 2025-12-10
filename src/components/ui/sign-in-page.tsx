@@ -207,57 +207,109 @@ export const SignInPage: React.FC<SignInPageProps> = ({
       </section>
 
       {/* Right column: hero image + testimonials */}
-      {heroImageSrc && (
-        <section className="hidden md:block flex-1 relative bg-muted/30 overflow-hidden">
-          <div
-            className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 hover:scale-105"
-            style={{ backgroundImage: `url(${heroImageSrc})` }}
-          ></div>
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/40 to-transparent"></div>
+      {/* Right column: Animated Graphics + Testimonials */}
+      <section className="hidden md:block flex-1 relative bg-background overflow-hidden border-l border-border/50">
+        {/* Professional Animated Graphics Background - Skeleton UI Design */}
+        <div className="absolute inset-0 w-full h-full bg-background/50 flex items-center justify-center overflow-hidden">
 
-          {testimonials.length > 0 && (
-            <div className="absolute inset-0 overflow-hidden flex flex-col justify-end pb-12 px-12">
-              <style>
-                {`
-                    @keyframes marquee-vertical {
-                        0% { transform: translateY(0); }
-                        100% { transform: translateY(-50%); }
-                    }
-                    .animate-marquee-vertical {
-                        animation: marquee-vertical 40s linear infinite;
-                    }
-                    .animate-marquee-vertical:hover {
-                         animation-play-state: paused;
-                    }
-                    `}
-              </style>
-              <div className="h-[600px] overflow-hidden relative mask-image-b-gradient">
-                <div className="animate-marquee-vertical flex flex-col gap-6">
-                  {testimonials.map((testimonial, i) => (
-                    // Using the shared TestimonialCard here to ensure identical look
-                    <TestimonialCard
-                      key={`orig-${i}`}
-                      author={testimonial.author}
-                      text={testimonial.text}
-                      className="w-full max-w-full bg-card/60 backdrop-blur-md border border-border/50 text-foreground"
-                    />
-                  ))}
-                  {/* Duplicate for loop */}
-                  {testimonials.map((testimonial, i) => (
-                    <TestimonialCard
-                      key={`item-dup-${i}`}
-                      author={testimonial.author}
-                      text={testimonial.text}
-                      className="w-full max-w-full bg-card/60 backdrop-blur-md border border-border/50 text-foreground"
-                    />
-                  ))}
+          {/* Straight Responsive Skeleton Interface */}
+          <div
+            className="relative w-full h-full bg-zinc-950 dark:bg-white opacity-100 overflow-hidden"
+          >
+            {/* Grid Pattern */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#00000010_1px,transparent_1px),linear-gradient(to_bottom,#00000010_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+
+            {/* Skeleton Header */}
+            <div className="absolute top-8 left-8 right-8 h-12 bg-zinc-900/50 dark:bg-zinc-100/50 rounded-xl border border-white/10 dark:border-black/10 flex items-center px-4 gap-3 shadow-md backdrop-blur-sm">
+              <div className="w-3 h-3 rounded-full bg-red-500 shadow-sm"></div>
+              <div className="w-3 h-3 rounded-full bg-yellow-500 shadow-sm"></div>
+              <div className="w-3 h-3 rounded-full bg-green-500 shadow-sm"></div>
+              <div className="ml-auto w-1/3 h-4 bg-white/10 dark:bg-black/10 rounded-full"></div>
+            </div>
+
+            {/* Skeleton Sidebar */}
+            <div className="absolute top-24 left-8 w-48 bottom-8 bg-zinc-900/50 dark:bg-zinc-100/50 rounded-xl border border-white/10 dark:border-black/10 flex flex-col gap-4 p-4 shadow-md backdrop-blur-sm">
+              {[...Array(8)].map((_, i) => (
+                <div key={i} className="h-8 w-full bg-white/10 dark:bg-black/10 rounded-lg border border-white/5 dark:border-black/5"></div>
+              ))}
+            </div>
+
+            {/* Skeleton Main Content Grid */}
+            <div className="absolute top-24 left-60 right-8 bottom-8 grid grid-cols-2 gap-6 p-2">
+              {/* Hero Block */}
+              <div className="col-span-2 h-40 bg-zinc-900/50 dark:bg-zinc-100/50 rounded-xl border border-white/10 dark:border-black/10 p-6 flex flex-col justify-end shadow-md backdrop-blur-sm">
+                <div className="w-1/2 h-6 bg-white/20 dark:bg-black/20 rounded-lg mb-2 shadow-sm"></div>
+                <div className="w-1/3 h-4 bg-white/10 dark:bg-black/10 rounded-lg"></div>
+              </div>
+
+              {/* Dashboard Cards */}
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="relative bg-zinc-900/50 dark:bg-zinc-100/50 rounded-xl border border-white/10 dark:border-black/10 p-4 flex flex-col gap-3 overflow-hidden group shadow-md backdrop-blur-sm hover:border-white/20 dark:hover:border-black/20 transition-colors">
+                  <div className="w-8 h-8 rounded-lg bg-white/10 dark:bg-black/10 shadow-sm"></div>
+                  <div className="w-3/4 h-3 rounded-full bg-white/10 dark:bg-black/10"></div>
+                  <div className="w-1/2 h-3 rounded-full bg-white/10 dark:bg-black/10"></div>
+
+                  {/* Decorative Lines */}
+                  <div className="mt-auto flex items-end gap-1 h-8">
+                    <div className="w-1/4 h-[40%] bg-white/20 dark:bg-black/20 rounded-t-sm"></div>
+                    <div className="w-1/4 h-[70%] bg-white/20 dark:bg-black/20 rounded-t-sm"></div>
+                    <div className="w-1/4 h-[50%] bg-white/20 dark:bg-black/20 rounded-t-sm"></div>
+                    <div className="w-1/4 h-[80%] bg-white/20 dark:bg-black/20 rounded-t-sm"></div>
+                  </div>
                 </div>
+              ))}
+            </div>
+
+            {/* Floating Elements (Static now) */}
+            <div className="absolute -right-20 top-40 w-40 h-40 bg-primary/20 rounded-full blur-[60px]"></div>
+            <div className="absolute -left-20 bottom-40 w-60 h-60 bg-secondary/20 rounded-full blur-[80px]"></div>
+          </div>
+        </div>
+
+
+
+        {testimonials.length > 0 && (
+          <div className="absolute inset-0 overflow-hidden flex flex-col justify-end pb-12 px-12 z-10">
+            <style>
+              {`
+                  @keyframes shimmer {
+                    100% { transform: translateX(100%); }
+                  }
+                  @keyframes marquee-vertical {
+                      0% { transform: translateY(0); }
+                      100% { transform: translateY(-50%); }
+                  }
+                  .animate-marquee-vertical {
+                      animation: marquee-vertical 50s linear infinite;
+                  }
+                  .animate-marquee-vertical:hover {
+                       animation-play-state: paused;
+                  }
+                  `}
+            </style>
+            <div className="h-[600px] overflow-hidden relative mask-image-b-gradient">
+              <div className="animate-marquee-vertical flex flex-col gap-6">
+                {testimonials.map((testimonial, i) => (
+                  <TestimonialCard
+                    key={`orig-${i}`}
+                    author={testimonial.author}
+                    text={testimonial.text}
+                    className="w-full max-w-full bg-card/40 backdrop-blur-md border border-border/50 text-foreground hover:bg-card/60 transition-colors"
+                  />
+                ))}
+                {testimonials.map((testimonial, i) => (
+                  <TestimonialCard
+                    key={`item-dup-${i}`}
+                    author={testimonial.author}
+                    text={testimonial.text}
+                    className="w-full max-w-full bg-card/40 backdrop-blur-md border border-border/50 text-foreground hover:bg-card/60 transition-colors"
+                  />
+                ))}
               </div>
             </div>
-          )}
-        </section>
-      )}
+          </div>
+        )}
+      </section>
     </div>
   );
 };
