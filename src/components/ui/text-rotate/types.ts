@@ -1,5 +1,5 @@
-
-import { MotionProps, AnimatePresenceProps, Transition } from "motion/react"
+import type { MotionProps, Transition } from "framer-motion"
+import type { AnimatePresenceProps } from "framer-motion"
 
 export interface TextRotateProps {
   texts: string[]
