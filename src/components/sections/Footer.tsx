@@ -58,6 +58,16 @@ export const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/24-hour-website" className="hover:text-foreground transition-colors">
+                  24-Hour Website
+                </Link>
+              </li>
+              <li>
+                <Link to="/same-day-delivery" className="hover:text-foreground transition-colors">
+                  Same-Day Delivery
+                </Link>
+              </li>
+              <li>
                 <Link to="/contact?service=ecommerce" className="hover:text-foreground transition-colors">
                   E-commerce Solutions
                 </Link>

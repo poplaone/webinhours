@@ -17,16 +17,16 @@ export const Hero = ({ headline, description }: HeroProps) => {
   useParallaxHero();
   return (
     <section
-      className="relume-hero-section"
+      className="wih-hero-section"
       aria-labelledby="hero-heading"
       itemScope
       itemType="https://schema.org/WebPage"
     >
-      <div className="relume-hero-container">
-        <div className="relume-hero-grid">
+      <div className="wih-hero-container">
+        <div className="wih-hero-grid">
 
           {/* LEFT COLUMN - LCP optimized with fetchpriority */}
-          <div className="relume-hero-column" aria-hidden="true">
+          <div className="wih-hero-column" aria-hidden="true">
             <img
               src="/assets/card-1.webp"
               alt="Professional website design preview"
@@ -36,7 +36,7 @@ export const Hero = ({ headline, description }: HeroProps) => {
               data-depth="0.15"
               loading="eager"
               decoding="sync"
-              className="relume-hero-image parallax-image object-contain"
+              className="wih-hero-image parallax-image object-contain"
             />
             <img
               alt="E-commerce website template example"
@@ -47,7 +47,7 @@ export const Hero = ({ headline, description }: HeroProps) => {
               data-depth="0.25"
               loading="eager"
               decoding="async"
-              className="relume-hero-image is-offset-left parallax-image object-contain"
+              className="wih-hero-image is-offset-left parallax-image object-contain"
             />
             <img
               src="/assets/card-3.webp"
@@ -58,14 +58,14 @@ export const Hero = ({ headline, description }: HeroProps) => {
               data-depth="0.2"
               loading="eager"
               decoding="async"
-              className="relume-hero-image parallax-image object-contain"
+              className="wih-hero-image parallax-image object-contain"
             />
             <img
               src="/assets/cursor-jessica.png"
               alt=""
               width={83}
               height={83}
-              className="relume-hero-cursor parallax-cursor"
+              className="wih-hero-cursor parallax-cursor"
               style={{ position: 'absolute', width: '82.5px', top: '20px', left: '200px' }}
               data-depth="0.4"
               loading="lazy"
@@ -74,7 +74,7 @@ export const Hero = ({ headline, description }: HeroProps) => {
           </div>
 
           {/* CENTER CONTENT - GEO Optimized with Answer-First Formatting */}
-          <div className="relume-hero-center">
+          <div className="wih-hero-center">
 
             <div className="text-center mb-6 md:mb-6 mt-8 md:mt-0 flex items-center justify-center">
               <RotatingServices />
@@ -139,7 +139,7 @@ export const Hero = ({ headline, description }: HeroProps) => {
           </div>
 
           {/* RIGHT COLUMN - LCP optimized with fetchpriority */}
-          <div className="relume-hero-column" aria-hidden="true">
+          <div className="wih-hero-column" aria-hidden="true">
             <img
               src="/assets/card-4.webp"
               alt="AI workflow platform template"
@@ -149,7 +149,7 @@ export const Hero = ({ headline, description }: HeroProps) => {
               data-depth="0.18"
               loading="eager"
               decoding="sync"
-              className="relume-hero-image parallax-image object-contain"
+              className="wih-hero-image parallax-image object-contain"
             />
             <img
               src="/assets/card-5.webp"
@@ -160,7 +160,7 @@ export const Hero = ({ headline, description }: HeroProps) => {
               data-depth="0.22"
               loading="eager"
               decoding="async"
-              className="relume-hero-image is-offset-right parallax-image object-contain"
+              className="wih-hero-image is-offset-right parallax-image object-contain"
             />
             <img
               src="/assets/card-6.webp"
@@ -171,14 +171,14 @@ export const Hero = ({ headline, description }: HeroProps) => {
               data-depth="0.16"
               loading="eager"
               decoding="async"
-              className="relume-hero-image parallax-image object-contain"
+              className="wih-hero-image parallax-image object-contain"
             />
             <img
               src="/assets/cursor-mario.png"
               alt=""
               width={70}
               height={70}
-              className="relume-hero-cursor parallax-cursor"
+              className="wih-hero-cursor parallax-cursor"
               style={{ position: 'absolute', width: '69.5px', top: '10px', right: '180px' }}
               data-depth="0.35"
               aria-hidden="true"
@@ -190,7 +190,7 @@ export const Hero = ({ headline, description }: HeroProps) => {
         </div>
 
         {/* Mobile Card Slider - shown only on mobile */}
-        <div className="relume-hero-mobile-slider" role="region" aria-label="Website template examples">
+        <div className="wih-hero-mobile-slider" role="region" aria-label="Website template examples">
           <CardSlider />
         </div>
 

@@ -22,14 +22,14 @@ export const MarketplaceCTA = () => {
           <h3 className="text-2xl font-bold mb-4">Don't See What You Need?</h3>
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
             Our team can create a completely custom website tailored to your specific requirements.
-            Get a personalized quote and timeline for your unique project.
+            Skip the queue with our emergency rush delivery service.
           </p>
           <Button
             size="lg"
             className="bg-[#8B5CF6] hover:bg-[#7C3AED]"
-            onClick={() => navigate('/contact')}
+            onClick={() => navigate('/same-day-delivery')}
           >
-            Request Custom Design
+            Get Same-Day Service
           </Button>
         </CardContent>
       </Card>
