@@ -161,23 +161,75 @@
   <!-- Preconnect to external domains for faster resource loading -->
   <link rel="preconnect" href="https://cdn.gpteng.co" crossorigin>
 
-  <!-- Google Consent Mode v2 - Default to denied until user consents -->
+  <!-- Google Consent Mode v2 - Full Implementation -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     
-    // Set default consent to denied (GDPR compliant)
+    // Google Consent Mode v2 - Set defaults BEFORE any tags fire
+    // This is critical for compliance
     gtag('consent', 'default', {
       'analytics_storage': 'denied',
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
       'ad_personalization': 'denied',
-      'wait_for_update': 500
+      'functionality_storage': 'denied',
+      'personalization_storage': 'denied',
+      'security_storage': 'granted', // Always granted for security
+      'wait_for_update': 500 // Wait 500ms for consent update
     });
     
-    // GA4 will only be loaded dynamically after consent is granted
+    // Region-specific stricter defaults for EEA/UK (GDPR regions)
+    gtag('consent', 'default', {
+      'analytics_storage': 'denied',
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied', 
+      'ad_personalization': 'denied',
+      'region': ['AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 
+                 'FR', 'GR', 'HR', 'HU', 'IE', 'IT', 'LT', 'LU', 'LV', 'MT', 
+                 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK', 'GB', 'NO', 'IS', 'LI', 'CH']
+    });
+    
+    // URL passthrough for better conversion modeling when consent is denied
+    gtag('set', 'url_passthrough', true);
+    
+    // Redact ads data when consent is denied (privacy protection)
+    gtag('set', 'ads_data_redaction', true);
+    
+    // Developer ID for consent mode verification (optional but recommended)
+    gtag('set', 'developer_id.dZTQ1Zm', true);
+
+    // Check for existing consent and apply it immediately
+    (function() {
+      try {
+        var stored = localStorage.getItem('cookie-consent-preferences');
+        if (stored) {
+          var prefs = JSON.parse(stored);
+          gtag('consent', 'update', {
+            'analytics_storage': prefs.analytics ? 'granted' : 'denied',
+            'ad_storage': prefs.marketing ? 'granted' : 'denied',
+            'ad_user_data': prefs.marketing ? 'granted' : 'denied',
+            'ad_personalization': prefs.marketing ? 'granted' : 'denied',
+            'functionality_storage': 'granted',
+            'personalization_storage': prefs.analytics ? 'granted' : 'denied'
+          });
+          // Load GA script if consent was given
+          if (prefs.analytics) {
+            var s = document.createElement('script');
+            s.src = 'https://www.googletagmanager.com/gtag/js?id=G-3PC11MVZFP';
+            s.async = true;
+            document.head.appendChild(s);
+          }
+        }
+      } catch(e) {}
+    })();
+    
+    // Initialize gtag
     gtag('js', new Date());
-    gtag('config', 'G-3PC11MVZFP', { 'send_page_view': false });
+    gtag('config', 'G-3PC11MVZFP', { 
+      'send_page_view': false,
+      'cookie_flags': 'SameSite=None;Secure'
+    });
   </script>
 </head>
 

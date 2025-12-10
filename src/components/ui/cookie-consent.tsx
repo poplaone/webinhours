@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
-import { X, Cookie, Settings, Shield } from 'lucide-react';
+import { X, Cookie, Settings, Shield, BarChart3, Megaphone, Cog } from 'lucide-react';
 import {
   hasConsentDecision,
   getConsentPreferences,
   acceptAllCookies,
   declineOptionalCookies,
   saveConsentPreferences,
+  needsConsentRefresh,
   type ConsentPreferences,
 } from '@/utils/cookieConsent';
 
@@ -22,6 +23,7 @@ export const CookieConsent = ({ forceOpen = false, onClose }: CookieConsentProps
   const [showPreferences, setShowPreferences] = useState(false);
   const [analyticsEnabled, setAnalyticsEnabled] = useState(false);
   const [marketingEnabled, setMarketingEnabled] = useState(false);
+  const [functionalEnabled, setFunctionalEnabled] = useState(true);
 
   useEffect(() => {
     if (forceOpen) {
@@ -30,14 +32,15 @@ export const CookieConsent = ({ forceOpen = false, onClose }: CookieConsentProps
       if (preferences) {
         setAnalyticsEnabled(preferences.analytics);
         setMarketingEnabled(preferences.marketing);
+        setFunctionalEnabled(preferences.functional ?? true);
       }
       setShowConsent(true);
       setShowPreferences(true);
       return;
     }
 
-    // Only show if no consent decision has been made
-    if (!hasConsentDecision()) {
+    // Show if no consent decision or consent needs refresh
+    if (!hasConsentDecision() || needsConsentRefresh()) {
       setShowConsent(true);
     }
   }, [forceOpen]);
@@ -58,6 +61,7 @@ export const CookieConsent = ({ forceOpen = false, onClose }: CookieConsentProps
     saveConsentPreferences({
       analytics: analyticsEnabled,
       marketing: marketingEnabled,
+      functional: functionalEnabled,
     });
     setShowConsent(false);
     setShowPreferences(false);
@@ -110,13 +114,13 @@ export const CookieConsent = ({ forceOpen = false, onClose }: CookieConsentProps
             /* Preferences View */
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground">
-                Customize which cookies you want to allow. Essential cookies are always enabled as they're necessary for the website to function.
+                Customize which cookies you want to allow. We use Google Consent Mode v2 to ensure your preferences are respected across all Google services.
               </p>
 
               {/* Essential Cookies - Always On */}
               <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
                 <div className="flex items-center gap-3">
-                  <Shield className="h-4 w-4 text-green-500" />
+                  <Shield className="h-4 w-4 text-green-500 shrink-0" />
                   <div>
                     <p className="text-sm font-medium">Essential Cookies</p>
                     <p className="text-xs text-muted-foreground">Required for site functionality</p>
@@ -125,11 +129,29 @@ export const CookieConsent = ({ forceOpen = false, onClose }: CookieConsentProps
                 <Switch checked disabled className="data-[state=checked]:bg-green-500" />
               </div>
 
+              {/* Functional Cookies */}
+              <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                <div className="flex items-center gap-3">
+                  <Cog className="h-4 w-4 text-blue-500 shrink-0" />
+                  <div>
+                    <p className="text-sm font-medium">Functional Cookies</p>
+                    <p className="text-xs text-muted-foreground">Enhanced features & preferences</p>
+                  </div>
+                </div>
+                <Switch
+                  checked={functionalEnabled}
+                  onCheckedChange={setFunctionalEnabled}
+                />
+              </div>
+
               {/* Analytics Cookies */}
               <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-                <div>
-                  <p className="text-sm font-medium">Analytics Cookies</p>
-                  <p className="text-xs text-muted-foreground">Help us improve our website</p>
+                <div className="flex items-center gap-3">
+                  <BarChart3 className="h-4 w-4 text-purple-500 shrink-0" />
+                  <div>
+                    <p className="text-sm font-medium">Analytics Cookies</p>
+                    <p className="text-xs text-muted-foreground">Help us improve our website (GA4)</p>
+                  </div>
                 </div>
                 <Switch
                   checked={analyticsEnabled}
@@ -139,9 +161,12 @@ export const CookieConsent = ({ forceOpen = false, onClose }: CookieConsentProps
 
               {/* Marketing Cookies */}
               <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-                <div>
-                  <p className="text-sm font-medium">Marketing Cookies</p>
-                  <p className="text-xs text-muted-foreground">Personalized ads and content</p>
+                <div className="flex items-center gap-3">
+                  <Megaphone className="h-4 w-4 text-orange-500 shrink-0" />
+                  <div>
+                    <p className="text-sm font-medium">Marketing Cookies</p>
+                    <p className="text-xs text-muted-foreground">Personalized ads (Google Ads)</p>
+                  </div>
                 </div>
                 <Switch
                   checked={marketingEnabled}
