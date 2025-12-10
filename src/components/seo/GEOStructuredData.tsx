@@ -35,9 +35,9 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
       "width": 512,
       "height": 512
     },
-    "description": "Professional web development services delivering high-quality websites in 24 hours. Free templates, custom branding, and content creation.",
+    "description": "The fastest web development service delivering professional websites in 24 hours or less. Same-day website builder with SEO & GEO optimization for AI search engines.",
     "foundingDate": "2023",
-    "slogan": "Professional Websites in 24 Hours",
+    "slogan": "Your Website in 24 Hours - Not Weeks",
     "email": "support@webinhours.com",
     "contactPoint": [
       {
@@ -69,13 +69,17 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
       "https://github.com/webinhours"
     ],
     "knowsAbout": [
-      "Web Development",
-      "Website Design",
-      "SEO Optimization",
+      "24-Hour Website Development",
+      "Same Day Website Builder",
+      "Fast Custom Website Development",
+      "Urgent Website Design Services",
+      "SEO & GEO Optimization",
+      "Rapid Web Development",
+      "Website in 24 Hours",
+      "Emergency Web Design",
       "Responsive Web Design",
       "E-commerce Development",
-      "Content Creation",
-      "Digital Branding"
+      "AI Search Optimization"
     ],
     "aggregateRating": {
       "@type": "AggregateRating",
@@ -93,7 +97,7 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
     "@id": "https://webinhours.com/#website",
     "url": "https://webinhours.com",
     "name": "WebInHours",
-    "description": "Professional web development services delivering websites in 24 hours",
+    "description": "The fastest way to get a professional website. Same-day delivery, SEO & GEO optimized for AI search engines.",
     "publisher": {
       "@id": "https://webinhours.com/#organization"
     },
@@ -134,22 +138,22 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
-            "name": "Free Website"
+            "name": "Free Website Templates"
           },
           "price": "0",
           "priceCurrency": "USD",
-          "description": "500+ professional templates, mobile-optimized, SEO-ready"
+          "description": "500+ professional templates delivered instantly, SEO & GEO optimized for AI search"
         },
         {
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
-            "name": "Custom Branding"
+            "name": "24-Hour Custom Website"
           },
           "price": "299",
           "priceCurrency": "USD",
           "priceValidUntil": "2025-12-31",
-          "description": "Custom design, color palette, typography, logo integration"
+          "description": "Same-day website delivery with custom branding, SEO optimization, and mobile-responsive design"
         },
         {
           "@type": "Offer",
@@ -175,12 +179,16 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
   const generateFAQSchema = () => {
     const defaultFAQs: FAQItem[] = [
       {
-        question: "Is the free website really free?",
-        answer: "Yes, our free website tier is 100% free with no hidden costs. You get access to 500+ professional templates, mobile optimization, SEO-ready structure, and free SSL certificate. Premium services like custom branding and content creation are optional upgrades."
+        question: "Can I really get a website in 24 hours?",
+        answer: "Yes! WebInHours specializes in rapid website delivery. Most custom websites are delivered within 24 hours of receiving your content. For urgent needs, we offer same-day website builder options that can have you online in just a few hours."
       },
       {
-        question: "How fast can I get my website?",
-        answer: "Most websites are delivered within 24 hours. After you choose your template and provide your content, our team works quickly to set up and launch your site. Custom branding projects may take 2-3 business days."
+        question: "What if I need my website urgently today?",
+        answer: "We offer emergency web design services for urgent needs. Contact us for same-day website delivery options. Our rapid development process means you can go from concept to live website in hours, not weeks."
+      },
+      {
+        question: "Is the free website really free?",
+        answer: "Yes, our free website tier is 100% free with no hidden costs. You get access to 500+ professional templates, mobile optimization, SEO-ready structure, and free SSL certificate. Premium services like custom branding and content creation are optional upgrades."
       },
       {
         question: "What is included in the free website?",

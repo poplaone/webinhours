@@ -177,9 +177,9 @@ export default function Pricing() {
   return (
     <AppLayout>
       <SEOHead
-        title="Pricing - WebInHour | Free Templates + Expert Customization"
-        description="Transparent pricing for every stage of growth. Start with a free template or upgrade to our Custom Lite and Custom Pro packages for expert development."
-        keywords="website pricing, web development cost, free website templates, custom website packages, affordable web design"
+        title="Pricing - WebInHours | 24-Hour Website Development Packages"
+        description="Transparent pricing for fast website development. Free templates for instant download, $299 Custom Lite with 24-hour delivery, $599 Custom Pro. Same-day website options available."
+        keywords="24 hour website pricing, fast website cost, same day website packages, affordable custom website, website in 24 hours price, urgent website design cost, WebInHours pricing"
         canonicalUrl="https://webinhours.com/pricing"
       />
 

@@ -13,9 +13,9 @@ interface SEOHeadProps {
 }
 
 const SEOHead: React.FC<SEOHeadProps> = ({
-  title = "WebInHour - Choose Your Free Website Design Today",
-  description = "Select from 500+ professional website designs absolutely free. We handle setup and hosting. Premium services like content creation, PR, and social media management available when you need them.",
-  keywords = "free website design, professional website templates, free business website, website setup service, content creation, PR services, social media management, website hosting, online presence",
+  title = "WebInHours - Professional Website in 24 Hours | Fast Custom Web Development",
+  description = "Get your professional website delivered in 24 hours. 500+ free SEO-ready templates, same-day customization, and GEO optimization for AI search. The fastest way to launch online.",
+  keywords = "website in 24 hours, fast custom website development, same day website builder, professional website delivered today, SEO GEO optimized website, urgent website design services, free website templates, rapid web development",
   ogImage = "/placeholder.svg",
   ogType = "website",
   canonicalUrl,

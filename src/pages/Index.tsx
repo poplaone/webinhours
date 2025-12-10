@@ -21,9 +21,9 @@ const Index = () => {
     <AppLayout>
       {/* GEO-Optimized SEO with Answer-First Approach */}
       <SEOHead
-        title="Professional Website Design & SEO Solutions | WebInHours"
-        description="The fastest way to launch high-conversion websites. Get custom design, SEO optimization, and premium templates—all in one platform. Start free today."
-        keywords="professional website design, SEO solutions, custom website design, high-conversion websites, premium templates, website development, SEO optimization, web design agency"
+        title="WebInHours - Professional Website in 24 Hours | Same Day Web Development"
+        description="Get your professional website in 24 hours. 500+ free SEO-ready templates, same-day customization, SEO & GEO optimization for AI search. The fastest way to launch online - not weeks, hours."
+        keywords="website in 24 hours, same day website, fast website development, free website templates, SEO GEO optimized, urgent website design, WebInHours, rapid web development, get website today"
         canonicalUrl="https://webinhours.com/"
       />
 
