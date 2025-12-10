@@ -112,18 +112,88 @@ export default function BlogPost() {
 
                     <Separator className="my-12" />
 
+                    {/* Related Posts - Internal Linking */}
+                    <div className="mb-12">
+                        <h2 className="text-2xl font-bold mb-6 text-foreground">Related Articles</h2>
+                        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            {blogPosts
+                                .filter(p => p.slug !== slug)
+                                .slice(0, 3)
+                                .map(relatedPost => (
+                                    <button
+                                        key={relatedPost.id}
+                                        onClick={() => navigate(`/blog/${relatedPost.slug}`)}
+                                        className="text-left p-4 rounded-lg border border-border/50 hover:border-primary/50 hover:bg-muted/50 transition-all group"
+                                    >
+                                        <Badge variant="secondary" className="mb-2 text-xs">
+                                            {relatedPost.category}
+                                        </Badge>
+                                        <h3 className="font-semibold text-sm mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                                            {relatedPost.title}
+                                        </h3>
+                                        <p className="text-xs text-muted-foreground line-clamp-2">
+                                            {relatedPost.excerpt}
+                                        </p>
+                                        <span className="text-xs text-primary mt-2 inline-block group-hover:underline">
+                                            Read more →
+                                        </span>
+                                    </button>
+                                ))}
+                        </div>
+                    </div>
+
+                    {/* More from this category */}
+                    {blogPosts.filter(p => p.category === post.category && p.slug !== slug).length > 0 && (
+                        <div className="mb-12">
+                            <h2 className="text-xl font-bold mb-4 text-foreground">More in {post.category}</h2>
+                            <div className="space-y-3">
+                                {blogPosts
+                                    .filter(p => p.category === post.category && p.slug !== slug)
+                                    .slice(0, 2)
+                                    .map(categoryPost => (
+                                        <button
+                                            key={categoryPost.id}
+                                            onClick={() => navigate(`/blog/${categoryPost.slug}`)}
+                                            className="w-full text-left flex items-center gap-4 p-3 rounded-lg hover:bg-muted/50 transition-colors group"
+                                        >
+                                            <div className="flex-1">
+                                                <h3 className="font-medium text-sm group-hover:text-primary transition-colors">
+                                                    {categoryPost.title}
+                                                </h3>
+                                                <span className="text-xs text-muted-foreground">{categoryPost.readTime}</span>
+                                            </div>
+                                            <ArrowLeft className="h-4 w-4 rotate-180 text-muted-foreground group-hover:text-primary transition-colors" />
+                                        </button>
+                                    ))}
+                            </div>
+                        </div>
+                    )}
+
+                    <Separator className="my-8" />
+
                     {/* Share / CTA */}
-                    <div className="bg-purple-50 border border-purple-100 rounded-xl p-8 text-center">
+                    <div className="bg-primary/5 border border-primary/20 rounded-xl p-8 text-center">
                         <h3 className="text-xl font-bold mb-2">Ready to implement this?</h3>
-                        <p className="text-gray-600 mb-6">Launch your high-performance website or acquire verified assets today.</p>
-                        <div className="flex justify-center gap-4">
-                            <Button onClick={() => navigate('/contact')} className="bg-purple-600 hover:bg-purple-700">
+                        <p className="text-muted-foreground mb-6">Launch your high-performance website in 24 hours or acquire verified digital assets today.</p>
+                        <div className="flex flex-wrap justify-center gap-4">
+                            <Button onClick={() => navigate('/contact')} className="bg-primary hover:bg-primary/90">
                                 Start Project
                             </Button>
-                            <Button variant="outline" onClick={() => navigate('/marketplace')}>
-                                Browse Assets
+                            <Button variant="outline" onClick={() => navigate('/websites')}>
+                                Browse Templates
                             </Button>
                         </div>
+                    </div>
+
+                    {/* Browse all posts link */}
+                    <div className="mt-8 text-center">
+                        <Button
+                            variant="link"
+                            onClick={() => navigate('/blog')}
+                            className="text-primary hover:text-primary/80"
+                        >
+                            ← View all articles
+                        </Button>
                     </div>
 
                 </article>
