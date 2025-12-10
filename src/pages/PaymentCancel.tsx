@@ -4,7 +4,7 @@ import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { XCircle, ArrowLeft, MessageCircle, RefreshCw } from 'lucide-react';
+import { XCircle, ArrowLeft, MessageCircle, RefreshCw, Home } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function PaymentCancel() {
@@ -15,7 +15,7 @@ export default function PaymentCancel() {
       <SEOHead
         title="Payment Cancelled - WebInHour"
         description="Your payment was cancelled. No charges have been made."
-        canonicalUrl="https://webinhours.com/payment/cancel"
+        canonicalUrl="https://webinhour.com/payment/cancel"
       />
 
       <div className="pt-24 pb-20 px-4 min-h-screen flex items-center justify-center">
@@ -25,6 +25,16 @@ export default function PaymentCancel() {
           transition={{ duration: 0.5 }}
           className="w-full max-w-2xl"
         >
+          {/* Back Button */}
+          <Button
+            variant="ghost"
+            onClick={() => navigate(-1)}
+            className="mb-4 text-muted-foreground hover:text-foreground"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Go Back
+          </Button>
+
           <Card className="bg-card/50 backdrop-blur-md border-border/50 overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-orange-500 to-red-500" />
             
@@ -62,12 +72,12 @@ export default function PaymentCancel() {
               {/* Actions */}
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Button
-                  onClick={() => navigate('/pricing')}
+                  onClick={() => navigate('/')}
                   variant="outline"
                   className="flex-1"
                 >
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Pricing
+                  <Home className="w-4 h-4 mr-2" />
+                  Return to Homepage
                 </Button>
                 <Button
                   onClick={() => navigate('/pricing')}

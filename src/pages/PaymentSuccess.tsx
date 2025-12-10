@@ -4,8 +4,9 @@ import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, Download, Mail, ArrowRight, Home } from 'lucide-react';
+import { CheckCircle, Download, Mail, ArrowRight, Home, ArrowLeft, FileText } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
 
 export default function PaymentSuccess() {
   const [searchParams] = useSearchParams();
@@ -25,12 +26,82 @@ export default function PaymentSuccess() {
     }
   }, [sessionId, productId]);
 
+  const handleDownloadInvoice = () => {
+    // Generate invoice content
+    const invoiceDate = new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    
+    const productName = productId?.includes('Lite') ? 'Custom Lite Plan' : 'Custom Pro Plan';
+    const amount = productId?.includes('Lite') ? '$299.00' : '$599.00';
+    
+    const invoiceContent = `
+================================================================================
+                                  INVOICE
+================================================================================
+
+                              WebInHour
+                     Professional Website Solutions
+                        https://webinhour.com
+
+--------------------------------------------------------------------------------
+
+Invoice Date: ${invoiceDate}
+Order Reference: ${sessionId || 'N/A'}
+
+--------------------------------------------------------------------------------
+
+BILL TO:
+Customer (Details will be sent via email)
+
+--------------------------------------------------------------------------------
+
+ITEM DESCRIPTION                                              AMOUNT
+--------------------------------------------------------------------------------
+${productName.padEnd(55)}${amount}
+
+--------------------------------------------------------------------------------
+                                                    SUBTOTAL: ${amount}
+                                                        TAX:  $0.00
+                                                    ─────────────────
+                                                       TOTAL: ${amount}
+--------------------------------------------------------------------------------
+
+PAYMENT STATUS: PAID ✓
+
+--------------------------------------------------------------------------------
+
+Thank you for choosing WebInHour!
+
+For any questions regarding this invoice, please contact:
+Email: team@webinhour.com
+Website: https://webinhour.com/contact
+
+================================================================================
+`;
+
+    // Create and download the file
+    const blob = new Blob([invoiceContent], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `WebInHour-Invoice-${sessionId || 'order'}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+    
+    toast.success('Invoice downloaded successfully!');
+  };
+
   return (
     <AppLayout>
       <SEOHead
         title="Payment Successful - WebInHour"
         description="Thank you for your purchase. Your order has been confirmed."
-        canonicalUrl="https://webinhours.com/payment/success"
+        canonicalUrl="https://webinhour.com/payment/success"
       />
 
       <div className="pt-24 pb-20 px-4 min-h-screen flex items-center justify-center">
@@ -40,6 +111,16 @@ export default function PaymentSuccess() {
           transition={{ duration: 0.5 }}
           className="w-full max-w-2xl"
         >
+          {/* Back Button */}
+          <Button
+            variant="ghost"
+            onClick={() => navigate(-1)}
+            className="mb-4 text-muted-foreground hover:text-foreground"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Go Back
+          </Button>
+
           <Card className="bg-card/50 backdrop-blur-md border-border/50 overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-green-500 to-emerald-500" />
             
@@ -88,7 +169,7 @@ export default function PaymentSuccess() {
                     <div>
                       <p className="font-medium text-foreground">Project Kickoff</p>
                       <p className="text-sm text-muted-foreground">
-                        Our team will reach out within 24 hours to begin your project.
+                        Our team will reach out within an hour to begin your project.
                       </p>
                     </div>
                   </div>
@@ -113,6 +194,18 @@ export default function PaymentSuccess() {
                 </div>
               )}
 
+              {/* Download Invoice */}
+              <div className="flex justify-center">
+                <Button
+                  onClick={handleDownloadInvoice}
+                  variant="secondary"
+                  className="gap-2"
+                >
+                  <FileText className="w-4 h-4" />
+                  Download Invoice
+                </Button>
+              </div>
+
               {/* Actions */}
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Button
@@ -121,7 +214,7 @@ export default function PaymentSuccess() {
                   className="flex-1"
                 >
                   <Home className="w-4 h-4 mr-2" />
-                  Back to Home
+                  Return to Homepage
                 </Button>
                 <Button
                   onClick={() => navigate('/contact')}
