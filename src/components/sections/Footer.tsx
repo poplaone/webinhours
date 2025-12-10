@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Code } from 'lucide-react';
+import { Cookie } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useCookiePreferences } from '@/components/ui/cookie-consent';
 
 export const Footer = () => {
   const isMobile = useIsMobile();
   const [mobileFooterVisible, setMobileFooterVisible] = useState(false);
+  const { openPreferences, PreferencesModal } = useCookiePreferences();
 
   useEffect(() => {
     if (isMobile) {
@@ -163,9 +165,17 @@ export const Footer = () => {
             <Link to="/faq" className="hover:text-foreground transition-colors">
               FAQ
             </Link>
+            <button
+              onClick={openPreferences}
+              className="hover:text-foreground transition-colors flex items-center gap-1"
+            >
+              <Cookie className="h-3 w-3" />
+              Cookie Settings
+            </button>
           </div>
         </div>
       </div>
+      {PreferencesModal}
     </footer>
   );
 };
