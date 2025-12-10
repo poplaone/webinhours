@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Mail, Phone, Clock, Send, Check, ChevronRight, Sparkles } from 'lucide-react';
+import { Mail, Phone, Clock, Send, Check, ChevronRight, Sparkles, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { trackFormSubmission } from '@/utils/analytics';
@@ -86,6 +86,7 @@ export default function Contact() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [step, setStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -171,6 +172,8 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
 ━━━━━━━━━━━━━━━━━━━━━━
     `.trim();
 
+    setIsSubmitting(true);
+    
     try {
       const { error } = await supabase.functions.invoke('send-contact-email', {
         body: {
@@ -199,6 +202,8 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
         description: error instanceof Error ? error.message : "Failed to submit. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -423,11 +428,20 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
                   ) : (
                     <Button
                       type="submit"
-                      disabled={!canProceed()}
+                      disabled={!canProceed() || isSubmitting}
                       className="min-w-[140px]"
                     >
-                      <Send className="w-4 h-4 mr-2" />
-                      Submit Request
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Submitting...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-4 h-4 mr-2" />
+                          Submit Request
+                        </>
+                      )}
                     </Button>
                   )}
                 </div>

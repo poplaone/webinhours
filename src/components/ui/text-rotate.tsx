@@ -11,11 +11,9 @@ import {
 } from "react"
 import {
   AnimatePresence,
-  AnimatePresenceProps,
   motion,
-  MotionProps,
-  Transition,
-} from "motion/react"
+} from "framer-motion"
+import type { AnimatePresenceProps, MotionProps, Transition } from "framer-motion"
 
 import { cn } from "@/lib/utils"
 
