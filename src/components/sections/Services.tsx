@@ -2,11 +2,10 @@ import React from 'react';
 import { Palette, PenTool, Globe2 } from 'lucide-react';
 import { AnimatedServiceCard } from '@/components/ui/animated-service-card';
 import CombinedFeaturedSection from '@/components/ui/combined-featured-section';
-// Replaced 4MB GIF with optimized WebP to improve LCP
-const customBrandingImage = "/assets/card-2.webp";
-const contentCreationImage = "/assets/content-creation.webp";
-const comparisonBefore = "/assets/comparison-before.webp";
-const comparisonAfter = "/assets/comparison-after.webp";
+import customBrandingGif from '@/assets/custom-branding.gif';
+import contentCreationImage from '@/assets/content-creation.webp';
+import comparisonBefore from '@/assets/comparison-before.webp';
+import comparisonAfter from '@/assets/comparison-after.webp';
 
 export const Services = () => {
   const services = [
@@ -33,7 +32,7 @@ export const Services = () => {
       tagline: "Stand Out from the Crowd",
       description: "Elevate your brand with bespoke web design. We craft custom color palettes, unique typography, and conversion-focused layouts tailored to your business identity.",
       price: "From $299",
-      image: customBrandingImage,
+      image: customBrandingGif,
       detailedFeatures: [
         { title: "Custom Color Palette", description: "Psychology-backed color schemes" },
         { title: "Typography Selection", description: "Premium font pairing for readability" },

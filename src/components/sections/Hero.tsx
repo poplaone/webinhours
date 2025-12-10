@@ -40,7 +40,7 @@ export const Hero = ({ headline, description }: HeroProps) => {
             />
             <img
               alt="E-commerce website template example"
-              src="/assets/card-5.webp"
+              src="/uploads/f05d4bb5-4c1a-40d9-bb57-f25dcd61d809.png"
               width={400}
               height={300}
               style={{ width: '100%', height: 'auto', aspectRatio: '400/300' }}
