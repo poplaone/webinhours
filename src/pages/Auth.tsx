@@ -2,27 +2,58 @@ import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate, useLocation } from "react-router-dom";
-import { SignInPage, Testimonial } from "@/components/ui/sign-in-page";
+import { SignInPage, SignInPageTestimonial } from "@/components/ui/sign-in-page";
 
-const sampleTestimonials: Testimonial[] = [
+// Based on the shared TestimonialAuthor interface, but we need to map it correctly.
+const sampleTestimonials: SignInPageTestimonial[] = [
   {
-    avatarSrc: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
-    name: "Sarah Chen",
-    handle: "@sarahdigital",
-    text: "Amazing platform! The user experience is seamless and the features are exactly what I needed."
+    author: {
+      name: "Alex Morgan",
+      handle: "",
+      avatar: ""
+    },
+    text: "This platform completely revolutionized our workflow. The automation tools are incredibly powerful and easy to use."
   },
   {
-    avatarSrc: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
-    name: "Marcus Johnson",
-    handle: "@marcustech",
-    text: "This service has transformed how I work. Clean design, powerful features, and excellent support."
+    author: {
+      name: "Sarah Chen",
+      handle: "",
+      avatar: ""
+    },
+    text: "The best investment we've made for our startup. We scaled from 100 to 10k users without a hitch thanks to the robust infrastructure."
   },
   {
-    avatarSrc: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop",
-    name: "David Martinez",
-    handle: "@davidcreates",
-    text: "I've tried many platforms, but this one stands out. Intuitive, reliable, and genuinely helpful."
+    author: {
+      name: "Michael Chang",
+      handle: "",
+      avatar: ""
+    },
+    text: "Customer support is outstanding. They resolved my complex query in minutes, not days. truly 24/7 service."
   },
+  {
+    author: {
+      name: "Jessica Wu",
+      handle: "",
+      avatar: ""
+    },
+    text: "I was skeptical at first, but the ROI speaks for itself. Our efficiency improved by 40% in just the first month."
+  },
+  {
+    author: {
+      name: "David Miller",
+      handle: "",
+      avatar: ""
+    },
+    text: "The interface is intuitive and beautiful. It makes managing complex data sets feel like a breeze. Highly recommended!"
+  },
+  {
+    author: {
+      name: "Emily Davis",
+      handle: "",
+      avatar: ""
+    },
+    text: "Security was our top concern, and this platform delivered enterprise-grade protection out of the box."
+  }
 ];
 
 const Auth = () => {
@@ -48,7 +79,7 @@ const Auth = () => {
 
     setIsLoading(true);
     const { error } = await signIn(email, password);
-    
+
     if (error) {
       toast({
         title: "Error signing in",
@@ -73,7 +104,7 @@ const Auth = () => {
 
     setIsLoading(true);
     const { error } = await signUp(email, password, fullName);
-    
+
     if (error) {
       toast({
         title: "Error signing up",
@@ -92,7 +123,7 @@ const Auth = () => {
 
   const handleGoogleSignIn = async () => {
     const { error } = await signInWithGoogle();
-    
+
     if (error) {
       toast({
         title: "Error signing in with Google",

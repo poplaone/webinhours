@@ -155,7 +155,7 @@ const TestimonialCard = ({ testimonial, index }: { testimonial: Testimonial; ind
         <CardContent className="p-6">
           {/* Quote Icon */}
           <Quote className="w-8 h-8 text-primary/30 mb-4" aria-hidden="true" />
-          
+
           {/* Rating */}
           <div className="flex gap-1 mb-4" role="img" aria-label={`${testimonial.rating} out of 5 stars`}>
             {[...Array(testimonial.rating)].map((_, i) => (
@@ -163,33 +163,22 @@ const TestimonialCard = ({ testimonial, index }: { testimonial: Testimonial; ind
             ))}
             <meta itemProp="reviewRating" content={testimonial.rating.toString()} />
           </div>
-          
+
           {/* Review Content */}
-          <p 
+          <p
             className="text-foreground/80 text-sm md:text-base leading-relaxed mb-6"
             itemProp="reviewBody"
           >
             "{testimonial.content}"
           </p>
-          
+
           {/* Author Info with Person Schema */}
-          <div 
+          <div
             className="flex items-center gap-4"
             itemProp="author"
             itemScope
             itemType="https://schema.org/Person"
           >
-            <Avatar className="w-12 h-12 border-2 border-primary/20">
-              <AvatarImage 
-                src={testimonial.image} 
-                alt={`${testimonial.name}, ${testimonial.role} at ${testimonial.company}`}
-                itemProp="image"
-                loading="lazy"
-              />
-              <AvatarFallback className="bg-primary/20 text-primary font-semibold">
-                {testimonial.name.split(' ').map(n => n[0]).join('')}
-              </AvatarFallback>
-            </Avatar>
             <div>
               <h4 className="font-semibold text-foreground" itemProp="name">
                 {testimonial.name}
@@ -197,9 +186,9 @@ const TestimonialCard = ({ testimonial, index }: { testimonial: Testimonial; ind
               <p className="text-sm text-muted-foreground">
                 <span itemProp="jobTitle">{testimonial.role}</span>
                 {" at "}
-                <span 
-                  itemProp="worksFor" 
-                  itemScope 
+                <span
+                  itemProp="worksFor"
+                  itemScope
                   itemType="https://schema.org/Organization"
                 >
                   <span itemProp="name">{testimonial.company}</span>
@@ -207,7 +196,7 @@ const TestimonialCard = ({ testimonial, index }: { testimonial: Testimonial; ind
               </p>
             </div>
           </div>
-          
+
           <meta itemProp="datePublished" content={testimonial.datePublished} />
         </CardContent>
       </Card>
@@ -217,7 +206,7 @@ const TestimonialCard = ({ testimonial, index }: { testimonial: Testimonial; ind
 
 export function PremiumTestimonials() {
   return (
-    <section 
+    <section
       className="py-12 md:py-24 px-4 md:px-8"
       aria-labelledby="testimonials-heading"
       itemScope
@@ -239,42 +228,25 @@ export function PremiumTestimonials() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12 md:mb-16"
         >
-          {/* TL;DR for AI extraction */}
-          <p className="text-primary font-medium text-sm md:text-base mb-3" aria-hidden="true">
-            ⭐ Trusted by 500+ Businesses Worldwide
-          </p>
-          
-          <h2 
-            id="testimonials-heading" 
+
+
+          <h2
+            id="testimonials-heading"
             className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4"
           >
             <span className="text-foreground">What Our </span>
             <span className="text-primary">Clients Say</span>
           </h2>
-          
+
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
             Join hundreds of satisfied businesses who transformed their online presence with WebInHours
           </p>
-          
-          {/* Stats for E-E-A-T signals */}
-          <div className="flex flex-wrap justify-center gap-6 md:gap-12 mt-8">
-            <div className="text-center">
-              <p className="text-2xl md:text-3xl font-bold text-primary">4.9/5</p>
-              <p className="text-sm text-muted-foreground">Average Rating</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl md:text-3xl font-bold text-primary">500+</p>
-              <p className="text-sm text-muted-foreground">Happy Clients</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl md:text-3xl font-bold text-primary">98%</p>
-              <p className="text-sm text-muted-foreground">Satisfaction Rate</p>
-            </div>
-          </div>
+
+
         </motion.div>
 
         {/* Testimonials Grid */}
-        <div 
+        <div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           role="list"
           aria-label="Customer testimonials"
@@ -297,8 +269,8 @@ export function PremiumTestimonials() {
           <p className="text-muted-foreground mb-4">
             Ready to join our satisfied clients?
           </p>
-          <a 
-            href="/websites" 
+          <a
+            href="/websites"
             className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors"
           >
             Get Your Free Website Today

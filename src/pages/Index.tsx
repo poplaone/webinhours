@@ -9,11 +9,12 @@ import FAQSchema from '@/components/seo/FAQSchema';
 import { GridPattern } from '@/components/ui/GridPattern';
 
 // Lazy load heavy components to improve initial page load
-const PremiumTestimonials = lazy(() => import('@/components/ui/premium-testimonials').then(m => ({ default: m.PremiumTestimonials })));
+
 const MarketplacePreview = lazy(() => import('@/components/sections/MarketplacePreview').then(m => ({ default: m.MarketplacePreview })));
 const Features = lazy(() => import('@/components/sections/Features').then(m => ({ default: m.Features })));
 const PremiumMarketplaceServices = lazy(() => import('@/components/sections/PremiumMarketplaceServices').then(m => ({ default: m.PremiumMarketplaceServices })));
 const Services = lazy(() => import('@/components/sections/Services').then(m => ({ default: m.Services })));
+const TestimonialsSection = lazy(() => import('@/components/blocks/testimonials-with-marquee').then(m => ({ default: m.TestimonialsSection })));
 
 const Index = () => {
   return (
@@ -57,17 +58,72 @@ const Index = () => {
           <Features />
         </Suspense>
 
-        {/* Testimonials - Lazy loaded */}
-        <div id="testimonials">
-          <Suspense fallback={<div className="h-96 bg-card/20 animate-pulse mx-4 my-2 md:my-8" />}>
-            <PremiumTestimonials />
-          </Suspense>
-        </div>
+
 
         {/* Premium Marketplace Services */}
         <div id="premium-marketplace">
           <Suspense fallback={<div className="h-[600px] bg-card/20 animate-pulse mx-4 my-2 md:my-8" />}>
             <PremiumMarketplaceServices />
+          </Suspense>
+        </div>
+
+        {/* Testimonials Marquee Section */}
+        <div id="testimonials-marquee-section">
+          <Suspense fallback={<div className="h-64 bg-card/20 animate-pulse mx-4 my-2 md:my-8" />}>
+            <TestimonialsSection
+              title="What Our Clients Say"
+              description="Join hundreds of satisfied businesses who transformed their online presence with WebInHours"
+              testimonials={[
+                {
+                  author: {
+                    name: "Sarah Chen",
+                    handle: "",
+                    avatar: ""
+                  },
+                  text: "WebInHours transformed our online presence in just 24 hours. The quality exceeded our expectations, and our conversion rates increased by 40% within the first month."
+                },
+                {
+                  author: {
+                    name: "Michael Rodriguez",
+                    handle: "",
+                    avatar: ""
+                  },
+                  text: "As a startup founder, time is money. WebInHours delivered a professional website faster than I thought possible. The SEO optimization was already built-in, saving us thousands."
+                },
+                {
+                  author: {
+                    name: "Emily Watson",
+                    handle: "",
+                    avatar: ""
+                  },
+                  text: "The template quality is outstanding. Our customers love the new design, and mobile sales have doubled since launching our WebInHours site."
+                },
+                {
+                  author: {
+                    name: "David Park",
+                    handle: "",
+                    avatar: ""
+                  },
+                  text: "I was skeptical about a 24-hour turnaround, but the results speak for themselves. Clean code, beautiful design, and excellent performance scores."
+                },
+                {
+                  author: {
+                    name: "Jessica Thompson",
+                    handle: "",
+                    avatar: ""
+                  },
+                  text: "Getting a free professional website was a game-changer for my bakery. The premium branding upgrade was worth every penny. Highly recommend!"
+                },
+                {
+                  author: {
+                    name: "James Anderson",
+                    handle: "",
+                    avatar: ""
+                  },
+                  text: "Enterprise-grade security and blazing fast performance. Our compliance team was impressed with the security features built into the WebInHours platform."
+                }
+              ]}
+            />
           </Suspense>
         </div>
 

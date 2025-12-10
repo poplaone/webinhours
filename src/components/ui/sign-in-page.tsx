@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
+import { TestimonialCard, TestimonialAuthor } from "@/components/ui/testimonial-card";
 
 // --- HELPER COMPONENTS (ICONS) ---
 
 const GoogleIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 48 48">
-    <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/>
-    <path fill="#FF3D00" d="m6.306 14.691 6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/>
-    <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/>
-    <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/>
+    <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z" />
+    <path fill="#FF3D00" d="m6.306 14.691 6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z" />
+    <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z" />
+    <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z" />
   </svg>
 );
 
 // --- TYPE DEFINITIONS ---
 
-export interface Testimonial {
-  avatarSrc: string;
-  name: string;
-  handle: string;
+// Use generics compatible with both the local usage and shared component interface
+export interface SignInPageTestimonial {
+  author: TestimonialAuthor;
   text: string;
 }
 
@@ -25,7 +25,7 @@ interface SignInPageProps {
   title?: React.ReactNode;
   description?: React.ReactNode;
   heroImageSrc?: string;
-  testimonials?: Testimonial[];
+  testimonials?: SignInPageTestimonial[];
   onSignIn?: (event: React.FormEvent<HTMLFormElement>) => void;
   onGoogleSignIn?: () => void;
   onResetPassword?: () => void;
@@ -39,20 +39,6 @@ interface SignInPageProps {
 const GlassInputWrapper = ({ children }: { children: React.ReactNode }) => (
   <div className="rounded-2xl border border-border bg-card/50 backdrop-blur-sm transition-colors focus-within:border-primary/70 focus-within:bg-primary/5">
     {children}
-  </div>
-);
-
-const TestimonialCard = ({ testimonial, delay }: { testimonial: Testimonial; delay: string }) => (
-  <div
-    className={`${delay} flex items-start gap-3 rounded-3xl bg-card/80 backdrop-blur-xl border border-border/50 p-5 w-64 shadow-lg`}
-    style={{ animationDelay: delay }}
-  >
-    <img src={testimonial.avatarSrc} className="h-10 w-10 object-cover rounded-2xl" alt="avatar" />
-    <div className="text-sm leading-snug">
-      <p className="flex items-center gap-1 font-medium text-foreground">{testimonial.name}</p>
-      <p className="text-muted-foreground">{testimonial.handle}</p>
-      <p className="mt-1 text-foreground/80">{testimonial.text}</p>
-    </div>
   </div>
 );
 
@@ -71,19 +57,19 @@ export const SignInPage: React.FC<SignInPageProps> = ({
   mode = 'signin',
 }) => {
   const [showPassword, setShowPassword] = useState(false);
-  
-  const defaultTitle = mode === 'signin' 
+
+  const defaultTitle = mode === 'signin'
     ? <span className="font-light text-foreground tracking-tighter">Welcome Back</span>
     : <span className="font-light text-foreground tracking-tighter">Create Account</span>;
-  
+
   const defaultDescription = mode === 'signin'
     ? "Access your account and continue your journey with us"
     : "Join us today and start your journey";
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row w-full">
+    <div className="min-h-screen flex flex-col md:flex-row w-full overflow-hidden">
       {/* Left column: sign-in form */}
-      <section className="flex-1 flex items-center justify-center p-8 bg-background">
+      <section className="flex-1 flex items-center justify-center p-8 bg-background z-10">
         <div className="w-full max-w-md animate-fade-in">
           <div className="flex flex-col gap-6">
             <h1 className="text-4xl md:text-5xl font-semibold leading-tight">
@@ -222,24 +208,52 @@ export const SignInPage: React.FC<SignInPageProps> = ({
 
       {/* Right column: hero image + testimonials */}
       {heroImageSrc && (
-        <section className="hidden md:block flex-1 relative p-4 bg-muted/30">
+        <section className="hidden md:block flex-1 relative bg-muted/30 overflow-hidden">
           <div
-            className="absolute inset-4 rounded-3xl bg-cover bg-center"
+            className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 hover:scale-105"
             style={{ backgroundImage: `url(${heroImageSrc})` }}
           ></div>
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/40 to-transparent"></div>
+
           {testimonials.length > 0 && (
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-4 px-8 w-full justify-center">
-              <TestimonialCard testimonial={testimonials[0]} delay="0.3s" />
-              {testimonials[1] && (
-                <div className="hidden xl:flex">
-                  <TestimonialCard testimonial={testimonials[1]} delay="0.5s" />
+            <div className="absolute inset-0 overflow-hidden flex flex-col justify-end pb-12 px-12">
+              <style>
+                {`
+                    @keyframes marquee-vertical {
+                        0% { transform: translateY(0); }
+                        100% { transform: translateY(-50%); }
+                    }
+                    .animate-marquee-vertical {
+                        animation: marquee-vertical 40s linear infinite;
+                    }
+                    .animate-marquee-vertical:hover {
+                         animation-play-state: paused;
+                    }
+                    `}
+              </style>
+              <div className="h-[600px] overflow-hidden relative mask-image-b-gradient">
+                <div className="animate-marquee-vertical flex flex-col gap-6">
+                  {testimonials.map((testimonial, i) => (
+                    // Using the shared TestimonialCard here to ensure identical look
+                    <TestimonialCard
+                      key={`orig-${i}`}
+                      author={testimonial.author}
+                      text={testimonial.text}
+                      className="w-full max-w-full bg-card/60 backdrop-blur-md border border-border/50 text-foreground"
+                    />
+                  ))}
+                  {/* Duplicate for loop */}
+                  {testimonials.map((testimonial, i) => (
+                    <TestimonialCard
+                      key={`item-dup-${i}`}
+                      author={testimonial.author}
+                      text={testimonial.text}
+                      className="w-full max-w-full bg-card/60 backdrop-blur-md border border-border/50 text-foreground"
+                    />
+                  ))}
                 </div>
-              )}
-              {testimonials[2] && (
-                <div className="hidden 2xl:flex">
-                  <TestimonialCard testimonial={testimonials[2]} delay="0.7s" />
-                </div>
-              )}
+              </div>
             </div>
           )}
         </section>
