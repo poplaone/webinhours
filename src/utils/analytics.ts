@@ -1,4 +1,6 @@
-// Google Analytics 4 integration with enterprise-grade tracking and GEO measurement
+// Google Analytics 4 integration with GDPR-compliant consent handling
+
+import { hasAnalyticsConsent } from './cookieConsent';
 
 declare global {
   interface Window {
@@ -9,33 +11,42 @@ declare global {
 
 export const GA_MEASUREMENT_ID = 'G-3PC11MVZFP';
 
-// Initialize Google Analytics
+// Check if tracking is allowed
+const canTrack = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  return hasAnalyticsConsent();
+};
+
+// Initialize Google Analytics (only if consent given)
 export const initGA = () => {
   if (typeof window === 'undefined') return;
   
-  // Create dataLayer if it doesn't exist
+  // dataLayer and gtag should already be initialized in index.html
   window.dataLayer = window.dataLayer || [];
   
-  // Define gtag function
-  window.gtag = function gtag() {
-    window.dataLayer?.push(arguments);
-  };
+  if (typeof window.gtag !== 'function') {
+    window.gtag = function gtag() {
+      window.dataLayer?.push(arguments);
+    };
+  }
   
-  // Initialize with timestamp
-  window.gtag('js', new Date());
-  window.gtag('config', GA_MEASUREMENT_ID, {
-    send_page_view: false, // We'll manually track page views for SPA
-    custom_map: {
-      'dimension1': 'content_type',
-      'dimension2': 'author_name',
-      'dimension3': 'ai_source',
-    }
-  });
+  // Only send config if consent is given
+  if (canTrack()) {
+    window.gtag('js', new Date());
+    window.gtag('config', GA_MEASUREMENT_ID, {
+      send_page_view: false,
+      custom_map: {
+        'dimension1': 'content_type',
+        'dimension2': 'author_name',
+        'dimension3': 'ai_source',
+      }
+    });
+  }
 };
 
-// Track page view
+// Track page view (consent-aware)
 export const trackPageView = (url: string, title?: string) => {
-  if (typeof window.gtag === 'undefined') return;
+  if (!canTrack() || typeof window.gtag !== 'function') return;
   
   window.gtag('event', 'page_view', {
     page_path: url,
@@ -43,12 +54,12 @@ export const trackPageView = (url: string, title?: string) => {
   });
 };
 
-// Track custom events
+// Track custom events (consent-aware)
 export const trackEvent = (
   eventName: string,
   eventParams?: Record<string, any>
 ) => {
-  if (typeof window.gtag === 'undefined') return;
+  if (!canTrack() || typeof window.gtag !== 'function') return;
   
   window.gtag('event', eventName, eventParams);
 };
@@ -123,20 +134,20 @@ export const trackTiming = (
 // Track AI/LLM referral traffic
 export const trackAIReferral = (source: string, query?: string) => {
   trackEvent('ai_referral', {
-    ai_source: source, // e.g., 'chatgpt', 'perplexity', 'google_ai_overview'
+    ai_source: source,
     ai_query: query,
     event_category: 'geo_tracking',
   });
 };
 
-// Track content citation (when content is shown that might be cited by AI)
+// Track content citation
 export const trackContentCitation = (
   contentType: string,
   contentId: string,
   contentTitle: string
 ) => {
   trackEvent('content_citation_opportunity', {
-    content_type: contentType, // 'faq', 'blog', 'product', 'service'
+    content_type: contentType,
     content_id: contentId,
     content_title: contentTitle,
     event_category: 'geo_tracking',
@@ -146,7 +157,7 @@ export const trackContentCitation = (
 // Track structured data interactions
 export const trackStructuredDataView = (schemaType: string, pageUrl: string) => {
   trackEvent('structured_data_view', {
-    schema_type: schemaType, // 'FAQPage', 'Product', 'Organization', etc.
+    schema_type: schemaType,
     page_url: pageUrl,
     event_category: 'geo_tracking',
   });
@@ -159,7 +170,7 @@ export const trackFeaturedSnippetView = (
 ) => {
   trackEvent('featured_snippet_view', {
     question: question,
-    answer_preview: answerPreview.substring(0, 100), // First 100 chars
+    answer_preview: answerPreview.substring(0, 100),
     event_category: 'geo_tracking',
   });
 };
@@ -201,7 +212,7 @@ export const trackAIConversion = (
   value?: number
 ) => {
   trackEvent('ai_conversion', {
-    conversion_type: conversionType, // 'lead', 'signup', 'purchase'
+    conversion_type: conversionType,
     ai_source: aiSource,
     conversion_value: value,
     event_category: 'geo_tracking',
@@ -224,13 +235,12 @@ export const trackSchemaPerformance = (
 
 // Detect AI/LLM referrer and track automatically
 export const detectAndTrackAIReferrer = () => {
-  if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined' || !canTrack()) return null;
   
   const referrer = document.referrer.toLowerCase();
   const urlParams = new URLSearchParams(window.location.search);
   
-  // Known AI/LLM referrers
-  const aiSources: Record<string, string> = {
+  const aiSources: Record<string, string | null> = {
     'chat.openai.com': 'chatgpt',
     'chatgpt.com': 'chatgpt',
     'perplexity.ai': 'perplexity',
@@ -242,7 +252,6 @@ export const detectAndTrackAIReferrer = () => {
     'bing.com': referrer.includes('chat') ? 'bing_copilot' : null,
   };
   
-  // Check referrer
   for (const [domain, source] of Object.entries(aiSources)) {
     if (source && referrer.includes(domain)) {
       trackAIReferral(source, urlParams.get('q') || undefined);
@@ -250,7 +259,6 @@ export const detectAndTrackAIReferrer = () => {
     }
   }
   
-  // Check for AI overview in Google referrer
   if (referrer.includes('google.com') && urlParams.get('source') === 'ai') {
     trackAIReferral('google_ai_overview', urlParams.get('q') || undefined);
     return 'google_ai_overview';
@@ -261,9 +269,8 @@ export const detectAndTrackAIReferrer = () => {
 
 // Track Core Web Vitals for performance
 export const trackWebVitals = () => {
-  if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined' || !canTrack()) return;
   
-  // Track LCP (Largest Contentful Paint)
   const observer = new PerformanceObserver((list) => {
     const entries = list.getEntries();
     const lastEntry = entries[entries.length - 1];
@@ -276,7 +283,6 @@ export const trackWebVitals = () => {
     // Browser doesn't support this observer
   }
   
-  // Track FID (First Input Delay) 
   const fidObserver = new PerformanceObserver((list) => {
     const entries = list.getEntries();
     entries.forEach((entry: any) => {
@@ -292,7 +298,6 @@ export const trackWebVitals = () => {
     // Browser doesn't support this observer
   }
   
-  // Track CLS (Cumulative Layout Shift)
   let clsValue = 0;
   const clsObserver = new PerformanceObserver((list) => {
     const entries = list.getEntries();
@@ -306,7 +311,6 @@ export const trackWebVitals = () => {
   try {
     clsObserver.observe({ type: 'layout-shift', buffered: true });
     
-    // Report CLS when page is hidden
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') {
         trackTiming('web_vitals', 'CLS', Math.round(clsValue * 1000));

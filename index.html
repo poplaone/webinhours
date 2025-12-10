@@ -161,8 +161,24 @@
   <!-- Preconnect to external domains for faster resource loading -->
   <link rel="preconnect" href="https://cdn.gpteng.co" crossorigin>
 
-  <!-- Google Analytics 4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3PC11MVZFP"></script>
+  <!-- Google Consent Mode v2 - Default to denied until user consents -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    
+    // Set default consent to denied (GDPR compliant)
+    gtag('consent', 'default', {
+      'analytics_storage': 'denied',
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'wait_for_update': 500
+    });
+    
+    // GA4 will only be loaded dynamically after consent is granted
+    gtag('js', new Date());
+    gtag('config', 'G-3PC11MVZFP', { 'send_page_view': false });
+  </script>
 </head>
 
 <body>
