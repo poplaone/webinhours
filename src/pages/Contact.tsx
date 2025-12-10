@@ -8,12 +8,22 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Mail, Phone, Clock, Send, Check, ChevronRight, Sparkles, Loader2, Crown } from 'lucide-react';
+import { Mail, Phone, Clock, Send, Check, ChevronRight, Sparkles, Loader2, Crown, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { trackFormSubmission } from '@/utils/analytics';
 import { cn } from '@/lib/utils';
 import { PremiumServicesModal } from '@/components/modals/PremiumServicesModal';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 // Service options
 const serviceOptions = [
@@ -88,6 +98,7 @@ export default function Contact() {
   const [searchParams] = useSearchParams();
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -97,6 +108,32 @@ export default function Contact() {
     otherDetails: '',
     customService: '',
   });
+  
+  // Validation states
+  const [touched, setTouched] = useState({ name: false, email: false });
+  const [validationErrors, setValidationErrors] = useState({ name: '', email: '' });
+
+  // Email validation regex
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Real-time validation
+  useEffect(() => {
+    const errors = { name: '', email: '' };
+    
+    if (touched.name && !formData.name.trim()) {
+      errors.name = 'Name is required';
+    }
+    
+    if (touched.email) {
+      if (!formData.email.trim()) {
+        errors.email = 'Email is required';
+      } else if (!emailRegex.test(formData.email)) {
+        errors.email = 'Please enter a valid email address';
+      }
+    }
+    
+    setValidationErrors(errors);
+  }, [formData.name, formData.email, touched]);
 
   // Pre-select service from URL parameter
   useEffect(() => {
@@ -407,10 +444,17 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
                             id="name"
                             value={formData.name}
                             onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                            onBlur={() => setTouched(prev => ({ ...prev, name: true }))}
                             placeholder="John Doe"
                             required
-                            className="bg-background"
+                            className={cn("bg-background", validationErrors.name && touched.name && "border-destructive focus-visible:ring-destructive")}
                           />
+                          {validationErrors.name && touched.name && (
+                            <p className="text-xs text-destructive flex items-center gap-1">
+                              <AlertCircle className="w-3 h-3" />
+                              {validationErrors.name}
+                            </p>
+                          )}
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="email">Email Address *</Label>
@@ -419,10 +463,17 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
                             type="email"
                             value={formData.email}
                             onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                            onBlur={() => setTouched(prev => ({ ...prev, email: true }))}
                             placeholder="john@company.com"
                             required
-                            className="bg-background"
+                            className={cn("bg-background", validationErrors.email && touched.email && "border-destructive focus-visible:ring-destructive")}
                           />
+                          {validationErrors.email && touched.email && (
+                            <p className="text-xs text-destructive flex items-center gap-1">
+                              <AlertCircle className="w-3 h-3" />
+                              {validationErrors.email}
+                            </p>
+                          )}
                         </div>
                       </div>
 
@@ -489,21 +540,20 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
                     </Button>
                   ) : (
                     <Button
-                      type="submit"
-                      disabled={!canProceed() || isSubmitting}
+                      type="button"
+                      onClick={() => {
+                        // Mark fields as touched for validation
+                        setTouched({ name: true, email: true });
+                        // Check if valid before showing modal
+                        if (formData.name.trim() && formData.email.trim() && emailRegex.test(formData.email)) {
+                          setShowConfirmModal(true);
+                        }
+                      }}
+                      disabled={!canProceed() || isSubmitting || !!validationErrors.name || !!validationErrors.email}
                       className="min-w-[140px]"
                     >
-                      {isSubmitting ? (
-                        <>
-                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                          Submitting...
-                        </>
-                      ) : (
-                        <>
-                          <Send className="w-4 h-4 mr-2" />
-                          Submit Request
-                        </>
-                      )}
+                      <Send className="w-4 h-4 mr-2" />
+                      Review & Submit
                     </Button>
                   )}
                 </div>
@@ -536,6 +586,86 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
           </div>
         </div>
       </div>
+
+      {/* Confirmation Modal */}
+      <AlertDialog open={showConfirmModal} onOpenChange={setShowConfirmModal}>
+        <AlertDialogContent className="max-w-lg">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <Check className="w-5 h-5 text-primary" />
+              Confirm Your Submission
+            </AlertDialogTitle>
+            <AlertDialogDescription asChild>
+              <div className="space-y-4 pt-2">
+                <p className="text-muted-foreground">Please review your selections before submitting:</p>
+                
+                <div className="bg-muted/50 rounded-lg p-4 space-y-3 text-sm">
+                  <div className="flex justify-between items-start">
+                    <span className="text-muted-foreground">Name:</span>
+                    <span className="font-medium text-foreground">{formData.name}</span>
+                  </div>
+                  <div className="flex justify-between items-start">
+                    <span className="text-muted-foreground">Email:</span>
+                    <span className="font-medium text-foreground">{formData.email}</span>
+                  </div>
+                  <div className="border-t border-border pt-3">
+                    <span className="text-muted-foreground">Services:</span>
+                    <div className="mt-1 flex flex-wrap gap-1">
+                      {formData.services.map(id => (
+                        <Badge key={id} variant="secondary" className="text-xs">
+                          {id === 'other' && formData.customService 
+                            ? `Other: ${formData.customService}` 
+                            : serviceOptions.find(s => s.id === id)?.label}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Budget:</span>
+                    <span className="font-medium text-foreground">
+                      {budgetOptions.find(b => b.id === formData.budget)?.label || 'Not specified'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Timeline:</span>
+                    <span className="font-medium text-foreground">
+                      {timelineOptions.find(t => t.id === formData.timeline)?.label || 'Not specified'}
+                    </span>
+                  </div>
+                  {formData.otherDetails && (
+                    <div className="border-t border-border pt-3">
+                      <span className="text-muted-foreground">Additional Notes:</span>
+                      <p className="mt-1 text-foreground text-xs">{formData.otherDetails}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Edit Details</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={(e) => {
+                setShowConfirmModal(false);
+                handleSubmit(e as unknown as React.FormEvent);
+              }}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Submitting...
+                </>
+              ) : (
+                <>
+                  <Send className="w-4 h-4 mr-2" />
+                  Confirm & Submit
+                </>
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </AppLayout>
   );
 }
