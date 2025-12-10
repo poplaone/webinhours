@@ -86,8 +86,8 @@ export const Hero = () => {
                 className="text-center font-medium tracking-tight leading-tight mb-6 sm:mb-8 xl:text-6xl text-xl text-primary"
                 itemProp="headline"
               >
-                WebInHour: Professional Websites in 24 Hours, <br className="hidden md:block" />
-                <span className="text-foreground">SEO & GEO Optimization.</span>
+                Professional Website in 24 Hours <br className="hidden md:block" />
+                <span className="text-foreground">SEO & GEO Optimized</span>
               </h1>
 
               {/* TL;DR Summary - Answer-First for GEO extraction */}
