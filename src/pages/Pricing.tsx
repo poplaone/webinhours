@@ -177,9 +177,9 @@ export default function Pricing() {
   return (
     <AppLayout>
       <SEOHead
-        title="Pricing - WebInHour | Free Templates + Expert Customization"
-        description="Transparent pricing for every stage of growth. Start with a free template or upgrade to our Custom Lite and Custom Pro packages for expert development."
-        keywords="website pricing, web development cost, free website templates, custom website packages, affordable web design"
+        title="Pricing - WebInHours | 24-Hour Website Development Packages"
+        description="Transparent pricing for fast website development. Free templates, $299 Custom Lite (24-hour delivery), $599 Custom Pro. No hidden fees, same-day options available."
+        keywords="24 hour website pricing, fast website cost, same day website packages, affordable custom website, WebInHours pricing"
         canonicalUrl="https://webinhours.com/pricing"
       />
 
@@ -206,14 +206,14 @@ export default function Pricing() {
               const isPopular = plan.popular;
               const isFree = plan.price === "Free";
               const isContact = plan.price === "Contact";
-              
+
               return (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   className={cn(
                     "group relative rounded-2xl p-[1px] transition-all duration-300",
-                    isPopular 
-                      ? "bg-gradient-to-br from-primary via-purple-500 to-blue-500 scale-[1.02] z-10" 
+                    isPopular
+                      ? "bg-gradient-to-br from-primary via-purple-500 to-blue-500 scale-[1.02] z-10"
                       : "bg-border/50 hover:bg-gradient-to-br hover:from-primary/50 hover:to-purple-500/50"
                   )}
                 >
@@ -226,7 +226,7 @@ export default function Pricing() {
                       </Badge>
                     </div>
                   )}
-                  
+
                   <div className={cn(
                     "relative h-full rounded-2xl p-6 flex flex-col",
                     "bg-background",
@@ -236,15 +236,15 @@ export default function Pricing() {
                     <div className="flex items-center gap-3 mb-4">
                       <div className={cn(
                         "p-2.5 rounded-xl",
-                        isPopular 
-                          ? "bg-gradient-to-br from-primary to-purple-600 text-white" 
+                        isPopular
+                          ? "bg-gradient-to-br from-primary to-purple-600 text-white"
                           : "bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary transition-colors"
                       )}>
                         <plan.icon className="h-5 w-5" />
                       </div>
                       <h3 className="text-lg font-bold text-foreground">{plan.name}</h3>
                     </div>
-                    
+
                     {/* Price */}
                     <div className="mb-4">
                       <div className="flex items-baseline gap-1">
@@ -260,7 +260,7 @@ export default function Pricing() {
                       </div>
                       <p className="text-sm text-muted-foreground mt-1">{plan.description}</p>
                     </div>
-                    
+
                     {/* Features */}
                     <ul className="space-y-2.5 mb-6 flex-grow">
                       {plan.features.map((feature, idx) => (
@@ -275,13 +275,13 @@ export default function Pricing() {
                         </li>
                       ))}
                     </ul>
-                    
+
                     {/* CTA Button */}
                     <Button
                       className={cn(
                         "w-full mt-auto transition-all duration-300 group/btn",
-                        isPopular 
-                          ? "bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-white shadow-lg shadow-primary/25" 
+                        isPopular
+                          ? "bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-white shadow-lg shadow-primary/25"
                           : "hover:bg-primary hover:text-primary-foreground"
                       )}
                       variant={isPopular ? "default" : "outline"}

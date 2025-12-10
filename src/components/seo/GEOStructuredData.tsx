@@ -69,13 +69,14 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
       "https://github.com/webinhours"
     ],
     "knowsAbout": [
-      "Web Development",
-      "Website Design",
+      "24 Hour Website Development",
+      "Same Day Website Design",
+      "Fast Web Development",
       "SEO Optimization",
+      "GEO Optimization for AI Search",
       "Responsive Web Design",
       "E-commerce Development",
-      "Content Creation",
-      "Digital Branding"
+      "Urgent Website Services"
     ],
     "aggregateRating": {
       "@type": "AggregateRating",

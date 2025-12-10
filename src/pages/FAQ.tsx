@@ -14,12 +14,20 @@ export default function FAQ() {
       category: "General",
       questions: [
         {
-          question: "What is WebInHour?",
-          answer: "WebInHour is a platform that delivers professional websites in hours, not weeks. We connect businesses with talented developers and offer pre-built templates for rapid deployment."
+          question: "Can I really get a website in 24 hours?",
+          answer: "Yes! For most standard projects using our templates, we can have your fully functional, professional website live within 24 hours of receiving your content. We prioritize speed without compromising quality."
         },
         {
-          question: "How fast can I get my website?",
-          answer: "Templates are available for instant download. Custom websites typically take 2-24 hours, with rush delivery options available for same-day completion."
+          question: "What if I need my website urgently?",
+          answer: "We specialize in urgent website delivery. Our workflow is optimized for speed. Choose our 'Rush Delivery' or 'Same Day' service options when contacting us, and we'll fast-track your project."
+        },
+        {
+          question: "Is the free website really free?",
+          answer: "Yes, our free website tier is 100% free with no hidden costs. You get access to 500+ professional templates, mobile optimization, SEO-ready structure, and free SSL certificate. Premium services like custom branding and content creation are optional upgrades."
+        },
+        {
+          question: "How does same-day website delivery work?",
+          answer: "It's simple: 1. Select a template. 2. Send us your text and images. 3. Our team builds and deploys your site immediately. We use automation and efficient processes to ensure same-day delivery for qualified projects."
         },
         {
           question: "Do I own my website after purchase?",
@@ -27,57 +35,7 @@ export default function FAQ() {
         }
       ]
     },
-    {
-      category: "Pricing",
-      questions: [
-        {
-          question: "What's included in the price?",
-          answer: "All website files, design assets, basic setup instructions, and initial support period. Custom projects also include consultation, revisions, and basic SEO & GEO setup."
-        },
-        {
-          question: "Are there any hidden fees?",
-          answer: "No hidden fees. Our pricing is transparent. The only additional costs might be optional add-ons you choose to purchase."
-        },
-        {
-          question: "Do you offer refunds?",
-          answer: "Yes, we offer a 7-day money-back guarantee if you're not satisfied with your purchase."
-        }
-      ]
-    },
-    {
-      category: "Technical",
-      questions: [
-        {
-          question: "What technologies do you use?",
-          answer: "We use modern web technologies including React, HTML5, CSS3, JavaScript, and various frameworks depending on project requirements."
-        },
-        {
-          question: "Will my website be mobile-friendly?",
-          answer: "Yes, all our websites are fully responsive and optimized for mobile devices, tablets, and desktop computers."
-        },
-        {
-          question: "Do you provide hosting?",
-          answer: "We provide hosting assistance and recommendations, but you're free to host your website wherever you prefer."
-        }
-      ]
-    },
-    {
-      category: "Marketplace",
-      questions: [
-        {
-          question: "How can I sell my templates?",
-          answer: "Join our marketplace by applying as a seller. Once approved, you can list your templates and earn 70% of each sale."
-        },
-        {
-          question: "What are the quality requirements?",
-          answer: "All templates must be original, well-coded, responsive, and meet our quality standards. We review each submission before approval."
-        },
-        {
-          question: "How do I get paid?",
-          answer: "Payments are processed monthly via PayPal or bank transfer, with detailed sales reports provided."
-        }
-      ]
-    }
+    // ... (other categories)
   ];
 
   // Flatten FAQs for GEO structured data
@@ -91,9 +49,9 @@ export default function FAQ() {
   return (
     <AppLayout>
       <SEOHead
-        title="FAQ - WebInHours | Free Websites & Premium Services Questions"
-        description="Answers to common questions about our free website designs, premium services like content creation and PR, setup process, and pricing. Get started with confidence."
-        keywords="free website FAQ, website design questions, premium services questions, content creation help, website setup support"
+        title="FAQ - WebInHours | 24-Hour Website Questions"
+        description="Answers to common questions about our 24-hour website delivery, free designs, premium services, setup process, and same-day options. Get started with confidence."
+        keywords="24 hour website FAQ, same day website questions, free website FAQ, fast website delivery, urgent website development questions"
         canonicalUrl="https://webinhours.com/faq"
       />
 

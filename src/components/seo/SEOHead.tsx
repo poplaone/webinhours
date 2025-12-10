@@ -13,9 +13,9 @@ interface SEOHeadProps {
 }
 
 const SEOHead: React.FC<SEOHeadProps> = ({
-  title = "WebInHour - Choose Your Free Website Design Today",
-  description = "Select from 500+ professional website designs absolutely free. We handle setup and hosting. Premium services like content creation, PR, and social media management available when you need them.",
-  keywords = "free website design, professional website templates, free business website, website setup service, content creation, PR services, social media management, website hosting, online presence",
+  title = "WebInHour - Professional Website in 24 Hours | Fast Custom Web Development",
+  description = "Get your professional website in 24 hours. WebInHours delivers SEO & GEO optimized websites fast. Choose from 500+ free templates or get expert customization same day.",
+  keywords = "website in 24 hours, fast custom website development, same day website builder, professional website delivered today, SEO GEO optimized website, urgent website design services, free website templates",
   ogImage = "/placeholder.svg",
   ogType = "website",
   canonicalUrl,
@@ -26,7 +26,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
 
   return (
     <Helmet>
-      {/* Basic Meta Tags */}
+      {/* ... (meta tags remain the same) */}
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
@@ -82,6 +82,16 @@ const SEOHead: React.FC<SEOHeadProps> = ({
             "https://twitter.com/webinhours",
             "https://linkedin.com/company/webinhours"
           ],
+          "knowsAbout": [
+            "24 Hour Website Development",
+            "Same Day Website Design",
+            "Fast Web Development",
+            "SEO Optimization",
+            "GEO Optimization for AI Search",
+            "Responsive Web Design",
+            "E-commerce Development",
+            "Urgent Website Services"
+          ],
           "serviceType": "Web Development",
           "areaServed": "Worldwide",
           "aggregateRating": {
@@ -93,7 +103,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
           },
           "offers": {
             "@type": "Offer",
-            "description": "Professional website development services",
+            "description": "Professional websites delivered in 24 hours",
             "priceRange": "$199-$899",
             "availability": "https://schema.org/InStock"
           }
