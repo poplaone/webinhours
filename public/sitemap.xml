@@ -3,86 +3,104 @@
   
   <url>
     <loc>https://webinhours.com</loc>
-    <lastmod>2025-12-09</lastmod>
+    <lastmod>2025-12-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://webinhours.com/about</loc>
-    <lastmod>2025-12-09</lastmod>
+    <lastmod>2025-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://webinhours.com/contact</loc>
-    <lastmod>2025-12-09</lastmod>
+    <lastmod>2025-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://webinhours.com/faq</loc>
-    <lastmod>2025-12-09</lastmod>
+    <lastmod>2025-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://webinhours.com/how-it-works</loc>
-    <lastmod>2025-12-09</lastmod>
+    <lastmod>2025-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://webinhours.com/pricing</loc>
-    <lastmod>2025-12-09</lastmod>
+    <lastmod>2025-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://webinhours.com/privacy</loc>
-    <lastmod>2025-12-09</lastmod>
+    <lastmod>2025-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://webinhours.com/terms</loc>
-    <lastmod>2025-12-09</lastmod>
+    <lastmod>2025-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://webinhours.com/websites</loc>
-    <lastmod>2025-12-09</lastmod>
+    <lastmod>2025-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://webinhours.com/calculator</loc>
-    <lastmod>2025-12-09</lastmod>
+    <lastmod>2025-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://webinhours.com/blog</loc>
-    <lastmod>2025-12-09</lastmod>
+    <lastmod>2025-12-10</lastmod>
     <changefreq>daily</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://webinhours.com/blog/future-of-24-hour-web-deployment</loc>
-    <lastmod>2025-12-09</lastmod>
+    <lastmod>2025-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webinhours.com/blog/roi-of-premium-digital-assets</loc>
-    <lastmod>2025-12-09</lastmod>
+    <lastmod>2025-12-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://webinhours.com/blog/geo-vs-seo-optimizing-for-ai</loc>
-    <lastmod>2025-12-09</lastmod>
+    <lastmod>2025-12-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://webinhours.com/blog/how-we-build-websites-in-hours-not-weeks</loc>
+    <lastmod>2025-12-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://webinhours.com/blog/same-day-website-everything-you-need-to-know</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://webinhours.com/blog/geo-vs-seo-preparing-your-site-for-ai-search</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>
