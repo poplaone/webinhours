@@ -198,7 +198,7 @@ export const UserConfirmation = ({
           
           <Section style={footer}>
             <Text style={footerText}>
-              © 2024 WebInHour. All rights reserved.
+              © 2025 WebInHour. All rights reserved.
             </Text>
             <Text style={footerLinks}>
               <Link href="https://webinhour.com/privacy" style={footerLink}>Privacy Policy</Link>

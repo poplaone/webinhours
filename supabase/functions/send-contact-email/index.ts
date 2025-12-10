@@ -62,7 +62,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send notification email to admin
     const adminEmail = await resend.emails.send({
-      from: "WebInHours <team@webinhour.com>",
+      from: "WebInHour <team@webinhour.com>",
       to: ["aaushpapta1010@gmail.com"],
       subject: `New Lead: ${data.type || 'General'} - ${data.name} | WebInHour`,
       html: adminHtml,
@@ -72,7 +72,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send confirmation email to user
     const userEmail = await resend.emails.send({
-      from: "WebInHours <team@webinhour.com>",
+      from: "WebInHour <team@webinhour.com>",
       to: [data.email],
       subject: "We Have Received Your Message - WebInHour",
       html: userHtml,
