@@ -155,6 +155,13 @@ export default function Contact() {
     }));
   };
 
+  // Helper function to get service display label
+  const getServiceLabel = (id: string): string => {
+    if (id === 'other') return formData.customService ? `Other: ${formData.customService}` : 'Other';
+    if (id === 'premium-solutions') return 'Premium Digital Solutions';
+    return serviceOptions.find(s => s.id === id)?.label || id;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -178,15 +185,7 @@ export default function Contact() {
     }
 
     // Build compiled message
-    const selectedServices = formData.services.map(id => {
-      if (id === 'other' && formData.customService) {
-        return `Other: ${formData.customService}`;
-      }
-      if (id === 'premium-solutions') {
-        return 'Premium Digital Solutions';
-      }
-      return serviceOptions.find(s => s.id === id)?.label || id;
-    }).join(', ');
+    const selectedServices = formData.services.map(id => getServiceLabel(id)).join(', ');
 
     const selectedBudget = budgetOptions.find(b => b.id === formData.budget)?.label || 'Not specified';
     const selectedTimeline = timelineOptions.find(t => t.id === formData.timeline)?.label || 'Not specified';
@@ -199,12 +198,7 @@ export default function Contact() {
 📧 Email: ${formData.email}
 
 🎯 Services Interested:
-${formData.services.map(id => {
-      if (id === 'other' && formData.customService) {
-        return `   • Other: ${formData.customService}`;
-      }
-      return `   • ${serviceOptions.find(s => s.id === id)?.label}`;
-    }).join('\n')}
+${formData.services.map(id => `   • ${getServiceLabel(id)}`).join('\n')}
 
 💰 Budget Range: ${selectedBudget}
 ⏰ Timeline: ${selectedTimeline}
@@ -493,13 +487,15 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
                     {/* Summary */}
                     <div className="bg-muted/30 rounded-lg p-4 border border-border/50 text-sm">
                       <h3 className="font-semibold mb-3">Summary</h3>
-                      <dl className="space-y-1.5">
-                        <div className="flex justify-between">
-                          <dt className="text-muted-foreground">Services:</dt>
-                          <dd className="font-medium text-right">{formData.services.map(id => {
-                            if (id === 'other') return formData.customService ? `Other: ${formData.customService}` : 'Other';
-                            return serviceOptions.find(s => s.id === id)?.label;
-                          }).join(', ')}
+                      <dl className="space-y-3">
+                        <div>
+                          <dt className="text-muted-foreground mb-1">Services:</dt>
+                          <dd className="flex flex-wrap gap-1">
+                            {formData.services.map(id => (
+                              <Badge key={id} variant="secondary" className="text-xs">
+                                {getServiceLabel(id)}
+                              </Badge>
+                            ))}
                           </dd>
                         </div>
                         <div className="flex justify-between">
@@ -613,9 +609,7 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
                     <div className="mt-1 flex flex-wrap gap-1">
                       {formData.services.map(id => (
                         <Badge key={id} variant="secondary" className="text-xs">
-                          {id === 'other' && formData.customService 
-                            ? `Other: ${formData.customService}` 
-                            : serviceOptions.find(s => s.id === id)?.label}
+                          {getServiceLabel(id)}
                         </Badge>
                       ))}
                     </div>
