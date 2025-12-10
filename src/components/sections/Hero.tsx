@@ -46,6 +46,7 @@ export const Hero = ({ headline, description }: HeroProps) => {
               style={{ width: '100%', height: 'auto', aspectRatio: '400/300' }}
               data-depth="0.25"
               loading="eager"
+              fetchPriority="high"
               decoding="async"
               className="wih-hero-image is-offset-left parallax-image object-contain"
             />

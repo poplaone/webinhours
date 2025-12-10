@@ -317,9 +317,9 @@ export function PremiumMarketplaceServices() {
                                                     <div className="absolute left-5 top-10 bottom-[-100px] w-px bg-border group-hover:bg-primary/20 transition-colors h-full -z-10 hidden md:block opacity-50"></div>
                                                 </div>
 
-                                                <h4 className="font-bold text-lg text-foreground mb-2 group-hover:text-primary transition-colors">
+                                                <h3 className="font-bold text-lg text-foreground mb-2 group-hover:text-primary transition-colors">
                                                     {service.title}
-                                                </h4>
+                                                </h3>
 
                                                 <p className="text-sm text-muted-foreground leading-relaxed">
                                                     {service.desc}

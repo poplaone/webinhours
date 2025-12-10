@@ -59,9 +59,9 @@ interface CardSliderProps {
   className?: string;
 }
 
-export const CardSlider: React.FC<CardSliderProps> = ({ 
-  cards = defaultCards, 
-  className = "" 
+export const CardSlider: React.FC<CardSliderProps> = ({
+  cards = defaultCards,
+  className = ""
 }) => {
   const [current, setCurrent] = useState(2);
   const [savedStates, setSavedStates] = useState<Record<number, boolean>>({});
@@ -142,7 +142,7 @@ export const CardSlider: React.FC<CardSliderProps> = ({
   // Auto-slide functionality
   const startAutoSlide = useCallback(() => {
     if (autoSlideRef.current) clearInterval(autoSlideRef.current);
-    
+
     // Auto-slide on all screen sizes
     autoSlideRef.current = setInterval(next, 3000); // 3 seconds
   }, [next]);
@@ -198,28 +198,29 @@ export const CardSlider: React.FC<CardSliderProps> = ({
     <div ref={containerRef} className={`sm:px-8 sm:mt-16 max-w-5xl mt-8 sm:mt-16 mr-auto ml-auto px-4 sm:px-6 relative ${className}`}>
       <div className="h-[400px] sm:h-[520px] lg:h-[600px] relative">
         {/* Cards */}
-        <div 
-          className="flex absolute top-0 right-0 bottom-0 left-0 items-center justify-center" 
+        <div
+          className="flex absolute top-0 right-0 bottom-0 left-0 items-center justify-center"
           id="cardStack"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
           {cards.map((card, index) => (
-            <article 
+            <article
               key={card.id}
               className="coach-card w-[280px] sm:w-[320px] lg:w-[420px] aspect-[4/5] overflow-hidden shadow-lg bg-card ring-border ring-1 rounded-xl sm:rounded-2xl absolute"
             >
-              <img 
-                className="w-full h-full object-cover absolute top-0 right-0 bottom-0 left-0" 
-                src={card.image} 
+              <img
+                className="w-full h-full object-cover absolute top-0 right-0 bottom-0 left-0"
+                src={card.image}
                 alt={card.alt}
                 loading="lazy"
               />
               <div className="absolute top-4 right-4">
-                <button 
+                <button
                   className="save-btn transition hover:bg-foreground/90 bg-foreground/80 rounded-full pt-2 pr-2.5 pb-2 pl-2.5 shadow-sm backdrop-blur"
                   onClick={(e) => toggleSave(card.id, e)}
+                  aria-label={savedStates[card.id] ? "Saved" : "Save to collection"}
                 >
                   {savedStates[card.id] ? (
                     <Check className="w-5 h-5 text-emerald-400" />
