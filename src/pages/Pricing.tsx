@@ -2,20 +2,14 @@ import React, { useState } from 'react';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
 import GEOStructuredData from '@/components/seo/GEOStructuredData';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Check, Star, Zap, Crown, Shield, Globe, MessageCircle, Share2, Code, Loader2, ChevronDown } from 'lucide-react';
+import { Check, Star, Zap, Crown, Shield, Globe, MessageCircle, Share2, Code, Loader2, ArrowRight, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useDodoPayment } from '@/hooks/useDodoPayment';
 import { PremiumServicesModal } from '@/components/modals/PremiumServicesModal';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { cn } from '@/lib/utils';
 
 // Dodo Payments Product IDs
 const DODO_PRODUCTS = {
@@ -23,38 +17,14 @@ const DODO_PRODUCTS = {
   'Custom Pro': 'pdt_Lp3H6UAAng5cDeHMYNwqR',
 } as const;
 
-// Supported currencies with display info
-type Currency = {
-  code: string;
-  symbol: string;
-  name: string;
-  flag: string;
-};
-
-const CURRENCIES: Currency[] = [
-  { code: 'USD', symbol: '$', name: 'US Dollar', flag: '🇺🇸' },
-  { code: 'EUR', symbol: '€', name: 'Euro', flag: '🇪🇺' },
-  { code: 'GBP', symbol: '£', name: 'British Pound', flag: '🇬🇧' },
-  { code: 'CAD', symbol: 'C$', name: 'Canadian Dollar', flag: '🇨🇦' },
-  { code: 'AUD', symbol: 'A$', name: 'Australian Dollar', flag: '🇦🇺' },
-  { code: 'INR', symbol: '₹', name: 'Indian Rupee', flag: '🇮🇳' },
-];
-
-// Base prices in USD (displayed prices are always in USD)
-const BASE_PRICES = {
-  'Custom Lite': 299,
-  'Custom Pro': 599,
-};
-
 export default function Pricing() {
   const navigate = useNavigate();
   const { initiateCheckout, isLoading } = useDodoPayment();
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
-  const [selectedCurrency, setSelectedCurrency] = useState(CURRENCIES[0]); // Default to USD
 
   const handlePurchase = async (planName: keyof typeof DODO_PRODUCTS) => {
     setLoadingPlan(planName);
-    await initiateCheckout(DODO_PRODUCTS[planName], selectedCurrency.code);
+    await initiateCheckout(DODO_PRODUCTS[planName], 'USD');
     setLoadingPlan(null);
   };
 
@@ -216,102 +186,124 @@ export default function Pricing() {
       {/* GEO-Optimized Pricing Schema */}
       <GEOStructuredData pageType="pricing" />
 
-      <div className="pt-24 pb-20 px-4">
+      <div className="pt-20 pb-20 px-4">
         <div className="container mx-auto max-w-7xl">
-          {/* Hero Section */}
-          <div className="text-center mb-16">
-            <Badge variant="secondary" className="mb-4">Transparent Pricing</Badge>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              Start Free,<br />Scale with Expertise
+          {/* Compact Hero Section */}
+          <div className="text-center mb-12">
+            <h1 className="text-3xl md:text-5xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent">
+                Start Free, Scale with Expertise
+              </span>
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6">
-              Launch today with our free templates. When you need a professional touch or a fully custom solution, our expert team is ready to deliver.
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Launch with free templates. Upgrade when you need professional customization.
             </p>
-
-            {/* Currency Selector */}
-            <div className="flex items-center justify-center gap-2">
-              <span className="text-sm text-muted-foreground">Prices shown in USD</span>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="gap-2">
-                    <span>{selectedCurrency.flag}</span>
-                    <span>{selectedCurrency.code}</span>
-                    <ChevronDown className="h-4 w-4 opacity-50" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="center">
-                  {CURRENCIES.map((currency) => (
-                    <DropdownMenuItem
-                      key={currency.code}
-                      onClick={() => setSelectedCurrency(currency)}
-                      className="gap-2 cursor-pointer"
-                    >
-                      <span>{currency.flag}</span>
-                      <span className="font-medium">{currency.code}</span>
-                      <span className="text-muted-foreground text-sm">- {currency.name}</span>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
           </div>
 
-          {/* Pricing Cards */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-24">
-            {plans.map((plan, index) => (
-              <Card key={index} className={`relative bg-white/5 backdrop-blur-md flex flex-col ${plan.popular ? 'border-purple-500 border-2 scale-105 shadow-xl shadow-purple-500/10 z-10' : 'border-border/50 hover:border-purple-500/50'}`}>
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <Badge className="bg-gradient-to-r from-purple-600 to-blue-600 text-white border-0 px-4 py-1 text-sm font-semibold shadow-lg">
-                      Most Popular
-                    </Badge>
-                  </div>
-                )}
-
-                <CardHeader className="text-center pb-4 pt-8">
-                  <div className="mx-auto mb-4 p-3 bg-gradient-to-r from-purple-100 to-blue-100 rounded-full w-fit">
-                    <plan.icon className="h-6 w-6 text-purple-600" />
-                  </div>
-                  <CardTitle className="text-2xl mb-1">{plan.name}</CardTitle>
-                  <p className="text-sm text-gray-500 h-10 flex items-center justify-center px-4">{plan.description}</p>
-                </CardHeader>
-
-                <CardContent className="flex-grow flex flex-col">
-                  <div className="text-center mb-8">
-                    <div className="text-4xl font-bold text-gray-900">
-                      {plan.price}
-                      {plan.price !== "Free" && <span className="text-lg font-normal text-gray-500">/{plan.period}</span>}
+          {/* Redesigned Pricing Cards */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+            {plans.map((plan, index) => {
+              const isPopular = plan.popular;
+              const isFree = plan.price === "Free";
+              const isContact = plan.price === "Contact";
+              
+              return (
+                <div 
+                  key={index} 
+                  className={cn(
+                    "group relative rounded-2xl p-[1px] transition-all duration-300",
+                    isPopular 
+                      ? "bg-gradient-to-br from-primary via-purple-500 to-blue-500 scale-[1.02] z-10" 
+                      : "bg-border/50 hover:bg-gradient-to-br hover:from-primary/50 hover:to-purple-500/50"
+                  )}
+                >
+                  {/* Popular Badge */}
+                  {isPopular && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20">
+                      <Badge className="bg-primary text-primary-foreground shadow-lg px-4 py-1 text-xs font-semibold flex items-center gap-1">
+                        <Sparkles className="w-3 h-3" />
+                        Most Popular
+                      </Badge>
                     </div>
+                  )}
+                  
+                  <div className={cn(
+                    "relative h-full rounded-2xl p-6 flex flex-col",
+                    "bg-background",
+                    isPopular && "shadow-2xl shadow-primary/20"
+                  )}>
+                    {/* Icon & Name */}
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className={cn(
+                        "p-2.5 rounded-xl",
+                        isPopular 
+                          ? "bg-gradient-to-br from-primary to-purple-600 text-white" 
+                          : "bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary transition-colors"
+                      )}>
+                        <plan.icon className="h-5 w-5" />
+                      </div>
+                      <h3 className="text-lg font-bold text-foreground">{plan.name}</h3>
+                    </div>
+                    
+                    {/* Price */}
+                    <div className="mb-4">
+                      <div className="flex items-baseline gap-1">
+                        <span className={cn(
+                          "text-4xl font-bold",
+                          isPopular ? "text-primary" : "text-foreground"
+                        )}>
+                          {plan.price}
+                        </span>
+                        {!isFree && !isContact && (
+                          <span className="text-sm text-muted-foreground">/{plan.period}</span>
+                        )}
+                      </div>
+                      <p className="text-sm text-muted-foreground mt-1">{plan.description}</p>
+                    </div>
+                    
+                    {/* Features */}
+                    <ul className="space-y-2.5 mb-6 flex-grow">
+                      {plan.features.map((feature, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-sm">
+                          <div className={cn(
+                            "mt-0.5 rounded-full p-0.5",
+                            isPopular ? "bg-primary/20 text-primary" : "bg-muted text-muted-foreground"
+                          )}>
+                            <Check className="h-3 w-3" />
+                          </div>
+                          <span className="text-muted-foreground">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    
+                    {/* CTA Button */}
+                    <Button
+                      className={cn(
+                        "w-full mt-auto transition-all duration-300 group/btn",
+                        isPopular 
+                          ? "bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-white shadow-lg shadow-primary/25" 
+                          : "hover:bg-primary hover:text-primary-foreground"
+                      )}
+                      variant={isPopular ? "default" : "outline"}
+                      onClick={plan.action}
+                      disabled={plan.isPaid && loadingPlan === plan.name}
+                    >
+                      {plan.isPaid && loadingPlan === plan.name ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Processing...
+                        </>
+                      ) : (
+                        <>
+                          {plan.cta}
+                          <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                        </>
+                      )}
+                    </Button>
                   </div>
-
-                  <ul className="space-y-4 mb-8 flex-grow">
-                    {plan.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-start text-sm text-gray-600">
-                        <Check className="h-4 w-4 text-green-500 mr-3 mt-1 flex-shrink-0" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <Button
-                    className={`w-full mt-auto py-6 text-lg ${plan.popular
-                      ? 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-md'
-                      : ''
-                      }`}
-                    variant={plan.popular ? "default" : "outline"}
-                    onClick={plan.action}
-                    disabled={plan.isPaid && loadingPlan === plan.name}
-                  >
-                    {plan.isPaid && loadingPlan === plan.name ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Processing...
-                      </>
-                    ) : plan.cta}
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
+                </div>
+              );
+            })}
           </div>
 
           {/* Premium Digital Solutions Section */}
