@@ -446,7 +446,7 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
                         <div className="flex justify-between">
                           <dt className="text-muted-foreground">Services:</dt>
                           <dd className="font-medium text-right">{formData.services.map(id => {
-                            if (id === 'other' && formData.customService) return `Other`;
+                            if (id === 'other') return formData.customService ? `Other: ${formData.customService}` : 'Other';
                             return serviceOptions.find(s => s.id === id)?.label;
                           }).join(', ')}
                           </dd>
