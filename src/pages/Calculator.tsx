@@ -15,8 +15,10 @@ import {
   ShoppingCart,
   Zap,
   ArrowRight,
-  Users
+  Users,
+  Crown
 } from 'lucide-react';
+import { PremiumServicesModal } from '@/components/modals/PremiumServicesModal';
 
 interface ProjectType {
   id: string;
@@ -231,9 +233,16 @@ const Calculator = () => {
           <h1 className="text-3xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
             Project Cost Calculator
           </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+          <p className="text-muted-foreground max-w-2xl mx-auto text-lg mb-8">
             Customize your package to get an instant estimate for your project.
           </p>
+
+          <PremiumServicesModal>
+            <Button variant="outline" className="border-purple-500/30 text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/10">
+              <Crown className="w-4 h-4 mr-2" />
+              Premium Digital Solutions
+            </Button>
+          </PremiumServicesModal>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -466,6 +475,23 @@ const Calculator = () => {
                   </p>
                 </CardContent>
               </Card>
+
+              {/* Premium Solutions Section */}
+              <div className="mt-6 p-6 rounded-xl border border-purple-500/20 bg-gradient-to-br from-purple-900/5 to-blue-900/5 backdrop-blur-sm text-center">
+                <div className="flex justify-center mb-3">
+                  <Badge variant="outline" className="border-purple-500/30 text-purple-600 bg-purple-500/5">Ecosystem Services</Badge>
+                </div>
+                <h3 className="text-lg font-bold mb-2">Premium Digital Solutions</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Access our vetted ecosystem of enterprise-grade services. From reputation defense to exclusive digital asset acquisition.
+                </p>
+                <PremiumServicesModal>
+                  <Button variant="default" className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-md">
+                    <Crown className="w-4 h-4 mr-2" />
+                    View Premium Solutions
+                  </Button>
+                </PremiumServicesModal>
+              </div>
             </div>
           </div>
         </div>

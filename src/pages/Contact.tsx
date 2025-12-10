@@ -8,11 +8,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Mail, Phone, Clock, Send, Check, ChevronRight, Sparkles, Loader2 } from 'lucide-react';
+import { Mail, Phone, Clock, Send, Check, ChevronRight, Sparkles, Loader2, Crown } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { trackFormSubmission } from '@/utils/analytics';
 import { cn } from '@/lib/utils';
+import { PremiumServicesModal } from '@/components/modals/PremiumServicesModal';
 
 // Service options
 const serviceOptions = [
@@ -144,6 +145,9 @@ export default function Contact() {
       if (id === 'other' && formData.customService) {
         return `Other: ${formData.customService}`;
       }
+      if (id === 'premium-solutions') {
+        return 'Premium Digital Solutions';
+      }
       return serviceOptions.find(s => s.id === id)?.label || id;
     }).join(', ');
 
@@ -173,7 +177,7 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
     `.trim();
 
     setIsSubmitting(true);
-    
+
     try {
       const { error } = await supabase.functions.invoke('send-contact-email', {
         body: {
@@ -263,7 +267,65 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
                       <p className="text-sm text-muted-foreground mb-4">Choose all that apply to your project.</p>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        {serviceOptions.map((service) => (
+                        {serviceOptions.filter(s => s.id !== 'other').map((service) => (
+                          <OptionCard
+                            key={service.id}
+                            {...service}
+                            selected={formData.services.includes(service.id)}
+                            onClick={() => toggleService(service.id)}
+                            multi
+                          />
+                        ))}
+                      </div>
+
+                      {/* Premium Digital Solutions Banner */}
+                      <div
+                        className={cn(
+                          "mt-4 mb-4 p-6 rounded-xl border transition-all duration-200 cursor-pointer relative",
+                          formData.services.includes('premium-solutions')
+                            ? "border-purple-500 bg-purple-500/5"
+                            : "border-purple-500/20 bg-gradient-to-br from-purple-900/5 to-blue-900/5 backdrop-blur-sm hover:border-purple-500/40"
+                        )}
+                        onClick={() => toggleService('premium-solutions')}
+                      >
+                        {/* Selection Checkmark */}
+                        <div className={cn(
+                          "absolute top-4 right-4 w-6 h-6 rounded-full border flex items-center justify-center transition-all",
+                          formData.services.includes('premium-solutions')
+                            ? "border-purple-500 bg-purple-500 text-white"
+                            : "border-purple-500/30 bg-transparent"
+                        )}>
+                          {formData.services.includes('premium-solutions') && <Check className="w-4 h-4" />}
+                        </div>
+
+                        <div className="flex items-start justify-between gap-4 flex-col sm:flex-row sm:items-center pr-8">
+                          <div>
+                            <div className="flex items-center gap-2 mb-2">
+                              <Badge variant="outline" className="border-purple-500/30 text-purple-600 bg-purple-500/5">Ecosystem Services</Badge>
+                            </div>
+                            <h3 className="text-lg font-bold mb-1 flex items-center gap-2">
+                              Premium Digital Solutions
+                            </h3>
+                            <p className="text-sm text-muted-foreground max-w-xl">
+                              Access our vetted ecosystem of enterprise-grade services. From reputation defense to exclusive digital asset acquisition.
+                            </p>
+                          </div>
+                          <PremiumServicesModal>
+                            <Button
+                              type="button"
+                              onClick={(e) => e.stopPropagation()}
+                              className="shrink-0 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-md"
+                            >
+                              <Crown className="w-4 h-4 mr-2" />
+                              View Premium Solutions
+                            </Button>
+                          </PremiumServicesModal>
+                        </div>
+                      </div>
+
+                      {/* Other Option */}
+                      <div className="mb-2">
+                        {serviceOptions.filter(s => s.id === 'other').map((service) => (
                           <OptionCard
                             key={service.id}
                             {...service}

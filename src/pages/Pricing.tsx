@@ -9,6 +9,7 @@ import { Check, Star, Zap, Crown, Shield, Globe, MessageCircle, Share2, Code, Lo
 import { useNavigate } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useDodoPayment } from '@/hooks/useDodoPayment';
+import { PremiumServicesModal } from '@/components/modals/PremiumServicesModal';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -117,6 +118,26 @@ export default function Pricing() {
       cta: "Get Started",
       action: () => handlePurchase("Custom Pro"),
       isPaid: true
+    },
+    {
+      name: "Custom Requirements",
+      icon: MessageCircle,
+      price: "Contact",
+      period: "flexible",
+      description: "Have specific needs? Let's build exactly what you require.",
+      features: [
+        "Unique functionality",
+        "Specific API integrations",
+        "Complex workflows",
+        "Legacy system updates",
+        "Specialized consulting",
+        "Custom development",
+        "Priority dedicated support"
+      ],
+      popular: false,
+      cta: "Contact Us",
+      action: () => navigate('/contact'),
+      isPaid: false
     }
   ];
 
@@ -206,7 +227,7 @@ export default function Pricing() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6">
               Launch today with our free templates. When you need a professional touch or a fully custom solution, our expert team is ready to deliver.
             </p>
-            
+
             {/* Currency Selector */}
             <div className="flex items-center justify-center gap-2">
               <span className="text-sm text-muted-foreground">Prices shown in USD</span>
@@ -236,7 +257,7 @@ export default function Pricing() {
           </div>
 
           {/* Pricing Cards */}
-          <div className="grid md:grid-cols-3 gap-8 mb-24">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-24">
             {plans.map((plan, index) => (
               <Card key={index} className={`relative bg-white/5 backdrop-blur-md flex flex-col ${plan.popular ? 'border-purple-500 border-2 scale-105 shadow-xl shadow-purple-500/10 z-10' : 'border-border/50 hover:border-purple-500/50'}`}>
                 {plan.popular && (
@@ -294,57 +315,22 @@ export default function Pricing() {
           </div>
 
           {/* Premium Digital Solutions Section */}
-          <div className="mb-24">
-            <div className="text-center mb-12">
+          <div className="mb-24 text-center">
+            <div className="p-8 rounded-2xl bg-gradient-to-br from-purple-900/10 to-blue-900/10 border border-purple-500/20 backdrop-blur-sm">
               <Badge variant="outline" className="mb-4 border-purple-500/50 text-purple-600">Ecosystem Services</Badge>
               <h2 className="text-3xl md:text-5xl font-bold mb-6">Premium Digital Solutions</h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
                 Access our vetted ecosystem of enterprise-grade services.
                 From reputation defense to exclusive digital asset acquisition.
               </p>
+
+              <PremiumServicesModal>
+                <Button size="lg" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg text-lg px-8 py-6 h-auto">
+                  <Crown className="mr-2 h-5 w-5" />
+                  View Premium Solutions
+                </Button>
+              </PremiumServicesModal>
             </div>
-
-            <Tabs defaultValue="reputation" className="w-full">
-              <TabsList className="w-full justify-start overflow-x-auto flex-nowrap bg-white/5 border border-border/50 p-1 mb-8">
-                {Object.entries(premiumServices).map(([key, category]) => (
-                  <TabsTrigger key={key} value={key} className="flex-shrink-0 px-4 py-2">
-                    <category.icon className="w-4 h-4 mr-2" />
-                    {category.label}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-
-              {Object.entries(premiumServices).map(([key, category]) => (
-                <TabsContent key={key} value={key} className="mt-0">
-                  <Card className="bg-white/5 backdrop-blur-md border border-border/50">
-                    <CardHeader>
-                      <CardTitle className="flex items-center text-2xl">
-                        <category.icon className="w-6 h-6 mr-3 text-purple-600" />
-                        {category.label}
-                      </CardTitle>
-                      <CardDescription>
-                        Professional services delivered by our expert network
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="grid md:grid-cols-2 gap-6">
-                        {category.items.map((item, idx) => (
-                          <div key={idx} className="p-4 rounded-xl bg-background/50 border border-border/50 hover:border-purple-500/30 transition-all duration-300 group">
-                            <div className="flex items-start justify-between mb-2">
-                              <h3 className="font-semibold text-lg group-hover:text-purple-600 transition-colors">{item.name}</h3>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => navigate('/contact')}>
-                                <Check className="h-4 w-4" />
-                              </Button>
-                            </div>
-                            <p className="text-sm text-gray-600 leading-relaxed">{item.desc}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-              ))}
-            </Tabs>
           </div>
 
           {/* FAQ Section */}
