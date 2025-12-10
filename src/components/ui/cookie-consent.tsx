@@ -81,8 +81,8 @@ export const CookieConsent = ({ forceOpen = false, onClose }: CookieConsentProps
   if (!showConsent) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-background/50 backdrop-blur-sm">
-      <Card className="w-full max-w-lg bg-background border shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
+    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 sm:p-6">
+      <Card className="mx-auto max-w-lg bg-background border shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
         <div className="p-6">
           {/* Header */}
           <div className="flex items-start justify-between gap-4 mb-4">
