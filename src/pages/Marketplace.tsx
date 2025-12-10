@@ -6,12 +6,10 @@ import { GridPattern } from '@/components/ui/GridPattern';
 import { useWebsites } from '@/hooks/useWebsites';
 import { Tables } from '@/integrations/supabase/types';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Bot, X } from 'lucide-react';
+import { Bot, ChevronDown, ChevronUp } from 'lucide-react';
 import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 
 // Lazy load heavy components
 const MarketplaceFilters = lazy(() => import('@/components/marketplace/MarketplaceFilters').then(m => ({ default: m.MarketplaceFilters })));
@@ -259,36 +257,6 @@ const Marketplace: React.FC = () => {
 
       <div className="pt-6 pb-8 px-2 sm:px-4 lg:px-6 min-h-screen flex flex-col relative z-10">
         <div className="container mx-auto max-w-[1800px] flex flex-col flex-1">
-          {/* Active Filter Indicator */}
-          {hasActiveFilters && (
-            <div className="flex items-center gap-2 mb-4 flex-wrap">
-              <span className="text-sm text-muted-foreground">Active filters:</span>
-              {searchTerm && (
-                <span className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-full bg-primary/10 text-primary border border-primary/20">
-                  Search: "{searchTerm}"
-                </span>
-              )}
-              {selectedCategory !== 'all' && (
-                <span className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-full bg-primary/10 text-primary border border-primary/20">
-                  Category: {selectedCategory}
-                </span>
-              )}
-              {tagFilter && (
-                <span className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-full bg-primary/10 text-primary border border-primary/20">
-                  Tag: {tagFilter}
-                </span>
-              )}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={clearAllFilters}
-                className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
-              >
-                <X className="h-3 w-3 mr-1" />
-                Clear all
-              </Button>
-            </div>
-          )}
           {/* Filters header */}
           {!isMobile ? (
             <div ref={filtersWrapRef} className="sticky top-16 z-30 py-6 mb-6">
@@ -301,6 +269,8 @@ const Marketplace: React.FC = () => {
                   sortBy={sortBy}
                   setSortBy={setSortBy}
                   categories={categories}
+                  tagFilter={tagFilter}
+                  onClearFilters={clearAllFilters}
                 />
               </Suspense>
             </div>
@@ -331,6 +301,8 @@ const Marketplace: React.FC = () => {
                             sortBy={sortBy}
                             setSortBy={setSortBy}
                             categories={categories}
+                            tagFilter={tagFilter}
+                            onClearFilters={clearAllFilters}
                           />
                         </Suspense>
                       </TabsContent>
