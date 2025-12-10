@@ -6,10 +6,12 @@ import { GridPattern } from '@/components/ui/GridPattern';
 import { useWebsites } from '@/hooks/useWebsites';
 import { Tables } from '@/integrations/supabase/types';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Bot } from 'lucide-react';
+import { Bot, X } from 'lucide-react';
 import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 
 // Lazy load heavy components
 const MarketplaceFilters = lazy(() => import('@/components/marketplace/MarketplaceFilters').then(m => ({ default: m.MarketplaceFilters })));
@@ -26,10 +28,33 @@ interface Category {
 type Website = Tables<'websites'>;
 
 const Marketplace: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
+  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'all');
   const [sortBy, setSortBy] = useState('popular');
-  const [tagFilter, setTagFilter] = useState<string | null>(null);
+  const [tagFilter, setTagFilter] = useState<string | null>(searchParams.get('tag') || null);
+
+  // Sync URL params when they change externally (e.g., from AI chat navigation)
+  useEffect(() => {
+    const urlSearch = searchParams.get('search') || '';
+    const urlCategory = searchParams.get('category') || 'all';
+    const urlTag = searchParams.get('tag') || null;
+    
+    if (urlSearch !== searchTerm) setSearchTerm(urlSearch);
+    if (urlCategory !== selectedCategory) setSelectedCategory(urlCategory);
+    if (urlTag !== tagFilter) setTagFilter(urlTag);
+  }, [searchParams]);
+
+  // Check if any filters are active
+  const hasActiveFilters = searchTerm || selectedCategory !== 'all' || tagFilter;
+
+  // Clear all filters
+  const clearAllFilters = useCallback(() => {
+    setSearchTerm('');
+    setSelectedCategory('all');
+    setTagFilter(null);
+    setSearchParams({});
+  }, [setSearchParams]);
 
   const mainContentRef = useRef<HTMLDivElement>(null);
   const filtersWrapRef = useRef<HTMLDivElement>(null);
@@ -234,6 +259,36 @@ const Marketplace: React.FC = () => {
 
       <div className="pt-6 pb-8 px-2 sm:px-4 lg:px-6 min-h-screen flex flex-col relative z-10">
         <div className="container mx-auto max-w-[1800px] flex flex-col flex-1">
+          {/* Active Filter Indicator */}
+          {hasActiveFilters && (
+            <div className="flex items-center gap-2 mb-4 flex-wrap">
+              <span className="text-sm text-muted-foreground">Active filters:</span>
+              {searchTerm && (
+                <span className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-full bg-primary/10 text-primary border border-primary/20">
+                  Search: "{searchTerm}"
+                </span>
+              )}
+              {selectedCategory !== 'all' && (
+                <span className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-full bg-primary/10 text-primary border border-primary/20">
+                  Category: {selectedCategory}
+                </span>
+              )}
+              {tagFilter && (
+                <span className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-full bg-primary/10 text-primary border border-primary/20">
+                  Tag: {tagFilter}
+                </span>
+              )}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={clearAllFilters}
+                className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
+              >
+                <X className="h-3 w-3 mr-1" />
+                Clear all
+              </Button>
+            </div>
+          )}
           {/* Filters header */}
           {!isMobile ? (
             <div ref={filtersWrapRef} className="sticky top-16 z-30 py-6 mb-6">
@@ -256,7 +311,7 @@ const Marketplace: React.FC = () => {
                   className="w-full flex items-center justify-between px-3 py-2 text-sm font-medium"
                   onClick={() => setIsMobileFiltersOpen(prev => !prev)}
                 >
-                  <span className="text-muted-foreground">Filters</span>
+                  <span className="text-muted-foreground">Filters {hasActiveFilters && `(${[searchTerm, selectedCategory !== 'all' ? selectedCategory : null, tagFilter].filter(Boolean).length})`}</span>
                   {isMobileFiltersOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                 </button>
                 <Collapsible open={isMobileFiltersOpen} onOpenChange={setIsMobileFiltersOpen}>
