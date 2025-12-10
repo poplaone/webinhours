@@ -183,7 +183,7 @@ export const Header = () => {
                 onClick={() => navigate('/')}
               >
                 <div className="bg-[#8B5CF6] rounded-lg p-1.5 sm:p-2">
-                  <Code className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+                  <img src="/logo.png" alt="WebInHours Logo" className="h-5 w-5 sm:h-6 sm:w-6 object-contain" />
                 </div>
                 <span className="font-bold text-sm sm:text-base bg-gradient-to-r from-[#8B5CF6] to-[#A78BFA] bg-clip-text text-transparent">
                   WebInHour
@@ -252,7 +252,7 @@ export const Header = () => {
               className="bg-[#8B5CF6] rounded-md p-1.5 sm:p-2 hover:bg-[#7C3AED] transition-colors duration-300 cursor-pointer"
               onClick={() => navigate('/')}
             >
-              <Code className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-white" />
+              <img src="/logo.png" alt="WebInHours Logo" className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 object-contain" />
             </div>
             <span
               className="font-bold text-base sm:text-lg md:text-xl bg-gradient-to-r from-[#8B5CF6] to-[#A78BFA] bg-clip-text text-transparent cursor-pointer"
