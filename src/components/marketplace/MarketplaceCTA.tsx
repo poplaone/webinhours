@@ -4,7 +4,11 @@ import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
+import { useNavigate } from 'react-router-dom';
+
 export const MarketplaceCTA = () => {
+  const navigate = useNavigate();
+
   return (
     <motion.div
       className="text-center mt-16"
@@ -17,10 +21,14 @@ export const MarketplaceCTA = () => {
         <CardContent className="p-0">
           <h3 className="text-2xl font-bold mb-4">Don't See What You Need?</h3>
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-            Our team can create a completely custom website tailored to your specific requirements. 
+            Our team can create a completely custom website tailored to your specific requirements.
             Get a personalized quote and timeline for your unique project.
           </p>
-          <Button size="lg" className="bg-[#8B5CF6] hover:bg-[#7C3AED]">
+          <Button
+            size="lg"
+            className="bg-[#8B5CF6] hover:bg-[#7C3AED]"
+            onClick={() => navigate('/contact')}
+          >
             Request Custom Design
           </Button>
         </CardContent>
