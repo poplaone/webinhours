@@ -79,34 +79,134 @@ serve(async (req) => {
       });
     }
 
-    // Fetch websites from database for context
-    const { data: websites, error: websitesError } = await supabase
+    // Extract keywords from user message for smart filtering
+    const extractKeywords = (text: string): string[] => {
+      const stopWords = new Set(['a', 'an', 'the', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'may', 'might', 'must', 'shall', 'can', 'need', 'dare', 'ought', 'used', 'to', 'of', 'in', 'for', 'on', 'with', 'at', 'by', 'from', 'as', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'between', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 'just', 'and', 'but', 'if', 'or', 'because', 'until', 'while', 'about', 'against', 'i', 'me', 'my', 'myself', 'we', 'our', 'you', 'your', 'he', 'him', 'she', 'her', 'it', 'its', 'they', 'them', 'what', 'which', 'who', 'whom', 'this', 'that', 'these', 'those', 'am', 'show', 'find', 'get', 'want', 'looking', 'need', 'help', 'please', 'thanks', 'thank', 'website', 'websites', 'template', 'templates', 'site', 'sites']);
+      
+      const words = text.toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, ' ')
+        .split(/\s+/)
+        .filter(word => word.length > 2 && !stopWords.has(word));
+      
+      return [...new Set(words)];
+    };
+
+    // Synonym expansion for common terms
+    const synonymMap: Record<string, string[]> = {
+      'ecommerce': ['ecommerce', 'e-commerce', 'shop', 'store', 'shopping', 'cart', 'retail', 'online store'],
+      'restaurant': ['restaurant', 'food', 'cafe', 'dining', 'menu', 'eat', 'foodie', 'kitchen', 'bistro'],
+      'portfolio': ['portfolio', 'showcase', 'work', 'creative', 'gallery', 'projects'],
+      'business': ['business', 'company', 'corporate', 'agency', 'enterprise', 'firm'],
+      'blog': ['blog', 'article', 'news', 'content', 'magazine', 'journal'],
+      'landing': ['landing', 'launch', 'product', 'saas', 'startup', 'app'],
+      'travel': ['travel', 'tourism', 'tour', 'vacation', 'hotel', 'booking', 'trip'],
+      'health': ['health', 'medical', 'clinic', 'hospital', 'doctor', 'wellness', 'fitness'],
+      'education': ['education', 'school', 'learning', 'course', 'training', 'academy'],
+      'real estate': ['real estate', 'property', 'realty', 'housing', 'apartment', 'home'],
+    };
+
+    const expandKeywords = (keywords: string[]): string[] => {
+      const expanded = new Set<string>(keywords);
+      keywords.forEach(keyword => {
+        Object.entries(synonymMap).forEach(([key, synonyms]) => {
+          if (synonyms.some(s => keyword.includes(s) || s.includes(keyword))) {
+            synonyms.forEach(s => expanded.add(s));
+          }
+        });
+      });
+      return Array.from(expanded);
+    };
+
+    const userKeywords = expandKeywords(extractKeywords(message));
+    console.log('Extracted keywords:', userKeywords);
+
+    // Fetch ALL websites first
+    const { data: allWebsites, error: websitesError } = await supabase
       .from('websites')
       .select('id, title, description, category, tags, price, preview_url, features')
-      .in('status', ['approved', 'featured'])
-      .limit(50);
+      .in('status', ['approved', 'featured']);
 
     if (websitesError) {
       console.error('Error fetching websites:', websitesError);
     }
 
-    // Fetch AI agents for context
-    const { data: agents, error: agentsError } = await supabase
+    // Score and filter websites by relevance
+    const scoreWebsite = (website: any): number => {
+      let score = 0;
+      const title = (website.title || '').toLowerCase();
+      const description = (website.description || '').toLowerCase();
+      const category = (website.category || '').toLowerCase();
+      const tags = (website.tags || []).map((t: string) => t.toLowerCase()).join(' ');
+      const searchable = `${title} ${description} ${category} ${tags}`;
+      
+      userKeywords.forEach(keyword => {
+        if (title.includes(keyword)) score += 10;
+        if (category.includes(keyword)) score += 8;
+        if (tags.includes(keyword)) score += 6;
+        if (description.includes(keyword)) score += 3;
+      });
+      
+      return score;
+    };
+
+    // Sort by relevance and take top results
+    const scoredWebsites = (allWebsites || [])
+      .map(w => ({ ...w, score: scoreWebsite(w) }))
+      .sort((a, b) => b.score - a.score);
+    
+    // Take top 30 relevant + some random for variety if keywords match
+    const relevantWebsites = userKeywords.length > 0 
+      ? scoredWebsites.filter(w => w.score > 0).slice(0, 30)
+      : scoredWebsites.slice(0, 30);
+    
+    // If no matches found, show general selection
+    const websites = relevantWebsites.length > 0 ? relevantWebsites : scoredWebsites.slice(0, 20);
+    
+    console.log(`Found ${allWebsites?.length || 0} total websites, returning ${websites.length} relevant ones`);
+
+    // Fetch AI agents (similar approach)
+    const { data: allAgents, error: agentsError } = await supabase
       .from('ai_agents')
       .select('id, title, description, category, tags, price, preview_url, features, agent_type')
-      .in('status', ['approved', 'featured'])
-      .limit(50);
+      .in('status', ['approved', 'featured']);
 
     if (agentsError) {
       console.error('Error fetching AI agents:', agentsError);
     }
 
-    const websiteContext = (websites || []).map(w => 
-      `- ${w.title} (${w.category}): ${w.description?.slice(0, 100) || 'No description'}... Tags: ${w.tags?.join(', ') || 'none'}. Price: $${w.price}. ID: ${w.id}`
+    const scoreAgent = (agent: any): number => {
+      let score = 0;
+      const title = (agent.title || '').toLowerCase();
+      const description = (agent.description || '').toLowerCase();
+      const category = (agent.category || '').toLowerCase();
+      const tags = (agent.tags || []).map((t: string) => t.toLowerCase()).join(' ');
+      const searchable = `${title} ${description} ${category} ${tags}`;
+      
+      userKeywords.forEach(keyword => {
+        if (title.includes(keyword)) score += 10;
+        if (category.includes(keyword)) score += 8;
+        if (tags.includes(keyword)) score += 6;
+        if (description.includes(keyword)) score += 3;
+      });
+      
+      return score;
+    };
+
+    const scoredAgents = (allAgents || [])
+      .map(a => ({ ...a, score: scoreAgent(a) }))
+      .sort((a, b) => b.score - a.score);
+    
+    const agents = userKeywords.length > 0
+      ? scoredAgents.filter(a => a.score > 0).slice(0, 20)
+      : scoredAgents.slice(0, 20);
+
+    // Build context with compressed descriptions
+    const websiteContext = websites.map(w => 
+      `- ${w.title} (${w.category}): ${w.description?.slice(0, 80) || 'No description'}. Tags: ${w.tags?.slice(0, 5).join(', ') || 'none'}. $${w.price}. ID: ${w.id}`
     ).join('\n');
 
-    const agentContext = (agents || []).map(a => 
-      `- ${a.title} (${a.category}, ${a.agent_type}): ${a.description?.slice(0, 100) || 'No description'}... Tags: ${a.tags?.join(', ') || 'none'}. Price: $${a.price}. ID: ${a.id}`
+    const agentContext = agents.map(a => 
+      `- ${a.title} (${a.category}): ${a.description?.slice(0, 80) || 'No description'}. $${a.price}. ID: ${a.id}`
     ).join('\n');
 
     const systemPrompt = `You are WebInHours AI Assistant, a specialized assistant ONLY for WebInHours marketplace services.

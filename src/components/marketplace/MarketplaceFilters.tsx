@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
-import { Search, Filter } from 'lucide-react';
+import { Search, Filter, X } from 'lucide-react';
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,8 @@ interface MarketplaceFiltersProps {
   sortBy: string;
   setSortBy: (sort: string) => void;
   categories: Category[];
+  tagFilter?: string | null;
+  onClearFilters?: () => void;
 }
 
 export const MarketplaceFilters = ({
@@ -29,7 +31,10 @@ export const MarketplaceFilters = ({
   sortBy,
   setSortBy,
   categories,
+  tagFilter,
+  onClearFilters,
 }: MarketplaceFiltersProps) => {
+  const hasActiveFilters = searchTerm || selectedCategory !== 'all' || tagFilter;
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
 
@@ -97,9 +102,45 @@ export const MarketplaceFilters = ({
             placeholder="Search websites..."
             value={localSearchTerm}
             onChange={handleSearchChange}
-            className="pl-10"
+            className={`pl-10 ${hasActiveFilters ? 'pr-10' : ''}`}
           />
+          {hasActiveFilters && (
+            <button
+              onClick={onClearFilters}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 rounded-full bg-muted hover:bg-muted-foreground/20 flex items-center justify-center transition-colors"
+              title="Clear all filters"
+            >
+              <X className="h-3 w-3 text-muted-foreground" />
+            </button>
+          )}
         </div>
+
+        {/* Active Filter Chips */}
+        {hasActiveFilters && (
+          <div className="flex items-center gap-2 flex-wrap">
+            {searchTerm && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20">
+                "{searchTerm}"
+                <button onClick={() => setSearchTerm('')} className="hover:bg-primary/20 rounded-full p-0.5">
+                  <X className="h-3 w-3" />
+                </button>
+              </span>
+            )}
+            {selectedCategory !== 'all' && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full bg-secondary text-secondary-foreground border border-border">
+                {selectedCategory}
+                <button onClick={() => setSelectedCategory('all')} className="hover:bg-muted rounded-full p-0.5">
+                  <X className="h-3 w-3" />
+                </button>
+              </span>
+            )}
+            {tagFilter && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full bg-accent text-accent-foreground border border-border">
+                #{tagFilter}
+              </span>
+            )}
+          </div>
+        )}
 
         <div className="min-w-[160px]">
           <Select value={selectedCategory} onValueChange={handleCategoryChange}>
