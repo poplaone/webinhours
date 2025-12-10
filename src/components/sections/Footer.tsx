@@ -35,9 +35,7 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <Link to="/" className="flex items-center space-x-2 mb-4 hover:opacity-80 transition-opacity">
-              <div className="bg-[#8B5CF6] rounded-md p-2">
-                <Code className="h-6 w-6 text-white" />
-              </div>
+              <img src="/logo.png" alt="WebInHours Logo" className="h-10 w-10 object-contain" />
               <span className="font-bold text-xl">WebInHour</span>
             </Link>
             <p className="text-muted-foreground">
