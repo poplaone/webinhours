@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Plus, Zap, Sparkles } from 'lucide-react';
+import { Plus, Sparkles, Layout, ShoppingBag } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
 type QuickActionsProps = {
@@ -18,18 +18,18 @@ const QuickActions = ({ handleQuickAction, isLoading }: QuickActionsProps) => {
         onClick={() => handleQuickAction("Find me an e-commerce website template")}
         disabled={isLoading}
       >
-        <Plus className="h-3 w-3 mr-1" />
+        <ShoppingBag className="h-3 w-3 mr-1" />
         E-commerce
       </Button>
       <Button 
         variant="outline" 
         size="sm" 
         className="text-xs h-7 bg-[#1A1F2C] border-[#8B5CF6]/30 text-white hover:bg-[#8B5CF6]/20"
-        onClick={() => handleQuickAction("Show me AI chatbot agents for customer support")}
+        onClick={() => handleQuickAction("Show me landing page templates")}
         disabled={isLoading}
       >
-        <Zap className="h-3 w-3 mr-1" />
-        AI Agents
+        <Layout className="h-3 w-3 mr-1" />
+        Landing Pages
       </Button>
       <Button 
         variant="outline" 
