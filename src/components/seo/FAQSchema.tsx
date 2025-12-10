@@ -11,36 +11,36 @@ interface FAQSchemaProps {
 
 const defaultFAQs: FAQItem[] = [
   {
-    question: "How fast can I get a website and app?",
-    answer: "You can get a professional website delivered within 24 hours. For mobile apps, development typically takes 2-4 weeks depending on complexity. Our rapid delivery process ensures you launch faster than traditional agencies."
+    question: "Can I really get a website in 24 hours?",
+    answer: "Yes! WebInHours delivers professional websites within 24 hours. Our streamlined process eliminates weeks of waiting. Choose a template, provide your content, and we handle the rest. Same-day delivery is available for urgent projects."
+  },
+  {
+    question: "What if I need my website urgently today?",
+    answer: "We offer same-day website delivery for urgent needs. Our emergency web design service can have your professional website live in just a few hours. Contact us to discuss your timeline."
+  },
+  {
+    question: "How fast can I get a website?",
+    answer: "Templates are available for instant download. Custom websites are delivered within 24 hours. For urgent projects, same-day delivery ensures you go live the same day you contact us."
   },
   {
     question: "What is included in the free website?",
-    answer: "Every free website includes mobile-responsive design, SEO optimization, SSL security certificate, fast hosting, and access to 500+ premium templates. No hidden fees or credit card required."
+    answer: "Every free website includes mobile-responsive design, SEO & GEO optimization for AI search, SSL security certificate, fast hosting, and access to 500+ premium templates. No hidden fees or credit card required."
   },
   {
-    question: "How much does custom website design cost?",
-    answer: "Custom branding and design packages start at $299. This includes unique design, brand identity, custom graphics, and dedicated support. Enterprise solutions are available for larger projects."
+    question: "How much does a 24-hour custom website cost?",
+    answer: "Custom Lite packages start at $299 with 24-hour delivery. This includes template customization, logo integration, color scheme changes, content updates, and basic SEO & GEO setup."
   },
   {
-    question: "Do you offer SEO services?",
-    answer: "Yes, all websites come with basic SEO optimization included. Premium SEO packages include keyword research, on-page optimization, schema markup, and monthly performance reports starting at $199/month."
+    question: "Do you offer SEO and GEO optimization?",
+    answer: "Yes, all websites come with SEO & GEO optimization included. This ensures your site ranks well in traditional search and AI-powered search engines like ChatGPT, Perplexity, and Google SGE."
   },
   {
     question: "Can I edit my website after it's built?",
-    answer: "Absolutely. Every website comes with an easy-to-use content management system. You can update text, images, and add new pages without any coding knowledge."
+    answer: "Absolutely. Every website comes with full source code ownership. You can update text, images, and add new pages. We also offer ongoing support packages for those who prefer expert assistance."
   },
   {
-    question: "What technologies do you use for website development?",
-    answer: "We use modern, high-performance technologies including React, TypeScript, and Tailwind CSS. All websites are optimized for Core Web Vitals, ensuring fast load times and excellent user experience."
-  },
-  {
-    question: "Do you provide ongoing support and maintenance?",
-    answer: "Yes, we offer ongoing support packages that include security updates, performance monitoring, content updates, and priority technical support. Support plans start at $49/month."
-  },
-  {
-    question: "Can you build e-commerce websites?",
-    answer: "Yes, we specialize in high-conversion e-commerce websites with secure payment processing, inventory management, and mobile-optimized checkout. E-commerce solutions start at $499."
+    question: "What technologies do you use for fast website development?",
+    answer: "We use modern, high-performance technologies including React, TypeScript, and Tailwind CSS. All websites are optimized for Core Web Vitals, ensuring lightning-fast load times and excellent user experience."
   }
 ];
 
