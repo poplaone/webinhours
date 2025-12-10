@@ -7,7 +7,12 @@ import { RotatingServices } from '@/components/ui/text-shuffle/RotatingServices'
 import { AnimatedShinyText } from '@/components/ui/animated-shiny-text';
 import { LogoMarquee } from '@/components/sections/LogoMarquee';
 import { cn } from '@/lib/utils';
-export const Hero = () => {
+interface HeroProps {
+  headline?: React.ReactNode;
+  description?: React.ReactNode;
+}
+
+export const Hero = ({ headline, description }: HeroProps) => {
   const navigate = useNavigate();
   useParallaxHero();
   return (
@@ -86,26 +91,34 @@ export const Hero = () => {
                 className="text-center font-medium tracking-tight leading-tight mb-6 sm:mb-8 xl:text-6xl text-xl text-primary"
                 itemProp="headline"
               >
-                Professional Website in 24 Hours <br className="hidden md:block" />
-                <span className="text-foreground">SEO & GEO Optimized</span>
+                {headline || (
+                  <>
+                    Professional Website in 24 Hours <br className="hidden md:block" />
+                    <span className="text-foreground">SEO & GEO Optimized</span>
+                  </>
+                )}
               </h1>
 
               {/* TL;DR Summary - Answer-First for GEO extraction */}
               <div className="text-center max-w-5xl mx-auto text-muted-foreground" itemProp="description">
-                <p className="text-sm xl:text-lg leading-relaxed font-medium">
-                  The fastest way to launch high-conversion websites optimized for AI Search. Access{' '}
-                  <button onClick={() => navigate('/websites')} className="text-primary hover:text-primary/80 transition-colors font-semibold underline decoration-2 underline-offset-4">
-                    professional custom design
-                  </button>
-                  , Generative Engine Optimization (GEO), and{' '}
-                  <button onClick={() => {
-                    const servicesSection = document.getElementById('premium-marketplace');
-                    servicesSection?.scrollIntoView({ behavior: 'smooth' });
-                  }} className="text-primary hover:text-primary/80 transition-colors font-semibold underline decoration-2 underline-offset-4">
-                    premium digital solutions
-                  </button>
-                  {' '}in one ecosystem.
-                </p>
+                <div className="text-sm xl:text-lg leading-relaxed font-medium">
+                  {description || (
+                    <>
+                      The fastest way to launch high-conversion websites optimized for AI Search. Access{' '}
+                      <button onClick={() => navigate('/websites')} className="text-primary hover:text-primary/80 transition-colors font-semibold underline decoration-2 underline-offset-4">
+                        professional custom design
+                      </button>
+                      , Generative Engine Optimization (GEO), and{' '}
+                      <button onClick={() => {
+                        const servicesSection = document.getElementById('premium-marketplace');
+                        servicesSection?.scrollIntoView({ behavior: 'smooth' });
+                      }} className="text-primary hover:text-primary/80 transition-colors font-semibold underline decoration-2 underline-offset-4">
+                        premium digital solutions
+                      </button>
+                      {' '}in one ecosystem.
+                    </>
+                  )}
+                </div>
               </div>
             </div>
 

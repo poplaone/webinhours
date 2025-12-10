@@ -32,7 +32,9 @@ const staticRoutes = [
     '/terms',
     '/websites',
     '/calculator',
-    '/blog'
+    '/blog',
+    '/24-hour-website',
+    '/same-day-delivery'
 ];
 
 const generateSitemap = () => {

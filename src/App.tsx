@@ -35,6 +35,8 @@ const BlogPost = lazy(() => import("./pages/Blog/BlogPost"));
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
 const PaymentCancel = lazy(() => import("./pages/PaymentCancel"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const Landing24Hour = lazy(() => import("./pages/Landing24Hour"));
+const LandingSameDay = lazy(() => import("./pages/LandingSameDay"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -128,6 +130,8 @@ function App() {
                       <Route path="/payment/success" element={<PaymentSuccess />} />
                       <Route path="/payment/cancel" element={<PaymentCancel />} />
                       <Route path="/site/:slugOrId" element={<SiteDetails />} />
+                      <Route path="/24-hour-website" element={<Landing24Hour />} />
+                      <Route path="/same-day-delivery" element={<LandingSameDay />} />
                       <Route path="/profile" element={
                         <ProtectedRoute>
                           <Profile />
