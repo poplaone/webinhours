@@ -10,7 +10,7 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import { GridBackground } from "@/components/ui/GridBackground";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
-import { preloadCriticalResources, optimizeRenderPerformance, enableServiceWorker } from "@/utils/performanceOptimizer";
+import { preloadCriticalResources, optimizeRenderPerformance } from "@/utils/performanceOptimizer";
 import { usePageTracking } from "@/hooks/usePageTracking";
 
 // Lazy load all pages including Index for optimal code splitting
@@ -44,6 +44,8 @@ const queryClient = new QueryClient({
       // 🚀 AGGRESSIVE CACHING - Data stays fresh for 10 minutes
       staleTime: 1000 * 60 * 10, // 10 minutes
       gcTime: 1000 * 60 * 60, // 1 hour (formerly cacheTime)
+      // Show stale data immediately while fetching fresh data
+      placeholderData: (previousData: any) => previousData,
       // Disable unnecessary refetches
       refetchOnWindowFocus: false,
       refetchOnMount: false,
@@ -81,7 +83,6 @@ function App() {
   useEffect(() => {
     preloadCriticalResources();
     optimizeRenderPerformance();
-    enableServiceWorker(); // Enable aggressive caching
   }, []);
 
   return (

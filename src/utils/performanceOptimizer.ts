@@ -58,19 +58,19 @@ export const optimizeImages = () => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const img = entry.target as HTMLImageElement;
-          
+
           // Handle data-src lazy loading
           if (img.dataset.src) {
             img.src = img.dataset.src;
             delete img.dataset.src;
           }
-          
+
           // Handle srcset lazy loading
           if (img.dataset.srcset) {
             img.srcset = img.dataset.srcset;
             delete img.dataset.srcset;
           }
-          
+
           img.classList.remove('blur-sm', 'lazy-image');
           img.classList.add('loaded');
           observer.unobserve(img);
@@ -163,19 +163,7 @@ export const measureWebVitals = () => {
   }
 };
 
-export const enableServiceWorker = () => {
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then(registration => {
-          // Check for updates periodically
-          setInterval(() => {
-            registration.update();
-          }, 60 * 60 * 1000); // Check every hour
-        });
-    });
-  }
-};
+
 
 export const optimizeRenderPerformance = () => {
   // Use requestIdleCallback for non-critical operations
