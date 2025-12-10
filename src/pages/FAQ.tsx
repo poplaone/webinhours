@@ -11,6 +11,23 @@ import { HelpCircle } from 'lucide-react';
 export default function FAQ() {
   const faqs = [
     {
+      category: "Speed & Delivery",
+      questions: [
+        {
+          question: "Can I really get a website in 24 hours?",
+          answer: "Yes! WebInHours specializes in rapid website delivery. Most custom websites are delivered within 24 hours of receiving your content. Our streamlined process eliminates weeks of waiting."
+        },
+        {
+          question: "What if I need my website urgently today?",
+          answer: "We offer same-day website delivery for urgent needs. Contact us and we'll prioritize your project. Many clients go from first contact to live website in just a few hours."
+        },
+        {
+          question: "How does same-day website delivery work?",
+          answer: "Choose a template, provide your content (logo, text, images), and our team works immediately to customize and deploy your site. Rush delivery ensures you're online the same day."
+        }
+      ]
+    },
+    {
       category: "General",
       questions: [
         {
@@ -28,6 +45,11 @@ export default function FAQ() {
         {
           question: "How does same-day website delivery work?",
           answer: "It's simple: 1. Select a template. 2. Send us your text and images. 3. Our team builds and deploys your site immediately. We use automation and efficient processes to ensure same-day delivery for qualified projects."
+        },
+        {
+          question: "What is WebInHours?",
+          answer: "WebInHours is the fastest way to get a professional website. We deliver websites in 24 hours, not weeks. Choose from 500+ free templates or get custom development with same-day delivery options."
+
         },
         {
           question: "Do I own my website after purchase?",
@@ -49,9 +71,9 @@ export default function FAQ() {
   return (
     <AppLayout>
       <SEOHead
-        title="FAQ - WebInHours | 24-Hour Website Questions"
-        description="Answers to common questions about our 24-hour website delivery, free designs, premium services, setup process, and same-day options. Get started with confidence."
-        keywords="24 hour website FAQ, same day website questions, free website FAQ, fast website delivery, urgent website development questions"
+        title="FAQ - WebInHours | 24-Hour Website Questions Answered"
+        description="Answers to common questions about getting your website in 24 hours, same-day delivery options, free templates, and our fast development process. Learn how we build websites in hours, not weeks."
+        keywords="24 hour website FAQ, same day website questions, fast website delivery FAQ, urgent website design help, WebInHours questions, website in 24 hours"
         canonicalUrl="https://webinhours.com/faq"
       />
 

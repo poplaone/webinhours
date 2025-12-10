@@ -41,8 +41,8 @@ export default function HowItWorks() {
     <AppLayout>
       <SEOHead
         title="How It Works - WebInHours | Get Your Website in 24 Hours"
-        description="From template selection to launch in 24 hours. Our streamlined process eliminates weeks of waiting. Select, customize, deploy - your website live today."
-        keywords="how to get website in 24 hours, fast website process, same day website delivery, rapid web development, instant website launch"
+        description="From template selection to launch in 24 hours. Our streamlined process eliminates weeks of waiting. Select, customize, deploy - your website live today. Same-day delivery available."
+        keywords="how to get website in 24 hours, fast website process, same day website delivery, rapid web development, instant website launch, website in hours not weeks"
         canonicalUrl="https://webinhours.com/how-it-works"
       />
 
