@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bot, User, Headphones, ExternalLink, ArrowRight } from 'lucide-react';
+import { Bot, User, Headphones, Filter, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ReactMarkdown from 'react-markdown';
 import { useNavigate } from 'react-router-dom';
@@ -15,16 +15,20 @@ type ChatMessageProps = {
 // Parse special tags from AI responses
 const parseSpecialTags = (content: string) => {
   const textParts: Array<{ type: 'text' | 'navigate'; content: string; path?: string }> = [];
-  const websiteSuggestions: Array<{ id: string; name: string }> = [];
+  const websiteSuggestions: Array<{ id: string; name: string; category?: string }> = [];
   
-  // Extract website names and IDs - look for pattern like **name** or *name* before [VIEW:website:id]
+  // Extract website names, categories and IDs - look for pattern like **name (Category)** before [VIEW:website:id]
   const viewPattern = /\*{1,2}([^*]+)\*{1,2}[^[]*\[VIEW:website:([a-zA-Z0-9-]+)\]/g;
   let viewMatch;
   while ((viewMatch = viewPattern.exec(content)) !== null) {
-    const name = viewMatch[1].split('(')[0].trim(); // Remove category like "(Landing Page)"
+    const fullName = viewMatch[1].trim();
+    const categoryMatch = fullName.match(/\(([^)]+)\)/);
+    const category = categoryMatch ? categoryMatch[1].trim() : undefined;
+    const name = fullName.split('(')[0].trim();
     websiteSuggestions.push({
       id: viewMatch[2],
       name: name,
+      category: category,
     });
   }
   
@@ -76,8 +80,10 @@ const ChatMessage = ({ message, isUser, timestamp, isSupport }: ChatMessageProps
   const navigate = useNavigate();
   const { textParts, websiteSuggestions } = parseSpecialTags(message);
   
-  const handleViewWebsite = (id: string) => {
-    navigate(`/site/${id}`);
+  const handleFilterMarketplace = (site: { id: string; name: string; category?: string }) => {
+    // Navigate to marketplace with search filter based on template name
+    const searchParam = encodeURIComponent(site.name);
+    navigate(`/websites?search=${searchParam}`);
   };
   
   const handleNavigate = (path: string) => {
@@ -136,16 +142,17 @@ const ChatMessage = ({ message, isUser, timestamp, isSupport }: ChatMessageProps
           })}
         </div>
         
-        {/* Website Suggestions as Clickable Chips */}
+        {/* Website Suggestions as Clickable Filter Chips */}
         {websiteSuggestions.length > 0 && (
           <div className="flex flex-wrap gap-2 pt-2 border-t border-border/40">
+            <span className="text-xs text-muted-foreground w-full mb-1">Click to filter similar templates:</span>
             {websiteSuggestions.map((site, index) => (
               <button
                 key={index}
-                onClick={() => handleViewWebsite(site.id)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 hover:border-primary/40 transition-all duration-200 cursor-pointer"
+                onClick={() => handleFilterMarketplace(site)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 hover:border-primary/40 transition-all duration-200 cursor-pointer group"
               >
-                <ExternalLink className="h-3 w-3" />
+                <Filter className="h-3 w-3 group-hover:scale-110 transition-transform" />
                 {site.name}
               </button>
             ))}
