@@ -26,7 +26,7 @@ export const Footer = () => {
   };
 
   return (
-    <footer className={`py-12 px-4 border-t relative z-10 transition-all duration-[2000ms] ease-in-out ${isMobile && !mobileFooterVisible
+    <footer className={`py-12 px-4 border-t relative z-10 transition-all duration-2000 ease-in-out ${isMobile && !mobileFooterVisible
       ? 'bg-transparent backdrop-blur-none border-transparent'
       : isMobile
         ? 'bg-background/60 backdrop-blur-md border-border/20'

@@ -85,7 +85,7 @@ export function MobileResponsiveCard({ className }: { className?: string }) {
                     </div>
 
                     {/* Floating Glass Element (Layer 3 - Overlay) */}
-                    <div className="absolute -bottom-6 -left-8 w-24 h-24 bg-primary/10 backdrop-blur-md border border-white/10 rounded-lg shadow-glass z-30 flex items-center justify-center transform rotate-6 animate-pulse duration-[4000ms]">
+                    <div className="absolute -bottom-6 -left-8 w-24 h-24 bg-primary/10 backdrop-blur-md border border-white/10 rounded-lg shadow-glass z-30 flex items-center justify-center transform rotate-6 animate-pulse duration-4000">
                         <div className="text-[10px] font-mono text-primary font-bold">MOBILE_FIRST</div>
                     </div>
                 </div>

@@ -132,6 +132,10 @@ export default {
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
 			},
+			transitionDuration: {
+				'2000': '2000ms',
+				'4000': '4000ms'
+			},
 			skew: {
 				'20': '20deg'
 			},
