@@ -8,6 +8,22 @@ const corsHeaders = {
 
 const DAILY_LIMIT = 10;
 
+// Safe user-facing error messages
+const getSafeErrorMessage = (status: number): string => {
+  const errorMessages: Record<number, string> = {
+    400: 'Invalid request. Please check your input.',
+    401: 'Authentication required. Please sign in.',
+    403: 'Access denied.',
+    404: 'Resource not found.',
+    429: 'AI service rate limit exceeded. Please try again later.',
+    402: 'AI service credits exhausted. Please contact support.',
+    500: 'AI service temporarily unavailable. Please try again later.',
+    502: 'AI service temporarily unavailable. Please try again later.',
+    503: 'AI service temporarily unavailable. Please try again later.',
+  };
+  return errorMessages[status] || errorMessages[500];
+};
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -19,7 +35,11 @@ serve(async (req) => {
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
 
     if (!LOVABLE_API_KEY) {
-      throw new Error('LOVABLE_API_KEY is not configured');
+      console.error('[SERVER] LOVABLE_API_KEY is not configured');
+      return new Response(JSON.stringify({ error: 'AI service configuration error. Please contact support.' }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     const authHeader = req.headers.get('Authorization');
@@ -50,8 +70,11 @@ serve(async (req) => {
     );
 
     if (rateLimitError) {
-      console.error('Rate limit check error:', rateLimitError);
-      throw new Error('Failed to check rate limit');
+      console.error('[SERVER] Rate limit check error:', rateLimitError);
+      return new Response(JSON.stringify({ error: 'Service temporarily unavailable. Please try again.' }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     if (!canProceed) {
@@ -72,8 +95,16 @@ serve(async (req) => {
 
     const { message, conversationHistory = [] } = await req.json();
 
-    if (!message) {
+    if (!message || typeof message !== 'string') {
       return new Response(JSON.stringify({ error: 'Message is required' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Validate message length
+    if (message.length > 2000) {
+      return new Response(JSON.stringify({ error: 'Message is too long. Please keep it under 2000 characters.' }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
@@ -118,16 +149,16 @@ serve(async (req) => {
     };
 
     const userKeywords = expandKeywords(extractKeywords(message));
-    console.log('Extracted keywords:', userKeywords);
+    console.log('[SERVER] Extracted keywords:', userKeywords);
 
-    // Fetch ALL websites first
+    // Fetch ALL websites first (exclude user_id for privacy)
     const { data: allWebsites, error: websitesError } = await supabase
       .from('websites')
       .select('id, title, description, category, tags, price, preview_url, features')
       .in('status', ['approved', 'featured']);
 
     if (websitesError) {
-      console.error('Error fetching websites:', websitesError);
+      console.error('[SERVER] Error fetching websites:', websitesError);
     }
 
     // Score and filter websites by relevance
@@ -137,7 +168,6 @@ serve(async (req) => {
       const description = (website.description || '').toLowerCase();
       const category = (website.category || '').toLowerCase();
       const tags = (website.tags || []).map((t: string) => t.toLowerCase()).join(' ');
-      const searchable = `${title} ${description} ${category} ${tags}`;
       
       userKeywords.forEach(keyword => {
         if (title.includes(keyword)) score += 10;
@@ -162,16 +192,16 @@ serve(async (req) => {
     // If no matches found, show general selection
     const websites = relevantWebsites.length > 0 ? relevantWebsites : scoredWebsites.slice(0, 20);
     
-    console.log(`Found ${allWebsites?.length || 0} total websites, returning ${websites.length} relevant ones`);
+    console.log(`[SERVER] Found ${allWebsites?.length || 0} total websites, returning ${websites.length} relevant ones`);
 
-    // Fetch AI agents (similar approach)
+    // Fetch AI agents (similar approach - exclude user_id for privacy)
     const { data: allAgents, error: agentsError } = await supabase
       .from('ai_agents')
       .select('id, title, description, category, tags, price, preview_url, features, agent_type')
       .in('status', ['approved', 'featured']);
 
     if (agentsError) {
-      console.error('Error fetching AI agents:', agentsError);
+      console.error('[SERVER] Error fetching AI agents:', agentsError);
     }
 
     const scoreAgent = (agent: any): number => {
@@ -180,7 +210,6 @@ serve(async (req) => {
       const description = (agent.description || '').toLowerCase();
       const category = (agent.category || '').toLowerCase();
       const tags = (agent.tags || []).map((t: string) => t.toLowerCase()).join(' ');
-      const searchable = `${title} ${description} ${category} ${tags}`;
       
       userKeywords.forEach(keyword => {
         if (title.includes(keyword)) score += 10;
@@ -251,14 +280,14 @@ ${agentContext || 'No AI agents currently available.'}
     // Build messages for Lovable AI Gateway (OpenAI-compatible format)
     const messages = [
       { role: 'system', content: systemPrompt },
-      ...conversationHistory.map((msg: { role: string; content: string }) => ({
+      ...conversationHistory.slice(-10).map((msg: { role: string; content: string }) => ({
         role: msg.role === 'user' ? 'user' : 'assistant',
-        content: msg.content
+        content: msg.content.slice(0, 1000) // Limit history message length
       })),
       { role: 'user', content: message }
     ];
 
-    console.log('Calling Lovable AI Gateway...');
+    console.log('[SERVER] Calling Lovable AI Gateway...');
     
     const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
@@ -276,7 +305,7 @@ ${agentContext || 'No AI agents currently available.'}
 
     if (!aiResponse.ok) {
       const errorText = await aiResponse.text();
-      console.error('Lovable AI Gateway error:', aiResponse.status, errorText);
+      console.error('[SERVER] Lovable AI Gateway error:', aiResponse.status, errorText);
       
       if (aiResponse.status === 429) {
         return new Response(JSON.stringify({ 
@@ -296,11 +325,16 @@ ${agentContext || 'No AI agents currently available.'}
         });
       }
       
-      throw new Error(`AI Gateway error: ${aiResponse.status}`);
+      return new Response(JSON.stringify({ 
+        error: getSafeErrorMessage(aiResponse.status),
+      }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     const aiData = await aiResponse.json();
-    console.log('AI response received');
+    console.log('[SERVER] AI response received');
 
     const responseText = aiData.choices?.[0]?.message?.content || 
       'I apologize, but I could not generate a response. Please try again.';
@@ -320,9 +354,9 @@ ${agentContext || 'No AI agents currently available.'}
     });
 
   } catch (error) {
-    console.error('Error in gemini-assistant:', error);
+    console.error('[SERVER] Error in gemini-assistant:', error);
     return new Response(JSON.stringify({ 
-      error: error instanceof Error ? error.message : 'An unexpected error occurred' 
+      error: 'An error occurred processing your request. Please try again.' 
     }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
