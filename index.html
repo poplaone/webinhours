@@ -142,8 +142,13 @@
       rel="stylesheet">
   </noscript>
 
-  <!-- DNS prefetch for faster resource loading -->
+  <!-- Preconnect to critical external origins to reduce network chain latency -->
+  <link rel="preconnect" href="https://cdn.gpteng.co" crossorigin>
   <link rel="dns-prefetch" href="https://cdn.gpteng.co">
+  
+  <!-- Preload critical external font to eliminate chain dependency -->
+  <link rel="preload" as="font" type="font/woff2" 
+    href="https://cdn.gpteng.co/mcp-widgets/v1/fonts/CameraPlainVariable.woff2" crossorigin>
 
   <!-- Preload LCP (Largest Contentful Paint) critical hero images -->
   <link rel="preload" as="image" href="/assets/card-1.webp" fetchpriority="high">
@@ -158,8 +163,9 @@
   <link rel="modulepreload" href="/src/main.tsx" />
   <link rel="modulepreload" href="/src/App.tsx" />
 
-  <!-- Preconnect to external domains for faster resource loading -->
-  <link rel="preconnect" href="https://cdn.gpteng.co" crossorigin>
+  <!-- Preconnect to Google Tag Manager for analytics -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
   <!-- Google Consent Mode v2 - Full Implementation -->
   <script>
