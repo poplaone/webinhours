@@ -98,54 +98,56 @@ function App() {
                   <meta name="description" content="Get your professional website ready in 24 hours. Choose from our marketplace of premium templates or get a custom design." />
                 </Helmet>
                 <GridBackground className="min-h-screen text-foreground">
-                  <Suspense fallback={
-                    <div className="flex items-center justify-center min-h-screen">
-                      <div className="text-center">
-                        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                        <p className="text-foreground">Loading...</p>
+                  <main id="main-content" role="main">
+                    <Suspense fallback={
+                      <div className="flex items-center justify-center min-h-screen">
+                        <div className="text-center">
+                          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                          <p className="text-foreground">Loading...</p>
+                        </div>
                       </div>
-                    </div>
-                  }>
-                    <Routes>
-                      <Route path="/" element={<Index />} />
-                      <Route path="/about" element={<About />} />
-                      {/* Services route removed - now using homepage services section */}
-                      <Route path="/contact" element={<Contact />} />
-                      <Route path="/contact/confirmation" element={<ContactConfirmation />} />
-                      <Route path="/faq" element={<FAQ />} />
-                      <Route path="/how-it-works" element={<HowItWorks />} />
-                      <Route path="/pricing" element={<Pricing />} />
-                      <Route path="/privacy" element={<Privacy />} />
-                      <Route path="/terms" element={<Terms />} />
-                      <Route path="/auth" element={<Auth />} />
-                      <Route path="/websites" element={
-                        <ErrorBoundary>
-                          <Marketplace />
-                        </ErrorBoundary>
-                      } />
-                      {/* Redirect old /marketplace URL to /websites for backward compatibility */}
-                      <Route path="/marketplace" element={<Navigate to="/websites" replace />} />
-                      <Route path="/calculator" element={<Calculator />} />
-                      <Route path="/blog" element={<Blog />} />
-                      <Route path="/blog/:slug" element={<BlogPost />} />
-                      <Route path="/payment/success" element={<PaymentSuccess />} />
-                      <Route path="/payment/cancel" element={<PaymentCancel />} />
-                      <Route path="/site/:slugOrId" element={<SiteDetails />} />
-                      <Route path="/24-hour-website" element={<Landing24Hour />} />
-                      <Route path="/same-day-delivery" element={<LandingSameDay />} />
-                      <Route path="/profile" element={
-                        <ProtectedRoute>
-                          <Profile />
-                        </ProtectedRoute>
-                      } />
-                      <Route path="/admin-panel" element={
-                        <AdminRoute>
-                          <AdminPanel />
-                        </AdminRoute>
-                      } />
-                      <Route path="*" element={<NotFound />} />
-                    </Routes>
-                  </Suspense>
+                    }>
+                      <Routes>
+                        <Route path="/" element={<Index />} />
+                        <Route path="/about" element={<About />} />
+                        {/* Services route removed - now using homepage services section */}
+                        <Route path="/contact" element={<Contact />} />
+                        <Route path="/contact/confirmation" element={<ContactConfirmation />} />
+                        <Route path="/faq" element={<FAQ />} />
+                        <Route path="/how-it-works" element={<HowItWorks />} />
+                        <Route path="/pricing" element={<Pricing />} />
+                        <Route path="/privacy" element={<Privacy />} />
+                        <Route path="/terms" element={<Terms />} />
+                        <Route path="/auth" element={<Auth />} />
+                        <Route path="/websites" element={
+                          <ErrorBoundary>
+                            <Marketplace />
+                          </ErrorBoundary>
+                        } />
+                        {/* Redirect old /marketplace URL to /websites for backward compatibility */}
+                        <Route path="/marketplace" element={<Navigate to="/websites" replace />} />
+                        <Route path="/calculator" element={<Calculator />} />
+                        <Route path="/blog" element={<Blog />} />
+                        <Route path="/blog/:slug" element={<BlogPost />} />
+                        <Route path="/payment/success" element={<PaymentSuccess />} />
+                        <Route path="/payment/cancel" element={<PaymentCancel />} />
+                        <Route path="/site/:slugOrId" element={<SiteDetails />} />
+                        <Route path="/24-hour-website" element={<Landing24Hour />} />
+                        <Route path="/same-day-delivery" element={<LandingSameDay />} />
+                        <Route path="/profile" element={
+                          <ProtectedRoute>
+                            <Profile />
+                          </ProtectedRoute>
+                        } />
+                        <Route path="/admin-panel" element={
+                          <AdminRoute>
+                            <AdminPanel />
+                          </AdminRoute>
+                        } />
+                        <Route path="*" element={<NotFound />} />
+                      </Routes>
+                    </Suspense>
+                  </main>
                 </GridBackground>
                 <Toaster />
               </BrowserRouter>
