@@ -49,20 +49,55 @@ export default defineConfig(({ mode }) => ({
     outDir: 'dist',
     emptyOutDir: true,
     rollupOptions: {
-      // Prevent TDZ errors by ensuring proper module initialization
-      // preserveEntrySignatures: 'strict', // Removed to let Rollup optimize
       output: {
         manualChunks: (id) => {
-          // React core and vendor splitting
+          // React core - always needed
+          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
+            return 'react-vendor';
+          }
+          // React Router - needed for navigation
+          if (id.includes('react-router')) {
+            return 'react-router';
+          }
+          // Supabase - defer to when auth/data is needed
+          if (id.includes('@supabase')) {
+            return 'supabase';
+          }
+          // TanStack Query - defer
+          if (id.includes('@tanstack/react-query')) {
+            return 'query';
+          }
+          // Icons - large bundle, defer loading
+          if (id.includes('lucide-react') || id.includes('@tabler/icons')) {
+            return 'icons';
+          }
+          // Radix UI components - split for granular loading
+          if (id.includes('@radix-ui')) {
+            return 'radix-misc';
+          }
+          // Framer Motion - defer animations
+          if (id.includes('framer-motion')) {
+            return 'motion';
+          }
+          // GSAP - defer animations
+          if (id.includes('gsap')) {
+            return 'gsap';
+          }
+          // Form libraries
+          if (id.includes('react-hook-form') || id.includes('zod') || id.includes('@hookform')) {
+            return 'forms';
+          }
+          // Utility libraries - small, can be in main
+          if (id.includes('clsx') || id.includes('tailwind-merge') || id.includes('class-variance-authority')) {
+            return 'utilities';
+          }
+          // Charts
+          if (id.includes('recharts')) {
+            return 'charts';
+          }
+          // Other vendor code
           if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) {
-              return 'react-vendor';
-            }
-            if (id.includes('lucide-react') || id.includes('@radix-ui') || id.includes('clsx') || id.includes('tailwind-merge')) {
-              return 'ui-vendor';
-            }
-            // For other vendors, let them be part of a general vendor chunk or standard splitting
-            // return 'vendor'; 
+            return 'vendor-misc';
           }
         },
         // Optimize asset naming and enable CSS splitting
@@ -73,7 +108,7 @@ export default defineConfig(({ mode }) => ({
           if (assetInfo.name?.endsWith('.css')) {
             return 'assets/css/[name]-[hash].[ext]';
           }
-          // Ensure JS files go to js folder, not by extension
+          // Ensure JS files go to js folder
           if (assetInfo.name?.endsWith('.js')) {
             return 'assets/js/[name]-[hash].[ext]';
           }
