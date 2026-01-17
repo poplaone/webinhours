@@ -49,9 +49,13 @@ export default defineConfig(({ mode }) => ({
     outDir: 'dist',
     emptyOutDir: true,
     rollupOptions: {
+      // Preserve entry signatures to prevent TDZ errors from circular dependencies
+      preserveEntrySignatures: 'exports-only',
       output: {
+        // Ensure proper module initialization order
+        hoistTransitiveImports: false,
         manualChunks: (id) => {
-          // React core - always needed
+          // React core - always needed first
           if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
             return 'react-vendor';
           }
@@ -71,9 +75,9 @@ export default defineConfig(({ mode }) => ({
           if (id.includes('lucide-react') || id.includes('@tabler/icons')) {
             return 'icons';
           }
-          // Radix UI components - split for granular loading
+          // Radix UI components - keep together to avoid circular dep issues
           if (id.includes('@radix-ui')) {
-            return 'radix-misc';
+            return 'radix-ui';
           }
           // Framer Motion - defer animations
           if (id.includes('framer-motion')) {
@@ -83,32 +87,35 @@ export default defineConfig(({ mode }) => ({
           if (id.includes('gsap')) {
             return 'gsap';
           }
-          // Form libraries
+          // Form libraries - keep together
           if (id.includes('react-hook-form') || id.includes('zod') || id.includes('@hookform')) {
             return 'forms';
           }
-          // Utility libraries - small, can be in main
+          // Utility libraries - small, keep in utilities
           if (id.includes('clsx') || id.includes('tailwind-merge') || id.includes('class-variance-authority')) {
             return 'utilities';
           }
           // Charts
-          if (id.includes('recharts')) {
+          if (id.includes('recharts') || id.includes('d3')) {
             return 'charts';
           }
-          // Other vendor code
-          if (id.includes('node_modules')) {
-            return 'vendor-misc';
+          // Embla carousel
+          if (id.includes('embla')) {
+            return 'carousel';
           }
+          // Date utilities
+          if (id.includes('date-fns')) {
+            return 'date-utils';
+          }
+          // Let Rollup handle other vendor code naturally to avoid TDZ issues
         },
-        // Optimize asset naming and enable CSS splitting
+        // Optimize asset naming
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
         assetFileNames: (assetInfo) => {
-          // Split CSS files by chunk for better caching and loading
           if (assetInfo.name?.endsWith('.css')) {
             return 'assets/css/[name]-[hash].[ext]';
           }
-          // Ensure JS files go to js folder
           if (assetInfo.name?.endsWith('.js')) {
             return 'assets/js/[name]-[hash].[ext]';
           }
