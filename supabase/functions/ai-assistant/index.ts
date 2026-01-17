@@ -6,6 +6,21 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Safe user-facing error messages
+const getSafeErrorMessage = (status: number): string => {
+  const errorMessages: Record<number, string> = {
+    400: 'Invalid request. Please check your input.',
+    401: 'Authentication required. Please sign in.',
+    403: 'Access denied.',
+    404: 'Resource not found.',
+    429: 'Too many requests. Please try again in a few minutes.',
+    500: 'Service temporarily unavailable. Please try again later.',
+    502: 'Service temporarily unavailable. Please try again later.',
+    503: 'Service temporarily unavailable. Please try again later.',
+  };
+  return errorMessages[status] || errorMessages[500];
+};
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -15,9 +30,27 @@ serve(async (req) => {
     const startTime = Date.now();
     const { message, action, context } = await req.json();
     
+    // Validate input
+    if (!message || typeof message !== 'string') {
+      return new Response(JSON.stringify({ error: 'Message is required' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    if (message.length > 2000) {
+      return new Response(JSON.stringify({ error: 'Message is too long. Please keep it under 2000 characters.' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+    
     const authHeader = req.headers.get('Authorization');
     if (!authHeader) {
-      throw new Error('No authorization header');
+      return new Response(JSON.stringify({ error: 'Authentication required' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     const supabaseClient = createClient(
@@ -28,7 +61,10 @@ serve(async (req) => {
 
     const { data: { user }, error: userError } = await supabaseClient.auth.getUser();
     if (userError || !user) {
-      throw new Error('Unauthorized');
+      return new Response(JSON.stringify({ error: 'Invalid authentication' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     // Check rate limit
@@ -63,8 +99,15 @@ Always be helpful, professional, and concise. Include context from the user's hi
 
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     if (!LOVABLE_API_KEY) {
-      throw new Error('LOVABLE_API_KEY not configured');
+      console.error('[SERVER] LOVABLE_API_KEY not configured');
+      return new Response(JSON.stringify({ error: 'AI service configuration error. Please contact support.' }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
+
+    // Sanitize context to prevent injection
+    const sanitizedContext = context ? JSON.stringify(context).slice(0, 500) : '{}';
 
     // Call Lovable AI
     const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
@@ -77,15 +120,19 @@ Always be helpful, professional, and concise. Include context from the user's hi
         model: 'google/gemini-2.5-flash',
         messages: [
           { role: 'system', content: systemPrompt },
-          { role: 'user', content: `${message}\n\nContext: ${JSON.stringify(context || {})}` }
+          { role: 'user', content: `${message.slice(0, 2000)}\n\nContext: ${sanitizedContext}` }
         ],
       }),
     });
 
     if (!aiResponse.ok) {
       const errorText = await aiResponse.text();
-      console.error('AI API error:', aiResponse.status, errorText);
-      throw new Error(`AI API error: ${aiResponse.status}`);
+      console.error('[SERVER] AI API error:', aiResponse.status, errorText);
+      
+      return new Response(JSON.stringify({ error: getSafeErrorMessage(aiResponse.status) }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     const aiData = await aiResponse.json();
@@ -101,24 +148,30 @@ Always be helpful, professional, and concise. Include context from the user's hi
       parsedDecision = { action: 'assist', response: aiDecision };
     }
 
-    // Log audit entry
+    // Log audit entry (optional - may not have this table)
     const auditLogEntry = {
       user_id: user.id,
       action_type: action || 'read_data',
-      input_data: { message, context },
+      input_data: { message: message.slice(0, 500), context: sanitizedContext },
       ai_decision: parsedDecision,
       status: 'pending',
       execution_time_ms: Date.now() - startTime,
     };
 
-    const { data: auditLog, error: auditError } = await supabaseClient
-      .from('ai_audit_logs')
-      .insert(auditLogEntry)
-      .select()
-      .single();
-
-    if (auditError) {
-      console.error('Audit log error:', auditError);
+    let auditLog = null;
+    try {
+      const { data, error: auditError } = await supabaseClient
+        .from('ai_audit_logs')
+        .insert(auditLogEntry)
+        .select()
+        .single();
+      
+      if (!auditError) {
+        auditLog = data;
+      }
+    } catch {
+      // Audit log table may not exist, continue without it
+      console.log('[SERVER] Audit logging skipped (table may not exist)');
     }
 
     // Execute action based on AI decision
@@ -127,14 +180,22 @@ Always be helpful, professional, and concise. Include context from the user's hi
 
     try {
       if (parsedDecision.action === 'create_ticket') {
+        // Validate ticket data
+        const title = parsedDecision.title?.slice(0, 200) || 'Support Request';
+        const description = parsedDecision.description?.slice(0, 2000) || '';
+        const priority = ['high', 'medium', 'low'].includes(parsedDecision.priority) 
+          ? parsedDecision.priority 
+          : 'medium';
+        const category = parsedDecision.category?.slice(0, 50) || 'general';
+
         const { data: ticket, error: ticketError } = await supabaseClient
           .from('support_tickets')
           .insert({
             user_id: user.id,
-            title: parsedDecision.title,
-            description: parsedDecision.description,
-            priority: parsedDecision.priority || 'medium',
-            category: parsedDecision.category,
+            title,
+            description,
+            priority,
+            category,
             ai_generated: true,
           })
           .select()
@@ -156,7 +217,8 @@ Always be helpful, professional, and concise. Include context from the user's hi
           .eq('id', auditLog.id);
       }
     } catch (error) {
-      executionError = error instanceof Error ? error.message : 'Unknown error';
+      executionError = 'Failed to execute action. Please try again.';
+      console.error('[SERVER] Execution error:', error);
       
       // Update audit log with failure
       if (auditLog) {
@@ -176,15 +238,14 @@ Always be helpful, professional, and concise. Include context from the user's hi
         decision: parsedDecision,
         result: executionResult,
         error: executionError,
-        auditLogId: auditLog?.id,
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
 
   } catch (error) {
-    console.error('Error in ai-assistant function:', error);
+    console.error('[SERVER] Error in ai-assistant function:', error);
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
+      JSON.stringify({ error: 'An error occurred processing your request. Please try again.' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }
