@@ -1,22 +1,31 @@
-# Cache static assets with versioned hashes for 1 year and set correct MIME types
-# These files have content hashes in their names, so they can be cached indefinitely
+# Lovable Cloud Static Asset Caching Headers
+# Apply 1-year immutable caching for hashed static assets
+
+# JavaScript assets with content hashes - cache for 1 year
 /assets/js/*
   Cache-Control: public, max-age=31536000, immutable
   Content-Type: text/javascript; charset=utf-8
-  
+
+# CSS assets with content hashes - cache for 1 year  
 /assets/css/*
   Cache-Control: public, max-age=31536000, immutable
   Content-Type: text/css; charset=utf-8
 
-# Cache images for 30 days
-/assets/images/*
-  Cache-Control: public, max-age=2592000
-
-# Cache fonts for 1 year
-/assets/fonts/*
+# All assets folder - catch-all for hashed files
+/assets/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Cache other image formats for 30 days  
+# Font files - cache for 1 year
+*.woff
+  Cache-Control: public, max-age=31536000, immutable
+*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+*.ttf
+  Cache-Control: public, max-age=31536000, immutable
+*.eot
+  Cache-Control: public, max-age=31536000, immutable
+
+# Image files - cache for 30 days
 *.png
   Cache-Control: public, max-age=2592000
 *.jpg
@@ -29,21 +38,26 @@
   Cache-Control: public, max-age=2592000
 *.webp
   Cache-Control: public, max-age=2592000
+*.ico
+  Cache-Control: public, max-age=2592000
 
-# Cache fonts for 1 year
-*.woff
-  Cache-Control: public, max-age=31536000, immutable
-*.woff2
-  Cache-Control: public, max-age=31536000, immutable
-*.ttf
-  Cache-Control: public, max-age=31536000, immutable
-*.eot
-  Cache-Control: public, max-age=31536000, immutable
+# Manifest and service worker
+/manifest.json
+  Cache-Control: public, max-age=86400, must-revalidate
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
 
-# HTML pages - revalidate but allow short cache
+# HTML pages - short cache with revalidation
 /*.html
   Cache-Control: public, max-age=3600, must-revalidate
-
-# Root path - short cache with revalidation
 /
   Cache-Control: public, max-age=3600, must-revalidate
+/index.html
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# Security headers for all responses
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
