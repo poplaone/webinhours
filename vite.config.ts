@@ -143,15 +143,9 @@ export default defineConfig(({ mode }) => ({
       'class-variance-authority'
     ],
   },
-  // Optimize CSS - inline critical CSS, split the rest
+  // Optimize CSS
   css: {
     devSourcemap: mode === 'development',
-    preprocessorOptions: {
-      css: {
-        // Ensure CSS is processed efficiently
-        charset: false
-      }
-    }
   },
   // Optimize preview server
   preview: {
