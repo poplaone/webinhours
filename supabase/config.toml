@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.live-support-notification]
 verify_jwt = true
+
+[functions.error-reporting]
+verify_jwt = false
