@@ -1,8 +1,5 @@
 project_id = "dcsnxieqnpcjqqiajtvh"
 
-[functions.ai-assistant]
-verify_jwt = true
-
 [functions.send-contact-email]
 verify_jwt = false
 
@@ -11,9 +8,6 @@ verify_jwt = false
 
 [functions.dodo-webhook]
 verify_jwt = false
-
-[functions.gemini-assistant]
-verify_jwt = true
 
 [functions.live-support-notification]
 verify_jwt = true
