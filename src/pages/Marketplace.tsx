@@ -6,14 +6,16 @@ import { GridPattern } from '@/components/ui/GridPattern';
 import { useWebsites } from '@/hooks/useWebsites';
 import { Tables } from '@/integrations/supabase/types';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { Headphones, ChevronDown, ChevronUp } from 'lucide-react';
 import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { useSearchParams } from 'react-router-dom';
 
 // Lazy load heavy components
 const MarketplaceFilters = lazy(() => import('@/components/marketplace/MarketplaceFilters').then(m => ({ default: m.MarketplaceFilters })));
 const TemplateGrid = lazy(() => import('@/components/dashboard/TemplateGrid').then(m => ({ default: m.TemplateGrid })));
 const MarketplaceCTA = lazy(() => import('@/components/marketplace/MarketplaceCTA').then(m => ({ default: m.MarketplaceCTA })));
+const LiveChatSupport = lazy(() => import('@/components/dashboard/LiveChatSupport').then(m => ({ default: m.LiveChatSupport })));
 
 interface Category {
   id: string;
@@ -282,58 +284,97 @@ const Marketplace: React.FC = () => {
                 </button>
                 <Collapsible open={isMobileFiltersOpen} onOpenChange={setIsMobileFiltersOpen}>
                   <CollapsibleContent className="px-3 pb-3">
-                    <Suspense fallback={<div className="h-32 bg-muted/10 animate-pulse rounded" />}>
-                      <MarketplaceFilters
-                        searchTerm={searchTerm}
-                        setSearchTerm={setSearchTerm}
-                        selectedCategory={selectedCategory}
-                        setSelectedCategory={setSelectedCategory}
-                        sortBy={sortBy}
-                        setSortBy={setSortBy}
-                        categories={categories}
-                        tagFilter={tagFilter}
-                        onClearFilters={clearAllFilters}
-                      />
-                    </Suspense>
+                    <Tabs defaultValue="search">
+                      <TabsList className="w-full grid grid-cols-2">
+                        <TabsTrigger value="search">Search</TabsTrigger>
+                        <TabsTrigger value="support">Live Support</TabsTrigger>
+                      </TabsList>
+                      <TabsContent value="search" className="mt-3">
+                        <Suspense fallback={<div className="h-32 bg-muted/10 animate-pulse rounded" />}>
+                          <MarketplaceFilters
+                            searchTerm={searchTerm}
+                            setSearchTerm={setSearchTerm}
+                            selectedCategory={selectedCategory}
+                            setSelectedCategory={setSelectedCategory}
+                            sortBy={sortBy}
+                            setSortBy={setSortBy}
+                            categories={categories}
+                            tagFilter={tagFilter}
+                            onClearFilters={clearAllFilters}
+                          />
+                        </Suspense>
+                      </TabsContent>
+                      <TabsContent value="support" className="mt-3">
+                        <div className="rounded-lg border bg-card p-3">
+                          <div className="flex items-center gap-2 mb-2 text-sm font-medium">
+                            <Headphones className="h-4 w-4 text-green-500" />
+                            Live Support
+                          </div>
+                          <div className="max-h-[60vh] overflow-y-auto">
+                            <Suspense fallback={<div className="h-40 bg-muted/10 animate-pulse rounded" />}>
+                              <LiveChatSupport />
+                            </Suspense>
+                          </div>
+                        </div>
+                      </TabsContent>
+                    </Tabs>
                   </CollapsibleContent>
                 </Collapsible>
               </div>
             </div>
           )}
           
-          {/* Main Content - Full width now without AI sidebar */}
-          <div className="flex-1 min-w-0 relative">
-            <div className="absolute inset-0" />
-            {isMobile ? (
-              <div className="relative z-10 p-1">
-                <TemplateGrid
-                  templates={sortedItems as Website[]}
-                  isLoading={isLoading}
-                  onRefresh={handleRefresh}
-                  onTagFilter={handleTagFilter}
-                />
-                <MarketplaceCTA />
-              </div>
-            ) : (
+          <div className="flex gap-4 xl:gap-6 items-start flex-1">
+            {/* Left Sidebar - Live Chat Support */}
+            <div className="hidden xl:block w-[320px] shrink-0">
               <div
-                ref={mainContentRef}
-                className="relative z-10 p-1 overflow-y-auto"
+                className="sticky"
                 style={{
-                  height: 'calc(100dvh - var(--filters-sticky-offset, 140px))',
-                  overscrollBehavior: 'contain'
+                  // @ts-ignore CSS var
+                  top: 'var(--filters-sticky-offset, 140px)',
+                  height: 'calc(100dvh - var(--filters-sticky-offset, 140px))'
                 }}
               >
-                <div>
+                <Suspense fallback={<div className="h-96 bg-muted/10 animate-pulse rounded-lg" />}>
+                  <LiveChatSupport />
+                </Suspense>
+              </div>
+            </div>
+            
+            {/* Main Content */}
+            <div className="flex-1 min-w-0 relative">
+              <div className="absolute inset-0" />
+              {isMobile ? (
+                <div className="relative z-10 p-1">
                   <TemplateGrid
                     templates={sortedItems as Website[]}
                     isLoading={isLoading}
                     onRefresh={handleRefresh}
                     onTagFilter={handleTagFilter}
                   />
+                  <MarketplaceCTA />
                 </div>
-                <MarketplaceCTA />
-              </div>
-            )}
+              ) : (
+                <div
+                  ref={mainContentRef}
+                  className="relative z-10 p-1 overflow-y-auto"
+                  style={{
+                    height: 'calc(100dvh - var(--filters-sticky-offset, 140px))',
+                    overscrollBehavior: 'contain'
+                  }}
+                >
+                  <div>
+                    <TemplateGrid
+                      templates={sortedItems as Website[]}
+                      isLoading={isLoading}
+                      onRefresh={handleRefresh}
+                      onTagFilter={handleTagFilter}
+                    />
+                  </div>
+                  <MarketplaceCTA />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
