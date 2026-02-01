@@ -1,6 +1,6 @@
 // Service Worker for aggressive caching and lightning-fast performance
 // IMPORTANT: Bump this version whenever you deploy critical fixes
-const CACHE_VERSION = 'v8'; // Force cache refresh for all users
+const CACHE_VERSION = 'v9'; // Force cache refresh for all users
 
 // Listen for skip waiting message from the app
 self.addEventListener('message', (event) => {
