@@ -12,6 +12,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 import { preloadCriticalResources, optimizeRenderPerformance } from "@/utils/performanceOptimizer";
 import { usePageTracking } from "@/hooks/usePageTracking";
+import { SWUpdatePrompt } from "@/components/ui/sw-update-prompt";
 
 // Lazy load all pages including Index for optimal code splitting
 const Index = lazy(() => import("./pages/Index"));
@@ -152,6 +153,7 @@ function App() {
                 <Toaster />
               </BrowserRouter>
             </TooltipProvider>
+            <SWUpdatePrompt />
           </ThemeProvider>
         </QueryClientProvider>
       </HelmetProvider>

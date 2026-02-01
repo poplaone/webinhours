@@ -1,6 +1,13 @@
 // Service Worker for aggressive caching and lightning-fast performance
 // IMPORTANT: Bump this version whenever you deploy critical fixes
-const CACHE_VERSION = 'v7'; // Force cache refresh for all users
+const CACHE_VERSION = 'v8'; // Force cache refresh for all users
+
+// Listen for skip waiting message from the app
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
 const CACHE_NAME = `webinhours-${CACHE_VERSION}`;
 const STATIC_CACHE = `webinhours-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `webinhours-runtime-${CACHE_VERSION}`;
