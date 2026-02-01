@@ -55,8 +55,13 @@ export default defineConfig(({ mode }) => ({
         // Ensure proper module initialization order
         hoistTransitiveImports: false,
         manualChunks: (id) => {
-          // React core - always needed first
-          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
+          // React core + Radix UI bundled together to prevent TDZ errors
+          // Radix depends on React.forwardRef, so they must be in same chunk
+          if (
+            id.includes('node_modules/react/') || 
+            id.includes('node_modules/react-dom/') ||
+            id.includes('@radix-ui')
+          ) {
             return 'react-vendor';
           }
           // React Router - needed for navigation
@@ -74,10 +79,6 @@ export default defineConfig(({ mode }) => ({
           // Icons - large bundle, defer loading
           if (id.includes('lucide-react') || id.includes('@tabler/icons')) {
             return 'icons';
-          }
-          // Radix UI components - keep together to avoid circular dep issues
-          if (id.includes('@radix-ui')) {
-            return 'radix-ui';
           }
           // Framer Motion - defer animations
           if (id.includes('framer-motion')) {
