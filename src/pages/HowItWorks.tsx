@@ -13,27 +13,21 @@ export default function HowItWorks() {
   const steps = [
     {
       icon: Search,
-      title: "Select Your Architecture",
-      description: "Don't start from zero. Choose from our library of enterprise-grade architectures, pre-optimized for SEO, performance, and conversion.",
-      details: ["Strategic Industry Frameworks", "AI-Driven Recommendations", "Live Component Previews", "Tech Stack Transparency"]
+      title: "1. Choose Your Foundation",
+      description: "Don't start from a blank screen. Browse our collection of professional, mobile-ready templates designed for your specific industry.",
+      details: ["Industry-Specific Layouts", "Mobile-First Design", "SEO-Ready Structure", "Live Previews"]
     },
     {
       icon: Code,
-      title: "Intelligent Customization",
-      description: "Tailor the core to your brand's DNA. Whether it's a simple reskin or a complex logic overhaul, our platform adapts to your needs.",
-      details: ["Modular Component Logic", "Direct Source Code Access", "Automated Asset Optimization", "Responsive Design Engine"]
-    },
-    {
-      icon: MessageCircle,
-      title: "Rapid Iteration",
-      description: "Collaborate directly with creators or our internal experts. Refine, test, and polish your digital asset in real-time.",
-      details: ["Agile Feedback Loops", "Version Control Integration", "Staging Environments", "Expert Code Review"]
+      title: "2. Customize to Your Brand",
+      description: "Make it yours. Whether you do it yourself or have our experts handle it, we'll seamlessly integrate your logo, colors, and content.",
+      details: ["Custom Color Palettes", "Typography Matching", "Content Integration", "Layout Adjustments"]
     },
     {
       icon: Rocket,
-      title: "Instant Deployment",
-      description: "Launch globally with a single click. Our infrastructure ensures your site delivers peak performance from the very first second.",
-      details: ["Global CDN Distribution", "Automatic SSL Provisioning", "GEO & SEO Pre-Configuration", "Post-Launch Analytics"]
+      title: "3. Launch & Grow",
+      description: "Go live with confidence. We deploy your site on ultra-fast, secure hosting so you can start attracting customers immediately.",
+      details: ["Lightning-Fast Hosting", "Free SSL Setup", "Custom Domain Connection", "Post-Launch Support"]
     }
   ];
 

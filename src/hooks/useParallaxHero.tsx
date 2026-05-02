@@ -8,6 +8,10 @@ export const useParallaxHero = () => {
   const rafId = useRef<number>();
 
   useEffect(() => {
+    // Skip parallax entirely on touch/mobile devices — no mouse to track
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 1024;
+    if (isTouchDevice) return;
+
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.current = e.clientX;
       mouseY.current = e.clientY;

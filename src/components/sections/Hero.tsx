@@ -94,8 +94,8 @@ export const Hero = ({ headline, description }: HeroProps) => {
               >
                 {headline || (
                   <>
-                    Professional Website in 24 Hours <br className="hidden md:block" />
-                    <span className="text-foreground">SEO & GEO Optimized</span>
+                    Your New Professional Website. <br className="hidden md:block" />
+                    <span className="text-foreground">Live in Just 24 Hours.</span>
                   </>
                 )}
               </h1>
@@ -105,18 +105,18 @@ export const Hero = ({ headline, description }: HeroProps) => {
                 <div className="text-sm xl:text-lg leading-relaxed font-medium">
                   {description || (
                     <>
-                      The fastest way to launch high-conversion websites optimized for AI Search. Access{' '}
+                      Launch a high-converting website without the typical weeks of waiting. We combine{' '}
                       <button onClick={() => navigate('/websites')} className="text-primary hover:text-primary/80 transition-colors font-semibold underline decoration-2 underline-offset-4">
-                        professional custom design
+                        professional design
                       </button>
-                      , Generative Engine Optimization (GEO), and{' '}
+                      , built-in search optimization, and{' '}
                       <button onClick={() => {
                         const servicesSection = document.getElementById('premium-marketplace');
                         servicesSection?.scrollIntoView({ behavior: 'smooth' });
                       }} className="text-primary hover:text-primary/80 transition-colors font-semibold underline decoration-2 underline-offset-4">
-                        premium digital solutions
+                        premium branding
                       </button>
-                      {' '}in one ecosystem.
+                      {' '}to get you online and growing, today.
                     </>
                   )}
                 </div>
@@ -131,7 +131,7 @@ export const Hero = ({ headline, description }: HeroProps) => {
                 className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground text-base sm:text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-medium"
                 aria-label="Browse free website templates"
               >
-                <span className="bg-gradient-to-r from-white via-white to-white/70 bg-clip-text text-transparent font-medium">Get Free Website</span>
+                <span className="bg-gradient-to-r from-white via-white to-white/70 bg-clip-text text-transparent font-medium">Get Your Free Website Now</span>
                 <ArrowRight className="ml-2 h-5 w-5 text-white" aria-hidden="true" />
               </Button>
 

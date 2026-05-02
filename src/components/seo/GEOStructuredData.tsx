@@ -42,7 +42,7 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
     "contactPoint": [
       {
         "@type": "ContactPoint",
-        "telephone": "+1-415-555-0123", // Placeholder replaced with a valid format example, ideally user provides real number
+        "telephone": "+917560032111", // Placeholder replaced with a valid format example, ideally user provides real number
         "contactType": "customer service",
         "email": "support@webinhours.com",
         "availableLanguage": ["English"],
@@ -51,7 +51,7 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
       },
       {
         "@type": "ContactPoint",
-        "telephone": "+1-415-555-0123",
+        "telephone": "+917560032111",
         "contactType": "sales",
         "email": "sales@webinhours.com",
         "availableLanguage": ["English"]
@@ -63,11 +63,7 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
       "addressRegion": "CA",
       "addressCountry": "US"
     },
-    "sameAs": [
-      "https://twitter.com/webinhours",
-      "https://linkedin.com/company/webinhours",
-      "https://github.com/webinhours"
-    ],
+    "sameAs": [],
     "knowsAbout": [
       "24-Hour Website Development",
       "Same Day Website Builder",
@@ -152,7 +148,7 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
           },
           "price": "299",
           "priceCurrency": "USD",
-          "priceValidUntil": "2025-12-31",
+          "priceValidUntil": "2026-12-31",
           "description": "Same-day website delivery with custom branding, SEO optimization, and mobile-responsive design"
         },
         {
@@ -163,7 +159,7 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
           },
           "price": "199",
           "priceCurrency": "USD",
-          "priceValidUntil": "2025-12-31",
+          "priceValidUntil": "2026-12-31",
           "description": "Professional copywriting, blog articles, product descriptions"
         }
       ]

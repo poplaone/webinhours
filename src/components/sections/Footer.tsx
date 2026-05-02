@@ -41,7 +41,7 @@ export const Footer = () => {
               <span className="font-bold text-xl">WebInHour</span>
             </Link>
             <p className="text-muted-foreground">
-              Professional web development services delivered with speed and precision.
+              We build professional, fast-loading, and high-converting websites so you can focus on growing your business.
             </p>
           </div>
           <div>
@@ -114,7 +114,7 @@ export const Footer = () => {
             <ul className="space-y-2 text-muted-foreground">
               <li>
                 <a
-                  href="https://linkedin.com"
+                  href="#"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-foreground transition-colors"
@@ -124,7 +124,7 @@ export const Footer = () => {
               </li>
               <li>
                 <a
-                  href="https://twitter.com"
+                  href="#"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-foreground transition-colors"
@@ -134,7 +134,7 @@ export const Footer = () => {
               </li>
               <li>
                 <a
-                  href="https://github.com"
+                  href="#"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-foreground transition-colors"

@@ -15,15 +15,15 @@ export default function FAQ() {
       questions: [
         {
           question: "Can I really get a website in 24 hours?",
-          answer: "Yes! WebInHours specializes in rapid website delivery. Most custom websites are delivered within 24 hours of receiving your content. Our streamlined process eliminates weeks of waiting."
+          answer: "Absolutely. Once we have your logo and content, our team gets to work immediately. By combining powerful templates with expert development, we skip the usual weeks of waiting and deliver a polished site within a day."
         },
         {
-          question: "What if I need my website urgently today?",
-          answer: "We offer same-day website delivery for urgent needs. Contact us and we'll prioritize your project. Many clients go from first contact to live website in just a few hours."
+          question: "What if I need my website live today?",
+          answer: "We've got you covered. We offer a rush same-day delivery option. Just let us know it's urgent when you contact us, and we'll fast-track your build so you're online before the day is over."
         },
         {
-          question: "How does same-day website delivery work?",
-          answer: "Choose a template, provide your content (logo, text, images), and our team works immediately to customize and deploy your site. Rush delivery ensures you're online the same day."
+          question: "How exactly does the 24-hour process work?",
+          answer: "It's straightforward: You pick a design foundation you like and send us your text and images. Our team then customizes the colors, fonts, and layout to match your brand, and we deploy the finished site for you to review."
         }
       ]
     },
@@ -31,29 +31,16 @@ export default function FAQ() {
       category: "General",
       questions: [
         {
-          question: "Can I really get a website in 24 hours?",
-          answer: "Yes! For most standard projects using our templates, we can have your fully functional, professional website live within 24 hours of receiving your content. We prioritize speed without compromising quality."
+          question: "Is the free template tier actually free?",
+          answer: "Yes, 100% free. You can browse and download from our library of 500+ professional templates at no cost. You only pay if you want our experts to customize the design, write your content, or handle the technical setup for you."
         },
         {
-          question: "What if I need my website urgently?",
-          answer: "We specialize in urgent website delivery. Our workflow is optimized for speed. Choose our 'Rush Delivery' or 'Same Day' service options when contacting us, and we'll fast-track your project."
+          question: "Do I own my website?",
+          answer: "Yes! Unlike some subscription builders that lock you in, you get full ownership of your website code. You're free to host it anywhere and modify it however you want."
         },
         {
-          question: "Is the free website really free?",
-          answer: "Yes, our free website tier is 100% free with no hidden costs. You get access to 500+ professional templates, mobile optimization, SEO-ready structure, and free SSL certificate. Premium services like custom branding and content creation are optional upgrades."
-        },
-        {
-          question: "How does same-day website delivery work?",
-          answer: "It's simple: 1. Select a template. 2. Send us your text and images. 3. Our team builds and deploys your site immediately. We use automation and efficient processes to ensure same-day delivery for qualified projects."
-        },
-        {
-          question: "What is WebInHours?",
-          answer: "WebInHours is the fastest way to get a professional website. We deliver websites in 24 hours, not weeks. Choose from 500+ free templates or get custom development with same-day delivery options."
-
-        },
-        {
-          question: "Do I own my website after purchase?",
-          answer: "Yes, you get full ownership and commercial rights to your website. You can modify, host, and use it however you want."
+          question: "What if I don't know how to write website copy?",
+          answer: "No problem. We offer an add-on Content Creation service where our professional copywriters will craft compelling, search-optimized text for your entire site."
         }
       ]
     },

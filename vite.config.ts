@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { componentTagger } from "lovable-tagger";
 import { visualizer } from "rollup-plugin-visualizer";
 
 // https://vitejs.dev/config/
@@ -16,13 +15,12 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    mode === 'development' && componentTagger(),
-    visualizer({
-      template: "treemap", // or sunburst
+    mode === 'analyze' && visualizer({
+      template: "treemap",
       open: true,
       gzipSize: true,
       brotliSize: true,
-      filename: "analyse.html", // will be saved in project's root
+      filename: "analyse.html",
     }),
   ].filter(Boolean),
   resolve: {

@@ -7,6 +7,7 @@ import SEOHead from '@/components/seo/SEOHead';
 import GEOStructuredData from '@/components/seo/GEOStructuredData';
 import FAQSchema from '@/components/seo/FAQSchema';
 import { GridPattern } from '@/components/ui/GridPattern';
+import { SkeletonSection, SkeletonCards } from '@/components/ui/SkeletonLoaders';
 
 // Lazy load heavy components to improve initial page load
 
@@ -43,18 +44,18 @@ const Index = () => {
         <Hero />
 
         {/* Marketplace Preview */}
-        <Suspense fallback={<div className="h-32 bg-card/20 animate-pulse rounded-lg mx-4 my-2 md:my-8" />}>
+        <Suspense fallback={<SkeletonCards count={3} />}>
           <MarketplacePreview />
         </Suspense>
 
         {/* Services Section */}
         {/* Services Section */}
-        <Suspense fallback={<div className="h-96 bg-card/20 animate-pulse rounded-lg mx-4 my-2 md:my-8" />}>
+        <Suspense fallback={<SkeletonCards count={6} />}>
           <Services />
         </Suspense>
 
         {/* Features - Lazy loaded */}
-        <Suspense fallback={<div className="h-64 bg-card/20 animate-pulse rounded-lg mx-4 my-2 md:my-8" />}>
+        <Suspense fallback={<SkeletonSection heightClass="h-96" />}>
           <Features />
         </Suspense>
 
@@ -62,14 +63,14 @@ const Index = () => {
 
         {/* Premium Marketplace Services */}
         <div id="premium-marketplace">
-          <Suspense fallback={<div className="h-[600px] bg-card/20 animate-pulse mx-4 my-2 md:my-8" />}>
+          <Suspense fallback={<SkeletonSection heightClass="h-[600px]" />}>
             <PremiumMarketplaceServices />
           </Suspense>
         </div>
 
         {/* Testimonials Marquee Section */}
         <div id="testimonials-marquee-section">
-          <Suspense fallback={<div className="h-64 bg-card/20 animate-pulse mx-4 my-2 md:my-8" />}>
+          <Suspense fallback={<SkeletonSection heightClass="h-64" />}>
             <TestimonialsSection
               title="What Our Clients Say"
               description="Join hundreds of satisfied businesses who transformed their online presence with WebInHours"
@@ -77,50 +78,50 @@ const Index = () => {
                 {
                   author: {
                     name: "Sarah Chen",
-                    handle: "",
+                    handle: "@sarah_events",
                     avatar: ""
                   },
-                  text: "WebInHours transformed our online presence in just 24 hours. The quality exceeded our expectations, and our conversion rates increased by 40% within the first month."
+                  text: "I needed a website fast for an upcoming event, and these guys actually delivered it the same day. It doesn't look like a cheap template either—it's super clean and exactly what I asked for."
                 },
                 {
                   author: {
                     name: "Michael Rodriguez",
-                    handle: "",
+                    handle: "@mrodriguez_plumbing",
                     avatar: ""
                   },
-                  text: "As a startup founder, time is money. WebInHours delivered a professional website faster than I thought possible. The SEO optimization was already built-in, saving us thousands."
+                  text: "As a small business owner, I don't have time to wait weeks for a web designer. WebInHours got my plumbing business online over the weekend, and my phone has been ringing ever since."
                 },
                 {
                   author: {
                     name: "Emily Watson",
-                    handle: "",
+                    handle: "@emilyw_consulting",
                     avatar: ""
                   },
-                  text: "The template quality is outstanding. Our customers love the new design, and mobile sales have doubled since launching our WebInHours site."
+                  text: "I grabbed one of their templates for my consulting gig. It was so easy to plug in my info, and it looks incredibly professional on my phone."
                 },
                 {
                   author: {
                     name: "David Park",
-                    handle: "",
+                    handle: "@dpark_tech",
                     avatar: ""
                   },
-                  text: "I was skeptical about a 24-hour turnaround, but the results speak for themselves. Clean code, beautiful design, and excellent performance scores."
+                  text: "Honestly, I was skeptical about the 24-hour promise. But they really did it. The team was responsive, friendly, and the final site looks fantastic."
                 },
                 {
                   author: {
                     name: "Jessica Thompson",
-                    handle: "",
+                    handle: "@jessicas_bakery",
                     avatar: ""
                   },
-                  text: "Getting a free professional website was a game-changer for my bakery. The premium branding upgrade was worth every penny. Highly recommend!"
+                  text: "Getting a free website to start my bakery was a lifesaver. Once we grew, upgrading for the premium branding was a no-brainer. The process was completely painless."
                 },
                 {
                   author: {
                     name: "James Anderson",
-                    handle: "",
+                    handle: "@janderson_logistics",
                     avatar: ""
                   },
-                  text: "Enterprise-grade security and blazing fast performance. Our compliance team was impressed with the security features built into the WebInHours platform."
+                  text: "No hidden fees, no drawn-out meetings. Just a solid, fast website that ranks well. They actually listen to what you need and get it done."
                 }
               ]}
             />

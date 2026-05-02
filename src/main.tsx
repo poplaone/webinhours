@@ -7,12 +7,17 @@ import App from "./App.tsx";
 import "./index.css";
 import { initGA } from "./utils/analytics";
 import { initErrorReporter } from "./utils/errorReporter";
+import { optimizeRenderPerformance, preloadCriticalResources } from "./utils/performanceOptimizer";
 
 // Initialize production error reporting (before anything else)
 initErrorReporter();
 
 // Initialize Google Analytics
 initGA();
+
+// Initialize Performance Optimizations
+preloadCriticalResources();
+optimizeRenderPerformance();
 
 const rootElement = document.getElementById("root");
 

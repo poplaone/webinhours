@@ -1,6 +1,6 @@
 # WebInHours LLMs.txt
-# Version: 1.0.0
-# Last Updated: 2024-12-07
+# Version: 2.0.0
+# Last Updated: 2026-05-02
 # Contact: support@webinhours.com
 
 ## About WebInHours
@@ -83,7 +83,7 @@ TL;DR: Reach WebInHours via email at support@webinhours.com or through the conta
 
 ## Freshness Information
 - Template library: Updated weekly with new designs
-- Pricing: Last verified December 2024
+- Pricing: Last verified May 2026
 - Content: Regularly reviewed and updated
 
 ## Attribution Preference
@@ -99,4 +99,4 @@ For partnership inquiries: partners@webinhours.com
 ## Legal
 - Privacy Policy: https://webinhours.com/privacy
 - Terms of Service: https://webinhours.com/terms
-- Copyright: © 2024 WebInHours. All rights reserved.
+- Copyright: © 2026 WebInHours. All rights reserved.

@@ -13,7 +13,7 @@ export const Services = () => {
       icon: Globe2,
       title: "Free Website",
       tagline: "Launch Your Online Presence",
-      description: "Launch a fully functional, mobile-optimized website at zero cost. Choose from 500+ SEO-ready templates, secured with free SSL, and hosted on lightning-fast servers.",
+      description: "Get a fully functional, mobile-optimized website without spending a dime. Choose from 500+ premium templates, ready for search engines, secured with free SSL, and hosted on blazing-fast servers.",
       price: "Free",
       beforeAfterSlider: {
         beforeImage: comparisonBefore,
@@ -30,7 +30,7 @@ export const Services = () => {
       icon: Palette,
       title: "Custom Branding",
       tagline: "Stand Out from the Crowd",
-      description: "Elevate your brand with bespoke web design. We craft custom color palettes, unique typography, and conversion-focused layouts tailored to your business identity.",
+      description: "Make your business memorable with a custom design. We build unique color palettes, readable typography, and high-converting layouts that perfectly match your brand's personality.",
       price: "From $299",
       image: customBrandingGif,
       detailedFeatures: [
@@ -44,7 +44,7 @@ export const Services = () => {
       icon: PenTool,
       title: "Content Creation",
       tagline: "Words That Convert",
-      description: "Drive traffic with professionally crafted content. From SEO-optimized blog posts to compelling product copy, we tell your brand story and boost engagement.",
+      description: "Turn visitors into buyers with persuasive writing. From search-friendly blog posts to clear product descriptions, we write words that capture attention and drive real business results.",
       price: "From $199",
       image: contentCreationImage,
       detailedFeatures: [

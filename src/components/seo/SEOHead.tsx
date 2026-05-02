@@ -69,7 +69,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
           "foundingDate": "2023",
           "contactPoint": {
             "@type": "ContactPoint",
-            "telephone": "+1-555-123-4567",
+            "telephone": "+917560032111",
             "contactType": "customer service",
             "email": "support@webinhours.com",
             "availableLanguage": "English"
@@ -78,10 +78,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
             "@type": "PostalAddress",
             "addressCountry": "US"
           },
-          "sameAs": [
-            "https://twitter.com/webinhours",
-            "https://linkedin.com/company/webinhours"
-          ],
+          "sameAs": [],
           "knowsAbout": [
             "24 Hour Website Development",
             "Same Day Website Design",

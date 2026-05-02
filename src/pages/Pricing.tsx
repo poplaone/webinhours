@@ -35,7 +35,7 @@ export default function Pricing() {
       icon: Zap,
       price: "Free",
       period: "forever",
-      description: "Perfect for DIYers and developers",
+      description: "Perfect if you want to build it yourself",
       features: [
         "Professional template access",
         "Instant code download",
@@ -54,7 +54,7 @@ export default function Pricing() {
       icon: Star,
       price: "$299",
       period: "project",
-      description: "Ideal for businesses needing quick customization",
+      description: "Get a professional website launched within 24 hours",
       features: [
         "Template customization",
         "2-24 hour delivery",
@@ -74,7 +74,7 @@ export default function Pricing() {
       icon: Crown,
       price: "$599",
       period: "project",
-      description: "For businesses requiring fully custom solutions",
+      description: "A completely custom build tailored to your exact needs",
       features: [
         "100% custom design",
         "Advanced functionality",
@@ -211,11 +211,11 @@ export default function Pricing() {
           {/* Premium Digital Solutions Section */}
           <div className="mb-24 text-center">
             <div className="p-8 rounded-2xl bg-gradient-to-br from-purple-900/10 to-blue-900/10 border border-purple-500/20 backdrop-blur-sm">
-              <Badge variant="outline" className="mb-4 border-purple-500/50 text-purple-600">Ecosystem Services</Badge>
-              <h2 className="text-3xl md:text-5xl font-bold mb-6">Premium Digital Solutions</h2>
+              <Badge variant="outline" className="mb-4 border-purple-500/50 text-purple-600">Growth Services</Badge>
+              <h2 className="text-3xl md:text-5xl font-bold mb-6">Take Your Brand Further</h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-                Access our vetted ecosystem of enterprise-grade services.
-                From reputation defense to exclusive digital asset acquisition.
+                Beyond just a website, we offer elite services to grow your digital presence. 
+                From verifying your social media accounts to acquiring rare usernames.
               </p>
 
               <PremiumServicesModal>
@@ -235,25 +235,25 @@ export default function Pricing() {
             <CardContent>
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <h4 className="font-semibold mb-2 text-gray-900">How does the Custom Lite plan work?</h4>
+                  <h4 className="font-semibold mb-2 text-gray-900">How does the 24-hour turnaround work?</h4>
                   <p className="text-sm text-gray-600 mb-6 leading-relaxed">
-                    You choose a template foundation, and our team customizes it to your brand identity (colors, logo, content) within 24 hours. It's the fastest way to get a professional site live.
+                    With our Custom Lite plan, you pick a layout, give us your logo and text, and we do the heavy lifting. We'll customize the colors, typography, and structure, handing you a ready-to-launch site within 24 hours.
                   </p>
 
-                  <h4 className="font-semibold mb-2 text-gray-900">Is hosting included?</h4>
+                  <h4 className="font-semibold mb-2 text-gray-900">Do I have to pay for hosting?</h4>
                   <p className="text-sm text-gray-600 mb-6 leading-relaxed">
-                    We provide the deployment files. You can host anywhere (Vercel, Netlify, standard hosting), or we can set up hosting for you as part of the service.
+                    Nope! The code we write can be hosted for free on platforms like Vercel or Netlify. If you don't know how to set that up, don't worry—we'll handle the technical deployment for you.
                   </p>
                 </div>
                 <div>
-                  <h4 className="font-semibold mb-2 text-gray-900">What is "Custom Pro"?</h4>
+                  <h4 className="font-semibold mb-2 text-gray-900">Do I need my own domain name?</h4>
                   <p className="text-sm text-gray-600 mb-6 leading-relaxed">
-                    This is for unique requirements. We build features from scratch, integrate databases, set up complex forms, and provide deep SEO optimization tailored to your niche.
+                    You'll need to purchase your own domain name (like www.yourbusiness.com) from a registrar like GoDaddy or Namecheap. Once you have it, we'll help you connect it to your new website.
                   </p>
 
-                  <h4 className="font-semibold mb-2 text-gray-900">How do I pay?</h4>
+                  <h4 className="font-semibold mb-2 text-gray-900">What if I need ongoing changes?</h4>
                   <p className="text-sm text-gray-600 mb-6 leading-relaxed">
-                    Since we tailor every project to your needs, we invoice directly. Contact us to discuss your requirements and we'll send a secure payment link.
+                    Our paid plans include a support period (7 to 30 days) for tweaks. After that, we offer affordable maintenance packages if you want us to keep managing updates for you.
                   </p>
                 </div>
               </div>

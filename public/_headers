@@ -1,4 +1,4 @@
-# Lovable Cloud Static Asset Caching Headers
+# WebInHours Static Asset Caching Headers
 # Apply 1-year immutable caching for hashed static assets
 
 # JavaScript assets with content hashes - cache for 1 year
@@ -60,6 +60,9 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Content-Security-Policy: frame-ancestors 'self' https://lovable.app https://*.lovable.app
+  Content-Security-Policy: frame-ancestors 'self'
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  X-Frame-Options: SAMEORIGIN
+  X-XSS-Protection: 1; mode=block
+  Cross-Origin-Opener-Policy: same-origin
 

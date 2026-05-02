@@ -23,8 +23,8 @@ export default function About() {
               of Digital Presence.
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed font-light">
-              We've dismantled the barriers between idea and execution.
-              <span className="text-foreground font-medium"> WebInHour</span> is the world's first unified ecosystem where professional-grade deployment meets limitless scalability.
+              We've removed the technical headaches between your idea and a live website.
+              <span className="text-foreground font-medium"> WebInHour</span> gives you the tools, templates, and talent to launch fast and scale without limits.
             </p>
           </div>
 
@@ -32,9 +32,9 @@ export default function About() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-24">
             {[
               { icon: Clock, value: "24h", label: "Max Deployment Time", color: "text-purple-600" },
-              { icon: Globe, value: "500+", label: "Active Ecosystem Nodes", color: "text-blue-600" },
+              { icon: Globe, value: "500+", label: "Premium Templates", color: "text-blue-600" },
               { icon: Trophy, value: "99.9%", label: "Client Success Rate", color: "text-yellow-600" },
-              { icon: Zap, value: "100+", label: "Enterprise Templates", color: "text-green-600" }
+              { icon: Zap, value: "100+", label: "Expert Developers", color: "text-green-600" }
             ].map((stat, idx) => (
               <Card key={idx} className="text-center bg-white/5 backdrop-blur-md border-border/50 hover:border-primary/20 transition-all duration-300 group">
                 <CardContent className="pt-8 pb-8">
@@ -54,16 +54,16 @@ export default function About() {
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight">The Paradigm Shift</h2>
               <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
                 <p>
-                  For too long, businesses faced a binary choice: wait months for expensive agencies or settle for generic, unscalable DIY builders. To us, this was a fundamental market failure.
+                  For too long, businesses faced a frustrating choice: wait months and pay thousands for an agency, or spend hours fighting with generic DIY website builders that look cheap.
                 </p>
                 <p>
-                  <strong className="text-foreground">We built the third option.</strong>
+                  <strong className="text-foreground">We built the better way.</strong>
                 </p>
                 <p>
-                  WebInHour was engineered to democratize access to enterprise-grade web technology. By leveraging AI-driven optimization and a curated marketplace of expert developers, we deliver custom, high-performance digital assets in a fraction of the time.
+                  WebInHour gives you access to agency-quality web design without the agency timeline. By combining smart automation with a curated network of elite developers, we deliver custom, high-performing websites in a fraction of the time.
                 </p>
                 <p>
-                  We aren't just building websites; we're accelerating the speed of digital commerce.
+                  We don't just build websites; we build the engine for your online growth.
                 </p>
               </div>
             </div>
@@ -153,9 +153,9 @@ export default function About() {
                   <div className="bg-purple-500/10 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 transform hover:rotate-6 transition-transform">
                     <Zap className="h-10 w-10 text-purple-600" />
                   </div>
-                  <h3 className="font-bold text-lg mb-3">AI-Native Optimization</h3>
+                  <h3 className="font-bold text-lg mb-3">Built for Modern Search</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">
-                    Proprietary Generative Engine Optimization (GEO) ensures your site ranks not just on Search, but in AI answers.
+                    Our platform ensures your website is instantly readable by traditional search engines and modern AI assistants.
                   </p>
                 </div>
                 <div className="text-center px-4">

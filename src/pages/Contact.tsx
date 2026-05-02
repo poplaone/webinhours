@@ -165,11 +165,28 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Strip HTML/script tags from user input
+    const sanitize = (str: string) => str.replace(/<[^>]*>/g, '').trim();
+
+    const cleanName = sanitize(formData.name);
+    const cleanEmail = sanitize(formData.email);
+    const cleanDetails = sanitize(formData.otherDetails);
+    const cleanCustomService = sanitize(formData.customService);
+
     // Validation
-    if (!formData.name.trim() || !formData.email.trim()) {
+    if (!cleanName || !cleanEmail) {
       toast({
         title: "Required Fields",
         description: "Please enter your name and email.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!emailRegex.test(cleanEmail)) {
+      toast({
+        title: "Invalid Email",
+        description: "Please enter a valid email address.",
         variant: "destructive",
       });
       return;
@@ -194,8 +211,8 @@ export default function Contact() {
 📋 LEAD INQUIRY SUMMARY
 ━━━━━━━━━━━━━━━━━━━━━━
 
-👤 Contact: ${formData.name}
-📧 Email: ${formData.email}
+👤 Contact: ${cleanName}
+📧 Email: ${cleanEmail}
 
 🎯 Services Interested:
 ${formData.services.map(id => `   • ${getServiceLabel(id)}`).join('\n')}
@@ -203,7 +220,7 @@ ${formData.services.map(id => `   • ${getServiceLabel(id)}`).join('\n')}
 💰 Budget Range: ${selectedBudget}
 ⏰ Timeline: ${selectedTimeline}
 
-${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` : ''}
+${cleanDetails ? `📝 Additional Details:\n${cleanDetails}` : ''}
 ━━━━━━━━━━━━━━━━━━━━━━
     `.trim();
 
@@ -212,8 +229,8 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
     try {
       const { error } = await supabase.functions.invoke('send-contact-email', {
         body: {
-          name: formData.name,
-          email: formData.email,
+          name: cleanName,
+          email: cleanEmail,
           subject: `New Lead: ${selectedServices}`,
           message: compiledMessage,
           type: 'lead-capture',
@@ -221,14 +238,14 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
           budget: formData.budget,
           timeline: formData.timeline,
           services: formData.services,
-          customService: formData.customService,
+          customService: cleanCustomService,
         }
       });
 
       if (error) throw error;
 
       trackFormSubmission('contact_form', true);
-      navigate(`/contact/confirmation?name=${encodeURIComponent(formData.name)}&email=${encodeURIComponent(formData.email)}&type=lead`);
+      navigate(`/contact/confirmation?name=${encodeURIComponent(cleanName)}&email=${encodeURIComponent(cleanEmail)}&type=lead`);
     } catch (error) {
       console.error("Error sending message:", error);
       trackFormSubmission('contact_form', false);
@@ -260,9 +277,9 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="text-center mb-10">
-            <h1 className="text-3xl lg:text-4xl font-bold mb-4">Start Your Project</h1>
+            <h1 className="text-3xl lg:text-4xl font-bold mb-4">Let's Build Something Great Together</h1>
             <p className="text-lg text-muted-foreground">
-              Tell us about your needs and we'll help you get started.
+              Tell us a bit about your business, and we'll help you find the perfect solution to grow online.
             </p>
           </div>
 
@@ -294,8 +311,8 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
                 {step === 1 && (
                   <div className="space-y-6">
                     <div>
-                      <h2 className="text-lg font-semibold text-foreground mb-1">Select Services</h2>
-                      <p className="text-sm text-muted-foreground mb-4">Choose all that apply to your project.</p>
+                      <h2 className="text-lg font-semibold text-foreground mb-1">How can we help?</h2>
+                      <p className="text-sm text-muted-foreground mb-4">Select the services you're interested in.</p>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {serviceOptions.filter(s => s.id !== 'other').map((service) => (
@@ -338,7 +355,7 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
                               Premium Digital Solutions
                             </h3>
                             <p className="text-sm text-muted-foreground max-w-xl">
-                              Access our vetted ecosystem of enterprise-grade services. From reputation defense to exclusive digital asset acquisition.
+                              Looking for something more advanced? Access our exclusive network of enterprise services, from custom applications to advanced digital marketing.
                             </p>
                           </div>
                           <PremiumServicesModal>
@@ -388,8 +405,8 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
                 {step === 2 && (
                   <div className="space-y-8">
                     <div>
-                      <h2 className="text-lg font-semibold text-foreground mb-1">Project Details</h2>
-                      <p className="text-sm text-muted-foreground mb-4">Help us understand your scope.</p>
+                      <h2 className="text-lg font-semibold text-foreground mb-1">Project Scope</h2>
+                      <p className="text-sm text-muted-foreground mb-4">Help us understand your budget and timeline.</p>
 
                       <div className="space-y-6">
                         <div>
@@ -428,8 +445,8 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
                 {step === 3 && (
                   <div className="space-y-6">
                     <div>
-                      <h2 className="text-lg font-semibold text-foreground mb-1">Your Information</h2>
-                      <p className="text-sm text-muted-foreground mb-4">Where should we send the plan?</p>
+                      <h2 className="text-lg font-semibold text-foreground mb-1">Tell us about you</h2>
+                      <p className="text-sm text-muted-foreground mb-4">Where should we send your personalized plan?</p>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div className="space-y-2">
@@ -570,7 +587,7 @@ ${formData.otherDetails ? `📝 Additional Details:\n${formData.otherDetails}` :
                 <span className="flex items-center gap-2 text-sm font-semibold text-foreground">
                   <Phone className="w-4 h-4" /> Call Us
                 </span>
-                <span className="text-sm text-muted-foreground">+1 (555) 123-4567</span>
+                <span className="text-sm text-muted-foreground">+91 756 003 2111</span>
               </div>
               <div className="flex flex-col items-center md:items-start gap-1">
                 <span className="flex items-center gap-2 text-sm font-semibold text-foreground">

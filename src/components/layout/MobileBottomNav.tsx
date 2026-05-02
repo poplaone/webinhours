@@ -77,10 +77,12 @@ const MobileBottomNav = () => {
 
   return (
     <>
-      <div className={`fixed bottom-2 left-2 right-2 sm:bottom-3 sm:left-4 sm:right-4 rounded-xl sm:rounded-2xl border shadow-xl z-50 lg:hidden safe-area-pb transition-all duration-700 ease-in-out ${isVisible
+      <div className={`fixed bottom-0 left-0 right-0 sm:bottom-3 sm:left-4 sm:right-4 sm:rounded-2xl border shadow-xl z-50 lg:hidden transition-all duration-700 ease-in-out ${isVisible
         ? 'bg-background/90 backdrop-blur-md border-border/30'
         : 'bg-transparent backdrop-blur-none border-transparent translate-y-full'
-        }`}>
+        }`}
+        style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+      >
         <div className="flex items-center justify-around py-2 sm:py-3 px-1.5 sm:px-4">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -91,7 +93,7 @@ const MobileBottomNav = () => {
                 key={item.label}
                 variant="ghost"
                 size="sm"
-                className={`flex flex-col items-center justify-center rounded-lg h-12 sm:h-14 px-2 sm:px-4 touch-manipulation gap-0.5 ${isActive
+                className={`flex flex-col items-center justify-center rounded-lg min-h-[44px] sm:min-h-[56px] min-w-[44px] px-2 sm:px-4 touch-manipulation gap-0.5 ${isActive
                   ? "text-[#8B5CF6] bg-[#8B5CF6]/20"
                   : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
                   } transition-all duration-200`}
@@ -110,7 +112,7 @@ const MobileBottomNav = () => {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className={`flex flex-col items-center justify-center rounded-lg h-12 sm:h-14 px-2 sm:px-4 touch-manipulation gap-0.5 ${location.pathname.includes('/profile')
+                  className={`flex flex-col items-center justify-center rounded-lg min-h-[44px] sm:min-h-[56px] min-w-[44px] px-2 sm:px-4 touch-manipulation gap-0.5 ${location.pathname.includes('/profile')
                     ? "text-[#8B5CF6] bg-[#8B5CF6]/20"
                     : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
                     } transition-all duration-200`}
@@ -157,7 +159,7 @@ const MobileBottomNav = () => {
             <Button
               variant="ghost"
               size="sm"
-              className={`flex flex-col items-center justify-center rounded-lg h-12 sm:h-14 px-2 sm:px-4 touch-manipulation gap-0.5 ${location.pathname === '/auth'
+              className={`flex flex-col items-center justify-center rounded-lg min-h-[44px] sm:min-h-[56px] min-w-[44px] px-2 sm:px-4 touch-manipulation gap-0.5 ${location.pathname === '/auth'
                 ? "text-[#8B5CF6] bg-[#8B5CF6]/20"
                 : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
                 } transition-all duration-200`}
