@@ -6,11 +6,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, Download, Mail, ArrowRight, Home, ArrowLeft, FileText } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { toast } from 'sonner';
+import { useToast } from '@/hooks/use-toast';
 
 export default function PaymentSuccess() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { toast } = useToast();
   
   const sessionId = searchParams.get('session_id');
   const productId = searchParams.get('product_id');
@@ -93,7 +94,10 @@ Website: https://webinhour.com/contact
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
     
-    toast.success('Invoice downloaded successfully!');
+    toast({
+      title: 'Invoice Downloaded',
+      description: 'Invoice downloaded successfully!',
+    });
   };
 
   return (
