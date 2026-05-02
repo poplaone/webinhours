@@ -41,9 +41,9 @@ const serviceOptions = [
 // Budget options
 const budgetOptions = [
   { id: 'free', label: 'Free Tier', description: 'Basic features included' },
-  { id: 'starter', label: '$500 - $2,000', description: 'Small business solutions' },
-  { id: 'growth', label: '$2,000 - $5,000', description: 'Growing business needs' },
-  { id: 'enterprise', label: '$5,000+', description: 'Enterprise solutions' },
+  { id: 'starter', label: '$250 - $1,000', description: 'Small business solutions' },
+  { id: 'growth', label: '$1,000 - $3,000', description: 'Growing business needs' },
+  { id: 'enterprise', label: '$3,000+', description: 'Enterprise solutions' },
   { id: 'not-sure', label: 'Not Sure Yet', description: 'Need consultation' },
 ];
 
