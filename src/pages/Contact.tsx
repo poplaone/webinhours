@@ -14,6 +14,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { trackFormSubmission } from '@/utils/analytics';
 import { cn } from '@/lib/utils';
 import { PremiumServicesModal } from '@/components/modals/PremiumServicesModal';
+import { useAuth } from '@/hooks/useAuth';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -96,6 +97,7 @@ export default function Contact() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { user } = useAuth();
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -134,6 +136,23 @@ export default function Contact() {
     
     setValidationErrors(errors);
   }, [formData.name, formData.email, touched]);
+
+  // Smart auto-fill from signed-in user
+  const [autoFilled, setAutoFilled] = useState(false);
+  useEffect(() => {
+    if (user && !autoFilled) {
+      const userName = user.user_metadata?.full_name || user.user_metadata?.name || '';
+      const userEmail = user.email || '';
+      if (userName || userEmail) {
+        setFormData(prev => ({
+          ...prev,
+          name: prev.name || userName,
+          email: prev.email || userEmail,
+        }));
+        setAutoFilled(true);
+      }
+    }
+  }, [user, autoFilled]);
 
   // Pre-select service from URL parameter
   useEffect(() => {
@@ -487,8 +506,11 @@ ${cleanDetails ? `📝 Additional Details:\n${cleanDetails}` : ''}
                             onBlur={() => setTouched(prev => ({ ...prev, name: true }))}
                             placeholder="John Doe"
                             required
-                            className={cn("bg-background", validationErrors.name && touched.name && "border-destructive focus-visible:ring-destructive")}
+                            className={cn("bg-background", validationErrors.name && touched.name && "border-destructive focus-visible:ring-destructive", autoFilled && formData.name && "border-green-500/50")}
                           />
+                          {autoFilled && formData.name && (
+                            <p className="text-xs text-green-600 flex items-center gap-1"><Check className="w-3 h-3" /> Auto-filled from your account</p>
+                          )}
                           {validationErrors.name && touched.name && (
                             <p className="text-xs text-destructive flex items-center gap-1">
                               <AlertCircle className="w-3 h-3" />
@@ -506,8 +528,11 @@ ${cleanDetails ? `📝 Additional Details:\n${cleanDetails}` : ''}
                             onBlur={() => setTouched(prev => ({ ...prev, email: true }))}
                             placeholder="john@company.com"
                             required
-                            className={cn("bg-background", validationErrors.email && touched.email && "border-destructive focus-visible:ring-destructive")}
+                            className={cn("bg-background", validationErrors.email && touched.email && "border-destructive focus-visible:ring-destructive", autoFilled && formData.email && "border-green-500/50")}
                           />
+                          {autoFilled && formData.email && (
+                            <p className="text-xs text-green-600 flex items-center gap-1"><Check className="w-3 h-3" /> Auto-filled from your account</p>
+                          )}
                           {validationErrors.email && touched.email && (
                             <p className="text-xs text-destructive flex items-center gap-1">
                               <AlertCircle className="w-3 h-3" />
@@ -581,22 +606,31 @@ ${cleanDetails ? `📝 Additional Details:\n${cleanDetails}` : ''}
                       Continue
                     </Button>
                   ) : (
-                    <Button
-                      type="button"
-                      onClick={() => {
-                        // Mark fields as touched for validation
-                        setTouched({ name: true, email: true });
-                        // Check if valid before showing modal
-                        if (formData.name.trim() && formData.email.trim() && emailRegex.test(formData.email)) {
-                          setShowConfirmModal(true);
-                        }
-                      }}
-                      disabled={!canProceed() || isSubmitting || !!validationErrors.name || !!validationErrors.email}
-                      className="min-w-[140px]"
-                    >
-                      <Send className="w-4 h-4 mr-2" />
-                      Review & Submit
-                    </Button>
+                    <div className="relative group/submit">
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          // Mark fields as touched for validation
+                          setTouched({ name: true, email: true });
+                          // Check if valid before showing modal
+                          if (formData.name.trim() && formData.email.trim() && emailRegex.test(formData.email)) {
+                            setShowConfirmModal(true);
+                          }
+                        }}
+                        disabled={!canProceed() || isSubmitting || !!validationErrors.name || !!validationErrors.email}
+                        className="min-w-[140px]"
+                      >
+                        <Send className="w-4 h-4 mr-2" />
+                        Review & Submit
+                      </Button>
+                      {(!formData.name.trim() || !formData.email.trim()) && (
+                        <div className="absolute bottom-full mb-2 right-0 w-56 px-3 py-2 rounded-lg bg-foreground text-background text-xs font-medium opacity-0 group-hover/submit:opacity-100 transition-opacity duration-200 pointer-events-none shadow-lg z-10">
+                          <AlertCircle className="w-3 h-3 inline mr-1" />
+                          Please fill in your name and email to submit
+                          <div className="absolute top-full right-6 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-foreground" />
+                        </div>
+                      )}
+                    </div>
                   )}
                 </div>
               </form>

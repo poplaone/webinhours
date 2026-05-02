@@ -10,9 +10,12 @@ import { useNavigate } from 'react-router-dom';
 import { PremiumServicesModal } from '@/components/modals/PremiumServicesModal';
 import { cn } from '@/lib/utils';
 import { PricingCard } from '@/components/ui/PricingCard';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function Pricing() {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const userName = user?.user_metadata?.full_name || user?.user_metadata?.name || '';
 
   const handleContactForPlan = (planName: string, price: string, features: string[]) => {
     const params = new URLSearchParams({
@@ -191,7 +194,11 @@ export default function Pricing() {
               </span>
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Launch with free templates. Upgrade when you need professional customization.
+              {user ? (
+                <>Hey <span className="font-semibold text-primary">{userName || 'there'}</span>! Launch with free templates. Upgrade when you need professional customization.</>
+              ) : (
+                <>Launch with free templates. Upgrade when you need professional customization.</>
+              )}
             </p>
           </div>
 

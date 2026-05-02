@@ -115,7 +115,7 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    const siteUrl = Deno.env.get("SITE_URL") || "https://webinhours.com";
+    const siteUrl = Deno.env.get("SITE_URL") || "https://webinhour.com";
 
     const adminHtml = `
       <!DOCTYPE html>
@@ -156,7 +156,7 @@ const handler = async (req: Request): Promise<Response> => {
               <a href="${siteUrl}/admin/live-support">Respond Now</a>
             </div>
             <div class="footer">
-              <p>This notification was sent from WebInHours Live Support</p>
+              <p>This notification was sent from WebInHour Live Support</p>
             </div>
           </div>
         </body>
@@ -164,7 +164,7 @@ const handler = async (req: Request): Promise<Response> => {
     `;
 
     const emailResponse = await resend.emails.send({
-      from: "WebInHours Support <team@webinhour.com>",
+      from: "WebInHour Support <team@webinhour.com>",
       to: [adminEmail],
       subject: `🔴 Live Support: New message from ${sanitizedUserName}`,
       html: adminHtml,

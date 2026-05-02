@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Gift, CheckCircle, ArrowRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -6,9 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import { leadCaptureSchema } from "@/utils/formValidation";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from '@/hooks/useAuth';
 
 interface LeadCaptureFormProps {
   variant?: 'popup' | 'inline' | 'sidebar';
@@ -31,6 +33,20 @@ export const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
+
+  // Smart auto-fill from signed-in user
+  useEffect(() => {
+    if (user) {
+      const userName = user.user_metadata?.full_name || user.user_metadata?.name || '';
+      const userEmail = user.email || '';
+      setFormData(prev => ({
+        ...prev,
+        name: prev.name || userName,
+        email: prev.email || userEmail,
+      }));
+    }
+  }, [user]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -164,14 +180,27 @@ export const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
               className="bg-background/50"
             />
             
-            <Button 
-              type="submit"
-              size="lg"
-              className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED] text-lg py-3 transition-all duration-300 hover:scale-105 group"
-            >
-              Get My Free Strategy Session
-              <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="w-full">
+                    <Button 
+                      type="submit"
+                      size="lg"
+                      className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED] text-lg py-3 transition-all duration-300 hover:scale-105 group"
+                    >
+                      Get My Free Strategy Session
+                      <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                    </Button>
+                  </div>
+                </TooltipTrigger>
+                {!user && (
+                  <TooltipContent>
+                    <p>Please enter your name and email to continue.</p>
+                  </TooltipContent>
+                )}
+              </Tooltip>
+            </TooltipProvider>
           </form>
 
           <p className="text-xs text-muted-foreground text-center mt-4">
