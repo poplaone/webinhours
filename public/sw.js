@@ -8,9 +8,9 @@ self.addEventListener('message', (event) => {
     self.skipWaiting();
   }
 });
-const CACHE_NAME = `webinhours-${CACHE_VERSION}`;
-const STATIC_CACHE = `webinhours-static-${CACHE_VERSION}`;
-const RUNTIME_CACHE = `webinhours-runtime-${CACHE_VERSION}`;
+const CACHE_NAME = `webinhour-${CACHE_VERSION}`;
+const STATIC_CACHE = `webinhour-static-${CACHE_VERSION}`;
+const RUNTIME_CACHE = `webinhour-runtime-${CACHE_VERSION}`;
 
 // Cache expiration times (in milliseconds)
 const CACHE_MAX_AGE = {
@@ -46,7 +46,7 @@ self.addEventListener('activate', (event) => {
         return Promise.all(
           cacheNames
             .filter((cacheName) => {
-              return cacheName.startsWith('webinhours-') && 
+              return cacheName.startsWith('webinhour-') && 
                      cacheName !== CACHE_NAME && 
                      cacheName !== STATIC_CACHE &&
                      cacheName !== RUNTIME_CACHE;

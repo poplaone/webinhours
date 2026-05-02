@@ -86,7 +86,7 @@ export default function LandingSameDay() {
                 title="Same Day Website Delivery | Emergency Web Design Service"
                 description="Need a website right now? Our Same Day Rush service delivers professional, fully customized websites by the end of the day. Urgent service available."
                 keywords="same day website, emergency web design, rush website delivery, urgent website builder, fast turned website, website tonight"
-                canonicalUrl="https://webinhours.com/same-day-delivery"
+                canonicalUrl="https://WebInHour.com/same-day-delivery"
             />
 
             {/* Urgency-Focused Hero */}

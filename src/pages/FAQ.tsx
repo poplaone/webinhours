@@ -58,10 +58,10 @@ export default function FAQ() {
   return (
     <AppLayout>
       <SEOHead
-        title="FAQ - WebInHours | 24-Hour Website Questions Answered"
+        title="FAQ - WebInHour | 24-Hour Website Questions Answered"
         description="Answers to common questions about getting your website in 24 hours, same-day delivery options, free templates, and our fast development process. Learn how we build websites in hours, not weeks."
-        keywords="24 hour website FAQ, same day website questions, fast website delivery FAQ, urgent website design help, WebInHours questions, website in 24 hours"
-        canonicalUrl="https://webinhours.com/faq"
+        keywords="24 hour website FAQ, same day website questions, fast website delivery FAQ, urgent website design help, WebInHour questions, website in 24 hours"
+        canonicalUrl="https://WebInHour.com/faq"
       />
 
       {/* GEO-Optimized FAQ Schema */}

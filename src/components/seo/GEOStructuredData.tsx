@@ -25,26 +25,26 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "@id": "https://webinhours.com/#organization",
-    "name": "WebInHours",
+    "@id": "https://WebInHour.com/#organization",
+    "name": "WebInHour",
     "alternateName": ["Web In Hours", "WebInHour"],
-    "url": "https://webinhours.com",
+    "url": "https://WebInHour.com",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://webinhours.com/logo.png",
+      "url": "https://WebInHour.com/logo.png",
       "width": 512,
       "height": 512
     },
     "description": "The fastest web development service delivering professional websites in 24 hours or less. Same-day website builder with SEO & GEO optimization for AI search engines.",
     "foundingDate": "2023",
     "slogan": "Your Website in 24 Hours - Not Weeks",
-    "email": "support@webinhours.com",
+    "email": "support@WebInHour.com",
     "contactPoint": [
       {
         "@type": "ContactPoint",
         "telephone": "+917560032111", // Placeholder replaced with a valid format example, ideally user provides real number
         "contactType": "customer service",
-        "email": "support@webinhours.com",
+        "email": "support@WebInHour.com",
         "availableLanguage": ["English"],
         "contactOption": "TollFree",
         "areaServed": ["US", "GB", "CA", "AU", "AE"]
@@ -53,7 +53,7 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
         "@type": "ContactPoint",
         "telephone": "+917560032111",
         "contactType": "sales",
-        "email": "sales@webinhours.com",
+        "email": "sales@WebInHour.com",
         "availableLanguage": ["English"]
       }
     ],
@@ -90,18 +90,18 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "@id": "https://webinhours.com/#website",
-    "url": "https://webinhours.com",
-    "name": "WebInHours",
+    "@id": "https://WebInHour.com/#website",
+    "url": "https://WebInHour.com",
+    "name": "WebInHour",
     "description": "The fastest way to get a professional website. Same-day delivery, SEO & GEO optimized for AI search engines.",
     "publisher": {
-      "@id": "https://webinhours.com/#organization"
+      "@id": "https://WebInHour.com/#organization"
     },
     "potentialAction": {
       "@type": "SearchAction",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": "https://webinhours.com/websites?search={search_term_string}"
+        "urlTemplate": "https://WebInHour.com/websites?search={search_term_string}"
       },
       "query-input": "required name=search_term_string"
     }
@@ -111,11 +111,11 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
   const generateServiceSchema = () => ({
     "@context": "https://schema.org",
     "@type": "Service",
-    "@id": `https://webinhours.com/services/${serviceName?.toLowerCase().replace(/\s+/g, '-')}`,
+    "@id": `https://WebInHour.com/services/${serviceName?.toLowerCase().replace(/\s+/g, '-')}`,
     "name": serviceName || "Web Development Service",
     "description": serviceDescription || "Professional web development service",
     "provider": {
-      "@id": "https://webinhours.com/#organization"
+      "@id": "https://WebInHour.com/#organization"
     },
     "serviceType": "Web Development",
     "category": "Web Services",
@@ -164,7 +164,7 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
         }
       ]
     },
-    "termsOfService": "https://webinhours.com/terms",
+    "termsOfService": "https://WebInHour.com/terms",
     "serviceOutput": {
       "@type": "WebSite",
       "description": "Professional, mobile-optimized website with SEO"
@@ -176,7 +176,7 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
     const defaultFAQs: FAQItem[] = [
       {
         question: "Can I really get a website in 24 hours?",
-        answer: "Yes! WebInHours specializes in rapid website delivery. Most custom websites are delivered within 24 hours of receiving your content. For urgent needs, we offer same-day website builder options that can have you online in just a few hours."
+        answer: "Yes! WebInHour specializes in rapid website delivery. Most custom websites are delivered within 24 hours of receiving your content. For urgent needs, we offer same-day website builder options that can have you online in just a few hours."
       },
       {
         question: "What if I need my website urgently today?",
@@ -191,7 +191,7 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
         answer: "The free website includes: choice from 500+ professional templates, mobile-responsive design, basic SEO optimization, free SSL certificate, contact form integration, and ongoing hosting. You only pay if you want premium upgrades."
       },
       {
-        question: "Do I need technical skills to use WebInHours?",
+        question: "Do I need technical skills to use WebInHour?",
         answer: "No technical skills required. We handle all the technical setup, hosting, and maintenance. You simply choose a template, provide your content, and we do the rest. Our team provides full support throughout the process."
       },
       {
@@ -219,24 +219,24 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
   // BreadcrumbList Schema
   const generateBreadcrumbSchema = () => {
     const breadcrumbs: { name: string; url: string }[] = [
-      { name: "Home", url: "https://webinhours.com" }
+      { name: "Home", url: "https://WebInHour.com" }
     ];
 
     switch (pageType) {
       case 'marketplace':
-        breadcrumbs.push({ name: "Websites", url: "https://webinhours.com/websites" });
+        breadcrumbs.push({ name: "Websites", url: "https://WebInHour.com/websites" });
         break;
       case 'pricing':
-        breadcrumbs.push({ name: "Pricing", url: "https://webinhours.com/pricing" });
+        breadcrumbs.push({ name: "Pricing", url: "https://WebInHour.com/pricing" });
         break;
       case 'faq':
-        breadcrumbs.push({ name: "FAQ", url: "https://webinhours.com/faq" });
+        breadcrumbs.push({ name: "FAQ", url: "https://WebInHour.com/faq" });
         break;
       case 'contact':
-        breadcrumbs.push({ name: "Contact", url: "https://webinhours.com/contact" });
+        breadcrumbs.push({ name: "Contact", url: "https://WebInHour.com/contact" });
         break;
       case 'about':
-        breadcrumbs.push({ name: "About", url: "https://webinhours.com/about" });
+        breadcrumbs.push({ name: "About", url: "https://WebInHour.com/about" });
         break;
     }
 

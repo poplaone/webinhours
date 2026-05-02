@@ -269,7 +269,7 @@ ${cleanDetails ? `📝 Additional Details:\n${cleanDetails}` : ''}
   return (
     <AppLayout>
       <SEOHead
-        title="Contact Us - WebInHours | Get Started Today"
+        title="Contact Us - WebInHour | Get Started Today"
         description="Get in touch with our team for your website project. We're here to help you build your dream website."
       />
 

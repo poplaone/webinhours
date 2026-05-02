@@ -22,10 +22,10 @@ const Index = () => {
     <AppLayout>
       {/* GEO-Optimized SEO with Answer-First Approach */}
       <SEOHead
-        title="WebInHours - Professional Website in 24 Hours | Same Day Web Development"
+        title="WebInHour - Professional Website in 24 Hours | Same Day Web Development"
         description="Get your professional website in 24 hours. 500+ free SEO-ready templates, same-day customization, SEO & GEO optimization for AI search. The fastest way to launch online - not weeks, hours."
-        keywords="website in 24 hours, same day website, fast website development, free website templates, SEO GEO optimized, urgent website design, WebInHours, rapid web development, get website today"
-        canonicalUrl="https://webinhours.com/"
+        keywords="website in 24 hours, same day website, fast website development, free website templates, SEO GEO optimized, urgent website design, WebInHour, rapid web development, get website today"
+        canonicalUrl="https://WebInHour.com/"
       />
 
       {/* Enhanced Structured Data for GEO/AI Extraction */}
@@ -73,7 +73,7 @@ const Index = () => {
           <Suspense fallback={<SkeletonSection heightClass="h-64" />}>
             <TestimonialsSection
               title="What Our Clients Say"
-              description="Join hundreds of satisfied businesses who transformed their online presence with WebInHours"
+              description="Join hundreds of satisfied businesses who transformed their online presence with WebInHour"
               testimonials={[
                 {
                   author: {
@@ -89,7 +89,7 @@ const Index = () => {
                     handle: "@mrodriguez_plumbing",
                     avatar: ""
                   },
-                  text: "As a small business owner, I don't have time to wait weeks for a web designer. WebInHours got my plumbing business online over the weekend, and my phone has been ringing ever since."
+                  text: "As a small business owner, I don't have time to wait weeks for a web designer. WebInHour got my plumbing business online over the weekend, and my phone has been ringing ever since."
                 },
                 {
                   author: {

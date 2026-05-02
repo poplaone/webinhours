@@ -34,10 +34,10 @@ export default function HowItWorks() {
   return (
     <AppLayout>
       <SEOHead
-        title="How It Works - WebInHours | Get Your Website in 24 Hours"
+        title="How It Works - WebInHour | Get Your Website in 24 Hours"
         description="From template selection to launch in 24 hours. Our streamlined process eliminates weeks of waiting. Select, customize, deploy - your website live today. Same-day delivery available."
         keywords="how to get website in 24 hours, fast website process, same day website delivery, rapid web development, instant website launch, website in hours not weeks"
-        canonicalUrl="https://webinhours.com/how-it-works"
+        canonicalUrl="https://WebInHour.com/how-it-works"
       />
 
       <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">

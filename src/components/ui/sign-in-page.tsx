@@ -73,7 +73,7 @@ export const SignInPage: React.FC<SignInPageProps> = ({
         <div className="w-full max-w-md animate-fade-in">
           <div className="flex flex-col gap-6">
             <div className="mb-2">
-              <img src="/logo.png" alt="WebInHours Logo" className="h-12 w-12 object-contain" />
+              <img src="/logo.png" alt="WebInHour Logo" className="h-12 w-12 object-contain" />
             </div>
             <h1 className="text-4xl md:text-5xl font-semibold leading-tight">
               {title || defaultTitle}

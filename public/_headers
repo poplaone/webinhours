@@ -1,4 +1,4 @@
-# WebInHours Static Asset Caching Headers
+# WebInHour Static Asset Caching Headers
 # Apply 1-year immutable caching for hashed static assets
 
 # JavaScript assets with content hashes - cache for 1 year

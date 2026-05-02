@@ -23,7 +23,7 @@ const testimonials: Testimonial[] = [
     role: "Marketing Director",
     company: "TechVenture Inc",
     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
-    content: "WebInHours transformed our online presence in just 24 hours. The quality exceeded our expectations, and our conversion rates increased by 40% within the first month.",
+    content: "WebInHour transformed our online presence in just 24 hours. The quality exceeded our expectations, and our conversion rates increased by 40% within the first month.",
     rating: 5,
     linkedIn: "https://linkedin.com/in/",
     datePublished: "2024-11-15"
@@ -34,7 +34,7 @@ const testimonials: Testimonial[] = [
     role: "Founder & CEO",
     company: "StartupLaunch",
     image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-    content: "As a startup founder, time is money. WebInHours delivered a professional website faster than I thought possible. The SEO optimization was already built-in, saving us thousands.",
+    content: "As a startup founder, time is money. WebInHour delivered a professional website faster than I thought possible. The SEO optimization was already built-in, saving us thousands.",
     rating: 5,
     linkedIn: "https://linkedin.com/in/",
     datePublished: "2024-10-28"
@@ -45,7 +45,7 @@ const testimonials: Testimonial[] = [
     role: "E-commerce Manager",
     company: "StyleBoutique",
     image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-    content: "The template quality is outstanding. Our customers love the new design, and mobile sales have doubled since launching our WebInHours site.",
+    content: "The template quality is outstanding. Our customers love the new design, and mobile sales have doubled since launching our WebInHour site.",
     rating: 5,
     linkedIn: "https://linkedin.com/in/",
     datePublished: "2024-12-01"
@@ -78,7 +78,7 @@ const testimonials: Testimonial[] = [
     role: "CTO",
     company: "FinTech Solutions",
     image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-    content: "Enterprise-grade security and blazing fast performance. Our compliance team was impressed with the security features built into the WebInHours platform.",
+    content: "Enterprise-grade security and blazing fast performance. Our compliance team was impressed with the security features built into the WebInHour platform.",
     rating: 5,
     linkedIn: "https://linkedin.com/in/",
     datePublished: "2024-10-10"
@@ -101,7 +101,7 @@ const generatePersonSchema = (testimonial: Testimonial) => ({
 // Generate Review schema
 const generateReviewSchema = (testimonial: Testimonial) => ({
   "@type": "Review",
-  "@id": `https://webinhours.com/#${testimonial.id}`,
+  "@id": `https://WebInHour.com/#${testimonial.id}`,
   "author": generatePersonSchema(testimonial),
   "reviewBody": testimonial.content,
   "reviewRating": {
@@ -113,10 +113,10 @@ const generateReviewSchema = (testimonial: Testimonial) => ({
   "datePublished": testimonial.datePublished,
   "itemReviewed": {
     "@type": "Product",
-    "name": "WebInHours Website Services",
+    "name": "WebInHour Website Services",
     "brand": {
       "@type": "Brand",
-      "name": "WebInHours"
+      "name": "WebInHour"
     }
   }
 });
@@ -125,11 +125,11 @@ const generateReviewSchema = (testimonial: Testimonial) => ({
 const aggregateRatingSchema = {
   "@context": "https://schema.org",
   "@type": "Product",
-  "name": "WebInHours Website Services",
+  "name": "WebInHour Website Services",
   "description": "Professional website development and template marketplace",
   "brand": {
     "@type": "Brand",
-    "name": "WebInHours"
+    "name": "WebInHour"
   },
   "aggregateRating": {
     "@type": "AggregateRating",
@@ -239,7 +239,7 @@ export function PremiumTestimonials() {
           </h2>
 
           <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
-            Join hundreds of satisfied businesses who transformed their online presence with WebInHours
+            Join hundreds of satisfied businesses who transformed their online presence with WebInHour
           </p>
 
 

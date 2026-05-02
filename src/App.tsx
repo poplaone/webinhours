@@ -90,7 +90,7 @@ function App() {
     <ErrorBoundary>
       <HelmetProvider>
         <QueryClientProvider client={queryClient}>
-          <ThemeProvider defaultTheme="dark" storageKey="webinhours-theme">
+          <ThemeProvider defaultTheme="dark" storageKey="webinhour-theme">
             <TooltipProvider>
               <BrowserRouter>
                 <ScrollToTop />

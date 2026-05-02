@@ -1,4 +1,4 @@
-# WebInHours - robots.txt
+# WebInHour - robots.txt
 # Optimized for AI crawlers and search engines (GEO Phase 1)
 
 # Allow all search engines
@@ -65,7 +65,7 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://webinhours.com/sitemap.xml
+Sitemap: https://WebInHour.com/sitemap.xml
 
 # LLMs.txt - AI content guidance
-# See: https://webinhours.com/llms.txt
+# See: https://WebInHour.com/llms.txt

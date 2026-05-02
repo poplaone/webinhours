@@ -13,7 +13,7 @@ interface SEOHeadProps {
 }
 
 const SEOHead: React.FC<SEOHeadProps> = ({
-  title = "WebInHours - Professional Website in 24 Hours | Fast Custom Web Development",
+  title = "WebInHour - Professional Website in 24 Hours | Fast Custom Web Development",
   description = "Get your professional website delivered in 24 hours. 500+ free SEO-ready templates, same-day customization, and GEO optimization for AI search. The fastest way to launch online.",
   keywords = "website in 24 hours, fast custom website development, same day website builder, professional website delivered today, SEO GEO optimized website, urgent website design services, free website templates, rapid web development",
   ogImage = "/placeholder.svg",
@@ -22,7 +22,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   noIndex = false
 }) => {
   const fullTitle = title.includes('WebInHour') ? title : `${title} | WebInHour`;
-  const currentUrl = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : 'https://webinhours.com');
+  const currentUrl = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : 'https://WebInHour.com');
 
   return (
     <Helmet>
@@ -53,7 +53,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       <meta property="twitter:image" content={ogImage} />
 
       {/* Additional SEO Tags */}
-      <meta name="author" content="WebInHours" />
+      <meta name="author" content="WebInHour" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta httpEquiv="Content-Language" content="en" />
 
@@ -62,16 +62,16 @@ const SEOHead: React.FC<SEOHeadProps> = ({
         {JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Organization",
-          "name": "WebInHours",
+          "name": "WebInHour",
           "description": "Professional website development in 24 hours",
-          "url": "https://webinhours.com",
-          "logo": "https://webinhours.com/logo.png",
+          "url": "https://WebInHour.com",
+          "logo": "https://WebInHour.com/logo.png",
           "foundingDate": "2023",
           "contactPoint": {
             "@type": "ContactPoint",
             "telephone": "+917560032111",
             "contactType": "customer service",
-            "email": "support@webinhours.com",
+            "email": "support@WebInHour.com",
             "availableLanguage": "English"
           },
           "address": {
@@ -116,7 +116,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
           "description": "Professional websites delivered in 24 hours with mobile-responsive design, SEO optimization, and unlimited revisions",
           "provider": {
             "@type": "Organization",
-            "name": "WebInHours"
+            "name": "WebInHour"
           },
           "serviceType": "Web Development",
           "category": "Website Development",

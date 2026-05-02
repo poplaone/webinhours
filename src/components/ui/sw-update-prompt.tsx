@@ -120,7 +120,7 @@ export function SWUpdatePrompt() {
               New Version Available
             </h3>
             <p className="text-sm text-muted-foreground mt-1">
-              A new version of WebInHours is ready. Refresh to get the latest features and fixes.
+              A new version of WebInHour is ready. Refresh to get the latest features and fixes.
             </p>
             <div className="flex items-center gap-2 mt-3">
               <Button 

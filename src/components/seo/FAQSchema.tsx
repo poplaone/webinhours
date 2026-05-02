@@ -12,7 +12,7 @@ interface FAQSchemaProps {
 const defaultFAQs: FAQItem[] = [
   {
     question: "Can I really get a website in 24 hours?",
-    answer: "Yes! WebInHours delivers professional websites within 24 hours. Our streamlined process eliminates weeks of waiting. Choose a template, provide your content, and we handle the rest. Same-day delivery is available for urgent projects."
+    answer: "Yes! WebInHour delivers professional websites within 24 hours. Our streamlined process eliminates weeks of waiting. Choose a template, provide your content, and we handle the rest. Same-day delivery is available for urgent projects."
   },
   {
     question: "What if I need my website urgently today?",

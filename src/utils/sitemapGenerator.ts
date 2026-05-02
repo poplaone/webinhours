@@ -9,7 +9,7 @@ export interface SitemapUrl {
 }
 
 export const generateSitemapUrls = (): SitemapUrl[] => {
-  const baseUrl = 'https://webinhours.com';
+  const baseUrl = 'https://webinhour.com';
   const currentDate = new Date().toISOString().split('T')[0];
 
   const staticUrls: SitemapUrl[] = [
