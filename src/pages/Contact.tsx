@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
@@ -146,6 +146,35 @@ export default function Contact() {
     }
   }, [searchParams]);
 
+  // Pre-fill from pricing plan selection
+  const formRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const plan = searchParams.get('plan');
+    const price = searchParams.get('price');
+    const features = searchParams.get('features');
+
+    if (plan && price) {
+      const featureList = features ? features.split('|').map(f => `  • ${f}`).join('\n') : '';
+      const budgetId = price === '$299' ? 'starter' : price === '$599' ? 'starter' : 'growth';
+
+      setFormData(prev => ({
+        ...prev,
+        services: ['custom-website'],
+        budget: budgetId,
+        timeline: 'asap',
+        otherDetails: `Selected Plan: ${plan} (${price}/project)\n\nPlan Features:\n${featureList}`,
+      }));
+
+      // Jump straight to the contact details step
+      setStep(3);
+
+      // Auto-scroll to the form after a short delay
+      setTimeout(() => {
+        formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }, 300);
+    }
+  }, [searchParams]);
+
   const toggleService = (serviceId: string) => {
     setFormData(prev => ({
       ...prev,
@@ -274,7 +303,7 @@ ${cleanDetails ? `📝 Additional Details:\n${cleanDetails}` : ''}
       />
 
       <div className="container mx-auto p-4 lg:p-8 pb-32">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto" ref={formRef}>
           {/* Header */}
           <div className="text-center mb-10">
             <h1 className="text-3xl lg:text-4xl font-bold mb-4">Let's Build Something Great Together</h1>

@@ -1,27 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
 import { Hero } from '@/components/sections/Hero';
 import { PricingCard, PricingPlan } from '@/components/ui/PricingCard';
-import { Zap, Star, Crown, Clock } from 'lucide-react';
+import { Zap, Crown, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useDodoPayment } from '@/hooks/useDodoPayment';
 
 export default function LandingSameDay() {
     const navigate = useNavigate();
-    const { initiateCheckout, isLoading } = useDodoPayment();
-    const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
 
-    // Dodo Payments Product IDs
-    const DODO_PRODUCTS = {
-        'Custom Lite': 'pdt_4VbxIlVYONBlZcu91PSu5',
-        'Custom Pro': 'pdt_Lp3H6UAAng5cDeHMYNwqR',
-    } as const;
-
-    const handlePurchase = async (planName: keyof typeof DODO_PRODUCTS) => {
-        setLoadingPlan(planName);
-        await initiateCheckout(DODO_PRODUCTS[planName], 'USD');
-        setLoadingPlan(null);
+    const handleContactForPlan = (planName: string, price: string, features: string[]) => {
+        const params = new URLSearchParams({ plan: planName, price, features: features.join('|') });
+        navigate(`/contact?${params.toString()}`);
     };
 
     const plans: PricingPlan[] = [
@@ -57,8 +47,8 @@ export default function LandingSameDay() {
             ],
             popular: true,
             cta: "Order Rush Service",
-            action: () => handlePurchase("Custom Lite"), // Maps to Custom Lite backend
-            isPaid: true
+            action: () => handleContactForPlan("Same Day Rush", "$299", ["Guaranteed Same Day Delivery", "Priority Queue Status", "Emergency Brand Setup", "Rapid Content Entry", "Live Today"]),
+            isPaid: false
         },
         {
             name: "Custom Pro",
@@ -75,8 +65,8 @@ export default function LandingSameDay() {
             ],
             popular: false,
             cta: "Get Custom Pro",
-            action: () => handlePurchase("Custom Pro"),
-            isPaid: true
+            action: () => handleContactForPlan("Custom Pro", "$599", ["Deep Customization", "Strategic Planning", "SEO Optimization", "Design Revisions", "Consultation Included"]),
+            isPaid: false
         }
     ];
 
@@ -120,7 +110,7 @@ export default function LandingSameDay() {
 
                     <div className="grid md:grid-cols-3 gap-8 justify-center max-w-5xl mx-auto">
                         {plans.map((plan, index) => (
-                            <PricingCard key={index} plan={plan} loadingPlan={loadingPlan} />
+                            <PricingCard key={index} plan={plan} loadingPlan={null} />
                         ))}
                     </div>
                 </div>

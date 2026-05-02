@@ -1,32 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
 import GEOStructuredData from '@/components/seo/GEOStructuredData';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Check, Star, Zap, Crown, Shield, Globe, MessageCircle, Share2, Code, Loader2, ArrowRight, Sparkles } from 'lucide-react';
+import { Check, Star, Zap, Crown, Shield, Globe, MessageCircle, Share2, Code, ArrowRight, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useDodoPayment } from '@/hooks/useDodoPayment';
 import { PremiumServicesModal } from '@/components/modals/PremiumServicesModal';
 import { cn } from '@/lib/utils';
 import { PricingCard } from '@/components/ui/PricingCard';
 
-// Dodo Payments Product IDs
-const DODO_PRODUCTS = {
-  'Custom Lite': 'pdt_4VbxIlVYONBlZcu91PSu5',
-  'Custom Pro': 'pdt_Lp3H6UAAng5cDeHMYNwqR',
-} as const;
-
 export default function Pricing() {
   const navigate = useNavigate();
-  const { initiateCheckout, isLoading } = useDodoPayment();
-  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
 
-  const handlePurchase = async (planName: keyof typeof DODO_PRODUCTS) => {
-    setLoadingPlan(planName);
-    await initiateCheckout(DODO_PRODUCTS[planName], 'USD');
-    setLoadingPlan(null);
+  const handleContactForPlan = (planName: string, price: string, features: string[]) => {
+    const params = new URLSearchParams({
+      plan: planName,
+      price: price,
+      features: features.join('|'),
+    });
+    navigate(`/contact?${params.toString()}`);
   };
 
   const plans = [
@@ -66,8 +60,8 @@ export default function Pricing() {
       ],
       popular: true,
       cta: "Get Started",
-      action: () => handlePurchase("Custom Lite"),
-      isPaid: true
+      action: () => handleContactForPlan("Custom Lite", "$299", ["Template customization", "2-24 hour delivery", "Logo integration", "Color scheme changes", "Content updates", "Basic SEO & GEO setup", "7-day support"]),
+      isPaid: false
     },
     {
       name: "Custom Pro",
@@ -87,8 +81,8 @@ export default function Pricing() {
       ],
       popular: false,
       cta: "Get Started",
-      action: () => handlePurchase("Custom Pro"),
-      isPaid: true
+      action: () => handleContactForPlan("Custom Pro", "$599", ["100% custom design", "Advanced functionality", "Database integration", "Contact forms", "Analytics setup", "SEO & GEO optimization", "30-day support", "Training session"]),
+      isPaid: false
     },
     {
       name: "Custom Requirements",
@@ -204,7 +198,7 @@ export default function Pricing() {
           {/* Redesigned Pricing Cards */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
             {plans.map((plan, index) => (
-              <PricingCard key={index} plan={plan} loadingPlan={loadingPlan} />
+              <PricingCard key={index} plan={plan} loadingPlan={null} />
             ))}
           </div>
 
