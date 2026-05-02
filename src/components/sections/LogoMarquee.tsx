@@ -93,7 +93,7 @@ export function LogoMarquee() {
       {arr.map((Logo, index) => (
         <div
           key={index}
-          className="relative h-full w-fit mx-[4rem] flex items-center justify-start"
+          className="relative h-full w-fit mx-6 md:mx-12 lg:mx-[4rem] flex items-center justify-start"
         >
           <Logo />
         </div>
