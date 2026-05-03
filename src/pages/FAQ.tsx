@@ -1,4 +1,3 @@
-
 import React from 'react';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
@@ -14,37 +13,36 @@ export default function FAQ() {
       category: "Speed & Delivery",
       questions: [
         {
-          question: "Can I really get a website in 24 hours?",
-          answer: "Absolutely. Once we have your logo and content, our team gets to work immediately. By combining powerful templates with expert development, we skip the usual weeks of waiting and deliver a polished site within a day."
+          question: "Can you actually build a website in 24 hours?",
+          answer: "Yes. Once we have your logo, colors, and copy, we start immediately. We don't spend weeks wireframing. We take a proven layout, inject your brand, and push it live. That takes a day, not a month."
         },
         {
-          question: "What if I need my website live today?",
-          answer: "We've got you covered. We offer a rush same-day delivery option. Just let us know it's urgent when you contact us, and we'll fast-track your build so you're online before the day is over."
+          question: "What if my old site just crashed and I need a site today?",
+          answer: "We offer an emergency same-day turnaround. If you have your assets ready, we can get a professional landing page live before you go to sleep tonight."
         },
         {
-          question: "How exactly does the 24-hour process work?",
-          answer: "It's straightforward: You pick a design foundation you like and send us your text and images. Our team then customizes the colors, fonts, and layout to match your brand, and we deploy the finished site for you to review."
+          question: "How does the process actually work?",
+          answer: "You pick a design from our library that fits your business. You send us your text and images. Our engineers swap the colors, apply your copy, and hook up your domain. We host it, and you're done."
         }
       ]
     },
     {
-      category: "General",
+      category: "The Catch",
       questions: [
         {
-          question: "Is the free template tier actually free?",
-          answer: "Yes, 100% free. You can browse and download from our library of 500+ professional templates at no cost. You only pay if you want our experts to customize the design, write your content, or handle the technical setup for you."
+          question: "Are the free templates actually free?",
+          answer: "Yes. If you know how to code and want to deploy the template yourself, you don't pay us a dime. We make money when companies pay us to handle the customization, SEO formatting, and deployment."
         },
         {
           question: "Do I own my website?",
-          answer: "Yes! Unlike some subscription builders that lock you in, you get full ownership of your website code. You're free to host it anywhere and modify it however you want."
+          answer: "Yes. You own the code. You are not locked into a proprietary builder like Wix or Squarespace. If you want to take your code and host it somewhere else, you can."
         },
         {
-          question: "What if I don't know how to write website copy?",
-          answer: "No problem. We offer an add-on Content Creation service where our professional copywriters will craft compelling, search-optimized text for your entire site."
+          question: "What if my copy is terrible?",
+          answer: "Most people struggle to write good copy. We offer an add-on service where our copywriters will rewrite your text so it actually converts visitors into leads, and formats it so AI search engines can read it."
         }
       ]
-    },
-    // ... (other categories)
+    }
   ];
 
   // Flatten FAQs for GEO structured data
@@ -58,8 +56,8 @@ export default function FAQ() {
   return (
     <AppLayout>
       <SEOHead
-        title="FAQ - WebInHour | 24-Hour Website Questions Answered"
-        description="Answers to common questions about getting your website in 24 hours, same-day delivery options, free templates, and our fast development process. Learn how we build websites in hours, not weeks."
+        title="FAQ - WebInHour | Real Answers About 24-Hour Websites"
+        description="Here is exactly how we build websites in 24 hours, what it costs, and why you actually own the code."
         keywords="24 hour website FAQ, same day website questions, fast website delivery FAQ, urgent website design help, WebInHour questions, website in 24 hours"
         canonicalUrl="https://WebInHour.com/faq"
       />
@@ -68,15 +66,15 @@ export default function FAQ() {
       <GEOStructuredData pageType="faq" faqs={allFaqsForSchema} />
 
       <div className="pt-24 pb-20 px-4">
-        <div className="container mx-auto">
+        <div className="container mx-auto max-w-4xl">
           {/* Hero Section */}
           <div className="text-center mb-16">
-            <Badge variant="secondary" className="mb-4">Frequently Asked Questions</Badge>
+            <Badge variant="secondary" className="mb-4">The details</Badge>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              Got Questions?<br />We Have Answers
+              Straight answers.<br />No agency spin.
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Find answers to the most common questions about WebInHour, our services, and how we can help you get your website up and running quickly.
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              People are skeptical when we say we can deliver a production-ready website in a day. Here is exactly how it works.
             </p>
           </div>
 
@@ -94,10 +92,10 @@ export default function FAQ() {
                   <Accordion type="multiple" className="w-full">
                     {category.questions.map((faq, index) => (
                       <AccordionItem key={index} value={`${categoryIndex}-${index}`}>
-                        <AccordionTrigger className="text-left">
+                        <AccordionTrigger className="text-left font-medium text-lg">
                           {faq.question}
                         </AccordionTrigger>
-                        <AccordionContent className="text-gray-600">
+                        <AccordionContent className="text-gray-600 text-base leading-relaxed">
                           {faq.answer}
                         </AccordionContent>
                       </AccordionItem>
@@ -111,12 +109,12 @@ export default function FAQ() {
           {/* Contact CTA */}
           <Card className="mt-16 bg-gradient-to-r from-purple-500/5 to-blue-500/5 backdrop-blur-md border-border/50">
             <CardContent className="text-center py-12">
-              <h2 className="text-2xl font-bold mb-4">Still Have Questions?</h2>
+              <h2 className="text-2xl font-bold mb-4">Did we miss something?</h2>
               <p className="text-gray-600 mb-6">
-                Can't find what you're looking for? Our team is here to help.
+                If your question isn't answered here, talk to an actual human on our team.
               </p>
-              <Badge variant="outline" className="cursor-pointer hover:bg-purple-100">
-                Contact Support
+              <Badge variant="outline" className="cursor-pointer hover:bg-purple-100 text-base px-4 py-2">
+                Talk to Engineering
               </Badge>
             </CardContent>
           </Card>

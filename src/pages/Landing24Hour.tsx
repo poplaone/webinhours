@@ -83,14 +83,13 @@ export default function Landing24Hour() {
             <Hero
                 headline={
                     <>
-                        Getting Your Business Online<br className="hidden md:block" />
-                        <span className="text-foreground">In Just 24 Hours</span>
+                        We build production-ready websites.<br className="hidden md:block" />
+                        <span className="text-foreground">In exactly 24 hours.</span>
                     </>
                 }
                 description={
                     <>
-                        Stop waiting weeks for agencies. We combine professional templates with
-                        expert same-day customization to launch your brand <strong>today</strong>.
+                        The old agency model is dead. Don't pay $10,000 and wait two months just to launch a landing page. We use proven components to ship your site <strong>tomorrow</strong>.
                     </>
                 }
             />
@@ -100,11 +99,11 @@ export default function Landing24Hour() {
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-5xl font-bold mb-4">
                             <span className="bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent">
-                                Choose Your Speed
+                                Stop Waiting. Start Building.
                             </span>
                         </h2>
                         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                            Need it instantly? Grab a template. Need it custom? We'll build it by tomorrow.
+                            Grab a free layout and deploy it yourself, or let our engineers push it live by tomorrow.
                         </p>
                     </div>
 

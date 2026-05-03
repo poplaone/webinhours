@@ -65,7 +65,10 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://WebInHour.com/sitemap.xml
+Sitemap: https://webinhour.com/sitemap.xml
 
 # LLMs.txt - AI content guidance
-# See: https://WebInHour.com/llms.txt
+# See: https://webinhour.com/llms.txt
+
+# Machine-readable pricing for AI agents
+# See: https://webinhour.com/pricing.md

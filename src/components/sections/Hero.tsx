@@ -30,6 +30,7 @@ export const Hero = ({ headline, description }: HeroProps) => {
             <img
               src="/assets/card-1.webp"
               alt="Professional website design preview"
+              title="Professional website design preview"
               width={400}
               height={300}
               style={{ width: '100%', height: 'auto', aspectRatio: '400/300' }}
@@ -40,6 +41,7 @@ export const Hero = ({ headline, description }: HeroProps) => {
             />
             <img
               alt="E-commerce website template example"
+              title="E-commerce website template example"
               src="/uploads/f05d4bb5-4c1a-40d9-bb57-f25dcd61d809.png"
               width={400}
               height={300}
@@ -53,6 +55,7 @@ export const Hero = ({ headline, description }: HeroProps) => {
             <img
               src="/assets/card-3.webp"
               alt="Portfolio website template example"
+              title="Portfolio website template example"
               width={400}
               height={300}
               style={{ width: '100%', height: 'auto', aspectRatio: '400/300' }}
@@ -94,8 +97,8 @@ export const Hero = ({ headline, description }: HeroProps) => {
               >
                 {headline || (
                   <>
-                    Your New Professional Website. <br className="hidden md:block" />
-                    <span className="text-foreground">Live in Just 24 Hours.</span>
+                    A Website That Wins You Customers. <br className="hidden md:block" />
+                    <span className="text-foreground">Built in 24 Hours, Not Weeks.</span>
                   </>
                 )}
               </h1>
@@ -105,18 +108,11 @@ export const Hero = ({ headline, description }: HeroProps) => {
                 <div className="text-sm xl:text-lg leading-relaxed font-medium">
                   {description || (
                     <>
-                      Launch a high-converting website without the typical weeks of waiting. We combine{' '}
+                      Choose from{' '}
                       <button onClick={() => navigate('/websites')} className="text-primary hover:text-primary/80 transition-colors font-semibold underline decoration-2 underline-offset-4">
-                        professional design
+                        500+ professional templates
                       </button>
-                      , built-in search optimization, and{' '}
-                      <button onClick={() => {
-                        const servicesSection = document.getElementById('premium-marketplace');
-                        servicesSection?.scrollIntoView({ behavior: 'smooth' });
-                      }} className="text-primary hover:text-primary/80 transition-colors font-semibold underline decoration-2 underline-offset-4">
-                        premium branding
-                      </button>
-                      {' '}to get you online and growing, today.
+                      {' '}or let us build a custom site tailored to your business. Mobile-ready, SEO-optimized, and live before tomorrow.
                     </>
                   )}
                 </div>
@@ -131,11 +127,20 @@ export const Hero = ({ headline, description }: HeroProps) => {
                 className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground text-base sm:text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-medium"
                 aria-label="Browse free website templates"
               >
-                <span className="bg-gradient-to-r from-white via-white to-white/70 bg-clip-text text-transparent font-medium">Get Your Free Website Now</span>
+                <span className="text-white font-medium">Download Free Templates</span>
                 <ArrowRight className="ml-2 h-5 w-5 text-white" aria-hidden="true" />
               </Button>
 
-
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => navigate('/pricing')}
+                className="w-full sm:w-auto border-primary/40 text-primary hover:bg-primary/10 text-base sm:text-lg px-8 py-6 rounded-lg transition-all duration-300 font-medium"
+                aria-label="View pricing plans"
+              >
+                See Pricing
+                <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
+              </Button>
             </div>
           </div>
 
@@ -144,6 +149,7 @@ export const Hero = ({ headline, description }: HeroProps) => {
             <img
               src="/assets/card-4.webp"
               alt="AI workflow platform template"
+              title="AI workflow platform template"
               width={400}
               height={300}
               style={{ width: '100%', height: 'auto', aspectRatio: '400/300' }}
@@ -155,6 +161,7 @@ export const Hero = ({ headline, description }: HeroProps) => {
             <img
               src="/assets/card-5.webp"
               alt="Mobile app design template"
+              title="Mobile app design template"
               width={400}
               height={300}
               style={{ width: '100%', height: 'auto', aspectRatio: '400/300' }}
@@ -166,6 +173,7 @@ export const Hero = ({ headline, description }: HeroProps) => {
             <img
               src="/assets/card-6.webp"
               alt="Tech landing page template"
+              title="Tech landing page template"
               width={400}
               height={300}
               style={{ width: '100%', height: 'auto', aspectRatio: '400/300' }}

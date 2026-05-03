@@ -182,7 +182,7 @@ export const Header = () => {
                 className="flex items-center space-x-2 cursor-pointer"
                 onClick={() => navigate('/')}
               >
-                <img src="/logo.png" alt="WebInHour Logo" className="h-8 w-8 sm:h-10 sm:w-10 object-contain" />
+                <img src="/logo.png" alt="WebInHour - Professional Web Design Agency" title="WebInHour - Professional Web Design Agency" className="h-8 w-8 sm:h-10 sm:w-10 object-contain" />
                 <span className="font-bold text-sm sm:text-base bg-gradient-to-r from-[#8B5CF6] to-[#A78BFA] bg-clip-text text-transparent">
                   WebInHour
                 </span>
@@ -246,7 +246,7 @@ export const Header = () => {
       <header className={`fixed top-0 left-0 right-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="container flex h-16 items-center justify-between px-3 sm:px-6">
           <div className="flex items-center space-x-2">
-            <img src="/logo.png" alt="WebInHour Logo" className="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 object-contain" />
+            <img src="/logo.png" alt="WebInHour - Professional Web Design Agency" title="WebInHour - Professional Web Design Agency" className="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 object-contain" />
             <span
               className="font-bold text-base sm:text-lg md:text-xl bg-gradient-to-r from-[#8B5CF6] to-[#A78BFA] bg-clip-text text-transparent cursor-pointer"
               onClick={() => navigate('/')}

@@ -13,21 +13,21 @@ export default function HowItWorks() {
   const steps = [
     {
       icon: Search,
-      title: "1. Choose Your Foundation",
-      description: "Don't start from a blank screen. Browse our collection of professional, mobile-ready templates designed for your specific industry.",
-      details: ["Industry-Specific Layouts", "Mobile-First Design", "SEO-Ready Structure", "Live Previews"]
+      title: "1. Pick a starting point",
+      description: "We don't stare at blank screens. You pick a proven layout from our library. We already know these templates convert and look great on mobile.",
+      details: ["500+ Tested Layouts", "Mobile-First Code", "SEO-Ready Base", "Live Previews"]
     },
     {
       icon: Code,
-      title: "2. Customize to Your Brand",
-      description: "Make it yours. Whether you do it yourself or have our experts handle it, we'll seamlessly integrate your logo, colors, and content.",
-      details: ["Custom Color Palettes", "Typography Matching", "Content Integration", "Layout Adjustments"]
+      title: "2. We do the heavy lifting",
+      description: "You send us your logo, colors, and copy. Our engineers handle the integration. We don't ask you to learn a complicated website builder.",
+      details: ["Brand Matching", "Typography Setup", "Copy Injection", "GEO Formatting"]
     },
     {
       icon: Rocket,
-      title: "3. Launch & Grow",
-      description: "Go live with confidence. We deploy your site on ultra-fast, secure hosting so you can start attracting customers immediately.",
-      details: ["Lightning-Fast Hosting", "Free SSL Setup", "Custom Domain Connection", "Post-Launch Support"]
+      title: "3. You go live tomorrow",
+      description: "Within 24 hours, we push your site to production. We host it on blazing fast servers, hook up your domain, and hand you the keys.",
+      details: ["Vercel/Netlify Hosting", "Free SSL", "Domain Connection", "You Own The Code"]
     }
   ];
 
@@ -35,8 +35,8 @@ export default function HowItWorks() {
     <AppLayout>
       <SEOHead
         title="How It Works - WebInHour | Get Your Website in 24 Hours"
-        description="From template selection to launch in 24 hours. Our streamlined process eliminates weeks of waiting. Select, customize, deploy - your website live today. Same-day delivery available."
-        keywords="how to get website in 24 hours, fast website process, same day website delivery, rapid web development, instant website launch, website in hours not weeks"
+        description="Here is exactly how we deliver professional websites in 24 hours. We skip the bloat, use proven templates, and push code live fast."
+        keywords="how to get website in 24 hours, fast website process, same day website delivery, rapid web development, instant website launch"
         canonicalUrl="https://WebInHour.com/how-it-works"
       />
 
@@ -44,14 +44,14 @@ export default function HowItWorks() {
         <div className="container mx-auto max-w-7xl">
           {/* Hero Section */}
           <div className="text-center mb-20 scroll-m-20">
-            <Badge variant="secondary" className="mb-6 px-4 py-1.5 text-sm font-medium tracking-wide uppercase">The Workflow</Badge>
+            <Badge variant="secondary" className="mb-6 px-4 py-1.5 text-sm font-medium tracking-wide uppercase">The Process</Badge>
             <h1 className="text-4xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent tracking-tight">
-              From Concept to Cloud<br />
-              <span className="text-foreground">in Record Time.</span>
+              No bloat.<br />
+              <span className="text-foreground">Just a live website.</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed font-light">
-              We've engineered a streamlined development lifecycle that eliminates friction.
-              Reduce your time-to-value from months to hours without sacrificing quality.
+              We cut out the wireframes, the endless revisions, and the \"design by committee.\" 
+              Here is exactly how we get you online in 24 hours.
             </p>
           </div>
 
@@ -96,11 +96,11 @@ export default function HowItWorks() {
             ))}
           </div>
 
-          {/* Marketplace Section - The Creator Economy */}
+          {/* Marketplace Section - For Developers */}
           <div className="mb-24">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-5xl font-bold mb-6">The Creator Economy, Elevated</h2>
-              <p className="text-xl text-muted-foreground p-2">Are you an expert developer? Turn your intellectual property into active revenue.</p>
+              <h2 className="text-3xl md:text-5xl font-bold mb-6">Are you a developer?</h2>
+              <p className="text-xl text-muted-foreground p-2">Stop building $500 sites on Upwork. Sell your templates to our audience.</p>
             </div>
 
             <Card className="bg-gradient-to-br from-purple-500/5 via-background to-blue-500/5 border-primary/20 overflow-hidden">
@@ -110,20 +110,20 @@ export default function HowItWorks() {
                     <div>
                       <h3 className="text-2xl font-bold mb-4 flex items-center">
                         <Users className="h-6 w-6 mr-3 text-purple-600" />
-                        Join the Elite Network
+                        Join the Template Network
                       </h3>
                       <p className="text-muted-foreground leading-relaxed">
-                        WebInHour isn't just a platform; it's a global distribution engine for your work.
-                        List your highest-quality templates, components, and full-stack projects.
+                        If you build clean, fast, mobile-ready templates, we want them in our library. 
+                        You get paid every time a customer uses your design.
                       </p>
                     </div>
 
                     <ul className="space-y-4">
                       {[
-                        "Keep 70% of Every Transaction",
-                        "Automated Quality Assurance Pipeline",
-                        "Global Audience of Ready Buyers",
-                        "Featured Placement Opportunities"
+                        "Keep 70% of the sale",
+                        "We handle the hosting and customer support",
+                        "Tap into a massive audience of active buyers",
+                        "Get paid for code you already wrote"
                       ].map((item, i) => (
                         <li key={i} className="flex items-center text-foreground">
                           <Shield className="h-5 w-5 mr-3 text-green-500" />
@@ -133,18 +133,18 @@ export default function HowItWorks() {
                     </ul>
 
                     <Button variant="outline" className="border-purple-500/50 hover:bg-purple-500/10" onClick={() => navigate('/dashboard')}>
-                      Become a Creator
+                      Submit a Template
                     </Button>
                   </div>
 
                   <div className="bg-white/5 backdrop-blur-sm p-8 md:p-12 border-l border-border/50 flex flex-col justify-center">
-                    <h3 className="text-xl font-bold mb-6 text-center">High-Demand Assets</h3>
+                    <h3 className="text-xl font-bold mb-6 text-center">What buyers are looking for</h3>
                     <div className="grid grid-cols-2 gap-4">
                       {[
-                        { icon: Zap, label: "React Frameworks", color: "text-yellow-500" },
+                        { icon: Zap, label: "React Next.js", color: "text-yellow-500" },
                         { icon: ShoppingCart, label: "E-Commerce", color: "text-blue-500" },
-                        { icon: Code, label: "SaaS Starters", color: "text-purple-500" },
-                        { icon: Rocket, label: "Landing Pages", color: "text-red-500" }
+                        { icon: Code, label: "SaaS Dashboards", color: "text-purple-500" },
+                        { icon: Rocket, label: "Local Services", color: "text-red-500" }
                       ].map((item, i) => (
                         <div key={i} className="bg-background/50 border border-border/50 rounded-xl p-4 text-center hover:border-primary/50 transition-colors">
                           <item.icon className={`h-8 w-8 mx-auto mb-3 ${item.color}`} />
@@ -160,18 +160,18 @@ export default function HowItWorks() {
 
           {/* CTA Section */}
           <div className="text-center py-12 rounded-2xl bg-gradient-to-b from-transparent to-purple-500/5 border border-border/50">
-            <h2 className="text-3xl md:text-5xl font-bold mb-6">Start Building Your Future</h2>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">Stop Waiting. Launch Today.</h2>
             <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-              The tools you need to dominate your market are one click away.
-              Why wait weeks when you can launch today?
+              You could have a live, professional website tomorrow. 
+              Pick a template and let's get to work.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Button
                 size="lg"
                 className="bg-primary hover:bg-primary/90 text-lg px-8 py-6 h-auto"
-                onClick={() => navigate('/dashboard')}
+                onClick={() => navigate('/websites')}
               >
-                Explore The Marketplace
+                Browse Free Templates
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button
@@ -180,7 +180,7 @@ export default function HowItWorks() {
                 className="text-lg px-8 py-6 h-auto border-2"
                 onClick={() => navigate('/pricing')}
               >
-                View Enterprise Plans
+                View Pricing
               </Button>
             </div>
           </div>

@@ -37,7 +37,7 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <Link to="/" className="flex items-center space-x-2 mb-4 hover:opacity-80 transition-opacity">
-              <img src="/logo.png" alt="WebInHour Logo" className="h-10 w-10 object-contain" />
+              <img src="/logo.png" alt="WebInHour - Professional Web Design Agency" title="WebInHour - Professional Web Design Agency" className="h-10 w-10 object-contain" />
               <span className="font-bold text-xl">WebInHour</span>
             </Link>
             <p className="text-muted-foreground">
@@ -114,7 +114,7 @@ export const Footer = () => {
             <ul className="space-y-2 text-muted-foreground">
               <li>
                 <a
-                  href="#"
+                  href="https://linkedin.com/company/webinhour"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-foreground transition-colors"
@@ -124,22 +124,22 @@ export const Footer = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="https://x.com/webinhour"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-foreground transition-colors"
                 >
-                  Twitter
+                  Twitter / X
                 </a>
               </li>
               <li>
                 <a
-                  href="#"
+                  href="https://instagram.com/webinhour"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-foreground transition-colors"
                 >
-                  GitHub
+                  Instagram
                 </a>
               </li>
               <li>
@@ -154,7 +154,7 @@ export const Footer = () => {
           </div>
         </div>
         <div className="border-t border-border/40 mt-8 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-muted-foreground">
-          <p>&copy; 2024 WebInHour. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} WebInHour. All rights reserved.</p>
           <div className="flex items-center gap-4 text-sm">
             <Link to="/privacy" className="hover:text-foreground transition-colors">
               Privacy Policy

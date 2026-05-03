@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useIsAdmin } from '@/hooks/useAdmin';
-import { Loader2 } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 
 interface AdminRouteProps {
@@ -36,8 +36,17 @@ const AdminRoute = ({ children }: AdminRouteProps) => {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin" />
+      <div className="min-h-screen bg-background flex flex-col">
+        <header className="h-16 border-b px-6 flex items-center">
+          <Skeleton className="h-6 w-32" />
+        </header>
+        <div className="flex-1 p-6 flex gap-6">
+          <Skeleton className="w-64 h-full hidden md:block" />
+          <div className="flex-1 space-y-6">
+            <Skeleton className="h-10 w-48" />
+            <Skeleton className="h-[400px] w-full" />
+          </div>
+        </div>
       </div>
     );
   }

@@ -6,6 +6,7 @@ interface Card {
   title: string;
   description: string;
   image: string;
+  mobileImage?: string;
   alt: string;
 }
 
@@ -15,6 +16,7 @@ const defaultCards: Card[] = [
     title: "Digital Design Agency",
     description: "Creative web design solutions",
     image: "/assets/card-1.webp",
+    mobileImage: "/assets/mobile-card-1.png",
     alt: "Digital design agency website"
   },
   {
@@ -22,6 +24,7 @@ const defaultCards: Card[] = [
     title: "E-commerce Store",
     description: "Modern online shopping experience",
     image: "/assets/card-2.webp",
+    mobileImage: "/assets/mobile-card-2.png",
     alt: "E-commerce website design"
   },
   {
@@ -29,6 +32,7 @@ const defaultCards: Card[] = [
     title: "Portfolio Website",
     description: "Professional personal branding",
     image: "/assets/card-3.webp",
+    mobileImage: "/assets/mobile-card-3.png",
     alt: "Portfolio website design"
   },
   {
@@ -36,6 +40,7 @@ const defaultCards: Card[] = [
     title: "AI Platform",
     description: "Intelligent automation workflows",
     image: "/assets/card-4.webp",
+    mobileImage: "/assets/mobile-card-4.png",
     alt: "AI platform design"
   },
   {
@@ -43,6 +48,7 @@ const defaultCards: Card[] = [
     title: "Mobile App",
     description: "Native & responsive experiences",
     image: "/assets/card-5.webp",
+    mobileImage: "/assets/mobile-card-5.png",
     alt: "Mobile app design"
   },
   {
@@ -50,6 +56,7 @@ const defaultCards: Card[] = [
     title: "Tech Landing Page",
     description: "Futuristic digital presence",
     image: "/assets/card-6.webp",
+    mobileImage: "/assets/mobile-card-6.png",
     alt: "Tech landing page design"
   }
 ];
@@ -210,12 +217,17 @@ export const CardSlider: React.FC<CardSliderProps> = ({
               key={card.id}
               className="coach-card w-[280px] sm:w-[320px] lg:w-[420px] aspect-[4/5] overflow-hidden shadow-lg bg-card ring-border ring-1 rounded-xl sm:rounded-2xl absolute"
             >
-              <img
-                className="w-full h-full object-cover absolute top-0 right-0 bottom-0 left-0"
-                src={card.image}
-                alt={card.alt}
-                loading="lazy"
-              />
+              <picture>
+                {card.mobileImage && (
+                  <source media="(max-width: 639px)" srcSet={card.mobileImage} />
+                )}
+                <img
+                  className="w-full h-full object-cover absolute top-0 right-0 bottom-0 left-0"
+                  src={card.image}
+                  alt={card.alt}
+                  loading="lazy"
+                />
+              </picture>
               <div className="absolute top-4 right-4">
                 <button
                   className="save-btn transition hover:bg-foreground/90 bg-foreground/80 rounded-full pt-2 pr-2.5 pb-2 pl-2.5 shadow-sm backdrop-blur"
@@ -229,11 +241,11 @@ export const CardSlider: React.FC<CardSliderProps> = ({
                   )}
                 </button>
               </div>
-              <div className="p-4 sm:p-5 lg:p-6 bg-gradient-to-t to-transparent from-slate-100/70 via-slate-100/20 absolute right-0 bottom-0 left-0">
-                <h3 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-semibold tracking-tight leading-tight text-black">
+              <div className="p-4 sm:p-5 lg:p-6 bg-gradient-to-t to-transparent from-background/90 via-background/40 absolute right-0 bottom-0 left-0">
+                <h3 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-semibold tracking-tight leading-tight text-foreground">
                   {card.title}
                 </h3>
-                <p className="text-xs sm:text-sm lg:text-base mt-1 text-slate-800">
+                <p className="text-xs sm:text-sm lg:text-base mt-1 text-muted-foreground">
                   {card.description}
                 </p>
               </div>

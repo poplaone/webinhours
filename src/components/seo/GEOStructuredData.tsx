@@ -24,7 +24,7 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
   // Organization Schema - E-E-A-T Foundation
   const organizationSchema = {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": ["Organization", "ProfessionalService"],
     "@id": "https://WebInHour.com/#organization",
     "name": "WebInHour",
     "alternateName": ["Web In Hours", "WebInHour"],
@@ -150,20 +150,9 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
           "priceCurrency": "USD",
           "priceValidUntil": "2026-12-31",
           "description": "Same-day website delivery with custom branding, SEO optimization, and mobile-responsive design"
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Content Creation"
-          },
-          "price": "199",
-          "priceCurrency": "USD",
-          "priceValidUntil": "2026-12-31",
-          "description": "Professional copywriting, blog articles, product descriptions"
         }
-      ]
-    },
+        ]
+      },
     "termsOfService": "https://WebInHour.com/terms",
     "serviceOutput": {
       "@type": "WebSite",

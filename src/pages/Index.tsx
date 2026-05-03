@@ -34,9 +34,6 @@ const Index = () => {
       {/* FAQ Schema for Featured Snippets */}
       <FAQSchema />
 
-      {/* FAQ Schema for Featured Snippets */}
-      <FAQSchema />
-
       {/* Background layers - Grid pattern provided by AppLayout */}
 
       {/* All sections now float over the unified background */}

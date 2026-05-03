@@ -11,7 +11,7 @@ const SidebarLogo = ({ isExpanded }: SidebarLogoProps) => {
     <div className="flex items-center justify-between p-4 h-16 shrink-0 border-b border-[#1A1F2C]">
       <div className={cn("flex items-center overflow-hidden", !isExpanded && "justify-center w-full")}>
         <div className="p-1 flex-shrink-0">
-          <img src="/logo.png" alt="WebInHour Logo" className="h-8 w-8 object-contain" />
+          <img src="/logo.png" alt="WebInHour - Professional Web Design Agency" title="WebInHour - Professional Web Design Agency" className="h-8 w-8 object-contain" />
         </div>
         <div className={cn(
           "ml-2 transition-all duration-300 whitespace-nowrap",

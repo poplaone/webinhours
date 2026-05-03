@@ -9,32 +9,32 @@ export default function About() {
   return (
     <AppLayout>
       <SEOHead
-        title="About WebInHour | The Future of Digital Deployment"
-        description="We are redefining web development with an AI-integrated ecosystem that merges speed, quality, and scalability. Discover how we empower brands to launch instantly and grow limitlessly."
-        keywords="enterprise web development, AI website builder, digital ecosystem, vetted freelance marketplace, rapid deployment platform"
+        title="About WebInHour | Fast Web Development"
+        description="We build professional websites in 24 hours. Stop waiting months for an agency to ship a landing page."
+        keywords="fast web development, 24 hour website, website builders, agency alternatives"
       />
       <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
           {/* Hero Section */}
           <div className="text-center mb-20 scroll-m-20">
-            <Badge variant="secondary" className="mb-6 px-4 py-1.5 text-sm font-medium tracking-wide uppercase">Our Vision</Badge>
+            <Badge variant="secondary" className="mb-6 px-4 py-1.5 text-sm font-medium tracking-wide uppercase">Who we are</Badge>
             <h1 className="text-4xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent tracking-tight">
-              Architecting the Future <br className="hidden md:block" />
-              of Digital Presence.
+              We killed the <br className="hidden md:block" />
+              8-week timeline.
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed font-light">
-              We've removed the technical headaches between your idea and a live website.
-              <span className="text-foreground font-medium"> WebInHour</span> gives you the tools, templates, and talent to launch fast and scale without limits.
+              We got tired of watching founders wait two months and pay $10,000 just to launch a landing page.
+              <span className="text-foreground font-medium"> WebInHour</span> gives you the design, the code, and the speed to launch today.
             </p>
           </div>
 
           {/* Stats Section - Social Proof */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-24">
             {[
-              { icon: Clock, value: "24h", label: "Max Deployment Time", color: "text-purple-600" },
-              { icon: Globe, value: "500+", label: "Premium Templates", color: "text-blue-600" },
-              { icon: Trophy, value: "99.9%", label: "Client Success Rate", color: "text-yellow-600" },
-              { icon: Zap, value: "100+", label: "Expert Developers", color: "text-green-600" }
+              { icon: Clock, value: "24h", label: "Max Build Time", color: "text-purple-600" },
+              { icon: Globe, value: "500+", label: "Tested Layouts", color: "text-blue-600" },
+              { icon: Trophy, value: "99.9%", label: "Uptime", color: "text-yellow-600" },
+              { icon: Zap, value: "100+", label: "Engineers", color: "text-green-600" }
             ].map((stat, idx) => (
               <Card key={idx} className="text-center bg-white/5 backdrop-blur-md border-border/50 hover:border-primary/20 transition-all duration-300 group">
                 <CardContent className="pt-8 pb-8">
@@ -51,19 +51,19 @@ export default function About() {
           {/* Our Story - The Narrative */}
           <div className="grid md:grid-cols-2 gap-16 mb-24 items-center">
             <div className="space-y-8">
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">The Paradigm Shift</h2>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Agencies are too slow. Builders are too hard.</h2>
               <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
                 <p>
-                  For too long, businesses faced a frustrating choice: wait months and pay thousands for an agency, or spend hours fighting with generic DIY website builders that look cheap.
+                  If you want a website today, you basically have two bad options. You can pay an agency $10,000 and wait two months, or you can spend your entire weekend fighting with a drag-and-drop builder until you want to throw your laptop out a window.
                 </p>
                 <p>
-                  <strong className="text-foreground">We built the better way.</strong>
+                  <strong className="text-foreground">We built the third option.</strong>
                 </p>
                 <p>
-                  WebInHour gives you access to agency-quality web design without the agency timeline. By combining smart automation with a curated network of elite developers, we deliver custom, high-performing websites in a fraction of the time.
+                  WebInHour pairs smart automation with actual human developers. We don't build from scratch. We take proven, high-converting components and assemble them to fit your brand. 
                 </p>
                 <p>
-                  We don't just build websites; we build the engine for your online growth.
+                  You get the quality of an agency build, but you get it tomorrow.
                 </p>
               </div>
             </div>
@@ -72,12 +72,12 @@ export default function About() {
                 <CardHeader>
                   <CardTitle className="flex items-center text-xl">
                     <Target className="h-6 w-6 text-primary mr-3" />
-                    Our Mission
+                    The Goal
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    To eliminate technical friction and empower every brand, from startups to enterprises, with a world-class digital footprint instantly.
+                    To make professional web development accessible, fast, and completely transparent. No hidden fees, no endless revisions.
                   </p>
                 </CardContent>
               </Card>
@@ -85,12 +85,12 @@ export default function About() {
                 <CardHeader>
                   <CardTitle className="flex items-center text-xl">
                     <Heart className="h-6 w-6 text-red-500 mr-3" />
-                    Core Philosophy
+                    The Rule
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    Performance is not a luxury. It is a standard. Every asset we deploy is optimized for speed, SEO, and conversion from day one.
+                    Fast doesn't mean broken. Every site we ship has to load under 3 seconds, work perfectly on mobile, and pass Google's core web vitals.
                   </p>
                 </CardContent>
               </Card>
@@ -99,25 +99,25 @@ export default function About() {
 
           {/* Core Values */}
           <div className="mb-24">
-            <h2 className="text-3xl font-bold text-center mb-12">Engineered for Excellence</h2>
+            <h2 className="text-3xl font-bold text-center mb-12">How We Operate</h2>
             <div className="grid md:grid-cols-3 gap-8">
               {[
                 {
                   icon: Shield,
-                  title: "Excellence by Design",
-                  desc: "We don't compromise. Our diverse library is curated rigorously, ensuring cleaner code, faster loads, and better results.",
+                  title: "Tested Code Only",
+                  desc: "We don't reinvent the wheel. We use components that we already know look great and perform flawlessly across all devices.",
                   color: "text-blue-500"
                 },
                 {
                   icon: Clock,
-                  title: "Velocity & Precision",
-                  desc: "Time is your most valuable asset. Our streamlined pipelines ensure your project goes from concept to live in record time.",
+                  title: "Speed is a Feature",
+                  desc: "Time is money. The faster we launch, the faster you can start running ads, collecting leads, and closing deals.",
                   color: "text-purple-500"
                 },
                 {
                   icon: Users,
-                  title: "Collaborative Ecosystem",
-                  desc: "We bridge the gap between top-tier talent and ambitious brands, creating a symbiotic marketplace of innovation.",
+                  title: "Human Experts",
+                  desc: "We use automation to move fast, but human engineers write your copy, check the margins, and push the final code live.",
                   color: "text-green-500"
                 }
               ].map((value, i) => (
@@ -141,7 +141,7 @@ export default function About() {
           {/* Differentiation */}
           <Card className="mb-16 bg-gradient-to-r from-primary/5 via-background to-primary/5 border-primary/20 backdrop-blur-xl">
             <CardHeader className="text-center pb-2">
-              <CardTitle className="text-3xl font-bold">The WebInHour Advantage</CardTitle>
+              <CardTitle className="text-3xl font-bold">Why We Win</CardTitle>
             </CardHeader>
             <CardContent className="pt-8">
               <div className="grid md:grid-cols-3 gap-12 relative">
@@ -153,27 +153,27 @@ export default function About() {
                   <div className="bg-purple-500/10 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 transform hover:rotate-6 transition-transform">
                     <Zap className="h-10 w-10 text-purple-600" />
                   </div>
-                  <h3 className="font-bold text-lg mb-3">Built for Modern Search</h3>
+                  <h3 className="font-bold text-lg mb-3">AI-Search Ready</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">
-                    Our platform ensures your website is instantly readable by traditional search engines and modern AI assistants.
+                    We structure your site so ChatGPT and Perplexity can read it, not just Google.
                   </p>
                 </div>
                 <div className="text-center px-4">
                   <div className="bg-blue-500/10 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 transform hover:-rotate-6 transition-transform">
                     <Star className="h-10 w-10 text-blue-600" />
                   </div>
-                  <h3 className="font-bold text-lg mb-3">Enterprise Standards</h3>
+                  <h3 className="font-bold text-lg mb-3">Modern Stack</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">
-                    Built on modern stacks (React, Vite, Tailwind). No bloated legacy code. Just pure performance.
+                    We use React, Tailwind, and Vite. We don't use heavy WordPress plugins that take 10 seconds to load.
                   </p>
                 </div>
                 <div className="text-center px-4">
                   <div className="bg-green-500/10 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto mb-6 transform hover:rotate-6 transition-transform">
                     <Users className="h-10 w-10 text-green-600" />
                   </div>
-                  <h3 className="font-bold text-lg mb-3">Vetted Expert Network</h3>
+                  <h3 className="font-bold text-lg mb-3">You Own It</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">
-                    Direct access to a closed network of verified developers and digital strategists for bespoke needs.
+                    We hand over the code. You aren't locked into a monthly subscription just to keep your site online.
                   </p>
                 </div>
               </div>

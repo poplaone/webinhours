@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
-import { Loader2 } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 
 interface ProtectedRouteProps {
@@ -30,8 +30,19 @@ const ProtectedRoute = ({ children, requireAuth = true }: ProtectedRouteProps) =
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin" />
+      <div className="min-h-screen bg-background flex flex-col">
+        <header className="h-16 border-b px-6 flex items-center">
+          <Skeleton className="h-6 w-32" />
+        </header>
+        <main className="flex-1 p-6 max-w-7xl mx-auto w-full space-y-6 mt-8">
+          <Skeleton className="h-10 w-48" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Skeleton className="h-40 w-full" />
+            <Skeleton className="h-40 w-full" />
+            <Skeleton className="h-40 w-full" />
+          </div>
+          <Skeleton className="h-[300px] w-full" />
+        </main>
       </div>
     );
   }

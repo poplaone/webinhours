@@ -42,7 +42,7 @@ export default function Pricing() {
         "Mobile responsive"
       ],
       popular: false,
-      cta: "Browse Templates",
+      cta: "Download Free Templates",
       action: () => navigate('/websites'),
       isPaid: false
     },
@@ -62,7 +62,7 @@ export default function Pricing() {
         "7-day support"
       ],
       popular: true,
-      cta: "Get Started",
+      cta: "Get My Custom Website",
       action: () => handleContactForPlan("Custom Lite", "$299", ["Template customization", "2-24 hour delivery", "Logo integration", "Color scheme changes", "Content updates", "Basic SEO & GEO setup", "7-day support"]),
       isPaid: false
     },
@@ -83,7 +83,7 @@ export default function Pricing() {
         "Training session"
       ],
       popular: false,
-      cta: "Get Started",
+      cta: "Build My Custom Site",
       action: () => handleContactForPlan("Custom Pro", "$599", ["100% custom design", "Advanced functionality", "Database integration", "Contact forms", "Analytics setup", "SEO & GEO optimization", "30-day support", "Training session"]),
       isPaid: false
     },
@@ -103,7 +103,7 @@ export default function Pricing() {
         "Priority dedicated support"
       ],
       popular: false,
-      cta: "Contact Us",
+      cta: "Discuss My Project",
       action: () => navigate('/contact'),
       isPaid: false
     }
@@ -190,7 +190,7 @@ export default function Pricing() {
           <div className="text-center mb-12">
             <h1 className="text-3xl md:text-5xl font-bold mb-4">
               <span className="bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent">
-                Start Free, Scale with Expertise
+                Free Templates. $299 Custom Sites. Ready in 24 Hours.
               </span>
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">

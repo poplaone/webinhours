@@ -83,14 +83,14 @@ export default function LandingSameDay() {
             <Hero
                 headline={
                     <>
-                        Need a Professional Website<br className="hidden md:block" />
-                        <span className="text-foreground"> delivered Today?</span>
+                        Website crashed?<br className="hidden md:block" />
+                        <span className="text-foreground"> We'll fix it today.</span>
                     </>
                 }
                 description={
                     <>
-                        We specialize in <strong>emergency & rush delivery</strong>.
-                        Select our Same Day service to skip the queue and get your business online before the sun goes down.
+                        When your launch gets moved up or your old site dies, you don't have weeks to wait.
+                        We build professional, production-ready sites by <strong>the end of the day</strong>.
                     </>
                 }
             />
@@ -100,11 +100,11 @@ export default function LandingSameDay() {
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-5xl font-bold mb-4">
                             <span className="bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
-                                Rush Delivery Options
+                                Emergency Delivery
                             </span>
                         </h2>
                         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                            Time is money. We don't waste either. Choose the speed that fits your deadline.
+                            If you need it live tonight, pick the rush option. We drop everything and build your site.
                         </p>
                     </div>
 
