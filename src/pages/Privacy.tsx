@@ -82,7 +82,7 @@ export default function Privacy() {
                   <h2 className="text-2xl font-bold">3. Asset Acquisition & Transfer</h2>
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  When facilitating the sale or purchase of digital assets (domains, handles, accounts):
+                  When facilitating the setup of digital assets (domains, handles, accounts):
                 </p>
                 <ul className="space-y-4">
                   <li className="bg-background/30 p-4 rounded-lg border-l-2 border-green-500">

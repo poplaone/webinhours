@@ -44,7 +44,7 @@ export const CategoryCards = ({
             </span>
           </div>
           <p className="text-xs md:text-sm lg:text-base text-muted-foreground leading-relaxed">
-            30-day support and customization assistance with every purchase, including deployment guidance
+            30-day support and customization assistance with every setup, including deployment guidance
           </p>
         </div>
       </div>

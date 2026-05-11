@@ -32,7 +32,7 @@ export function WebsitePreview({ website }: WebsitePreviewProps) {
       </div>
 
       <div>
-        <h4 className="font-medium mb-1">Price</h4>
+        <h4 className="font-medium mb-1">Setup Cost</h4>
         <span className="text-lg font-semibold text-green-600">
           ${website.price.toFixed(2)}
         </span>

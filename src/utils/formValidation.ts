@@ -29,8 +29,8 @@ export const websiteUploadSchema = z.object({
     .min(1, { message: "Category is required" }),
   
   price: z.number()
-    .min(0, { message: "Price must be non-negative" })
-    .max(999999.99, { message: "Price must be less than 1,000,000" }),
+    .min(0, { message: "Setup Cost must be non-negative" })
+    .max(999999.99, { message: "Setup Cost must be less than 1,000,000" }),
   
   preview_url: urlSchema,
   
@@ -49,6 +49,12 @@ export const websiteUploadSchema = z.object({
   features: z.array(z.string().trim().max(200)).optional(),
   
   inclusions: z.array(z.string().trim().max(200)).optional(),
+
+  download_url: z.union([
+    urlSchema,
+    z.literal(''),
+    z.undefined()
+  ]).optional(),
 });
 
 // AI Agent upload form validation schema
@@ -70,8 +76,8 @@ export const aiAgentUploadSchema = z.object({
     .min(1, { message: "Agent type is required" }),
   
   price: z.number()
-    .min(0, { message: "Price must be non-negative" })
-    .max(999999.99, { message: "Price must be less than 1,000,000" }),
+    .min(0, { message: "Setup Cost must be non-negative" })
+    .max(999999.99, { message: "Setup Cost must be less than 1,000,000" }),
   
   preview_url: urlSchema,
   

@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calculator, Zap, DollarSign, Clock } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -254,8 +255,8 @@ export const ProjectCalculator = () => {
                       </div>
                     </div>
 
-                    <Button className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED] text-lg py-3">
-                      Start Your Project
+                    <Button asChild className="w-full bg-[#8B5CF6] hover:bg-[#7C3AED] text-lg py-3">
+                      <Link to="/contact">Start Your Project</Link>
                     </Button>
 
                     <p className="text-xs text-muted-foreground text-center">

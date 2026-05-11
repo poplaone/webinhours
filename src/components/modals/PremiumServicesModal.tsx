@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
     Dialog,
     DialogContent,
@@ -99,9 +100,11 @@ export const PremiumServicesModal = ({ children }: PremiumServicesModalProps) =>
                                                                 <Badge variant="outline" className="text-xs border-primary/20 bg-primary/5 text-primary">Premium</Badge>
                                                             </div>
                                                             <p className="text-sm text-muted-foreground mb-4 line-clamp-3">{service.description}</p>
-                                                            <Button size="sm" variant="ghost" className="w-full justify-between hover:bg-primary hover:text-primary-foreground group-arrow">
-                                                                Contact Support
-                                                                <ArrowRight className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-all group-hover:translate-x-1" />
+                                                            <Button asChild size="sm" variant="ghost" className="w-full justify-between hover:bg-primary hover:text-primary-foreground group-arrow">
+                                                                <Link to="/contact">
+                                                                    Contact Support
+                                                                    <ArrowRight className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-all group-hover:translate-x-1" />
+                                                                </Link>
                                                             </Button>
                                                         </div>
                                                     </div>

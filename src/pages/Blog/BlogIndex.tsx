@@ -26,7 +26,7 @@ export default function BlogIndex() {
                         <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                             Insights & Updates
                         </h1>
-                        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
                             Deep dives into the future of digital deployment, asset value, and the AI search revolution.
                         </p>
                     </div>
@@ -39,8 +39,16 @@ export default function BlogIndex() {
                                 className="bg-white/5 backdrop-blur-md border border-border/50 hover:border-purple-500/50 transition-all duration-300 cursor-pointer group flex flex-col h-full"
                                 onClick={() => navigate(`/blog/${post.slug}`)}
                             >
-                                {/* Image Placeholder - In real app, use actual images */}
-                                <div className="h-48 bg-gradient-to-br from-purple-900/20 to-blue-900/20 w-full rounded-t-xl relative overflow-hidden">
+                                {/* Blog Post Image */}
+                                <div className="h-48 w-full rounded-t-xl relative overflow-hidden bg-gradient-to-br from-purple-900/20 to-blue-900/20">
+                                    {post.image && (
+                                        <img
+                                            src={post.image}
+                                            alt={post.title}
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                            loading="lazy"
+                                        />
+                                    )}
                                     <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
                                     <Badge className="absolute top-4 right-4 bg-background/80 backdrop-blur-md text-foreground">
                                         {post.category}
@@ -48,7 +56,7 @@ export default function BlogIndex() {
                                 </div>
 
                                 <CardContent className="p-6 flex-grow flex flex-col">
-                                    <div className="flex items-center text-sm text-gray-500 mb-4 gap-4">
+                                    <div className="flex items-center text-sm text-muted-foreground mb-4 gap-4">
                                         <div className="flex items-center">
                                             <Calendar className="h-4 w-4 mr-1" />
                                             {post.date}
@@ -63,7 +71,7 @@ export default function BlogIndex() {
                                         {post.title}
                                     </h2>
 
-                                    <p className="text-gray-600 mb-6 flex-grow line-clamp-3">
+                                    <p className="text-muted-foreground mb-6 flex-grow line-clamp-3">
                                         {post.excerpt}
                                     </p>
 

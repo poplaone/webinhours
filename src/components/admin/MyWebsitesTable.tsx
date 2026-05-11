@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Edit, Trash } from 'lucide-react';
+import { Edit, Trash, ExternalLink } from 'lucide-react';
 import { Website } from '@/hooks/useWebsites';
 
 interface MyWebsitesTableProps {
@@ -42,11 +42,12 @@ export function MyWebsitesTable({
               <TableRow>
                 <TableHead>Title</TableHead>
                 <TableHead>Category</TableHead>
-                <TableHead>Price</TableHead>
+                <TableHead>Setup Cost</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Views</TableHead>
                 <TableHead>Rating</TableHead>
                 <TableHead>Created</TableHead>
+                <TableHead>Download</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -68,6 +69,21 @@ export function MyWebsitesTable({
                   </TableCell>
                   <TableCell>
                     {new Date(website.created_at).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>
+                    {website.download_url ? (
+                      <a
+                        href={website.download_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-[#8B5CF6] hover:text-[#7C3AED] transition-colors"
+                        title="Open download link"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
+                    ) : (
+                      <span className="text-muted-foreground text-xs">—</span>
+                    )}
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-2">

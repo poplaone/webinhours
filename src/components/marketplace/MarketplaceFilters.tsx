@@ -77,8 +77,8 @@ export const MarketplaceFilters = ({
     { value: 'popular', label: 'Most Popular' },
     { value: 'newest', label: 'Newest' },
     { value: 'rating', label: 'Highest Rated' },
-    { value: 'price-low', label: 'Price: Low to High' },
-    { value: 'price-high', label: 'Price: High to Low' }
+    { value: 'price-low', label: 'Setup Cost: Low to High' },
+    { value: 'price-high', label: 'Setup Cost: High to Low' }
   ], []);
 
   // Get current filter labels for display

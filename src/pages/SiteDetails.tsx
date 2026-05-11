@@ -26,6 +26,22 @@ const SiteDetails = () => {
   usePrefetchSiteDetails();
 
 
+  const handleDirectDownload = useCallback(() => {
+    if (site?.download_url) {
+      window.open(site.download_url, '_blank', 'noopener,noreferrer');
+      toast({
+        title: "Download Started",
+        description: "Your download link has been opened in a new tab."
+      });
+    } else {
+      toast({
+        title: "Download Not Available",
+        description: "The download link for this template is not ready yet. Please check back later.",
+        variant: "destructive"
+      });
+    }
+  }, [toast, site]);
+
   const handlePurchase = useCallback(() => {
     if (site?.price && site.price > 0) {
       // Navigate to contact with template details pre-filled
@@ -36,14 +52,10 @@ const SiteDetails = () => {
       });
       navigate(`/contact?${params.toString()}`);
     } else {
-      // Free download logic
-      toast({
-        title: "Download Started",
-        description: "Your download will begin shortly."
-      });
-      if (site?.demo_url) window.open(site.demo_url, '_blank');
+      // Free download logic — use Google Drive link if available
+      handleDirectDownload();
     }
-  }, [toast, navigate, site]);
+  }, [navigate, site, handleDirectDownload]);
 
   const handlePreview = useCallback(() => {
     if (site?.preview_url) {
@@ -160,7 +172,7 @@ const SiteDetails = () => {
               onClick={handlePurchase}
               className="bg-[#8B5CF6] hover:bg-[#7C3AED] h-8 px-3 shrink-0"
             >
-              Buy
+              {site.price === 0 ? 'Download' : 'Setup'}
             </Button>
           </div>
         )}
@@ -175,13 +187,13 @@ const SiteDetails = () => {
               <h1 className="text-3xl font-bold">{site.title}</h1>
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="outline" className="flex items-center gap-2" onClick={handlePreview}>
-                <Eye className="h-4 w-4" />
-                Preview
+              <Button variant="outline" className="flex items-center gap-2" onClick={handleDirectDownload}>
+                <Download className="h-4 w-4" />
+                Free Download
               </Button>
               <Button onClick={handlePurchase} className="bg-[#8B5CF6] hover:bg-[#7C3AED] flex items-center gap-2">
                 <Download className="h-4 w-4" />
-                {site.price === 0 ? 'Download Free' : `Purchase $${site.price}`}
+                {site.price === 0 ? 'Download Free' : `Setup Cost $${site.price}`}
               </Button>
             </div>
           </div>

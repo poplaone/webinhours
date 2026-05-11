@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { DollarSign } from 'lucide-react';
+import { DollarSign, Link2 } from 'lucide-react';
 import { ImageUpload } from '@/components/ui/image-upload';
 
 interface WebsiteFormData {
@@ -15,6 +15,7 @@ interface WebsiteFormData {
   price: number;
   preview_url: string;
   demo_url?: string;
+  download_url?: string;
   slug?: string;
 }
 
@@ -146,7 +147,7 @@ export function BasicInfoSection({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <Label htmlFor="price">Price ($) *</Label>
+          <Label htmlFor="price">Setup Cost ($) *</Label>
           <div className="relative">
             <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
@@ -176,6 +177,22 @@ export function BasicInfoSection({
             required
           />
         </div>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="download_url">Download URL (Google Drive) </Label>
+        <div className="relative">
+          <Link2 className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Input
+            id="download_url"
+            className="pl-10"
+            {...register('download_url')}
+            placeholder="https://drive.google.com/file/d/.../view"
+          />
+        </div>
+        <p className="text-xs text-muted-foreground">
+          Paste a Google Drive sharing link to the website zip file. Leave empty if not ready yet.
+        </p>
       </div>
     </>
   );

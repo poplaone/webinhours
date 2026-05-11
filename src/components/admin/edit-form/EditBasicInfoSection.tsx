@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ImageUpload } from '@/components/ui/image-upload';
+import { Link2 } from 'lucide-react';
 
 interface WebsiteFormData {
   title: string;
@@ -13,6 +14,7 @@ interface WebsiteFormData {
   category: string;
   price: number;
   preview_url: string;
+  download_url?: string;
 }
 
 interface EditBasicInfoSectionProps {
@@ -92,7 +94,7 @@ export function EditBasicInfoSection({
         name="price"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Price (USD) *</FormLabel>
+            <FormLabel>Setup Cost (USD) *</FormLabel>
             <FormControl>
               <Input 
                 type="number" 
@@ -114,6 +116,30 @@ export function EditBasicInfoSection({
           label="Thumbnail Image"
         />
       </div>
+
+      <FormField
+        control={control}
+        name="download_url"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Download URL (Google Drive)</FormLabel>
+            <FormControl>
+              <div className="relative">
+                <Link2 className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input 
+                  className="pl-10"
+                  placeholder="https://drive.google.com/file/d/.../view" 
+                  {...field} 
+                />
+              </div>
+            </FormControl>
+            <p className="text-xs text-muted-foreground">
+              Paste a Google Drive sharing link to the website zip file.
+            </p>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </>
   );
 }

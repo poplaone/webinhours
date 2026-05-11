@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from "sonner";
 import { Globe } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,7 +12,7 @@ export const PurchaseHistoryTab = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Purchase History</CardTitle>
+        <CardTitle>Setup History</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-4">
@@ -28,8 +29,8 @@ export const PurchaseHistoryTab = () => {
                 <div className="flex justify-between items-center">
                   <span className="font-bold text-[#8B5CF6]">$299</span>
                   <div className="flex gap-1">
-                    <Button size="sm" variant="outline">Download</Button>
-                    <Button size="sm" variant="outline">View</Button>
+                    <Button size="sm" variant="outline" onClick={() => toast.info("Preparing download...")}>Download</Button>
+                    <Button size="sm" variant="outline" onClick={() => toast.info("Opening viewer...")}>View</Button>
                   </div>
                 </div>
               </CardContent>
@@ -47,8 +48,8 @@ export const PurchaseHistoryTab = () => {
                 <div className="flex justify-between items-center">
                   <span className="font-bold text-[#8B5CF6]">$149</span>
                   <div className="flex gap-1">
-                    <Button size="sm" variant="outline">Download</Button>
-                    <Button size="sm" variant="outline">View</Button>
+                    <Button size="sm" variant="outline" onClick={() => toast.info("Preparing download...")}>Download</Button>
+                    <Button size="sm" variant="outline" onClick={() => toast.info("Opening viewer...")}>View</Button>
                   </div>
                 </div>
               </CardContent>

@@ -15,9 +15,9 @@ import { format } from 'date-fns';
 const QUICK_RESPONSES = [
   { label: 'Greeting', text: 'Hello! Thanks for reaching out to WebInHour support. How can I help you today?' },
   { label: 'Pricing', text: 'Our pricing varies based on the template or AI agent you choose. You can see individual prices on each product page. Need help finding something in your budget?' },
-  { label: 'Customization', text: 'Yes, all our templates are fully customizable! Once purchased, you get the complete source code to modify as needed.' },
-  { label: 'Delivery', text: 'After purchase, you\'ll receive instant access to download your template or AI agent. Check your email for the download link!' },
-  { label: 'Refund', text: 'We offer refunds within 7 days of purchase if the product doesn\'t meet your expectations. Please contact us with your order details.' },
+  { label: 'Customization', text: 'Yes, all our templates are fully customizable! Once setup, you get the complete source code to modify as needed.' },
+  { label: 'Delivery', text: 'After setup, you\'ll receive instant access to download your template or AI agent. Check your email for the download link!' },
+  { label: 'Refund', text: 'We offer refunds within 7 days of setup if the product doesn\'t meet your expectations. Please contact us with your order details.' },
   { label: 'Tech Support', text: 'For technical issues, please describe the problem in detail. Screenshots help us diagnose faster!' },
   { label: 'Thanks', text: 'Thank you for choosing WebInHour! Is there anything else I can help you with?' },
 ];

@@ -60,7 +60,7 @@ const Profile = () => {
     <AppLayout>
       <SEOHead
         title="My Profile - WebInHour"
-        description="Manage your WebInHour profile, view your purchases and website templates"
+        description="Manage your WebInHour profile, view your setups and website templates"
         noIndex={true}
       />
       <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
@@ -86,7 +86,7 @@ const Profile = () => {
           <Tabs defaultValue="dashboard" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-              <TabsTrigger value="purchases">My Purchases</TabsTrigger>
+              <TabsTrigger value="purchases">My Setups</TabsTrigger>
             </TabsList>
 
             <TabsContent value="dashboard" className="space-y-6">

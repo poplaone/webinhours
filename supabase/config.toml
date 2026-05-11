@@ -3,12 +3,6 @@ project_id = "dcsnxieqnpcjqqiajtvh"
 [functions.send-contact-email]
 verify_jwt = false
 
-[functions.dodo-checkout]
-verify_jwt = false
-
-[functions.dodo-webhook]
-verify_jwt = false
-
 [functions.live-support-notification]
 verify_jwt = true
 

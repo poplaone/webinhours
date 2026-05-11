@@ -4,7 +4,7 @@ import Masonry from 'react-masonry-css';
 import './masonry.css';
 
 import { useNavigate } from 'react-router-dom';
-import { DollarSign, Star } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -79,13 +79,9 @@ const TemplateCard = memo<{ template: Website; onClick: (t: Website) => void; on
       </div>
       <CardContent className="p-5 xl:p-6 flex flex-col flex-grow bg-transparent min-h-[110px] relative z-10">
         <div className="flex justify-between items-start mb-3">
-          <h3 className="font-semibold text-base xl:text-lg text-foreground group-hover:text-purple-200 transition-colors line-clamp-2 pr-2">
+          <h3 className="font-semibold text-base xl:text-lg text-foreground group-hover:text-purple-200 transition-colors line-clamp-2">
             {template.title}
           </h3>
-          <div className="flex items-center gap-1 text-foreground/90 font-bold text-sm xl:text-base bg-background/10 backdrop-blur-sm border border-border/20 px-3 py-1.5 rounded-full hover:bg-background/20 transition-colors duration-200">
-            <DollarSign className="h-3.5 w-3.5" />
-            <span>{Number(template.price) === 0 ? 'Free' : Number(template.price)}</span>
-          </div>
         </div>
         <div className="flex flex-wrap gap-1.5 mb-3">
           {template.tags && template.tags.slice(0, 3).map((tag: string) => (

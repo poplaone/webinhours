@@ -13,6 +13,7 @@ interface WebsiteFormData {
   price: number;
   preview_url: string;
   demo_url?: string;
+  download_url?: string;
   slug?: string;
 }
 

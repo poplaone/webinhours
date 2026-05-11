@@ -20,6 +20,7 @@ const websiteSchema = z.object({
   category: z.string().min(1, 'Category is required'),
   price: z.number().min(0, 'Price must be non-negative'),
   preview_url: z.string().url('Must be a valid URL'),
+  download_url: z.string().url('Must be a valid URL').or(z.literal('')).optional(),
 });
 
 interface WebsiteEditFormProps {
@@ -47,6 +48,7 @@ export function WebsiteEditForm({ website, onClose, onUpdate }: WebsiteEditFormP
       category: website.category,
       price: website.price,
       preview_url: website.preview_url,
+      download_url: website.download_url || '',
     },
   });
 
@@ -103,6 +105,7 @@ export function WebsiteEditForm({ website, onClose, onUpdate }: WebsiteEditFormP
       features: features.length > 0 ? features : null,
       inclusions: inclusions.length > 0 ? inclusions : null,
       demo_url: data.demo_url || null,
+      download_url: data.download_url || null,
       thumbnail_url: thumbnailUrl || null,
       description: data.description || null,
     };

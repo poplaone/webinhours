@@ -6,6 +6,7 @@ interface WebsiteFormData {
   price: number;
   preview_url: string;
   demo_url?: string;
+  download_url?: string;
   slug?: string;
 }
 
@@ -38,6 +39,7 @@ export const prepareWebsiteData = ({
     price: data.price,
     preview_url: data.preview_url,
     demo_url: data.demo_url || null,
+    download_url: data.download_url || null,
     thumbnail_url: thumbnailUrl,
     slug: data.slug || null,
     tags: tags.length > 0 ? tags : null,

@@ -75,9 +75,6 @@ export const FastMarketplace: React.FC<FastMarketplaceProps> = ({
         </h3>
         <div className="flex items-center justify-between">
           <span className="text-sm text-muted-foreground capitalize">{template.category}</span>
-          <span className="text-lg font-bold text-foreground">
-            {Number(template.price) === 0 ? 'Free' : `$${template.price}`}
-          </span>
         </div>
       </div>
     </motion.div>

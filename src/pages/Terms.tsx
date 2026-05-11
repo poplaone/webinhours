@@ -67,7 +67,7 @@ export default function Terms() {
                   For developers and creators listing assets on our network ("Nodes"):
                 </p>
                 <ul className="list-disc pl-6 space-y-3 text-muted-foreground">
-                  <li><strong className="text-foreground">Revenue Split:</strong> Creators retain 70% of the gross sale price. WebInHour retains 30% as a platform fee.</li>
+                  <li><strong className="text-foreground">Revenue Split:</strong> Creators retain 70% of the gross setup cost. WebInHour retains 30% as a platform fee.</li>
                   <li><strong className="text-foreground">Exclusivity:</strong> You retain ownership of your IP. However, assets listed as "Exclusive" must not be sold elsewhere.</li>
                   <li><strong className="text-foreground">Quality Standards:</strong> We reserve the right to delist any asset that fails our security, performance, or SEO benchmarks.</li>
                 </ul>

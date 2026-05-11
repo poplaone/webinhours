@@ -112,7 +112,7 @@ export function DashboardHeader({
             <PopoverContent className="w-80 bg-background border border-border shadow-lg" align="end">
               <div className="space-y-4">
                 <div>
-                  <h4 className="font-medium mb-3">Price Range</h4>
+                  <h4 className="font-medium mb-3">Setup Cost Range</h4>
                   <div className="px-3">
                     <Slider 
                       min={0} 

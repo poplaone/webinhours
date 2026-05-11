@@ -8,6 +8,7 @@ import { Separator } from '@/components/ui/separator';
 import { ArrowLeft, Calendar, Clock, User, Share2 } from 'lucide-react';
 import { blogPosts } from '@/data/blog-posts';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 export default function BlogPost() {
     const { slug } = useParams();
@@ -16,7 +17,6 @@ export default function BlogPost() {
 
     useEffect(() => {
         if (!post) {
-            // In a real app, you might show a 404
             // navigate('/blog'); 
         } else {
             window.scrollTo(0, 0);
@@ -63,7 +63,7 @@ export default function BlogPost() {
                             {post.title}
                         </h1>
 
-                        <div className="flex flex-wrap items-center gap-6 text-sm text-gray-500 border-y border-border/50 py-4">
+                        <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground border-y border-border/50 py-4">
                             <div className="flex items-center">
                                 <User className="h-4 w-4 mr-2 text-purple-600" />
                                 <span className="font-medium text-foreground">{post.author}</span>
@@ -80,34 +80,10 @@ export default function BlogPost() {
                     </div>
 
                     {/* Content */}
-                    <div className="prose prose-lg prose-gray dark:prose-invert max-w-none">
-                        {/* 
-               We use simple newline replacement for 'markdown' for this demo.
-               In a real implementation with 'react-markdown', we would just pass children={post.content}
-            */}
-                        <div className="whitespace-pre-line leading-relaxed">
-                            {post.content.split('\n').map((line, i) => {
-                                if (line.startsWith('# ')) return <h1 key={i} className="text-3xl font-bold mt-12 mb-6">{line.replace('# ', '')}</h1>;
-                                if (line.startsWith('## ')) return <h2 key={i} className="text-2xl font-bold mt-10 mb-5 text-gray-800">{line.replace('## ', '')}</h2>;
-                                if (line.startsWith('### ')) return <h3 key={i} className="text-xl font-bold mt-8 mb-4 text-gray-800">{line.replace('### ', '')}</h3>;
-                                if (line.startsWith('* ')) return <li key={i} className="ml-4 list-disc mb-2">{line.replace('* ', '')}</li>;
-                                if (line.startsWith('> ')) return <blockquote key={i} className="border-l-4 border-purple-500 pl-4 italic text-gray-600 my-8 py-2 bg-gray-50 rounded-r-lg">{line.replace('> ', '')}</blockquote>;
-                                if (line.match(/^\d\./)) return <li key={i} className="ml-4 list-decimal mb-2">{line.substring(2)}</li>;
-
-                                // Highlight bold text
-                                const parts = line.split(/(\*\*.*?\*\*)/g);
-                                return (
-                                    <p key={i} className="mb-4 text-gray-700">
-                                        {parts.map((part, index) => {
-                                            if (part.startsWith('**') && part.endsWith('**')) {
-                                                return <strong key={index} className="text-black font-semibold">{part.slice(2, -2)}</strong>;
-                                            }
-                                            return part;
-                                        })}
-                                    </p>
-                                );
-                            })}
-                        </div>
+                    <div className="prose prose-lg prose-gray dark:prose-invert max-w-none prose-headings:text-foreground prose-a:text-purple-600 hover:prose-a:text-purple-500 prose-blockquote:border-l-purple-500 prose-blockquote:bg-muted/50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:rounded-r-lg prose-table:border-collapse prose-th:bg-muted prose-th:p-3 prose-td:p-3 prose-td:border-b prose-td:border-border">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            {post.content}
+                        </ReactMarkdown>
                     </div>
 
                     <Separator className="my-12" />

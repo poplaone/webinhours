@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   Award,
   Clock,
@@ -63,19 +64,23 @@ const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Button size="lg" className="group relative overflow-hidden font-semibold px-8 h-12 text-base shadow-lg shadow-primary/20">
-                  <span className="relative z-10 flex items-center gap-2">
-                    Start Your Project
-                    <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <Button asChild size="lg" className="group relative overflow-hidden font-semibold px-8 h-12 text-base shadow-lg shadow-primary/20">
+                  <Link to="/calculator">
+                    <span className="relative z-10 flex items-center gap-2">
+                      Start Your Project
+                      <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
                 </Button>
 
-                <Button variant="outline" size="lg" className="group font-semibold px-8 h-12 text-base border-2">
-                  <span className="flex items-center gap-2">
-                    View Our Work
-                    <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
+                <Button asChild variant="outline" size="lg" className="group font-semibold px-8 h-12 text-base border-2">
+                  <Link to="/websites">
+                    <span className="flex items-center gap-2">
+                      View Our Work
+                      <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </Link>
                 </Button>
               </div>
 

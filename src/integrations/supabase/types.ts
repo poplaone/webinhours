@@ -1,4 +1,4 @@
-export type Json =
+﻿export type Json =
   | string
   | number
   | boolean
@@ -14,123 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      ai_agents: {
-        Row: {
-          agent_type: string
-          approved_at: string | null
-          category: string
-          created_at: string
-          demo_url: string | null
-          description: string | null
-          featured_at: string | null
-          features: string[] | null
-          id: string
-          images: string[] | null
-          inclusions: string[] | null
-          is_featured: boolean
-          model_info: Json | null
-          preview_url: string
-          price: number
-          rating_average: number | null
-          rating_count: number
-          status: string
-          tags: string[] | null
-          technologies: string[] | null
-          thumbnail_url: string | null
-          title: string
-          updated_at: string
-          usage_count: number
-          use_cases: string[] | null
-          user_id: string
-          views_count: number
-        }
-        Insert: {
-          agent_type?: string
-          approved_at?: string | null
-          category: string
-          created_at?: string
-          demo_url?: string | null
-          description?: string | null
-          featured_at?: string | null
-          features?: string[] | null
-          id?: string
-          images?: string[] | null
-          inclusions?: string[] | null
-          is_featured?: boolean
-          model_info?: Json | null
-          preview_url: string
-          price?: number
-          rating_average?: number | null
-          rating_count?: number
-          status?: string
-          tags?: string[] | null
-          technologies?: string[] | null
-          thumbnail_url?: string | null
-          title: string
-          updated_at?: string
-          usage_count?: number
-          use_cases?: string[] | null
-          user_id: string
-          views_count?: number
-        }
-        Update: {
-          agent_type?: string
-          approved_at?: string | null
-          category?: string
-          created_at?: string
-          demo_url?: string | null
-          description?: string | null
-          featured_at?: string | null
-          features?: string[] | null
-          id?: string
-          images?: string[] | null
-          inclusions?: string[] | null
-          is_featured?: boolean
-          model_info?: Json | null
-          preview_url?: string
-          price?: number
-          rating_average?: number | null
-          rating_count?: number
-          status?: string
-          tags?: string[] | null
-          technologies?: string[] | null
-          thumbnail_url?: string | null
-          title?: string
-          updated_at?: string
-          usage_count?: number
-          use_cases?: string[] | null
-          user_id?: string
-          views_count?: number
-        }
-        Relationships: []
-      }
-      ai_usage_limits: {
-        Row: {
-          created_at: string
-          daily_count: number
-          id: string
-          last_reset_date: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          daily_count?: number
-          id?: string
-          last_reset_date?: string
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          daily_count?: number
-          id?: string
-          last_reset_date?: string
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
       chat_messages: {
         Row: {
           content: string
@@ -332,24 +215,7 @@ export type Database = {
     }
     Functions: {
       bootstrap_admin: { Args: { admin_email: string }; Returns: undefined }
-      check_ai_rate_limit: {
-        Args: {
-          _action_type: Database["public"]["Enums"]["ai_action_type"]
-          _max_requests?: number
-          _user_id: string
-          _window_minutes?: number
-        }
-        Returns: boolean
-      }
-      check_and_increment_ai_usage: {
-        Args: { p_daily_limit?: number; p_user_id: string }
-        Returns: boolean
-      }
       generate_slug: { Args: { title: string }; Returns: string }
-      get_remaining_ai_credits: {
-        Args: { p_daily_limit?: number; p_user_id: string }
-        Returns: number
-      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -535,3 +401,4 @@ export const Constants = {
     },
   },
 } as const
+
