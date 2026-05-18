@@ -98,7 +98,6 @@ export default function Contact() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { user } = useAuth();
-  const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [formData, setFormData] = useState({
@@ -183,9 +182,6 @@ export default function Contact() {
         timeline: 'asap',
         otherDetails: `Selected Plan: ${plan} (${price}/project)\n\nPlan Features:\n${featureList}`,
       }));
-
-      // Jump straight to the contact details step
-      setStep(3);
 
       // Auto-scroll to the form after a short delay
       setTimeout(() => {
@@ -307,13 +303,6 @@ ${cleanDetails ? `📝 Additional Details:\n${cleanDetails}` : ''}
     }
   };
 
-  const canProceed = () => {
-    if (step === 1) return formData.services.length > 0;
-    if (step === 2) return formData.budget !== '';
-    if (step === 3) return formData.name.trim() !== '' && formData.email.trim() !== '';
-    return true;
-  };
-
   return (
     <AppLayout>
       <SEOHead
@@ -322,7 +311,7 @@ ${cleanDetails ? `📝 Additional Details:\n${cleanDetails}` : ''}
       />
 
       <div className="container mx-auto p-4 lg:p-8 pb-32">
-        <div className="max-w-4xl mx-auto" ref={formRef}>
+        <div className="max-w-6xl mx-auto" ref={formRef}>
           {/* Header */}
           <div className="text-center mb-10">
             <h1 className="text-3xl lg:text-4xl font-bold mb-4">Let's Build Something Great Together</h1>
@@ -331,35 +320,17 @@ ${cleanDetails ? `📝 Additional Details:\n${cleanDetails}` : ''}
             </p>
           </div>
 
-          {/* Progress Steps */}
-          <div className="mb-8">
-            <div className="flex items-center justify-center gap-4 text-sm font-medium">
-              <div className={cn("flex items-center gap-2 transition-colors", step >= 1 && "text-primary")}>
-                <span className={cn("w-6 h-6 rounded-full flex items-center justify-center border text-xs", step >= 1 ? "border-primary bg-primary text-primary-foreground" : "border-muted-foreground/30")}>1</span>
-                Services
-              </div>
-              <ChevronRight className="w-4 h-4 text-muted-foreground/30" />
-              <div className={cn("flex items-center gap-2 transition-colors", step >= 2 && "text-primary")}>
-                <span className={cn("w-6 h-6 rounded-full flex items-center justify-center border text-xs", step >= 2 ? "border-primary bg-primary text-primary-foreground" : "border-muted-foreground/30")}>2</span>
-                Details
-              </div>
-              <ChevronRight className="w-4 h-4 text-muted-foreground/30" />
-              <div className={cn("flex items-center gap-2 transition-colors", step >= 3 && "text-primary")}>
-                <span className={cn("w-6 h-6 rounded-full flex items-center justify-center border text-xs", step >= 3 ? "border-primary bg-primary text-primary-foreground" : "border-muted-foreground/30")}>3</span>
-                Info
-              </div>
-            </div>
-          </div>
-
           {/* Form Card */}
-          <Card className="border border-border/50 shadow-sm bg-white/5 backdrop-blur-md">
-            <CardContent className="p-6 md:p-8">
-              <form onSubmit={handleSubmit}>
-                {/* Step 1: Services */}
-                {step === 1 && (
-                  <div className="space-y-6">
-                    <div>
-                      <h2 className="text-lg font-semibold text-foreground mb-1">How can we help?</h2>
+          <Card className="border border-border/50 shadow-sm bg-white/5 backdrop-blur-md overflow-hidden">
+            <CardContent className="p-0">
+              <form onSubmit={handleSubmit} className="flex flex-col lg:flex-row h-auto lg:h-[75vh] lg:min-h-[650px] lg:max-h-[850px]">
+                
+                {/* Left Side: Services, Budget & Timeline */}
+                <div className="flex-1 p-6 md:p-8 overflow-y-auto space-y-12 lg:border-r border-border/50">
+                  {/* Step 1: Services */}
+                <div className="space-y-6">
+                  <div>
+                    <h2 className="text-xl font-semibold text-foreground mb-1">1. How can we help? *</h2>
                       <p className="text-sm text-muted-foreground mb-4">Select the services you're interested in.</p>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -446,15 +417,15 @@ ${cleanDetails ? `📝 Additional Details:\n${cleanDetails}` : ''}
                         />
                       </div>
                     )}
-                  </div>
-                )}
+                </div>
+
+                <div className="w-full h-px bg-border/50" />
 
                 {/* Step 2: Budget & Timeline */}
-                {step === 2 && (
-                  <div className="space-y-8">
-                    <div>
-                      <h2 className="text-lg font-semibold text-foreground mb-1">Project Scope</h2>
-                      <p className="text-sm text-muted-foreground mb-4">Help us understand your budget and timeline.</p>
+                <div className="space-y-8">
+                  <div>
+                    <h2 className="text-xl font-semibold text-foreground mb-1">2. Project Scope (Optional)</h2>
+                    <p className="text-sm text-muted-foreground mb-4">Help us understand your budget and timeline.</p>
 
                       <div className="space-y-6">
                         <div>
@@ -486,14 +457,15 @@ ${cleanDetails ? `📝 Additional Details:\n${cleanDetails}` : ''}
                         </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                </div>
 
-                {/* Step 3: Contact Details */}
-                {step === 3 && (
-                  <div className="space-y-6">
+                </div>
+
+                {/* Right Side: Contact Details & Submit */}
+                <div className="w-full lg:w-[400px] xl:w-[450px] flex flex-col overflow-hidden bg-muted/10 shrink-0">
+                  <div className="flex-1 p-6 md:p-8 overflow-y-auto space-y-6">
                     <div>
-                      <h2 className="text-lg font-semibold text-foreground mb-1">Tell us about you</h2>
+                      <h2 className="text-xl font-semibold text-foreground mb-1">3. Your Details</h2>
                       <p className="text-sm text-muted-foreground mb-4">Where should we send your personalized plan?</p>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -580,58 +552,43 @@ ${cleanDetails ? `📝 Additional Details:\n${cleanDetails}` : ''}
                       </dl>
                     </div>
                   </div>
-                )}
 
-                {/* Footer Controls */}
-                <div className="flex items-center justify-between pt-6 mt-6 border-t border-border/50">
-                  {step > 1 ? (
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => setStep(s => s - 1)}
-                    >
-                      Back
-                    </Button>
-                  ) : (
-                    <div />
-                  )}
-
-                  {step < 3 ? (
-                    <Button
-                      type="button"
-                      onClick={() => setStep(s => s + 1)}
-                      disabled={!canProceed()}
-                      className="min-w-[120px]"
-                    >
-                      Continue
-                    </Button>
-                  ) : (
-                    <div className="relative group/submit">
+                  {/* Footer Controls */}
+                  <div className="p-6 md:p-8 bg-background/80 border-t border-border/50 backdrop-blur-md shrink-0 z-10 shadow-[0_-10px_20px_rgba(0,0,0,0.02)]">
+                    <div className="relative group/submit w-full flex lg:justify-end">
                       <Button
-                        type="button"
-                        onClick={() => {
-                          // Mark fields as touched for validation
-                          setTouched({ name: true, email: true });
-                          // Check if valid before showing modal
-                          if (formData.name.trim() && formData.email.trim() && emailRegex.test(formData.email)) {
-                            setShowConfirmModal(true);
+                      type="button"
+                      onClick={() => {
+                        // Mark fields as touched for validation
+                        setTouched({ name: true, email: true });
+                        // Check if valid before showing modal
+                        if (formData.name.trim() && formData.email.trim() && emailRegex.test(formData.email)) {
+                          if (formData.services.length === 0) {
+                            toast({
+                              title: "Select a Service",
+                              description: "Please select at least one service you're interested in.",
+                              variant: "destructive",
+                            });
+                            return;
                           }
-                        }}
-                        disabled={!canProceed() || isSubmitting || !!validationErrors.name || !!validationErrors.email}
-                        className="min-w-[140px]"
-                      >
-                        <Send className="w-4 h-4 mr-2" />
-                        Review & Submit
-                      </Button>
-                      {(!formData.name.trim() || !formData.email.trim()) && (
-                        <div className="absolute bottom-full mb-2 right-0 w-56 px-3 py-2 rounded-lg bg-foreground text-background text-xs font-medium opacity-0 group-hover/submit:opacity-100 transition-opacity duration-200 pointer-events-none shadow-lg z-10">
-                          <AlertCircle className="w-3 h-3 inline mr-1" />
-                          Please fill in your name and email to submit
-                          <div className="absolute top-full right-6 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-foreground" />
-                        </div>
-                      )}
+                          setShowConfirmModal(true);
+                        }
+                      }}
+                      disabled={isSubmitting || !!validationErrors.name || !!validationErrors.email || !formData.name.trim() || !formData.email.trim()}
+                      className="min-w-[140px]"
+                    >
+                      <Send className="w-4 h-4 mr-2" />
+                      Review & Submit
+                    </Button>
+                    {(!formData.name.trim() || !formData.email.trim()) && (
+                      <div className="absolute bottom-full mb-2 right-0 w-56 px-3 py-2 rounded-lg bg-foreground text-background text-xs font-medium opacity-0 group-hover/submit:opacity-100 transition-opacity duration-200 pointer-events-none shadow-lg z-10">
+                        <AlertCircle className="w-3 h-3 inline mr-1" />
+                        Please fill in your name and email to submit
+                        <div className="absolute top-full right-6 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-foreground" />
+                      </div>
+                    )}
                     </div>
-                  )}
+                  </div>
                 </div>
               </form>
             </CardContent>
