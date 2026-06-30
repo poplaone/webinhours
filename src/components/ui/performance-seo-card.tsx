@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { motion, useAnimation } from "framer-motion";
 
 export function PerformanceSEOCard({ className }: { className?: string }) {
     return (
@@ -37,15 +36,11 @@ export function PerformanceSEOCard({ className }: { className?: string }) {
                     {/* Rotating Scan Background */}
                     <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent blur-3xl opacity-20 pointer-events-none"></div>
 
-                            <motion.div className="relative w-28 h-28 group-hover:scale-105"
-                                        initial={{ scale: 0.96, rotate: -8 }}
-                                        whileInView={{ scale: 1, rotate: 0 }}
-                                        viewport={{ once: true, amount: 0.3 }}
-                                        transition={{ type: 'spring', stiffness: 90, damping: 12 }}>
+                    <div className="relative w-28 h-28">
                                 {/* Outer Decoration Ring */}
-                                <div className="absolute inset-0 rounded-full border border-primary/20 border-dashed animate-[spin_10s_linear_infinite]" />
+                                <div className="absolute inset-0 rounded-full border border-primary/20 border-dashed" />
 
-                                {/* Segmented Arc Gauge - animated stroke via inline style */}
+                                {/* Segmented Arc Gauge */}
                                 <svg className="w-full h-full -rotate-90" viewBox="0 0 112 112">
                                     <defs>
                                       <linearGradient id="g1" x1="0%" x2="100%">
@@ -63,24 +58,23 @@ export function PerformanceSEOCard({ className }: { className?: string }) {
                                         strokeDashoffset="0"
                                         strokeLinecap="round"
                                         className="drop-shadow-[0_0_12px_rgba(var(--primary),0.6)]"
-                                        style={{ strokeDashoffset: 0 }}
                                     />
                                 </svg>
 
                                 {/* Center Digital Readout */}
                                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-card/30 backdrop-blur-sm rounded-full m-4 border border-white/5">
-                                    <motion.span className="text-[10px] font-mono text-primary" animate={{ opacity: [0.6, 1, 0.6] }} transition={{ repeat: Infinity, duration: 1.8 }}>
+                                    <span className="text-[10px] font-mono text-primary opacity-90">
                                         OPTIMIZED
-                                    </motion.span>
-                                    <motion.span className="text-4xl font-bold tracking-tighter text-foreground tabular-nums" initial={{ scale: 0.9 }} animate={{ scale: [0.95, 1.02, 0.95] }} transition={{ repeat: Infinity, duration: 2.4 }}>
+                                    </span>
+                                    <span className="text-4xl font-bold tracking-tighter text-foreground tabular-nums">
                                         100
-                                    </motion.span>
+                                    </span>
                                 </div>
-                            </motion.div>
+                            </div>
 
                     {/* Matrix Data Bars */}
                     <div className="flex flex-col gap-2 min-w-[100px] z-10">
-                        {[{ l: "LCP", v: "0.8s", w: "98%" }, { l: "INP", v: "40ms", w: "95%" }, { l: "CLS", v: "0.00", w: "100%" }].map((metric, i) => (
+                        {[{ l: "LCP", v: "0.8s", w: "98%" }, { l: "INP", v: "40ms", w: "95%" }, { l: "CLS", v: "0.00", w: "100%" }].map((metric) => (
                             <div key={metric.l} className="space-y-0.5">
                                 <div className="flex justify-between text-[9px] font-mono text-muted-foreground/80 tracking-widest">
                                     <span>[ {metric.l} ]</span>
@@ -89,7 +83,7 @@ export function PerformanceSEOCard({ className }: { className?: string }) {
                                 <div className="h-1 w-full bg-zinc-900 rounded-sm overflow-hidden border border-white/5">
                                     <div
                                         className="h-full bg-primary shadow-[0_0_8px_rgba(var(--primary),0.5)]"
-                                        style={{ width: metric.w, animationDelay: `${i * 200}ms` }}
+                                        style={{ width: metric.w }}
                                     ></div>
                                 </div>
                             </div>

@@ -13,9 +13,9 @@ interface SEOHeadProps {
 }
 
 const SEOHead: React.FC<SEOHeadProps> = ({
-  title = "WebInHour - Professional Website in 24 Hours | Fast Custom Web Development",
-  description = "Get your professional website delivered in 24 hours. 500+ free SEO-ready templates, same-day customization, and GEO optimization for AI search. The fastest way to launch online.",
-  keywords = "website in 24 hours, fast custom website development, same day website builder, professional website delivered today, SEO GEO optimized website, urgent website design services, free website templates, rapid web development",
+  title = "WebInHour - Complete Web Presence in Hours | Website + Social + SEO",
+  description = "Launch your complete online presence fast: website, Google Business setup, social media content, and SEO packages designed to grow your business.",
+  keywords = "web presence, online presence, social media content, Google Business setup, local SEO, website packages, content creation, social media management, fast web presence launch",
   ogImage = "/og-image.png",
   ogType = "website",
   canonicalUrl,
@@ -85,16 +85,16 @@ const SEOHead: React.FC<SEOHeadProps> = ({
           },
           "sameAs": [],
           "knowsAbout": [
-            "24 Hour Website Development",
-            "Same Day Website Design",
-            "Fast Web Development",
-            "SEO Optimization",
-            "GEO Optimization for AI Search",
-            "Responsive Web Design",
-            "E-commerce Development",
-            "Urgent Website Services"
+            "Web Presence Packages",
+            "Social Media Content Creation",
+            "Google Business Setup",
+            "Local SEO and GEO Optimization",
+            "Website Design and Development",
+            "Social Media Management",
+            "Content Strategy for Small Business",
+            "Online Brand Visibility"
           ],
-          "serviceType": "Web Development",
+          "serviceType": "Online Presence Services",
           "areaServed": "Worldwide",
           "aggregateRating": {
             "@type": "AggregateRating",
@@ -117,25 +117,25 @@ const SEOHead: React.FC<SEOHeadProps> = ({
         {JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Service",
-          "name": "24-Hour Website Development",
-          "description": "Professional websites delivered in 24 hours with mobile-responsive design, SEO optimization, and unlimited revisions",
+          "name": "Complete Web Presence Services",
+          "description": "Web presence packages that include websites, social content, Google Business setup, and SEO optimization for fast business launch.",
           "provider": {
             "@type": "Organization",
             "name": "WebInHour"
           },
-          "serviceType": "Web Development",
-          "category": "Website Development",
+          "serviceType": "Online Presence",
+          "category": "Website and Social Media Services",
           "areaServed": "Worldwide",
           "hasOfferCatalog": {
             "@type": "OfferCatalog",
-            "name": "Website Development Services",
+            "name": "Web Presence Packages",
             "itemListElement": [
               {
                 "@type": "Offer",
                 "itemOffered": {
                   "@type": "Service",
-                  "name": "Business Websites",
-                  "description": "Professional corporate sites"
+                  "name": "Presence Starter",
+                  "description": "Website, Google Business setup, and starter social content package"
                 },
                 "price": "299",
                 "priceCurrency": "USD"
@@ -144,10 +144,10 @@ const SEOHead: React.FC<SEOHeadProps> = ({
                 "@type": "Offer",
                 "itemOffered": {
                   "@type": "Service",
-                  "name": "E-commerce Stores",
-                  "description": "Complete online stores with payment processing"
+                  "name": "Social Content Package",
+                  "description": "Posts, reels, captions, and ongoing social content creation"
                 },
-                "price": "599",
+                "price": "199",
                 "priceCurrency": "USD"
               }
             ]

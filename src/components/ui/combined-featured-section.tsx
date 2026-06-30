@@ -13,16 +13,16 @@ export default function CombinedFeaturedSection() {
         <div className="relative rounded-none overflow-hidden border border-border p-4 md:p-6 min-h-[300px] md:min-h-[400px] bg-transparent">
           <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground mb-3 md:mb-4">
             <MapPin className="w-3 h-3 md:w-4 md:h-4" />
-            SEO & GEO Analytics
+            Local Visibility
           </div>
           <h3 className="text-base md:text-xl font-normal text-foreground">
-            Dominate search results with AI-Driven SEO & GEO (Generative Engine Optimization). Secure #1 rankings in local and global markets with data-backed strategies.
-            <span className="text-muted-foreground"> Track real-time rankings across all regions.</span>
+            Help customers find your business across Google, Maps, social platforms, and AI search.
+            <span className="text-muted-foreground"> We connect the setup, content, and search foundation.</span>
           </h3>
 
           <div className="relative mt-6 md:mt-8">
             <div className="absolute top-8 md:top-16 left-1/2 -translate-x-1/2 z-10 px-2 md:px-3 py-1 bg-background border border-border text-foreground rounded-md text-[10px] md:text-xs font-medium shadow-lg flex items-center gap-1 md:gap-2">
-              🌍 Ranking #1 in Local Search
+              Local presence ready
             </div>
             <Map />
           </div>
@@ -32,11 +32,11 @@ export default function CombinedFeaturedSection() {
         <div className="rounded-none border border-border p-4 md:p-6 space-y-3 md:space-y-4 min-h-[300px] md:min-h-[400px] bg-transparent">
           <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground mb-3 md:mb-4">
             <Search className="w-3 h-3 md:w-4 md:h-4" />
-            Google Rankings
+            Search & Maps
           </div>
           <h3 className="text-base md:text-xl font-normal text-foreground">
-            Watch your keywords climb to the top.{" "}
-            <span className="text-muted-foreground">Real-time ranking updates.</span>
+            Build visibility around the terms customers already use.{" "}
+            <span className="text-muted-foreground">Track the pages, listings, and content that matter.</span>
           </h3>
           <GoogleRankingsAnimation />
         </div>
@@ -50,11 +50,11 @@ export default function CombinedFeaturedSection() {
 
           <div className="relative z-10">
             <span className="text-xs flex items-center gap-2 text-muted-foreground mb-2 md:mb-0">
-              <Search className="w-3 h-3 md:w-4 md:h-4" /> SEO & GEO Optimization
+              <Search className="w-3 h-3 md:w-4 md:h-4" /> SEO, GEO & Local Listings
             </span>
             <h3 className="text-base md:text-xl font-normal text-foreground">
-              Advanced SEO strategies, Generative Engine Optimization (GEO) for AI search,{" "}
-              <span className="text-muted-foreground">and local business listing management.</span>
+              Search-friendly pages, Google Business optimization, local listings,{" "}
+              <span className="text-muted-foreground">and GEO structure for AI discovery.</span>
             </h3>
           </div>
           <div className="relative z-10 flex justify-center items-center w-full">
@@ -69,30 +69,30 @@ export default function CombinedFeaturedSection() {
         <div className="grid sm:grid-cols-2 rounded-none bg-card h-full">
           <FeatureCard
             icon={<Megaphone className="w-4 h-4" />}
-            title="PR & Media"
-            subtitle="Premium Services"
-            description="Secure high-authority backlinks with premium press releases and media outreach."
+            title="Social Content"
+            subtitle="Posts, reels, and captions"
+            description="Planned content that keeps your business active across social channels."
             customBackground={<PRMediaBackground />}
           />
           <FeatureCard
             icon={<Flower className="w-4 h-4" />}
-            title="Website Care"
-            subtitle="Monthly Maintenance"
-            description="Priority support, security updates, and speed optimization."
+            title="Presence Care"
+            subtitle="Monthly management"
+            description="Ongoing updates, profile improvements, content scheduling, and performance checks."
             customBackground={<WebsiteCareBackground />}
           />
           <FeatureCard
             icon={<FileText className="w-4 h-4" />}
-            title="Press Releases"
-            subtitle="Distribution"
-            description="Professional writing and distribution to 50+ major news outlets."
+            title="Content Production"
+            subtitle="Business-ready assets"
+            description="Service posts, offer graphics, short-form scripts, captions, and updates."
             customBackground={<PressReleasesBackground />}
           />
           <FeatureCard
             icon={<Shield className="w-4 h-4" />}
-            title="Brand Protection"
-            subtitle="24/7 Monitoring"
-            description="Continuous reputation management and threat detection."
+            title="Reputation Signals"
+            subtitle="Trust building"
+            description="Reviews, listings, profile consistency, and brand visibility monitoring."
             customBackground={<BrandMonitoringBackground />}
           />
         </div>
@@ -534,27 +534,27 @@ const Map = () => <svg viewBox="0 0 120 60" className="w-full h-auto text-primar
 
 // ----------------- Google Rankings Animation -------------------
 const rankingsData = [{
-  keyword: "web design services",
+  keyword: "business near me",
   position: 1,
   trend: "up",
   color: "from-green-400 to-emerald-500"
 }, {
-  keyword: "professional websites",
+  keyword: "Google Business setup",
   position: 2,
   trend: "up",
   color: "from-blue-400 to-cyan-500"
 }, {
-  keyword: "custom web development",
+  keyword: "social media content",
   position: 3,
   trend: "stable",
   color: "from-purple-400 to-indigo-500"
 }, {
-  keyword: "business website design",
+  keyword: "local SEO services",
   position: 5,
   trend: "up",
   color: "from-orange-400 to-amber-500"
 }, {
-  keyword: "responsive web design",
+  keyword: "online presence package",
   position: 7,
   trend: "down",
   color: "from-pink-400 to-rose-500"
@@ -602,19 +602,19 @@ interface SEOFeature {
 }
 
 const seoFeatures: SEOFeature[] = [{
-  title: "Google Rankings",
+  title: "Google Business",
   time: "Active",
-  content: "Track your position on Google search results in real-time.",
+  content: "Set up and optimize your local profile for search and maps.",
   color: "from-pink-400 to-indigo-500"
 }, {
   title: "Local Listings",
   time: "Optimized",
-  content: "Manage your business presence across Google My Business.",
+  content: "Keep your business details consistent across local discovery channels.",
   color: "from-orange-500 to-pink-500"
 }, {
-  title: "Keyword Research",
+  title: "Content Topics",
   time: "Ongoing",
-  content: "Target the right keywords to attract your ideal customers.",
+  content: "Plan posts, pages, and reels around what customers are searching for.",
   color: "from-yellow-400 to-red-400"
 }, {
   title: "Analytics Setup",

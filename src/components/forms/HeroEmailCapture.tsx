@@ -102,7 +102,7 @@ export const HeroEmailCapture: React.FC<HeroEmailCaptureProps> = ({ className = 
           </>
         ) : (
           <>
-            <span className="text-white">Get My Free Quote</span>
+            <span className="text-white">Get My Web Presence Plan</span>
             <ArrowRight className="ml-2 h-5 w-5 text-white" aria-hidden="true" />
           </>
         )}

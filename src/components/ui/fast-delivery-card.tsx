@@ -1,22 +1,11 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import { Clock, CheckCircle2, Rocket, Timer } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { motion, useInView, useAnimation } from "framer-motion";
 
 export function FastDeliveryCard({ className }: { className?: string }) {
     return (
-        <motion.div
-            ref={ref => { /* placeholder for layout ref */ }}
-            className={cn("relative flex flex-col md:flex-row gap-6 p-6 border border-border bg-card/60 rounded-xl transition-all duration-300 overflow-hidden group min-h-[220px]", className)}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={{
-                hidden: { opacity: 0, y: 12 },
-                visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 80, damping: 16 } }
-            }}
-        >
+        <div className={cn("relative flex flex-col md:flex-row gap-6 p-6 border border-border bg-card/60 rounded-xl transition-all duration-300 overflow-hidden group min-h-[220px]", className)}>
 
             {/* Background Pattern */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
@@ -31,7 +20,7 @@ export function FastDeliveryCard({ className }: { className?: string }) {
                         <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Fast Delivery</span>
                     </div>
 
-                    <h3 className="text-xl md:text-2xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+                    <h3 className="text-xl md:text-2xl font-bold text-foreground mb-2">
                         24-Hour Delivery Guarantee
                     </h3>
                     <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
@@ -55,11 +44,10 @@ export function FastDeliveryCard({ className }: { className?: string }) {
                         <span className="text-[10px] font-bold text-muted-foreground uppercase">Project Timeline</span>
                         <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium">Active</span>
                     </div>
-                    <div className="relative space-y-0">
+                    <div className="relative space-y-3">
                         {/* Connecting Line */}
                         <div className="absolute left-[11px] top-2 bottom-4 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-muted/20" />
 
-                        {/* Animated Steps - use framer-motion for stagger */}
                         {[{
                             title: 'Order Received',
                             subtitle: 'Requirements gathered',
@@ -73,26 +61,22 @@ export function FastDeliveryCard({ className }: { className?: string }) {
                             subtitle: 'Ready in 24h',
                             icon: <Rocket className="w-3.5 h-3.5" />
                         }].map((step, i) => (
-                            <motion.div
+                            <div
                                 key={step.title}
-                                className={`relative flex items-center gap-3 ${i < 2 ? 'pb-4' : ''}`}
-                                initial={{ opacity: 0, x: -8 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true, amount: 0.2 }}
-                                transition={{ delay: i * 0.12, type: 'spring', stiffness: 90, damping: 14 }}
+                                className={`relative flex items-start gap-3 ${i < 2 ? 'pb-4' : ''}`}
                             >
-                                <div className={"relative z-10 flex items-center justify-center w-6 h-6 rounded-full shadow-md ring-2 ring-background border border-border " + (i === 2 ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' : 'bg-muted text-muted-foreground') }>
+                                <div className={"relative z-10 flex items-center justify-center w-6 h-6 rounded-full shadow-md ring-2 ring-background border border-border " + (i === 2 ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' : 'bg-muted text-muted-foreground')}>
                                     {step.icon}
                                 </div>
-                                <div>
+                                <div className="pt-0.5">
                                     <div className="text-xs font-semibold text-foreground">{step.title}</div>
                                     <div className="text-[10px] text-muted-foreground">{step.subtitle}</div>
                                 </div>
-                            </motion.div>
+                            </div>
                         ))}
                     </div>
                 </div>
             </div>
-        </motion.div>
+        </div>
     );
 }

@@ -2,10 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { HeroEmailCapture } from '@/components/forms/HeroEmailCapture';
 import { useParallaxHero } from '@/hooks/useParallaxHero';
 import { CardSlider } from '@/components/ui/CardSlider';
-import { RotatingServices } from '@/components/ui/text-shuffle/RotatingServices';
-import { AnimatedShinyText } from '@/components/ui/animated-shiny-text';
 import { LogoMarquee } from '@/components/sections/LogoMarquee';
-import { cn } from '@/lib/utils';
+
 interface HeroProps {
   headline?: React.ReactNode;
   description?: React.ReactNode;
@@ -14,6 +12,11 @@ interface HeroProps {
 export const Hero = ({ headline, description }: HeroProps) => {
   const navigate = useNavigate();
   useParallaxHero();
+
+  const handleExplorePackages = () => {
+    document.getElementById('services')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   return (
     <section
       className="wih-hero-section"
@@ -28,8 +31,8 @@ export const Hero = ({ headline, description }: HeroProps) => {
           <div className="wih-hero-column" aria-hidden="true">
             <img
               src="/assets/card-1.webp"
-              alt="Professional website design preview"
-              title="Professional website design preview"
+              alt="Professional website and online presence preview"
+              title="Professional website and online presence preview"
               width={400}
               height={300}
               style={{ width: '100%', height: 'auto', aspectRatio: '400/300' }}
@@ -39,8 +42,8 @@ export const Hero = ({ headline, description }: HeroProps) => {
               className="wih-hero-image parallax-image object-contain"
             />
             <img
-              alt="E-commerce website template example"
-              title="E-commerce website template example"
+              alt="Business website and digital presence example"
+              title="Business website and digital presence example"
               src="/uploads/f05d4bb5-4c1a-40d9-bb57-f25dcd61d809.png"
               width={400}
               height={300}
@@ -53,8 +56,8 @@ export const Hero = ({ headline, description }: HeroProps) => {
             />
             <img
               src="/assets/card-3.webp"
-              alt="Portfolio website template example"
-              title="Portfolio website template example"
+              alt="Brand and social content preview"
+              title="Brand and social content preview"
               width={400}
               height={300}
               style={{ width: '100%', height: 'auto', aspectRatio: '400/300' }}
@@ -92,8 +95,8 @@ export const Hero = ({ headline, description }: HeroProps) => {
               >
                 {headline || (
                   <>
-                    A Website That Wins You Customers. <br className="hidden md:block" />
-                    <span className="text-foreground">Built in 24 Hours, Not Weeks.</span>
+                    Complete Online Presence. <br className="hidden md:block" />
+                    <span className="text-foreground">Launched in Hours, Not Weeks.</span>
                   </>
                 )}
               </h1>
@@ -103,11 +106,7 @@ export const Hero = ({ headline, description }: HeroProps) => {
                 <div className="text-sm xl:text-lg leading-relaxed font-medium">
                   {description || (
                     <>
-                      Choose from{' '}
-                      <button onClick={() => navigate('/websites')} className="text-primary hover:text-primary/80 transition-colors font-semibold underline decoration-2 underline-offset-4">
-                        500+ professional templates
-                      </button>
-                      {' '}or let us build a custom site tailored to your business. Mobile-ready, SEO-optimized, and live before tomorrow.
+                      We build your website, set up Google Business, create social content, and prepare local SEO so your business looks ready everywhere customers check.
                     </>
                   )}
                 </div>
@@ -118,17 +117,17 @@ export const Hero = ({ headline, description }: HeroProps) => {
             <div className="mt-6 sm:mt-8 mx-auto w-full max-w-xl">
               <HeroEmailCapture />
               <p className="mt-2 text-center text-xs text-muted-foreground">
-                Get a free quote in 24 hours. No spam - just your custom site plan.
+                Get a practical web presence plan in 24 hours. No spam - just your launch path.
               </p>
             </div>
 
             {/* Secondary actions */}
             <div className="mt-4 sm:mt-5 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
               <button
-                onClick={() => navigate('/websites')}
+                onClick={handleExplorePackages}
                 className="text-sm font-medium text-primary underline decoration-2 underline-offset-4 transition-colors hover:text-primary/80"
               >
-                Browse 500+ free templates
+                Explore web presence packages
               </button>
               <button
                 onClick={() => navigate('/pricing')}
@@ -143,8 +142,8 @@ export const Hero = ({ headline, description }: HeroProps) => {
           <div className="wih-hero-column" aria-hidden="true">
             <img
               src="/assets/card-4.webp"
-              alt="AI workflow platform template"
-              title="AI workflow platform template"
+              alt="Digital workflow and content planning preview"
+              title="Digital workflow and content planning preview"
               width={400}
               height={300}
               style={{ width: '100%', height: 'auto', aspectRatio: '400/300' }}
@@ -155,8 +154,8 @@ export const Hero = ({ headline, description }: HeroProps) => {
             />
             <img
               src="/assets/card-5.webp"
-              alt="Mobile app design template"
-              title="Mobile app design template"
+              alt="Mobile-first social and website preview"
+              title="Mobile-first social and website preview"
               width={400}
               height={300}
               style={{ width: '100%', height: 'auto', aspectRatio: '400/300' }}
@@ -167,8 +166,8 @@ export const Hero = ({ headline, description }: HeroProps) => {
             />
             <img
               src="/assets/card-6.webp"
-              alt="Tech landing page template"
-              title="Tech landing page template"
+              alt="SEO-ready online presence preview"
+              title="SEO-ready online presence preview"
               width={400}
               height={300}
               style={{ width: '100%', height: 'auto', aspectRatio: '400/300' }}
@@ -194,7 +193,7 @@ export const Hero = ({ headline, description }: HeroProps) => {
         </div>
 
         {/* Mobile Card Slider - shown only on mobile */}
-        <div className="wih-hero-mobile-slider" role="region" aria-label="Website template examples">
+        <div className="wih-hero-mobile-slider" role="region" aria-label="Online presence examples">
           <CardSlider />
         </div>
 

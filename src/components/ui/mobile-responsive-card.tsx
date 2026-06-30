@@ -1,7 +1,6 @@
 import React from "react";
 import { Smartphone } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 
 export function MobileResponsiveCard({ className }: { className?: string }) {
     return (
@@ -30,18 +29,11 @@ export function MobileResponsiveCard({ className }: { className?: string }) {
             </div>
 
             {/* GRAPHIC CONTENT (Bottom) */}
-            <motion.div className="relative z-10 flex-1 flex items-end justify-center mt-6 perspective-1000"
-                    initial={{ opacity: 0, y: 12 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ type: 'spring', stiffness: 90, damping: 16 }}>
-                <motion.div className="relative w-full max-w-[180px] flex justify-center transform-style-3d"
-                        whileHover={{ rotateX: 0, rotateY: 0, scale: 1.03 }}
-                        initial={{ rotateX: 12, rotateY: -10 }}
-                        transition={{ type: 'spring', stiffness: 80, damping: 14 }}>
+            <div className="relative z-10 flex-1 flex items-end justify-center mt-6" style={{ perspective: 1000 }}>
+                <div className="relative w-full max-w-[180px] flex justify-center" style={{ transformStyle: "preserve-3d", transform: "rotateX(12deg) rotateY(-10deg)" }}>
 
                     {/* Backend Mockup (Layer 1 - Deep) */}
-                    <div className="absolute top-4 -right-12 w-[140px] h-[200px] bg-zinc-900/80 border border-zinc-800 rounded-lg shadow-xl translate-z-[-20px] blur-[1px] opacity-60">
+                    <div className="absolute top-4 -right-12 w-[140px] h-[200px] bg-zinc-900/80 border border-zinc-800 rounded-lg shadow-xl blur-[1px] opacity-60" style={{ transform: "translateZ(-20px)" }}>
                         <div className="p-3 space-y-2">
                             <div className="w-full h-1 bg-primary/20 rounded-full"></div>
                             <div className="w-2/3 h-1 bg-primary/20 rounded-full"></div>
@@ -93,13 +85,11 @@ export function MobileResponsiveCard({ className }: { className?: string }) {
                     </div>
 
                     {/* Floating Glass Element (Layer 3 - Overlay) */}
-                    <motion.div className="absolute -bottom-6 -left-8 w-24 h-24 bg-primary/10 backdrop-blur-md border border-white/10 rounded-lg shadow-glass z-30 flex items-center justify-center transform rotate-6"
-                                whileHover={{ rotate: 0, scale: 1.05 }}
-                                transition={{ type: 'spring', stiffness: 80, damping: 12 }}>
+                    <div className="absolute -bottom-6 -left-8 w-24 h-24 bg-primary/10 backdrop-blur-md border border-white/10 rounded-lg shadow-glass z-30 flex items-center justify-center transform rotate-6">
                         <div className="text-[10px] font-mono text-primary font-bold">MOBILE_FIRST</div>
-                    </motion.div>
-                </motion.div>
-            </motion.div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
