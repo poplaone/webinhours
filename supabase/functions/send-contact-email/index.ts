@@ -4,7 +4,6 @@ import * as React from "npm:react@18.3.1";
 import { render } from "npm:@react-email/render@0.0.12";
 import { AdminNotification } from "./_templates/admin-notification.tsx";
 import { UserConfirmation } from "./_templates/user-confirmation.tsx";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -26,6 +25,7 @@ interface ContactEmailRequest {
   timeline?: string;
   services?: string[];
   customService?: string;
+  honeypot?: string;
 }
 
 // Safe user-facing error messages
@@ -76,32 +76,19 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    // Require authentication
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader) {
-      return new Response(
-        JSON.stringify({ error: 'Authentication required' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Verify user token
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
-      { global: { headers: { Authorization: authHeader } } }
-    );
-
-    const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
-    if (authError || !user) {
-      return new Response(
-        JSON.stringify({ error: 'Invalid authentication' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
+    // Public lead-capture endpoint — no auth required (anonymous visitors must be able to submit).
+    // Spam is mitigated via a honeypot field + input validation below.
     const data: ContactEmailRequest = await req.json();
-    
+
+    // Honeypot: bots fill every field. Real users never see/fill `honeypot`.
+    // Silently return success so bots don't learn they were blocked.
+    if (data.honeypot && data.honeypot.trim().length > 0) {
+      return new Response(
+        JSON.stringify({ success: true }),
+        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     // Validate input
     const validation = validateInput(data);
     if (!validation.valid) {

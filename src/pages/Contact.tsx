@@ -601,13 +601,13 @@ ${cleanDetails ? `📝 Additional Details:\n${cleanDetails}` : ''}
                 <span className="flex items-center gap-2 text-sm font-semibold text-foreground">
                   <Mail className="w-4 h-4" /> Email Us
                 </span>
-                <span className="text-sm text-muted-foreground">support@webinhour.com</span>
+                <a href="mailto:support@webinhour.com" className="text-sm text-muted-foreground hover:text-primary transition-colors">support@webinhour.com</a>
               </div>
               <div className="flex flex-col items-center md:items-start gap-1">
                 <span className="flex items-center gap-2 text-sm font-semibold text-foreground">
                   <Phone className="w-4 h-4" /> Call Us
                 </span>
-                <span className="text-sm text-muted-foreground">+91 756 003 2111</span>
+                <a href="tel:+917560032111" className="text-sm text-muted-foreground hover:text-primary transition-colors">+91 756 003 2111</a>
               </div>
               <div className="flex flex-col items-center md:items-start gap-1">
                 <span className="flex items-center gap-2 text-sm font-semibold text-foreground">

@@ -59,7 +59,7 @@ export default function FAQ() {
         title="FAQ - WebInHour | Real Answers About 24-Hour Websites"
         description="Here is exactly how we build websites in 24 hours, what it costs, and why you actually own the code."
         keywords="24 hour website FAQ, same day website questions, fast website delivery FAQ, urgent website design help, WebInHour questions, website in 24 hours"
-        canonicalUrl="https://WebInHour.com/faq"
+        canonicalUrl="https://webinhour.com/faq"
       />
 
       {/* GEO-Optimized FAQ Schema */}

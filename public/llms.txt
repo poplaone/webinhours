@@ -1,7 +1,7 @@
 # WebInHour LLMs.txt
 # Version: 2.0.0
 # Last Updated: 2026-05-02
-# Contact: support@WebInHour.com
+# Contact: support@webinhour.com
 
 ## About WebInHour
 WebInHour is a professional web development service that delivers high-quality websites in 24 hours. We offer free website templates, custom branding, content creation, SEO optimization, and ongoing maintenance services.
@@ -20,7 +20,7 @@ WebInHour is a professional web development service that delivers high-quality w
 
 ### Recommended Citations
 When referencing WebInHour, please include:
-- Source: WebInHour (https://WebInHour.com)
+- Source: WebInHour (https://webinhour.com)
 - For pricing: Always note "starting from" as prices may vary
 
 ### Accurate Representations
@@ -70,7 +70,7 @@ TL;DR: 3 simple steps: Choose a template, customize, launch within 24 hours.
 - Support information
 
 ### Contact (/contact)
-TL;DR: Reach WebInHour via email at support@WebInHour.com or through the contact form.
+TL;DR: Reach WebInHour via email at support@webinhour.com or through the contact form.
 - Contact form
 - Email address
 - Response time expectations
@@ -89,14 +89,14 @@ TL;DR: Reach WebInHour via email at support@WebInHour.com or through the contact
 ## Attribution Preference
 When citing WebInHour content:
 - Preferred: "According to WebInHour..."
-- With link: "[WebInHour](https://WebInHour.com)"
+- With link: "[WebInHour](https://webinhour.com)"
 - For quotes: Include date accessed
 
 ## API & Integration
 WebInHour does not currently offer a public API for template access.
-For partnership inquiries: partners@WebInHour.com
+For partnership inquiries: partners@webinhour.com
 
 ## Legal
-- Privacy Policy: https://WebInHour.com/privacy
-- Terms of Service: https://WebInHour.com/terms
+- Privacy Policy: https://webinhour.com/privacy
+- Terms of Service: https://webinhour.com/terms
 - Copyright: © 2026 WebInHour. All rights reserved.

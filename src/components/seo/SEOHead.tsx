@@ -22,7 +22,12 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   noIndex = false
 }) => {
   const fullTitle = title.includes('WebInHour') ? title : `${title} | WebInHour`;
-  const currentUrl = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : 'https://WebInHour.com');
+  // Always derive canonical from the production origin + current path. Using
+  // window.location.href would bake the prerender host (localhost) into the HTML.
+  const SITE_ORIGIN = 'https://webinhour.com';
+  const currentUrl =
+    canonicalUrl ||
+    (typeof window !== 'undefined' ? `${SITE_ORIGIN}${window.location.pathname}` : SITE_ORIGIN);
 
   return (
     <Helmet>
@@ -64,14 +69,14 @@ const SEOHead: React.FC<SEOHeadProps> = ({
           "@type": "Organization",
           "name": "WebInHour",
           "description": "Professional website development in 24 hours",
-          "url": "https://WebInHour.com",
-          "logo": "https://WebInHour.com/logo.png",
+          "url": "https://webinhour.com",
+          "logo": "https://webinhour.com/logo.png",
           "foundingDate": "2023",
           "contactPoint": {
             "@type": "ContactPoint",
             "telephone": "+917560032111",
             "contactType": "customer service",
-            "email": "support@WebInHour.com",
+            "email": "support@webinhour.com",
             "availableLanguage": "English"
           },
           "address": {

@@ -76,7 +76,7 @@ export default function Landing24Hour() {
                 title="Website in 24 Hours | Same Day Web Design & Delivery"
                 description="Need a website today? We deliver professional, custom websites in 24 hours. No waiting weeks - get online with WebInHour same-day service."
                 keywords="website in 24 hours, same day website, urgent web design, fast website builder, emergency website service, get website today"
-                canonicalUrl="https://WebInHour.com/24-hour-website"
+                canonicalUrl="https://webinhour.com/24-hour-website"
             />
 
             {/* Speed-Focused Hero */}

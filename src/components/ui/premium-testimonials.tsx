@@ -101,7 +101,7 @@ const generatePersonSchema = (testimonial: Testimonial) => ({
 // Generate Review schema
 const generateReviewSchema = (testimonial: Testimonial) => ({
   "@type": "Review",
-  "@id": `https://WebInHour.com/#${testimonial.id}`,
+  "@id": `https://webinhour.com/#${testimonial.id}`,
   "author": generatePersonSchema(testimonial),
   "reviewBody": testimonial.content,
   "reviewRating": {

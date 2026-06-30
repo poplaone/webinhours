@@ -37,7 +37,7 @@ export default function HowItWorks() {
         title="How It Works - WebInHour | Get Your Website in 24 Hours"
         description="Here is exactly how we deliver professional websites in 24 hours. We skip the bloat, use proven templates, and push code live fast."
         keywords="how to get website in 24 hours, fast website process, same day website delivery, rapid web development, instant website launch"
-        canonicalUrl="https://WebInHour.com/how-it-works"
+        canonicalUrl="https://webinhour.com/how-it-works"
       />
 
       <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
