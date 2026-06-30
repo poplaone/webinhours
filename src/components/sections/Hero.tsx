@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
-import { Button } from "@/components/ui/button";
+import { HeroEmailCapture } from '@/components/forms/HeroEmailCapture';
 import { useParallaxHero } from '@/hooks/useParallaxHero';
 import { CardSlider } from '@/components/ui/CardSlider';
 import { RotatingServices } from '@/components/ui/text-shuffle/RotatingServices';
@@ -78,13 +77,9 @@ export const Hero = ({ headline, description }: HeroProps) => {
           </div>
 
           {/* CENTER CONTENT - GEO Optimized with Answer-First Formatting */}
-          <div className="wih-hero-center">
+          <div className="wih-hero-center flex flex-col items-center">
 
-            <div className="text-center mb-6 md:mb-6 mt-8 md:mt-0 flex items-center justify-center">
-              <RotatingServices />
-            </div>
-
-            <div className="relative mx-auto max-w-full px-4 py-6 sm:px-8 xl:px-16 xl:py-8 border border-primary/30 rounded-sm">
+            <div className="relative mx-auto w-full max-w-full px-4 py-5 sm:px-8 sm:py-6 xl:px-16 xl:py-8 border border-primary/30 rounded-sm">
               {/* Decorative Corner Squares */}
               <div className="absolute -top-1.5 -left-1.5 w-2 h-2 sm:w-3 sm:h-3 bg-primary" />
               <div className="absolute -bottom-1.5 -right-1.5 w-2 h-2 sm:w-3 sm:h-3 bg-primary" />
@@ -92,7 +87,7 @@ export const Hero = ({ headline, description }: HeroProps) => {
               {/* H1 - Primary keyword optimized for GEO */}
               <h1
                 id="hero-heading"
-                className="text-center font-medium tracking-tight leading-tight mb-6 sm:mb-8 xl:text-6xl text-xl text-primary"
+                className="text-center font-medium tracking-tight leading-tight mb-4 sm:mb-5 xl:mb-6 xl:text-6xl text-xl text-primary"
                 itemProp="headline"
               >
                 {headline || (
@@ -119,28 +114,28 @@ export const Hero = ({ headline, description }: HeroProps) => {
               </div>
             </div>
 
-            {/* CTA Buttons */}
-            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button
-                size="lg"
-                onClick={() => navigate('/websites')}
-                className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground text-base sm:text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-medium"
-                aria-label="Browse free website templates"
-              >
-                <span className="text-white font-medium">Download Free Templates</span>
-                <ArrowRight className="ml-2 h-5 w-5 text-white" aria-hidden="true" />
-              </Button>
+            {/* Primary CTA - Inline email lead capture */}
+            <div className="mt-6 sm:mt-8 mx-auto w-full max-w-xl">
+              <HeroEmailCapture />
+              <p className="mt-2 text-center text-xs text-muted-foreground">
+                Get a free quote in 24 hours. No spam - just your custom site plan.
+              </p>
+            </div>
 
-              <Button
-                size="lg"
-                variant="outline"
-                onClick={() => navigate('/pricing')}
-                className="w-full sm:w-auto border-primary/40 text-primary hover:bg-primary/10 text-base sm:text-lg px-8 py-6 rounded-lg transition-all duration-300 font-medium"
-                aria-label="View pricing plans"
+            {/* Secondary actions */}
+            <div className="mt-4 sm:mt-5 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
+              <button
+                onClick={() => navigate('/websites')}
+                className="text-sm font-medium text-primary underline decoration-2 underline-offset-4 transition-colors hover:text-primary/80"
               >
-                See Pricing
-                <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
-              </Button>
+                Browse 500+ free templates
+              </button>
+              <button
+                onClick={() => navigate('/pricing')}
+                className="text-sm font-medium text-muted-foreground underline decoration-2 underline-offset-4 transition-colors hover:text-foreground"
+              >
+                See pricing
+              </button>
             </div>
           </div>
 

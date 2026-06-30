@@ -26,7 +26,7 @@ export const Footer = () => {
   };
 
   return (
-    <footer className={`py-12 px-4 border-t relative z-10 transition-all duration-2000 ease-in-out ${isMobile && !mobileFooterVisible
+    <footer className={`py-8 sm:py-10 lg:py-12 px-4 border-t relative z-10 transition-all duration-2000 ease-in-out ${isMobile && !mobileFooterVisible
       ? 'bg-transparent backdrop-blur-none border-transparent'
       : isMobile
         ? 'bg-background/60 backdrop-blur-md border-border/20'
@@ -34,7 +34,7 @@ export const Footer = () => {
       }`}>
 
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8">
           <div>
             <Link to="/" className="flex items-center space-x-2 mb-4 hover:opacity-80 transition-opacity">
               <img src="/logo.png" alt="WebInHour - Professional Web Design Agency" title="WebInHour - Professional Web Design Agency" className="h-10 w-10 object-contain" />
@@ -153,7 +153,7 @@ export const Footer = () => {
             </ul>
           </div>
         </div>
-        <div className="border-t border-border/40 mt-8 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-muted-foreground">
+        <div className="border-t border-border/40 mt-6 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} WebInHour. All rights reserved.</p>
           <div className="flex items-center gap-4 text-sm">
             <Link to="/privacy" className="hover:text-foreground transition-colors">

@@ -15,6 +15,7 @@ export const Services = () => {
       tagline: "Launch Your Online Presence",
       description: "Get a fully functional, mobile-optimized website without spending a dime. Choose from 500+ premium templates, ready for search engines, secured with free SSL, and hosted on blazing-fast servers.",
       price: "Free",
+      cta: { text: "Browse Free Templates", href: "/websites" },
       beforeAfterSlider: {
         beforeImage: comparisonBefore,
         afterImage: comparisonAfter,
@@ -32,6 +33,7 @@ export const Services = () => {
       tagline: "Stand Out from the Crowd",
       description: "Make your business memorable with a custom design. We build unique color palettes, readable typography, and high-converting layouts that perfectly match your brand's personality.",
       price: "From $299",
+      cta: { text: "Get a Custom Quote", href: "/contact" },
       image: customBrandingGif,
       detailedFeatures: [
         { title: "Custom Color Palette", description: "Psychology-backed color schemes" },
@@ -46,6 +48,7 @@ export const Services = () => {
       tagline: "Words That Convert",
       description: "Turn visitors into buyers with persuasive writing. From search-friendly blog posts to clear product descriptions, we write words that capture attention and drive real business results.",
       price: "From $199",
+      cta: { text: "Get a Custom Quote", href: "/contact" },
       image: contentCreationImage,
       detailedFeatures: [
         { title: "Professional Copywriting", description: "Persuasive content that converts" },
@@ -59,7 +62,7 @@ export const Services = () => {
   return (
     <section
       id="services"
-      className="relative bg-transparent overflow-hidden"
+      className="relative bg-transparent overflow-hidden py-8 sm:py-12 lg:py-16"
       aria-labelledby="services-heading"
       itemScope
       itemType="https://schema.org/ItemList"

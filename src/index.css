@@ -321,7 +321,7 @@
   .wih-hero-section {
     position: relative;
     overflow: hidden;
-    padding: 100px 40px 40px;
+    padding: 88px 24px 24px;
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -337,7 +337,7 @@
   .wih-hero-grid {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
-    gap: 60px;
+    gap: 32px;
     align-items: center;
     position: relative;
   }
@@ -370,6 +370,7 @@
 
   .wih-hero-center {
     max-width: 720px;
+    margin: 0 auto;
     text-align: center;
     z-index: 2;
     position: relative;
@@ -427,20 +428,20 @@
   /* Responsive: Desktop */
   @media (max-width: 1440px) {
     .wih-hero-section {
-      padding: 80px 30px 40px;
+      padding: 80px 24px 24px;
     }
   }
 
   /* Responsive: Tablet (640px - 1023px) - Keep PC-like hero */
   @media (min-width: 640px) and (max-width: 1023px) {
     .wih-hero-section {
-      padding: 80px 20px 40px;
+      padding: 72px 18px 24px;
       min-height: auto;
     }
 
     .wih-hero-grid {
       grid-template-columns: 0.8fr auto 0.8fr;
-      gap: 24px;
+      gap: 20px;
     }
 
     .wih-hero-column {
@@ -496,7 +497,7 @@
   /* Responsive: Mobile (below 640px) */
   @media (max-width: 639px) {
     .wih-hero-section {
-      padding: 20px 16px 16px;
+      padding: 72px 14px 20px;
       overflow: hidden;
       min-height: auto;
     }
@@ -537,7 +538,7 @@
     /* Show card slider on mobile */
     .wih-hero-mobile-slider {
       display: block;
-      margin-top: 16px;
+      margin-top: 12px;
     }
   }
 }
@@ -557,6 +558,18 @@
 .why-light-1 {
   offset-path: path("M 20 10 v 15 q 0 5 5 5 h 55 q 5 0 5 5 v 20");
 }
+
+  /* Subtle animation for background blobs to add life without overpowering content */
+  @keyframes subtle-float {
+    0% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-6px) scale(1.02); }
+    100% { transform: translateY(0) scale(1); }
+  }
+
+  .bg-blob-animate {
+    animation: subtle-float 8s ease-in-out infinite;
+    will-change: transform;
+  }
 
 .why-light-2 {
   offset-path: path("M 55 10 v 12 q 0 5 5 5 h 25 q 5 0 5 5 v 23");

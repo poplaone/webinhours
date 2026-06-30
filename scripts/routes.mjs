@@ -11,6 +11,7 @@ export const SITE_URL = 'https://webinhour.com';
 export const STATIC_ROUTES = [
   '',
   '/about',
+  '/services',
   '/contact',
   '/faq',
   '/how-it-works',

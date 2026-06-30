@@ -91,6 +91,7 @@ export const Header = () => {
   ];
 
   const moreItems: LinkItem[] = [
+    { title: 'Services', href: '/services', icon: Zap, description: 'Premium digital solutions & marketplace' },
     { title: 'Blog', href: '/blog', icon: BookOpen, description: 'Latest news, updates & tech guides' },
     { title: 'How It Works', href: '/how-it-works', icon: Lightbulb, description: 'Learn our proven process' },
     { title: 'About', href: '/about', icon: Users, description: 'Our mission, values & team' },
@@ -313,7 +314,7 @@ export const Header = () => {
 
                       {/* CTA Section */}
                       <button
-                        onClick={() => handleNavigation('/#premium-services')}
+                        onClick={() => handleNavigation('/services')}
                         className="w-full mt-4 p-3 bg-primary/5 rounded-md border border-primary/20 cursor-pointer hover:bg-primary/10 transition-colors text-left group"
                       >
                         <div className="flex items-center gap-2 mb-2">

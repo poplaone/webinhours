@@ -33,11 +33,11 @@ interface WhyChooseAnimatedProps {
 
 const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
   return (
-    <section className={cn("py-12 md:py-24 px-4 relative z-10 overflow-hidden", className)}>
+    <section className={cn("py-10 sm:py-14 lg:py-20 px-4 relative z-10 overflow-hidden", className)}>
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/4 w-72 h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-primary/6 rounded-full blur-3xl opacity-60 mix-blend-overlay transform-gpu will-change-transform bg-blob-animate" />
+        <div className="absolute bottom-0 right-1/4 w-60 h-60 md:w-72 md:h-72 lg:w-96 lg:h-96 bg-primary/6 rounded-full blur-3xl opacity-50 mix-blend-overlay transform-gpu will-change-transform bg-blob-animate" />
       </div>
 
       <div className="container mx-auto w-full max-w-[1400px] relative z-10">
@@ -45,11 +45,11 @@ const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
           {/* HEADER CARD - Integrated into the grid (Full width top or 5 cols side) */}
-          <div className="lg:col-span-5 relative flex flex-col p-6 md:p-8 border border-border bg-card/40 backdrop-blur-sm rounded-xl overflow-hidden group">
+          <div className="lg:col-span-5 relative flex flex-col p-5 sm:p-6 md:p-8 border border-border bg-card/40 backdrop-blur-sm rounded-xl overflow-hidden group">
             {/* Subtle background for header card */}
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
 
-            <div className="relative z-10 flex flex-col h-full justify-center space-y-6">
+            <div className="relative z-10 flex flex-col h-full justify-center space-y-4 sm:space-y-5">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 w-fit">
                 <Award className="size-4 text-primary" />
                 <span className="text-sm font-medium text-primary">Why Choose WebInHour</span>
@@ -63,7 +63,7 @@ const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
                 Stop losing customers to slow development timelines. Our proven process delivers high-quality websites at lightning speed, so you can start growing your business today.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 pt-3">
                 <Button asChild size="lg" className="group relative overflow-hidden font-semibold px-8 h-12 text-base shadow-lg shadow-primary/20">
                   <Link to="/calculator">
                     <span className="relative z-10 flex items-center gap-2">
@@ -85,7 +85,7 @@ const WhyChooseAnimated = ({ className }: WhyChooseAnimatedProps) => {
               </div>
 
               {/* Trust Badges - Text only to be cleaner */}
-              <div className="flex flex-wrap items-center gap-4 pt-4 text-sm font-medium text-muted-foreground">
+              <div className="flex flex-wrap items-center gap-3 pt-3 text-sm font-medium text-muted-foreground">
                 <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-background/50 border border-border/50">
                   <CheckCircle className="w-3.5 h-3.5 text-green-500" />
                   <span>Money-back guarantee</span>

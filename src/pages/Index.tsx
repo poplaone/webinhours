@@ -11,9 +11,7 @@ import { SkeletonSection, SkeletonCards } from '@/components/ui/SkeletonLoaders'
 
 // Lazy load heavy components to improve initial page load
 
-const MarketplacePreview = lazy(() => import('@/components/sections/MarketplacePreview').then(m => ({ default: m.MarketplacePreview })));
 const Features = lazy(() => import('@/components/sections/Features').then(m => ({ default: m.Features })));
-const PremiumMarketplaceServices = lazy(() => import('@/components/sections/PremiumMarketplaceServices').then(m => ({ default: m.PremiumMarketplaceServices })));
 const Services = lazy(() => import('@/components/sections/Services').then(m => ({ default: m.Services })));
 const TestimonialsSection = lazy(() => import('@/components/blocks/testimonials-with-marquee').then(m => ({ default: m.TestimonialsSection })));
 
@@ -40,12 +38,6 @@ const Index = () => {
       <div className="relative z-10">
         <Hero />
 
-        {/* Marketplace Preview */}
-        <Suspense fallback={<SkeletonCards count={3} />}>
-          <MarketplacePreview />
-        </Suspense>
-
-        {/* Services Section */}
         {/* Services Section */}
         <Suspense fallback={<SkeletonCards count={6} />}>
           <Services />
@@ -55,15 +47,6 @@ const Index = () => {
         <Suspense fallback={<SkeletonSection heightClass="h-96" />}>
           <Features />
         </Suspense>
-
-
-
-        {/* Premium Marketplace Services */}
-        <div id="premium-marketplace">
-          <Suspense fallback={<SkeletonSection heightClass="h-[600px]" />}>
-            <PremiumMarketplaceServices />
-          </Suspense>
-        </div>
 
         {/* Testimonials Marquee Section */}
         <div id="testimonials-marquee-section">

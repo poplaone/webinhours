@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { motion, useAnimation } from "framer-motion";
 
 export function PerformanceSEOCard({ className }: { className?: string }) {
     return (
@@ -36,33 +37,46 @@ export function PerformanceSEOCard({ className }: { className?: string }) {
                     {/* Rotating Scan Background */}
                     <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent blur-3xl opacity-20 pointer-events-none"></div>
 
-                    <div className="relative w-28 h-28 group-hover:scale-105 transition-transform duration-500">
-                        {/* Outer Decoration Ring */}
-                        <div className="absolute inset-0 rounded-full border border-primary/20 border-dashed animate-[spin_10s_linear_infinite]"></div>
+                            <motion.div className="relative w-28 h-28 group-hover:scale-105"
+                                        initial={{ scale: 0.96, rotate: -8 }}
+                                        whileInView={{ scale: 1, rotate: 0 }}
+                                        viewport={{ once: true, amount: 0.3 }}
+                                        transition={{ type: 'spring', stiffness: 90, damping: 12 }}>
+                                {/* Outer Decoration Ring */}
+                                <div className="absolute inset-0 rounded-full border border-primary/20 border-dashed animate-[spin_10s_linear_infinite]" />
 
-                        {/* Segmented Arc Gauge */}
-                        <svg className="w-full h-full -rotate-90">
-                            {/* Background Track */}
-                            <circle cx="56" cy="56" r="48" stroke="currentColor" strokeWidth="6" fill="transparent" className="text-muted/10" strokeDasharray="30 5" />
+                                {/* Segmented Arc Gauge - animated stroke via inline style */}
+                                <svg className="w-full h-full -rotate-90" viewBox="0 0 112 112">
+                                    <defs>
+                                      <linearGradient id="g1" x1="0%" x2="100%">
+                                        <stop offset="0%" stopColor="rgba(139,92,246,1)" />
+                                        <stop offset="100%" stopColor="rgba(124,58,237,1)" />
+                                      </linearGradient>
+                                    </defs>
+                                    <circle cx="56" cy="56" r="48" stroke="currentColor" strokeWidth="6" fill="transparent" className="text-muted/10" strokeDasharray="30 5" />
+                                    <circle
+                                        cx="56" cy="56" r="48"
+                                        stroke="url(#g1)"
+                                        strokeWidth="6"
+                                        fill="transparent"
+                                        strokeDasharray="280"
+                                        strokeDashoffset="0"
+                                        strokeLinecap="round"
+                                        className="drop-shadow-[0_0_12px_rgba(var(--primary),0.6)]"
+                                        style={{ strokeDashoffset: 0 }}
+                                    />
+                                </svg>
 
-                            {/* Active Progress (with Gradient effect simulated by color) */}
-                            <circle
-                                cx="56" cy="56" r="48"
-                                stroke="currentColor"
-                                strokeWidth="6"
-                                fill="transparent"
-                                strokeDasharray="280 360"
-                                strokeLinecap="butt"
-                                className="text-primary drop-shadow-[0_0_12px_rgba(var(--primary),0.6)] animate-in fade-in duration-1000"
-                            />
-                        </svg>
-
-                        {/* Center Digital Readout */}
-                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-card/30 backdrop-blur-sm rounded-full m-4 border border-white/5">
-                            <span className="text-[10px] font-mono text-primary animate-pulse">OPTIMIZED</span>
-                            <span className="text-4xl font-bold tracking-tighter text-foreground tabular-nums">100</span>
-                        </div>
-                    </div>
+                                {/* Center Digital Readout */}
+                                <div className="absolute inset-0 flex flex-col items-center justify-center bg-card/30 backdrop-blur-sm rounded-full m-4 border border-white/5">
+                                    <motion.span className="text-[10px] font-mono text-primary" animate={{ opacity: [0.6, 1, 0.6] }} transition={{ repeat: Infinity, duration: 1.8 }}>
+                                        OPTIMIZED
+                                    </motion.span>
+                                    <motion.span className="text-4xl font-bold tracking-tighter text-foreground tabular-nums" initial={{ scale: 0.9 }} animate={{ scale: [0.95, 1.02, 0.95] }} transition={{ repeat: Infinity, duration: 2.4 }}>
+                                        100
+                                    </motion.span>
+                                </div>
+                            </motion.div>
 
                     {/* Matrix Data Bars */}
                     <div className="flex flex-col gap-2 min-w-[100px] z-10">

@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Check } from 'lucide-react';
+import { Check, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { FeatureWithImageComparison } from './feature-with-image-comparison';
 import { FeatureInfographicCards } from './feature-infographic-cards';
 import { CustomBrandingVisuals } from './custom-branding-visuals';
@@ -14,6 +16,10 @@ type ServiceCardType = {
   images?: string[];
   image?: string;
   tagline?: string;
+  cta?: {
+    text: string;
+    href: string;
+  };
   detailedFeatures?: Array<{
     title: string;
     description?: string;
@@ -23,6 +29,22 @@ type ServiceCardType = {
     afterImage: string;
   };
 };
+
+function ServiceCardCTA({ cta }: { cta?: ServiceCardType['cta'] }) {
+  if (!cta) return null;
+  return (
+    <Button
+      asChild
+      size="lg"
+      className="mt-2 group/cta bg-primary text-primary-foreground hover:bg-primary/90"
+    >
+      <Link to={cta.href} aria-label={cta.text}>
+        <span className="text-white font-medium">{cta.text}</span>
+        <ArrowRight className="ml-2 h-5 w-5 text-white transition-transform duration-300 group-hover/cta:translate-x-1" aria-hidden="true" />
+      </Link>
+    </Button>
+  );
+}
 type AnimatedServiceCardProps = React.ComponentProps<'div'> & {
   service: ServiceCardType;
   index: number;
@@ -57,6 +79,12 @@ export function AnimatedServiceCard({
                 </div>
               </CardVisual>
             </AnimatedCard>
+
+            {service.cta && (
+              <div className="mt-6">
+                <ServiceCardCTA cta={service.cta} />
+              </div>
+            )}
           </div>
 
           {/* Image Section */}
@@ -98,6 +126,9 @@ export function AnimatedServiceCard({
           </div> : <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl">
             {service.description}
           </p>}
+
+          {/* Conversion CTA */}
+          <ServiceCardCTA cta={service.cta} />
         </div>
 
         {/* Image Section */}

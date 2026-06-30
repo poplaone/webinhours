@@ -133,7 +133,7 @@ export function MobileServicesDrawer({ isOpen, onOpenChange }: MobileServicesDra
                     {/* 24-Hour Delivery Banner */}
                     {/* Live Network Banner */}
                     <button
-                        onClick={() => handleNavigation('/#premium-services')}
+                        onClick={() => handleNavigation('/services')}
                         className="w-full p-4 bg-primary/5 rounded-lg border border-primary/20 text-left active:bg-primary/10 transition-colors"
                     >
                         <div className="flex items-center gap-2 mb-2">

@@ -18,7 +18,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 // Lazy load all pages including Index for optimal code splitting
 const Index = lazy(() => import("./pages/Index"));
 const About = lazy(() => import("./pages/About"));
-// Services page removed - now using homepage services section
+const Services = lazy(() => import("./pages/Services"));
 const Contact = lazy(() => import("./pages/Contact"));
 const ContactConfirmation = lazy(() => import("./pages/ContactConfirmation"));
 const FAQ = lazy(() => import("./pages/FAQ"));
@@ -164,7 +164,7 @@ function App() {
                       <Routes>
                         <Route path="/" element={<Index />} />
                         <Route path="/about" element={<About />} />
-                        {/* Services route removed - now using homepage services section */}
+                        <Route path="/services" element={<Services />} />
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/contact/confirmation" element={<ContactConfirmation />} />
                         <Route path="/faq" element={<FAQ />} />
