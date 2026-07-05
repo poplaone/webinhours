@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import * as React from "npm:react@18.3.1";
 import { render } from "npm:@react-email/render@0.0.12";
 import { AdminNotification } from "./_templates/admin-notification.tsx";
@@ -98,13 +99,47 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    console.log("[SERVER] Received contact form submission from authenticated user:", user.id);
+    console.log("[SERVER] Received contact form submission from:", data.email);
 
     // Sanitize inputs for display
     const sanitizedName = data.name.trim().slice(0, 100);
     const sanitizedEmail = data.email.trim().slice(0, 255);
     const sanitizedMessage = data.message.trim().slice(0, 5000);
     const sanitizedSubject = data.subject?.trim().slice(0, 200);
+
+    // Persist the lead first so it survives even if email delivery fails below.
+    let submissionId: string | null = null;
+    try {
+      const supabaseAdmin = createClient(
+        Deno.env.get("SUPABASE_URL") ?? "",
+        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+      );
+      const { data: inserted, error: insertError } = await supabaseAdmin
+        .from("contact_submissions")
+        .insert({
+          name: sanitizedName,
+          email: sanitizedEmail,
+          subject: sanitizedSubject,
+          message: sanitizedMessage,
+          type: data.type?.slice(0, 50),
+          project_type: data.projectType?.slice(0, 100),
+          budget: data.budget?.slice(0, 50),
+          timeline: data.timeline?.slice(0, 50),
+          services: data.services?.slice(0, 10),
+          custom_service: data.customService?.slice(0, 100),
+          website: data.website?.slice(0, 200),
+        })
+        .select("id")
+        .single();
+      if (insertError) {
+        console.error("[SERVER] Failed to persist contact submission:", insertError.message);
+      } else {
+        submissionId = inserted?.id ?? null;
+      }
+    } catch (persistError: any) {
+      // Never block the user on a persistence failure — the email path is the fallback.
+      console.error("[SERVER] Error persisting contact submission:", persistError?.message);
+    }
 
     // Render email templates with sanitized data
     const adminHtml = render(
@@ -159,6 +194,22 @@ const handler = async (req: Request): Promise<Response> => {
     });
 
     console.log("[SERVER] User confirmation sent successfully");
+
+    // Flag the stored lead as emailed (best-effort; failure here is non-fatal).
+    if (submissionId) {
+      try {
+        const supabaseAdmin = createClient(
+          Deno.env.get("SUPABASE_URL") ?? "",
+          Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+        );
+        await supabaseAdmin
+          .from("contact_submissions")
+          .update({ email_sent: true })
+          .eq("id", submissionId);
+      } catch (_) {
+        // ignore — the lead is already captured
+      }
+    }
 
     return new Response(
       JSON.stringify({ success: true }),

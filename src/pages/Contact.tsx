@@ -108,6 +108,7 @@ export default function Contact() {
     timeline: '',
     otherDetails: '',
     customService: '',
+    honeypot: '',
   });
   
   // Validation states
@@ -236,17 +237,10 @@ export default function Contact() {
       return;
     }
 
-    if (formData.services.length === 0) {
-      toast({
-        title: "Select a Service",
-        description: "Please select at least one service you're interested in.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     // Build compiled message
-    const selectedServices = formData.services.map(id => getServiceLabel(id)).join(', ');
+    const selectedServices = formData.services.length > 0
+      ? formData.services.map(id => getServiceLabel(id)).join(', ')
+      : 'General Inquiry';
 
     const selectedBudget = budgetOptions.find(b => b.id === formData.budget)?.label || 'Not specified';
     const selectedTimeline = timelineOptions.find(t => t.id === formData.timeline)?.label || 'Not specified';
@@ -259,7 +253,7 @@ export default function Contact() {
 📧 Email: ${cleanEmail}
 
 🎯 Services Interested:
-${formData.services.map(id => `   • ${getServiceLabel(id)}`).join('\n')}
+${formData.services.length > 0 ? formData.services.map(id => `   • ${getServiceLabel(id)}`).join('\n') : '   • General Inquiry'}
 
 💰 Budget Range: ${selectedBudget}
 ⏰ Timeline: ${selectedTimeline}
@@ -283,6 +277,7 @@ ${cleanDetails ? `📝 Additional Details:\n${cleanDetails}` : ''}
           timeline: formData.timeline,
           services: formData.services,
           customService: cleanCustomService,
+          honeypot: formData.honeypot,
         }
       });
 
@@ -324,14 +319,25 @@ ${cleanDetails ? `📝 Additional Details:\n${cleanDetails}` : ''}
           <Card className="border border-border/50 shadow-sm bg-white/5 backdrop-blur-md overflow-hidden">
             <CardContent className="p-0">
               <form onSubmit={handleSubmit} className="flex flex-col lg:flex-row h-auto lg:h-[75vh] lg:min-h-[650px] lg:max-h-[850px]">
-                
+                {/* Honeypot: hidden from real users, bots fill it and get silently rejected server-side */}
+                <input
+                  type="text"
+                  name="company_website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  value={formData.honeypot}
+                  onChange={(e) => setFormData(prev => ({ ...prev, honeypot: e.target.value }))}
+                  className="absolute left-[-9999px] w-px h-px opacity-0 pointer-events-none"
+                />
+
                 {/* Left Side: Services, Budget & Timeline */}
                 <div className="flex-1 p-6 md:p-8 overflow-y-auto space-y-12 lg:border-r border-border/50">
                   {/* Step 1: Services */}
                 <div className="space-y-6">
                   <div>
-                    <h2 className="text-xl font-semibold text-foreground mb-1">1. How can we help? *</h2>
-                      <p className="text-sm text-muted-foreground mb-4">Select the services you're interested in.</p>
+                    <h2 className="text-xl font-semibold text-foreground mb-1">1. How can we help?</h2>
+                      <p className="text-sm text-muted-foreground mb-4">Optional — pick any services you're interested in, or just send us a message.</p>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {serviceOptions.filter(s => s.id !== 'other').map((service) => (
@@ -563,14 +569,6 @@ ${cleanDetails ? `📝 Additional Details:\n${cleanDetails}` : ''}
                         setTouched({ name: true, email: true });
                         // Check if valid before showing modal
                         if (formData.name.trim() && formData.email.trim() && emailRegex.test(formData.email)) {
-                          if (formData.services.length === 0) {
-                            toast({
-                              title: "Select a Service",
-                              description: "Please select at least one service you're interested in.",
-                              variant: "destructive",
-                            });
-                            return;
-                          }
                           setShowConfirmModal(true);
                         }
                       }}
