@@ -9,6 +9,8 @@ export interface BlogPost {
     category: string;
     readTime: string;
     image: string;
+    /** Comma-separated SEO keywords for the post's meta tags. */
+    keywords?: string;
 }
 
 import blogPostsData from './blog-posts.json';

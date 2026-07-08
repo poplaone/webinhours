@@ -39,7 +39,7 @@ export default function BlogPost() {
             <SEOHead
                 title={`${post.title} - WebInHour Blog`}
                 description={post.excerpt}
-                keywords={`${post.category}, web development, digital assets, ${post.title.toLowerCase()}`}
+                keywords={post.keywords || `${post.category}, online presence, ${post.title.toLowerCase()}`}
                 ogType="article"
             />
 

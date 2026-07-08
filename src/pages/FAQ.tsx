@@ -13,16 +13,33 @@ export default function FAQ() {
       category: "Speed & Delivery",
       questions: [
         {
-          question: "Can you actually build a website in 24 hours?",
-          answer: "Yes. Once we have your logo, colors, and copy, we start immediately. We don't spend weeks wireframing. We take a proven layout, inject your brand, and push it live. That takes a day, not a month."
+          question: "Can you actually get my business online in hours?",
+          answer: "Yes. Once we have your logo, colors, and details, we start immediately. We don't spend weeks wireframing. We build your site, prepare your Google Business setup, and create starter social content, then push it live. That takes hours, not weeks."
         },
         {
           question: "What if my old site just crashed and I need a site today?",
-          answer: "We offer an emergency same-day turnaround. If you have your assets ready, we can get a professional landing page live before you go to sleep tonight."
+          answer: "We offer an emergency same-day turnaround. If you have your assets ready, we can get a professional site live before you go to sleep tonight."
         },
         {
           question: "How does the process actually work?",
-          answer: "You pick a design from our library that fits your business. You send us your text and images. Our engineers swap the colors, apply your copy, and hook up your domain. We host it, and you're done."
+          answer: "You pick a design from our library that fits your business. You send us your text, images, and business details. We apply your brand, set up your Google Business profile, prepare social content and local SEO, and hook up your domain. We host it, and you're ready everywhere."
+        }
+      ]
+    },
+    {
+      category: "Your Complete Presence",
+      questions: [
+        {
+          question: "Do you set up my Google Business Profile?",
+          answer: "Yes. We set up or optimize your Google Business Profile, categories, description, hours, and details, so customers can find you on Google Search and Maps and you rank better in local results."
+        },
+        {
+          question: "Do you create social media content too?",
+          answer: "Yes. Every presence package includes branded social content, posts, reels, captions, and profile assets, for the channels you use, so your pages look active and consistent from day one."
+        },
+        {
+          question: "What does local SEO include?",
+          answer: "Local SEO includes keyword-focused pages, Google Business optimization, local search basics, analytics, and performance tracking, so you show up when nearby customers search, including in AI search engines like ChatGPT and Perplexity."
         }
       ]
     },
@@ -56,9 +73,9 @@ export default function FAQ() {
   return (
     <AppLayout>
       <SEOHead
-        title="FAQ - WebInHour | Real Answers About 24-Hour Websites"
-        description="Here is exactly how we build websites in 24 hours, what it costs, and why you actually own the code."
-        keywords="24 hour website FAQ, same day website questions, fast website delivery FAQ, urgent website design help, WebInHour questions, website in 24 hours"
+        title="FAQ - WebInHour | Complete Online Presence, Answered"
+        description="Straight answers on how we set up your website, Google Business, social content, and local SEO, what it costs, how fast it launches, and why you own everything."
+        keywords="online presence FAQ, Google Business setup questions, local SEO FAQ, social content questions, web presence package help, WebInHour questions"
         canonicalUrl="https://webinhour.com/faq"
       />
 
@@ -74,7 +91,7 @@ export default function FAQ() {
               Straight answers.<br />No agency spin.
             </h1>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              People are skeptical when we say we can deliver a production-ready website in a day. Here is exactly how it works.
+              People are skeptical when we say we can set up a complete online presence, website, Google Business, social, and local SEO, in hours. Here is exactly how it works.
             </p>
           </div>
 

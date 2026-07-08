@@ -14,11 +14,20 @@ interface AppLayoutProps {
 const AppLayout = ({ children, showHeader = true, showMobileNav = true, className = "" }: AppLayoutProps) => {
   return (
     <div className={`min-h-screen relative ${className}`}>
+      {/* Skip link — first focusable element, visible only on keyboard focus */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-md focus:bg-primary focus:text-primary-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+      >
+        Skip to content
+      </a>
       <GridPattern />
       {showHeader && <Header />}
-      <main className="pb-24 sm:pb-28 lg:pb-0 relative z-10">
+      {/* Not a <main> landmark — App.tsx already provides the single <main id="main-content">.
+          Nesting <main> inside it is invalid HTML and breaks screen-reader landmark nav. */}
+      <div className="pb-24 sm:pb-28 lg:pb-0 relative z-10">
         {children}
-      </main>
+      </div>
 
       {/* WhatsApp Floating Button */}
       <a

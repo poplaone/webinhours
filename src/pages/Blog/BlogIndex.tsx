@@ -13,9 +13,9 @@ export default function BlogIndex() {
     return (
         <AppLayout>
             <SEOHead
-                title="Blog - WebInHour | Industry Insights & News"
-                description="Latest insights on web development, digital assets, and Generative Engine Optimization (GEO). Stay ahead of the curve."
-                keywords="web development blog, digital asset news, SEO tips, GEO optimization, tech insights"
+                title="Blog - WebInHour | Online Presence, SEO & Growth Insights"
+                description="Practical insights on building a complete online presence, websites, Google Business, social content, local SEO, and Generative Engine Optimization (GEO). Stay ahead of the curve."
+                keywords="online presence blog, local SEO tips, Google Business tips, social media content, GEO optimization, web presence insights"
             />
 
             <div className="pt-24 pb-20 px-4">

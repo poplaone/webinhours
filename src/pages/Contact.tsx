@@ -301,8 +301,8 @@ ${cleanDetails ? `📝 Additional Details:\n${cleanDetails}` : ''}
   return (
     <AppLayout>
       <SEOHead
-        title="Contact Us - WebInHour | Get Started Today"
-        description="Get in touch with our team for your website project. We're here to help you build your dream website."
+        title="Contact Us - WebInHour | Launch Your Online Presence"
+        description="Tell us about your business and we'll set up your complete online presence, website, Google Business, social content, and local SEO, in hours, not weeks."
       />
 
       <div className="container mx-auto p-4 lg:p-8 pb-32">

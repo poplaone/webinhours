@@ -19,24 +19,24 @@ export default function HowItWorks() {
     },
     {
       icon: Code,
-      title: "2. We do the heavy lifting",
-      description: "You send us your logo, colors, and copy. Our engineers handle the integration. We don't ask you to learn a complicated website builder.",
-      details: ["Brand Matching", "Typography Setup", "Copy Injection", "GEO Formatting"]
+      title: "2. We build your whole presence",
+      description: "You send us your logo, colors, and copy. Our team builds your site and prepares the rest of your presence, Google Business setup, starter social content, and local SEO, so you're ready everywhere customers check.",
+      details: ["Brand Matching", "Google Business Setup", "Social Content", "Local SEO & GEO"]
     },
     {
       icon: Rocket,
-      title: "3. You go live tomorrow",
-      description: "Within 24 hours, we push your site to production. We host it on blazing fast servers, hook up your domain, and hand you the keys.",
-      details: ["Vercel/Netlify Hosting", "Free SSL", "Domain Connection", "You Own The Code"]
+      title: "3. You go live, everywhere",
+      description: "Within hours, we push your site to production, connect your domain, and hand over your Google Business and social profiles. Your business looks ready on every channel, not just your website.",
+      details: ["Fast Hosting + Free SSL", "Domain Connection", "Profiles Live", "You Own The Code"]
     }
   ];
 
   return (
     <AppLayout>
       <SEOHead
-        title="How It Works - WebInHour | Get Your Website in 24 Hours"
-        description="Here is exactly how we deliver professional websites in 24 hours. We skip the bloat, use proven templates, and push code live fast."
-        keywords="how to get website in 24 hours, fast website process, same day website delivery, rapid web development, instant website launch"
+        title="How It Works - WebInHour | Your Online Presence, Launched in Hours"
+        description="Here is exactly how we set up your complete online presence, website, Google Business, social content, and local SEO, in hours, not weeks. No bloat, no endless revisions."
+        keywords="how online presence setup works, fast website process, Google Business setup, local SEO setup, social content creation, launch online presence fast"
         canonicalUrl="https://webinhour.com/how-it-works"
       />
 
@@ -47,11 +47,11 @@ export default function HowItWorks() {
             <Badge variant="secondary" className="mb-6 px-4 py-1.5 text-sm font-medium tracking-wide uppercase">The Process</Badge>
             <h1 className="text-4xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent tracking-tight">
               No bloat.<br />
-              <span className="text-foreground">Just a live website.</span>
+              <span className="text-foreground">A complete presence, live.</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed font-light">
-              We cut out the wireframes, the endless revisions, and the \"design by committee.\" 
-              Here is exactly how we get you online in 24 hours.
+              We cut out the wireframes, the endless revisions, and the \"design by committee.\"
+              Here is exactly how we get your website, Google Business, social, and SEO live in hours.
             </p>
           </div>
 

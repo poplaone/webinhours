@@ -5,7 +5,6 @@ import { Footer } from '@/components/sections/Footer';
 import AppLayout from '@/components/layout/AppLayout';
 import SEOHead from '@/components/seo/SEOHead';
 import GEOStructuredData from '@/components/seo/GEOStructuredData';
-import FAQSchema from '@/components/seo/FAQSchema';
 import { GridPattern } from '@/components/ui/GridPattern';
 import { SkeletonSection, SkeletonCards } from '@/components/ui/SkeletonLoaders';
 
@@ -20,17 +19,16 @@ const Index = () => {
     <AppLayout>
       {/* GEO-Optimized SEO with Answer-First Approach */}
       <SEOHead
-        title="WebInHour - Complete Web Presence in Hours | Website + Social + SEO"
-        description="Launch your complete online presence fast: website, Google Business setup, social media content, and SEO packages designed to grow your business."
+        title="WebInHour - Complete Online Presence, Launched in Hours, Not Weeks"
+        description="We build your website, set up Google Business, create social content, and prepare local SEO so your business looks ready everywhere customers check. Launched in hours, not weeks."
         keywords="web presence, online presence, social media content, Google Business setup, local SEO, website packages, content creation, social media management, fast web presence launch"
         canonicalUrl="https://webinhour.com/"
       />
 
-      {/* Enhanced Structured Data for GEO/AI Extraction */}
+      {/* Enhanced Structured Data for GEO/AI Extraction.
+          GEOStructuredData already emits the FAQPage schema for pageType="home",
+          so a separate <FAQSchema /> here would duplicate it. */}
       <GEOStructuredData pageType="home" />
-
-      {/* FAQ Schema for Featured Snippets */}
-      <FAQSchema />
 
       {/* Background layers - Grid pattern provided by AppLayout */}
 

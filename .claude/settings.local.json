@@ -5,7 +5,8 @@
       "Bash(npx tsc *)",
       "Bash(echo \"exit: $?\")",
       "Bash(npx playwright *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(find /Users/dev/workspace-dca10498 -type f -not -path \"*/node_modules/*\" -not -path \"*/.git/*\" | head -50)"
     ]
   }
 }

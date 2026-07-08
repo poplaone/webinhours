@@ -223,8 +223,8 @@ const Calculator = () => {
   return (
     <AppLayout showMobileNav={false}>
       <SEOHead
-        title="Project Cost Calculator - WebInHour"
-        description="Estimate the cost of your custom website or app project. get an instant quote for our professional services."
+        title="Project Cost Calculator - WebInHour | Online Presence Estimate"
+        description="Estimate the cost of your complete online presence, website, Google Business setup, social content, and local SEO. Get an instant quote in seconds."
       />
 
       <div className="container mx-auto p-4 lg:p-8 pb-32">

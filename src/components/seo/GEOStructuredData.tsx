@@ -35,9 +35,9 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
       "width": 512,
       "height": 512
     },
-    "description": "The fastest web development service delivering professional websites in 24 hours or less. Same-day website builder with SEO & GEO optimization for AI search engines.",
+    "description": "Complete online presence, launched in hours, not weeks. We build your website, set up Google Business, create social content, and prepare local SEO so your business looks ready everywhere customers check.",
     "foundingDate": "2023",
-    "slogan": "Your Website in 24 Hours - Not Weeks",
+    "slogan": "Complete Online Presence, Launched in Hours - Not Weeks",
     "email": "support@webinhour.com",
     "contactPoint": [
       {
@@ -65,14 +65,14 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
     },
     "sameAs": [],
     "knowsAbout": [
-      "24-Hour Website Development",
-      "Same Day Website Builder",
-      "Fast Custom Website Development",
-      "Urgent Website Design Services",
-      "SEO & GEO Optimization",
-      "Rapid Web Development",
-      "Website in 24 Hours",
-      "Emergency Web Design",
+      "Complete Online Presence Packages",
+      "Website Design and Development",
+      "Google Business Profile Setup",
+      "Local SEO and GEO Optimization",
+      "Social Media Content Creation",
+      "Social Media Management",
+      "Content Strategy for Small Business",
+      "Online Brand Visibility",
       "Responsive Web Design",
       "E-commerce Development",
       "AI Search Optimization"
@@ -93,7 +93,7 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
     "@id": "https://webinhour.com/#website",
     "url": "https://webinhour.com",
     "name": "WebInHour",
-    "description": "The fastest way to get a professional website. Same-day delivery, SEO & GEO optimized for AI search engines.",
+    "description": "Launch your complete online presence in hours: website, Google Business setup, social content, and local SEO, optimized for search and AI engines.",
     "publisher": {
       "@id": "https://webinhour.com/#organization"
     },
@@ -128,35 +128,45 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
     ],
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
-      "name": "Web Development Services",
+      "name": "Complete Online Presence Packages",
       "itemListElement": [
         {
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
-            "name": "Free Website Templates"
+            "name": "Presence Starter"
           },
-          "price": "0",
+          "price": "299",
           "priceCurrency": "USD",
-          "description": "500+ professional templates delivered instantly, SEO & GEO optimized for AI search"
+          "priceValidUntil": "2026-12-31",
+          "description": "Website, Google Business setup, and starter social content package, launched in hours"
         },
         {
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
-            "name": "24-Hour Custom Website"
+            "name": "Social Content Package"
           },
-          "price": "299",
+          "price": "199",
           "priceCurrency": "USD",
-          "priceValidUntil": "2026-12-31",
-          "description": "Same-day website delivery with custom branding, SEO optimization, and mobile-responsive design"
+          "description": "Posts, reels, captions, and ongoing social content creation for your channels"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "SEO & Local Growth"
+          },
+          "price": "249",
+          "priceCurrency": "USD",
+          "description": "Local SEO, Google Business optimization, keyword-rich pages, and analytics"
         }
         ]
       },
     "termsOfService": "https://webinhour.com/terms",
     "serviceOutput": {
       "@type": "WebSite",
-      "description": "Professional, mobile-optimized website with SEO"
+      "description": "A complete online presence: website, Google Business profile, social content, and local SEO"
     }
   });
 
@@ -164,28 +174,28 @@ const GEOStructuredData: React.FC<GEOStructuredDataProps> = ({
   const generateFAQSchema = () => {
     const defaultFAQs: FAQItem[] = [
       {
-        question: "Can I really get a website in 24 hours?",
-        answer: "Yes! WebInHour specializes in rapid website delivery. Most custom websites are delivered within 24 hours of receiving your content. For urgent needs, we offer same-day website builder options that can have you online in just a few hours."
+        question: "What does a complete online presence include?",
+        answer: "A complete online presence means everything customers check before they buy: a professional website, a set-up Google Business profile so you show up on Search and Maps, branded social content for your channels, and local SEO so you get found. WebInHour sets all of it up together so your business looks ready everywhere."
       },
       {
-        question: "What if I need my website urgently today?",
-        answer: "We offer emergency web design services for urgent needs. Contact us for same-day website delivery options. Our rapid development process means you can go from concept to live website in hours, not weeks."
+        question: "How fast can you launch my online presence?",
+        answer: "In hours, not weeks. Once we have your logo, colors, and basic details, we build your website, prepare your Google Business setup, and create your starter social content right away. Most businesses go live the same day instead of waiting weeks with a traditional agency."
       },
       {
-        question: "Is the free website really free?",
-        answer: "Yes, our free website tier is 100% free with no hidden costs. You get access to 500+ professional templates, mobile optimization, SEO-ready structure, and free SSL certificate. Premium services like custom branding and content creation are optional upgrades."
+        question: "Do you set up Google Business Profile?",
+        answer: "Yes. We set up or optimize your Google Business Profile so customers can find you on Google Search and Maps, with the categories, description, and details that help you rank locally and win calls and visits."
       },
       {
-        question: "What is included in the free website?",
-        answer: "The free website includes: choice from 500+ professional templates, mobile-responsive design, basic SEO optimization, free SSL certificate, contact form integration, and ongoing hosting. You only pay if you want premium upgrades."
+        question: "Do you create social media content too?",
+        answer: "Yes. Every presence package includes branded social content, posts, reels, captions, and profile assets, for the channels you actually use, so your social pages look active and consistent from day one."
       },
       {
-        question: "Do I need technical skills to use WebInHour?",
-        answer: "No technical skills required. We handle all the technical setup, hosting, and maintenance. You simply choose a template, provide your content, and we do the rest. Our team provides full support throughout the process."
+        question: "What is included in local SEO?",
+        answer: "Local SEO includes keyword-focused pages, Google Business optimization, local search basics, analytics, and performance tracking, so your business shows up when nearby customers search for what you offer."
       },
       {
-        question: "What premium services are available?",
-        answer: "Premium services include: Custom Branding (from $299) for unique design and color schemes, Content Creation (from $199) for professional copywriting, SEO Optimization for better search rankings, and ongoing Website Maintenance for regular updates and support."
+        question: "Do I need technical skills to work with WebInHour?",
+        answer: "No technical skills required. We handle the website build, Google Business setup, social content, and SEO for you. You provide your brand details, and our team does the rest with full support throughout."
       }
     ];
 
