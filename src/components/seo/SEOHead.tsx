@@ -68,7 +68,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
           "@context": "https://schema.org",
           "@type": "Organization",
           "name": "WebInHour",
-          "description": "Professional website development in 24 hours",
+          "description": "Complete online presence, launched in hours: website, Google Business setup, social content, and local SEO",
           "url": "https://webinhour.com",
           "logo": "https://webinhour.com/logo.png",
           "foundingDate": "2023",
@@ -105,7 +105,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
           },
           "offers": {
             "@type": "Offer",
-            "description": "Professional websites delivered in 24 hours",
+            "description": "Complete online presence packages: website, Google Business setup, social content, and local SEO",
             "priceRange": "$199-$899",
             "availability": "https://schema.org/InStock"
           }

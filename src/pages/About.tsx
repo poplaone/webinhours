@@ -9,9 +9,9 @@ export default function About() {
   return (
     <AppLayout>
       <SEOHead
-        title="About WebInHour | Fast Web Development"
-        description="We build professional websites in 24 hours. Stop waiting months for an agency to ship a landing page."
-        keywords="fast web development, 24 hour website, website builders, agency alternatives"
+        title="About WebInHour | Complete Online Presence, Launched in Hours"
+        description="Why we build complete online presences, website, Google Business, social content, and local SEO, in hours, not weeks. Stop waiting months for an agency just to get you online."
+        keywords="complete online presence, web presence agency, Google Business setup, local SEO, social media content, fast web presence launch, agency alternatives"
       />
       <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
@@ -23,8 +23,8 @@ export default function About() {
               8-week timeline.
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed font-light">
-              We got tired of watching founders wait two months and pay $10,000 just to launch a landing page.
-              <span className="text-foreground font-medium"> WebInHour</span> gives you the design, the code, and the speed to launch today.
+              We got tired of watching founders wait two months and pay $10,000 just to get online, and still end up with only a website.
+              <span className="text-foreground font-medium"> WebInHour</span> sets up your complete online presence, website, Google Business, social content, and local SEO, so you look ready everywhere customers check. Launched in hours.
             </p>
           </div>
 

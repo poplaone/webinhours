@@ -175,9 +175,9 @@ export default function Pricing() {
   return (
     <AppLayout>
       <SEOHead
-        title="Pricing - WebInHour | 24-Hour Website Development Packages"
-        description="Transparent pricing for fast website development. Free templates for instant download, $299 Custom Lite with 24-hour delivery, $599 Custom Pro. Same-day website options available."
-        keywords="24 hour website pricing, fast website cost, same day website packages, affordable custom website, website in 24 hours price, urgent website design cost, WebInHour pricing"
+        title="Pricing - WebInHour | Complete Online Presence Packages"
+        description="Transparent pricing for your complete online presence. Free templates to start, $299 Presence Starter with website, Google Business, and social content, plus SEO and local growth packages. Launched in hours."
+        keywords="online presence pricing, web presence package cost, Google Business setup price, local SEO packages, social media content pricing, affordable presence package, WebInHour pricing"
         canonicalUrl="https://webinhour.com/pricing"
       />
 
@@ -190,14 +190,14 @@ export default function Pricing() {
           <div className="text-center mb-12">
             <h1 className="text-3xl md:text-5xl font-bold mb-4">
               <span className="bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent">
-                Free Templates. $299 Custom Sites. Ready in 24 Hours.
+                Your Complete Online Presence. From $299. Launched in Hours.
               </span>
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               {user ? (
-                <>Hey <span className="font-semibold text-primary">{userName || 'there'}</span>! Launch with free templates. Upgrade when you need professional customization.</>
+                <>Hey <span className="font-semibold text-primary">{userName || 'there'}</span>! Website, Google Business, social content, and local SEO, start free with templates, upgrade when you're ready.</>
               ) : (
-                <>Launch with free templates. Upgrade when you need professional customization.</>
+                <>Website, Google Business, social content, and local SEO, start free with templates, upgrade when you're ready.</>
               )}
             </p>
           </div>

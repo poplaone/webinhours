@@ -27,3 +27,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Claude Code local settings (per-machine)
+.claude/settings.local.json
+
+# Local/global agent skills — not project source
+.claude/skills/

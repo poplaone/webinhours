@@ -11,36 +11,28 @@ interface FAQSchemaProps {
 
 const defaultFAQs: FAQItem[] = [
   {
-    question: "Can I really get a website in 24 hours?",
-    answer: "Yes! WebInHour delivers professional websites within 24 hours. Our streamlined process eliminates weeks of waiting. Choose a template, provide your content, and we handle the rest. Same-day delivery is available for urgent projects."
+    question: "What does a complete online presence include?",
+    answer: "It includes everything customers check before they buy: a professional website, a set-up Google Business profile so you appear on Search and Maps, branded social content for your channels, and local SEO so you get found. WebInHour sets all of it up together so your business looks ready everywhere."
   },
   {
-    question: "What if I need my website urgently today?",
-    answer: "We offer same-day website delivery for urgent needs. Our emergency web design service can have your professional website live in just a few hours. Contact us to discuss your timeline."
+    question: "How fast can you launch my online presence?",
+    answer: "In hours, not weeks. Once we have your logo, colors, and basic details, we build your website, prepare your Google Business setup, and create your starter social content right away. Most businesses go live the same day instead of waiting weeks with a traditional agency."
   },
   {
-    question: "How fast can I get a website?",
-    answer: "Templates are available for instant download. Custom websites are delivered within 24 hours. For urgent projects, same-day delivery ensures you go live the same day you contact us."
+    question: "Do you set up my Google Business Profile?",
+    answer: "Yes. We set up or optimize your Google Business Profile, categories, description, hours, and details, so customers can find you on Google Search and Maps and you rank better in local results."
   },
   {
-    question: "What is included in the free website?",
-    answer: "Every free website includes mobile-responsive design, SEO & GEO optimization for AI search, SSL security certificate, fast hosting, and access to 500+ premium templates. No hidden fees or credit card required."
+    question: "Do you create social media content?",
+    answer: "Yes. Every presence package includes branded social content, posts, reels, captions, and profile assets, for the channels you use, so your pages look active and consistent from day one."
   },
   {
-    question: "How much does a 24-hour custom website cost?",
-    answer: "Custom Lite packages start at $299 with 24-hour delivery. This includes template customization, logo integration, color scheme changes, content updates, and basic SEO & GEO setup."
+    question: "What is included in local SEO?",
+    answer: "Local SEO includes keyword-focused pages, Google Business optimization, local search basics, analytics, and performance tracking, so you show up when nearby customers search for what you offer, including in AI search engines like ChatGPT and Perplexity."
   },
   {
-    question: "Do you offer SEO and GEO optimization?",
-    answer: "Yes, all websites come with SEO & GEO optimization included. This ensures your site ranks well in traditional search and AI-powered search engines like ChatGPT, Perplexity, and Google SGE."
-  },
-  {
-    question: "Can I edit my website after it's built?",
-    answer: "Absolutely. Every website comes with full source code ownership. You can update text, images, and add new pages. We also offer ongoing support packages for those who prefer expert assistance."
-  },
-  {
-    question: "What technologies do you use for fast website development?",
-    answer: "We use modern, high-performance technologies including React, TypeScript, and Tailwind CSS. All websites are optimized for Core Web Vitals, ensuring lightning-fast load times and excellent user experience."
+    question: "Do I own my website and can I edit it later?",
+    answer: "Yes. You own the full source code, no proprietary builder lock-in. You can update text, images, and pages yourself, and we offer ongoing support packages if you'd prefer expert help."
   }
 ];
 

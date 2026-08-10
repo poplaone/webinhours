@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import * as React from "npm:react@18.3.1";
 import { render } from "npm:@react-email/render@0.0.12";
 import { AdminNotification } from "./_templates/admin-notification.tsx";
@@ -70,6 +71,24 @@ const validateInput = (data: ContactEmailRequest): { valid: boolean; error?: str
   return { valid: true };
 };
 
+// --- Rate limiting -----------------------------------------------------------
+// Public endpoint abuse guard: cap submissions per client IP per time window.
+// A legitimate visitor never submits the contact form many times in minutes.
+const RATE_LIMIT_MAX = 5;            // max submissions...
+const RATE_LIMIT_WINDOW_MIN = 10;   // ...per this many minutes, per IP
+
+// Hash the client IP (salted SHA-256) so we can rate-limit by origin without
+// ever storing a raw IP address. Salt is optional; a static fallback still
+// pseudonymizes the value at rest.
+async function hashClientIp(req: Request): Promise<string | null> {
+  const fwd = req.headers.get("x-forwarded-for") || "";
+  const ip = fwd.split(",")[0].trim();
+  if (!ip) return null; // can't identify origin — skip limiting rather than block everyone
+  const salt = Deno.env.get("RATE_LIMIT_SALT") ?? "webinhour-contact";
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(salt + ":" + ip));
+  return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -98,13 +117,75 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    console.log("[SERVER] Received contact form submission from authenticated user:", user.id);
+    console.log("[SERVER] Received contact form submission from:", data.email);
 
     // Sanitize inputs for display
     const sanitizedName = data.name.trim().slice(0, 100);
     const sanitizedEmail = data.email.trim().slice(0, 255);
     const sanitizedMessage = data.message.trim().slice(0, 5000);
     const sanitizedSubject = data.subject?.trim().slice(0, 200);
+
+    // Single admin client reused for rate-limit check, persistence, and status update.
+    const supabaseAdmin = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+    );
+
+    // Rate limit by client IP. Best-effort: any failure in the check itself is
+    // logged and allowed through (fail-open) so a DB hiccup never blocks real leads.
+    const ipHash = await hashClientIp(req);
+    if (ipHash) {
+      try {
+        const sinceIso = new Date(Date.now() - RATE_LIMIT_WINDOW_MIN * 60_000).toISOString();
+        const { count, error: rlError } = await supabaseAdmin
+          .from("contact_submissions")
+          .select("id", { count: "exact", head: true })
+          .eq("ip_hash", ipHash)
+          .gte("created_at", sinceIso);
+        if (rlError) {
+          console.error("[SERVER] Rate-limit check failed (allowing):", rlError.message);
+        } else if ((count ?? 0) >= RATE_LIMIT_MAX) {
+          console.warn("[SERVER] Rate limit exceeded for ip_hash prefix:", ipHash.slice(0, 8));
+          return new Response(
+            JSON.stringify({ error: getSafeErrorMessage(429) }),
+            { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          );
+        }
+      } catch (rlEx: any) {
+        console.error("[SERVER] Rate-limit check error (allowing):", rlEx?.message);
+      }
+    }
+
+    // Persist the lead first so it survives even if email delivery fails below.
+    let submissionId: string | null = null;
+    try {
+      const { data: inserted, error: insertError } = await supabaseAdmin
+        .from("contact_submissions")
+        .insert({
+          name: sanitizedName,
+          email: sanitizedEmail,
+          subject: sanitizedSubject,
+          message: sanitizedMessage,
+          type: data.type?.slice(0, 50),
+          project_type: data.projectType?.slice(0, 100),
+          budget: data.budget?.slice(0, 50),
+          timeline: data.timeline?.slice(0, 50),
+          services: data.services?.slice(0, 10),
+          custom_service: data.customService?.slice(0, 100),
+          website: data.website?.slice(0, 200),
+          ip_hash: ipHash,
+        })
+        .select("id")
+        .single();
+      if (insertError) {
+        console.error("[SERVER] Failed to persist contact submission:", insertError.message);
+      } else {
+        submissionId = inserted?.id ?? null;
+      }
+    } catch (persistError: any) {
+      // Never block the user on a persistence failure — the email path is the fallback.
+      console.error("[SERVER] Error persisting contact submission:", persistError?.message);
+    }
 
     // Render email templates with sanitized data
     const adminHtml = render(
@@ -159,6 +240,18 @@ const handler = async (req: Request): Promise<Response> => {
     });
 
     console.log("[SERVER] User confirmation sent successfully");
+
+    // Flag the stored lead as emailed (best-effort; failure here is non-fatal).
+    if (submissionId) {
+      try {
+        await supabaseAdmin
+          .from("contact_submissions")
+          .update({ email_sent: true })
+          .eq("id", submissionId);
+      } catch (_) {
+        // ignore — the lead is already captured
+      }
+    }
 
     return new Response(
       JSON.stringify({ success: true }),

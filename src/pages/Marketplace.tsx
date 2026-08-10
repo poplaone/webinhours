@@ -245,8 +245,8 @@ const Marketplace: React.FC = () => {
     <AppLayout className="">
       <SEOHead
         title="Free Website Templates - 500+ SEO-Ready Designs | WebInHour"
-        description="Browse 500+ professional website templates, all SEO & GEO optimized. Download free or get custom development in 24 hours. The fastest way to launch your business online."
-        keywords="free website templates, SEO ready templates, fast website download, professional website designs, website in 24 hours, same day website, responsive templates, GEO optimized websites"
+        description="Browse 500+ professional, SEO-ready website templates, the starting point for your complete online presence. Download free, or let us add Google Business, social content, and local SEO on top."
+        keywords="free website templates, SEO ready templates, professional website designs, responsive templates, GEO optimized websites, online presence templates, small business website templates"
         canonicalUrl="https://webinhour.com/websites"
       />
 

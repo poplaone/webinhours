@@ -95,7 +95,7 @@ function App() {
                 <ScrollToTop />
                 <Helmet>
                   <title>WebInHour - Professional Website Solutions</title>
-                  <meta name="description" content="Get your professional website ready in 24 hours. Choose from our marketplace of premium templates or get a custom design." />
+                  <meta name="description" content="Launch your complete online presence in hours, not weeks. We build your website, set up Google Business, create social content, and prepare local SEO so your business looks ready everywhere customers check." />
                 </Helmet>
                 <GridBackground className="min-h-screen text-foreground">
                   <main id="main-content" role="main">

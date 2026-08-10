@@ -1,263 +1,282 @@
-# WebInHours Codebase Index
-*Last Updated: November 2025*
+# WebInHour Codebase Index
+*Last Updated: July 2026*
 
-## 📋 Overview
-**WebInHours** is a comprehensive React-based marketplace platform for professional websites and AI agents, built with TypeScript, Vite, and Supabase. The application offers a full-stack solution for users to browse, purchase, and manage websites and AI agents with robust admin capabilities, performance optimization, and modern UI/UX.
+## Overview
+WebInHour is a React/Vite application for fast business web presence launches. The public site currently combines website templates, custom web presence packages, contact lead capture, blog/SEO content, and an admin-managed website marketplace.
 
-### 🏗️ Architecture
-- **Frontend**: React 18 + TypeScript + Vite (SWC compiler)
-- **Styling**: Tailwind CSS + shadcn/ui components + Custom animations
-- **Backend**: Supabase (PostgreSQL + Auth + Storage + RLS)
-- **State Management**: TanStack React Query + React Context + Local state
-- **Routing**: React Router DOM v6 with lazy loading
-- **Performance**: Aggressive caching, code splitting, service worker, prefetching
-- **Build Tool**: Vite with optimized chunks and tree-shaking disabled for stability
-- **Type Safety**: Full TypeScript with strict configuration
+Current positioning in the homepage code is shifting from website-only toward complete online presence:
+- professional website
+- Google Business setup
+- social media content
+- local SEO / GEO
+- ongoing content and visibility support
 
-## 📁 Project Structure
+## Stack
+- Frontend: React 18, TypeScript, Vite, React Router
+- Styling: Tailwind CSS, shadcn/ui-style primitives, custom CSS in `src/index.css`
+- State/data: TanStack React Query, Supabase client, local React state
+- SEO: `react-helmet-async`, structured data components, generated sitemap, prerender script
+- Backend: Supabase database/auth plus Edge Functions
+- Build: `vite build`, followed by `scripts/generate-sitemap.js` and `scripts/prerender.mjs`
 
-### Root Configuration Files
-```
-├── package.json                    # Dependencies and scripts
-├── vite.config.ts                 # Vite configuration with performance optimizations
-├── tsconfig.json                  # TypeScript configuration
-├── tailwind.config.ts             # Tailwind CSS configuration
-├── components.json                # shadcn/ui configuration
-├── eslint.config.js               # ESLint configuration
-├── postcss.config.js              # PostCSS configuration
-└── README.md                      # Project documentation
-```
-
-### Source Code Structure (`src/`)
-
-#### 🚀 Application Entry Points
-```
-src/
-├── main.tsx                       # Application entry point with AuthProvider
-├── App.tsx                        # Main app component with routing and providers
-├── index.css                      # Global styles and Tailwind imports
-│   ├── QuickActionsCard.tsx
-│   └── RecentPurchases.tsx
-├── sections/                      # Page sections
-│   ├── CTASection.tsx
-│   ├── Features.tsx
-│   ├── Footer.tsx
-│   ├── Header.tsx
-│   ├── Hero.tsx
-│   ├── MarketplacePreview.tsx
-│   ├── Portfolio.tsx
-│   └── Services.tsx
-├── seo/                          # SEO components
-│   ├── SEOHead.tsx
-│   └── StructuredData.tsx
-├── AdminRoute.tsx                # Admin route protection
-└── ProtectedRoute.tsx            # User route protection
-```
-
-#### 🎣 Hooks (`src/hooks/`)
-
-##### Core Hooks
-```
-src/hooks/
-├── useAuth.tsx                    # Authentication management
-├── useAdmin.tsx                   # Admin functionality
-├── use-mobile.tsx                 # Mobile detection
-├── use-toast.ts                   # Toast notifications
-└── usePerformanceMonitor.tsx      # Performance monitoring
-```
-
-##### Data Management Hooks
-```
-├── useWebsites.tsx                # Website data (re-exports)
-├── useAIAgents.tsx                # AI agent data management
-├── useProfiles.tsx                # User profile management
-├── useArrayFields.tsx             # Array field utilities
-├── useAdminPanel.tsx              # Admin panel functionality
-├── useAdminAIAgents.tsx           # Admin AI agent management
-├── useWebsiteQueries.tsx          # Website query hooks
-├── useWebsiteMutations.tsx        # Website mutation hooks
-├── useWebsiteUploadForm.tsx       # Website upload form
-└── usePerformanceOptimizations.tsx # Performance optimizations
-```
-
-##### Query Hooks (`src/hooks/queries/`)
-```
-queries/
-├── useMobileOptimizations.tsx     # Mobile performance
-├── usePrefetchMarketplace.tsx     # Marketplace prefetching
-├── usePrefetchSiteDetails.tsx     # Site details prefetching
-├── useUserWebsitesQuery.tsx       # User websites query
-├── useWebsiteByIdQuery.tsx        # Single website query
-├── useWebsitesQuery.tsx           # All websites query
-└── websiteQueryUtils.tsx          # Query utilities
-```
-
-#### 🏷️ Types (`src/types/`)
-```
-src/types/
-├── website.ts                     # Website type definitions
-│   ├── Website interface (main entity)
-│   ├── WebsiteInsert (creation payload)
-│   ├── WebsiteUpdate (update payload)
-│   └── WebsiteFilters (query filters)
-└── aiAgent.ts                     # AI agent type definitions
-    ├── AIAgent interface (main entity)
-    ├── AIAgentInsert (creation payload)
-    ├── AIAgentUpdate (update payload)
-    └── AIAgentFilters (query filters)
-```
-
-#### 🔌 Integrations (`src/integrations/`)
-```
-src/integrations/supabase/
-├── client.ts                      # Supabase client configuration
-└── types.ts                       # Generated database types
-```
-
-#### 🛠️ Utilities (`src/utils/`)
-```
-src/utils/
-├── utils.ts                       # General utilities (shadcn/ui)
-├── formValidation.ts              # Form validation helpers
-├── lazyLoad.ts                    # Lazy loading utilities
-├── performanceManifest.ts         # Performance manifest
-├── performanceOptimizer.ts        # Performance optimization tools
-├── performanceUtils.ts            # Performance utilities
-├── sitemapGenerator.ts            # Sitemap generation
-└── websiteDataUtils.ts            # Website data utilities
-```
-
-#### 🎨 Contexts (`src/contexts/`)
-```
-src/contexts/
-└── ThemeContext.tsx               # Theme management (dark/light mode)
-```
-
-### 🗄️ Database (`supabase/`)
-
-#### Configuration
-```
-supabase/
-└── config.toml                    # Supabase configuration
-```
-
-#### Migrations (`supabase/migrations/`)
-Database schema evolution with 14 migration files:
-```
-├── 20250614111252-04e0c41a-8855-45ad-8229-8ee5a1adb804.sql
-├── 20250614130156-956a155b-5eb9-4ab8-a901-1d12c5129594.sql
-├── 20250615050033-53e28642-5dd4-4e2e-aacc-eb1ec8ea8b1e.sql
-├── 20250615081534-66983cf9-8f65-4923-aff0-a1c5ca4025d0.sql
-├── 20250615093754-1318b3ca-df7a-4ca2-8c0e-69b85612fc3d.sql
-├── 20250615133448-58d376db-fc03-4fd3-9b6e-34cb4d10fa6b.sql
-├── 20250615141024-b8258480-e653-43c6-8f46-f6a081647d31.sql
-├── 20250704093028-fea01110-96b7-40e6-b550-fdc043e23367.sql
-├── 20250708071848-37353995-8945-4d81-98d3-9c3e4b3ab03d.sql
-├── 20250910121058_80d10cea-4cde-4e65-8e06-1d1d85a5bbcc.sql
-├── 20251002053724_5a191f5a-0882-4e52-95ee-1c90310ce84b.sql
-├── 20251010173606_00631d12-2b07-4178-b805-b1b57841b037.sql
-├── 20251010180542_c3e4243c-df37-4e69-bc11-8c2e2a1ccd95.sql
-└── 20251104060504_6c6684c9-b361-4f8c-a4ae-08267a050ea6.sql
-```
-
-### 📦 Public Assets (`public/`)
-```
-public/
-├── index.html                     # HTML template
-├── favicon.ico                    # Site icon
-├── placeholder.svg                # Placeholder image
-├── robots.txt                     # Search engine directives
-├── sw.js                         # Service worker
-├── _headers                      # Netlify headers
-├── cache-bust.json               # Cache busting config
-├── netlify.toml                  # Netlify configuration
-├── vercel.json                   # Vercel configuration
-└── lovable-uploads/              # User uploaded assets
-    └── f22f95ca-a337-40a0-b696-96e2d06bf221.png
-```
-
-### 📚 Documentation Files
-```
-├── CACHING_GUIDE.md              # Caching strategy documentation
-├── CLAUDE.md                     # Claude AI assistant guide
-├── FREE_WEBSITE_CONTENT_STRATEGY.md # Content strategy guide
-├── MARKETPLACE_PERFORMANCE_GUIDE.md # Marketplace optimization
-├── MOBILE_PERFORMANCE_GUIDE.md   # Mobile performance guide
-├── PERFORMANCE_QUICK_START.md    # Performance optimization guide
-├── SITEDETAILS_PERFORMANCE_GUIDE.md # Site details optimization
-└── .windsurfrules               # Windsurf IDE rules
-```
-
-## 🏗️ Key Architecture Patterns
-
-### Data Flow
-1. **Authentication**: Supabase Auth → `useAuth` hook → Context Provider
-2. **Data Fetching**: TanStack React Query → Custom hooks → Components
-3. **State Management**: React Query cache + Local React state
-4. **Routing**: React Router DOM with lazy-loaded components
-
-### Performance Optimizations
-- **Lazy Loading**: All pages and heavy components
-- **Aggressive Caching**: 10-minute stale time, 1-hour garbage collection
-- **Code Splitting**: Vendor chunks separated from application code
-- **Image Optimization**: `OptimizedImage` component with lazy loading
-- **Service Worker**: Aggressive caching strategy
-- **Prefetching**: Marketplace and site details prefetching
-
-### Component Architecture
-- **Atomic Design**: UI components → Feature components → Page sections → Pages
-- **Compound Components**: Complex components split into manageable parts
-- **Render Props**: Flexible component composition
-- **Error Boundaries**: Graceful error handling
-
-### Database Schema (Key Tables)
-- **profiles**: User profile information
-- **websites**: Website marketplace listings
-- **ai_agents**: AI agent marketplace listings
-- **RLS (Row Level Security)**: Implemented for data protection
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js (with nvm recommended)
-- npm or yarn
-
-### Development Commands
+## Commands
 ```bash
-npm run dev        # Start development server
-npm run build      # Production build
-npm run build:dev  # Development build
-npm run lint       # Run ESLint
+npm run dev        # Start Vite dev server
+npm run build      # Production build + sitemap + prerender
+npm run build:dev  # Development-mode Vite build
+npm run lint       # ESLint
 npm run preview    # Preview production build
 ```
 
-### Environment Setup
-- Supabase URL: `https://dcsnxieqnpcjqqiajtvh.supabase.co`
-- Environment variables in `.env`
+## App Entry And Routing
+- `src/main.tsx` mounts the React app.
+- `src/App.tsx` defines providers, layout background, lazy routes, protected/admin routes, and app-wide suspense fallback.
+- `scripts/routes.mjs` is the crawlable route source of truth for sitemap and prerender.
 
-## 🔑 Key Features
+Public/static routes:
+- `/`
+- `/about`
+- `/services`
+- `/contact`
+- `/contact/confirmation`
+- `/faq`
+- `/how-it-works`
+- `/pricing`
+- `/privacy`
+- `/terms`
+- `/websites`
+- `/calculator`
+- `/blog`
+- `/blog/:slug`
+- `/site/:slugOrId`
+- `/24-hour-website`
+- `/same-day-delivery`
 
-### User Features
-- **Authentication**: Email/password + Google OAuth
-- **Marketplace**: Browse websites and AI agents
-- **Profile Management**: User dashboard and settings
-- **Responsive Design**: Mobile-first approach
-- **Dark/Light Mode**: Theme switching
-- **SEO Optimized**: Meta tags and structured data
+Special routes:
+- `/marketplace` redirects to `/websites`
+- `/profile` is wrapped in `ProtectedRoute`
+- `/admin-panel` is wrapped in `AdminRoute`
+- `*` renders `NotFound`
 
-### Admin Features
-- **Content Management**: CRUD operations for websites/AI agents
-- **User Management**: Admin panel with user controls
-- **Analytics**: Statistics dashboard
-- **Review System**: Pending approvals workflow
-- **Bulk Operations**: Mass updates and management
+## Homepage
+Main file: `src/pages/Index.tsx`
 
-### Performance Features
-- **Fast Loading**: Aggressive caching and optimization
-- **Offline Support**: Service worker implementation
-- **Mobile Performance**: Optimized for mobile devices
-- **Progressive Enhancement**: Works without JavaScript
+Homepage flow:
+1. `Hero`
+2. `Services`
+3. `Features`
+4. Testimonials marquee
+5. `Footer`
 
----
+SEO on the homepage is currently set to:
+- title: complete web presence in hours
+- description: website, Google Business, social media content, and SEO packages
+- canonical: `https://webinhour.com/`
 
-*This index was generated automatically and provides a comprehensive overview of the WebInHours codebase structure and architecture.*
+## Key Sections
+`src/components/sections/Hero.tsx`
+- Keeps the original visual hero layout with side preview images, center framed copy, mobile card slider, and logo marquee.
+- Copy now targets complete online presence rather than website-only delivery.
+- Uses `HeroEmailCapture` for inline lead capture.
+- Secondary CTA scrolls to `#services`.
+
+`src/components/forms/HeroEmailCapture.tsx`
+- Validates email with `zod`.
+- Submits to Supabase Edge Function `send-contact-email`.
+- Sends minimal lead data using `projectType: Hero Email Capture`.
+- Navigates to `/contact/confirmation?email=...&type=lead` on success.
+
+`src/components/sections/Services.tsx`
+- Contains the homepage web-presence offer explanation.
+- Current setup items:
+  - Professional website
+  - Google Business setup
+  - Social media content
+  - SEO and local visibility
+- Current package cards:
+  - Presence Starter
+  - Social Content Package
+  - SEO & Local Growth
+- Renders `CombinedFeaturedSection` below package cards.
+
+`src/components/ui/combined-featured-section.tsx`
+- Larger supporting grid for local visibility, search/maps, content production, presence care, and reputation signals.
+
+`src/pages/Services.tsx`
+- Dedicated `/services` page.
+- Lazy-loads `PremiumMarketplaceServices`.
+- Includes SEO metadata and footer.
+
+`src/components/sections/PremiumMarketplaceServices.tsx`
+- Full premium services marketplace component.
+- Lives off the homepage on `/services`.
+
+## Layout And Navigation
+`src/components/layout/AppLayout.tsx`
+- Main app shell used by pages.
+
+`src/components/sections/Header.tsx`
+- Desktop/mobile header navigation.
+- Contains direct links and menu structures.
+
+`src/components/layout/MobileBottomNav.tsx`
+- Mobile bottom navigation.
+
+`src/components/layout/MobileServicesDrawer.tsx`
+- Mobile services drawer.
+
+`src/components/sections/Footer.tsx`
+- Site footer.
+
+## Marketplace And Website Data
+`src/pages/Marketplace.tsx`
+- Main `/websites` marketplace page.
+- Lazy-loads filters, grid, CTA, and live chat support.
+
+`src/components/dashboard/TemplateGrid.tsx`
+- Website/template grid display.
+
+`src/pages/SiteDetails.tsx`
+- Detail page for `/site/:slugOrId`.
+
+`src/types/website.ts`
+- Website entity types.
+
+Website data helpers:
+- `src/utils/websiteDataUtils.ts`
+- `src/hooks/queries/useWebsitesQuery.tsx`
+- `src/hooks/queries/useWebsiteByIdQuery.tsx`
+- `src/hooks/queries/useUserWebsitesQuery.tsx`
+- `src/hooks/queries/usePrefetchMarketplace.tsx`
+- `src/hooks/queries/usePrefetchSiteDetails.tsx`
+
+## Admin
+`src/pages/AdminPanel.tsx`
+- Admin interface shell.
+
+Admin components live under:
+- `src/components/admin/`
+- `src/components/admin/upload-form/`
+- `src/components/admin/edit-form/`
+
+Major admin areas:
+- website upload/edit/review
+- pending reviews
+- live support
+- tags manager
+- admin stats
+
+## Auth And Profiles
+Auth:
+- `src/hooks/useAuth.tsx`
+- `src/components/ProtectedRoute.tsx`
+- `src/components/AdminRoute.tsx`
+- `src/pages/Auth.tsx`
+
+Profiles:
+- `src/pages/Profile.tsx`
+- `src/components/profile/`
+- `src/hooks/useProfiles.tsx`
+
+## SEO And Prerendering
+SEO components:
+- `src/components/seo/SEOHead.tsx`
+- `src/components/seo/StructuredData.tsx`
+- `src/components/seo/GEOStructuredData.tsx`
+- `src/components/seo/FAQSchema.tsx`
+
+Route generation:
+- `scripts/routes.mjs`
+- `scripts/generate-sitemap.js`
+- `scripts/prerender.mjs`
+
+Generated/served SEO assets:
+- `public/sitemap.xml`
+- `public/robots.txt`
+- `public/llms.txt`
+- `public/og-image.png`
+
+Build behavior:
+- `npm run build` runs Vite.
+- `postbuild` writes sitemap to `public/` and `dist/`.
+- `postbuild` prerenders all routes from `scripts/routes.mjs` plus blog slugs from `src/data/blog-posts.json`.
+
+## Blog
+Routes:
+- `/blog`
+- `/blog/:slug`
+
+Files:
+- `src/pages/Blog/BlogIndex.tsx`
+- `src/pages/Blog/BlogPost.tsx`
+- `src/data/blog-posts.json`
+- `src/data/blog-posts.ts`
+- `public/assets/blog/`
+
+## Supabase
+Client:
+- `src/integrations/supabase/client.ts`
+- `src/integrations/supabase/types.ts`
+
+Config:
+- `supabase/config.toml`
+
+Edge Functions:
+- `supabase/functions/send-contact-email/index.ts`
+- `supabase/functions/live-support-notification/index.ts`
+- `supabase/functions/error-reporting/index.ts`
+
+Email templates:
+- `supabase/functions/send-contact-email/_templates/admin-notification.tsx`
+- `supabase/functions/send-contact-email/_templates/user-confirmation.tsx`
+
+Migrations:
+- `supabase/migrations/`
+
+Operational note:
+- Lead email delivery depends on Supabase function secrets such as `RESEND_API_KEY` and `ADMIN_EMAIL`, then deploying `send-contact-email`.
+
+## Styling And UI
+Global styles:
+- `src/index.css`
+- Hero-specific `.wih-hero-*` classes live in `src/index.css`.
+
+UI primitives:
+- `src/components/ui/`
+
+Common visual systems:
+- shadcn-style primitives
+- custom animated cards
+- custom marketplace grid
+- text shuffle / text rotate utilities
+- theme toggle and dark mode via `ThemeContext`
+
+## Public Assets
+Key directories/files:
+- `public/assets/` hero/template images
+- `public/assets/blog/` blog images
+- `public/uploads/` uploaded preview asset(s)
+- `src/assets/` imported assets used in sections
+- `public/sw.js` service worker
+- `public/manifest.json`
+- `public/_headers`
+
+## Current Worktree Notes
+Recent active direction:
+- homepage and SEO copy are moving toward web presence packages
+- `/services` hosts the full premium services marketplace
+- homepage package cards are focused on presence, content, and local SEO
+- `LogoMarquee.tsx` is currently restored to the original tech-logo marquee
+
+When changing the homepage, preserve the user’s preference:
+- keep the original hero UI layout
+- change content/copy only unless explicitly asked for UI redesign
+
+## Removed Or Deprecated From Older Index
+The old index referenced several stale concepts/files. Current repo state does not include:
+- `src/components/sections/MarketplacePreview.tsx`
+- AI agent marketplace types/hooks/components from older docs
+- `src/hooks/usePerformanceMonitor.tsx`
+- `public/lovable-uploads/`
+
+Use `rg --files` and `src/App.tsx` as the source of truth when this document drifts.
