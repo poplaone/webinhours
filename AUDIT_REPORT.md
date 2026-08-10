@@ -294,15 +294,47 @@ Normal text needs 4.5:1, large text 3:1.
 
 Dark mode already passed; untouched. Shifts are ≤5 lightness points — perceptually minor, brand hue preserved.
 
-### Production-readiness gap: Rate limiting (from stack review) — FIXED
+### Production-readiness gap: Rate limiting (from stack review) — FIXED & DEPLOYED
 - ✅ Added IP-based rate limiting to the public `send-contact-email` edge function: max **5 submissions per IP per 10 min**, returns 429 when exceeded. Client IP is stored only as a **salted SHA-256 hash** (`ip_hash`), never raw (privacy-preserving). Fail-open on DB error so real leads are never blocked. New migration `20260706120000_contact_rate_limit.sql` adds `ip_hash` + index; edge function now uses a single reused admin client.
-- ⚠️ **Requires deploy** (migration + `supabase functions deploy send-contact-email`) to take effect — same deploy step still pending from the contact-form fixes.
+- ✅ **Live in production** — edge function **v63** carries the crash fix, honeypot, persistence, and rate limiting; both migrations are applied.
 
-All fixes verified via `tsc` (clean). Remaining items below are unfixed and await approval.
+### Contact pipeline — verified end-to-end in production
+Live `POST /functions/v1/send-contact-email` against the deployed function:
+
+| Check | Result |
+|---|---|
+| Valid submission | `200 {"success":true}` |
+| Lead persisted to `contact_submissions` | ✅ row written |
+| `email_sent` flag | ✅ `true` (both Resend emails dispatched) |
+| `ip_hash` populated | ✅ non-null (rate limiting active, no raw IP stored) |
+| Honeypot submission | `200` returned, **no row written** (bot silently dropped) |
+
+Both test rows were deleted after verification; the table is empty. The original
+crash (`user.id` on an unauthenticated request) is gone — that bug had been
+returning 500 on every real submission.
+
+### Security hardening: lead-table grants — FIXED
+`anon` and `authenticated` carried default `DELETE`/`UPDATE`/`TRUNCATE`/`REFERENCES`/`TRIGGER`
+grants on `contact_submissions`. RLS already blocked those (no policy permits them),
+so this was not an active breach — but table grants sit *underneath* RLS, so one
+accidental RLS toggle would have exposed unrecoverable lead data to `TRUNCATE`.
+Migration `harden_contact_submissions_grants` reduces `anon` to `INSERT` only and
+`authenticated` to `INSERT, SELECT` (still admin-filtered by RLS). Lead capture
+re-verified working after the change.
+
+Reviewed and dismissed as non-issues:
+- `bootstrap_admin` callable by `anon` — guarded by `IF EXISTS (admin) THEN RAISE`;
+  one admin exists, so the guard is locked shut.
+- GraphQL "table exposed" advisories on other tables — flag schema *discoverability*,
+  not row access; RLS governs rows.
+
+Outstanding (dashboard-only, needs you): Auth OTP expiry >1h and leaked-password
+protection disabled — both are toggles in Supabase Auth settings.
+
+All fixes verified via `tsc --noEmit` (clean) and `npm run build` (clean, 20/20 routes prerendered).
 
 ## Suggested Implementation Order
 1. ~~**Critical:** #001, #002, #003~~ — **done**.
-2. ~~**High:** #004, #005, #008, #023(computed)~~ — **done** (#009 font-loading, #010 shadows deferred — architectural, may shift visuals).
-2. **High:** #004 (skip link), #005 (reduced-motion), #008 (button states), #009 (font loading), #010 (shadow system), #023 (contrast pairs).
+2. ~~**High:** #004, #005, #008, #023(computed), #009~~ — **done**. #009 needed no change: fonts already use inline `@font-face` + `preconnect` + `preload` of critical weights + `display=swap`. #010 (shadow system) still deferred — architectural, would shift visuals.
 3. **Medium:** #006, #007, #011, #016, #017, #018, #019, #022.
 4. **Low:** #013, #014, #015, #020, #021, #024.
